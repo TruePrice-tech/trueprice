@@ -143,23 +143,3703 @@
   ],
   "redirects": [
     {
-      "source": "/:path*-cost.html-:suffix*-cost.html",
-      "destination": "/:path*-cost.html",
+      "source": "/0-roof-cost.html",
+      "destination": "/auburn-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/1-roof-cost.html",
+      "destination": "/birmingham-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/2-roof-cost.html",
+      "destination": "/decatur-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/3-roof-cost.html",
+      "destination": "/dothan-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/4-roof-cost.html",
+      "destination": "/florence-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/5-roof-cost.html",
+      "destination": "/hoover-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/6-roof-cost.html",
+      "destination": "/huntsville-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/7-roof-cost.html",
+      "destination": "/madison-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/8-roof-cost.html",
+      "destination": "/mobile-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/9-roof-cost.html",
+      "destination": "/montgomery-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/10-roof-cost.html",
+      "destination": "/phenix-city-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/11-roof-cost.html",
+      "destination": "/tuscaloosa-al-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/12-roof-cost.html",
+      "destination": "/anchorage-ak-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/13-roof-cost.html",
+      "destination": "/apache-junction-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/14-roof-cost.html",
+      "destination": "/avondale-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/15-roof-cost.html",
+      "destination": "/buckeye-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/16-roof-cost.html",
+      "destination": "/bullhead-city-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/17-roof-cost.html",
+      "destination": "/casa-grande-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/18-roof-cost.html",
+      "destination": "/chandler-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/19-roof-cost.html",
+      "destination": "/flagstaff-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/20-roof-cost.html",
+      "destination": "/gilbert-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/21-roof-cost.html",
+      "destination": "/glendale-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/22-roof-cost.html",
+      "destination": "/goodyear-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/23-roof-cost.html",
+      "destination": "/lake-havasu-city-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/24-roof-cost.html",
+      "destination": "/marana-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/25-roof-cost.html",
+      "destination": "/maricopa-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/26-roof-cost.html",
+      "destination": "/mesa-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/27-roof-cost.html",
+      "destination": "/oro-valley-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/28-roof-cost.html",
+      "destination": "/peoria-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/29-roof-cost.html",
+      "destination": "/phoenix-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/30-roof-cost.html",
+      "destination": "/prescott-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/31-roof-cost.html",
+      "destination": "/prescott-valley-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/32-roof-cost.html",
+      "destination": "/scottsdale-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/33-roof-cost.html",
+      "destination": "/sierra-vista-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/34-roof-cost.html",
+      "destination": "/surprise-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/35-roof-cost.html",
+      "destination": "/tempe-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/36-roof-cost.html",
+      "destination": "/tucson-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/37-roof-cost.html",
+      "destination": "/yuma-az-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/38-roof-cost.html",
+      "destination": "/bentonville-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/39-roof-cost.html",
+      "destination": "/conway-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/40-roof-cost.html",
+      "destination": "/fayetteville-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/41-roof-cost.html",
+      "destination": "/fort-smith-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/42-roof-cost.html",
+      "destination": "/jonesboro-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/43-roof-cost.html",
+      "destination": "/little-rock-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/44-roof-cost.html",
+      "destination": "/north-little-rock-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/45-roof-cost.html",
+      "destination": "/pine-bluff-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/46-roof-cost.html",
+      "destination": "/rogers-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/47-roof-cost.html",
+      "destination": "/springdale-ar-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/48-roof-cost.html",
+      "destination": "/anaheim-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/49-roof-cost.html",
+      "destination": "/bakersfield-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/50-roof-cost.html",
+      "destination": "/chula-vista-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/51-roof-cost.html",
+      "destination": "/corona-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/52-roof-cost.html",
+      "destination": "/elk-grove-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/53-roof-cost.html",
+      "destination": "/escondido-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/54-roof-cost.html",
+      "destination": "/fontana-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/55-roof-cost.html",
+      "destination": "/fremont-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/56-roof-cost.html",
+      "destination": "/fresno-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/57-roof-cost.html",
+      "destination": "/garden-grove-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/58-roof-cost.html",
+      "destination": "/glendale-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/59-roof-cost.html",
+      "destination": "/hayward-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/60-roof-cost.html",
+      "destination": "/huntington-beach-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/61-roof-cost.html",
+      "destination": "/irvine-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/62-roof-cost.html",
+      "destination": "/lancaster-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/63-roof-cost.html",
+      "destination": "/long-beach-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/64-roof-cost.html",
+      "destination": "/los-angeles-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/65-roof-cost.html",
+      "destination": "/modesto-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/66-roof-cost.html",
+      "destination": "/moreno-valley-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/67-roof-cost.html",
+      "destination": "/oakland-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/68-roof-cost.html",
+      "destination": "/oceanside-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/69-roof-cost.html",
+      "destination": "/ontario-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/70-roof-cost.html",
+      "destination": "/orange-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/71-roof-cost.html",
+      "destination": "/oxnard-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/72-roof-cost.html",
+      "destination": "/palmdale-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/73-roof-cost.html",
+      "destination": "/pomona-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/74-roof-cost.html",
+      "destination": "/rancho-cucamonga-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/75-roof-cost.html",
+      "destination": "/riverside-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/76-roof-cost.html",
+      "destination": "/sacramento-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/77-roof-cost.html",
+      "destination": "/salinas-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/78-roof-cost.html",
+      "destination": "/san-bernardino-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/79-roof-cost.html",
+      "destination": "/san-diego-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/80-roof-cost.html",
+      "destination": "/san-francisco-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/81-roof-cost.html",
+      "destination": "/san-jose-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/82-roof-cost.html",
+      "destination": "/santa-ana-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/83-roof-cost.html",
+      "destination": "/santa-clarita-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/84-roof-cost.html",
+      "destination": "/santa-rosa-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/85-roof-cost.html",
+      "destination": "/stockton-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/86-roof-cost.html",
+      "destination": "/sunnyvale-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/87-roof-cost.html",
+      "destination": "/torrance-ca-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/88-roof-cost.html",
+      "destination": "/arvada-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/89-roof-cost.html",
+      "destination": "/aurora-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/90-roof-cost.html",
+      "destination": "/boulder-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/91-roof-cost.html",
+      "destination": "/broomfield-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/92-roof-cost.html",
+      "destination": "/castle-rock-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/93-roof-cost.html",
+      "destination": "/centennial-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/94-roof-cost.html",
+      "destination": "/colorado-springs-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/95-roof-cost.html",
+      "destination": "/commerce-city-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/96-roof-cost.html",
+      "destination": "/denver-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/97-roof-cost.html",
+      "destination": "/fort-collins-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/98-roof-cost.html",
+      "destination": "/grand-junction-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/99-roof-cost.html",
+      "destination": "/greeley-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/100-roof-cost.html",
+      "destination": "/lakewood-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/101-roof-cost.html",
+      "destination": "/littleton-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/102-roof-cost.html",
+      "destination": "/longmont-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/103-roof-cost.html",
+      "destination": "/loveland-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/104-roof-cost.html",
+      "destination": "/northglenn-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/105-roof-cost.html",
+      "destination": "/parker-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/106-roof-cost.html",
+      "destination": "/pueblo-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/107-roof-cost.html",
+      "destination": "/thornton-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/108-roof-cost.html",
+      "destination": "/westminster-co-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/109-roof-cost.html",
+      "destination": "/bridgeport-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/110-roof-cost.html",
+      "destination": "/bristol-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/111-roof-cost.html",
+      "destination": "/danbury-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/112-roof-cost.html",
+      "destination": "/hartford-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/113-roof-cost.html",
+      "destination": "/meriden-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/114-roof-cost.html",
+      "destination": "/middletown-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/115-roof-cost.html",
+      "destination": "/milford-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/116-roof-cost.html",
+      "destination": "/new-britain-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/117-roof-cost.html",
+      "destination": "/new-haven-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/118-roof-cost.html",
+      "destination": "/norwalk-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/119-roof-cost.html",
+      "destination": "/norwich-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/120-roof-cost.html",
+      "destination": "/shelton-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/121-roof-cost.html",
+      "destination": "/stamford-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/122-roof-cost.html",
+      "destination": "/waterbury-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/123-roof-cost.html",
+      "destination": "/west-haven-ct-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/124-roof-cost.html",
+      "destination": "/dover-de-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/125-roof-cost.html",
+      "destination": "/wilmington-de-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/126-roof-cost.html",
+      "destination": "/boca-raton-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/127-roof-cost.html",
+      "destination": "/boynton-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/128-roof-cost.html",
+      "destination": "/cape-coral-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/129-roof-cost.html",
+      "destination": "/clearwater-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/130-roof-cost.html",
+      "destination": "/coral-springs-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/131-roof-cost.html",
+      "destination": "/davie-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/132-roof-cost.html",
+      "destination": "/daytona-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/133-roof-cost.html",
+      "destination": "/deerfield-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/134-roof-cost.html",
+      "destination": "/delray-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/135-roof-cost.html",
+      "destination": "/deltona-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/136-roof-cost.html",
+      "destination": "/fort-lauderdale-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/137-roof-cost.html",
+      "destination": "/fort-myers-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/138-roof-cost.html",
+      "destination": "/gainesville-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/139-roof-cost.html",
+      "destination": "/hialeah-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/140-roof-cost.html",
+      "destination": "/hollywood-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/141-roof-cost.html",
+      "destination": "/homestead-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/142-roof-cost.html",
+      "destination": "/jacksonville-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/143-roof-cost.html",
+      "destination": "/kissimmee-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/144-roof-cost.html",
+      "destination": "/lakeland-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/145-roof-cost.html",
+      "destination": "/largo-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/146-roof-cost.html",
+      "destination": "/lauderhill-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/147-roof-cost.html",
+      "destination": "/melbourne-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/148-roof-cost.html",
+      "destination": "/miami-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/149-roof-cost.html",
+      "destination": "/miami-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/150-roof-cost.html",
+      "destination": "/miami-gardens-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/151-roof-cost.html",
+      "destination": "/miramar-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/152-roof-cost.html",
+      "destination": "/orlando-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/153-roof-cost.html",
+      "destination": "/palm-bay-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/154-roof-cost.html",
+      "destination": "/palm-coast-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/155-roof-cost.html",
+      "destination": "/pembroke-pines-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/156-roof-cost.html",
+      "destination": "/plantation-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/157-roof-cost.html",
+      "destination": "/pompano-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/158-roof-cost.html",
+      "destination": "/port-st-lucie-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/159-roof-cost.html",
+      "destination": "/st-petersburg-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/160-roof-cost.html",
+      "destination": "/sunrise-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/161-roof-cost.html",
+      "destination": "/tallahassee-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/162-roof-cost.html",
+      "destination": "/tamarac-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/163-roof-cost.html",
+      "destination": "/tampa-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/164-roof-cost.html",
+      "destination": "/west-palm-beach-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/165-roof-cost.html",
+      "destination": "/weston-fl-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/166-roof-cost.html",
+      "destination": "/albany-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/167-roof-cost.html",
+      "destination": "/alpharetta-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/168-roof-cost.html",
+      "destination": "/athensclarke-county-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/169-roof-cost.html",
+      "destination": "/atlanta-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/170-roof-cost.html",
+      "destination": "/augustarichmond-county-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/171-roof-cost.html",
+      "destination": "/brookhaven-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/172-roof-cost.html",
+      "destination": "/columbus-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/173-roof-cost.html",
+      "destination": "/dunwoody-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/174-roof-cost.html",
+      "destination": "/johns-creek-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/175-roof-cost.html",
+      "destination": "/macon-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/176-roof-cost.html",
+      "destination": "/marietta-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/177-roof-cost.html",
+      "destination": "/peachtree-corners-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/178-roof-cost.html",
+      "destination": "/roswell-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/179-roof-cost.html",
+      "destination": "/sandy-springs-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/180-roof-cost.html",
+      "destination": "/savannah-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/181-roof-cost.html",
+      "destination": "/smyrna-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/182-roof-cost.html",
+      "destination": "/valdosta-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/183-roof-cost.html",
+      "destination": "/warner-robins-ga-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/184-roof-cost.html",
+      "destination": "/honolulu-hi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/185-roof-cost.html",
+      "destination": "/boise-city-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/186-roof-cost.html",
+      "destination": "/caldwell-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/187-roof-cost.html",
+      "destination": "/coeur-dalene-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/188-roof-cost.html",
+      "destination": "/idaho-falls-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/189-roof-cost.html",
+      "destination": "/meridian-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/190-roof-cost.html",
+      "destination": "/nampa-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/191-roof-cost.html",
+      "destination": "/pocatello-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/192-roof-cost.html",
+      "destination": "/twin-falls-id-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/193-roof-cost.html",
+      "destination": "/arlington-heights-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/194-roof-cost.html",
+      "destination": "/aurora-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/195-roof-cost.html",
+      "destination": "/bartlett-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/196-roof-cost.html",
+      "destination": "/belleville-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/197-roof-cost.html",
+      "destination": "/berwyn-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/198-roof-cost.html",
+      "destination": "/bloomington-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/199-roof-cost.html",
+      "destination": "/bolingbrook-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/200-roof-cost.html",
+      "destination": "/buffalo-grove-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/201-roof-cost.html",
+      "destination": "/champaign-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/202-roof-cost.html",
+      "destination": "/chicago-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/203-roof-cost.html",
+      "destination": "/cicero-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/204-roof-cost.html",
+      "destination": "/decatur-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/205-roof-cost.html",
+      "destination": "/dekalb-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/206-roof-cost.html",
+      "destination": "/des-plaines-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/207-roof-cost.html",
+      "destination": "/downers-grove-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/208-roof-cost.html",
+      "destination": "/elgin-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/209-roof-cost.html",
+      "destination": "/elmhurst-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/210-roof-cost.html",
+      "destination": "/evanston-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/211-roof-cost.html",
+      "destination": "/glenview-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/212-roof-cost.html",
+      "destination": "/hoffman-estates-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/213-roof-cost.html",
+      "destination": "/joliet-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/214-roof-cost.html",
+      "destination": "/lombard-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/215-roof-cost.html",
+      "destination": "/moline-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/216-roof-cost.html",
+      "destination": "/mount-prospect-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/217-roof-cost.html",
+      "destination": "/naperville-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/218-roof-cost.html",
+      "destination": "/normal-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/219-roof-cost.html",
+      "destination": "/oak-lawn-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/220-roof-cost.html",
+      "destination": "/oak-park-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/221-roof-cost.html",
+      "destination": "/orland-park-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/222-roof-cost.html",
+      "destination": "/palatine-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/223-roof-cost.html",
+      "destination": "/peoria-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/224-roof-cost.html",
+      "destination": "/plainfield-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/225-roof-cost.html",
+      "destination": "/rockford-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/226-roof-cost.html",
+      "destination": "/schaumburg-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/227-roof-cost.html",
+      "destination": "/skokie-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/228-roof-cost.html",
+      "destination": "/springfield-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/229-roof-cost.html",
+      "destination": "/tinley-park-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/230-roof-cost.html",
+      "destination": "/urbana-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/231-roof-cost.html",
+      "destination": "/waukegan-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/232-roof-cost.html",
+      "destination": "/wheaton-il-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/233-roof-cost.html",
+      "destination": "/anderson-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/234-roof-cost.html",
+      "destination": "/bloomington-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/235-roof-cost.html",
+      "destination": "/carmel-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/236-roof-cost.html",
+      "destination": "/columbus-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/237-roof-cost.html",
+      "destination": "/elkhart-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/238-roof-cost.html",
+      "destination": "/evansville-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/239-roof-cost.html",
+      "destination": "/fishers-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/240-roof-cost.html",
+      "destination": "/fort-wayne-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/241-roof-cost.html",
+      "destination": "/gary-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/242-roof-cost.html",
+      "destination": "/greenwood-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/243-roof-cost.html",
+      "destination": "/hammond-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/244-roof-cost.html",
+      "destination": "/indianapolis-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/245-roof-cost.html",
+      "destination": "/jeffersonville-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/246-roof-cost.html",
+      "destination": "/kokomo-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/247-roof-cost.html",
+      "destination": "/lafayette-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/248-roof-cost.html",
+      "destination": "/lawrence-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/249-roof-cost.html",
+      "destination": "/mishawaka-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/250-roof-cost.html",
+      "destination": "/muncie-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/251-roof-cost.html",
+      "destination": "/noblesville-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/252-roof-cost.html",
+      "destination": "/south-bend-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/253-roof-cost.html",
+      "destination": "/terre-haute-in-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/254-roof-cost.html",
+      "destination": "/ames-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/255-roof-cost.html",
+      "destination": "/ankeny-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/256-roof-cost.html",
+      "destination": "/cedar-falls-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/257-roof-cost.html",
+      "destination": "/cedar-rapids-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/258-roof-cost.html",
+      "destination": "/council-bluffs-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/259-roof-cost.html",
+      "destination": "/davenport-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/260-roof-cost.html",
+      "destination": "/des-moines-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/261-roof-cost.html",
+      "destination": "/dubuque-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/262-roof-cost.html",
+      "destination": "/iowa-city-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/263-roof-cost.html",
+      "destination": "/sioux-city-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/264-roof-cost.html",
+      "destination": "/urbandale-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/265-roof-cost.html",
+      "destination": "/waterloo-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/266-roof-cost.html",
+      "destination": "/west-des-moines-ia-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/267-roof-cost.html",
+      "destination": "/hutchinson-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/268-roof-cost.html",
+      "destination": "/kansas-city-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/269-roof-cost.html",
+      "destination": "/lawrence-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/270-roof-cost.html",
+      "destination": "/lenexa-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/271-roof-cost.html",
+      "destination": "/manhattan-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/272-roof-cost.html",
+      "destination": "/olathe-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/273-roof-cost.html",
+      "destination": "/overland-park-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/274-roof-cost.html",
+      "destination": "/salina-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/275-roof-cost.html",
+      "destination": "/shawnee-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/276-roof-cost.html",
+      "destination": "/topeka-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/277-roof-cost.html",
+      "destination": "/wichita-ks-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/278-roof-cost.html",
+      "destination": "/bowling-green-ky-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/279-roof-cost.html",
+      "destination": "/covington-ky-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/280-roof-cost.html",
+      "destination": "/lexington-ky-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/281-roof-cost.html",
+      "destination": "/louisville-ky-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/282-roof-cost.html",
+      "destination": "/owensboro-ky-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/283-roof-cost.html",
+      "destination": "/alexandria-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/284-roof-cost.html",
+      "destination": "/baton-rouge-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/285-roof-cost.html",
+      "destination": "/bossier-city-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/286-roof-cost.html",
+      "destination": "/kenner-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/287-roof-cost.html",
+      "destination": "/lafayette-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/288-roof-cost.html",
+      "destination": "/lake-charles-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/289-roof-cost.html",
+      "destination": "/monroe-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/290-roof-cost.html",
+      "destination": "/new-orleans-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/291-roof-cost.html",
+      "destination": "/shreveport-la-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/292-roof-cost.html",
+      "destination": "/portland-me-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/293-roof-cost.html",
+      "destination": "/annapolis-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/294-roof-cost.html",
+      "destination": "/baltimore-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/295-roof-cost.html",
+      "destination": "/bowie-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/296-roof-cost.html",
+      "destination": "/frederick-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/297-roof-cost.html",
+      "destination": "/gaithersburg-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/298-roof-cost.html",
+      "destination": "/hagerstown-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/299-roof-cost.html",
+      "destination": "/rockville-md-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/300-roof-cost.html",
+      "destination": "/attleboro-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/301-roof-cost.html",
+      "destination": "/barnstable-town-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/302-roof-cost.html",
+      "destination": "/beverly-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/303-roof-cost.html",
+      "destination": "/boston-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/304-roof-cost.html",
+      "destination": "/brockton-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/305-roof-cost.html",
+      "destination": "/cambridge-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/306-roof-cost.html",
+      "destination": "/chelsea-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/307-roof-cost.html",
+      "destination": "/chicopee-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/308-roof-cost.html",
+      "destination": "/everett-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/309-roof-cost.html",
+      "destination": "/fall-river-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/310-roof-cost.html",
+      "destination": "/fitchburg-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/311-roof-cost.html",
+      "destination": "/haverhill-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/312-roof-cost.html",
+      "destination": "/holyoke-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/313-roof-cost.html",
+      "destination": "/lawrence-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/314-roof-cost.html",
+      "destination": "/leominster-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/315-roof-cost.html",
+      "destination": "/lowell-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/316-roof-cost.html",
+      "destination": "/lynn-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/317-roof-cost.html",
+      "destination": "/malden-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/318-roof-cost.html",
+      "destination": "/marlborough-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/319-roof-cost.html",
+      "destination": "/medford-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/320-roof-cost.html",
+      "destination": "/methuen-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/321-roof-cost.html",
+      "destination": "/new-bedford-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/322-roof-cost.html",
+      "destination": "/newton-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/323-roof-cost.html",
+      "destination": "/peabody-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/324-roof-cost.html",
+      "destination": "/pittsfield-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/325-roof-cost.html",
+      "destination": "/quincy-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/326-roof-cost.html",
+      "destination": "/revere-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/327-roof-cost.html",
+      "destination": "/salem-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/328-roof-cost.html",
+      "destination": "/somerville-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/329-roof-cost.html",
+      "destination": "/springfield-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/330-roof-cost.html",
+      "destination": "/taunton-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/331-roof-cost.html",
+      "destination": "/waltham-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/332-roof-cost.html",
+      "destination": "/westfield-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/333-roof-cost.html",
+      "destination": "/weymouth-town-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/334-roof-cost.html",
+      "destination": "/woburn-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/335-roof-cost.html",
+      "destination": "/worcester-ma-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/336-roof-cost.html",
+      "destination": "/ann-arbor-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/337-roof-cost.html",
+      "destination": "/battle-creek-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/338-roof-cost.html",
+      "destination": "/dearborn-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/339-roof-cost.html",
+      "destination": "/dearborn-heights-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/340-roof-cost.html",
+      "destination": "/detroit-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/341-roof-cost.html",
+      "destination": "/east-lansing-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/342-roof-cost.html",
+      "destination": "/farmington-hills-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/343-roof-cost.html",
+      "destination": "/flint-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/344-roof-cost.html",
+      "destination": "/grand-rapids-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/345-roof-cost.html",
+      "destination": "/kalamazoo-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/346-roof-cost.html",
+      "destination": "/kentwood-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/347-roof-cost.html",
+      "destination": "/lansing-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/348-roof-cost.html",
+      "destination": "/lincoln-park-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/349-roof-cost.html",
+      "destination": "/livonia-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/350-roof-cost.html",
+      "destination": "/midland-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/351-roof-cost.html",
+      "destination": "/muskegon-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/352-roof-cost.html",
+      "destination": "/novi-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/353-roof-cost.html",
+      "destination": "/pontiac-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/354-roof-cost.html",
+      "destination": "/portage-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/355-roof-cost.html",
+      "destination": "/rochester-hills-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/356-roof-cost.html",
+      "destination": "/roseville-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/357-roof-cost.html",
+      "destination": "/royal-oak-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/358-roof-cost.html",
+      "destination": "/saginaw-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/359-roof-cost.html",
+      "destination": "/southfield-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/360-roof-cost.html",
+      "destination": "/st-clair-shores-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/361-roof-cost.html",
+      "destination": "/sterling-heights-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/362-roof-cost.html",
+      "destination": "/taylor-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/363-roof-cost.html",
+      "destination": "/troy-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/364-roof-cost.html",
+      "destination": "/warren-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/365-roof-cost.html",
+      "destination": "/westland-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/366-roof-cost.html",
+      "destination": "/wyoming-mi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/367-roof-cost.html",
+      "destination": "/apple-valley-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/368-roof-cost.html",
+      "destination": "/blaine-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/369-roof-cost.html",
+      "destination": "/bloomington-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/370-roof-cost.html",
+      "destination": "/brooklyn-park-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/371-roof-cost.html",
+      "destination": "/burnsville-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/372-roof-cost.html",
+      "destination": "/coon-rapids-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/373-roof-cost.html",
+      "destination": "/duluth-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/374-roof-cost.html",
+      "destination": "/eagan-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/375-roof-cost.html",
+      "destination": "/eden-prairie-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/376-roof-cost.html",
+      "destination": "/edina-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/377-roof-cost.html",
+      "destination": "/lakeville-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/378-roof-cost.html",
+      "destination": "/mankato-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/379-roof-cost.html",
+      "destination": "/maple-grove-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/380-roof-cost.html",
+      "destination": "/maplewood-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/381-roof-cost.html",
+      "destination": "/minneapolis-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/382-roof-cost.html",
+      "destination": "/minnetonka-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/383-roof-cost.html",
+      "destination": "/moorhead-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/384-roof-cost.html",
+      "destination": "/plymouth-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/385-roof-cost.html",
+      "destination": "/rochester-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/386-roof-cost.html",
+      "destination": "/shakopee-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/387-roof-cost.html",
+      "destination": "/st-cloud-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/388-roof-cost.html",
+      "destination": "/st-louis-park-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/389-roof-cost.html",
+      "destination": "/st-paul-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/390-roof-cost.html",
+      "destination": "/woodbury-mn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/391-roof-cost.html",
+      "destination": "/biloxi-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/392-roof-cost.html",
+      "destination": "/gulfport-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/393-roof-cost.html",
+      "destination": "/hattiesburg-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/394-roof-cost.html",
+      "destination": "/jackson-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/395-roof-cost.html",
+      "destination": "/meridian-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/396-roof-cost.html",
+      "destination": "/southaven-ms-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/397-roof-cost.html",
+      "destination": "/blue-springs-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/398-roof-cost.html",
+      "destination": "/cape-girardeau-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/399-roof-cost.html",
+      "destination": "/chesterfield-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/400-roof-cost.html",
+      "destination": "/columbia-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/401-roof-cost.html",
+      "destination": "/florissant-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/402-roof-cost.html",
+      "destination": "/independence-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/403-roof-cost.html",
+      "destination": "/jefferson-city-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/404-roof-cost.html",
+      "destination": "/joplin-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/405-roof-cost.html",
+      "destination": "/kansas-city-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/406-roof-cost.html",
+      "destination": "/lees-summit-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/407-roof-cost.html",
+      "destination": "/ofallon-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/408-roof-cost.html",
+      "destination": "/springfield-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/409-roof-cost.html",
+      "destination": "/st-charles-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/410-roof-cost.html",
+      "destination": "/st-joseph-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/411-roof-cost.html",
+      "destination": "/st-louis-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/412-roof-cost.html",
+      "destination": "/st-peters-mo-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/413-roof-cost.html",
+      "destination": "/billings-mt-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/414-roof-cost.html",
+      "destination": "/bozeman-mt-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/415-roof-cost.html",
+      "destination": "/great-falls-mt-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/416-roof-cost.html",
+      "destination": "/missoula-mt-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/417-roof-cost.html",
+      "destination": "/bellevue-ne-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/418-roof-cost.html",
+      "destination": "/grand-island-ne-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/419-roof-cost.html",
+      "destination": "/lincoln-ne-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/420-roof-cost.html",
+      "destination": "/omaha-ne-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/421-roof-cost.html",
+      "destination": "/carson-city-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/422-roof-cost.html",
+      "destination": "/henderson-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/423-roof-cost.html",
+      "destination": "/las-vegas-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/424-roof-cost.html",
+      "destination": "/north-las-vegas-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/425-roof-cost.html",
+      "destination": "/reno-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/426-roof-cost.html",
+      "destination": "/sparks-nv-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/427-roof-cost.html",
+      "destination": "/concord-nh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/428-roof-cost.html",
+      "destination": "/manchester-nh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/429-roof-cost.html",
+      "destination": "/nashua-nh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/430-roof-cost.html",
+      "destination": "/atlantic-city-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/431-roof-cost.html",
+      "destination": "/bayonne-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/432-roof-cost.html",
+      "destination": "/camden-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/433-roof-cost.html",
+      "destination": "/clifton-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/434-roof-cost.html",
+      "destination": "/east-orange-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/435-roof-cost.html",
+      "destination": "/elizabeth-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/436-roof-cost.html",
+      "destination": "/hackensack-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/437-roof-cost.html",
+      "destination": "/hoboken-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/438-roof-cost.html",
+      "destination": "/jersey-city-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/439-roof-cost.html",
+      "destination": "/kearny-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/440-roof-cost.html",
+      "destination": "/linden-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/441-roof-cost.html",
+      "destination": "/new-brunswick-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/442-roof-cost.html",
+      "destination": "/newark-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/443-roof-cost.html",
+      "destination": "/passaic-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/444-roof-cost.html",
+      "destination": "/paterson-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/445-roof-cost.html",
+      "destination": "/perth-amboy-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/446-roof-cost.html",
+      "destination": "/plainfield-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/447-roof-cost.html",
+      "destination": "/sayreville-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/448-roof-cost.html",
+      "destination": "/trenton-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/449-roof-cost.html",
+      "destination": "/union-city-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/450-roof-cost.html",
+      "destination": "/vineland-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/451-roof-cost.html",
+      "destination": "/west-new-york-nj-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/452-roof-cost.html",
+      "destination": "/albuquerque-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/453-roof-cost.html",
+      "destination": "/clovis-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/454-roof-cost.html",
+      "destination": "/farmington-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/455-roof-cost.html",
+      "destination": "/las-cruces-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/456-roof-cost.html",
+      "destination": "/rio-rancho-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/457-roof-cost.html",
+      "destination": "/roswell-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/458-roof-cost.html",
+      "destination": "/santa-fe-nm-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/459-roof-cost.html",
+      "destination": "/albany-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/460-roof-cost.html",
+      "destination": "/binghamton-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/461-roof-cost.html",
+      "destination": "/buffalo-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/462-roof-cost.html",
+      "destination": "/freeport-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/463-roof-cost.html",
+      "destination": "/hempstead-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/464-roof-cost.html",
+      "destination": "/mount-vernon-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/465-roof-cost.html",
+      "destination": "/new-rochelle-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/466-roof-cost.html",
+      "destination": "/new-york-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/467-roof-cost.html",
+      "destination": "/niagara-falls-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/468-roof-cost.html",
+      "destination": "/rochester-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/469-roof-cost.html",
+      "destination": "/schenectady-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/470-roof-cost.html",
+      "destination": "/syracuse-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/471-roof-cost.html",
+      "destination": "/troy-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/472-roof-cost.html",
+      "destination": "/utica-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/473-roof-cost.html",
+      "destination": "/valley-stream-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/474-roof-cost.html",
+      "destination": "/white-plains-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/475-roof-cost.html",
+      "destination": "/yonkers-ny-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/476-roof-cost.html",
+      "destination": "/apex-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/477-roof-cost.html",
+      "destination": "/asheville-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/478-roof-cost.html",
+      "destination": "/burlington-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/479-roof-cost.html",
+      "destination": "/cary-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/480-roof-cost.html",
+      "destination": "/chapel-hill-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/481-roof-cost.html",
+      "destination": "/charlotte-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/482-roof-cost.html",
+      "destination": "/concord-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/483-roof-cost.html",
+      "destination": "/durham-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/484-roof-cost.html",
+      "destination": "/fayetteville-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/485-roof-cost.html",
+      "destination": "/gastonia-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/486-roof-cost.html",
+      "destination": "/greensboro-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/487-roof-cost.html",
+      "destination": "/greenville-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/488-roof-cost.html",
+      "destination": "/hickory-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/489-roof-cost.html",
+      "destination": "/high-point-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/490-roof-cost.html",
+      "destination": "/huntersville-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/491-roof-cost.html",
+      "destination": "/jacksonville-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/492-roof-cost.html",
+      "destination": "/kannapolis-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/493-roof-cost.html",
+      "destination": "/raleigh-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/494-roof-cost.html",
+      "destination": "/rocky-mount-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/495-roof-cost.html",
+      "destination": "/wilmington-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/496-roof-cost.html",
+      "destination": "/wilson-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/497-roof-cost.html",
+      "destination": "/winstonsalem-nc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/498-roof-cost.html",
+      "destination": "/bismarck-nd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/499-roof-cost.html",
+      "destination": "/fargo-nd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/500-roof-cost.html",
+      "destination": "/grand-forks-nd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/501-roof-cost.html",
+      "destination": "/minot-nd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/502-roof-cost.html",
+      "destination": "/akron-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/503-roof-cost.html",
+      "destination": "/beavercreek-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/504-roof-cost.html",
+      "destination": "/canton-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/505-roof-cost.html",
+      "destination": "/cincinnati-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/506-roof-cost.html",
+      "destination": "/cleveland-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/507-roof-cost.html",
+      "destination": "/cleveland-heights-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/508-roof-cost.html",
+      "destination": "/columbus-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/509-roof-cost.html",
+      "destination": "/cuyahoga-falls-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/510-roof-cost.html",
+      "destination": "/dayton-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/511-roof-cost.html",
+      "destination": "/dublin-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/512-roof-cost.html",
+      "destination": "/elyria-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/513-roof-cost.html",
+      "destination": "/euclid-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/514-roof-cost.html",
+      "destination": "/fairfield-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/515-roof-cost.html",
+      "destination": "/findlay-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/516-roof-cost.html",
+      "destination": "/grove-city-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/517-roof-cost.html",
+      "destination": "/hamilton-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/518-roof-cost.html",
+      "destination": "/huber-heights-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/519-roof-cost.html",
+      "destination": "/kettering-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/520-roof-cost.html",
+      "destination": "/lakewood-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/521-roof-cost.html",
+      "destination": "/lancaster-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/522-roof-cost.html",
+      "destination": "/lima-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/523-roof-cost.html",
+      "destination": "/lorain-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/524-roof-cost.html",
+      "destination": "/mansfield-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/525-roof-cost.html",
+      "destination": "/mentor-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/526-roof-cost.html",
+      "destination": "/middletown-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/527-roof-cost.html",
+      "destination": "/newark-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/528-roof-cost.html",
+      "destination": "/parma-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/529-roof-cost.html",
+      "destination": "/springfield-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/530-roof-cost.html",
+      "destination": "/strongsville-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/531-roof-cost.html",
+      "destination": "/toledo-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/532-roof-cost.html",
+      "destination": "/warren-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/533-roof-cost.html",
+      "destination": "/westerville-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/534-roof-cost.html",
+      "destination": "/youngstown-oh-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/535-roof-cost.html",
+      "destination": "/broken-arrow-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/536-roof-cost.html",
+      "destination": "/edmond-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/537-roof-cost.html",
+      "destination": "/enid-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/538-roof-cost.html",
+      "destination": "/lawton-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/539-roof-cost.html",
+      "destination": "/midwest-city-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/540-roof-cost.html",
+      "destination": "/moore-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/541-roof-cost.html",
+      "destination": "/muskogee-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/542-roof-cost.html",
+      "destination": "/norman-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/543-roof-cost.html",
+      "destination": "/oklahoma-city-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/544-roof-cost.html",
+      "destination": "/stillwater-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/545-roof-cost.html",
+      "destination": "/tulsa-ok-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/546-roof-cost.html",
+      "destination": "/albany-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/547-roof-cost.html",
+      "destination": "/beaverton-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/548-roof-cost.html",
+      "destination": "/bend-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/549-roof-cost.html",
+      "destination": "/corvallis-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/550-roof-cost.html",
+      "destination": "/eugene-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/551-roof-cost.html",
+      "destination": "/gresham-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/552-roof-cost.html",
+      "destination": "/hillsboro-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/553-roof-cost.html",
+      "destination": "/keizer-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/554-roof-cost.html",
+      "destination": "/lake-oswego-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/555-roof-cost.html",
+      "destination": "/medford-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/556-roof-cost.html",
+      "destination": "/portland-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/557-roof-cost.html",
+      "destination": "/salem-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/558-roof-cost.html",
+      "destination": "/springfield-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/559-roof-cost.html",
+      "destination": "/tigard-or-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/560-roof-cost.html",
+      "destination": "/allentown-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/561-roof-cost.html",
+      "destination": "/altoona-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/562-roof-cost.html",
+      "destination": "/bethlehem-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/563-roof-cost.html",
+      "destination": "/erie-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/564-roof-cost.html",
+      "destination": "/harrisburg-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/565-roof-cost.html",
+      "destination": "/lancaster-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/566-roof-cost.html",
+      "destination": "/philadelphia-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/567-roof-cost.html",
+      "destination": "/pittsburgh-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/568-roof-cost.html",
+      "destination": "/reading-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/569-roof-cost.html",
+      "destination": "/scranton-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/570-roof-cost.html",
+      "destination": "/state-college-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/571-roof-cost.html",
+      "destination": "/wilkesbarre-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/572-roof-cost.html",
+      "destination": "/york-pa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/573-roof-cost.html",
+      "destination": "/cranston-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/574-roof-cost.html",
+      "destination": "/east-providence-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/575-roof-cost.html",
+      "destination": "/pawtucket-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/576-roof-cost.html",
+      "destination": "/providence-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/577-roof-cost.html",
+      "destination": "/warwick-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/578-roof-cost.html",
+      "destination": "/woonsocket-ri-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/579-roof-cost.html",
+      "destination": "/charleston-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/580-roof-cost.html",
+      "destination": "/columbia-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/581-roof-cost.html",
+      "destination": "/florence-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/582-roof-cost.html",
+      "destination": "/goose-creek-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/583-roof-cost.html",
+      "destination": "/greenville-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/584-roof-cost.html",
+      "destination": "/hilton-head-island-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/585-roof-cost.html",
+      "destination": "/mount-pleasant-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/586-roof-cost.html",
+      "destination": "/north-charleston-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/587-roof-cost.html",
+      "destination": "/rock-hill-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/588-roof-cost.html",
+      "destination": "/spartanburg-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/589-roof-cost.html",
+      "destination": "/summerville-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/590-roof-cost.html",
+      "destination": "/sumter-sc-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/591-roof-cost.html",
+      "destination": "/rapid-city-sd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/592-roof-cost.html",
+      "destination": "/sioux-falls-sd-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/593-roof-cost.html",
+      "destination": "/bartlett-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/594-roof-cost.html",
+      "destination": "/brentwood-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/595-roof-cost.html",
+      "destination": "/chattanooga-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/596-roof-cost.html",
+      "destination": "/clarksville-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/597-roof-cost.html",
+      "destination": "/cleveland-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/598-roof-cost.html",
+      "destination": "/collierville-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/599-roof-cost.html",
+      "destination": "/franklin-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/600-roof-cost.html",
+      "destination": "/germantown-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/601-roof-cost.html",
+      "destination": "/hendersonville-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/602-roof-cost.html",
+      "destination": "/jackson-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/603-roof-cost.html",
+      "destination": "/johnson-city-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/604-roof-cost.html",
+      "destination": "/kingsport-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/605-roof-cost.html",
+      "destination": "/knoxville-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/606-roof-cost.html",
+      "destination": "/memphis-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/607-roof-cost.html",
+      "destination": "/murfreesboro-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/608-roof-cost.html",
+      "destination": "/nashville-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/609-roof-cost.html",
+      "destination": "/smyrna-tn-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/610-roof-cost.html",
+      "destination": "/abilene-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/611-roof-cost.html",
+      "destination": "/allen-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/612-roof-cost.html",
+      "destination": "/amarillo-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/613-roof-cost.html",
+      "destination": "/arlington-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/614-roof-cost.html",
+      "destination": "/austin-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/615-roof-cost.html",
+      "destination": "/beaumont-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/616-roof-cost.html",
+      "destination": "/brownsville-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/617-roof-cost.html",
+      "destination": "/carrollton-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/618-roof-cost.html",
+      "destination": "/college-station-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/619-roof-cost.html",
+      "destination": "/corpus-christi-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/620-roof-cost.html",
+      "destination": "/dallas-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/621-roof-cost.html",
+      "destination": "/denton-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/622-roof-cost.html",
+      "destination": "/el-paso-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/623-roof-cost.html",
+      "destination": "/fort-worth-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/624-roof-cost.html",
+      "destination": "/frisco-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/625-roof-cost.html",
+      "destination": "/garland-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/626-roof-cost.html",
+      "destination": "/grand-prairie-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/627-roof-cost.html",
+      "destination": "/houston-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/628-roof-cost.html",
+      "destination": "/irving-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/629-roof-cost.html",
+      "destination": "/killeen-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/630-roof-cost.html",
+      "destination": "/laredo-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/631-roof-cost.html",
+      "destination": "/league-city-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/632-roof-cost.html",
+      "destination": "/lewisville-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/633-roof-cost.html",
+      "destination": "/lubbock-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/634-roof-cost.html",
+      "destination": "/mcallen-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/635-roof-cost.html",
+      "destination": "/mckinney-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/636-roof-cost.html",
+      "destination": "/mesquite-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/637-roof-cost.html",
+      "destination": "/midland-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/638-roof-cost.html",
+      "destination": "/odessa-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/639-roof-cost.html",
+      "destination": "/pasadena-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/640-roof-cost.html",
+      "destination": "/pearland-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/641-roof-cost.html",
+      "destination": "/plano-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/642-roof-cost.html",
+      "destination": "/richardson-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/643-roof-cost.html",
+      "destination": "/round-rock-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/644-roof-cost.html",
+      "destination": "/san-angelo-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/645-roof-cost.html",
+      "destination": "/san-antonio-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/646-roof-cost.html",
+      "destination": "/sugar-land-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/647-roof-cost.html",
+      "destination": "/tyler-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/648-roof-cost.html",
+      "destination": "/waco-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/649-roof-cost.html",
+      "destination": "/wichita-falls-tx-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/650-roof-cost.html",
+      "destination": "/bountiful-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/651-roof-cost.html",
+      "destination": "/draper-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/652-roof-cost.html",
+      "destination": "/layton-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/653-roof-cost.html",
+      "destination": "/lehi-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/654-roof-cost.html",
+      "destination": "/logan-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/655-roof-cost.html",
+      "destination": "/murray-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/656-roof-cost.html",
+      "destination": "/ogden-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/657-roof-cost.html",
+      "destination": "/orem-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/658-roof-cost.html",
+      "destination": "/provo-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/659-roof-cost.html",
+      "destination": "/riverton-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/660-roof-cost.html",
+      "destination": "/roy-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/661-roof-cost.html",
+      "destination": "/salt-lake-city-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/662-roof-cost.html",
+      "destination": "/sandy-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/663-roof-cost.html",
+      "destination": "/south-jordan-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/664-roof-cost.html",
+      "destination": "/spanish-fork-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/665-roof-cost.html",
+      "destination": "/st-george-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/666-roof-cost.html",
+      "destination": "/taylorsville-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/667-roof-cost.html",
+      "destination": "/west-jordan-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/668-roof-cost.html",
+      "destination": "/west-valley-city-ut-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/669-roof-cost.html",
+      "destination": "/burlington-vt-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/670-roof-cost.html",
+      "destination": "/alexandria-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/671-roof-cost.html",
+      "destination": "/blacksburg-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/672-roof-cost.html",
+      "destination": "/charlottesville-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/673-roof-cost.html",
+      "destination": "/chesapeake-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/674-roof-cost.html",
+      "destination": "/danville-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/675-roof-cost.html",
+      "destination": "/hampton-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/676-roof-cost.html",
+      "destination": "/harrisonburg-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/677-roof-cost.html",
+      "destination": "/leesburg-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/678-roof-cost.html",
+      "destination": "/lynchburg-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/679-roof-cost.html",
+      "destination": "/manassas-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/680-roof-cost.html",
+      "destination": "/newport-news-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/681-roof-cost.html",
+      "destination": "/norfolk-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/682-roof-cost.html",
+      "destination": "/portsmouth-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/683-roof-cost.html",
+      "destination": "/richmond-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/684-roof-cost.html",
+      "destination": "/roanoke-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/685-roof-cost.html",
+      "destination": "/suffolk-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/686-roof-cost.html",
+      "destination": "/virginia-beach-va-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/687-roof-cost.html",
+      "destination": "/auburn-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/688-roof-cost.html",
+      "destination": "/bellevue-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/689-roof-cost.html",
+      "destination": "/bellingham-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/690-roof-cost.html",
+      "destination": "/bremerton-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/691-roof-cost.html",
+      "destination": "/burien-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/692-roof-cost.html",
+      "destination": "/edmonds-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/693-roof-cost.html",
+      "destination": "/everett-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/694-roof-cost.html",
+      "destination": "/federal-way-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/695-roof-cost.html",
+      "destination": "/kennewick-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/696-roof-cost.html",
+      "destination": "/kent-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/697-roof-cost.html",
+      "destination": "/kirkland-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/698-roof-cost.html",
+      "destination": "/lacey-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/699-roof-cost.html",
+      "destination": "/lakewood-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/700-roof-cost.html",
+      "destination": "/marysville-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/701-roof-cost.html",
+      "destination": "/olympia-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/702-roof-cost.html",
+      "destination": "/pasco-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/703-roof-cost.html",
+      "destination": "/puyallup-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/704-roof-cost.html",
+      "destination": "/redmond-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/705-roof-cost.html",
+      "destination": "/renton-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/706-roof-cost.html",
+      "destination": "/richland-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/707-roof-cost.html",
+      "destination": "/sammamish-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/708-roof-cost.html",
+      "destination": "/seattle-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/709-roof-cost.html",
+      "destination": "/shoreline-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/710-roof-cost.html",
+      "destination": "/spokane-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/711-roof-cost.html",
+      "destination": "/spokane-valley-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/712-roof-cost.html",
+      "destination": "/tacoma-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/713-roof-cost.html",
+      "destination": "/vancouver-wa-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/714-roof-cost.html",
+      "destination": "/yakima-wa-roof-cost.html",
       "permanent": true
     },
     {
       "source": "/715-roof-cost.html",
-      "destination": "/architectural-roof-cost-charleston-wv.html",
+      "destination": "/charleston-wv-roof-cost.html",
       "permanent": true
     },
     {
       "source": "/716-roof-cost.html",
-      "destination": "/architectural-roof-cost-huntington-wv.html",
+      "destination": "/huntington-wv-roof-cost.html",
       "permanent": true
     },
     {
-      "source": "/:id(\\d+)-roof-cost.html",
-      "destination": "/roofing-quote-analyzer.html?mode=estimator",
+      "source": "/717-roof-cost.html",
+      "destination": "/appleton-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/718-roof-cost.html",
+      "destination": "/beloit-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/719-roof-cost.html",
+      "destination": "/brookfield-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/720-roof-cost.html",
+      "destination": "/eau-claire-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/721-roof-cost.html",
+      "destination": "/fond-du-lac-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/722-roof-cost.html",
+      "destination": "/green-bay-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/723-roof-cost.html",
+      "destination": "/greenfield-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/724-roof-cost.html",
+      "destination": "/janesville-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/725-roof-cost.html",
+      "destination": "/kenosha-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/726-roof-cost.html",
+      "destination": "/la-crosse-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/727-roof-cost.html",
+      "destination": "/madison-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/728-roof-cost.html",
+      "destination": "/milwaukee-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/729-roof-cost.html",
+      "destination": "/new-berlin-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/730-roof-cost.html",
+      "destination": "/oshkosh-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/731-roof-cost.html",
+      "destination": "/racine-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/732-roof-cost.html",
+      "destination": "/sheboygan-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/733-roof-cost.html",
+      "destination": "/waukesha-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/734-roof-cost.html",
+      "destination": "/wausau-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/735-roof-cost.html",
+      "destination": "/wauwatosa-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/736-roof-cost.html",
+      "destination": "/west-allis-wi-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/737-roof-cost.html",
+      "destination": "/casper-wy-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/738-roof-cost.html",
+      "destination": "/cheyenne-wy-roof-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/:path*-cost.html-:suffix*-cost.html",
+      "destination": "/:path*-cost.html",
       "permanent": true
     },
     {
