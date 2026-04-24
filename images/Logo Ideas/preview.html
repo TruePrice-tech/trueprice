@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Woogoro logo concepts — preview gallery</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #111827;
+    background: #f8fafc;
+  }
+  .page { max-width: 1280px; margin: 0 auto; padding: 32px 24px 96px; }
+  h1 { font-size: 28px; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .intro { color: #4b5563; margin: 0 0 24px; max-width: 720px; }
+  .controls { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; font-size: 13px; color: #4b5563; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  }
+  .card header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 16px; border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  .card header .n { font-weight: 800; font-size: 14px; color: #1d4ed8; letter-spacing: 0.05em; }
+  .card header .desc { font-size: 12px; color: #6b7280; text-align: right; }
+
+  /* Hero — light */
+  .hero-light {
+    padding: 28px 16px;
+    background: #fff;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 220px;
+  }
+  .hero-light img { max-height: 200px; max-width: 80%; height: auto; width: auto; }
+
+  /* Hero — dark (needs invert since source is black silhouette) */
+  .hero-dark {
+    padding: 28px 16px;
+    background: #0f172a;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 180px;
+  }
+  .hero-dark img { max-height: 160px; max-width: 80%; height: auto; width: auto; filter: invert(1); }
+
+  /* Fake site header — matches live .site-header */
+  .fake-header {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px; padding: 0 16px;
+    background: #fff; border-top: 1px solid #e2e8f0;
+  }
+  .fake-header .logo { display: inline-flex; align-items: center; gap: 8px; line-height: 1; }
+  .fake-header .logo img { height: 36px; width: auto; display: block; }
+  .fake-header nav { display: flex; gap: 6px; font-size: 14px; color: #4b5563; }
+  .fake-header nav a { padding: 6px 12px; color: #4b5563; text-decoration: none; }
+  .fake-header nav a.cta { background: #1d4ed8; color: #fff; font-weight: 600; border-radius: 8px; }
+
+  /* Row of favicon-size samples on different backgrounds */
+  .faviconrow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid #e2e8f0;
+  }
+  .fav {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 8px;
+    font-size: 11px; color: #6b7280;
+    border-right: 1px solid #e2e8f0;
+  }
+  .fav:last-child { border-right: 0; }
+  .fav .swatch {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fav .swatch img { max-width: 28px; max-height: 28px; object-fit: contain; }
+  .fav .swatch.sw-white { background: #fff; border: 1px solid #e2e8f0; }
+  .fav .swatch.sw-gray  { background: #f1f5f9; }
+  .fav .swatch.sw-dark  { background: #0f172a; }
+  .fav .swatch.sw-brand { background: #1d4ed8; }
+  .fav .swatch.sw-dark img, .fav .swatch.sw-brand img { filter: invert(1); }
+
+  /* Notes card lays out side-by-side */
+  .notes {
+    padding: 12px 16px; font-size: 13px; color: #4b5563;
+    border-top: 1px solid #e2e8f0; background: #fafbfc;
+    line-height: 1.55;
+  }
+  .notes strong { color: #111827; }
+
+  /* Summary row */
+  .summary {
+    margin-top: 48px; padding: 24px;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  }
+  .summary h2 { margin: 0 0 12px; font-size: 18px; }
+  .summary ul { margin: 0; padding-left: 20px; color: #4b5563; font-size: 14px; line-height: 1.6; }
+  .summary li { margin-bottom: 4px; }
+  .summary li strong { color: #111827; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Woogoro — logo concept preview</h1>
+  <p class="intro">
+    Each of the 10 ideas from <code>Logo ideas.png</code>, extracted to its own transparent PNG
+    and rendered at realistic sizes: hero (light + dark), in-header lockup at
+    real site chrome, and favicon-size swatches on four backgrounds. Silhouettes
+    invert to white on dark backgrounds via CSS <code>filter: invert(1)</code>.
+  </p>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="summary">
+    <h2>Quick take — starting point for picking</h2>
+    <ul>
+      <li><strong>Header-friendly</strong> (read at 32–36px tall): <strong>#1</strong>, <strong>#2</strong>, <strong>#5</strong>. No frame means the lockup scales down without visual mud.</li>
+      <li><strong>Most distinctive / ownable</strong>: <strong>#6</strong> (doorway/shire) — ties directly into the Woogoro-shire mythology. Best social-card material.</li>
+      <li><strong>Most "trust" signals</strong>: <strong>#3</strong> (laurels) and <strong>#9</strong> (shield + ribbon). Read as "certified / verified."</li>
+      <li><strong>Frames that fight at small sizes</strong>: <strong>#7</strong> (curved text in circle), <strong>#10</strong> (ornate Victorian frame). Keep these for hero / print only.</li>
+      <li><strong>Hybrid proposal</strong>: use <strong>#1 or #2</strong> as the header lockup (scales), and <strong>#6</strong> or <strong>#9</strong> as the hero / social-card / favicon seal (distinctive).</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const concepts = [
+  { n: 1,  desc: "No frame • wordmark below", notes: "Cleanest lockup. Scales best to header/favicon. Closest to current shipped mark — smallest visual disruption if adopted." },
+  { n: 2,  desc: "Wordmark arcing above", notes: "Arced wordmark + floating hat. Playful. Arc degrades under ~80px — not ideal for nav." },
+  { n: 3,  desc: "Laurel wreath seal", notes: "Wreath reads as 'verified / trusted.' Reinforces the pricing-authority positioning." },
+  { n: 4,  desc: "Rounded badge + banner", notes: "Banner below Iris. Feels product-y, like a stamp. Strong hero, OK favicon." },
+  { n: 5,  desc: "Simple stack (no frame)", notes: "Minimum viable lockup. Ship today; use as the text-free alt when brevity wins." },
+  { n: 6,  desc: "Shire-door scene", notes: "Hobbit-door framing makes Iris feel like a character in a world. Highest narrative payoff. Most detail = least favicon-friendly." },
+  { n: 7,  desc: "Circle + curved wordmark", notes: "Curved text inside circle. Pretty but fussy. Tends to smear below 96px." },
+  { n: 8,  desc: "Starry rectangular frame", notes: "Stars lend a 'magic' cue. Rectangle frame is honest at any size." },
+  { n: 9,  desc: "Shield + ribbon wordmark", notes: "Shield = trust + achievement. Favicon-ready (just the shield). Good for review badges / trust seals." },
+  { n: 10, desc: "Ornate Victorian frame", notes: "Feels vintage-fairytale. Beautiful hero asset. Too busy for nav; reserve for print/social." }
+];
+
+const grid = document.getElementById('grid');
+
+for (const c of concepts) {
+  const src = `concepts/concept-${String(c.n).padStart(2,'0')}.png`;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <header>
+      <span class="n">#${c.n}</span>
+      <span class="desc">${c.desc}</span>
+    </header>
+    <div class="hero-light"><img src="${src}" alt="Concept ${c.n} on white"></div>
+    <div class="hero-dark"><img src="${src}" alt="Concept ${c.n} on dark"></div>
+    <div class="fake-header">
+      <span class="logo"><img src="${src}" alt=""></span>
+      <nav>
+        <a href="#">Verticals</a>
+        <a href="#">Pros</a>
+        <a href="#" class="cta">Get a quote</a>
+      </nav>
+    </div>
+    <div class="faviconrow">
+      <div class="fav"><div class="swatch sw-white"><img src="${src}"></div>white</div>
+      <div class="fav"><div class="swatch sw-gray"><img src="${src}"></div>gray</div>
+      <div class="fav"><div class="swatch sw-dark"><img src="${src}"></div>dark</div>
+      <div class="fav"><div class="swatch sw-brand"><img src="${src}"></div>brand</div>
+    </div>
+    <div class="notes"><strong>Notes:</strong> ${c.notes}</div>
+  `;
+  grid.appendChild(card);
+}
+</script>
+</body>
+</html>
