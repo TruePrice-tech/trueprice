@@ -54,7 +54,13 @@
   <style>
     .est-wrap { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
     .est-hero { text-align: center; margin-bottom: 2.5rem; }
-    .est-hero img { display: block; margin: 0 auto 1rem; max-height: 280px; width: auto; height: auto; user-select: none; }
+    .est-hero img, .est-hero .est-hero-media { display: block; margin: 0 auto 1rem; max-height: 280px; width: auto; height: auto; user-select: none; }
+    .est-hero .est-hero-media { background: transparent; }
+    @media (prefers-reduced-motion: reduce) {
+      .est-hero .est-hero-media { display: none; }
+      .est-hero .est-hero-fallback { display: block; }
+    }
+    .est-hero .est-hero-fallback { display: none; }
     .est-hero h1 { font-size: 2.25rem; margin: 0 0 0.5rem; color: #0f172a; letter-spacing: -0.01em; }
     .est-hero p { color: #64748b; font-size: 1.1rem; margin: 0; }
 
@@ -123,7 +129,13 @@
   <main id="main">
     <div class="est-wrap">
       <div class="est-hero">
-        <img src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" />
+        <video class="est-hero-media" autoplay muted playsinline preload="metadata"
+               poster="/images/Iris/Iris%20estimate.png?v=2"
+               aria-label="Iris with her paws up, ready to help you estimate">
+          <source src="/images/Iris/Animations/Iris%20estimate%20fist%20pump.mp4?v=1" type="video/mp4" />
+          <img src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" />
+        </video>
+        <img class="est-hero-fallback" src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" />
         <h1>Get an estimate</h1>
         <p>Pick what you need a price for. We'll guide you through it.</p>
       </div>
