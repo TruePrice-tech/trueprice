@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Electrical Quotes Side by Side | Woogoro</title>
   <meta name="description" content="Upload 2 or 3 electrical quotes and we'll show you which one is the best value for permits, materials, and labor." />
@@ -275,7 +275,7 @@
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Panel Size (amps)", "field": "panelAmps", "type": "text"}, {"label": "Wire Gauge", "field": "wireGauge", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"permit","label":"Permit"},{"key":"grounding","label":"Grounding"},{"key":"afci_gfci","label":"AFCI/GFCI"},{"key":"panel","label":"Panel work"},{"key":"wiring","label":"New wiring"},{"key":"utility_coord","label":"Utility coordination"},{"key":"code_upgrade","label":"Code upgrade"},{"key":"cleanup","label":"Cleanup"},{"key":"labeling","label":"Panel labeling"}];
-    var TRUDY = "/images/Worker%20Woogoro/Electrical%20worker.png";
+    var IRIS = "/images/Worker%20Woogoro/Electrical%20worker.png";
     var SINGLE_PAGE = "/electrical-quote-analyzer.html";
     var GUIDE_PAGE = "/electrical-cost-guide.html";
     var NOUN_SHORT = "Electrician";
@@ -363,7 +363,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + IRIS + '" alt="Iris" width="48" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -524,7 +524,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Iris" />';
+      html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#eab308;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

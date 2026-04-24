@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Solar Quotes Side by Side | Woogoro</title>
   <meta name="description" content="Upload 2 or 3 solar quotes and we'll show you which is the best $/watt, panel quality, and warranty terms." />
@@ -271,7 +271,7 @@
     var PRICE_FIELDS = ["grossCost", "totalPrice", "netCost", "total", "price"];
     var ROWS = [{"label": "System Size (kW)", "field": "systemSizeKw", "type": "number"}, {"label": "Gross Cost", "field": "grossCost", "type": "money"}, {"label": "Net Cost (after ITC)", "field": "netCost", "type": "money"}, {"label": "$/Watt (gross)", "field": "_dollarsPerWatt", "type": "computed"}, {"label": "Panel Brand", "field": "panelBrand", "type": "text"}, {"label": "Inverter Brand", "field": "inverterBrand", "type": "text"}, {"label": "Battery Included", "field": "batteryIncluded", "type": "yesno"}, {"label": "Production Warranty", "field": "productionWarrantyYears", "type": "years"}, {"label": "Workmanship Warranty", "field": "workmanshipWarrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"permit","label":"Permit"},{"key":"monitoring","label":"Monitoring"},{"key":"critter_guard","label":"Critter guard"},{"key":"panel_upgrade","label":"Panel upgrade"},{"key":"tax_credit","label":"Tax credit noted"},{"key":"battery","label":"Battery storage"},{"key":"racking","label":"Racking/mounting"},{"key":"roof_warranty","label":"Roof penetration warranty"},{"key":"production","label":"Production guarantee"},{"key":"net_metering","label":"Net metering"},{"key":"warranty","label":"Warranty terms"},{"key":"cleanup","label":"Cleanup"}];
-    var TRUDY = "/images/Worker%20Woogoro/Solar%20worker.png";
+    var IRIS = "/images/Worker%20Woogoro/Solar%20worker.png";
     var SINGLE_PAGE = "/solar-quote-analyzer.html";
     var GUIDE_PAGE = "/solar-installation-cost-guide.html";
     var NOUN_SHORT = "Installer";
@@ -359,7 +359,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + IRIS + '" alt="Iris" width="48" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -510,7 +510,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Iris" />';
+      html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#f59e0b;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

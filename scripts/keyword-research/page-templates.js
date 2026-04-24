@@ -358,7 +358,7 @@ function tableLedTemplate(cluster) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>${escHtml(title1)} (2026) | Woogoro</title>
@@ -529,7 +529,7 @@ function transactionalTemplate(cluster) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escHtml(title1)} (Free, No Signup) | Woogoro</title>
   <meta name="description" content="${escAttr(metaDesc)}" />
@@ -671,7 +671,7 @@ function comparisonTemplate(cluster) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escHtml(title1)} (2026) | Woogoro</title>
   <meta name="description" content="${escAttr(metaDesc)}" />
@@ -812,7 +812,7 @@ function decisionTemplate(cluster) {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escHtml(title1)} (2026) | Woogoro</title>
   <meta name="description" content="${escAttr(metaDesc)}" />

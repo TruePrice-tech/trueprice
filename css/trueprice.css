@@ -875,30 +875,32 @@ h3 {
   border: 0;
 }
 
-/* Trudy bounce animation for parsing/analyzing states */
-@keyframes trudyBounce {
+/* Iris bounce animation for parsing/analyzing states */
+@keyframes irisBounce {
   0%   { transform: translateY(0px) scale(1); }
   50%  { transform: translateY(-8px) scale(1.05); }
   100% { transform: translateY(0px) scale(1); }
 }
-.trudy-bounce {
-  animation: trudyBounce 0.8s ease-in-out infinite;
+.iris-bounce {
+  animation: irisBounce 0.8s ease-in-out infinite;
 }
 
-/* Prevent text caret blinking next to Trudy mascot images when user clicks
+/* Prevent text caret blinking next to Iris mascot images when user clicks
    the empty space around her. The inline image flow otherwise leaves a
    focusable text slot that shows the cursor caret. */
-img[src*="trudy"],
-img[alt*="Trudy"],
-img[alt*="trudy"] {
+img[src*="/Iris/"],
+img[src*="/Worker%20Woogoro/"],
+img[alt*="Iris"],
+img[alt*="Woogoro"] {
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
 }
-img[src*="trudy"]:focus,
-img[alt*="Trudy"]:focus,
-img[alt*="trudy"]:focus {
+img[src*="/Iris/"]:focus,
+img[src*="/Worker%20Woogoro/"]:focus,
+img[alt*="Iris"]:focus,
+img[alt*="Woogoro"]:focus {
   outline: none;
 }
 
@@ -934,10 +936,11 @@ img[alt*="trudy"]:focus {
   .tp-footer-links { grid-template-columns: 1fr; }
 }
 
-/* Prevent text-selection caret from appearing when users click Trudy images */
-img[src*="trudy"],
-img[alt*="Trudy"],
-img[alt*="trudy"] {
+/* Prevent text-selection caret from appearing when users click Iris images */
+img[src*="/Iris/"],
+img[src*="/Worker%20Woogoro/"],
+img[alt*="Iris"],
+img[alt*="Woogoro"] {
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;

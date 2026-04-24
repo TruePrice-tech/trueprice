@@ -9098,8 +9098,8 @@ function buildComparisonWinnerHtml(summary) {
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
-        var trudyVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/trudy-thumbsup.png" : "/images/trudy-worried.png";
-        var trudyVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Trudy gives a thumbs up" : "Trudy looks concerned";
+        var trudyVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/Iris/Iris%20happy.png" : "/images/Iris/Iris%20concerned.png";
+        var trudyVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Iris gives a thumbs up" : "Iris looks concerned";
 
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
@@ -9403,7 +9403,7 @@ function buildComparisonWinnerHtml(summary) {
         if (flags.length === 0) return "";
         var html = '<div style="margin:20px 0; padding:20px 24px; background:#fef2f2; border:1px solid #fecaca; border-radius:16px;">';
         html += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">';
-        html += '<img src="/images/trudy-worried.png" alt="" width="36" />';
+        html += '<img src="/images/Iris/Iris%20concerned.png" alt="" />';
         html += '<div style="font-size:16px; font-weight:800; color:#991b1b;">Fine print & red flags</div>';
         html += '</div>';
         flags.forEach(function(f) {
@@ -9989,8 +9989,8 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
-              <img src="/images/trudy-thumbsup.png" alt="Trudy" width="64" style="margin-bottom:8px;" />
-              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Trudy wants to know: was this estimate close to your actual quote?</div>
+              <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:8px;" />
+              <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Iris wants to know: was this estimate close to your actual quote?</div>
               <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
                 <button onclick="submitEstimateFeedback('accurate')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">Yes, accurate</button>
                 <button onclick="submitEstimateFeedback('high')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">My quote was higher</button>
@@ -11480,7 +11480,7 @@ function buildComparisonWinnerHtml(summary) {
                 output.innerHTML = `
             <div class="panel" style="margin-top:8px; border-width:2px;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                <img src="/images/trudy-clipboard.png" alt="Trudy" width="40" />
+                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" />
                 <div>
                   <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">Woogoro ${escapeHtml(report.serviceLabel || "Roofing")} Decision Report</div>
                 </div>
@@ -11637,7 +11637,7 @@ function buildComparisonWinnerHtml(summary) {
 
           <div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid #e2e8f0;">
             <a href="https://woogoro.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
-              <img src="/images/trudy-peeking.png" alt="" width="24" /> Powered by <strong style="color:#1e3a5f;">Woogoro</strong>
+              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" /> Powered by <strong style="color:#1e3a5f;">Woogoro</strong>
             </a>
           </div>
         </div>
@@ -13742,9 +13742,9 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isUploadMode ? `
             <div style="text-align:center; margin-bottom:24px;">
-              <img src="/images/trudy-peeking.png" alt="Trudy" width="100" style="margin-bottom:10px;" />
+              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="margin-bottom:10px;" />
               <h2 style="margin:0 0 8px; font-size:26px; color:#0f172a;">Upload your roofing quote</h2>
-              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Trudy will check the price, scope, and flag anything missing.</p>
+              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Iris will check the price, scope, and flag anything missing.</p>
             </div>
 
             <div style="border:2px dashed #bfdbfe; border-radius:18px; padding:3rem 1.5rem; text-align:center; background:#f8fbff; cursor:pointer; transition:border-color 0.2s, background 0.2s, transform 0.15s;" id="uploadDropZone" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#eff6ff';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#bfdbfe';this.style.background='#f8fbff';this.style.transform='none'">
@@ -13782,7 +13782,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div style="text-align:center; font-size:12px; color:#94a3b8;">
-              <img src="/images/trudy-peeking.png" alt="Trudy" width="40" style="vertical-align:middle; margin-right:4px;" />
+              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="vertical-align:middle; margin-right:4px;" />
               Your quote stays private. Processed in your browser, never stored or shared.
             </div>
 
@@ -13805,7 +13805,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isEstimatorMode ? `
             <div style="text-align:center; margin-bottom:20px;">
-              <img src="/images/trudy-typing.png" alt="Trudy" width="200" style="margin-bottom:8px;" />
+              <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" style="margin-bottom:8px;" />
               <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
               <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
             </div>
@@ -14084,10 +14084,10 @@ function buildComparisonWinnerHtml(summary) {
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
 
-          <img src="/images/trudy-working.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />
+          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" style="margin-bottom:16px;" />
 
           <div class="progress-phase" id="analysisPhaseLabel">
-            Trudy is reading your document...
+            Iris is reading your document...
           </div>
 
           <div class="progress-sub" id="analysisPhaseDetail">
@@ -14109,11 +14109,11 @@ function buildComparisonWinnerHtml(summary) {
 
       // Animate progress phases
       const phases = [
-        { pct: 20, label: "Trudy is extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
-        { pct: 45, label: "Trudy is looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
-        { pct: 65, label: "Trudy is checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
-        { pct: 85, label: "Trudy is checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
-        { pct: 95, label: "Trudy is almost done...", detail: "Assembling your personalized result", delay: 8500 }
+        { pct: 20, label: "Iris is extracting price, material, and scope...", detail: "Scanning document for key pricing signals", delay: 1500 },
+        { pct: 45, label: "Iris is looking up your property...", detail: "Estimating roof size from address data", delay: 3500 },
+        { pct: 65, label: "Iris is checking what your neighbors paid...", detail: "Matching to city-level benchmarks", delay: 5000 },
+        { pct: 85, label: "Iris is checking for risks and missing items...", detail: "Reviewing scope signals and risk flags", delay: 7000 },
+        { pct: 95, label: "Iris is almost done...", detail: "Assembling your personalized result", delay: 8500 }
       ];
 
       phases.forEach(phase => {
@@ -14324,8 +14324,8 @@ function buildComparisonWinnerHtml(summary) {
       const p = latestParsed || {};
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <img src="/images/trudy-peeking.png" alt="Trudy" width="140" style="margin-bottom:16px;" />
-          <div class="progress-phase" id="analysisPhaseLabel">Trudy is reading the fine print so you don't have to...</div>
+          <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="margin-bottom:16px;" />
+          <div class="progress-phase" id="analysisPhaseLabel">Iris is reading the fine print so you don't have to...</div>
           <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
             <div id="analysisProgressBar" style="width:30%; height:100%; background:var(--brand, #1d4ed8); transition:width .4s;"></div>
@@ -14464,7 +14464,7 @@ function buildComparisonWinnerHtml(summary) {
             ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
             <div id="contractorReviewSection" style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                <img src="/images/trudy-clipboard.png" alt="" width="32" />
+                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" />
                 <div>
                   <div style="font-size:15px; font-weight:700;">Already hired ${escapeHtml(a.contractor)}?</div>
                   <div style="font-size:13px; color:#64748b;">Help other homeowners by sharing your experience</div>

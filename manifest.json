@@ -1,7 +1,7 @@
 {
   "name": "Woogoro",
   "short_name": "Woogoro",
-  "description": "Don't sign until Trudy checks it. Free quote and bill analysis for home services, auto repair, medical bills, and legal fees.",
+  "description": "Don't sign until Iris checks it. Free quote and bill analysis for home services, auto repair, medical bills, and legal fees.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -9,7 +9,7 @@
   "orientation": "portrait",
   "categories": ["utilities", "finance"],
   "icons": [
-    { "src": "/images/trudy.png", "sizes": "272x316", "type": "image/png", "purpose": "any" },
-    { "src": "/favicon-trudy.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/images/Iris/Iris%20happy.png", "sizes": "any", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon.png", "sizes": "any", "type": "image/png" }
   ]
 }

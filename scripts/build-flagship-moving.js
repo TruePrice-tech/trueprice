@@ -921,7 +921,7 @@ function createCityPageHTML(metro) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.png" type="image/png" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Moving Cost in ${displayName}, ${state} (2026) | Woogoro</title>

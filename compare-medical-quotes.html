@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Medical Bills Side by Side | Woogoro</title>
   <meta name="description" content="Upload 2 or 3 bills or Good Faith Estimates and we'll show you which has the best billed amount, fewest red flags, and clearest charges." />
@@ -275,7 +275,7 @@
     var PRICE_FIELDS = ["totalBilled", "patientResponsibility", "totalPrice", "total"];
     var ROWS = [{"label": "Provider", "field": "providerName", "type": "text"}, {"label": "Service / CPT", "field": "serviceDescription", "type": "text"}, {"label": "Total Billed", "field": "totalBilled", "type": "money"}, {"label": "Patient Responsibility", "field": "patientResponsibility", "type": "money"}, {"label": "Insurance Adjustment", "field": "insuranceAdjustment", "type": "money"}, {"label": "Facility Type", "field": "facilityType", "type": "text"}];
     var SCOPE_ITEMS = [{"key":"cpt_codes","label":"CPT codes listed"},{"key":"itemized","label":"Itemized charges"},{"key":"insurance_adj","label":"Insurance adjustments"},{"key":"patient_resp","label":"Patient responsibility"},{"key":"facility_fee","label":"Facility fee"},{"key":"provider_fee","label":"Provider fee"},{"key":"payment_plan","label":"Payment plan"}];
-    var TRUDY = "/images/Worker%20Woogoro/Medical%20worker.png";
+    var IRIS = "/images/Worker%20Woogoro/Medical%20worker.png";
     var SINGLE_PAGE = "/medical-bill-analyzer.html";
     var GUIDE_PAGE = "/medical-cost-guide.html";
     var NOUN_SHORT = "Provider";
@@ -363,7 +363,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + IRIS + '" alt="Iris" width="48" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -511,7 +511,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Iris" />';
+      html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#0d9488;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

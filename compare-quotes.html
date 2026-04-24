@@ -43,7 +43,7 @@
     })();
   </script>
   <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Roofing Quotes Side by Side | Woogoro</title>
   <meta name="description" content="Upload up to 3 roofing quotes and compare them side by side. See which offers the best value based on price, scope, materials, and warranty." />
@@ -212,7 +212,7 @@
         <!-- STEP 1: Upload Quotes -->
         <div id="uploadStep">
           <div style="text-align:center; margin-bottom:16px;">
-            <img id="trudyHero" src="/images/trudy-thinking.png" alt="Iris" width="80" style="margin-bottom:8px;" />
+            <img id="trudyHero" src="/images/Iris/Iris%20concerned.png" alt="Iris" style="margin-bottom:8px;" />
           </div>
           <h1 id="compareH1">Compare your quotes</h1>
           <p class="cq-sub">Upload 2 or 3 contractor quotes and we'll show you which one is the best deal.</p>
@@ -558,16 +558,17 @@
     var serviceLabel = SERVICE_LABELS[compareService] || "Contractor";
     document.getElementById("compareH1").textContent = "Compare your " + serviceLabel.toLowerCase() + " quotes";
 
-    // Dynamic Iris image based on service
-    var TRUDY_IMAGE_MAP = {
-      solar: "solar", insulation: "insulation", kitchen: "kitchen", electrical: "electrical",
-      fencing: "fencing", foundation: "foundation", windows: "windows", concrete: "concrete",
-      "garage-doors": "garage", landscaping: "landscaping", hvac: "hvac", painting: "painting",
-      plumbing: "plumbing", siding: "siding", gutters: "gutters", roofing: "roofing"
+    // Dynamic Woogoro image based on service (Worker Woogoro matching the trade)
+    var WORKER_WOOGORO_MAP = {
+      solar: "Solar", insulation: "Insulation", kitchen: "Kitchen", electrical: "Electrical",
+      fencing: "Fencing", foundation: "Foundation", windows: "Windows", concrete: "Concrete",
+      "garage-doors": "Garage", landscaping: "Landscape", hvac: "HVAC", painting: "Painter",
+      plumbing: "Plumber", siding: "Siding", gutters: "Gutter", roofing: "Roofer",
+      auto: "Auto", medical: "Medical", legal: "Legal", moving: "Mover"
     };
-    var trudySlug = TRUDY_IMAGE_MAP[compareService];
-    if (trudySlug) {
-      document.getElementById("trudyHero").src = "/images/trudy-" + trudySlug + ".png";
+    var workerSlug = WORKER_WOOGORO_MAP[compareService];
+    if (workerSlug) {
+      document.getElementById("trudyHero").src = "/images/Worker%20Woogoro/" + workerSlug + "%20worker.png";
     }
 
     // Track uploaded file signatures to detect duplicates
@@ -598,7 +599,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="/images/trudy-working.png" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing quote<span class="cq-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -1018,7 +1019,7 @@
 
       // Best value banner (not "winner" -- signals value, not a declaration)
       html += '<div class="cq-winner-banner">';
-      html += '<img src="/images/trudy-thumbsup.png" alt="Iris" />';
+      html += '<img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" />';
       html += '<div>';
       html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {
@@ -1139,7 +1140,7 @@
       if (questions.length > 0) {
         html += '<div style="margin-top:28px;">';
         html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">';
-        html += '<img src="/images/trudy-clipboard.png" alt="Iris with clipboard" width="48" />';
+        html += '<img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" />';
         html += '<div>';
         html += '<h3 style="margin:0; font-size:18px;">Questions to ask before you sign</h3>';
         html += '<p style="margin:2px 0 0; font-size:14px; color:#64748b;">Based on what we found in each quote</p>';
@@ -1167,7 +1168,7 @@
       if (allFlags.length > 0) {
         html += '<div style="margin-top:28px;">';
         html += '<div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">';
-        html += '<img src="/images/trudy-worried.png" alt="Iris looks concerned" width="48" />';
+        html += '<img src="/images/Iris/Iris%20concerned.png" alt="Iris looks concerned" />';
         html += '<div>';
         html += '<h3 style="margin:0; font-size:18px;">Fine print & red flags</h3>';
         html += '<p style="margin:2px 0 0; font-size:14px; color:#64748b;">Things we spotted that are worth reviewing</p>';

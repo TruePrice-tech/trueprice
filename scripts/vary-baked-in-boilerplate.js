@@ -181,15 +181,15 @@ function buildRules(city, state, vslug) {
     ], seed + 1),
   });
 
-  // 2. "Upload it and Trudy will check all N items for you."
+  // 2. "Upload it and Iris will check all N items for you."
   for (const n of [10, 11, 12, 13, 14, 15]) {
     rules.push({
-      find: `Upload it and Trudy will check all ${n} items for you.`,
+      find: `Upload it and Iris will check all ${n} items for you.`,
       replace: pick([
-        `Upload it and Trudy will check all ${n} items for you.`,
-        `Send it over — Trudy audits all ${n} checklist items.`,
-        `Drop it in and let Trudy verify all ${n} items.`,
-        `Share your quote; Trudy reviews all ${n} items for you.`,
+        `Upload it and Iris will check all ${n} items for you.`,
+        `Send it over — Iris audits all ${n} checklist items.`,
+        `Drop it in and let Iris verify all ${n} items.`,
+        `Share your quote; Iris reviews all ${n} items for you.`,
       ], seed + 2),
     });
   }

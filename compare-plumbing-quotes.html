@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Plumbing Quotes Side by Side | Woogoro</title>
   <meta name="description" content="Upload 2 or 3 plumbing quotes and we'll show you which one is the best value for the work scope, parts, and warranty." />
@@ -341,7 +341,7 @@
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Fixture / Equipment", "field": "fixtureType", "type": "text"}, {"label": "Brand", "field": "brand", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"permit","label":"Permit included"},{"key":"warranty_parts","label":"Parts warranty"},{"key":"warranty_labor","label":"Labor warranty"},{"key":"disposal","label":"Old unit disposal"},{"key":"labor_rate","label":"Labor rate disclosed"},{"key":"code_compliance","label":"Code compliance"},{"key":"camera_inspection","label":"Camera inspection"},{"key":"expansion_tank","label":"Expansion tank"},{"key":"shutoff_valve","label":"Shut-off valve"},{"key":"cleanup","label":"Cleanup"},{"key":"pressure_test","label":"Pressure test"}];
-    var TRUDY = "/images/Worker%20Woogoro/Plumber%20worker.png";
+    var IRIS = "/images/Worker%20Woogoro/Plumber%20worker.png";
     var SINGLE_PAGE = "/plumbing-quote-analyzer.html";
     var GUIDE_PAGE = "/plumbing-cost-guide.html";
     var NOUN_SHORT = "Plumber";
@@ -442,7 +442,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + IRIS + '" alt="Iris" width="48" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint" id="slotHint' + idx + '">' + (useAI ? "Running AI analysis..." : "Reading text...") + '</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -633,7 +633,7 @@
         html += '</div>';
       }
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Iris" />';
+      html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#0284c7;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

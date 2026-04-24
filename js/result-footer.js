@@ -4,7 +4,7 @@
  * One consistent post-result footer every vertical's result page renders
  * after its analysis. Replaces the older js/trudy-footer.js (which is
  * still present during migration). Keeps things minimal: a thumbs
- * feedback row above a 4-button action row with mini-Trudy icons.
+ * feedback row above a 4-button action row with mini-Iris icons.
  *
  * Public API:
  *   window.tpRenderResultFooter({
@@ -196,24 +196,24 @@
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
       + '    <button type="button" class="tp-action tp-action-primary" onclick="' + startOverHandler + '">'
-      + '      <img src="/images/trudy-thinking.png" alt="" class="tp-action-icon" />'
+      + '      <img src="/images/Iris/Iris%20concerned.png" alt="" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Back to ' + label + '</span>'
       + '    </button>'
       + '    <button type="button" class="tp-action tp-action-secondary" onclick="' + savePdfHandler + '">'
-      + '      <img src="/images/trudy-clipboard.png" alt="" class="tp-action-icon" />'
+      + '      <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Save as PDF</span>'
       + '    </button>'
       + '    <button type="button" class="tp-action tp-action-tertiary tp-share-btn" data-share-vertical="' + slug + '">'
-      + '      <img src="/images/trudy-peeking.png" alt="" class="tp-action-icon" />'
+      + '      <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Share link</span>'
       + '    </button>'
       + '    <a class="tp-action tp-action-ghost" href="/">'
-      + '      <img src="/images/trudy-peeking.png" alt="" class="tp-action-icon" />'
+      + '      <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" class="tp-action-icon" />'
       + '      <span class="tp-action-label">Home</span>'
       + '    </a>'
       + '  </div>'
       + '  <div class="tp-footer-brand">'
-      + '    <a href="/"><img src="/images/trudy-peeking.png" alt="" width="28" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
+      + '    <a href="/"><img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
       + '  </div>'
       + '</div>';
 

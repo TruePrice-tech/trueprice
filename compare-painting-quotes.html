@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/favicon-trudy.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compare Painting Quotes Side by Side | Woogoro</title>
   <meta name="description" content="Upload 2 or 3 painting quotes and we'll show you which is the best deal for the prep work, paint quality, and number of coats." />
@@ -270,7 +270,7 @@
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Paint Brand", "field": "paintBrand", "type": "text"}, {"label": "Number of Coats", "field": "coats", "type": "number"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"power_wash","label":"Power wash"},{"key":"scraping","label":"Scrape/sand prep"},{"key":"priming","label":"Primer"},{"key":"caulking","label":"Caulk/wood repair"},{"key":"trim","label":"Trim painting"},{"key":"ceiling","label":"Ceiling included"},{"key":"two_coats","label":"Two coats"},{"key":"furniture_move","label":"Furniture moved"},{"key":"drop_cloth","label":"Drop cloths/protection"},{"key":"cleanup","label":"Cleanup"},{"key":"paint_brand","label":"Paint brand specified"},{"key":"warranty","label":"Warranty"}];
-    var TRUDY = "/images/Worker%20Woogoro/Painter%20worker.png";
+    var IRIS = "/images/Worker%20Woogoro/Painter%20worker.png";
     var SINGLE_PAGE = "/painting-quote-analyzer.html";
     var GUIDE_PAGE = "/painting-cost-guide.html";
     var NOUN_SHORT = "Painter";
@@ -358,7 +358,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + IRIS + '" alt="Iris" width="48" class="iris-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -511,7 +511,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Iris" />';
+      html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#dc2626;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

@@ -50,19 +50,49 @@ VERTICAL_IMAGES = {
 
 # direct path swaps
 PATH_SWAPS = {
+    # Stage 1 (already shipped — kept here so script is re-runnable)
     '/images/trudy-estimate-hero.webp':                '/images/Iris/Iris%20estimate.png',
     '/images/trudy-analyze-hero.webp':                 '/images/Iris/Iris%20analyze.png',
     '/images/trudy-compare-hero.webp':                 '/images/Iris/Iris%20compare.png',
     '/images/trudy-compare-hero.png':                  '/images/Iris/Iris%20compare.png',
     '/images/Trudy_comparing1-removebg-preview.png':   '/images/Iris/Iris%20compare.png',
     '/images/trudy.png':                               '/images/Iris/Iris%20happy.png',
+    # Stage 2 (trust cards + peeking + favicon)
+    '/images/trudy-catches.png':                       '/images/Iris/Iris%20magnifying%20glass.png',
+    '/images/trudy-catch.png':                         '/images/Iris/Iris%20magnifying%20glass.png',
+    '/images/trudy-catch.webp':                        '/images/Iris/Iris%20magnifying%20glass.png',
+    '/images/trudy-knows-prices.png':                  '/images/Iris/Iris%20map.png',
+    '/images/trudy-no-strings.png':                    '/images/Iris/Iris%20cutting%20strings.png',
+    '/images/trudy-zero-strings.png':                  '/images/Iris/Iris%20cutting%20strings.png',
+    '/images/trudy-zero-strings.webp':                 '/images/Iris/Iris%20cutting%20strings.png',
+    '/images/trudy-peeking.png':                       '/images/Iris/Iris%20peeking.png',
+    '/images/trudy-peeking-hero.png':                  '/images/Iris/Iris%20peeking.png',
+    '/favicon-trudy.svg':                              '/favicon.png',
+    # Stage 2.5 (contextual one-off poses on special pages)
+    '/images/trudy-worried.png':                       '/images/Iris/Iris%20concerned.png',
+    '/images/trudy-thinking.png':                      '/images/Iris/Iris%20concerned.png',
+    '/images/trudy-clipboard.png':                     '/images/Iris/Iris%20analyze.png',
+    '/images/trudy-hero-investigator.png':             '/images/Iris/Iris%20magnifying%20glass.png',
+    '/images/trudy-shopping.png':                      '/images/Iris/Iris%20happy.png',
+    '/images/trudy-thumbsup.png':                      '/images/Iris/Iris%20happy.png',
+    '/images/trudy-thumbs-up.png':                     '/images/Iris/Iris%20happy.png',
+    '/images/trudy-working.png':                       '/images/Iris/Iris%20analyze.png',
+    '/images/trudy-curious.png':                       '/images/Iris/Iris%20peeking.png',
+    '/images/trudy-typing.png':                        '/images/Iris/Iris%20analyze.png',
+    '/images/trudy-takes-photo.png':                   '/images/Iris/Iris%20catching.png',
+    '/images/trudy-estimate.png':                      '/images/Iris/Iris%20estimate.png',
+    '/images/trudy-clipboard2.png':                    '/images/Iris/Iris%20analyze.png',
 }
 
 HERO_ALT_REWRITES = {
-    '/images/Iris/Iris%20estimate.png': 'Iris with her paws up, ready to help you estimate',
-    '/images/Iris/Iris%20analyze.png':  'Iris holding up a quote, ready to analyze',
-    '/images/Iris/Iris%20compare.png':  'Iris holding two quotes for comparison',
-    '/images/Iris/Iris%20happy.png':    'Iris the Woogoro shire keeper',
+    '/images/Iris/Iris%20estimate.png':             'Iris with her paws up, ready to help you estimate',
+    '/images/Iris/Iris%20analyze.png':              'Iris holding up a quote, ready to analyze',
+    '/images/Iris/Iris%20compare.png':              'Iris holding two quotes for comparison',
+    '/images/Iris/Iris%20happy.png':                'Iris the Woogoro shire keeper',
+    '/images/Iris/Iris%20magnifying%20glass.png':   'Iris holding a magnifying glass over a contractor quote',
+    '/images/Iris/Iris%20map.png':                  'Iris in front of a US map of city prices',
+    '/images/Iris/Iris%20cutting%20strings.png':    'Iris cutting strings to symbolize no lead-selling',
+    '/images/Iris/Iris%20peeking.png':              'Iris peeking out from behind',
 }
 
 
@@ -179,6 +209,22 @@ def transform_content(content: str) -> tuple[str, list[str]]:
         changes.append('  "Trudy" -> "Iris" in copy (' + str(tcount) + 'x)')
         new = nc
 
+    # --- 4. Favicon link type attribute: SVG -> PNG ---
+    fav_type_re = re.compile(
+        r'(<link\b[^>]*?\bhref=(["\'])/favicon\.png\2[^>]*?)type=(["\'])image/svg\+xml\3',
+        re.IGNORECASE
+    )
+    nc, fcount = fav_type_re.subn(lambda m: m.group(1) + 'type=' + m.group(3) + 'image/png' + m.group(3), new)
+    if fcount > 0:
+        changes.append('  favicon type image/svg+xml -> image/png (' + str(fcount) + 'x)')
+        new = nc
+
+    # --- 5. Rename CSS class "trudy-bounce" -> "iris-bounce" ---
+    nc, ccount = re.subn(r'\btrudy-bounce\b', 'iris-bounce', new)
+    if ccount > 0:
+        changes.append('  class trudy-bounce -> iris-bounce (' + str(ccount) + 'x)')
+        new = nc
+
     return new, changes
 
 
@@ -202,9 +248,27 @@ def main():
     if args.file:
         files = [Path(args.file)]
     else:
-        # Repo-root HTML only. The site is flat — all 12K+ pages sit at root.
-        # Avoid recursing into node_modules/, output/, images/, etc.
-        files = sorted(Path('.').glob('*.html'))
+        # Repo-root HTML + key subtrees that contain Trudy references
+        # (templates/ feeds future rebuilds; js/ + css/ are client-side;
+        # authors/ is live pages; output/qa-human/ is audit log)
+        patterns = [
+            '*.html',
+            'templates/*.html',
+            'authors/*.html',
+            'js/*.js',
+            'css/*.css',
+            'scripts/build-*.js',
+            'scripts/vary-baked-in-boilerplate.js',
+            'scripts/compress-images.js',
+            'scripts/_seo-favicon-standardize.js',
+            'scripts/keyword-research/page-templates.js',
+            'output/qa-human/*.json',
+        ]
+        files = []
+        for pat in patterns:
+            files.extend(Path('.').glob(pat))
+        files = sorted(set(files))
+        files = [f for f in files if '_originals_pre_bg_clean' not in str(f)]
 
     total_changed = 0
     summary = {}

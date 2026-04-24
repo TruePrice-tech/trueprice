@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * One-shot: standardize favicon references from /favicon.svg -> /favicon-trudy.svg
+ * One-shot: standardize favicon references from /favicon.svg -> /favicon.png
  * Runs across all *.html files in repo root. Skips node_modules.
  *
  * The replacement is scoped to the favicon link tag only — we match the exact
@@ -27,7 +27,7 @@ for (const file of files) {
   let replaced = 0;
   const updated = original.replace(pattern, (_, pre, post) => {
     replaced++;
-    return `${pre}/favicon-trudy.svg${post}`;
+    return `${pre}/favicon.png${post}`;
   });
   if (replaced > 0) {
     fs.writeFileSync(filePath, updated, 'utf8');
