@@ -2,6 +2,32 @@
    Woogoro — Design System
    ============================================================ */
 
+/* Logo lockup: Iris mark + Woogoro wordmark */
+.site-header .logo,
+a.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+.site-header .logo .logo-mark,
+a.logo .logo-mark {
+  height: 32px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.site-header .logo .logo-text,
+a.logo .logo-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+@media (max-width: 480px) {
+  .site-header .logo .logo-mark,
+  a.logo .logo-mark { height: 26px; }
+}
+
 :root {
   --brand: #1d4ed8;
   --brand-dark: #1e40af;
