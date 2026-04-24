@@ -215,6 +215,22 @@ def phase4_regenerate_sitemap():
     all_html = sorted(glob.glob("*.html"))
     print(f"  found {len(all_html)} html files")
 
+    # URLs already covered by per-vertical sitemaps (sitemap-roof.xml, etc.).
+    # Exclude them from the flat sitemap.xml so sitemap-index.xml doesn't
+    # announce every city page in two sitemaps — Google treats that as a
+    # crawl-budget and freshness signal waste.
+    vertical_urls = set()
+    for vs in glob.glob("sitemap-*.xml"):
+        if vs in ("sitemap-index.xml",):
+            continue
+        try:
+            with open(vs, "r", encoding="utf-8", errors="replace") as fh:
+                for m in re.finditer(r'<loc>\s*https?://[^/]+/([^<]+?)\s*</loc>', fh.read()):
+                    vertical_urls.add(m.group(1))
+        except Exception as e:
+            print(f"  warn: could not read {vs}: {e}")
+    print(f"  {len(vertical_urls)} URLs already in per-vertical sitemaps (will be excluded)")
+
     # Skip patterns: 404 page, dashboard pages (private), test files
     skip_exact = {"404.html","dashboard.html","provider-dashboard.html","contractor-dashboard.html",
                   "analytics-dashboard.html","admin.html","admin-dashboard.html"}
@@ -223,10 +239,14 @@ def phase4_regenerate_sitemap():
     skipped_canon = 0
     skipped_excluded = 0
     skipped_noindex = 0
+    skipped_vertical = 0
 
     for f in all_html:
         if f in skip_exact:
             skipped_excluded += 1
+            continue
+        if f in vertical_urls:
+            skipped_vertical += 1
             continue
         with open(f, "r", encoding="utf-8", errors="replace") as fh:
             head = fh.read(3000)
@@ -246,6 +266,7 @@ def phase4_regenerate_sitemap():
         urls.append((f, mtime))
 
     print(f"  including {len(urls)} URLs in sitemap")
+    print(f"  skipped {skipped_vertical} already in per-vertical sitemaps")
     print(f"  skipped {skipped_canon} canonicalized variants")
     print(f"  skipped {skipped_noindex} noindex")
     print(f"  skipped {skipped_excluded} excluded files")

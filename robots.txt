@@ -91,12 +91,11 @@ Disallow: /
 User-agent: Timpibot
 Disallow: /
 
-# Default: allow with crawl delay
+# Default: allow (no crawl-delay — Google ignores it anyway, and Bing/Yahoo
+# throttle themselves via their own webmaster tools)
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /experiments/
-Crawl-delay: 2
 
-Sitemap: https://woogoro.com/sitemap.xml
 Sitemap: https://woogoro.com/sitemap-index.xml
