@@ -8641,9 +8641,9 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isUploadMode ? `
             <div style="text-align:center; margin-bottom:24px;">
-              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="margin-bottom:10px;" />
+              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:10px; max-height:200px; width:auto; height:auto;" />
               <h2 style="margin:0 0 8px; font-size:26px; color:#0f172a;">Upload your roofing quote</h2>
-              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Iris will check the price, scope, and flag anything missing.</p>
+              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Juniper will check the price, scope, and flag anything missing.</p>
             </div>
 
             <div style="border:2px dashed #bfdbfe; border-radius:18px; padding:3rem 1.5rem; text-align:center; background:#f8fbff; cursor:pointer; transition:border-color 0.2s, background 0.2s, transform 0.15s;" id="uploadDropZone" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#eff6ff';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#bfdbfe';this.style.background='#f8fbff';this.style.transform='none'">
@@ -8704,7 +8704,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isEstimatorMode ? `
             <div style="text-align:center; margin-bottom:20px;">
-              <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" style="margin-bottom:8px;" />
+              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:8px; max-height:200px; width:auto; height:auto;" />
               <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
               <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
             </div>

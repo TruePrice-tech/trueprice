@@ -605,7 +605,7 @@
     function renderAddress() {
       appRoot.innerHTML = '\
         <div class="kit-hero">\
-          <img src="/images/Worker%20Woogoro/Kitchen%20worker.png" alt="Maple the Kitchen Woogoro" style="margin-bottom:12px;" />\
+          <img src="/images/Worker%20Woogoro/Kitchen%20worker.png" alt="Maple the Kitchen Woogoro" style="margin-bottom:12px; max-height:200px; width:auto; height:auto;" />\
           <h1>Is your kitchen remodel quote fair?</h1>\
           <p>Upload your contractor quote. We&#39;ll check the price, scope, and red flags in 30 seconds.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to kitchen pricing? Read our <a href="/kitchen-remodel-cost-guide.html" style="color:#16a34a;">Kitchen Remodel Cost Guide</a></p>\
@@ -1314,7 +1314,7 @@ setProgress(90, "Almost done...");
           <h1>' + (isUpload ? "Kitchen Remodel Quote Analysis" : "Your Kitchen Remodel Estimate") + '</h1>\
         </div>\
         <div class="kit-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Kitchen%20worker.png" alt="Maple the Kitchen Woogoro" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Kitchen Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Kitchen%20worker.png" alt="Maple the Kitchen Woogoro" style="margin-bottom:12px; max-height:200px; width:auto; height:auto;" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Kitchen Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\

@@ -678,7 +678,7 @@
     function renderAddress() {
       appRoot.innerHTML = '\
         <div class="paint-hero">\
-          <img src="/images/Worker%20Woogoro/Painter%20worker.png" alt="Clem the Painting Woogoro" style="margin-bottom:12px;" />\
+          <img src="/images/Worker%20Woogoro/Painter%20worker.png" alt="Clem the Painting Woogoro" style="margin-bottom:12px; max-height:200px; width:auto; height:auto;" />\
           <h1>How much will your painting project cost?</h1>\
           <p>Free city-level estimate. No email, no phone, no lead-selling.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to painting pricing? Read our <a href="/painting-cost-guide.html" style="color:#16a34a;">Painting Cost Guide</a></p>\
@@ -1607,7 +1607,7 @@
           <h1>' + (isUpload ? "Painting Quote Analysis" : "Your Painting Estimate") + '</h1>\
         </div>\
         <div class="paint-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Painter%20worker.png" alt="Clem the Painting Woogoro" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Painting Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Painter%20worker.png" alt="Clem the Painting Woogoro" style="margin-bottom:12px; max-height:200px; width:auto; height:auto;" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Painting Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
