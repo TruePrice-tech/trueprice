@@ -111,7 +111,7 @@
       <div class="cmp-card">
         <div id="uploadStep">
           <div style="text-align:center; margin-bottom:16px;">
-            <img src="/images/trudy-hvac.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+            <img src="/images/Worker%20Woogoro/HVAC%20worker.png" alt="Breeze the HVAC Woogoro" style="margin-bottom:8px;" />
           </div>
           <h1>Compare your HVAC quotes</h1>
           <p class="cmp-sub">Upload 2 or 3 HVAC quotes and we'll show you which one is the best value for the equipment, install scope, and warranty offered.</p>
@@ -245,7 +245,7 @@
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Equipment Brand", "field": "brand", "type": "text"}, {"label": "Tonnage / BTU", "field": "tonnage", "type": "text", "alt_field": "btu"}, {"label": "SEER / SEER2", "field": "seer", "type": "text"}, {"label": "System Type", "field": "systemType", "type": "text"}, {"label": "Equipment Cost", "field": "equipmentCost", "type": "money"}, {"label": "Labor / Install", "field": "laborCost", "type": "money", "alt_field": "installCost"}, {"label": "Warranty (Parts)", "field": "warrantyPartsYears", "type": "years"}, {"label": "Warranty (Labor)", "field": "warrantyLaborYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key": "load_calc", "label": "Manual J load calc"}, {"key": "ductwork", "label": "Ductwork"}, {"key": "permit", "label": "Permit included"}, {"key": "disposal", "label": "Old unit disposal"}, {"key": "thermostat", "label": "Thermostat included"}, {"key": "refrigerant", "label": "Refrigerant specified"}, {"key": "line_set", "label": "Line set"}, {"key": "concrete_pad", "label": "Concrete pad"}, {"key": "electrical", "label": "Electrical work"}, {"key": "flue", "label": "Flue/venting"}, {"key": "cleanup", "label": "Cleanup"}];
-    var TRUDY = "/images/trudy-hvac.png";
+    var TRUDY = "/images/Worker%20Woogoro/HVAC%20worker.png";
     var SINGLE_PAGE = "/hvac-quote-analyzer.html";
     var GUIDE_PAGE = "/hvac-replacement-cost-guide.html";
     var NOUN_SHORT = "Contractor";
@@ -394,7 +394,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -609,7 +609,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Trudy" />';
+      html += '<img src="' + TRUDY + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#0891b2;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {

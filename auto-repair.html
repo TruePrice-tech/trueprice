@@ -28,7 +28,7 @@
 .ar-hero h1{font-size:30px;margin-bottom:6px;}
 .ar-hero p{color:var(--text-secondary,#64748b);font-size:16px;}
 
-/* Report header (Trudy-branded, shown on screen + print) */
+/* Report header (Iris-branded, shown on screen + print) */
 .tp-report-header{display:flex;align-items:center;gap:18px;padding:22px 24px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:16px;color:#fff;margin-bottom:18px;box-shadow:0 4px 14px rgba(29,78,216,0.18);}
 .tp-report-header img{background:#fff;border-radius:50%;padding:6px;flex-shrink:0;}
 .tp-report-header .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.9;font-weight:700;}
@@ -269,7 +269,7 @@
 
 <!-- Hero -->
 <div class="ar-hero">
-<img src="/images/trudy-auto.png" alt="Trudy" width="110" />
+<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" />
 <h1>Auto Repair Pricing</h1>
 <p>Whether you're shopping around or checking a quote you already have.</p>
 </div>
@@ -937,7 +937,7 @@ function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
   // CTA to switch to quote path
   h+='<div class="ae-cta">';
   h+='<p style="margin:0 0 8px;font-weight:600;">Have a quote for this repair?</p>';
-  h+='<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary,#64748b);">Upload it and Trudy checks every line item against this benchmark.</p>';
+  h+='<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary,#64748b);">Upload it and Iris checks every line item against this benchmark.</p>';
   h+='<button class="ae-btn" style="width:auto;display:inline-block;padding:12px 24px;" onclick="switchPath(\'quote\')">Upload My Quote</button>';
   h+='</div>';
 
@@ -1109,10 +1109,10 @@ function renderReportHeader(vehicleDesc,locationDesc){
   var dateStr=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
   var isParts=currentMode==="parts";
   return '<div class="tp-report-header">'+
-    '<img src="/images/trudy-auto.png" alt="Trudy" width="78" height="78" />'+
+    '<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" />'+
     '<div>'+
       '<div class="eyebrow">Woogoro '+(isParts?"DIY Parts Report":"Auto Repair Report")+'</div>'+
-      '<div class="title">'+(isParts?"Parts cost checked by Trudy":"Estimate prepared by Trudy")+'</div>'+
+      '<div class="title">'+(isParts?"Parts cost checked by Iris":"Estimate prepared by Iris")+'</div>'+
       '<div class="sub">'+vehicleDesc+' &bull; '+locationDesc+' &bull; '+dateStr+'</div>'+
       '<div class="sub" style="font-size:11px;margin-top:4px;">woogoro.com/auto-repair.html</div>'+
     '</div>'+
@@ -1137,7 +1137,7 @@ function shareReport(){
   if(inp.state) params.set("state",inp.state);
   var shareUrl=url+"?"+params.toString();
   if(navigator.share){
-    navigator.share({title:"Woogoro Auto Repair Estimate",text:"My auto repair estimate from Woogoro — checked by Trudy",url:shareUrl}).catch(function(){});
+    navigator.share({title:"Woogoro Auto Repair Estimate",text:"My auto repair estimate from Woogoro — checked by Iris",url:shareUrl}).catch(function(){});
   } else {
     navigator.clipboard.writeText(shareUrl).then(function(){alert("Link copied to clipboard!");},function(){prompt("Copy this link:",shareUrl);});
   }
@@ -1364,7 +1364,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   }
 
   // Scenario matrix only makes sense in full-repair mode (shop type matters)
-  // Append the shared Trudy footer at the bottom for consistent cross-vertical UX
+  // Append the shared Iris footer at the bottom for consistent cross-vertical UX
   var sharedFooterHtml = (typeof window.tpRenderResultFooter === "function")
     ? window.tpRenderResultFooter({
         vertical: "auto-repair",
@@ -1780,9 +1780,9 @@ function initQuoteApp(){
   function renderUploading(){
     appRoot.innerHTML='\
       <div style="text-align:center;padding:40px 24px;">\
-        <img src="/images/trudy-auto.png" alt="Trudy" width="120" style="margin-bottom:16px;" />\
+        <img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:16px;" />\
         <h2 style="font-size:22px;margin-bottom:8px;">Analyzing your repair quote...</h2>\
-        <p style="color:#64748b;margin-bottom:24px;">Don\'t sign until Trudy checks it</p>\
+        <p style="color:#64748b;margin-bottom:24px;">Don\'t sign until Iris checks it</p>\
         <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:12px;">\
           <div id="progFill" style="width:10%;height:100%;background:#2563eb;transition:width .4s;"></div>\
         </div>\
@@ -2160,7 +2160,7 @@ function initQuoteApp(){
     // Assemble
     appRoot.innerHTML='\
       <div class="ar-verdict-card '+verdictCss+'">\
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-auto.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
         <div class="verdict-label">'+r.verdict.label+'</div>\
         <div class="verdict-price">'+priceDisplay+'</div>\
         <div class="verdict-range">'+rangeText+'</div>\

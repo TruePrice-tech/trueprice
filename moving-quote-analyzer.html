@@ -1010,7 +1010,7 @@
       var seasonInfo = getSeasonLabel();
       appRoot.innerHTML = '\
         <div class="mv-hero">\
-          <img src="/images/trudy-moving.png" alt="Trudy" width="140" style="margin-bottom:12px;" />\
+          <img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" style="margin-bottom:12px;" />\
           <h1>How much should your move cost?</h1>\
           <p>Get a fair estimate or check a quote you already have.</p>\
           <span class="mv-seasonal-badge ' + seasonInfo.css + '">' + seasonInfo.label + '</span>\
@@ -1027,8 +1027,8 @@
         </div>\
         <div id="estimatePath" class="mv-hidden" style="animation:mvFadeSlideIn 0.3s ease-out;">\
           <div class="mv-card">\
-            <h2 style="margin:0 0 6px;font-size:18px;">Tell Trudy about your move</h2>\
-            <p style="margin:0 0 16px;font-size:13px;color:#64748b;">No quote needed. Trudy compares DIY truck rentals, labor-only help, full-service movers, and container shipping for your route.</p>\
+            <h2 style="margin:0 0 6px;font-size:18px;">Tell Iris about your move</h2>\
+            <p style="margin:0 0 16px;font-size:13px;color:#64748b;">No quote needed. Iris compares DIY truck rentals, labor-only help, full-service movers, and container shipping for your route.</p>\
             <div class="mv-manual-form">\
               <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:16px;">\
                 <div style="font-size:0.9rem;font-weight:600;color:#0369a1;margin-bottom:10px;">Where are you moving?</div>\
@@ -1568,9 +1568,9 @@
     function renderUploading() {
       appRoot.innerHTML = '\
         <div style="max-width:720px; margin:60px auto; text-align:center; padding:0 24px;">\
-          <img src="/images/trudy-moving.png" alt="Trudy" width="140" class="trudy-bounce" style="margin-bottom:16px;" />\
+          <img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" class="trudy-bounce" style="margin-bottom:16px;" />\
           <h1 style="font-size:24px; margin-bottom:8px;">Analyzing your moving quote...</h1>\
-          <p style="color:#64748b; margin-bottom:24px;">Don\'t sign until Trudy checks it</p>\
+          <p style="color:#64748b; margin-bottom:24px;">Don\'t sign until Iris checks it</p>\
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:12px;">\
             <div id="progFill" style="width:10%; height:100%; background:#0d9488; transition:width .4s;"></div>\
           </div>\
@@ -2335,7 +2335,7 @@
       savingsHtml += '<li>Ask if the mover offers a discount for flexible delivery dates</li>';
       savingsHtml += '</ul></div>';
 
-      // ── Footer (shared Trudy template) ──
+      // ── Footer (shared Iris template) ──
       var footerHtml = (typeof window.tpRenderResultFooter === "function")
         ? window.tpRenderResultFooter({
             vertical: "moving",
@@ -2364,12 +2364,12 @@
       appRoot.innerHTML = '\
         <div class="mv-hero">\
           <h1>' + (isUpload ? "Moving Quote Analysis" : "Quote Analysis") + '</h1>\
-          <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Trudy checks it</p>\
+          <p style="font-size:0.9rem;color:#64748b;">Don\'t sign until Iris checks it</p>\
         </div>\
         ' + routeHtml + '\
         ' + transitHtml + '\
         <div class="mv-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/trudy-moving.png" alt="Trudy" width="48" /><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Verdict</div></div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" /><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Verdict</div></div>\
           <div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\

@@ -111,7 +111,7 @@
       <div class="cmp-card">
         <div id="uploadStep">
           <div style="text-align:center; margin-bottom:16px;">
-            <img src="/images/trudy-roofing.png" alt="Trudy" width="80" style="margin-bottom:8px;" />
+            <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:8px;" />
           </div>
           <h1>Compare your roofing quotes</h1>
           <p class="cmp-sub">Upload 2 or 3 roofing quotes and we'll compare price, materials, scope, and warranty to find the best value.</p>
@@ -248,7 +248,7 @@
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Material Type", "field": "material", "type": "text"}, {"label": "Roof Size (sq ft)", "field": "roofSize", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Shingle Brand", "field": "brand", "type": "text"}, {"label": "Underlayment", "field": "underlayment", "type": "text"}, {"label": "Labor Cost", "field": "laborCost", "type": "money"}, {"label": "Materials Cost", "field": "materialsCost", "type": "money"}, {"label": "Warranty (Manufacturer)", "field": "warrantyManufacturerYears", "type": "years"}, {"label": "Warranty (Workmanship)", "field": "warrantyWorkmanshipYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key": "tear_off", "label": "Tear-off included"}, {"key": "underlayment", "label": "Underlayment specified"}, {"key": "flashing", "label": "Flashing replacement"}, {"key": "drip_edge", "label": "Drip edge"}, {"key": "ridge_vent", "label": "Ridge vent / ventilation"}, {"key": "ice_shield", "label": "Ice & water shield"}, {"key": "decking", "label": "Decking repair terms"}, {"key": "disposal", "label": "Disposal / dumpster"}, {"key": "permit", "label": "Permit included"}, {"key": "starter", "label": "Starter strip & ridge cap"}, {"key": "pipe_boots", "label": "Pipe boots replaced"}, {"key": "cleanup", "label": "Cleanup / magnetic sweep"}];
-    var TRUDY = "/images/trudy-roofing.png";
+    var TRUDY = "/images/Worker%20Woogoro/Roofer%20worker.png";
     var SINGLE_PAGE = "/roofing-quote-analyzer.html";
     var GUIDE_PAGE = "/roof-cost-by-material.html";
     var NOUN_SHORT = "Contractor";
@@ -397,7 +397,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="' + TRUDY + '" alt="Trudy" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
+        '<img src="' + TRUDY + '" alt="Iris" width="48" class="trudy-bounce" style="margin-bottom:4px;" />' +
         '<span class="slot-label">Parsing<span class="cmp-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -610,7 +610,7 @@
 
       var html = "";
       html += '<div class="cmp-winner-banner">';
-      html += '<img src="' + TRUDY + '" alt="Trudy" />';
+      html += '<img src="' + TRUDY + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#0891b2;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {
