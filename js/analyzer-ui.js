@@ -8641,7 +8641,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isUploadMode ? `
             <div style="text-align:center; margin-bottom:24px;">
-              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:10px; max-height:200px; width:auto; height:auto;" />
+              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:10px; max-height:400px; width:auto; height:auto;" />
               <h2 style="margin:0 0 8px; font-size:26px; color:#0f172a;">Upload your roofing quote</h2>
               <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Juniper will check the price, scope, and flag anything missing.</p>
             </div>
@@ -8704,7 +8704,7 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isEstimatorMode ? `
             <div style="text-align:center; margin-bottom:20px;">
-              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:8px; max-height:200px; width:auto; height:auto;" />
+              <img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Juniper the Roofing Woogoro" style="margin-bottom:8px; max-height:400px; width:auto; height:auto;" />
               <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
               <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
             </div>
