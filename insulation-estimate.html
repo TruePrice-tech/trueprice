@@ -793,12 +793,13 @@
                   likelyAttachedGarage: !!d.likelyAttachedGarage,
                   convexityRatio: d.convexityRatio || null
                 };
+                // Pre-pick the home type but DON'T eagerly set est.areaSqFt —
+                // getEstimatorStep gates the picker step on !areaSqFt and would
+                // skip past the picker entirely if we pre-filled the value here.
+                // The picker's applyPick() sets areaSqFt on render instead.
                 if (window.WoogoroHomeType) {
-                  var picked = window.WoogoroHomeType.estimateLivingArea(state.osmSignals);
-                  if (picked && picked.livingSqFt) {
-                    state.est.homeType = picked.homeType;
-                    if (!state.est.areaSqFt) state.est.areaSqFt = String(picked.livingSqFt);
-                  }
+                  var picked = window.WoogoroHomeType.classifyHomeType(state.osmSignals);
+                  if (picked) state.est.homeType = picked;
                 }
                 if (state.step === "estimator") render();
               }

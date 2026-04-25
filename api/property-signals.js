@@ -220,11 +220,12 @@ export default async function handler(req, res) {
 
 function classifyRegion(count) {
   // Buildings within 500m radius (~194 acres). Calibrated to American
-  // density patterns: typical SFH subdivision is 1-3 houses/acre = 200-600
-  // buildings in this radius. Urban rowhouse blocks hit 600+ at 4+ per acre.
+  // density patterns: typical SFH subdivision is 1-5 houses/acre = 200-1000
+  // buildings in this radius (Phoenix/Sun Belt subs hit 700-900 on small
+  // lots). Urban rowhouse blocks hit 1500+ at 8-15 per acre.
   if (count == null) return "unknown";
   if (count < 30) return "rural";
-  if (count > 600) return "urban";
+  if (count > 1500) return "urban";
   return "suburban";
 }
 
