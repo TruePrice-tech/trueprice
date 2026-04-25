@@ -903,7 +903,8 @@
                 osmHeightMeters: d.osmHeightMeters || null,
                 buildingTag: d.buildingTag || "",
                 likelyAttachedGarage: !!d.likelyAttachedGarage,
-                convexityRatio: d.convexityRatio || null
+                convexityRatio: d.convexityRatio || null,
+                stateCode: state.address.stateCode || ""
               };
               // Auto-pick the home type and pre-fill the estimate
               if (state.osmFootprint > 0 && window.WoogoroHomeType) {

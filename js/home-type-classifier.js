@@ -49,31 +49,67 @@
     return "suburban";
   }
 
-  // Pick the most likely home type from free signals.
+  // States where Census housing data shows clear 1-story dominance (>65%).
+  // Conservative list: only states where the prior is *clearly* helpful.
+  // Excludes TX/CA/GA/SC where the 1-story vs 2-story split is closer to
+  // 50/50 — biasing in those states could be net-negative.
+  var SUN_BELT_RANCH_STATES = {
+    AZ: 1, FL: 1, NV: 1, NM: 1, OK: 1, AR: 1, LA: 1, MS: 1, AL: 1
+  };
+
+  // Pick the most likely home type from free signals. Tiered by confidence:
+  //   1. Explicit OSM building:levels tag (definitive when present)
+  //   2. OSM building:height tag (~3m per story)
+  //   3. building:type tag (terrace / townhouse forces no-garage)
+  //   4. Footprint extremes (huge → ranch, tiny → townhome)
+  //   5. Region + state-level prior (Sun Belt → ranch bias)
+  //   6. Fallback to suburban modal case
   function classifyHomeType(signals) {
     signals = signals || {};
     var region = normalizeRegion(signals.regionType);
     var footprint = Number(signals.footprintSqFt) || 0;
     var stories = Number(signals.osmStories) || 0;
+    var heightM = Number(signals.osmHeightMeters) || 0;
     var hasGarage = !!signals.likelyAttachedGarage;
     var tag = String(signals.buildingTag || "").toLowerCase();
+    var stateCode = String(signals.stateCode || "").toUpperCase();
 
-    // OSM building:levels is the single most reliable signal — use it.
+    // Tier 1: explicit OSM building:levels — most reliable signal.
     if (stories >= 3) return "three_story";
     if (stories === 2) return hasGarage ? "two_story_with_garage" : "two_story_no_garage";
     if (stories === 1) return "single_ranch";
 
-    // Townhome / terrace tag forces the no-garage 2-story bucket.
+    // Tier 2: explicit OSM building:height. Residential floor-to-floor is
+    // ~3m, so <5m = 1-story, 5-9m = 2-story, >9m = 3+.
+    if (heightM > 0) {
+      if (heightM > 9) return "three_story";
+      if (heightM >= 5) return hasGarage ? "two_story_with_garage" : "two_story_no_garage";
+      return "single_ranch";
+    }
+
+    // Tier 3: tag-based — terrace / row_house always means stacked.
     if (tag === "terrace" || tag === "townhouse" || tag === "row_house") {
       return "two_story_no_garage";
     }
 
-    // Without explicit stories, infer from region + footprint + shape:
+    // Tier 4: footprint extremes.
     if (footprint >= 3500) return "single_ranch";          // wide ground = likely ranch
     if (footprint < 800)   return "two_story_no_garage";   // tiny footprint = stacked townhome
-    if (region === "urban") return "two_story_no_garage";  // dense urban = no SFH garage
+
+    // Tier 5: region + state prior.
+    if (region === "urban") return "two_story_no_garage";
     if (region === "rural" && !hasGarage) return "single_ranch";
-    return "two_story_with_garage";                        // suburban default (modal case)
+
+    // Sun Belt ranch prior: in AZ/FL/NV/NM and similar, 1-story is the
+    // dominant residential pattern. Apply only when footprint is wide
+    // enough to plausibly be a 1-story (>2000) and we haven't already
+    // detected a contradicting signal.
+    if (SUN_BELT_RANCH_STATES[stateCode] && footprint >= 2000) {
+      return "single_ranch";
+    }
+
+    // Default: suburban modal case (2-story with attached garage).
+    return "two_story_with_garage";
   }
 
   function getMultiplier(homeTypeId, regionType) {

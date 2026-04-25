@@ -791,7 +791,8 @@
                   osmHeightMeters: d.osmHeightMeters || null,
                   buildingTag: d.buildingTag || "",
                   likelyAttachedGarage: !!d.likelyAttachedGarage,
-                  convexityRatio: d.convexityRatio || null
+                  convexityRatio: d.convexityRatio || null,
+                  stateCode: state.address.stateCode || ""
                 };
                 // Pre-pick the home type but DON'T eagerly set est.areaSqFt —
                 // getEstimatorStep gates the picker step on !areaSqFt and would
