@@ -834,7 +834,13 @@ async function lookupPropertyRoofSignals(address = {}) {
       source: apiResult.source || "property_api"
     };
 
-    setCachedPropertyRoofSignals(normalized, normalizedApiResult);
+    // Only cache positive lookups. Caching null/failed results would lock
+    // users out of OSM for 30 days after a single transient failure (e.g.
+    // Overpass mirrors momentarily down).
+    const footprintSqFt = Number(normalizedApiResult.footprintSqFt);
+    if (footprintSqFt > 0) {
+      setCachedPropertyRoofSignals(normalized, normalizedApiResult);
+    }
     return normalizedApiResult;
   }
 

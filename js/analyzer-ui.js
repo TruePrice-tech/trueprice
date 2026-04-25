@@ -4644,11 +4644,27 @@ function buildComparisonWinnerHtml(summary) {
           alert("Please enter either a street address or a roof size.");
           return;
         }
-        // Stash into the hidden form fields analyzeQuote() reads from
-        const setVal = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
-        if (addr) setVal("streetAddress", addr);
-        if (zip) setVal("zipCode", zip);
-        if (sz) setVal("roofSize", String(sz));
+        // On the upload-quote path, the canonical #streetAddress/#cityName/#zipCode/#roofSize
+        // form inputs don't exist (they're only rendered for manual entry). analyzeQuote reads
+        // the address from those IDs, so without injecting them the address branch never fires
+        // and /api/property-signals is never called. Create hidden inputs as needed.
+        const ensureHidden = function(id) {
+          let el = document.getElementById(id);
+          if (!el) {
+            el = document.createElement("input");
+            el.type = "hidden";
+            el.id = id;
+            document.body.appendChild(el);
+          }
+          return el;
+        };
+        if (addr) ensureHidden("streetAddress").value = addr;
+        if (zip) ensureHidden("zipCode").value = zip;
+        if (sz) ensureHidden("roofSize").value = String(sz);
+        // Backfill city/state from latestParsed so hasUsableAddress can match street+city+state too
+        const parsedAddr = (window.latestParsed && window.latestParsed.propertyAddress) || {};
+        if (parsedAddr.city) ensureHidden("cityName").value = parsedAddr.city;
+        if (parsedAddr.stateCode) ensureHidden("stateCode").value = parsedAddr.stateCode;
         if (typeof analyzeQuote === "function") analyzeQuote();
       };
 

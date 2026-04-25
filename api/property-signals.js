@@ -1,6 +1,21 @@
 // Property signals endpoint — proxies Mapbox geocoding + OSM building footprint
 // Estimates roof size from building footprint data
 
+export const config = {
+  maxDuration: 30
+};
+
+const OVERPASS_MIRRORS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter"
+];
+
+// Overpass servers heavily rate-limit anonymous requests, especially from
+// shared cloud egress IPs (Vercel). Identifying ourselves with a real UA
+// significantly improves success rate.
+const USER_AGENT = "Woogoro/1.0 (+https://woogoro.com; contact:hello@woogoro.com)";
+
 export default async function handler(req, res) {
   const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
@@ -38,38 +53,27 @@ export default async function handler(req, res) {
     const [lon, lat] = feature.center;
     const relevance = feature.relevance || 0;
 
-    // Step 2: Query OSM Overpass for building footprints
+    // Step 2: Query OSM Overpass for building footprints. Sequential fallback
+    // through mirrors with a real User-Agent — racing all 3 in parallel tends
+    // to amplify rate-limiting (one bad request per mirror) and earlier
+    // versions silently returned "no buildings" when every mirror timed out.
     const radius = 60; // meters
-    const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lon});out body;>;out skel qt;`;
-    // Try multiple Overpass servers with retry (primary often rate-limits)
-    const overpassServers = [
-      "https://overpass-api.de/api/interpreter",
-      "https://overpass.kumi.systems/api/interpreter",
-      "https://maps.mail.ru/osm/tools/overpass/api/interpreter"
-    ];
+    const overpassQuery = `[out:json][timeout:15];way["building"](around:${radius},${lat},${lon});out body;>;out skel qt;`;
 
-    // Race all Overpass servers in parallel — first valid JSON wins
-    let overpassData = null;
-    const overpassResults = await Promise.allSettled(
-      overpassServers.map(async (overpassUrl) => {
-        const overpassRes = await fetch(overpassUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "data=" + encodeURIComponent(overpassQuery),
-          signal: AbortSignal.timeout(6000)
-        });
-        const text = await overpassRes.text();
-        if (text.startsWith("{")) {
-          return JSON.parse(text);
+    const overpassData = await fetchOverpass(overpassQuery);
+
+    if (!overpassData) {
+      return res.status(200).json({
+        success: true,
+        data: {
+          footprintSqFt: null,
+          source: "osm_lookup_failed",
+          geocodedAddress: feature.place_name,
+          buildingMatchQuality: "none",
+          candidateCount: 0,
+          error: "Overpass mirrors unreachable"
         }
-        throw new Error("Non-JSON from " + overpassUrl.split("/")[2]);
-      })
-    );
-    for (const result of overpassResults) {
-      if (result.status === "fulfilled" && result.value) {
-        overpassData = result.value;
-        break;
-      }
+      });
     }
 
     const elements = overpassData?.elements || [];
@@ -162,6 +166,40 @@ export default async function handler(req, res) {
     console.error("[property-signals] lookup failed:", e && e.message, e && e.stack);
     return res.status(200).json({ success: false, error: "Lookup failed", detail: (e && e.message) || String(e) });
   }
+}
+
+async function fetchOverpass(query) {
+  const body = "data=" + encodeURIComponent(query);
+  for (const url of OVERPASS_MIRRORS) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 9000);
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": USER_AGENT,
+          "Accept": "application/json"
+        },
+        body,
+        signal: ctrl.signal
+      });
+      clearTimeout(t);
+      if (!res.ok) {
+        console.warn(`[property-signals] ${new URL(url).host} returned ${res.status}`);
+        continue;
+      }
+      const text = await res.text();
+      if (!text.startsWith("{")) {
+        console.warn(`[property-signals] ${new URL(url).host} returned non-JSON`);
+        continue;
+      }
+      return JSON.parse(text);
+    } catch (e) {
+      console.warn(`[property-signals] ${new URL(url).host} failed: ${e.message}`);
+    }
+  }
+  return null;
 }
 
 // Haversine distance in meters

@@ -1,4 +1,17 @@
 // Forward geocode an address, then query OSM for building footprint
+
+export const config = {
+  maxDuration: 30
+};
+
+const OVERPASS_MIRRORS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter"
+];
+
+const USER_AGENT = "Woogoro/1.0 (+https://woogoro.com; contact:hello@woogoro.com)";
+
 export default async function handler(req, res) {
   const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
@@ -43,68 +56,69 @@ export default async function handler(req, res) {
 }
 
 async function getOsmFootprint(lat, lng) {
-  try {
-    const radius = 40;
-    const overpassQuery = `[out:json][timeout:10];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
+  const radius = 40;
+  const overpassQuery = `[out:json][timeout:15];way["building"](around:${radius},${lat},${lng});out body;>;out skel qt;`;
+  const body = "data=" + encodeURIComponent(overpassQuery);
 
-    let overpassData = null;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 8000);
-        const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "data=" + encodeURIComponent(overpassQuery),
-          signal: controller.signal
-        });
-        clearTimeout(timeout);
-        if (!overpassRes.ok) { continue; }
-        overpassData = await overpassRes.json();
-        break;
-      } catch (fetchErr) {
-        console.log(`[address-lookup] OSM attempt ${attempt + 1} failed:`, fetchErr.message);
-        if (attempt === 1) return null;
+  let overpassData = null;
+  for (const url of OVERPASS_MIRRORS) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 9000);
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": USER_AGENT,
+          "Accept": "application/json"
+        },
+        body,
+        signal: ctrl.signal
+      });
+      clearTimeout(t);
+      if (!res.ok) {
+        console.warn(`[address-lookup] ${new URL(url).host} returned ${res.status}`);
+        continue;
       }
+      const text = await res.text();
+      if (!text.startsWith("{")) continue;
+      overpassData = JSON.parse(text);
+      break;
+    } catch (e) {
+      console.warn(`[address-lookup] ${new URL(url).host} failed: ${e.message}`);
     }
-    if (!overpassData) return null;
-    const elements = overpassData.elements || [];
-
-    const nodes = {};
-    elements.forEach(el => { if (el.type === "node") nodes[el.id] = { lat: el.lat, lon: el.lon }; });
-
-    const buildings = [];
-    elements.forEach(el => {
-      if (el.type !== "way" || !el.nodes) return;
-      const coords = el.nodes.map(nid => nodes[nid]).filter(Boolean);
-      if (coords.length < 3) return;
-      const area = polygonAreaSqFt(coords);
-      if (area < 400 || area > 20000) return;
-
-      // Calculate centroid
-      let cx = 0, cy = 0;
-      coords.forEach(c => { cx += c.lat; cy += c.lon; });
-      cx /= coords.length;
-      cy /= coords.length;
-
-      // Distance from search point to building centroid
-      const dlat = (cx - lat) * 111320;
-      const dlng = (cy - lng) * 111320 * Math.cos(lat * Math.PI / 180);
-      const dist = Math.sqrt(dlat * dlat + dlng * dlng);
-
-      buildings.push({ footprintSqFt: area, distance: Math.round(dist), source: "osm_footprint" });
-    });
-
-    if (buildings.length === 0) return null;
-
-    // Return closest building
-    buildings.sort((a, b) => a.distance - b.distance);
-    return buildings[0];
-  } catch (e) {
-    console.error("[address-lookup] OSM error:", e.message);
-    return null;
   }
+
+  if (!overpassData) return null;
+  const elements = overpassData.elements || [];
+
+  const nodes = {};
+  elements.forEach(el => { if (el.type === "node") nodes[el.id] = { lat: el.lat, lon: el.lon }; });
+
+  const buildings = [];
+  elements.forEach(el => {
+    if (el.type !== "way" || !el.nodes) return;
+    const coords = el.nodes.map(nid => nodes[nid]).filter(Boolean);
+    if (coords.length < 3) return;
+    const area = polygonAreaSqFt(coords);
+    if (area < 400 || area > 20000) return;
+
+    let cx = 0, cy = 0;
+    coords.forEach(c => { cx += c.lat; cy += c.lon; });
+    cx /= coords.length;
+    cy /= coords.length;
+
+    const dlat = (cx - lat) * 111320;
+    const dlng = (cy - lng) * 111320 * Math.cos(lat * Math.PI / 180);
+    const dist = Math.sqrt(dlat * dlat + dlng * dlng);
+
+    buildings.push({ footprintSqFt: area, distance: Math.round(dist), source: "osm_footprint" });
+  });
+
+  if (buildings.length === 0) return null;
+
+  buildings.sort((a, b) => a.distance - b.distance);
+  return buildings[0];
 }
 
 function polygonAreaSqFt(coords) {
