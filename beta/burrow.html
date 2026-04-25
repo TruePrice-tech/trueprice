@@ -20,6 +20,14 @@
     .bw-loading { text-align: center; padding: 60px 20px; color: #64748b; font-size: 14px; }
     .bw-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; border-radius: 12px; padding: 16px 18px; font-size: 14px; }
 
+    .bw-hero { background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%); border: 1px solid #fde68a; border-radius: 16px; padding: 24px; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+    .bw-hero-iris { width: 96px; height: 96px; flex-shrink: 0; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.06); padding: 6px; box-sizing: border-box; }
+    .bw-hero-iris img { width: 100%; height: 100%; object-fit: contain; }
+    .bw-hero-text { flex: 1; min-width: 0; }
+    .bw-hero-title { font-size: 18px; font-weight: 700; color: #78350f; margin: 0 0 4px; }
+    .bw-hero-sub { font-size: 13px; color: #92400e; line-height: 1.5; margin: 0; }
+    @media (max-width: 520px) { .bw-hero { flex-direction: column; text-align: center; } .bw-hero-iris { width: 72px; height: 72px; } }
+
     .bw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
     @media (max-width: 600px) { .bw-grid { grid-template-columns: 1fr; } }
 
@@ -27,32 +35,53 @@
     .bw-stat-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
     .bw-stat-value { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1.1; }
     .bw-stat-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
+    .bw-stat-progress { margin-top: 10px; height: 6px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
+    .bw-stat-progress div { height: 100%; background: linear-gradient(90deg, #f59e0b, #ec4899); border-radius: 999px; transition: width .3s; }
 
-    .bw-section-h { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #475569; margin: 24px 0 12px; }
+    .bw-section-h { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #475569; margin: 24px 0 12px; display: flex; justify-content: space-between; align-items: baseline; }
+    .bw-section-h a { font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; color: #1e3a5f; text-decoration: none; }
+    .bw-section-h a:hover { text-decoration: underline; }
 
     .bw-collection { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
     .bw-cell { aspect-ratio: 1; border: 1px dashed #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 10px; text-align: center; font-size: 11px; color: #94a3b8; background: #f8fafc; }
     .bw-cell.has-w { border-style: solid; border-color: #1e3a5f; background: #fff; color: #0f172a; }
+    .bw-cell .icon { font-size: 22px; margin-bottom: 4px; }
 
     .bw-ledger { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
     .bw-ledger table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .bw-ledger th, .bw-ledger td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #f1f5f9; }
+    .bw-ledger tr:last-child td { border-bottom: none; }
     .bw-ledger th { background: #f8fafc; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #64748b; }
     .bw-ledger td.amt { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
     .bw-ledger td.amt.issue { color: #166534; }
     .bw-ledger td.amt.spend { color: #991b1b; }
+    .bw-ledger td .src-label { font-size: 13px; color: #0f172a; }
+    .bw-ledger td .src-meta { display: block; font-size: 11px; color: #64748b; margin-top: 2px; }
     .bw-empty { padding: 28px; text-align: center; color: #94a3b8; font-size: 13px; }
 
     .bw-waitlist { background: #fffbeb; border: 1px solid #fde68a; color: #78350f; border-radius: 12px; padding: 18px 20px; font-size: 14px; margin-bottom: 20px; }
     .bw-waitlist strong { color: #78350f; }
 
-    .bw-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    @media (max-width: 520px) { .bw-actions { grid-template-columns: 1fr; } }
+    .bw-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 720px) { .bw-actions { grid-template-columns: 1fr; } }
     .bw-action { display: block; padding: 16px 18px; background: #1e3a5f; color: #fff; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center; line-height: 1.3; }
     .bw-action:hover { background: #15314f; }
     .bw-action.alt { background: #fff; color: #1e3a5f; border: 1px solid #1e3a5f; }
     .bw-action.alt:hover { background: #f8fafc; }
+    .bw-action.gold { background: #f59e0b; color: #fff; }
+    .bw-action.gold:hover { background: #d97706; }
     .bw-action small { display: block; font-weight: 500; opacity: .85; font-size: 11px; margin-top: 2px; }
+
+    .bw-orders { display: grid; gap: 10px; }
+    .bw-order { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .bw-order-main { flex: 1; min-width: 0; }
+    .bw-order-name { font-weight: 700; color: #0f172a; font-size: 14px; }
+    .bw-order-meta { color: #64748b; font-size: 12px; margin-top: 2px; }
+    .bw-order-status { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+    .bw-order-status.placed { background: #fef3c7; color: #92400e; }
+    .bw-order-status.fulfilled { background: #dbeafe; color: #1e40af; }
+    .bw-order-status.shipped { background: #d1fae5; color: #065f46; }
+    .bw-order-status.delivered { background: #e2e8f0; color: #475569; }
   </style>
 </head>
 <body>
@@ -74,30 +103,14 @@
       var loading = document.getElementById("bwLoading");
       var content = document.getElementById("bwContent");
 
-      // 20 verticals matching the character bible. Order here drives the
-      // burrow grid order. Vertical Woogoros are collected one per
-      // verified submission of that vertical.
       var VERTICALS = [
-        ["roofing", "Roofing"],
-        ["hvac", "HVAC"],
-        ["plumbing", "Plumbing"],
-        ["electrical", "Electrical"],
-        ["windows", "Windows"],
-        ["siding", "Siding"],
-        ["gutters", "Gutters"],
-        ["insulation", "Insulation"],
-        ["painting", "Painting"],
-        ["concrete", "Concrete"],
-        ["foundation", "Foundation"],
-        ["fencing", "Fencing"],
-        ["garage_door", "Garage Door"],
-        ["landscaping", "Landscaping"],
-        ["kitchen", "Kitchen"],
-        ["solar", "Solar"],
-        ["moving", "Moving"],
-        ["auto_repair", "Auto Repair"],
-        ["medical", "Medical"],
-        ["legal", "Legal"]
+        ["roofing", "Roofing"],["hvac", "HVAC"],["plumbing", "Plumbing"],
+        ["electrical", "Electrical"],["windows", "Windows"],["siding", "Siding"],
+        ["gutters", "Gutters"],["insulation", "Insulation"],["painting", "Painting"],
+        ["concrete", "Concrete"],["foundation", "Foundation"],["fencing", "Fencing"],
+        ["garage_door", "Garage Door"],["landscaping", "Landscaping"],["kitchen", "Kitchen"],
+        ["solar", "Solar"],["moving", "Moving"],["auto_repair", "Auto Repair"],
+        ["medical", "Medical"],["legal", "Legal"]
       ];
 
       function esc(s) {
@@ -110,8 +123,62 @@
         if (!ms) return "";
         try {
           var d = new Date(ms);
-          return d.toLocaleString();
+          var diff = Date.now() - ms;
+          if (diff < 60000) return "just now";
+          if (diff < 3600000) return Math.floor(diff / 60000) + "m ago";
+          if (diff < 86400000) return Math.floor(diff / 3600000) + "h ago";
+          if (diff < 7 * 86400000) return Math.floor(diff / 86400000) + "d ago";
+          return d.toLocaleDateString();
         } catch (e) { return ""; }
+      }
+
+      // Iris mood + greeting key off streak length. Mirrors the streak-state
+      // copy doc; tweak here if we adjust the milestones.
+      function irisFor(streakDays) {
+        if (!streakDays || streakDays <= 0) return {
+          img: "Iris%20sad",
+          title: "Your burrow's a bit quiet.",
+          sub: "Submit a verified quote or receipt to start a streak. Iris is waiting.",
+        };
+        if (streakDays < 3) return {
+          img: "Iris%20peeking",
+          title: "Day " + streakDays + ". Off to a start!",
+          sub: "Keep going. Hit 3 days in a row and Iris will cheer up.",
+        };
+        if (streakDays < 7) return {
+          img: "Iris%20happy",
+          title: "Day " + streakDays + ". Iris is happy.",
+          sub: (7 - streakDays) + " more day" + (7 - streakDays === 1 ? "" : "s") + " to your first weekly milestone.",
+        };
+        if (streakDays < 14) return {
+          img: "Iris%20happy",
+          title: "Day " + streakDays + ". Streak unlocked.",
+          sub: "Two-week milestone in " + (14 - streakDays) + " day" + (14 - streakDays === 1 ? "" : "s") + ". Future streak bonuses will land in Woo Cash.",
+        };
+        if (streakDays < 30) return {
+          img: "Iris%20catching",
+          title: "Day " + streakDays + ". Iris is catching them all.",
+          sub: (30 - streakDays) + " more day" + (30 - streakDays === 1 ? "" : "s") + " to a 30-day milestone.",
+        };
+        return {
+          img: "Iris%20laurel%20seal%20180",
+          title: "Day " + streakDays + ". Hall of Fame.",
+          sub: "You're in rare territory. Iris approves.",
+        };
+      }
+
+      // Convert a ledger source like "receipt:r_abc123" into a friendly label.
+      function srcLabel(source, meta) {
+        var parts = String(source || "").split(":");
+        var kind = parts[0];
+        var id = parts[1] || "";
+        var v = (meta && meta.vertical) ? String(meta.vertical).replace(/_/g, " ") : "";
+        if (kind === "receipt") return { label: "Verified receipt" + (v ? " — " + v : ""), meta: id };
+        if (kind === "quote")   return { label: "Verified quote" + (v ? " — " + v : ""), meta: id };
+        if (kind === "redeem")  return { label: "Redemption" + (meta && meta.itemLabel ? " — " + meta.itemLabel : ""), meta: id };
+        if (kind === "bonus")   return { label: "Bonus" + (parts[1] ? " — " + parts[1].replace(/_/g, " ") : ""), meta: "" };
+        if (kind === "admin")   return { label: "Admin adjustment" + (parts[1] ? " — " + parts[1] : ""), meta: "" };
+        return { label: source, meta: "" };
       }
 
       function renderWaitlist(state) {
@@ -133,52 +200,92 @@
       function renderBurrow(state) {
         var collected = {};
         (state.burrow.collectedWoogoros || []).forEach(function (v) { collected[v] = true; });
+        var collectedCount = Object.keys(collected).length;
 
         var grid = VERTICALS.map(function (row) {
           var slug = row[0], label = row[1];
           var has = !!collected[slug];
           return '<div class="bw-cell ' + (has ? 'has-w' : '') + '">' +
             (has
-              ? '<div style="font-weight:800;font-size:18px;">&#x1F44B;</div><div style="margin-top:4px;font-weight:700;">' + esc(label) + '</div>'
+              ? '<div class="icon">&#x2728;</div><div style="font-weight:700;">' + esc(label) + '</div>'
               : '<div style="opacity:.4;font-weight:600;">' + esc(label) + '</div><div style="margin-top:4px;">Uncollected</div>') +
           '</div>';
         }).join("");
 
         var ledgerRows = (state.ledger || []).map(function (e) {
           var amt = (e.type === "issue" ? "+" : "-") + e.amount.toLocaleString();
+          var s = srcLabel(e.source, e.meta);
           return '<tr>' +
             '<td>' + esc(fmtTs(e.ts)) + '</td>' +
-            '<td>' + esc(e.source) + '</td>' +
+            '<td><span class="src-label">' + esc(s.label) + '</span>' + (s.meta ? '<span class="src-meta">' + esc(s.meta) + '</span>' : '') + '</td>' +
             '<td class="amt ' + esc(e.type) + '">' + amt + '</td>' +
           '</tr>';
         }).join("");
         if (!ledgerRows) ledgerRows = '<tr><td colspan="3" class="bw-empty">No activity yet. Submit a verified receipt or quote to start earning.</td></tr>';
 
         var caps = state.caps || { quote: { used: 0, cap: 5 }, receipt: { used: 0, cap: 15 } };
+        var iris = irisFor(state.burrow.streakDays || 0);
+
+        // Streak progress bar to next milestone
+        var sd = state.burrow.streakDays || 0;
+        var nextMilestone = sd < 3 ? 3 : sd < 7 ? 7 : sd < 14 ? 14 : sd < 30 ? 30 : 100;
+        var pct = Math.min(100, Math.round((sd / nextMilestone) * 100));
+
+        // Orders
+        var orders = (state.orders || []);
+        var ordersHtml = "";
+        if (orders.length) {
+          ordersHtml = '<div class="bw-section-h">Recent orders</div><div class="bw-orders">' +
+            orders.map(function (o) {
+              return '<div class="bw-order">' +
+                '<div class="bw-order-main">' +
+                  '<div class="bw-order-name">' + esc(o.itemLabel || o.itemSlug) + '</div>' +
+                  '<div class="bw-order-meta">' + (o.wooCost || 0).toLocaleString() + ' Woo &bull; placed ' + esc(fmtTs(o.placedAt)) + (o.trackingNumber ? ' &bull; tracking ' + esc(o.trackingNumber) : '') + '</div>' +
+                '</div>' +
+                '<span class="bw-order-status ' + esc(o.status) + '">' + esc(o.status) + '</span>' +
+              '</div>';
+            }).join("") +
+          '</div>';
+        }
 
         return '' +
           '<div class="bw-row">' +
             '<div class="bw-greet">Signed in as <strong>' + esc(state.user.email) + '</strong></div>' +
             '<a class="bw-logout" href="/api/beta-logout">Sign out</a>' +
           '</div>' +
+          '<div class="bw-hero">' +
+            '<div class="bw-hero-iris">' +
+              '<picture>' +
+                '<source srcset="/images/Iris/' + iris.img + '.webp" type="image/webp">' +
+                '<img src="/images/Iris/' + iris.img + '.png" alt="Iris">' +
+              '</picture>' +
+            '</div>' +
+            '<div class="bw-hero-text">' +
+              '<p class="bw-hero-title">' + esc(iris.title) + '</p>' +
+              '<p class="bw-hero-sub">' + esc(iris.sub) + '</p>' +
+            '</div>' +
+          '</div>' +
           '<div class="bw-actions">' +
             '<a class="bw-action" href="/beta/submit-receipt.html">Submit a receipt<small>+500 Woo &bull; ' + caps.receipt.used + '/' + caps.receipt.cap + ' this week</small></a>' +
             '<a class="bw-action alt" href="/beta/submit-quote.html">Submit a quote<small>+100 Woo &bull; ' + caps.quote.used + '/' + caps.quote.cap + ' this week</small></a>' +
+            '<a class="bw-action gold" href="/beta/redeem.html">Redeem Woo Cash<small>Merch &mdash; gift cards soon</small></a>' +
           '</div>' +
           '<div class="bw-grid">' +
             '<div class="bw-stat">' +
               '<div class="bw-stat-label">Woo Cash</div>' +
               '<div class="bw-stat-value">' + (state.balance || 0).toLocaleString() + '</div>' +
-              '<div class="bw-stat-sub">Spend on merch (soon: gift cards)</div>' +
+              '<div class="bw-stat-sub">Spend on merch (gift cards coming)</div>' +
             '</div>' +
             '<div class="bw-stat">' +
               '<div class="bw-stat-label">Streak</div>' +
-              '<div class="bw-stat-value">' + (state.burrow.streakDays || 0) + ' <span style="font-size:14px;color:#64748b;font-weight:600;">days</span></div>' +
-              '<div class="bw-stat-sub">Iris keeps your streak going</div>' +
+              '<div class="bw-stat-value">' + sd + ' <span style="font-size:14px;color:#64748b;font-weight:600;">day' + (sd === 1 ? '' : 's') + '</span></div>' +
+              '<div class="bw-stat-sub">Next milestone at ' + nextMilestone + ' days</div>' +
+              '<div class="bw-stat-progress"><div style="width:' + pct + '%"></div></div>' +
             '</div>' +
           '</div>' +
-          '<div class="bw-section-h">Your Woogoros</div>' +
+          '<div class="bw-section-h">Your Woogoros <span style="font-weight:500;color:#64748b;">' + collectedCount + ' of ' + VERTICALS.length + ' collected</span></div>' +
           '<div class="bw-collection">' + grid + '</div>' +
+          ordersHtml +
           '<div class="bw-section-h">Recent activity</div>' +
           '<div class="bw-ledger"><table><thead><tr><th>When</th><th>Source</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + ledgerRows + '</tbody></table></div>';
       }

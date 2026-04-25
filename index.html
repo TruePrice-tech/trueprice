@@ -435,6 +435,34 @@
       </div>
     </section>
 
+    <!-- WOOGOROS COMING SOON (closed beta interest capture) -->
+    <section class="hp-section" id="wgComingSoon" style="text-align:center;">
+      <div style="max-width:760px; margin:0 auto; padding:36px 28px; background:linear-gradient(135deg,#fefce8 0%,#fef3c7 100%); border:1px solid #fde68a; border-radius:var(--radius-lg);">
+        <div style="display:flex; gap:24px; align-items:center; flex-wrap:wrap; justify-content:center;">
+          <picture>
+            <source srcset="/images/Iris/Iris%20catching.webp" type="image/webp">
+            <img src="/images/Iris/Iris%20catching.png" alt="Iris with the Fair Scepter" style="width:120px; height:auto; flex-shrink:0;" />
+          </picture>
+          <div style="flex:1; min-width:260px; text-align:left;">
+            <div style="display:inline-block; background:#92400e; color:#fefce8; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-bottom:10px;">Coming soon &mdash; closed beta</div>
+            <h2 style="font-size:24px; margin:0 0 8px; color:#78350f;">Get paid for the receipts you already have.</h2>
+            <p style="font-size:14px; color:#92400e; margin:0 0 16px; line-height:1.55;">
+              Submit a verified contractor quote or paid receipt &mdash; we grant you a collectible Woogoro and Woo Cash you can spend on merch, and soon real gift cards at Home Depot, Lowes, and Amazon. No ads, no lead resale.
+            </p>
+            <form id="wgInterestForm" novalidate style="display:flex; gap:8px; flex-wrap:wrap; align-items:flex-start;">
+              <input id="wgInterestEmail" name="email" type="email" autocomplete="email" required placeholder="you@example.com" style="flex:1; min-width:200px; padding:10px 12px; border:1px solid #fbbf24; border-radius:8px; font-size:14px; background:#fff;" />
+              <button id="wgInterestBtn" type="submit" style="padding:10px 20px; background:#92400e; color:#fff; border:none; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer;">Notify me</button>
+              <label style="display:flex; gap:6px; align-items:flex-start; font-size:12px; color:#78350f; flex-basis:100%;">
+                <input id="wgInterestAge" type="checkbox" required style="margin-top:2px;" />
+                <span>I'm 18 or older. Email me when the beta opens. <a href="/privacy.html" style="color:#92400e;">Privacy</a></span>
+              </label>
+            </form>
+            <div id="wgInterestMsg" role="status" aria-live="polite" style="margin-top:10px; font-size:13px; min-height:18px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CONTRACTOR RECOMMENDATIONS -->
     <section class="hp-section" style="text-align:center;">
       <div style="max-width:640px; margin:0 auto; padding:32px 24px; background:var(--bg-subtle); border:1px solid var(--border); border-radius:var(--radius-lg);">
@@ -443,6 +471,52 @@
         <a href="/recommendations.html" class="btn" style="font-size:15px; padding:12px 28px;">Browse &amp; share recommendations</a>
       </div>
     </section>
+
+    <script>
+      (function () {
+        var form = document.getElementById("wgInterestForm");
+        var msg = document.getElementById("wgInterestMsg");
+        var btn = document.getElementById("wgInterestBtn");
+        var emailEl = document.getElementById("wgInterestEmail");
+        var ageEl = document.getElementById("wgInterestAge");
+        if (!form) return;
+
+        form.addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          var email = (emailEl.value || "").trim();
+          var ageOk = !!ageEl.checked;
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            msg.style.color = "#b91c1c"; msg.textContent = "Please enter a valid email."; return;
+          }
+          if (!ageOk) {
+            msg.style.color = "#b91c1c"; msg.textContent = "Please confirm you are 18 or older."; return;
+          }
+          btn.disabled = true; btn.textContent = "Submitting...";
+          fetch("/api/beta-interest", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, ageOk: true, source: "homepage" }),
+          })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+          .then(function (resp) {
+            btn.disabled = false; btn.textContent = "Notify me";
+            if (!resp.ok || !resp.data || !resp.data.success) {
+              msg.style.color = "#b91c1c";
+              msg.textContent = (resp.data && resp.data.error) || "Could not save. Please try again.";
+              return;
+            }
+            msg.style.color = "#065f46";
+            msg.innerHTML = "&#x2713; You're on the list. We'll email you when the beta opens.";
+            form.querySelector("input[type=email]").value = "";
+            ageEl.checked = false;
+          })
+          .catch(function () {
+            btn.disabled = false; btn.textContent = "Notify me";
+            msg.style.color = "#b91c1c"; msg.textContent = "Network error. Please try again.";
+          });
+        });
+      })();
+    </script>
 
     <div style="text-align:center; padding:16px 0 0;">
       <span style="font-size:13px; color:#94a3b8;">Have a suggestion? Email hello@woogoro.com</span>

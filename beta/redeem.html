@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redeem Woo Cash | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="canonical" href="https://woogoro.com/beta/redeem.html" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .rd-wrap { max-width: 880px; margin: 32px auto 64px; padding: 0 20px; }
+    .rd-back { display: inline-block; color: #64748b; font-size: 13px; text-decoration: none; margin-bottom: 16px; }
+    .rd-back:hover { color: #1e3a5f; }
+    .rd-bal { background: linear-gradient(135deg,#fef3c7,#fde68a); border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+    .rd-bal-l { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #92400e; }
+    .rd-bal-v { font-size: 26px; font-weight: 800; color: #78350f; }
+    .rd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .rd-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; }
+    .rd-card.disabled { opacity: .55; }
+    .rd-card-img { aspect-ratio: 1; background: #f8fafc; border-radius: 10px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .rd-card-img img { max-width: 80%; max-height: 80%; }
+    .rd-card-name { font-weight: 700; color: #0f172a; font-size: 15px; margin-bottom: 4px; }
+    .rd-card-desc { font-size: 12px; color: #64748b; line-height: 1.5; margin-bottom: 12px; flex: 1; }
+    .rd-card-cost { font-weight: 800; color: #1e3a5f; font-size: 16px; margin-bottom: 4px; }
+    .rd-card-meta { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+    .rd-card-btn { padding: 10px 12px; background: #1e3a5f; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
+    .rd-card-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .rd-card-btn.cant { background: #f1f5f9; color: #64748b; }
+    .rd-modal-bg { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+    .rd-modal-bg.open { display: flex; }
+    .rd-modal { background: #fff; border-radius: 16px; padding: 24px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+    .rd-modal h2 { margin: 0 0 4px; font-size: 18px; color: #0f172a; }
+    .rd-modal .sub { color: #64748b; font-size: 13px; margin: 0 0 16px; }
+    .rd-row { margin-bottom: 12px; }
+    .rd-row label { display: block; font-size: 12px; color: #334155; font-weight: 600; margin-bottom: 4px; }
+    .rd-row input, .rd-row select { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+    .rd-row input:focus, .rd-row select:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.12); }
+    .rd-row.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .rd-modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .rd-modal-actions button { flex: 1; padding: 11px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
+    .rd-cancel { background: #f1f5f9; color: #475569; border: none; }
+    .rd-confirm { background: #1e3a5f; color: #fff; border: none; }
+    .rd-confirm:disabled { background: #94a3b8; }
+    .rd-msg { margin-top: 14px; padding: 10px 12px; border-radius: 8px; font-size: 13px; line-height: 1.5; display: none; }
+    .rd-msg.err { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; display: block; }
+    .rd-msg.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; display: block; }
+    .rd-coming { padding: 14px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; color: #475569; font-size: 13px; line-height: 1.55; }
+    .rd-coming strong { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+  <main>
+    <div class="rd-wrap">
+      <a class="rd-back" href="/beta/burrow.html">&larr; Back to your burrow</a>
+      <div id="rdBal" class="rd-bal" style="display:none;">
+        <div>
+          <div class="rd-bal-l">Your Woo Cash</div>
+          <div id="rdBalV" class="rd-bal-v">0</div>
+        </div>
+        <div style="text-align:right; font-size:12px; color:#92400e;">
+          Spend on merch.<br>Real gift cards arrive after LLC + Tremendous KYC.
+        </div>
+      </div>
+      <div id="rdLoading" style="text-align:center;padding:40px;color:#64748b;">Loading catalog&hellip;</div>
+      <div id="rdGrid" class="rd-grid"></div>
+
+      <h2 style="font-size:16px;color:#0f172a;margin:30px 0 10px;">Coming next</h2>
+      <div class="rd-coming">
+        <strong>Real gift cards.</strong> Once we form Woogoro LLC and clear Tremendous KYC,
+        you'll be able to redeem Woo Cash for digital gift cards at Home Depot, Lowes, Amazon, and others. Every receipt you submit between now and then still earns Woo &mdash; we're stockpiling it for you.
+      </div>
+    </div>
+
+    <div id="rdModalBg" class="rd-modal-bg" role="dialog" aria-modal="true" aria-label="Confirm redemption">
+      <div class="rd-modal">
+        <h2 id="rdModalH">Confirm redemption</h2>
+        <p class="sub" id="rdModalSub">&nbsp;</p>
+        <form id="rdForm">
+          <div id="rdOptionsWrap"></div>
+          <div id="rdShipWrap">
+            <div class="rd-row">
+              <label for="rdName">Full name</label>
+              <input id="rdName" name="fullName" required maxlength="80" />
+            </div>
+            <div class="rd-row">
+              <label for="rdLine1">Address line 1</label>
+              <input id="rdLine1" name="line1" required maxlength="100" />
+            </div>
+            <div class="rd-row">
+              <label for="rdLine2">Address line 2 (optional)</label>
+              <input id="rdLine2" name="line2" maxlength="100" />
+            </div>
+            <div class="rd-row split">
+              <div>
+                <label for="rdCity">City</label>
+                <input id="rdCity" name="city" required maxlength="60" />
+              </div>
+              <div>
+                <label for="rdState">State</label>
+                <input id="rdState" name="stateCode" required pattern="[A-Za-z]{2}" maxlength="2" />
+              </div>
+            </div>
+            <div class="rd-row">
+              <label for="rdZip">ZIP</label>
+              <input id="rdZip" name="postalCode" required pattern="\d{5}(-\d{4})?" maxlength="10" />
+            </div>
+          </div>
+          <div class="rd-modal-actions">
+            <button type="button" class="rd-cancel" id="rdCancel">Cancel</button>
+            <button type="submit" class="rd-confirm" id="rdConfirm">Confirm redemption</button>
+          </div>
+          <div id="rdMsg" class="rd-msg" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var balV = document.getElementById("rdBalV");
+      var balCard = document.getElementById("rdBal");
+      var loading = document.getElementById("rdLoading");
+      var grid = document.getElementById("rdGrid");
+      var modalBg = document.getElementById("rdModalBg");
+      var modalH = document.getElementById("rdModalH");
+      var modalSub = document.getElementById("rdModalSub");
+      var form = document.getElementById("rdForm");
+      var optionsWrap = document.getElementById("rdOptionsWrap");
+      var msg = document.getElementById("rdMsg");
+      var confirmBtn = document.getElementById("rdConfirm");
+      var cancelBtn = document.getElementById("rdCancel");
+
+      var currentBalance = 0;
+      var currentItem = null;
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" })[c];
+        });
+      }
+
+      function loadCatalog() {
+        fetch("/api/beta-redeem", { credentials: "same-origin" })
+          .then(function (r) {
+            if (r.status === 401) { location.href = "/beta/login.html"; return null; }
+            return r.json();
+          })
+          .then(function (data) {
+            if (!data) return;
+            currentBalance = data.balance || 0;
+            balV.textContent = currentBalance.toLocaleString();
+            balCard.style.display = "flex";
+            renderGrid(data.catalog || []);
+            loading.style.display = "none";
+          })
+          .catch(function () {
+            loading.textContent = "Could not load catalog. Refresh to retry.";
+          });
+      }
+
+      function renderGrid(items) {
+        grid.innerHTML = items.map(function (i) {
+          var canAfford = currentBalance >= i.wooCost;
+          var btnLabel = !i.available
+            ? (i.availableNote || "Unavailable")
+            : (canAfford ? "Redeem" : "Need " + (i.wooCost - currentBalance).toLocaleString() + " more Woo");
+          return '<div class="rd-card ' + (i.available ? '' : 'disabled') + '">' +
+            '<div class="rd-card-img">' +
+              (i.image ? '<img src="' + i.image + '" alt="">' : '<span style="color:#94a3b8;">No image</span>') +
+            '</div>' +
+            '<div class="rd-card-name">' + esc(i.label) + '</div>' +
+            '<div class="rd-card-desc">' + esc(i.description) + '</div>' +
+            '<div class="rd-card-cost">' + i.wooCost.toLocaleString() + ' Woo</div>' +
+            '<div class="rd-card-meta">Ships in ~' + i.estimatedShipDays + ' days</div>' +
+            '<button class="rd-card-btn ' + (i.available && canAfford ? '' : 'cant') + '" ' +
+              (i.available && canAfford ? 'data-slug="' + esc(i.slug) + '"' : 'disabled') +
+              '>' + esc(btnLabel) + '</button>' +
+          '</div>';
+        }).join("");
+
+        grid.querySelectorAll("button[data-slug]").forEach(function (btn) {
+          btn.addEventListener("click", function () { openModal(items.find(function (x) { return x.slug === btn.getAttribute("data-slug"); })); });
+        });
+      }
+
+      function openModal(item) {
+        if (!item) return;
+        currentItem = item;
+        modalH.textContent = "Redeem " + item.label;
+        modalSub.textContent = item.wooCost.toLocaleString() + " Woo • ships in ~" + item.estimatedShipDays + " days";
+        optionsWrap.innerHTML = "";
+        if (item.options) {
+          for (var k in item.options) {
+            if (!Object.prototype.hasOwnProperty.call(item.options, k)) continue;
+            var opts = item.options[k].map(function (v) { return '<option value="' + esc(v) + '">' + esc(v) + '</option>'; }).join("");
+            optionsWrap.innerHTML += '<div class="rd-row"><label>' + esc(k.charAt(0).toUpperCase() + k.slice(1)) + '</label><select name="opt_' + esc(k) + '" required><option value="">Pick one...</option>' + opts + '</select></div>';
+          }
+        }
+        msg.style.display = "none";
+        modalBg.classList.add("open");
+      }
+
+      function closeModal() { modalBg.classList.remove("open"); }
+      cancelBtn.addEventListener("click", closeModal);
+      modalBg.addEventListener("click", function (e) { if (e.target === modalBg) closeModal(); });
+
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        msg.style.display = "none";
+        if (!currentItem) return;
+
+        var options = {};
+        if (currentItem.options) {
+          for (var k in currentItem.options) {
+            if (!Object.prototype.hasOwnProperty.call(currentItem.options, k)) continue;
+            var sel = form.querySelector('[name="opt_' + k + '"]');
+            if (!sel || !sel.value) {
+              msg.className = "rd-msg err"; msg.textContent = "Please pick a " + k + ".";
+              return;
+            }
+            options[k] = sel.value;
+          }
+        }
+
+        var shipping = {
+          fullName: document.getElementById("rdName").value,
+          line1: document.getElementById("rdLine1").value,
+          line2: document.getElementById("rdLine2").value || null,
+          city: document.getElementById("rdCity").value,
+          stateCode: document.getElementById("rdState").value.toUpperCase(),
+          postalCode: document.getElementById("rdZip").value,
+        };
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Submitting...";
+
+        fetch("/api/beta-redeem", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ itemSlug: currentItem.slug, options: options, shipping: shipping }),
+        })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; }); })
+        .then(function (resp) {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = "Confirm redemption";
+          if (resp.status === 401) { location.href = "/beta/login.html"; return; }
+          if (!resp.ok || !resp.data || !resp.data.success) {
+            msg.className = "rd-msg err";
+            msg.textContent = (resp.data && resp.data.error) || "Redemption failed.";
+            return;
+          }
+          msg.className = "rd-msg ok";
+          msg.innerHTML = '<strong>Order placed!</strong> ID: ' + esc(resp.data.orderId) +
+            '. Charged ' + resp.data.wooCharged.toLocaleString() + ' Woo. New balance: ' +
+            resp.data.newBalance.toLocaleString() + '.<div style="margin-top:8px;"><a href="/beta/burrow.html" style="color:#065f46;font-weight:700;">Back to your burrow &rarr;</a></div>';
+          // Refresh catalog after a short pause so the user sees the success state
+          setTimeout(function () { loadCatalog(); }, 1500);
+        })
+        .catch(function () {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = "Confirm redemption";
+          msg.className = "rd-msg err"; msg.textContent = "Network error. Please try again.";
+        });
+      });
+
+      loadCatalog();
+    })();
+  </script>
+</body>
+</html>

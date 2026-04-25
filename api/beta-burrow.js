@@ -57,6 +57,32 @@ export default async function handler(req, res) {
     console.error("[beta-burrow] ledger/caps read failed:", e && e.message);
   }
 
+  // Recent orders: most-recent 5 from user's order list.
+  let orders = [];
+  try {
+    const orderIds = await redis.lrange(`wg:user_orders:${user.userId}`, 0, 4);
+    for (const id of (orderIds || [])) {
+      const raw = await redis.get(`wg:order:${id}`);
+      if (!raw) continue;
+      const o = typeof raw === "string" ? JSON.parse(raw) : raw;
+      // Don't leak shipping address back to UI; the user knows what they typed.
+      orders.push({
+        id: o.id,
+        itemSlug: o.itemSlug,
+        itemLabel: o.itemLabel,
+        wooCost: o.wooCost,
+        status: o.status,
+        placedAt: o.placedAt,
+        fulfilledAt: o.fulfilledAt,
+        shippedAt: o.shippedAt,
+        deliveredAt: o.deliveredAt,
+        trackingNumber: o.trackingNumber,
+      });
+    }
+  } catch (e) {
+    console.error("[beta-burrow] orders read failed:", e && e.message);
+  }
+
   return res.status(200).json({
     authenticated: true,
     beta: !!user.isBeta,
@@ -73,5 +99,6 @@ export default async function handler(req, res) {
     balance,
     ledger,
     caps,
+    orders,
   });
 }

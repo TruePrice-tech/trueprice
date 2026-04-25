@@ -68,6 +68,12 @@
     },
     "api/beta-receipt-submit.js": {
       "maxDuration": 30
+    },
+    "api/beta-redeem.js": {
+      "maxDuration": 10
+    },
+    "api/beta-interest.js": {
+      "maxDuration": 5
     }
   },
   "headers": [

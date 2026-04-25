@@ -204,6 +204,47 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, submission: sub });
     }
 
+    if (op === "order_queue") {
+      const limit = Math.min(parseInt(body.limit, 10) || 50, 200);
+      const ids = await redis.lrange("wg:order_queue", 0, limit - 1);
+      const items = [];
+      for (const id of (ids || [])) {
+        const raw = await redis.get(`wg:order:${id}`);
+        if (!raw) continue;
+        items.push(typeof raw === "string" ? JSON.parse(raw) : raw);
+      }
+      return res.status(200).json({ items });
+    }
+
+    if (op === "update_order") {
+      // Mark order fulfilled / shipped / delivered. Optional trackingNumber.
+      const id = String(body.orderId || "").trim();
+      const status = String(body.status || "").trim();
+      if (!/^o_[A-Za-z0-9_-]{6,}$/.test(id)) {
+        return res.status(400).json({ error: "Bad orderId" });
+      }
+      if (!["fulfilled","shipped","delivered","cancelled"].includes(status)) {
+        return res.status(400).json({ error: "status must be fulfilled|shipped|delivered|cancelled" });
+      }
+      const raw = await redis.get(`wg:order:${id}`);
+      if (!raw) return res.status(404).json({ error: "Order not found" });
+      const order = typeof raw === "string" ? JSON.parse(raw) : raw;
+      const tracking = body.trackingNumber ? String(body.trackingNumber).trim().slice(0, 80) : null;
+
+      order.status = status;
+      const now = Date.now();
+      if (status === "fulfilled") order.fulfilledAt = now;
+      if (status === "shipped")   { order.shippedAt = now; if (tracking) order.trackingNumber = tracking; }
+      if (status === "delivered") order.deliveredAt = now;
+      if (status === "cancelled") order.cancelledAt = now;
+      await redis.set(`wg:order:${id}`, JSON.stringify(order));
+      // Once delivered or cancelled, drop from active queue.
+      if (status === "delivered" || status === "cancelled") {
+        try { await redis.lrem("wg:order_queue", 0, id); } catch (e) { /* swallow */ }
+      }
+      return res.status(200).json({ ok: true, order });
+    }
+
     return res.status(400).json({ error: "Unknown op" });
   } catch (e) {
     console.error("[beta-admin] op failed:", op, e && e.message);
