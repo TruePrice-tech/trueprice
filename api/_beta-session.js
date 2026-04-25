@@ -283,3 +283,69 @@ export const constants = {
   SESSION_TTL_SECONDS,
   SESSION_COOKIE_NAME,
 };
+
+// -- Burrow mutators (collect Woogoro, bump streak) -----------------------
+//
+// These read-modify-write the burrow JSON. Race-prone in the strict
+// sense: two near-simultaneous submissions could clobber each other.
+// At our scale (single user submitting one form at a time) this is
+// acceptable. If we ever fan out submissions we'd switch to atomic
+// Redis ops on individual fields.
+
+export async function getBurrow(userId) {
+  const raw = await redis.get(`wg:burrow:${userId}`);
+  if (!raw) return null;
+  return typeof raw === "string" ? JSON.parse(raw) : raw;
+}
+
+export async function collectWoogoro(userId, vertical) {
+  const burrow = (await getBurrow(userId)) || {
+    userId,
+    collectedWoogoros: [],
+    streakDays: 0,
+    lastStreakDate: null,
+    createdAt: nowMs(),
+  };
+  const list = burrow.collectedWoogoros || [];
+  const alreadyHas = list.includes(vertical);
+  if (!alreadyHas) list.push(vertical);
+  burrow.collectedWoogoros = list;
+  burrow.updatedAt = nowMs();
+  await redis.set(`wg:burrow:${userId}`, JSON.stringify(burrow));
+  return { burrow, newCollection: !alreadyHas };
+}
+
+// Streak: increments when the user submits anything verified on a new
+// UTC day. Drops to 1 if there was a gap of >1 day.
+export async function bumpStreak(userId) {
+  const burrow = (await getBurrow(userId)) || {
+    userId,
+    collectedWoogoros: [],
+    streakDays: 0,
+    lastStreakDate: null,
+    createdAt: nowMs(),
+  };
+  const today = todayUtc();
+  const last = burrow.lastStreakDate;
+
+  let newStreak = burrow.streakDays || 0;
+  if (last === today) {
+    // Already counted today; no-op.
+  } else {
+    if (!last) {
+      newStreak = 1;
+    } else {
+      // Compare dates as ms-since-epoch midnight.
+      const lastMs = Date.parse(last + "T00:00:00Z");
+      const todayMs = Date.parse(today + "T00:00:00Z");
+      const dayGap = Math.round((todayMs - lastMs) / (24 * 3600 * 1000));
+      if (dayGap === 1) newStreak = (newStreak || 0) + 1;
+      else newStreak = 1; // gap reset
+    }
+    burrow.streakDays = newStreak;
+    burrow.lastStreakDate = today;
+    burrow.updatedAt = nowMs();
+    await redis.set(`wg:burrow:${userId}`, JSON.stringify(burrow));
+  }
+  return { burrow, streakDays: burrow.streakDays };
+}

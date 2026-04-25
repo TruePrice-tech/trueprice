@@ -62,6 +62,12 @@
     },
     "api/beta-logout.js": {
       "maxDuration": 5
+    },
+    "api/beta-quote-submit.js": {
+      "maxDuration": 15
+    },
+    "api/beta-receipt-submit.js": {
+      "maxDuration": 30
     }
   },
   "headers": [

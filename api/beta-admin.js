@@ -35,6 +35,7 @@ import {
   issueBetaInvite,
 } from "./_beta-session.js";
 import { issueWoo, getBalance, listLedger, listGlobalRecent } from "./_woogoros-ledger.js";
+import { collectWoogoro, bumpStreak } from "./_beta-session.js";
 import { Redis } from "@upstash/redis";
 import crypto from "crypto";
 
@@ -136,6 +137,71 @@ export default async function handler(req, res) {
       const limit = Math.min(parseInt(body.limit, 10) || 100, 500);
       const rows = await listGlobalRecent(limit);
       return res.status(200).json({ rows });
+    }
+
+    if (op === "review_queue") {
+      const limit = Math.min(parseInt(body.limit, 10) || 50, 200);
+      const ids = await redis.lrange("wg:review_queue", 0, limit - 1);
+      const items = [];
+      for (const id of (ids || [])) {
+        const raw = await redis.get(`wg:submission:${id}`);
+        if (!raw) continue;
+        items.push(typeof raw === "string" ? JSON.parse(raw) : raw);
+      }
+      return res.status(200).json({ items });
+    }
+
+    if (op === "approve_submission") {
+      const id = String(body.submissionId || "").trim();
+      if (!/^[qr]_[A-Za-z0-9_-]{6,}$/.test(id)) {
+        return res.status(400).json({ error: "Bad submissionId" });
+      }
+      const raw = await redis.get(`wg:submission:${id}`);
+      if (!raw) return res.status(404).json({ error: "Submission not found" });
+      const sub = typeof raw === "string" ? JSON.parse(raw) : raw;
+      if (sub.status === "verified") {
+        return res.status(200).json({ ok: true, alreadyVerified: true, submission: sub });
+      }
+      const amount = sub.kind === "receipt" ? 500 : 100;
+      const entry = await issueWoo({
+        userId: sub.userId,
+        amount,
+        source: `${sub.kind}:${sub.id}`,
+        meta: { vertical: sub.classifiedVertical, declaredAmount: sub.declaredAmount, adminApproved: true },
+      });
+      const collect = await collectWoogoro(sub.userId, sub.classifiedVertical);
+      const streak = await bumpStreak(sub.userId);
+      sub.status = "verified";
+      sub.verifiedAt = Date.now();
+      sub.verifiedBy = "admin";
+      sub.ledgerEntryId = entry.id;
+      await redis.set(`wg:submission:${id}`, JSON.stringify(sub));
+      // Best-effort removal from review queue (LREM all matches).
+      try { await redis.lrem("wg:review_queue", 0, id); } catch (e) { /* swallow */ }
+      return res.status(200).json({
+        ok: true,
+        submission: sub,
+        wooGranted: amount,
+        newCollection: collect.newCollection,
+        streakDays: streak.streakDays,
+      });
+    }
+
+    if (op === "reject_submission") {
+      const id = String(body.submissionId || "").trim();
+      const reason = String(body.reason || "admin_rejected").slice(0, 80);
+      if (!/^[qr]_[A-Za-z0-9_-]{6,}$/.test(id)) {
+        return res.status(400).json({ error: "Bad submissionId" });
+      }
+      const raw = await redis.get(`wg:submission:${id}`);
+      if (!raw) return res.status(404).json({ error: "Submission not found" });
+      const sub = typeof raw === "string" ? JSON.parse(raw) : raw;
+      sub.status = "rejected";
+      sub.rejectedAt = Date.now();
+      sub.rejectionReason = reason;
+      await redis.set(`wg:submission:${id}`, JSON.stringify(sub));
+      try { await redis.lrem("wg:review_queue", 0, id); } catch (e) { /* swallow */ }
+      return res.status(200).json({ ok: true, submission: sub });
     }
 
     return res.status(400).json({ error: "Unknown op" });

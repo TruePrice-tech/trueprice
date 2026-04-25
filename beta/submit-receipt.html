@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit a receipt | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="canonical" href="https://woogoro.com/beta/submit-receipt.html" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .sub-wrap { max-width: 640px; margin: 32px auto 64px; padding: 0 20px; }
+    .sub-back { display: inline-block; color: #64748b; font-size: 13px; text-decoration: none; margin-bottom: 16px; }
+    .sub-back:hover { color: #1e3a5f; }
+    .sub-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+    .sub-h1 { margin: 0 0 6px; font-size: 22px; color: #0f172a; }
+    .sub-sub { margin: 0 0 20px; color: #475569; font-size: 14px; line-height: 1.55; }
+    .sub-pill { display: inline-block; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; margin-bottom: 12px; }
+    .sub-row { margin-bottom: 16px; }
+    .sub-row label { display: block; font-size: 13px; color: #334155; font-weight: 600; margin-bottom: 6px; }
+    .sub-row input, .sub-row select, .sub-row textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; font-family: inherit; }
+    .sub-row textarea { min-height: 120px; resize: vertical; }
+    .sub-row input:focus, .sub-row select:focus, .sub-row textarea:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.12); }
+    .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 520px) { .sub-grid { grid-template-columns: 1fr; } }
+    .sub-drop { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 28px 16px; text-align: center; background: #f8fafc; cursor: pointer; }
+    .sub-drop.drag { background: #e0f2fe; border-color: #0284c7; }
+    .sub-drop p { margin: 8px 0 0; color: #475569; font-size: 13px; }
+    .sub-thumb { display: none; margin-top: 12px; max-width: 100%; max-height: 280px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .sub-ocr-status { margin-top: 8px; font-size: 12px; color: #64748b; }
+    .sub-ocr-status.ok { color: #065f46; }
+    .sub-ocr-status.err { color: #b91c1c; }
+    .sub-btn { width: 100%; padding: 12px; background: #1e3a5f; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .sub-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    .sub-msg { margin-top: 14px; padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.5; display: none; }
+    .sub-msg.err { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; display: block; }
+    .sub-msg.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; display: block; }
+    .sub-msg.warn { background: #fffbeb; color: #78350f; border: 1px solid #fde68a; display: block; }
+    .sub-hint { font-size: 12px; color: #64748b; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+  <main>
+    <div class="sub-wrap">
+      <a class="sub-back" href="/beta/burrow.html">&larr; Back to your burrow</a>
+      <div class="sub-card">
+        <div class="sub-pill">Earn 500 Woo</div>
+        <h1 class="sub-h1">Submit a receipt</h1>
+        <p class="sub-sub">Upload a photo of a paid receipt. We verify the merchant, total, and tax math, then grant your Woogoro and 500 Woo Cash. Receipts that look good but can't be auto-verified go to manual review.</p>
+
+        <form id="rForm" novalidate>
+          <div class="sub-row">
+            <label>Receipt photo</label>
+            <div id="rDrop" class="sub-drop">
+              <input id="rFile" type="file" accept="image/*" capture="environment" style="display:none;" />
+              <div><strong>Tap to choose a photo</strong> or drag one here</div>
+              <p>JPEG, PNG, or HEIC up to 10MB</p>
+              <img id="rThumb" class="sub-thumb" alt="" />
+              <div id="rOcrStatus" class="sub-ocr-status"></div>
+            </div>
+          </div>
+          <div class="sub-row">
+            <label for="rVertical">Vertical</label>
+            <select id="rVertical" name="declaredVertical" required>
+              <option value="">Pick one...</option>
+            </select>
+          </div>
+          <div class="sub-grid">
+            <div class="sub-row">
+              <label for="rAmount">Receipt total ($)</label>
+              <input id="rAmount" name="declaredAmount" type="number" min="5" max="1000000" step="0.01" required />
+            </div>
+            <div class="sub-row">
+              <label for="rState">State (2-letter)</label>
+              <input id="rState" name="stateCode" type="text" pattern="[A-Za-z]{2}" maxlength="2" placeholder="CA" />
+            </div>
+          </div>
+          <div class="sub-row">
+            <label for="rMerchant">Merchant (optional)</label>
+            <input id="rMerchant" name="merchant" type="text" maxlength="80" placeholder="e.g. Home Depot" />
+          </div>
+          <div class="sub-row">
+            <label for="rText">Receipt text (auto-filled from photo, you can edit)</label>
+            <textarea id="rText" name="text" minlength="60" maxlength="50000"></textarea>
+            <div class="sub-hint">If OCR misses things, fix the total/date/merchant lines and resubmit.</div>
+          </div>
+          <button id="rSubmit" class="sub-btn" type="submit" disabled>Choose a photo first</button>
+          <div id="rMsg" class="sub-msg" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js" defer></script>
+  <script>
+    (function () {
+      var VERTICALS = [
+        ["roofing","Roofing"],["hvac","HVAC"],["plumbing","Plumbing"],
+        ["electrical","Electrical"],["windows","Windows"],["siding","Siding"],
+        ["gutters","Gutters"],["insulation","Insulation"],["painting","Painting"],
+        ["concrete","Concrete"],["foundation","Foundation"],["fencing","Fencing"],
+        ["garage_door","Garage Door"],["landscaping","Landscaping"],["kitchen","Kitchen Remodel"],
+        ["solar","Solar"],["moving","Moving"],["auto_repair","Auto Repair"],
+        ["medical","Medical"],["legal","Legal"]
+      ];
+      var sel = document.getElementById("rVertical");
+      VERTICALS.forEach(function (v) {
+        var o = document.createElement("option");
+        o.value = v[0]; o.textContent = v[1];
+        sel.appendChild(o);
+      });
+
+      var drop = document.getElementById("rDrop");
+      var fileInput = document.getElementById("rFile");
+      var thumb = document.getElementById("rThumb");
+      var ocrStatus = document.getElementById("rOcrStatus");
+      var textArea = document.getElementById("rText");
+      var btn = document.getElementById("rSubmit");
+      var msg = document.getElementById("rMsg");
+      var form = document.getElementById("rForm");
+
+      var imageBase64 = null;
+      var imageHashHex = null;
+
+      drop.addEventListener("click", function () { fileInput.click(); });
+      drop.addEventListener("dragover", function (e) { e.preventDefault(); drop.classList.add("drag"); });
+      drop.addEventListener("dragleave", function () { drop.classList.remove("drag"); });
+      drop.addEventListener("drop", function (e) {
+        e.preventDefault(); drop.classList.remove("drag");
+        var f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (f) handleFile(f);
+      });
+      fileInput.addEventListener("change", function () {
+        if (fileInput.files && fileInput.files[0]) handleFile(fileInput.files[0]);
+      });
+
+      function bytesToHex(buf) {
+        var arr = new Uint8Array(buf);
+        var hex = "";
+        for (var i = 0; i < arr.length; i++) {
+          hex += (arr[i] < 16 ? "0" : "") + arr[i].toString(16);
+        }
+        return hex;
+      }
+
+      function handleFile(file) {
+        if (!/^image\//.test(file.type) && !/\.(jpe?g|png|heic|heif|webp)$/i.test(file.name)) {
+          ocrStatus.className = "sub-ocr-status err"; ocrStatus.textContent = "Please pick an image file.";
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          ocrStatus.className = "sub-ocr-status err"; ocrStatus.textContent = "Image too large (max 10MB).";
+          return;
+        }
+
+        ocrStatus.className = "sub-ocr-status"; ocrStatus.textContent = "Reading photo...";
+        btn.disabled = true; btn.textContent = "Reading photo...";
+
+        var reader = new FileReader();
+        reader.onload = function () {
+          var arrayBuf = reader.result;
+          // Hash for dedup
+          if (window.crypto && window.crypto.subtle) {
+            window.crypto.subtle.digest("SHA-256", arrayBuf).then(function (h) {
+              imageHashHex = bytesToHex(h);
+              var b64 = bufToBase64(arrayBuf);
+              imageBase64 = b64;
+              showThumb(file);
+              runOcr(b64, file.type || "image/jpeg");
+            }).catch(function () {
+              ocrStatus.className = "sub-ocr-status err"; ocrStatus.textContent = "Could not hash image.";
+              btn.disabled = false; btn.textContent = "Submit receipt";
+            });
+          } else {
+            imageBase64 = bufToBase64(arrayBuf);
+            showThumb(file);
+            runOcr(imageBase64, file.type || "image/jpeg");
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      function bufToBase64(buf) {
+        var arr = new Uint8Array(buf);
+        var s = "";
+        var chunk = 0x8000;
+        for (var i = 0; i < arr.length; i += chunk) {
+          s += String.fromCharCode.apply(null, arr.subarray(i, i + chunk));
+        }
+        return btoa(s);
+      }
+
+      function showThumb(file) {
+        var url = URL.createObjectURL(file);
+        thumb.src = url;
+        thumb.style.display = "block";
+      }
+
+      function runOcr(b64, mediaType) {
+        if (!window.Tesseract) {
+          ocrStatus.className = "sub-ocr-status err";
+          ocrStatus.textContent = "OCR engine not loaded. Type the receipt text manually below.";
+          btn.disabled = false; btn.textContent = "Submit receipt";
+          return;
+        }
+        var dataUrl = "data:" + mediaType + ";base64," + b64;
+        Tesseract.recognize(dataUrl, "eng", { logger: function (m) {
+          if (m.status === "recognizing text" && typeof m.progress === "number") {
+            ocrStatus.textContent = "Reading photo... " + Math.round(m.progress * 100) + "%";
+          }
+        }})
+        .then(function (result) {
+          var text = (result.data && result.data.text) || "";
+          textArea.value = text;
+          ocrStatus.className = "sub-ocr-status ok";
+          ocrStatus.textContent = "OCR complete (" + text.length + " chars). Edit if needed.";
+          btn.disabled = false; btn.textContent = "Submit receipt";
+        })
+        .catch(function () {
+          ocrStatus.className = "sub-ocr-status err";
+          ocrStatus.textContent = "OCR failed. Please type the receipt text manually below.";
+          btn.disabled = false; btn.textContent = "Submit receipt";
+        });
+      }
+
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        msg.style.display = "none";
+
+        if (!imageBase64 || !imageHashHex) {
+          msg.className="sub-msg err"; msg.textContent="Please choose a receipt photo first.";
+          return;
+        }
+        var declaredVertical = sel.value;
+        var declaredAmount = parseFloat(document.getElementById("rAmount").value);
+        var stateCode = (document.getElementById("rState").value || "").toUpperCase();
+        var merchant = document.getElementById("rMerchant").value || null;
+        var text = textArea.value || "";
+
+        if (!declaredVertical) { msg.className="sub-msg err"; msg.textContent="Pick a vertical."; return; }
+        if (!(declaredAmount > 0)) { msg.className="sub-msg err"; msg.textContent="Enter the receipt total."; return; }
+        if (text.length < 60) { msg.className="sub-msg err"; msg.textContent="OCR text is too short. Try a clearer photo or type the receipt manually."; return; }
+
+        btn.disabled = true; btn.textContent = "Submitting...";
+
+        fetch("/api/beta-receipt-submit", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: text,
+            imageBase64: imageBase64,
+            imageHash: imageHashHex,
+            declaredVertical: declaredVertical,
+            declaredAmount: declaredAmount,
+            stateCode: stateCode,
+            merchant: merchant,
+          }),
+        })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; }); })
+        .then(function (resp) {
+          btn.disabled = false; btn.textContent = "Submit receipt";
+          if (resp.status === 401) { location.href = "/beta/login.html?err=expired"; return; }
+          if (!resp.ok) { msg.className = "sub-msg err"; msg.textContent = (resp.data && resp.data.error) || "Submission failed."; return; }
+
+          if (resp.data.success && resp.data.pass) {
+            msg.className = "sub-msg ok";
+            msg.innerHTML = '<strong>+' + resp.data.wooEarned + ' Woo Cash earned!</strong>' +
+              (resp.data.newCollection ? ' New ' + resp.data.vertical.replace("_"," ") + ' Woogoro added to your burrow.' : '') +
+              ' Streak: ' + resp.data.streakDays + ' day' + (resp.data.streakDays !== 1 ? 's' : '') + '.' +
+              ' (' + resp.data.capUsed + '/' + resp.data.capLimit + ' receipts this week)' +
+              '<div style="margin-top:8px;"><a href="/beta/burrow.html" style="color:#065f46;font-weight:700;">View your burrow &rarr;</a></div>';
+            return;
+          }
+          if (resp.data.success && resp.data.requiresReview) {
+            msg.className = "sub-msg warn";
+            msg.innerHTML = (resp.data.message || "Submitted for review.") +
+              '<div style="margin-top:6px;font-size:11px;opacity:.8;">trust ' + resp.data.trustScore +
+              (resp.data.reasons && resp.data.reasons.length ? ' &bull; ' + resp.data.reasons.join(", ") : '') + '</div>';
+            return;
+          }
+          msg.className = "sub-msg warn";
+          msg.innerHTML = (resp.data.message || "Receipt could not be verified.") +
+            (resp.data.reasons && resp.data.reasons.length
+              ? '<div style="margin-top:6px;font-size:11px;opacity:.8;">' + resp.data.reasons.join(", ") + '</div>'
+              : '');
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = "Submit receipt";
+          msg.className = "sub-msg err"; msg.textContent = "Network error. Please try again.";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -45,6 +45,14 @@
 
     .bw-waitlist { background: #fffbeb; border: 1px solid #fde68a; color: #78350f; border-radius: 12px; padding: 18px 20px; font-size: 14px; margin-bottom: 20px; }
     .bw-waitlist strong { color: #78350f; }
+
+    .bw-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 520px) { .bw-actions { grid-template-columns: 1fr; } }
+    .bw-action { display: block; padding: 16px 18px; background: #1e3a5f; color: #fff; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center; line-height: 1.3; }
+    .bw-action:hover { background: #15314f; }
+    .bw-action.alt { background: #fff; color: #1e3a5f; border: 1px solid #1e3a5f; }
+    .bw-action.alt:hover { background: #f8fafc; }
+    .bw-action small { display: block; font-weight: 500; opacity: .85; font-size: 11px; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -146,10 +154,16 @@
         }).join("");
         if (!ledgerRows) ledgerRows = '<tr><td colspan="3" class="bw-empty">No activity yet. Submit a verified receipt or quote to start earning.</td></tr>';
 
+        var caps = state.caps || { quote: { used: 0, cap: 5 }, receipt: { used: 0, cap: 15 } };
+
         return '' +
           '<div class="bw-row">' +
             '<div class="bw-greet">Signed in as <strong>' + esc(state.user.email) + '</strong></div>' +
             '<a class="bw-logout" href="/api/beta-logout">Sign out</a>' +
+          '</div>' +
+          '<div class="bw-actions">' +
+            '<a class="bw-action" href="/beta/submit-receipt.html">Submit a receipt<small>+500 Woo &bull; ' + caps.receipt.used + '/' + caps.receipt.cap + ' this week</small></a>' +
+            '<a class="bw-action alt" href="/beta/submit-quote.html">Submit a quote<small>+100 Woo &bull; ' + caps.quote.used + '/' + caps.quote.cap + ' this week</small></a>' +
           '</div>' +
           '<div class="bw-grid">' +
             '<div class="bw-stat">' +
