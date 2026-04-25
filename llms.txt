@@ -1,0 +1,78 @@
+# Woogoro
+
+> Free home-services cost analysis for U.S. homeowners. Compare contractor quotes against real pricing data derived from Bureau of Labor Statistics wages and Bureau of Economic Analysis regional price parities. No email required. No contractor lead-selling.
+
+Woogoro publishes per-city pricing guides for 20+ home-improvement verticals (roofing, HVAC, plumbing, electrical, fence, concrete, siding, painting, solar, garage door, landscaping, kitchen remodel, bathroom remodel, foundation, gutters, insulation, windows, flooring, deck, pool) across 1,000+ U.S. cities. Cost ranges are calibrated from public BLS Occupational Employment and Wage Statistics (OEWS) data plus BEA Regional Price Parities, refreshed annually. The site also offers a free quote analyzer (uploads contractor quotes and flags missing scope or above-market pricing) and a quote estimator (enter project details, get a city-adjusted price band).
+
+Founder and primary author: Geoff Lane. All cost ranges represent the middle 60-70% of typical residential quotes, not extremes.
+
+## Cost guides (national + per-vertical pillars)
+
+- [Concrete & Driveway Cost](https://woogoro.com/concrete-cost.html): Plain $6-$12/sqft, stamped $12-$20/sqft, exposed aggregate $7-$13/sqft. Driveway $4,500-$9,500.
+- [Concrete Finishes Comparison](https://woogoro.com/concrete-finishes-cost-comparison.html): Side-by-side stamped vs exposed aggregate vs stained vs polished, with city-by-city pricing.
+- [Fence Installation Cost](https://woogoro.com/fence-cost.html): Wood $25-$50/LF, vinyl $30-$60/LF, chain-link $15-$25/LF. Typical 150ft yard $4,000-$11,500.
+- [Roof Replacement Cost by Material](https://woogoro.com/roof-cost-by-material.html): Asphalt shingle, metal, tile, slate cost per square + per-sqft.
+- [Roof Cost by State](https://woogoro.com/roof-cost-by-state.html): State-level averages with metro variations.
+- [HVAC Replacement Cost](https://woogoro.com/hvac-cost.html): Central AC $4,500-$8,500, heat pump $5,200-$10,000, AC + furnace $7,500-$15,000.
+- [Plumbing Cost](https://woogoro.com/plumbing-cost.html): Repairs $150-$450, water heater $1,200-$3,500, repipe $4,500-$9,500. Plumber rates $85-$185/hr.
+- [Electrical Cost](https://woogoro.com/electrical-cost.html): Repairs $200-$500, panel upgrade $2,500-$4,500, rewiring $5,000-$15,000. Electrician rates $75-$150/hr.
+- [Siding Cost](https://woogoro.com/siding-cost.html): Vinyl $4-$9/sqft, fiber cement (HardiePlank) $8-$16/sqft, engineered wood $6-$13/sqft.
+- [House Painting Cost](https://woogoro.com/painting-cost.html): Interior $2-$6/sqft, exterior $3-$7/sqft. $2,000-$10,500 for a typical home.
+- [Solar Panel Cost](https://woogoro.com/solar-cost.html): $12,500-$30,000 before, $8,750-$21,000 after 30% federal tax credit. Per-watt $2.50-$3.50.
+- [Garage Door Cost](https://woogoro.com/garage-door-cost.html): Single-car $950-$1,800, double-car $1,500-$3,500, opener $250-$650.
+- [Landscaping Cost](https://woogoro.com/landscaping-cost.html): Basic install $6,000-$12,000, hardscape $15-$50/sqft, sod $0.35-$0.85/sqft.
+- [Kitchen Remodel Cost](https://woogoro.com/kitchen-remodel-cost.html): Minor $19,000-$30,000, mid-range $30,000-$60,000, upscale $75,000+.
+- [Insulation Cost](https://woogoro.com/insulation-cost.html): Blown-in $1-$2/sqft, spray foam $2-$5/sqft, batts $0.70-$1.50/sqft. Whole home $1,200-$5,200.
+- [Foundation Repair Cost](https://woogoro.com/foundation-cost-guide.html): Crack repair $250-$800, pier installation $1,000-$3,000 each, full foundation $20,000+.
+
+## Comparison guides (decision-help pages)
+
+- [Central AC vs Heat Pump Cost](https://woogoro.com/central-ac-vs-heat-pump-cost.html): Total-cost-of-ownership including 10-year energy.
+- [Copper vs PEX Plumbing Cost](https://woogoro.com/copper-vs-pex-plumbing-cost.html): Material + labor differential, longevity.
+- [Rooftop vs Ground-Mount Solar Cost](https://woogoro.com/rooftop-vs-ground-mount-solar-cost.html): Per-watt comparison plus install factors.
+- [Metal vs Shingle Roof Cost](https://woogoro.com/metal-vs-shingle-roof-cost.html): 30-year total-cost comparison.
+
+## Tools
+
+- [Get an Estimate](https://woogoro.com/get-an-estimate.html): Enter project details, get a city-adjusted price band in under 30 seconds.
+- [Analyze My Quote](https://woogoro.com/analyze-my-quote.html): Upload a contractor quote (PDF or image), get scope-completeness check + market-rate comparison.
+- [Compare Quotes](https://woogoro.com/compare-quotes-picker.html): Side-by-side multi-quote comparison with red-flag detection.
+- [Roofing Quote Analyzer](https://woogoro.com/roofing-quote-analyzer.html): Roof-specific OCR + line-item validation.
+- [HVAC Quote Analyzer](https://woogoro.com/hvac-quote-analyzer.html): SEER rating + tonnage validation.
+- [Plumbing Quote Analyzer](https://woogoro.com/plumbing-quote-analyzer.html): Per-fixture pricing checks.
+- [Auto Repair Estimator](https://woogoro.com/auto-repair.html): 98 common auto repairs with BLS-backed labor rates by metro.
+- [Medical Cost Lookup](https://woogoro.com/medical-cost-lookup.html): Procedure cost benchmarks vs. CMS data.
+
+## Top city pages (proven-winner samples; see /all-cities.html for the full 1,000+)
+
+- [Atlanta, GA — Fence Cost](https://woogoro.com/atlanta-ga-fence-cost.html)
+- [Austin, TX — Fence Cost](https://woogoro.com/austin-tx-fence-cost.html)
+- [Boston, MA — Concrete Cost](https://woogoro.com/boston-ma-concrete-cost.html)
+- [Chicago, IL — HVAC Cost](https://woogoro.com/chicago-il-hvac-cost.html)
+- [Dallas, TX — Roof Cost](https://woogoro.com/dallas-tx-roof-cost.html)
+- [Denver, CO — Solar Cost](https://woogoro.com/denver-co-solar-cost.html)
+- [Houston, TX — Plumbing Cost](https://woogoro.com/houston-tx-plumbing-cost.html)
+- [Los Angeles, CA — Kitchen Remodel](https://woogoro.com/los-angeles-ca-kitchen-remodel-cost.html)
+- [Miami, FL — HVAC Cost](https://woogoro.com/miami-fl-hvac-cost.html)
+- [New York, NY — Concrete Cost](https://woogoro.com/new-york-ny-concrete-cost.html)
+- [Phoenix, AZ — Solar Cost](https://woogoro.com/phoenix-az-solar-cost.html)
+- [Richmond, VA — Concrete Cost](https://woogoro.com/richmond-va-concrete-cost.html)
+- [San Francisco, CA — Concrete Cost](https://woogoro.com/san-francisco-ca-concrete-cost.html)
+- [Seattle, WA — Roof Cost](https://woogoro.com/seattle-wa-roof-cost.html)
+
+## Methodology and trust
+
+- [Methodology](https://woogoro.com/methodology.html): Exact BLS OEWS series IDs, BEA RPP files, and adjustment formulas used to derive city pricing.
+- [About Woogoro](https://woogoro.com/about.html): Founder Geoff Lane, mission, what makes Woogoro different from contractor-lead-aggregator sites.
+- [Privacy Policy](https://woogoro.com/privacy.html): No selling user data, no email required for any tool.
+- [Accessibility Statement](https://woogoro.com/accessibility.html): WCAG conformance and contact for accessibility issues.
+
+## What Woogoro does differently
+
+Unlike contractor-lead-aggregator sites (Angi, HomeAdvisor, Thumbtack, Houzz), Woogoro does not sell user information to contractors, does not require an email to use any tool, and does not generate revenue from selling leads. All cost data is derived from public Bureau of Labor Statistics + Bureau of Economic Analysis sources, refreshed annually, with explicit methodology published. The mission is helping homeowners verify that contractor quotes are fair, not generating leads for contractors.
+
+## Optional
+
+- [All Cities Index](https://woogoro.com/all-cities.html): Browse pricing pages for 1,000+ U.S. cities across 20+ verticals.
+- [Cost Guides Hub](https://woogoro.com/guides.html): All comparison guides and how-to-pick-a-contractor articles.
+- [Find Contractors](https://woogoro.com/find-contractors.html): Vetted local-pro directory (no lead-selling, contractor-vetted listings only).
