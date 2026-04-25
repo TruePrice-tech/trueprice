@@ -209,6 +209,16 @@
   ],
   "redirects": [
     {
+      "source": "/photo-estimate.html",
+      "destination": "/get-an-estimate.html",
+      "permanent": true
+    },
+    {
+      "source": "/photo-estimate",
+      "destination": "/get-an-estimate.html",
+      "permanent": true
+    },
+    {
       "source": "/0-roof-cost.html",
       "destination": "/auburn-al-roof-cost.html",
       "permanent": true
