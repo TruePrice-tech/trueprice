@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beta Sign-In | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="canonical" href="https://woogoro.com/beta/login.html" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .beta-wrap { max-width: 480px; margin: 48px auto; padding: 24px; }
+    .beta-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px 28px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+    .beta-pill { display: inline-block; background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
+    .beta-h1 { margin: 0 0 8px; font-size: 24px; color: #0f172a; }
+    .beta-sub { margin: 0 0 24px; color: #475569; font-size: 14px; line-height: 1.55; }
+    .beta-form label { display: block; font-size: 13px; color: #334155; font-weight: 600; margin-bottom: 6px; }
+    .beta-form input[type="email"], .beta-form input[type="text"] { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 15px; margin-bottom: 16px; }
+    .beta-form input[type="email"]:focus, .beta-form input[type="text"]:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.12); }
+    .beta-check { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 18px; font-size: 13px; color: #475569; }
+    .beta-check input { margin-top: 2px; }
+    .beta-btn { width: 100%; padding: 12px 18px; background: #1e3a5f; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .beta-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    .beta-msg { margin-top: 14px; padding: 10px 12px; border-radius: 8px; font-size: 13px; display: none; }
+    .beta-msg.err { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; display: block; }
+    .beta-msg.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; display: block; }
+    .beta-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; line-height: 1.55; }
+    .beta-foot a { color: #1e3a5f; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="beta-wrap">
+      <div class="beta-card">
+        <div class="beta-pill">Closed Beta</div>
+        <h1 class="beta-h1">Sign in to your burrow</h1>
+        <p class="beta-sub">Enter your email and we'll send a one-time sign-in link. No password to remember.</p>
+
+        <form id="betaLoginForm" class="beta-form" novalidate>
+          <label for="betaEmail">Email</label>
+          <input id="betaEmail" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+
+          <label for="betaInvite" id="betaInviteLabel" style="display:none;">Beta invite code (optional)</label>
+          <input id="betaInvite" name="inviteToken" type="text" autocomplete="off" placeholder="paste your invite code" pattern="[0-9a-fA-F]{16}" maxlength="16" style="display:none;" />
+
+          <label class="beta-check">
+            <input id="betaAge" type="checkbox" required />
+            <span>I confirm I am 18 years of age or older.</span>
+          </label>
+
+          <button id="betaSubmit" class="beta-btn" type="submit">Send sign-in link</button>
+          <div id="betaMsg" class="beta-msg" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="beta-foot">
+          By signing in you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>. The Woogoros beta is invite-only while we test the receipt-to-Woo flow. If you don't have an invite, sign in anyway and you'll go on the waitlist.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var qs = new URLSearchParams(location.search);
+
+      // Surface invite from URL
+      var inviteFromUrl = (qs.get("invite") || "").trim().toLowerCase();
+      var inviteInput = document.getElementById("betaInvite");
+      var inviteLabel = document.getElementById("betaInviteLabel");
+      if (inviteFromUrl) {
+        inviteInput.value = inviteFromUrl;
+        inviteInput.style.display = "block";
+        inviteLabel.style.display = "block";
+      } else {
+        // Toggle to show invite field via ?show=invite for users who want to paste one
+        var showInviteToggle = document.createElement("a");
+        showInviteToggle.href = "#";
+        showInviteToggle.textContent = "Have an invite code?";
+        showInviteToggle.style.cssText = "display:block;margin:-8px 0 12px;font-size:12px;color:#1e3a5f;";
+        showInviteToggle.addEventListener("click", function (e) {
+          e.preventDefault();
+          inviteInput.style.display = "block";
+          inviteLabel.style.display = "block";
+          showInviteToggle.style.display = "none";
+        });
+        var ageRow = document.querySelector(".beta-check");
+        ageRow.parentNode.insertBefore(showInviteToggle, ageRow);
+      }
+
+      // Surface error from a redirect (e.g. expired magic link)
+      var msg = document.getElementById("betaMsg");
+      var err = qs.get("err");
+      if (err) {
+        var errMap = {
+          expired: "That sign-in link has expired or already been used. Request a new one below.",
+          bad_link: "That sign-in link looks malformed. Try requesting a new one.",
+          rate_limited: "Too many recent sign-in attempts. Please wait and try again.",
+          server_error: "Something went wrong on our end. Please try again."
+        };
+        msg.className = "beta-msg err";
+        msg.textContent = errMap[err] || "Sign-in failed. Please try again.";
+      }
+
+      var form = document.getElementById("betaLoginForm");
+      var btn = document.getElementById("betaSubmit");
+      var emailEl = document.getElementById("betaEmail");
+      var ageEl = document.getElementById("betaAge");
+
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        msg.style.display = "none";
+
+        var email = (emailEl.value || "").trim();
+        var ageOk = !!ageEl.checked;
+        var inviteToken = (inviteInput.value || "").trim().toLowerCase();
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          msg.className = "beta-msg err"; msg.textContent = "Please enter a valid email address.";
+          return;
+        }
+        if (!ageOk) {
+          msg.className = "beta-msg err"; msg.textContent = "Please confirm you are 18 or older.";
+          return;
+        }
+        if (inviteToken && !/^[0-9a-f]{16}$/.test(inviteToken)) {
+          msg.className = "beta-msg err"; msg.textContent = "Invite code should be 16 hex characters."; return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        var payload = { email: email, ageOk: true };
+        if (inviteToken) payload.inviteToken = inviteToken;
+
+        fetch("/api/beta-auth-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+        .then(function (resp) {
+          btn.disabled = false;
+          btn.textContent = "Send sign-in link";
+
+          if (!resp.ok || !resp.data || !resp.data.success) {
+            msg.className = "beta-msg err";
+            msg.textContent = (resp.data && resp.data.error) || "Sign-in failed. Please try again.";
+            return;
+          }
+
+          // Redirect to confirmation page; pass dev link if present
+          var url = "/beta/check-email.html?email=" + encodeURIComponent(email);
+          if (resp.data.devMagicLink) url += "&dev=" + encodeURIComponent(resp.data.devMagicLink);
+          location.href = url;
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = "Send sign-in link";
+          msg.className = "beta-msg err";
+          msg.textContent = "Network error. Please try again.";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

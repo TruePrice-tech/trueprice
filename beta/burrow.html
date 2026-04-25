@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Burrow | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+  <link rel="canonical" href="https://woogoro.com/beta/burrow.html" />
+  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <style>
+    .bw-wrap { max-width: 880px; margin: 32px auto 64px; padding: 0 20px; }
+    .bw-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .bw-greet { font-size: 14px; color: #475569; }
+    .bw-greet strong { color: #0f172a; }
+    .bw-logout { color: #64748b; font-size: 13px; text-decoration: none; }
+    .bw-logout:hover { color: #1e3a5f; text-decoration: underline; }
+
+    .bw-state { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+    .bw-loading { text-align: center; padding: 60px 20px; color: #64748b; font-size: 14px; }
+    .bw-error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; border-radius: 12px; padding: 16px 18px; font-size: 14px; }
+
+    .bw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 600px) { .bw-grid { grid-template-columns: 1fr; } }
+
+    .bw-stat { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; }
+    .bw-stat-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .bw-stat-value { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1.1; }
+    .bw-stat-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+    .bw-section-h { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #475569; margin: 24px 0 12px; }
+
+    .bw-collection { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+    .bw-cell { aspect-ratio: 1; border: 1px dashed #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 10px; text-align: center; font-size: 11px; color: #94a3b8; background: #f8fafc; }
+    .bw-cell.has-w { border-style: solid; border-color: #1e3a5f; background: #fff; color: #0f172a; }
+
+    .bw-ledger { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
+    .bw-ledger table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .bw-ledger th, .bw-ledger td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #f1f5f9; }
+    .bw-ledger th { background: #f8fafc; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #64748b; }
+    .bw-ledger td.amt { font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+    .bw-ledger td.amt.issue { color: #166534; }
+    .bw-ledger td.amt.spend { color: #991b1b; }
+    .bw-empty { padding: 28px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+    .bw-waitlist { background: #fffbeb; border: 1px solid #fde68a; color: #78350f; border-radius: 12px; padding: 18px 20px; font-size: 14px; margin-bottom: 20px; }
+    .bw-waitlist strong { color: #78350f; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="bw-wrap">
+      <div id="bwLoading" class="bw-loading">Loading your burrow&hellip;</div>
+      <div id="bwContent" style="display:none;"></div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var loading = document.getElementById("bwLoading");
+      var content = document.getElementById("bwContent");
+
+      // 20 verticals matching the character bible. Order here drives the
+      // burrow grid order. Vertical Woogoros are collected one per
+      // verified submission of that vertical.
+      var VERTICALS = [
+        ["roofing", "Roofing"],
+        ["hvac", "HVAC"],
+        ["plumbing", "Plumbing"],
+        ["electrical", "Electrical"],
+        ["windows", "Windows"],
+        ["siding", "Siding"],
+        ["gutters", "Gutters"],
+        ["insulation", "Insulation"],
+        ["painting", "Painting"],
+        ["concrete", "Concrete"],
+        ["foundation", "Foundation"],
+        ["fencing", "Fencing"],
+        ["garage_door", "Garage Door"],
+        ["landscaping", "Landscaping"],
+        ["kitchen", "Kitchen"],
+        ["solar", "Solar"],
+        ["moving", "Moving"],
+        ["auto_repair", "Auto Repair"],
+        ["medical", "Medical"],
+        ["legal", "Legal"]
+      ];
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" })[c];
+        });
+      }
+
+      function fmtTs(ms) {
+        if (!ms) return "";
+        try {
+          var d = new Date(ms);
+          return d.toLocaleString();
+        } catch (e) { return ""; }
+      }
+
+      function renderWaitlist(state) {
+        return '' +
+          '<div class="bw-row">' +
+            '<div class="bw-greet">Signed in as <strong>' + esc(state.user.email) + '</strong></div>' +
+            '<a class="bw-logout" href="/api/beta-logout">Sign out</a>' +
+          '</div>' +
+          '<div class="bw-waitlist">' +
+            "<strong>You're on the waitlist.</strong> Your account is ready, but the closed beta is invite-only right now. We'll email you when your spot opens up." +
+          '</div>' +
+          '<div class="bw-state">' +
+            '<p style="margin:0;color:#475569;font-size:14px;line-height:1.6;">' +
+              "While you wait: keep using Woogoro estimators normally. When the beta opens to you, every verified quote and receipt you submit earns a Woogoro and Woo Cash you can spend on merch (and soon, real gift cards)." +
+            '</p>' +
+          '</div>';
+      }
+
+      function renderBurrow(state) {
+        var collected = {};
+        (state.burrow.collectedWoogoros || []).forEach(function (v) { collected[v] = true; });
+
+        var grid = VERTICALS.map(function (row) {
+          var slug = row[0], label = row[1];
+          var has = !!collected[slug];
+          return '<div class="bw-cell ' + (has ? 'has-w' : '') + '">' +
+            (has
+              ? '<div style="font-weight:800;font-size:18px;">&#x1F44B;</div><div style="margin-top:4px;font-weight:700;">' + esc(label) + '</div>'
+              : '<div style="opacity:.4;font-weight:600;">' + esc(label) + '</div><div style="margin-top:4px;">Uncollected</div>') +
+          '</div>';
+        }).join("");
+
+        var ledgerRows = (state.ledger || []).map(function (e) {
+          var amt = (e.type === "issue" ? "+" : "-") + e.amount.toLocaleString();
+          return '<tr>' +
+            '<td>' + esc(fmtTs(e.ts)) + '</td>' +
+            '<td>' + esc(e.source) + '</td>' +
+            '<td class="amt ' + esc(e.type) + '">' + amt + '</td>' +
+          '</tr>';
+        }).join("");
+        if (!ledgerRows) ledgerRows = '<tr><td colspan="3" class="bw-empty">No activity yet. Submit a verified receipt or quote to start earning.</td></tr>';
+
+        return '' +
+          '<div class="bw-row">' +
+            '<div class="bw-greet">Signed in as <strong>' + esc(state.user.email) + '</strong></div>' +
+            '<a class="bw-logout" href="/api/beta-logout">Sign out</a>' +
+          '</div>' +
+          '<div class="bw-grid">' +
+            '<div class="bw-stat">' +
+              '<div class="bw-stat-label">Woo Cash</div>' +
+              '<div class="bw-stat-value">' + (state.balance || 0).toLocaleString() + '</div>' +
+              '<div class="bw-stat-sub">Spend on merch (soon: gift cards)</div>' +
+            '</div>' +
+            '<div class="bw-stat">' +
+              '<div class="bw-stat-label">Streak</div>' +
+              '<div class="bw-stat-value">' + (state.burrow.streakDays || 0) + ' <span style="font-size:14px;color:#64748b;font-weight:600;">days</span></div>' +
+              '<div class="bw-stat-sub">Iris keeps your streak going</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="bw-section-h">Your Woogoros</div>' +
+          '<div class="bw-collection">' + grid + '</div>' +
+          '<div class="bw-section-h">Recent activity</div>' +
+          '<div class="bw-ledger"><table><thead><tr><th>When</th><th>Source</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + ledgerRows + '</tbody></table></div>';
+      }
+
+      fetch("/api/beta-burrow", { credentials: "same-origin" })
+        .then(function (r) {
+          if (r.status === 401) {
+            location.href = "/beta/login.html";
+            return null;
+          }
+          return r.json();
+        })
+        .then(function (state) {
+          if (!state) return;
+          loading.style.display = "none";
+          content.style.display = "block";
+          content.innerHTML = state.beta ? renderBurrow(state) : renderWaitlist(state);
+        })
+        .catch(function () {
+          loading.style.display = "none";
+          content.style.display = "block";
+          content.innerHTML = '<div class="bw-error">Could not load your burrow. Please refresh, or <a href="/beta/login.html">sign in again</a>.</div>';
+        });
+    })();
+  </script>
+</body>
+</html>
