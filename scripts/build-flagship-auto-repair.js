@@ -944,7 +944,7 @@ function createCityPageHTML(metro) {
 <meta name="twitter:title" content="Auto Repair Cost in ${displayName}, ${state} | Woogoro">
 <meta name="twitter:description" content="Compare auto repair prices in ${displayName}, ${state}.">
 
-<link rel="stylesheet" href="/css/trueprice.min.css">
+<link rel="stylesheet" href="/css/woogoro.min.css">
 
 <script type="application/ld+json">
 {

@@ -21,7 +21,7 @@
   <meta property="og:url" content="https://woogoro.com/quote-analysis/index.html" />
   <meta property="og:site_name" content="Woogoro" />
 
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   <link rel="stylesheet" href="/css/analyzer.min.css" />
 
   <style>
@@ -495,7 +495,7 @@
       const state = getParam("state", "result");
       const material = getParam("material", "roof");
 
-      const filename = `trueprice-${city}-${state}-${material}-quote-report.pdf`
+      const filename = `woogoro-${city}-${state}-${material}-quote-report.pdf`
         .toLowerCase()
         .replace(/[^a-z0-9.-]+/g, "-");
 

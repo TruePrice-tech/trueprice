@@ -762,7 +762,7 @@ function generateCityPageHTML(metro) {
 <meta name="twitter:title" content="Medical Bill &amp; Healthcare Cost Guide: ${city}, ${stateAbbr} | Woogoro">
 <meta name="twitter:description" content="Compare healthcare costs in ${city}, ${stateAbbr}.">
 
-<link rel="stylesheet" href="/css/trueprice.min.css">
+<link rel="stylesheet" href="/css/woogoro.min.css">
 
 <script type="application/ld+json">
 {

@@ -28,8 +28,8 @@ html = '''<!DOCTYPE html>
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://woogoro.com/medical-cost-lookup.html" />
 <meta property="og:site_name" content="Woogoro" />
-<meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
-<link rel="stylesheet" href="/css/trueprice.min.css" />
+<meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
+<link rel="stylesheet" href="/css/woogoro.min.css" />
 <style>
 .mcl-wrap{max-width:800px;margin:0 auto;padding:32px 16px;}
 .mcl-hero{text-align:center;margin-bottom:32px;}

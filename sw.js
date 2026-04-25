@@ -4,10 +4,10 @@
 // v4 (2026-04-09): plumbing analyzer accuracy overhaul (multi-pass Tesseract,
 // multi-strategy regex, opt-in AI). Bump invalidates returning visitors' caches
 // so they get the new plumbing-quote-analyzer.html and compare-plumbing-quotes.html.
-const CACHE_NAME = "woogoro-v5";
+const CACHE_NAME = "woogoro-v6";
 const PRECACHE = [
   "/",
-  "/css/trueprice.min.css",
+  "/css/woogoro.min.css",
   "/images/trudy-estimate-hero.webp",
   "/images/trudy-compare-hero.webp",
   "/images/trudy-analyze-hero.webp",

@@ -7,7 +7,7 @@ Before:  <a class="logo" href="/">Woogoro</a>
 
 After:   <a class="logo" href="/"><img class="logo-mark" ... /><span>Woogoro</span></a>
 
-The CSS to flex-align image + text is added to css/trueprice.css separately
+The CSS to flex-align image + text is added to css/woogoro.css separately
 (it's shared across all pages via a <link rel="stylesheet">).
 
 Usage:

@@ -38,7 +38,7 @@
   <meta property="og:image:alt" content="Moving Quote Analyzer | Woogoro" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#d97706" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   <link rel="stylesheet" href="/css/analyzer.min.css" />
 
   <script type="application/ld+json">
@@ -903,7 +903,7 @@
       function doCapture() {
         html2canvas(document.getElementById("mvApp"), { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(function(canvas) {
           var link = document.createElement("a");
-          link.download = "trueprice-moving-analysis.png";
+          link.download = "woogoro-moving-analysis.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
         });

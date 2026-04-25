@@ -940,7 +940,7 @@ function createCityPageHTML(metro) {
 <meta name="twitter:title" content="Moving Cost in ${displayName}, ${state} | Woogoro">
 <meta name="twitter:description" content="Compare moving prices in ${displayName}, ${state}.">
 
-<link rel="stylesheet" href="/css/trueprice.min.css">
+<link rel="stylesheet" href="/css/woogoro.min.css">
 
 <script type="application/ld+json">
 {

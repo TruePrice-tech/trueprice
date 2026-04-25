@@ -56,7 +56,7 @@ const VERTICALS = [
   { key: 'moving',          file: 'moving-cost-guide.html',       label: 'Moving Service',          atlanta: [592, 7395] },
 ];
 
-// Colors chosen to match the site palette (trueprice.css)
+// Colors chosen to match the site palette (woogoro.css)
 const BRAND = '#1d4ed8';
 const BRAND_LIGHT = '#bfdbfe';
 const TEXT = '#0f172a';

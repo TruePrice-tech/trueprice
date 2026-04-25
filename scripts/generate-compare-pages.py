@@ -616,12 +616,12 @@ TEMPLATE = r"""<!DOCTYPE html>
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://woogoro.com/compare-__SLUG__-quotes.html" />
   <meta property="og:site_name" content="Woogoro" />
-  <meta property="og:image" content="https://woogoro.com/images/trueprice-social.svg" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="__TITLE__ | Woogoro" />
   <meta name="twitter:description" content="__SUB__" />
-  <meta name="twitter:image" content="https://woogoro.com/images/trueprice-social.svg" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebApplication","name":"Woogoro __TITLE__","url":"https://woogoro.com/compare-__SLUG__-quotes.html","description":"__SUB__","applicationCategory":"UtilityApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"operatingSystem":"Web","provider":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"}}
   </script>

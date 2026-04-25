@@ -10,7 +10,7 @@
 //   - Provision new user records on first magic-link consumption
 //
 // All Redis keys are namespaced "wg:" (Woogoros) to keep separation
-// from the existing "tp:" (TruePrice email capture) namespace and
+// from the existing "tp:" (legacy email capture) namespace and
 // avoid any collision with legacy data.
 //
 // Beta gate is intentionally a single boolean on the user record so

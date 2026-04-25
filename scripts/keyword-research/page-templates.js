@@ -381,7 +381,7 @@ function tableLedTemplate(cluster) {
   <meta name="twitter:description" content="${escAttr(metaDesc)}" />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
 
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
 
   ${renderSchema(articleSchema)}
   ${renderSchema(breadcrumbSchema)}
@@ -548,7 +548,7 @@ function transactionalTemplate(cluster) {
   <meta name="twitter:title" content="${escAttr(title1)} (Free, No Signup) | Woogoro" />
   <meta name="twitter:description" content="${escAttr(metaDesc)}" />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   ${renderSchema(articleSchema)}
   ${renderSchema(breadcrumbSchema)}
   ${renderSchema(softwareSchema)}
@@ -690,7 +690,7 @@ function comparisonTemplate(cluster) {
   <meta name="twitter:title" content="${escAttr(title1)} (2026) | Woogoro" />
   <meta name="twitter:description" content="${escAttr(metaDesc)}" />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   ${renderSchema(articleSchema)}
   ${renderSchema(breadcrumbSchema)}
   ${renderSchema(faqSchema)}
@@ -831,7 +831,7 @@ function decisionTemplate(cluster) {
   <meta name="twitter:title" content="${escAttr(title1)} (2026) | Woogoro" />
   <meta name="twitter:description" content="${escAttr(metaDesc)}" />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   ${renderSchema(articleSchema)}
   ${renderSchema(breadcrumbSchema)}
   ${renderSchema(faqSchema)}

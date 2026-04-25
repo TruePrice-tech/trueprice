@@ -38,7 +38,7 @@
   <meta property="og:image:alt" content="Legal Fee Analyzer | Woogoro" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#1d4ed8" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
   <link rel="stylesheet" href="/css/analyzer.min.css" />
 
   <script type="application/ld+json">
@@ -632,7 +632,7 @@
         html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
           document.body.removeChild(report);
           var link = document.createElement("a");
-          link.download = "trueprice-legal-fee-report.png";
+          link.download = "woogoro-legal-fee-report.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
         }).catch(function() { document.body.removeChild(report); });

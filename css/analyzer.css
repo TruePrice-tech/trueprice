@@ -2,7 +2,7 @@
    Woogoro — Analyzer Page Styles
    ============================================================ */
 
-/* Inherits all base variables from trueprice.css :root
+/* Inherits all base variables from woogoro.css :root
    Only analyzer-specific additions here */
 :root {
   --upload-bg: #f8fbff;

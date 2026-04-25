@@ -789,7 +789,7 @@ function generateCityPageHTML(metro) {
 <meta name="twitter:title" content="Legal Fee &amp; Attorney Cost Guide: ${city}, ${stateAbbr} | Woogoro">
 <meta name="twitter:description" content="Compare legal fees in ${city}, ${stateAbbr}.">
 
-<link rel="stylesheet" href="/css/trueprice.min.css">
+<link rel="stylesheet" href="/css/woogoro.min.css">
 
 <script type="application/ld+json">
 {

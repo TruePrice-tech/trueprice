@@ -22,7 +22,7 @@
   <meta name="twitter:title" content="Compare Attorney Quotes | Woogoro" />
   <meta name="twitter:description" content="Upload 2-3 attorney retainer agreements or invoices and compare them side by side." />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
-  <link rel="stylesheet" href="/css/trueprice.min.css" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
 
   <script type="application/ld+json">
   {
@@ -1001,7 +1001,7 @@
         html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 860 }).then(function(canvas) {
           document.body.removeChild(report);
           var link = document.createElement("a");
-          link.download = "trueprice-legal-comparison.png";
+          link.download = "woogoro-legal-comparison.png";
           link.href = canvas.toDataURL("image/png");
           link.click();
         }).catch(function() { document.body.removeChild(report); });
