@@ -902,6 +902,8 @@
                 osmStories: d.osmStories || null,
                 osmHeightMeters: d.osmHeightMeters || null,
                 buildingTag: d.buildingTag || "",
+                buildingSource: d.buildingSource || null,
+                isBulkImportPolygon: !!d.isBulkImportPolygon,
                 likelyAttachedGarage: !!d.likelyAttachedGarage,
                 convexityRatio: d.convexityRatio || null,
                 stateCode: state.address.stateCode || ""
@@ -1350,7 +1352,7 @@
         var HT = window.WoogoroHomeType;
         var nonSFH = HT && HT.isNonSingleFamily(signals);
         var options = HT && osmFootprint > 0 && !nonSFH
-          ? HT.getHomeTypeOptions(osmFootprint, signals.regionType)
+          ? HT.getHomeTypeOptions(osmFootprint, signals.regionType, signals)
           : [];
         if (!est.homeType && HT && osmFootprint > 0 && !nonSFH) {
           est.homeType = HT.classifyHomeType(signals);

@@ -152,18 +152,45 @@
     return "two_story_with_garage";
   }
 
-  function getMultiplier(homeTypeId, regionType) {
+  // Phoenix tract-home haircut. OSM polygons from Esri/Microsoft/USDOT bulk
+  // imports are roof outlines traced from satellite imagery — in Sun Belt
+  // tract construction the same roofline covers the house, attached garage,
+  // covered patio, and carport, so the polygon is ~30-45% larger than the
+  // conditioned living area. Calibrated to 4115 W Sierra St, Phoenix
+  // (2,585 sqft polygon, 1,502 sqft actual = 0.58 ratio). 0.76 leaves
+  // headroom for homes without the carport / patio extras (0.85 * 0.76 ≈
+  // 0.65 effective). Only fires when all three conditions agree, so we
+  // don't undercount custom Sun Belt homes whose polygon is just the house.
+  var BULK_IMPORT_HAIRCUT = 0.76;
+  var BULK_IMPORT_FOOTPRINT_MIN = 1800; // typical floor where attached garage + patio dominate
+
+  function shouldApplyBulkImportHaircut(homeTypeId, signals) {
+    if (homeTypeId !== "single_ranch") return false;
+    var stateCode = String(signals.stateCode || "").toUpperCase();
+    if (!SUN_BELT_RANCH_STATES[stateCode]) return false;
+    if (!signals.isBulkImportPolygon) return false;
+    var footprint = Number(signals.footprintSqFt) || 0;
+    if (footprint < BULK_IMPORT_FOOTPRINT_MIN) return false;
+    return true;
+  }
+
+  function getMultiplier(homeTypeId, regionType, signals) {
     var region = normalizeRegion(regionType);
     var table = MULTIPLIERS[region];
-    return (table && table[homeTypeId]) || MULTIPLIERS.suburban.two_story_with_garage;
+    var base = (table && table[homeTypeId]) || MULTIPLIERS.suburban.two_story_with_garage;
+    if (signals && shouldApplyBulkImportHaircut(homeTypeId, signals)) {
+      return base * BULK_IMPORT_HAIRCUT;
+    }
+    return base;
   }
 
   // Return the 5 picker options with their implied living sqft so users can
   // visually scan and pick the row whose number matches their home.
-  function getHomeTypeOptions(footprintSqFt, regionType) {
+  function getHomeTypeOptions(footprintSqFt, regionType, signals) {
     var fp = Number(footprintSqFt) || 0;
+    var ctx = signals || { footprintSqFt: fp, stateCode: "", isBulkImportPolygon: false };
     return HOME_TYPES.map(function (t) {
-      var mult = getMultiplier(t.id, regionType);
+      var mult = getMultiplier(t.id, regionType, ctx);
       return {
         id: t.id,
         label: t.label,
@@ -180,7 +207,7 @@
     if (fp <= 0) return null;
     var pick = classifyHomeType(signals);
     if (!pick) return null;  // non-SFH / oversized
-    var mult = getMultiplier(pick, signals.regionType);
+    var mult = getMultiplier(pick, signals.regionType, signals);
     return {
       homeType: pick,
       multiplier: mult,

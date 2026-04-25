@@ -177,6 +177,12 @@ export default async function handler(req, res) {
     const osmStories = parseStoriesFromTags(tags);
     const osmHeightMeters = parseHeightFromTags(tags);
     const buildingTag = String(tags.building || "").toLowerCase();
+    // Polygon source. esri_USDOT_*, microsoft_*, and similar bulk imports
+    // are roof-outline traces from satellite imagery — they systematically
+    // include attached garage + covered patio + carport that sit under the
+    // same roofline. Used by the Sun Belt single_ranch haircut.
+    const buildingSource = String(tags.source || "").toLowerCase();
+    const isBulkImportPolygon = /esri|microsoft|usdot|bing|maxar/.test(buildingSource);
 
     // Convex hull / area ratio. A perfect rectangle returns ~1.0; an L-shape
     // (typical attached-garage indent) returns 1.05+.
@@ -215,6 +221,8 @@ export default async function handler(req, res) {
         osmStories,
         osmHeightMeters,
         buildingTag,
+        buildingSource: tags.source || null,
+        isBulkImportPolygon,
         regionType,
         neighborCount,
         convexityRatio: Math.round(convexityRatio * 1000) / 1000,

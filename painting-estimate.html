@@ -816,6 +816,8 @@
                   osmStories: d.osmStories || null,
                   osmHeightMeters: d.osmHeightMeters || null,
                   buildingTag: d.buildingTag || "",
+                  buildingSource: d.buildingSource || null,
+                  isBulkImportPolygon: !!d.isBulkImportPolygon,
                   likelyAttachedGarage: !!d.likelyAttachedGarage,
                   convexityRatio: d.convexityRatio || null,
                   stateCode: state.address.stateCode || ""
@@ -1169,7 +1171,7 @@
         var _signals = state.osmSignals || { footprintSqFt: _osmFp, regionType: "suburban" };
         var _HT = window.WoogoroHomeType;
         var _nonSFH = _HT && _HT.isNonSingleFamily(_signals);
-        var _opts = (_HT && _osmFp > 0 && !_nonSFH) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType) : [];
+        var _opts = (_HT && _osmFp > 0 && !_nonSFH) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType, _signals) : [];
         if (!est.homeType && _HT && _osmFp > 0 && !_nonSFH) est.homeType = _HT.classifyHomeType(_signals);
         var _picked = est.homeType || (_opts[0] && _opts[0].id);
         var _showManual = _nonSFH || _osmFp === 0;
