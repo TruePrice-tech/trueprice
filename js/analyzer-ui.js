@@ -4644,27 +4644,82 @@ function buildComparisonWinnerHtml(summary) {
           alert("Please enter either a street address or a roof size.");
           return;
         }
-        // On the upload-quote path, the canonical #streetAddress/#cityName/#zipCode/#roofSize
-        // form inputs don't exist (they're only rendered for manual entry). analyzeQuote reads
-        // the address from those IDs, so without injecting them the address branch never fires
-        // and /api/property-signals is never called. Create hidden inputs as needed.
-        const ensureHidden = function(id) {
+
+        // The verdict screen has replaced the analyzing screen by the time the
+        // accuracy prompt is shown, so the hidden canonical form inputs and
+        // output containers analyzeQuote needs are gone. Re-create the same
+        // hidden scaffolding confirmProperty originally rendered (matching
+        // analyzer-ui.js confirmProperty's hidden form), with the user's new
+        // address values, then re-run analyzeQuote — its result render will
+        // call setJourneyStep("result") which re-paints the verdict.
+        const p = latestParsed || {};
+        const preview = (typeof journeyState !== "undefined" && journeyState && journeyState.propertyPreview) || {};
+
+        let hiddenHost = document.getElementById("__accuracyRerunHost");
+        if (hiddenHost) hiddenHost.remove();
+        hiddenHost = document.createElement("div");
+        hiddenHost.id = "__accuracyRerunHost";
+        hiddenHost.style.cssText = "position:absolute; left:-9999px; top:-9999px;";
+
+        const street = addr || preview.street || p.address?.street || "";
+        const cityName = preview.city || p.city || p.address?.city || "";
+        const stateCode = preview.state || p.stateCode || p.address?.stateCode || "";
+        const zipCode = zip || preview.zip || p.address?.zip || "";
+        const roofSizeVal = sz > 0 ? String(sz) : "";
+        const quotePriceVal = String(p.finalBestPrice || p.totalLinePrice || p.price || "");
+
+        const setHidden = function(id, val) {
+          // Reuse existing canonical input if present (manual-entry path),
+          // otherwise add to the rerun host.
           let el = document.getElementById(id);
-          if (!el) {
-            el = document.createElement("input");
-            el.type = "hidden";
-            el.id = id;
-            document.body.appendChild(el);
+          if (el && el.tagName === "INPUT") {
+            el.value = val;
+            return;
           }
-          return el;
+          if (el) return; // existing div/select — leave it alone
+          el = document.createElement("input");
+          el.type = "hidden";
+          el.id = id;
+          el.value = val;
+          hiddenHost.appendChild(el);
         };
-        if (addr) ensureHidden("streetAddress").value = addr;
-        if (zip) ensureHidden("zipCode").value = zip;
-        if (sz) ensureHidden("roofSize").value = String(sz);
-        // Backfill city/state from latestParsed so hasUsableAddress can match street+city+state too
-        const parsedAddr = (window.latestParsed && window.latestParsed.propertyAddress) || {};
-        if (parsedAddr.city) ensureHidden("cityName").value = parsedAddr.city;
-        if (parsedAddr.stateCode) ensureHidden("stateCode").value = parsedAddr.stateCode;
+        const setHiddenSelect = function(id, val) {
+          if (document.getElementById(id)) return;
+          const sel = document.createElement("select");
+          sel.id = id;
+          const opt = document.createElement("option");
+          opt.value = val;
+          opt.selected = true;
+          sel.appendChild(opt);
+          hiddenHost.appendChild(sel);
+        };
+        const ensureDiv = function(id) {
+          if (document.getElementById(id)) return;
+          const d = document.createElement("div");
+          d.id = id;
+          hiddenHost.appendChild(d);
+        };
+
+        document.body.appendChild(hiddenHost);
+
+        setHidden("streetAddress", street);
+        setHidden("cityName", cityName);
+        setHidden("stateCode", stateCode);
+        setHidden("zipCode", zipCode);
+        setHidden("roofSize", roofSizeVal);
+        setHidden("quotePrice", quotePriceVal);
+        setHidden("warrantyYears", String(p.warrantyYears || ""));
+        setHiddenSelect("materialType", p.material || "architectural");
+        setHiddenSelect("complexityFactor", "1.00");
+        setHiddenSelect("tearOffIncluded", "1.00");
+        ensureDiv("analysisOutput");
+        ensureDiv("aiAnalysisOutput");
+        ensureDiv("analysisPanels");
+        ensureDiv("parsedSignalSection");
+        ensureDiv("inlineAnalyzingState");
+        ensureDiv("inlineShareReportOutput");
+        ensureDiv("inlineShareCopyStatus");
+
         if (typeof analyzeQuote === "function") analyzeQuote();
       };
 
