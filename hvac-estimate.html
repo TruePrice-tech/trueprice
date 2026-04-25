@@ -1339,17 +1339,20 @@
       } else if (stepNum === 3) {
         // 5-option home-type picker, auto-selected from free OSM signals.
         // Each option shows the implied living-area sqft so users visually
-        // pick the row whose number matches their home.
+        // pick the row whose number matches their home. When the building
+        // looks like multi-family / commercial / oversized, the classifier
+        // returns null and we surface manual entry as primary.
         var osmFootprint = state.osmFootprint || 0;
         var signals = state.osmSignals || {
           footprintSqFt: osmFootprint,
           regionType: "suburban"
         };
         var HT = window.WoogoroHomeType;
-        var options = HT && osmFootprint > 0
+        var nonSFH = HT && HT.isNonSingleFamily(signals);
+        var options = HT && osmFootprint > 0 && !nonSFH
           ? HT.getHomeTypeOptions(osmFootprint, signals.regionType)
           : [];
-        if (!est.homeType && HT && osmFootprint > 0) {
+        if (!est.homeType && HT && osmFootprint > 0 && !nonSFH) {
           est.homeType = HT.classifyHomeType(signals);
         }
         var picked = est.homeType || (options[0] && options[0].id);
@@ -1366,31 +1369,41 @@
           </button>';
         }).join("");
 
-        var bannerHtml = osmFootprint > 0
-          ? '<div class="wg-hometype-banner">&#10003; <strong>' + osmFootprint.toLocaleString()
+        var bannerHtml;
+        if (nonSFH) {
+          bannerHtml = '<div class="wg-hometype-banner" style="background:#fffbeb;border-color:#fcd34d;color:#92400e;">'
+            + 'This building looks like a multi-family or commercial structure ('
+            + osmFootprint.toLocaleString() + ' sq ft footprint). '
+            + 'Please enter your unit&rsquo;s living area below.</div>';
+        } else if (osmFootprint > 0) {
+          bannerHtml = '<div class="wg-hometype-banner">&#10003; <strong>' + osmFootprint.toLocaleString()
             + ' sq ft</strong> footprint from satellite data'
             + (signals.regionType && signals.regionType !== "unknown"
               ? ' &middot; <strong>' + signals.regionType + '</strong> neighborhood'
               : '')
             + (signals.likelyAttachedGarage ? ' &middot; likely attached garage' : '')
-            + '. We picked the most common match for your area &mdash; tap if it&rsquo;s different.</div>'
-          : '<div class="wg-hometype-banner" id="osmLoadingBanner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data for your address...</span></div>';
+            + '. We picked the most common match for your area &mdash; tap if it&rsquo;s different.</div>';
+        } else {
+          bannerHtml = '<div class="wg-hometype-banner" id="osmLoadingBanner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data for your address...</span></div>';
+        }
 
-        var manualHtml = osmFootprint > 0
-          ? '<p class="wg-hometype-manual">Know your exact sq ft? <a id="manualSqftLink">Enter it manually</a></p>'
-          : '<label style="display:block;font-size:0.95rem;color:#475569;margin:12px 0 6px;font-weight:600;">Total living area (sq ft)</label>\
+        // When non-SFH or OSM fails, show manual entry as primary (no card list).
+        var showManualPrimary = nonSFH || osmFootprint === 0;
+        var manualHtml = showManualPrimary
+          ? '<label style="display:block;font-size:0.95rem;color:#475569;margin:12px 0 6px;font-weight:600;">Total living area (sq ft)</label>\
              <div style="display:flex;align-items:center;gap:0.75rem;">\
-               <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (est.homeSqFt || "") + '" min="500" max="10000" />\
+               <input type="number" class="hvac-sqft-input" id="sqftInput" placeholder="e.g. 2400" value="' + (est.homeSqFt || "") + '" min="200" max="20000" />\
                <span style="color:#64748b;">sq ft</span>\
              </div>\
-             <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">Check your listing, tax records, or Zillow if unsure.</p>';
+             <p style="font-size:12px;color:#94a3b8;margin:8px 0 0;">' + (nonSFH ? "Enter the living area of your unit." : "Check your listing, tax records, or Zillow if unsure.") + '</p>'
+          : '<p class="wg-hometype-manual">Know your exact sq ft? <a id="manualSqftLink">Enter it manually</a></p>';
 
         card.innerHTML = '\
           <div class="hvac-step">\
             <h3>Describe your home</h3>\
             ' + bannerHtml + '\
-            <div class="wg-hometype-list" id="htList">' + optionsHtml + '</div>\
-            <div id="manualSqftBlock" style="display:' + (osmFootprint > 0 ? 'none' : 'block') + ';">' + manualHtml + '</div>\
+            ' + (showManualPrimary ? "" : '<div class="wg-hometype-list" id="htList">' + optionsHtml + '</div>') + '\
+            <div id="manualSqftBlock" style="display:' + (showManualPrimary ? 'block' : 'none') + ';">' + manualHtml + '</div>\
             <div class="wg-hometype-confirm">This sq ft drives your bid range &mdash; please confirm it matches your home before continuing.</div>\
             <div style="margin-top:1rem;">\
               <button class="hvac-btn hvac-btn-primary" id="sqftNext">Looks right &mdash; Continue</button>\
@@ -1445,32 +1458,30 @@
           });
         }
 
-        if (osmFootprint === 0) {
+        if (showManualPrimary) {
           var manualInput = document.getElementById("sqftInput");
           if (manualInput) {
             manualInput.addEventListener("input", function() {
               var v = Number(this.value) || 0;
-              if (v >= 400) { est.homeSqFt = v; est.homeSqFtManual = v; }
+              if (v >= 200) { est.homeSqFt = v; est.homeSqFtManual = v; }
             });
           }
         }
 
         document.getElementById("sqftNext").addEventListener("click", function() {
-          if (!est.homeSqFt || est.homeSqFt < 400) {
-            var inp = document.getElementById("sqftInput");
-            if (inp && Number(inp.value) >= 400) {
-              est.homeSqFt = Number(inp.value);
-            } else {
-              alert("Please pick a home type or enter your living area.");
-              return;
-            }
+          var inp = document.getElementById("sqftInput");
+          if (inp && Number(inp.value) >= 200) est.homeSqFt = Number(inp.value);
+          if ((!est.homeSqFt || est.homeSqFt < 200) && picked && !showManualPrimary) applyPick(picked);
+          if (!est.homeSqFt || est.homeSqFt < 200) {
+            alert("Please pick a home type or enter your living area.");
+            return;
           }
           est.homeSqFtConfirmed = true;
           render();
         });
 
         // Pre-apply our auto-pick so est.homeSqFt is set even if user just clicks Continue
-        if (picked && options.length) applyPick(picked);
+        if (!showManualPrimary && picked && options.length) applyPick(picked);
 
         // Re-render once OSM data arrives if we showed the loading banner
         if (osmFootprint === 0) {

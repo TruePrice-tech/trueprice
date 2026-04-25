@@ -57,7 +57,46 @@
     AZ: 1, FL: 1, NV: 1, NM: 1, OK: 1, AR: 1, LA: 1, MS: 1, AL: 1
   };
 
-  // Pick the most likely home type from free signals. Tiered by confidence:
+  // Building tags that indicate this is NOT a single-family home. The
+  // multiplier table doesn't apply to these — caller should fall back to
+  // manual entry instead of pretending we know the unit's living area.
+  var NON_SFH_TAGS = {
+    apartments: 1, residential_block: 1, dormitory: 1, retirement_home: 1,
+    commercial: 1, industrial: 1, warehouse: 1, retail: 1, hotel: 1,
+    office: 1, school: 1, church: 1, hospital: 1, civic: 1, government: 1,
+    construction: 1, "yes": 0 // yes is ambiguous — handled by size heuristic below
+  };
+
+  // True when free signals suggest this is a multi-family / commercial /
+  // oversized building that doesn't fit the single-family multiplier model.
+  // When this returns true, the picker should show manual entry as primary
+  // and not pre-select any card.
+  function isNonSingleFamily(signals) {
+    signals = signals || {};
+    var footprint = Number(signals.footprintSqFt) || 0;
+    var stories = Number(signals.osmStories) || 0;
+    var heightM = Number(signals.osmHeightMeters) || 0;
+    var tag = String(signals.buildingTag || "").toLowerCase();
+
+    if (NON_SFH_TAGS[tag] === 1) return true;
+    // 4+ floors = apartment / condo high-rise
+    if (stories >= 4) return true;
+    // ~12m+ = 4+ stories worth of building
+    if (heightM > 12) return true;
+    // Footprints over 5000 sqft on residential roads are almost always
+    // multi-unit (typical SFH tops out at ~4000). The 5000 cap is also
+    // where our multiplier table starts giving nonsense numbers.
+    if (footprint > 5000) return true;
+    return false;
+  }
+
+  // Pick the most likely home type from free signals. Returns null when the
+  // building looks like multi-family / commercial / oversized — in those
+  // cases the multiplier table doesn't apply and the picker should show
+  // manual entry as primary.
+  //
+  // Tiered by confidence:
+  //   0. Bail out if non-SFH (apartments, oversized footprint, 4+ stories)
   //   1. Explicit OSM building:levels tag (definitive when present)
   //   2. OSM building:height tag (~3m per story)
   //   3. building:type tag (terrace / townhouse forces no-garage)
@@ -66,6 +105,8 @@
   //   6. Fallback to suburban modal case
   function classifyHomeType(signals) {
     signals = signals || {};
+    if (isNonSingleFamily(signals)) return null;
+
     var region = normalizeRegion(signals.regionType);
     var footprint = Number(signals.footprintSqFt) || 0;
     var stories = Number(signals.osmStories) || 0;
@@ -75,12 +116,12 @@
     var stateCode = String(signals.stateCode || "").toUpperCase();
 
     // Tier 1: explicit OSM building:levels — most reliable signal.
-    if (stories >= 3) return "three_story";
+    if (stories === 3) return "three_story";
     if (stories === 2) return hasGarage ? "two_story_with_garage" : "two_story_no_garage";
     if (stories === 1) return "single_ranch";
 
     // Tier 2: explicit OSM building:height. Residential floor-to-floor is
-    // ~3m, so <5m = 1-story, 5-9m = 2-story, >9m = 3+.
+    // ~3m, so <5m = 1-story, 5-9m = 2-story, 9-12m = 3-story.
     if (heightM > 0) {
       if (heightM > 9) return "three_story";
       if (heightM >= 5) return hasGarage ? "two_story_with_garage" : "two_story_no_garage";
@@ -92,7 +133,7 @@
       return "two_story_no_garage";
     }
 
-    // Tier 4: footprint extremes.
+    // Tier 4: footprint extremes (within SFH range — non-SFH already bailed).
     if (footprint >= 3500) return "single_ranch";          // wide ground = likely ranch
     if (footprint < 800)   return "two_story_no_garage";   // tiny footprint = stacked townhome
 
@@ -102,8 +143,7 @@
 
     // Sun Belt ranch prior: in AZ/FL/NV/NM and similar, 1-story is the
     // dominant residential pattern. Apply only when footprint is wide
-    // enough to plausibly be a 1-story (>2000) and we haven't already
-    // detected a contradicting signal.
+    // enough to plausibly be a 1-story (>2000).
     if (SUN_BELT_RANCH_STATES[stateCode] && footprint >= 2000) {
       return "single_ranch";
     }
@@ -139,6 +179,7 @@
     var fp = Number(signals.footprintSqFt) || 0;
     if (fp <= 0) return null;
     var pick = classifyHomeType(signals);
+    if (!pick) return null;  // non-SFH / oversized
     var mult = getMultiplier(pick, signals.regionType);
     return {
       homeType: pick,
@@ -151,6 +192,7 @@
   var api = {
     HOME_TYPES: HOME_TYPES,
     classifyHomeType: classifyHomeType,
+    isNonSingleFamily: isNonSingleFamily,
     getMultiplier: getMultiplier,
     getHomeTypeOptions: getHomeTypeOptions,
     estimateLivingArea: estimateLivingArea

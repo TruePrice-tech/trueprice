@@ -1163,13 +1163,16 @@
         bindOptions("optProject", "projectType");
       } else if (stepNum === 2) {
         // Home-type picker (replaces stories + sqft input). Sets est.homeSqFt
-        // directly. Manual edit available via "enter exact size" link.
+        // directly. Manual edit available via "enter exact size" link. Falls
+        // back to manual-only when the building looks multi-family/oversized.
         var _osmFp = state.osmFootprint || 0;
         var _signals = state.osmSignals || { footprintSqFt: _osmFp, regionType: "suburban" };
         var _HT = window.WoogoroHomeType;
-        var _opts = (_HT && _osmFp > 0) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType) : [];
-        if (!est.homeType && _HT && _osmFp > 0) est.homeType = _HT.classifyHomeType(_signals);
+        var _nonSFH = _HT && _HT.isNonSingleFamily(_signals);
+        var _opts = (_HT && _osmFp > 0 && !_nonSFH) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType) : [];
+        if (!est.homeType && _HT && _osmFp > 0 && !_nonSFH) est.homeType = _HT.classifyHomeType(_signals);
         var _picked = est.homeType || (_opts[0] && _opts[0].id);
+        var _showManual = _nonSFH || _osmFp === 0;
 
         var _optsHtml = _opts.map(function(o) {
           var sel = o.id === _picked ? " selected" : "";
@@ -1177,16 +1180,21 @@
           return '<button type="button" class="wg-hometype-card' + sel + '" data-ht="' + o.id + '"><span class="wg-ht-text"><div class="wg-ht-label">' + o.label + '</div><div class="wg-ht-sub">' + o.sub + '</div></span><span class="wg-ht-sqft">' + sq + '</span></button>';
         }).join("");
 
-        var _banner = _osmFp > 0
-          ? '<div class="wg-hometype-banner">&#10003; <strong>' + _osmFp.toLocaleString() + ' sq ft</strong> footprint from satellite data &middot; <strong>' + (_signals.regionType || "suburban") + '</strong> neighborhood. We picked the most common match &mdash; tap if it&rsquo;s different.</div>'
-          : '<div class="wg-hometype-banner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data...</span></div>';
+        var _banner;
+        if (_nonSFH) {
+          _banner = '<div class="wg-hometype-banner" style="background:#fffbeb;border-color:#fcd34d;color:#92400e;">This building looks like a multi-family or commercial structure (' + _osmFp.toLocaleString() + ' sq ft footprint). Please enter your unit&rsquo;s living area below.</div>';
+        } else if (_osmFp > 0) {
+          _banner = '<div class="wg-hometype-banner">&#10003; <strong>' + _osmFp.toLocaleString() + ' sq ft</strong> footprint from satellite data &middot; <strong>' + (_signals.regionType || "suburban") + '</strong> neighborhood. We picked the most common match &mdash; tap if it&rsquo;s different.</div>';
+        } else {
+          _banner = '<div class="wg-hometype-banner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data...</span></div>';
+        }
 
-        var _manualBlock = _osmFp > 0
-          ? '<p style="font-size:13px;color:#64748b;margin:8px 0 0;">Know your exact sq ft? <a id="manualSqftLink" style="color:#2563eb;cursor:pointer;text-decoration:underline;">Enter it manually</a></p><div id="manualSqftBlock" style="display:none;"></div>'
-          : '<input type="number" id="sqftInput" class="paint-sqft-input" placeholder="e.g. 2000" min="200" max="20000" style="width:100%;margin:0.75rem 0;" /><p style="font-size:0.85rem;color:#64748b;">Enter your home size if satellite data is unavailable.</p>';
+        var _manualBlock = _showManual
+          ? '<input type="number" id="sqftInput" class="paint-sqft-input" placeholder="e.g. 2000" value="' + (est.homeSqFt || "") + '" min="200" max="20000" style="width:100%;margin:0.75rem 0;" /><p style="font-size:0.85rem;color:#64748b;">' + (_nonSFH ? "Enter your unit&rsquo;s living area." : "Enter your home size if satellite data is unavailable.") + '</p>'
+          : '<p style="font-size:13px;color:#64748b;margin:8px 0 0;">Know your exact sq ft? <a id="manualSqftLink" style="color:#2563eb;cursor:pointer;text-decoration:underline;">Enter it manually</a></p><div id="manualSqftBlock" style="display:none;"></div>';
 
         card.innerHTML = '<div class="paint-step"><h3>Describe your home</h3>' + _banner
-          + '<div class="wg-hometype-list" id="htList">' + _optsHtml + '</div>'
+          + (_showManual ? "" : '<div class="wg-hometype-list" id="htList">' + _optsHtml + '</div>')
           + _manualBlock
           + '<div class="wg-hometype-confirm">This sq ft drives your bid range &mdash; please confirm it matches your home.</div>'
           + '<button class="paint-btn paint-btn-primary paint-btn-full" id="sqftContinue" style="margin-top:1rem;">Looks right &mdash; Continue</button>'
@@ -1230,7 +1238,7 @@
           });
         }
 
-        if (_osmFp === 0) {
+        if (_showManual) {
           var _sqIn = document.getElementById("sqftInput");
           if (_sqIn) _sqIn.addEventListener("input", function() {
             if (Number(this.value) >= 200) {
@@ -1241,14 +1249,14 @@
         }
 
         document.getElementById("sqftContinue").addEventListener("click", function() {
-          if (!est.homeSqFt && _picked) _applyPick(_picked);
           var _inp = document.getElementById("sqftInput");
           if (_inp && Number(_inp.value) >= 200) est.homeSqFt = _inp.value;
+          if (!est.homeSqFt && _picked && !_showManual) _applyPick(_picked);
           if (!est.homeSqFt || Number(est.homeSqFt) < 200) { alert("Please pick a home type or enter your sqft."); return; }
           if (getEstimatorStep() > 5) { calculateEstimate(); } else { render(); }
         });
 
-        if (_picked && _opts.length) _applyPick(_picked);
+        if (!_showManual && _picked && _opts.length) _applyPick(_picked);
 
         if (_osmFp === 0) {
           var _pc = 0;

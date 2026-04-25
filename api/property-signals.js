@@ -179,12 +179,21 @@ export default async function handler(req, res) {
     const buildingTag = String(tags.building || "").toLowerCase();
 
     // Convex hull / area ratio. A perfect rectangle returns ~1.0; an L-shape
-    // (typical attached-garage indent) returns 1.05+. Threshold is conservative
-    // because OSM polygons often have small node-jitter that inflates the hull.
+    // (typical attached-garage indent) returns 1.05+.
+    //
+    // We only trust this signal in suburban contexts and within the SFH
+    // footprint range. In urban areas, large convexity ratios are usually
+    // shared-wall artifacts of adjoining townhouses/rowhouses, not
+    // attached garages — the row of homes shows up as one polygon with
+    // notches. Outside the SFH range, the signal is noise.
     const hull = convexHull(best.coords);
     const hullArea = polygonAreaSqFt(hull);
     const convexityRatio = best.area > 0 ? hullArea / best.area : 1;
-    const likelyAttachedGarage = convexityRatio >= 1.06 && best.area >= 1200;
+    const likelyAttachedGarage =
+      convexityRatio >= 1.06 &&
+      best.area >= 1200 &&
+      best.area <= 4000 &&
+      regionType !== "urban";
 
     return res.status(200).json({
       success: true,
@@ -219,13 +228,17 @@ export default async function handler(req, res) {
 }
 
 function classifyRegion(count) {
-  // Buildings within 500m radius (~194 acres). Calibrated to American
-  // density patterns: typical SFH subdivision is 1-5 houses/acre = 200-1000
-  // buildings in this radius (Phoenix/Sun Belt subs hit 700-900 on small
-  // lots). Urban rowhouse blocks hit 1500+ at 8-15 per acre.
+  // Buildings within 500m radius (~194 acres). Calibrated against real
+  // probe data:
+  //   - Lane's NC subdivision: 226  → suburban
+  //   - Phoenix tract subdivision: 779  → suburban (small-lot Sun Belt)
+  //   - Brooklyn brownstones: 813  → urban
+  //   - LA Hollywood residential: 920  → urban (dense)
+  //   - Boston North End: 1146  → urban (dense rowhouses)
+  //   - Manhattan rowhouse blocks: 1500+ → urban
   if (count == null) return "unknown";
   if (count < 30) return "rural";
-  if (count > 1500) return "urban";
+  if (count > 800) return "urban";
   return "suburban";
 }
 

@@ -1121,13 +1121,17 @@
       } else if (stepNum === 2) {
         // 5-option home-type picker (replaces stories picker). Each option
         // shows the implied living sqft so users visually pick the row whose
-        // number matches their home. Sets est.areaSqFt directly.
+        // number matches their home. Sets est.areaSqFt directly. When the
+        // building looks like multi-family / commercial / oversized, falls
+        // back to manual entry.
         var _osmFp = state.osmFootprint || 0;
         var _signals = state.osmSignals || { footprintSqFt: _osmFp, regionType: "suburban" };
         var _HT = window.WoogoroHomeType;
-        var _opts = (_HT && _osmFp > 0) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType) : [];
-        if (!est.homeType && _HT && _osmFp > 0) est.homeType = _HT.classifyHomeType(_signals);
+        var _nonSFH = _HT && _HT.isNonSingleFamily(_signals);
+        var _opts = (_HT && _osmFp > 0 && !_nonSFH) ? _HT.getHomeTypeOptions(_osmFp, _signals.regionType) : [];
+        if (!est.homeType && _HT && _osmFp > 0 && !_nonSFH) est.homeType = _HT.classifyHomeType(_signals);
         var _picked = est.homeType || (_opts[0] && _opts[0].id);
+        var _showManual = _nonSFH || _osmFp === 0;
 
         var _optsHtml = _opts.map(function(o) {
           var sel = o.id === _picked ? " selected" : "";
@@ -1135,12 +1139,19 @@
           return '<button type="button" class="wg-hometype-card' + sel + '" data-ht="' + o.id + '"><span class="wg-ht-text"><div class="wg-ht-label">' + o.label + '</div><div class="wg-ht-sub">' + o.sub + '</div></span><span class="wg-ht-sqft">' + sq + '</span></button>';
         }).join("");
 
-        var _banner = _osmFp > 0
-          ? '<div class="wg-hometype-banner">&#10003; <strong>' + _osmFp.toLocaleString() + ' sq ft</strong> footprint from satellite data &middot; <strong>' + (_signals.regionType || "suburban") + '</strong> neighborhood. We picked the most common match &mdash; tap if it&rsquo;s different.</div>'
-          : '<div class="wg-hometype-banner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data...</span></div>';
+        var _banner;
+        if (_nonSFH) {
+          _banner = '<div class="wg-hometype-banner" style="background:#fffbeb;border-color:#fcd34d;color:#92400e;">This building looks like a multi-family or commercial structure (' + _osmFp.toLocaleString() + ' sq ft footprint). Please enter your unit&rsquo;s area below.</div>';
+        } else if (_osmFp > 0) {
+          _banner = '<div class="wg-hometype-banner">&#10003; <strong>' + _osmFp.toLocaleString() + ' sq ft</strong> footprint from satellite data &middot; <strong>' + (_signals.regionType || "suburban") + '</strong> neighborhood. We picked the most common match &mdash; tap if it&rsquo;s different.</div>';
+        } else {
+          _banner = '<div class="wg-hometype-banner"><span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:12px;height:12px;border:2px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:tpspin 0.8s linear infinite;display:inline-block;"></span> Checking satellite data...</span></div>';
+        }
+
+        var _manualEntryHtml = '<label style="display:block;font-size:0.95rem;color:#475569;margin:12px 0 6px;font-weight:600;">Living area (sq ft)</label><div style="display:flex;align-items:center;gap:0.75rem;"><input type="number" class="ins-sqft-input" id="manualAreaInput" placeholder="e.g. 2000" value="' + (est.areaSqFt || "") + '" min="200" max="20000" /><span style="color:#64748b;">sq ft</span></div>';
 
         card.innerHTML = '<div class="ins-step"><h3>Describe your home</h3>' + _banner
-          + '<div class="wg-hometype-list" id="htList">' + _optsHtml + '</div>'
+          + (_showManual ? _manualEntryHtml : '<div class="wg-hometype-list" id="htList">' + _optsHtml + '</div>')
           + '<div class="wg-hometype-confirm">This sq ft drives your estimate &mdash; please confirm it matches your home.</div>'
           + '<button class="ins-btn ins-btn-primary ins-btn-full" id="btnHtNext" style="margin-top:1rem;">Looks right &mdash; Continue</button>'
           + '</div>';
@@ -1161,12 +1172,23 @@
           var b = e.target.closest(".wg-hometype-card");
           if (b) _applyPick(b.getAttribute("data-ht"));
         });
+        var _manualInp = document.getElementById("manualAreaInput");
+        if (_manualInp) {
+          _manualInp.addEventListener("input", function() {
+            var v = Number(this.value) || 0;
+            if (v >= 200) { est.areaSqFt = String(v); est.areaSqFtManual = String(v); }
+          });
+        }
         document.getElementById("btnHtNext").addEventListener("click", function() {
+          if (_manualInp) {
+            var mv = Number(_manualInp.value) || 0;
+            if (mv >= 200) { est.areaSqFt = String(mv); est.areaSqFtManual = String(mv); }
+          }
           if (!est.areaSqFt && _picked) _applyPick(_picked);
-          if (!est.areaSqFt) { alert("Please pick a home type."); return; }
+          if (!est.areaSqFt) { alert("Please pick a home type or enter your sqft."); return; }
           render();
         });
-        if (_picked && _opts.length) _applyPick(_picked);
+        if (!_showManual && _picked && _opts.length) _applyPick(_picked);
 
         // Poll for OSM data if not yet arrived
         if (_osmFp === 0) {
