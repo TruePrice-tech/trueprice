@@ -72,9 +72,7 @@
       pointer-events: none;
     }
     .est-hero img, .est-hero .est-hero-media { display: block; max-height: 280px; width: auto; height: auto; user-select: none; }
-    .est-hero .est-hero-media { background: transparent; }
-    .est-hero .est-hero-card .est-hero-media,
-    .est-hero .est-hero-card .est-hero-fallback {
+    .est-hero .est-hero-card .est-hero-media {
       display: block;
       max-height: 300px;
       width: auto;
@@ -83,11 +81,6 @@
       transform: scale(1.08);
       transform-origin: center 46%;
     }
-    @media (prefers-reduced-motion: reduce) {
-      .est-hero .est-hero-card .est-hero-media { display: none; }
-      .est-hero .est-hero-card .est-hero-fallback { display: block; }
-    }
-    .est-hero .est-hero-card .est-hero-fallback { display: none; }
     .est-hero h1 { font-size: 2.25rem; margin: 0 0 0.5rem; color: #0f172a; letter-spacing: -0.01em; }
     .est-hero p { color: #64748b; font-size: 1.1rem; margin: 0; }
 
@@ -157,38 +150,10 @@
     <div class="est-wrap">
       <div class="est-hero">
         <div class="est-hero-card">
-          <video class="est-hero-media" muted playsinline preload="none"
-                 width="800" height="800"
-                 poster="/images/Iris/Iris%20estimate.png?v=2"
-                 aria-label="Iris with her paws up, ready to help you estimate">
-            <source data-src="/images/Iris/Animations/Iris%20estimate%20fist%20pump.mp4?v=1" type="video/mp4" />
-            <picture><source srcset="/images/Iris/Iris%20estimate.webp?v=2" type="image/webp"/><img src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" width="800" height="800" /></picture>
-          </video>
-          <script>
-            // Defer 9MB MP4 until after page load + LCP — only autoplay when in viewport.
-            window.addEventListener('load', function () {
-              var v = document.querySelector('.est-hero-media');
-              if (!v) return;
-              var s = v.querySelector('source[data-src]');
-              if (!s) return;
-              function activate() {
-                s.src = s.dataset.src;
-                v.load();
-                v.play().catch(function () { /* autoplay may be blocked; poster stays */ });
-              }
-              if ('IntersectionObserver' in window) {
-                var io = new IntersectionObserver(function (entries) {
-                  entries.forEach(function (e) {
-                    if (e.isIntersecting) { activate(); io.disconnect(); }
-                  });
-                }, { rootMargin: '100px' });
-                io.observe(v);
-              } else {
-                activate();
-              }
-            });
-          </script>
-          <picture><source srcset="/images/Iris/Iris%20estimate.webp?v=2" type="image/webp"/><img class="est-hero-fallback" src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" /></picture>
+          <picture>
+            <source srcset="/images/Iris/Iris%20estimate.webp?v=2" type="image/webp"/>
+            <img class="est-hero-media" src="/images/Iris/Iris%20estimate.png?v=2" alt="Iris with her paws up, ready to help you estimate" width="800" height="800" />
+          </picture>
         </div>
         <h1>Get an estimate</h1>
         <p>Pick what you need a price for. We'll guide you through it.</p>
