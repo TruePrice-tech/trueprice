@@ -260,7 +260,7 @@
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
-<header class="site-header"><div class="container"><a class="logo" href="/"><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /><span class="logo-text">Woogoro</span></a><nav>
+<header class="site-header"><div class="container"><a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a><nav>
 <a href="/guides.html">Guides</a>
 <a href="/methodology.html">Methodology</a>
 </nav></div></header>
@@ -269,7 +269,7 @@
 
 <!-- Hero -->
 <div class="ar-hero">
-<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" />
+<picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro"  width="800" height="800"/></picture>
 <h1>Auto Repair Pricing</h1>
 <p>Whether you're shopping around or checking a quote you already have.</p>
 </div>
@@ -1109,7 +1109,7 @@ function renderReportHeader(vehicleDesc,locationDesc){
   var dateStr=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
   var isParts=currentMode==="parts";
   return '<div class="tp-report-header">'+
-    '<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" />'+
+    '<picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro"  width="800" height="800"/></picture>'+
     '<div>'+
       '<div class="eyebrow">Woogoro '+(isParts?"DIY Parts Report":"Auto Repair Report")+'</div>'+
       '<div class="title">'+(isParts?"Parts cost checked by Iris":"Estimate prepared by Iris")+'</div>'+
@@ -1780,7 +1780,7 @@ function initQuoteApp(){
   function renderUploading(){
     appRoot.innerHTML='\
       <div style="text-align:center;padding:40px 24px;">\
-        <img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:16px;" />\
+        <picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:16px;"  width="800" height="800"/></picture>\
         <h2 style="font-size:22px;margin-bottom:8px;">Analyzing your repair quote...</h2>\
         <p style="color:#64748b;margin-bottom:24px;">Don\'t sign until Iris checks it</p>\
         <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:12px;">\
@@ -2160,7 +2160,7 @@ function initQuoteApp(){
     // Assemble
     appRoot.innerHTML='\
       <div class="ar-verdict-card '+verdictCss+'">\
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
         <div class="verdict-label">'+r.verdict.label+'</div>\
         <div class="verdict-price">'+priceDisplay+'</div>\
         <div class="verdict-range">'+rangeText+'</div>\

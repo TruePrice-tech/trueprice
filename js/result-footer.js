@@ -2,9 +2,8 @@
  * Woogoro — Shared Result Footer (v2)
  * -------------------------------------
  * One consistent post-result footer every vertical's result page renders
- * after its analysis. Replaces the older js/trudy-footer.js (which is
- * still present during migration). Keeps things minimal: a thumbs
- * feedback row above a 4-button action row with mini-Iris icons.
+ * after its analysis. Keeps things minimal: a thumbs feedback row above
+ * a 4-button action row with mini-Iris icons.
  *
  * Public API:
  *   window.tpRenderResultFooter({

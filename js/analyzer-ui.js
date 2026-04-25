@@ -3997,13 +3997,13 @@ function buildComparisonWinnerHtml(summary) {
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
-        var trudyVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/Iris/Iris%20happy.png" : "/images/Iris/Iris%20concerned.png";
-        var trudyVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Iris gives a thumbs up" : "Iris looks concerned";
+        var irisVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/Iris/Iris%20happy.png" : "/images/Iris/Iris%20concerned.png";
+        var irisVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Iris gives a thumbs up" : "Iris looks concerned";
 
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
-              <img src="${trudyVerdictImg}" alt="${trudyVerdictAlt}" width="64" style="flex-shrink:0;" />
+              <img src="${irisVerdictImg}" alt="${irisVerdictAlt}" width="64" height="64" style="flex-shrink:0;" />
               <div style="flex:1;">
                 <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">Woogoro ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
                 <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>

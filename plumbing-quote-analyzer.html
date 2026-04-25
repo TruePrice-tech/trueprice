@@ -167,7 +167,7 @@
 
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/"><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /><span class="logo-text">Woogoro</span></a>
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
       <nav>
 <a href="/guides.html">Guides</a>
 <a href="/methodology.html">Methodology</a>
@@ -688,7 +688,7 @@
     function renderAddress() {
       appRoot.innerHTML = '\
         <div class="plumb-hero">\
-          <img src="/images/Worker%20Woogoro/Plumber%20worker.png" alt="Pip the Plumbing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;" />\
+          <picture><source srcset="/images/Worker%20Woogoro/Plumber%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Plumber%20worker.png" alt="Pip the Plumbing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>\
           <h1>Is your plumbing quote fair?</h1>\
           <p>Upload your contractor quote. We&#39;ll check the price, scope, and red flags in 30 seconds.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to plumbing pricing? Read our <a href="/plumbing-cost-guide.html" style="color:#16a34a;">Plumbing Cost Guide</a></p>\
@@ -845,7 +845,7 @@
         appRoot.innerHTML = '\
           <div class="plumb-hero"><h1>We found your quote total</h1></div>\
           <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
-            <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;" />\
+            <picture><source srcset="/images/Iris/Iris%20happy.webp" type="image/webp"/><img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;"  width="800" height="800"/></picture>\
             <div style="font-size:36px;font-weight:800;color:#166534;margin-bottom:8px;">$' + Math.round(price).toLocaleString() + '</div>\
             <p style="color:#475569;margin-bottom:20px;">Is this your quote total?</p>\
             <button class="plumb-btn plumb-btn-primary" id="confirmPriceBtn" style="font-size:16px;padding:14px 32px;margin-bottom:16px;">Yes, analyze this price</button>\
@@ -869,7 +869,7 @@
         appRoot.innerHTML = '\
           <div class="plumb-hero"><h1>Enter your quote total</h1></div>\
           <div class="plumb-card" style="text-align:center;max-width:520px;margin:0 auto;">\
-            <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;" />\
+            <picture><source srcset="/images/Iris/Iris%20happy.webp" type="image/webp"/><img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;"  width="800" height="800"/></picture>\
             <p style="color:#475569;margin-bottom:16px;">We couldn\'t read a price from your image. Enter your quote total:</p>\
             <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
               <span style="font-size:22px;font-weight:700;">$</span>\
@@ -1428,7 +1428,7 @@
           <h1>' + (isUpload ? "Plumbing Quote Analysis" : "Your Plumbing Estimate") + '</h1>\
         </div>\
         <div class="plumb-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><img src="/images/Worker%20Woogoro/Plumber%20worker.png" alt="Pip the Plumbing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;" /><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Plumbing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Plumber%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Plumber%20worker.png" alt="Pip the Plumbing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Plumbing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\

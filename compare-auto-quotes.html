@@ -162,7 +162,7 @@
 
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/"><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /><span class="logo-text">Woogoro</span></a>
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
       <nav>
 <a href="/guides.html">Guides</a>
 <a href="/methodology.html">Methodology</a>
@@ -177,7 +177,7 @@
         <!-- STEP 1: Upload Quotes -->
         <div id="uploadStep">
           <div style="text-align:center; margin-bottom:16px;">
-            <img id="trudyHero" src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:8px; max-height:400px; width:auto; height:auto;" />
+            <picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img id="irisHero" src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:8px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>
           </div>
           <h1>Compare your mechanic quotes</h1>
           <p class="caq-sub">Upload 2 or 3 shop quotes and we'll show you which one is the best deal.</p>
@@ -415,7 +415,7 @@
       slot.classList.remove("uploaded");
       slot.onclick = null;
       slot.innerHTML =
-        '<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" class="iris-bounce" style="margin-bottom:4px;" />' +
+        '<picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" class="iris-bounce" style="margin-bottom:4px;"  width="800" height="800"/></picture>' +
         '<span class="slot-label">Parsing quote<span class="caq-parsing-dots"></span></span>' +
         '<span class="slot-hint">This may take a moment</span>' +
         '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
@@ -683,7 +683,7 @@
 
       // Winner banner
       html += '<div class="caq-winner-banner">';
-      html += '<img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;" />';
+      html += '<picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>';
       html += '<div>';
       html += '<p style="font-size:12px; font-weight:700; color:var(--brand, #1e3a5f); margin:0 0 2px; text-transform:uppercase; letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
       if (isTight) {
