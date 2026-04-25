@@ -35,7 +35,7 @@ const ANALYZERS = {
   'landscaping-quote-analyzer.html':  { label: 'Landscaping',     item: 'landscaping' },
   'kitchen-quote-analyzer.html':      { label: 'Kitchen Remodel', item: 'kitchen remodel' },
   'garage-door-quote-analyzer.html':  { label: 'Garage Door',     item: 'garage door' },
-  'auto-repair-quote-analyzer.html':  { label: 'Auto Repair',     item: 'auto repair' },
+  'auto-repair.html':                 { label: 'Auto Repair',     item: 'auto repair' },
   'moving-quote-analyzer.html':       { label: 'Moving',          item: 'moving' },
   'legal-fee-analyzer.html':          { label: 'Legal Fee',       item: 'legal fee' },
   'medical-bill-analyzer.html':       { label: 'Medical Bill',    item: 'medical bill' },

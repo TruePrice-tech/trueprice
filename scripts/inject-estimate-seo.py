@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 # Per-vertical content config
 VERTICALS = {
     "roof": {
-        "page": "roof-replacement-cost-calculator.html",
+        "page": "roof-cost-calculator.html",
         "label": "Roof",
         "table_title": "Roof replacement cost by material (2026)",
         "table_intro": "National average ranges, installed. Roof size, pitch, and tear-off scope all create regional variation.",

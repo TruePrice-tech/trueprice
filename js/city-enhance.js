@@ -84,7 +84,7 @@
     dualHtml += '<div style="font-size:24px;margin-bottom:8px;">&#128196;</div>';
     dualHtml += '<h3 style="margin:0 0 8px;font-size:18px;">I have a quote</h3>';
     dualHtml += '<p style="font-size:14px;color:var(--text-secondary);margin:0 0 12px;">Upload it for instant price check against ' + cityState + ' market data.</p>';
-    dualHtml += '<a class="btn" href="/analyze-quote.html?city=' + cityParam + '&state=' + stateParam + '">Check My Quote</a>';
+    dualHtml += '<a class="btn" href="/analyze-my-quote.html?city=' + cityParam + '&state=' + stateParam + '">Check My Quote</a>';
     dualHtml += '</div>';
     dualHtml += '<div style="text-align:center;padding:24px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;">';
     dualHtml += '<div style="font-size:24px;margin-bottom:8px;">&#128270;</div>';

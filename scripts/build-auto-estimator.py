@@ -93,7 +93,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-my-quote.html">I Have a Quote</a></nav></div></header>
 
 <main class="ae-wrap">
 <div class="ae-hero">
@@ -276,7 +276,7 @@ document.getElementById("estimateBtn").addEventListener("click", function(){
   h += '<div class="ae-cta">';
   h += '<p style="margin:0 0 8px;font-weight:600;">Have a quote for this repair?</p>';
   h += '<p style="margin:0 0 12px;font-size:14px;color:var(--text-secondary);">Upload it and Trudy checks every line item against this benchmark.</p>';
-  h += '<a href="/auto-repair-quote-analyzer.html" class="ae-btn" style="display:inline-block;width:auto;padding:12px 24px;text-decoration:none;">Upload My Quote</a>';
+  h += '<a href="/auto-repair.html" class="ae-btn" style="display:inline-block;width:auto;padding:12px 24px;text-decoration:none;">Upload My Quote</a>';
   h += '</div>';
 
   document.getElementById("result").style.display = "block";

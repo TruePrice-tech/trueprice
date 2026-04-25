@@ -157,7 +157,7 @@ function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
   await testVertical('HVAC', 'hvac', '/hvac-quote-analyzer.html', '/hvac-quote-analyzer.html?mode=estimator', '/compare-hvac-quotes.html');
   await testVertical('Painting', 'painting', '/painting-quote-analyzer.html', '/painting-quote-analyzer.html?mode=estimator', '/compare-painting-quotes.html');
   await testVertical('Fencing', 'fencing', '/fencing-quote-analyzer.html', '/fencing-quote-analyzer.html?mode=estimator', '/compare-fencing-quotes.html');
-  await testVertical('Auto Repair', 'auto', '/auto-repair-quote-analyzer.html', '/auto-repair-quote-analyzer.html?mode=estimator', '/compare-auto-quotes.html');
+  await testVertical('Auto Repair', 'auto', '/auto-repair.html', '/auto-repair.html?mode=estimator', '/compare-auto-quotes.html');
   await testVertical('Moving', 'moving', '/moving-quote-analyzer.html', '/moving-quote-analyzer.html?mode=estimator', '/compare-moving-quotes.html');
 
   await browser.close();

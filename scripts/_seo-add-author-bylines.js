@@ -40,7 +40,7 @@ const PAGES = [
   // Vertical guides
   'hvac-cost.html',
   'roof-cost-by-house-size.html',
-  'roof-replacement-cost-guide.html',
+  'roof-cost-by-material.html',
   'plumbing-cost.html',
   'plumbing-cost-guide.html',
   'electrical-cost.html',

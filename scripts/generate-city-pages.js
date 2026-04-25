@@ -22,7 +22,7 @@ const RELATED_GUIDES = [
   {
     title: "Roof replacement cost guide",
     description: "Review the broader fundamentals behind fair residential roof pricing.",
-    href: "./roof-replacement-cost-guide.html"
+    href: "./roof-cost-by-material.html"
   }
 ];
 
@@ -669,7 +669,7 @@ ${breadcrumbSchema}
       <a class="brand" href="./index.html">Woogoro</a>
       <nav class="nav" aria-label="Main navigation">
         <a href="./index.html">Home</a>
-        <a href="./roof-replacement-cost-calculator.html">Calculator</a>
+        <a href="./roof-cost-calculator.html">Calculator</a>
         <a href="./roofing-quote-analyzer.html">Quote Analyzer</a>
         <a href="./compare-roofing-quotes.html">Compare Quotes</a>
       </nav>
@@ -685,7 +685,7 @@ ${breadcrumbSchema}
           Use this ${escapeHtml(display)} roofing cost guide to understand price ranges by house size, compare quote details more accurately, and spot the main factors that move roof replacement costs up or down.
         </p>
         <div class="button-row">
-          <a class="btn primary" href="./roof-replacement-cost-calculator.html">Use Roof Calculator</a>
+          <a class="btn primary" href="./roof-cost-calculator.html">Use Roof Calculator</a>
           <a class="btn secondary" href="./roofing-quote-analyzer.html">Analyze My Quote</a>
           <a class="btn secondary" href="./compare-roofing-quotes.html">Compare Roofing Quotes</a>
         </div>
@@ -802,7 +802,7 @@ ${breadcrumbSchema}
             <div class="tool-card">
               <h3>Roof replacement calculator</h3>
               <p>Estimate a fair roofing price using roof size and project assumptions.</p>
-              <a class="card-link" href="./roof-replacement-cost-calculator.html">Open calculator</a>
+              <a class="card-link" href="./roof-cost-calculator.html">Open calculator</a>
             </div>
             <div class="tool-card">
               <h3>Quote analyzer</h3>
@@ -879,7 +879,7 @@ ${faqHtml}
           <p>
             Start with the calculator, then use the quote analyzer to test whether your contractor scope looks complete.
           </p>
-          <a class="btn primary" href="./roof-replacement-cost-calculator.html">Start now</a>
+          <a class="btn primary" href="./roof-cost-calculator.html">Start now</a>
         </div>
       </aside>
     </div>
@@ -1067,10 +1067,10 @@ function generatePages() {
 function generateSitemap(cityData) {
   const staticPages = [
     "",
-    "/roof-replacement-cost-calculator.html",
+    "/roof-cost-calculator.html",
     "/roofing-quote-analyzer.html",
     "/compare-roofing-quotes.html",
-    "/roof-replacement-cost-guide.html",
+    "/roof-cost-by-material.html",
     "/architectural-shingle-roof-cost.html",
     "/metal-roof-replacement-cost.html"
   ];

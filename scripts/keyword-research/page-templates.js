@@ -181,7 +181,7 @@ const VERTICAL_CONTEXT = {
   'auto-repair': {
     label: 'Auto repair',
     nationalLow: 150, nationalHigh: 2500,
-    analyzer: '/auto-repair-quote-analyzer.html',
+    analyzer: '/auto-repair.html',
     guide: '/auto-repair-cost-guide.html',
     scopeItems: ['diagnostic labor', 'parts', 'replacement labor', 'taxes/shop fees', 'warranty coverage'],
     commonVariants: ['brake job ($200-$800 per axle)', 'timing belt ($500-$1,200)', 'water pump ($400-$900)', 'alternator ($350-$800)', 'transmission rebuild ($2,500-$5,000)'],

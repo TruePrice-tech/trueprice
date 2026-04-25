@@ -35,7 +35,7 @@ const ALL = [
   { slug: "kitchen", label: "Kitchen", fxDir: "kitchen-images", analyzerUrl: "/kitchen-quote-analyzer.html", compareUrl: "/compare-kitchen-quotes.html" },
   { slug: "landscaping", label: "Landscaping", fxDir: "landscaping-images", analyzerUrl: "/landscaping-quote-analyzer.html", compareUrl: "/compare-landscaping-quotes.html" },
   { slug: "moving", label: "Moving", fxDir: "moving-images", analyzerUrl: "/moving-quote-analyzer.html", compareUrl: "/compare-moving-quotes.html" },
-  { slug: "auto-repair", label: "Auto Repair", altLabel: "Auto", fxDir: "auto-images", analyzerUrl: "/auto-repair-quote-analyzer.html", compareUrl: "/compare-auto-quotes.html" },
+  { slug: "auto-repair", label: "Auto Repair", altLabel: "Auto", fxDir: "auto-images", analyzerUrl: "/auto-repair.html", compareUrl: "/compare-auto-quotes.html" },
   { slug: "medical", label: "Medical", fxDir: "medical-images", analyzerUrl: "/medical-bill-analyzer.html", compareUrl: "/compare-medical-quotes.html" },
   { slug: "legal", label: "Legal", fxDir: "legal-images", analyzerUrl: "/legal-fee-analyzer.html", compareUrl: "/compare-legal-quotes.html" },
 ];

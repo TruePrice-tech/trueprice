@@ -25,7 +25,7 @@ const PAGES = [
   { path: "/compare-medical-quotes.html", label: "compare-medical", reason: "analyzer typo fix" },
   { path: "/compare-roofing-quotes.html", label: "compare-roofing", reason: "cost-guide repoint" },
   { path: "/st-louis-mo-auto-repair-cost.html", label: "stlouis-auto", reason: "canonical state-code fix" },
-  { path: "/roof-replacement-cost-guide.html", label: "roof-redirect-stub", reason: "new redirect stub" },
+  { path: "/roof-cost-by-material.html", label: "roof-redirect-stub", reason: "new redirect stub" },
   { path: "/get-an-estimate.html", label: "get-estimate", reason: "contact → mailto fix" },
   { path: "/hvac-estimate.html", label: "hvac-estimate", reason: "quote capture card still renders" },
 ];

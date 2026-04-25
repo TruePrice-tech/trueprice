@@ -13758,7 +13758,7 @@ function buildComparisonWinnerHtml(summary) {
             <!-- photo option removed -->
 
             <div style="text-align:center; margin-top:12px;">
-              <a href="/analyze-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
+              <a href="/analyze-my-quote.html#roofing" style="font-size:13px; color:#94a3b8; text-decoration:none;">&larr; Back</a>
             </div>
 
             ` : isEstimatorMode ? '' : `

@@ -38,7 +38,7 @@ VERTICALS = {
     "kitchen-remodel": ("kitchen remodel", "Kitchen"),
 }
 GUIDE_FOR_VERTICAL = {
-    "roof": "roof-replacement-cost-guide.html",
+    "roof": "roof-cost-by-material.html",
     "hvac": "hvac-replacement-cost-guide.html",
     "plumbing": "plumbing-cost-guide.html",
     "electrical": "electrical-cost-guide.html",

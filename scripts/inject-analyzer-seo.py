@@ -768,7 +768,7 @@ VERTICALS = {
         ],
     },
     "auto-repair": {
-        "page": "auto-repair-quote-analyzer.html",
+        "page": "auto-repair.html",
         "label": "Auto repair",
         "noun": "auto repair quote",
         "intro": "Auto repair quotes are notoriously vague. \"Brake job\" could be $150 pad replacement or $1,500 full brake system overhaul. A quality quote itemizes parts vs labor, OEM vs aftermarket, diagnostic scope, and warranty &mdash; and distinguishes necessary work from \"recommended\" upsells.",

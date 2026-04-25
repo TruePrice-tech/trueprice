@@ -13,7 +13,7 @@ const ROOT = path.join(__dirname, "..");
 const dryRun = process.argv.includes("--dry-run");
 
 const SERVICE_MAP = {
-  "roof-cost": { guide: "/roof-replacement-cost-guide.html", label: "Roofing Cost Guide" },
+  "roof-cost": { guide: "/roof-cost-by-material.html", label: "Roofing Cost Guide" },
   "hvac-cost": { guide: "/hvac-replacement-cost-guide.html", label: "HVAC Cost Guide" },
   "plumbing-cost": { guide: "/plumbing-cost-guide.html", label: "Plumbing Cost Guide" },
   "electrical-cost": { guide: "/electrical-cost-guide.html", label: "Electrical Cost Guide" },

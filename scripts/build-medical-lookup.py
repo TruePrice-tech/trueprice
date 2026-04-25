@@ -63,7 +63,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/medical-bill-analyzer.html">Bill Analyzer</a><a class="nav-cta" href="/analyze-quote.html">Check My Price</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/medical-bill-analyzer.html">Bill Analyzer</a><a class="nav-cta" href="/analyze-my-quote.html">Check My Price</a></nav></div></header>
 
 <main class="mcl-wrap">
 <div class="mcl-hero">

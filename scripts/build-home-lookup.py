@@ -75,7 +75,7 @@ html = '''<!DOCTYPE html>
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-quote.html">I Have a Quote</a></nav></div></header>
+<header class="site-header"><div class="container"><a class="logo" href="/">Woogoro</a><nav><a href="/guides.html">Guides</a><a href="/just-browsing.html">Just Browsing</a><a class="nav-cta" href="/analyze-my-quote.html">I Have a Quote</a></nav></div></header>
 
 <main class="hcl-wrap">
 <div class="hcl-hero">
@@ -152,7 +152,7 @@ document.getElementById("lookupBtn").addEventListener("click", function(){
     h+='</div>';
     if(s.notes) h+='<div class="hcl-note">'+s.notes+'</div>';
     h+='<div class="hcl-links">';
-    h+='<a href="/analyze-quote.html" style="background:var(--brand);color:#fff;">Have a quote? Check it</a>';
+    h+='<a href="/analyze-my-quote.html" style="background:var(--brand);color:#fff;">Have a quote? Check it</a>';
     if(cityPageLink) h+='<a href="'+cityPageLink+'" style="background:var(--bg-subtle);color:var(--brand);">Detailed '+locLabel+' pricing</a>';
     h+='</div>';
     h+='</div>';
@@ -162,7 +162,7 @@ document.getElementById("lookupBtn").addEventListener("click", function(){
     resEl.style.display="block";
     // Fallback without API
     var s=SVCS[svc];
-    resEl.innerHTML='<div class="hcl-card"><h3>'+s.label+'</h3><div class="hcl-price-box"><div class="label">National Average</div><div class="value">'+fmt(s.range[0])+' - '+fmt(s.range[1])+'</div><div class="sub">'+s.unit+'</div></div>'+(s.notes?'<div class="hcl-note">'+s.notes+'</div>':'')+'<div class="hcl-links"><a href="/analyze-quote.html" style="background:var(--brand);color:#fff;">Have a quote? Check it</a></div></div>';
+    resEl.innerHTML='<div class="hcl-card"><h3>'+s.label+'</h3><div class="hcl-price-box"><div class="label">National Average</div><div class="value">'+fmt(s.range[0])+' - '+fmt(s.range[1])+'</div><div class="sub">'+s.unit+'</div></div>'+(s.notes?'<div class="hcl-note">'+s.notes+'</div>':'')+'<div class="hcl-links"><a href="/analyze-my-quote.html" style="background:var(--brand);color:#fff;">Have a quote? Check it</a></div></div>';
   });
 });
 

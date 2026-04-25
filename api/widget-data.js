@@ -619,10 +619,10 @@ module.exports = async (req, res) => {
     let cityPageUrl, analyzerUrl;
     if (category === 'home') {
       cityPageUrl = `https://woogoro.com/${slugify(city)}-${stateUpper.toLowerCase()}-${config.urlSlug}-cost.html`;
-      analyzerUrl = 'https://woogoro.com/analyze-quote.html';
+      analyzerUrl = 'https://woogoro.com/analyze-my-quote.html';
     } else if (category === 'auto') {
       cityPageUrl = 'https://woogoro.com/auto-repair-cost-guide.html';
-      analyzerUrl = 'https://woogoro.com/auto-repair-quote-analyzer.html';
+      analyzerUrl = 'https://woogoro.com/auto-repair.html';
     } else if (category === 'medical') {
       cityPageUrl = 'https://woogoro.com/medical-cost-guide.html';
       analyzerUrl = 'https://woogoro.com/medical-bill-analyzer.html';

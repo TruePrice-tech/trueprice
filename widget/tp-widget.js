@@ -161,7 +161,7 @@
     var displayState = data.state || state;
     var materials = data.materials || [];
     var cityUrl = data.cityPageUrl || 'https://woogoro.com';
-    var analyzerUrl = data.analyzerUrl || 'https://woogoro.com/analyze-quote.html';
+    var analyzerUrl = data.analyzerUrl || 'https://woogoro.com/analyze-my-quote.html';
     var isHourly = data.isHourly || false;
     var note = data.referenceSize ? 'for a typical ' + data.referenceSize : '';
 
