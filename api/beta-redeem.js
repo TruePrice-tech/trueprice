@@ -27,6 +27,7 @@ import { Redis } from "@upstash/redis";
 import crypto from "crypto";
 import { requireBetaUser } from "./_beta-session.js";
 import { spendWoo, getBalance } from "./_woogoros-ledger.js";
+import { logRedeemMerch } from "./_woogoros-econ.js";
 import { CATALOG, getItem, publicCatalog, validateShipping, normalizeShipping } from "./_woogoros-catalog.js";
 
 const redis = Redis.fromEnv();
@@ -155,6 +156,21 @@ export default async function handler(req, res) {
 
   // Future Printful integration would POST the order here. For now we
   // leave it queued for manual fulfillment.
+
+  // Econ tracking: log the redemption. Cost placeholder until we have
+  // real Printful invoices: assume ~50% gross margin against the woo
+  // value at the standard 100-woo-per-dollar implicit rate. Admin can
+  // restate retroactively from invoice data.
+  const placeholderUnitCostCents = Math.round((item.wooCost / 100) * 50);
+  logRedeemMerch({
+    userId: user.userId,
+    woo: item.wooCost,
+    itemSlug,
+    itemLabel: item.label,
+    unitCostCents: placeholderUnitCostCents,
+    shippingCents: 0, // included in placeholder
+    orderId,
+  }).catch(() => {});
 
   return res.status(200).json({
     success: true,

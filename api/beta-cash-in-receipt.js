@@ -21,6 +21,7 @@ import {
   markReceiptWoogoroRedeemed,
 } from "./_beta-session.js";
 import { issueWoo, getBalance } from "./_woogoros-ledger.js";
+import { logCashIn } from "./_woogoros-econ.js";
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store, max-age=0");
@@ -102,6 +103,18 @@ export default async function handler(req, res) {
 
   let newBalance = 0;
   try { newBalance = await getBalance(user.userId); } catch (e) { /* swallow */ }
+
+  // Econ tracking: cash-in crystallizes the projected cost. Placeholder
+  // cents-per-woo rate lives in _woogoros-econ.js; tune as Tremendous +
+  // Printful invoices come in.
+  logCashIn({
+    userId: user.userId,
+    tier: rw.tier,
+    woo: amount,
+    rwId: receiptWoogoroId,
+    ledgerId: entry.id,
+    vertical: rw.vertical,
+  }).catch(() => {});
 
   return res.status(200).json({
     success: true,

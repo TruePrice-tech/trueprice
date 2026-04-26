@@ -36,6 +36,7 @@ import {
 } from "./_beta-session.js";
 import { issueWoo, getBalance, listLedger, listGlobalRecent } from "./_woogoros-ledger.js";
 import { collectWoogoro, bumpStreak } from "./_beta-session.js";
+import { getEconWindow, listRecentEvents, logRevenue } from "./_woogoros-econ.js";
 import { Redis } from "@upstash/redis";
 import crypto from "crypto";
 
@@ -243,6 +244,30 @@ export default async function handler(req, res) {
         try { await redis.lrem("wg:order_queue", 0, id); } catch (e) { /* swallow */ }
       }
       return res.status(200).json({ ok: true, order });
+    }
+
+    if (op === "econ_window") {
+      const days = Math.max(1, Math.min(365, parseInt(body.days, 10) || 7));
+      const agg = await getEconWindow({ windowMs: days * 24 * 3600 * 1000 });
+      return res.status(200).json({ days, ...agg });
+    }
+
+    if (op === "econ_recent") {
+      const limit = Math.max(1, Math.min(1000, parseInt(body.limit, 10) || 50));
+      const rows = await listRecentEvents(limit);
+      return res.status(200).json({ rows });
+    }
+
+    if (op === "econ_log_revenue") {
+      // Manual revenue posting: alt-data sale, premium subscription, sponsor.
+      // body: { kind: "altdata"|"premium"|"sponsored", amountCents: int, source?: str, userId?: str }
+      const kind = String(body.kind || "");
+      const amountCents = parseInt(body.amountCents, 10);
+      if (!Number.isInteger(amountCents) || amountCents <= 0) {
+        return res.status(400).json({ error: "amountCents must be a positive integer" });
+      }
+      const ev = await logRevenue({ kind, amountCents, source: body.source, userId: body.userId });
+      return res.status(200).json({ ok: true, event: ev });
     }
 
     return res.status(400).json({ error: "Unknown op" });

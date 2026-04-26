@@ -42,6 +42,7 @@ import { verifyReceipt } from "./_woogoros-verifier.js";
 import { checkAndConsumeCap } from "./_woogoros-caps.js";
 import { VERTICALS } from "./_woogoros-vertical.js";
 import { assignReceiptTier } from "./_receipt-woogoro-tiers.js";
+import { logReceiptMinted } from "./_woogoros-econ.js";
 
 const redis = Redis.fromEnv();
 
@@ -258,6 +259,19 @@ export default async function handler(req, res) {
 
   const collect = await collectWoogoro(user.userId, verification.vertical);
   const streak = await bumpStreak(user.userId);
+
+  // Econ tracking: log the mint. costCents=0 here (locked, not realized).
+  // Cash-in is what crystallizes the cost; this just records the
+  // potential liability for later analysis.
+  logReceiptMinted({
+    userId: user.userId,
+    tier: tierAssignment.tier,
+    woo: tierAssignment.wooAmount,
+    vertical: verification.vertical,
+    declaredAmount,
+    submissionId,
+    cappedByTrust: tierAssignment.cappedByTrust,
+  }).catch(() => {});
 
   return res.status(200).json({
     success: true,
