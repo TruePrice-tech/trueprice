@@ -23,14 +23,14 @@ const DAILY_KEY = "tp:counter_history";
 const HISTORY_DAYS = 30;
 
 export default async function handler(req, res) {
-  // Only allow Vercel cron or admin
   const auth = req.headers["authorization"] || "";
   const cronSecret = process.env.CRON_SECRET || "";
-  if (cronSecret && auth !== `Bearer ${cronSecret}`) {
-    // Allow internal Vercel cron without bearer (Vercel adds its own header)
-    if (!req.headers["x-vercel-cron"]) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+  if (!cronSecret) {
+    console.error("[daily-counter-tick] CRON_SECRET not configured — refusing to run");
+    return res.status(503).json({ error: "CRON_SECRET not configured" });
+  }
+  if (auth !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {

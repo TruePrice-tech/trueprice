@@ -56,10 +56,12 @@ async function scanCalKeys() {
 export default async function handler(req, res) {
   const auth = req.headers["authorization"] || "";
   const cronSecret = process.env.CRON_SECRET || "";
-  if (cronSecret && auth !== `Bearer ${cronSecret}`) {
-    if (!req.headers["x-vercel-cron"]) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+  if (!cronSecret) {
+    console.error("[drift-check] CRON_SECRET not configured — refusing to run");
+    return res.status(503).json({ error: "CRON_SECRET not configured" });
+  }
+  if (auth !== `Bearer ${cronSecret}`) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   const dryRun = req.query.dryRun === "1" || req.query.dryRun === "true";
