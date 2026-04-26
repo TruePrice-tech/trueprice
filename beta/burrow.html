@@ -299,7 +299,7 @@
             '<div class="bw-rw-tier ' + esc(tier) + '">' + esc(tier) + '</div>' +
             '<img src="' + esc(art) + '" alt="' + esc(tier) + ' Receipt Woogoro" />' +
             '<div class="bw-rw-vertical">' + esc(vert) + '</div>' +
-            '<div class="bw-rw-amount">$' + amt.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' receipt</div>' +
+            '<div class="bw-rw-amount">$' + amt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' receipt</div>' +
             '<div class="bw-rw-woo">' + woo.toLocaleString() + ' Woo<small>locked in</small></div>';
           if (rw.redeemed) {
             return '<div class="bw-rw redeemed">' + headBits +
