@@ -152,7 +152,7 @@ document.getElementById("lookupBtn").addEventListener("click", function(){
     var shareText=s.label+" in "+locLabel+": "+fmt(lo)+" - "+fmt(hi)+". "+badgeText+". woogoro.com/home-cost-lookup.html";
 
     var h='<div class="hcl-card">';
-    h+='<span class="hcl-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\'');this.textContent=\'Copied!\'">Share</span>';
+    h+='<span class="hcl-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\');this.textContent=\'Copied!\'">Share</span>';
     h+='<h3>'+s.label+' in '+locLabel+'</h3>';
     h+='<span class="hcl-badge '+badgeClass+'">'+badgeText+'</span>';
     h+='<div class="hcl-price-box">';

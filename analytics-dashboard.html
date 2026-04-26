@@ -182,7 +182,7 @@
       }
     }
 
-    function render(d) {
+    async function render(d) {
       // Calculate conversion metrics
       var analyzerViews = 0, photoViews = 0, analysisCompleted = 0, photoCompleted = 0;
       (d.topPages || []).forEach(function(p) {

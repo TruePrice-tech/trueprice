@@ -221,7 +221,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   var shareText=j.l+" in "+locLabel+": "+fmt(totalLow)+" - "+fmt(totalHigh)+". woogoro.com/home-estimate.html";
 
   var h='<div class="he-card">';
-  h+='<span class="he-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\'');this.textContent=\'Copied!\'">Share</span>';
+  h+='<span class="he-share" onclick="navigator.clipboard.writeText(\''+shareText.replace(/'/g,"\\'")+'\');this.textContent=\'Copied!\'">Share</span>';
   h+='<h3>'+j.l+'</h3>';
   h+='<div style="font-size:14px;color:#64748b;">'+locLabel;
   if(j.pf)h+=' &bull; '+qty+' linear feet';
