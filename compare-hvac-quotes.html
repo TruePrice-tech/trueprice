@@ -211,7 +211,7 @@
   </div>
 </div>
 
-      <p>Woogoro helps people analyze HVAC contractor quotes, compare prices, and avoid being overcharged.
+      <p>Woogoro helps people analyze HVAC contractor quotes, compare prices, and check costs against benchmark rates.
         <a href="/privacy.html" style="color:inherit;">Privacy</a> |
         <a href="/about.html" style="color:inherit;">About</a> |
         <a href="/methodology.html" style="color:inherit;">Methodology</a> |
@@ -629,7 +629,7 @@
         var diff = priced[priced.length - 1].data.price - priced[0].data.price;
         var pct = Math.round(diff / priced[0].data.price * 100);
         if (pct > 5) {
-          var ctx = escHtml(priced[priced.length - 1].data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(priced[0].data.name) + ". A higher price isn\u2019t always overcharging \u2014 check the scope and warranty before deciding.";
+          var ctx = escHtml(priced[priced.length - 1].data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(priced[0].data.name) + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
           html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
         }
       }

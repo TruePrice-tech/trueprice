@@ -5953,7 +5953,7 @@ setTimeout(async () => {
           mode: "negotiate",
           eyebrow: "Recommended next step",
           headline: "Push back on price",
-          body: "This quote looks overpriced relative to the model.",
+          body: "This quote is notably above the local median based on our benchmark data.",
           primaryLabel: "Push back on price",
           primaryAction: "copy_contractor_questions"
         };
@@ -9034,8 +9034,8 @@ function buildComparisonWinnerHtml(summary) {
       function getVerdictHeadline(verdict) {
         const v = String(verdict || "").toLowerCase();
         if (v.includes("fair")) return "This quote looks fair";
-        if (v.includes("overpriced")) return "This quote looks overpriced";
-        if (v.includes("higher")) return "This quote looks high";
+        if (v.includes("overpriced")) return "This quote is notably above the local median";
+        if (v.includes("higher")) return "This quote looks higher than expected";
         if (v.includes("scope risk")) return "This quote may be missing items";
         if (v.includes("low")) return "This price seems low";
         return verdict || "Analysis complete";
@@ -9043,8 +9043,8 @@ function buildComparisonWinnerHtml(summary) {
 
       function getVerdictSubtitle(verdict) {
         const v = String(verdict || "").toLowerCase();
-        if (v.includes("fair")) return "Looks good. This is in line with what other homeowners in your area are paying.";
-        if (v.includes("overpriced")) return "This is significantly above market. Get at least two more quotes before signing.";
+        if (v.includes("fair")) return "Based on our benchmark data, this is in line with what other homeowners in your area are paying.";
+        if (v.includes("overpriced")) return "Based on our benchmark data, this appears notably above the median for similar work in your area. Consider getting at least two more quotes before signing. This is an opinion based on available comparison data, not a determination of what is fair or reasonable.";
         if (v.includes("higher")) return "Not a dealbreaker, but worth getting a second quote to compare.";
         if (v.includes("scope risk")) return "The price might be fine, but check what's actually included.";
         if (v.includes("low")) return "Be careful. Low bids sometimes mean missing scope items or cut corners.";
@@ -9893,9 +9893,9 @@ function buildComparisonWinnerHtml(summary) {
 
             <div class="verdict ${verdictClass}" style="font-size:44px; font-weight:800; margin:0 0 6px;">
               ${a.verdict === "Overpriced"
-              ? "This quote looks overpriced"
+              ? "This quote is notably above the local median"
               : a.verdict === "Higher Than Expected"
-                ? "This quote looks high"
+                ? "This quote looks higher than expected"
                 : a.verdict === "Fair Price"
                   ? "This quote looks fair"
                   : a.verdict === "Unusually Low"

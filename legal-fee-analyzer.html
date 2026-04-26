@@ -225,6 +225,7 @@
   </header>
 
   <main id="main" class="analyzer-wrap">
+    <aside class="tp-page-disclaimer" style="border:1px solid #cbd5e1; background:#f8fafc; border-radius:8px; padding:14px 18px; margin:24px auto 0; max-width:640px; line-height:1.55; color:#334155; font-size:13px; text-align:left;"><strong style="color:#0f172a;">Important.</strong> Woogoro provides pricing comparison and benchmark analysis only. We do not give legal advice, refer attorneys, rate attorneys, or hold ourselves out as a law firm. We are not engaged in the practice of law in any U.S. state, including California (Cal. Bus. &amp; Prof. Code &sect; 6125), New York (Jud. Law &sect; 478), Texas (Gov't Code &sect; 81.101), or Florida (Fla. Bar Rule 10-2.1). Woogoro is not a lawyer referral service. All verdicts and comparisons are statements of opinion based on benchmark data, not statements of fact. For specific legal advice or fee disputes, consult a licensed attorney or your state bar's fee arbitration program. <a href="/terms.html#state-disclosures" style="color:#0369a1; text-decoration:underline;">Full state disclosures</a>.</aside>
     <div class="lf-app" id="lfApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
         <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
@@ -578,7 +579,7 @@
         if (hasBlockBilling) h += '<div style="font-size:13px;color:#78350f;padding:4px 0;">Block billing: ' + r.blockBillingEntries.length + ' entries with grouped tasks</div>';
         if (hasVague) h += '<div style="font-size:13px;color:#78350f;padding:4px 0;">Vague descriptions: ' + r.vagueEntries.length + ' entries</div>';
         if (hasParalegal) h += '<div style="font-size:13px;color:#78350f;padding:4px 0;">Paralegal work at attorney rate: ' + r.paralegalWorkAtAttorneyRate.length + ' entries</div>';
-        if (r.estimatedIncrementOvercharge) h += '<div style="font-size:13px;color:#92400e;font-weight:600;padding:4px 0;">Estimated increment overcharge: ' + fmt(r.estimatedIncrementOvercharge) + '</div>';
+        if (r.estimatedIncrementOvercharge) h += '<div style="font-size:13px;color:#92400e;font-weight:600;padding:4px 0;">Estimated increment overage vs. minute billing: ' + fmt(r.estimatedIncrementOvercharge) + '</div>';
         h += '</div>';
       }
 
@@ -690,8 +691,8 @@
       appRoot.innerHTML = '\
         <div class="lf-hero">\
           <picture><source srcset="/images/Worker%20Woogoro/Legal%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Legal%20worker.png" alt="Perry the Legal Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>\
-          <h1>Is your attorney\'s fee fair?</h1>\
-          <p>Upload your retainer agreement, fee agreement, or legal invoice. Iris checks the rates against market data and flags concerning terms.</p>\
+          <h1>How does your attorney\'s fee compare?</h1>\
+          <p>Upload your retainer agreement, fee agreement, or legal invoice. Iris compares the rates against published benchmark data and notes terms you may want to question.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to legal fees? Read our <a href="/legal-cost-guide.html" style="color:#16a34a;">Legal Cost Guide</a></p>\
         </div>\
         <div class="lf-card">\
@@ -1280,7 +1281,7 @@
           r.paralegalWorkAtAttorneyRate.forEach(function(entry) { html += '<div class="lf-billing-item" style="padding-left:1rem; font-size:0.85rem;">&bull; ' + escHtml(typeof entry === 'string' ? entry : entry.description || JSON.stringify(entry)) + '</div>'; });
         }
         if (r.estimatedIncrementOvercharge) {
-          html += '<div class="lf-billing-item" style="font-weight:600; color:#92400e; border-top:2px solid #fde68a; margin-top:0.5rem; padding-top:0.75rem;">Estimated billing increment overcharge: ' + fmt(r.estimatedIncrementOvercharge) + '</div>';
+          html += '<div class="lf-billing-item" style="font-weight:600; color:#92400e; border-top:2px solid #fde68a; margin-top:0.5rem; padding-top:0.75rem;">Estimated billing-increment overage vs. minute billing: ' + fmt(r.estimatedIncrementOvercharge) + '</div>';
         }
         html += '</div>';
       }

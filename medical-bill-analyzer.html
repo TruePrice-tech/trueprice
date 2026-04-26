@@ -10,7 +10,7 @@
   <title>Medical Bill Analyzer - Is Your Hospital Bill Correct? | Woogoro</title>
   <meta
     name="description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and unbundling. Compares 146 procedures against Medicare rates with state-level pricing."
+    content="Upload your medical bill or EOB to check for billing errors and charges that exceed published benchmark rates. Compares 146 procedures against Medicare rates with state-level pricing."
   />
   <link rel="canonical" href="https://woogoro.com/medical-bill-analyzer.html" />
   <link rel="alternate" hreflang="en-US" href="https://woogoro.com/medical-bill-analyzer.html" />
@@ -20,7 +20,7 @@
   <meta property="og:title" content="Medical Bill Analyzer | Woogoro" />
   <meta
     property="og:description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute."
+    content="Upload your medical bill or EOB to check for potential billing errors and charges that exceed published benchmark rates. Flags items you may want to question with your provider."
   />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://woogoro.com/medical-bill-analyzer.html" />
@@ -30,7 +30,7 @@
   <meta name="twitter:title" content="Medical Bill Analyzer | Woogoro" />
   <meta
     name="twitter:description"
-    content="Upload your medical bill or EOB to check for errors, overcharges, and billing issues. Compares charges against published benchmark rates and flags items to dispute."
+    content="Upload your medical bill or EOB to check for potential billing errors and charges that exceed published benchmark rates. Flags items you may want to question with your provider."
   />
   <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
   <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
@@ -198,6 +198,7 @@
   <a href="/medical-cost-lookup.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Look up a procedure price &rarr;</a><a href="/compare-medical-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple bills? Compare &rarr;</a>
 </div>
 
+    <aside class="tp-page-disclaimer" style="border:1px solid #cbd5e1; background:#f8fafc; border-radius:8px; padding:14px 18px; margin:24px auto 0; max-width:640px; line-height:1.55; color:#334155; font-size:13px; text-align:left;"><strong style="color:#0f172a;">Important.</strong> Woogoro provides pricing comparison and benchmark analysis only. We do not give medical advice, diagnose, recommend treatment, or refer healthcare providers. We are not engaged in the practice of medicine in any U.S. state, including California (Cal. Bus. &amp; Prof. Code &sect; 2052), New York (Educ. Law Article 131), Texas (Tex. Occ. Code &sect; 151 et seq.), or Florida (Fla. Stat. Chapter 458). All verdicts and comparisons are statements of opinion based on benchmark data, not statements of fact. For specific medical advice, consult a licensed clinician. For formal billing disputes, contact your insurance provider, your healthcare facility's billing department, or a medical billing advocate. <a href="/terms.html#state-disclosures" style="color:#0369a1; text-decoration:underline;">Full state disclosures</a>.</aside>
     <div class="mb-app" id="mbApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
         <div style="width:36px; height:36px; border:3px solid #e5e7eb; border-top-color:#1d4ed8; border-radius:50%; animation:tpspin 0.8s linear infinite; margin:0 auto 16px;"></div>
@@ -653,7 +654,7 @@
         <div class="mb-hero">\
           <picture><source srcset="/images/Worker%20Woogoro/Medical%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Medical%20worker.png" alt="Scout the Medical Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>\
           <h1>Is your medical bill correct?</h1>\
-          <p>Upload your bill, EOB, or hospital invoice. Iris checks every charge against published benchmark rates and flags errors, overcharges, and items to dispute.</p>\
+          <p>Upload your bill, EOB, or hospital invoice. Iris compares every charge against published benchmark rates and flags potential billing errors, charges that exceed those benchmarks, and items you may want to question with your provider.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to medical billing? Read our <a href="/medical-cost-guide.html" style="color:#16a34a;">Medical Cost Guide</a></p>\
         </div>\
         <div class="mb-card">\
@@ -912,7 +913,7 @@
       lineItems.forEach(function(item) {
         if (item.ratio !== null && item.ratio > 3) {
           redFlags.push({
-            title: "Overcharge on " + item.service + " (CPT " + item.cptCode + ")",
+            title: "Above benchmark: " + item.service + " (CPT " + item.cptCode + ")",
             why: "Charged " + fmt(item.charged) + " which is " + item.ratio.toFixed(1) + "x the Medicare rate of " + fmt(item.medicareRate) + ".",
             action: "Request itemized breakdown and ask billing to justify the charge above benchmark rates."
           });
@@ -1018,7 +1019,7 @@
           } else {
             html += '<td>--</td>';
           }
-          html += '<td>' + (item.overchargeFlag ? '<span class="mb-flag-icon" title="' + escHtml(item.overchargeFlag) + '">&#9888;</span>' : item.flagged ? '<span class="mb-flag-icon" title="Overcharge">&#9888;</span>' : '') + '</td>';
+          html += '<td>' + (item.overchargeFlag ? '<span class="mb-flag-icon" title="' + escHtml(item.overchargeFlag) + '">&#9888;</span>' : item.flagged ? '<span class="mb-flag-icon" title="Above benchmark">&#9888;</span>' : '') + '</td>';
           html += '</tr>';
         });
         html += '</tbody></table></div></div>';
@@ -1129,7 +1130,7 @@
       html += '<ul class="mb-tips">';
       html += '<li>Request an itemized bill with all CPT codes and descriptions.</li>';
       html += '<li>Charges over 3x Medicare rate are worth questioning.</li>';
-      html += '<li>Call billing and reference specific overcharged line items.</li>';
+      html += '<li>Call billing and reference specific line items flagged above benchmark rates.</li>';
       html += '<li>File a formal appeal with insurance if services were denied or underpaid.</li>';
       html += '<li>Contact your state insurance commissioner if unresponsive.</li>';
       html += '<li>Ask for cash-pay or self-pay discount if uninsured.</li>';

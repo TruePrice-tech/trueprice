@@ -709,7 +709,7 @@
           if (cheapRate && expRate && expRate > cheapRate*1.2) reasons.push("higher labor rate ($" + expRate + "/hr vs $" + cheapRate + "/hr)");
           var ctx = escHtml(priced[priced.length-1].data.shopName) + " is $" + diff.toLocaleString() + " (" + pct + "%) more. ";
           ctx += reasons.length ? "This may reflect " + reasons.join(", ") + ". " : "";
-          ctx += "A higher price doesn't always mean overcharging -- it may include better parts, longer warranty, or more thorough work.";
+          ctx += "A higher price doesn't always indicate above-market pricing -- it may include better parts, longer warranty, or more thorough work.";
           html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
         }
       }
