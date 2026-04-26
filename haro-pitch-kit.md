@@ -1,4 +1,4 @@
-# HARO / Connectively Pitch Kit
+# HARO Pitch Kit
 
 Backlinks are the biggest remaining SEO lever for Woogoro per the 2026-04-20 audit. HARO-style pitches are the cheapest scalable way to earn them: reporters post queries, you reply with a quotable answer, you get cited and linked when the piece runs.
 
@@ -8,13 +8,15 @@ Backlinks are the biggest remaining SEO lever for Woogoro per the 2026-04-20 aud
 
 ## Where to monitor
 
-- **Connectively** (the HARO rebrand after Cision bought it, connectively.us). Free tier delivers 3 emails/day covering ~40 queries per digest.
+- **HARO** (helpareporter.com). The original brand, shut down by Cision December 2024 as "Connectively", then bought by Featured.com in early 2025 and relaunched April 22, 2025 under Featured.com CEO Brett Farmiloe. Free, ad-supported, thrice-daily email digests. Strict policy: "if you're not helping a reporter out, you're banned for life." AI-text detection runs on every pitch.
+- **Featured.com**. Same company as HARO since 2025. Browsable queries, no digest spam, replies go through a form. Good for evergreen expert content. A Featured.com account often shares infrastructure with HARO.
 - **Qwoted** (qwoted.com). Free tier is limited; the paid tier ($149/mo) is not worth it yet.
-- **Featured.com**. Browsable queries, no digest spam. Replies go through a form. Good for evergreen expert content.
 - **Terkel.io**. Similar to Featured; faster-moving.
 - **SourceBottle**. Smaller but frequently surfaces niche home-improvement queries.
 
-Pick one to start (Connectively or Featured) and run it for 4 weeks before adding another. Inbox fatigue kills this habit.
+Pick one to start (HARO or Featured.com) and run it for 4 weeks before adding another. Inbox fatigue kills this habit.
+
+> **Note on Connectively:** The Cision-era rebrand (connectively.us) was shut down December 9, 2024. Anything still referring to "Connectively" is outdated. The HARO brand and helpareporter.com URL are now under Featured.com.
 
 ## Queries worth pitching
 
@@ -220,6 +222,7 @@ Every time a piece runs:
 - **Don't oversell Woogoro.** Your product plug is the signature block. The body is for helping the reporter. If they want to feature the tool, they will.
 - **Don't follow up more than once.** One polite nudge 48 hours after the deadline is fine. Past that, move on.
 - **Don't use AI-obvious phrasing.** Reporters skim dozens of replies; "Certainly! Here are seven comprehensive insights..." is the kiss of death. Write like a human.
+- **Don't run pitches through ChatGPT/Claude/Gemini for "polish".** HARO under Featured.com runs AI-text detection on every reply. False positives are common, true positives are a lifetime ban. Hand-write every pitch from scratch using the kit as scaffolding.
 
 ## Memory refresh
 
