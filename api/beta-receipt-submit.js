@@ -29,15 +29,15 @@ import {
   requireBetaUser,
   collectWoogoro,
   bumpStreak,
+  addReceiptWoogoro,
 } from "./_beta-session.js";
 import { issueWoo } from "./_woogoros-ledger.js";
 import { verifyReceipt } from "./_woogoros-verifier.js";
 import { checkAndConsumeCap } from "./_woogoros-caps.js";
 import { VERTICALS } from "./_woogoros-vertical.js";
+import { assignReceiptTier } from "./_receipt-woogoro-tiers.js";
 
 const redis = Redis.fromEnv();
-
-const RECEIPT_WOO_AMOUNT = 500;
 
 function newSubmissionId(prefix) {
   return prefix + "_" + crypto.randomBytes(9).toString("base64url");
@@ -225,21 +225,48 @@ export default async function handler(req, res) {
     console.error("[beta-receipt-submit] persist failed:", e && e.message);
   }
 
+  // Tier the receipt by $ size + trust. wooAmount scales with tier so
+  // big receipts (where the alt-data is most valuable) earn more.
+  const tierAssignment = assignReceiptTier({
+    declaredAmount,
+    trustScore: verification.trustScore,
+  });
+
   let entry;
   try {
     entry = await issueWoo({
       userId: user.userId,
-      amount: RECEIPT_WOO_AMOUNT,
+      amount: tierAssignment.wooAmount,
       source: `receipt:${submissionId}`,
       meta: {
         vertical: verification.vertical,
         declaredAmount,
         merchant: record.merchant,
+        tier: tierAssignment.tier,
+        cappedByTrust: tierAssignment.cappedByTrust,
       },
     });
   } catch (e) {
     console.error("[beta-receipt-submit] issueWoo failed:", e && e.message);
     return res.status(500).json({ error: "Server error after verification. Contact support." });
+  }
+
+  // Grant the tiered Receipt Woogoro (the redemption unit). Separate
+  // from the collectible vertical Woogoro granted just below.
+  let receiptWoogoro = null;
+  try {
+    const rw = await addReceiptWoogoro(user.userId, {
+      tier: tierAssignment.tier,
+      vertical: verification.vertical,
+      submissionId,
+      declaredAmount,
+      wooAmount: tierAssignment.wooAmount,
+    });
+    receiptWoogoro = rw.entry;
+  } catch (e) {
+    console.error("[beta-receipt-submit] addReceiptWoogoro failed:", e && e.message);
+    // Non-fatal: Woo was already issued, ledger is the truth. Admin
+    // can repair the burrow blob from the ledger if needed.
   }
 
   const collect = await collectWoogoro(user.userId, verification.vertical);
@@ -250,7 +277,11 @@ export default async function handler(req, res) {
     pass: true,
     submissionId,
     vertical: verification.vertical,
-    wooEarned: RECEIPT_WOO_AMOUNT,
+    wooEarned: tierAssignment.wooAmount,
+    tier: tierAssignment.tier,
+    tierDisplay: tierAssignment.displayName,
+    cappedByTrust: tierAssignment.cappedByTrust,
+    receiptWoogoroId: receiptWoogoro ? receiptWoogoro.id : null,
     newCollection: collect.newCollection,
     streakDays: streak.streakDays,
     capUsed: cap.used,

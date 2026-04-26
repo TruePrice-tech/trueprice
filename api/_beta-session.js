@@ -99,6 +99,7 @@ export async function ensureUserRecord(email) {
   await redis.set(`wg:burrow:${user.userId}`, JSON.stringify({
     userId: user.userId,
     collectedWoogoros: [],
+    receiptWoogoros: [],
     streakDays: 0,
     lastStreakDate: null,
     createdAt: nowMs(),
@@ -313,6 +314,74 @@ export async function collectWoogoro(userId, vertical) {
   burrow.updatedAt = nowMs();
   await redis.set(`wg:burrow:${userId}`, JSON.stringify(burrow));
   return { burrow, newCollection: !alreadyHas };
+}
+
+// Receipt Woogoros are a separate class from the collectible vertical
+// Woogoros: they are the redemption unit (cash-in for Woo Cash / merch /
+// future gift cards). User can keep them or cash them in; once cashed
+// in they are gone. Append-only at insertion time, mutated in place
+// only when redeemed.
+//
+// Entry shape:
+//   {
+//     id: "rw_<random>",
+//     tier: "bronze"|"silver"|"gold"|"platinum",
+//     vertical: <string>,
+//     submissionId: <string, backlink to wg:submission>,
+//     declaredAmount: <number>,
+//     wooAmount: <number, granted at issue>,
+//     capturedAt: <ms>,
+//     redeemed: false,
+//     redeemedAt: null,
+//     redeemedFor: null,        // e.g. "merch:tee_xxx" / "giftcard:home_depot_50"
+//     redeemLedgerId: null,     // backlink to spend ledger entry
+//   }
+
+export async function addReceiptWoogoro(userId, fields) {
+  const burrow = (await getBurrow(userId)) || {
+    userId,
+    collectedWoogoros: [],
+    receiptWoogoros: [],
+    streakDays: 0,
+    lastStreakDate: null,
+    createdAt: nowMs(),
+  };
+  if (!Array.isArray(burrow.receiptWoogoros)) burrow.receiptWoogoros = [];
+
+  const entry = {
+    id: "rw_" + crypto.randomBytes(9).toString("base64url"),
+    tier: String(fields.tier || "bronze"),
+    vertical: String(fields.vertical || ""),
+    submissionId: String(fields.submissionId || ""),
+    declaredAmount: Number(fields.declaredAmount) || 0,
+    wooAmount: Number(fields.wooAmount) || 0,
+    capturedAt: nowMs(),
+    redeemed: false,
+    redeemedAt: null,
+    redeemedFor: null,
+    redeemLedgerId: null,
+  };
+  burrow.receiptWoogoros.push(entry);
+  burrow.updatedAt = nowMs();
+  await redis.set(`wg:burrow:${userId}`, JSON.stringify(burrow));
+  return { burrow, entry };
+}
+
+export async function markReceiptWoogoroRedeemed(userId, receiptWoogoroId, redeemedFor, redeemLedgerId) {
+  const burrow = await getBurrow(userId);
+  if (!burrow || !Array.isArray(burrow.receiptWoogoros)) {
+    return { ok: false, reason: "no_burrow" };
+  }
+  const rw = burrow.receiptWoogoros.find((x) => x.id === receiptWoogoroId);
+  if (!rw) return { ok: false, reason: "not_found" };
+  if (rw.redeemed) return { ok: false, reason: "already_redeemed" };
+  rw.redeemed = true;
+  rw.redeemedAt = nowMs();
+  rw.redeemedFor = String(redeemedFor || "");
+  rw.redeemLedgerId = redeemLedgerId || null;
+  burrow.updatedAt = nowMs();
+  await redis.set(`wg:burrow:${userId}`, JSON.stringify(burrow));
+  return { ok: true, entry: rw };
 }
 
 // Streak: increments when the user submits anything verified on a new
