@@ -116,8 +116,8 @@
       <p class="tp-subhead anim-1">Free price checks for 20 trades. No email, no phone, no lead-selling.</p>
       <p class="anim-1" style="text-align:center; font-size:13px; color:rgba(255,255,255,0.45); margin:-8px auto 20px; max-width:640px;">Meet Iris, your free AI quote checker. Roofing, HVAC, plumbing, electrical, solar, auto repair, medical bills, and 13 more.</p>
 
-      <div class="tp-counter anim-1" style="margin:0 auto 36px;">
-        <span class="tp-counter-num"><span id="liveCounterTop">4,860</span></span><span class="tp-counter-label">quotes checked and counting</span>
+      <div class="tp-counter anim-1" id="liveCounterWrap" style="margin:0 auto 36px;display:none;">
+        <span class="tp-counter-num"><span id="liveCounterTop">0</span></span><span class="tp-counter-label">quotes checked and counting</span>
       </div>
 
       <div class="tp-intent-grid anim-2">
@@ -573,19 +573,21 @@
 <script src="/js/homepage.min.js" defer></script>
 <script>if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js").catch(function(){});</script>
 <script>
-// Live counter with count-up animation on page load.
-// Fetches the latest tp:total_quotes value, then animates from 0 -> target
-// to draw the user's eye to the social proof number.
+// Live counter: REAL quotes only. No fake fallback, no localStorage cache.
+// Hidden in the DOM until the API confirms the live count clears MIN_DISPLAY.
+// Below the threshold the counter stays hidden — better silence than a lie or
+// a "1 quote" that undercuts the social proof we're trying to build.
 (function() {
+  var wrap = document.getElementById("liveCounterWrap");
   var el = document.getElementById("liveCounterTop");
-  if (!el) return;
+  if (!wrap || !el) return;
+  var MIN_DISPLAY = 100;
 
   function animate(target) {
     var start = performance.now();
-    var duration = 1400; // ms
+    var duration = 1400;
     function step(now) {
       var t = Math.min(1, (now - start) / duration);
-      // ease-out cubic so the count slows as it approaches the target
       var eased = 1 - Math.pow(1 - t, 3);
       var value = Math.floor(eased * target);
       el.textContent = value.toLocaleString();
@@ -595,18 +597,16 @@
     requestAnimationFrame(step);
   }
 
-  // Start at 0 visually; use localStorage to remember last known count
-  el.textContent = "0";
-  var fallback = 4860;
-  try { var saved = localStorage.getItem("wg_counter"); if (saved) fallback = parseInt(saved, 10) || fallback; } catch(e) {}
   fetch("/api/analytics?counter=1")
     .then(function(r) { return r.json(); })
     .then(function(d) {
-      var n = (d && d.count) ? parseInt(d.count, 10) : fallback;
-      try { localStorage.setItem("wg_counter", n); } catch(e) {}
+      var n = d ? parseInt(d.count, 10) : 0;
+      if (!Number.isFinite(n) || n < MIN_DISPLAY) return; // stays display:none
+      wrap.style.display = "";
+      el.textContent = "0";
       animate(n);
     })
-    .catch(function() { animate(fallback); });
+    .catch(function() { /* network error: stay hidden, never lie */ });
 })();
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
