@@ -9,7 +9,7 @@
 //     authenticated: true,
 //     beta: true | false,
 //     user: { email, createdAt, ageVerified },
-//     burrow: { collectedWoogoros: [], streakDays, lastStreakDate },
+//     burrow: { collectedWoogoros: [], receiptWoogoros: [], streakDays, lastStreakDate },
 //     balance: <int>,           // Woo Cash, source: wg:balance:{userId}
 //     ledger: [ { ...recent entries... } ]
 //   }
@@ -93,6 +93,7 @@ export default async function handler(req, res) {
     },
     burrow: burrow || {
       collectedWoogoros: [],
+      receiptWoogoros: [],
       streakDays: 0,
       lastStreakDate: null,
     },

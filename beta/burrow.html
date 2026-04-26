@@ -72,6 +72,55 @@
     .bw-action.gold:hover { background: #d97706; }
     .bw-action small { display: block; font-weight: 500; opacity: .85; font-size: 11px; margin-top: 2px; }
 
+    .bw-receipts { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+    .bw-rw { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; transition: transform .15s, box-shadow .15s; }
+    .bw-rw:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(15,23,42,.08); }
+    .bw-rw.redeemed { opacity: .55; filter: grayscale(.4); }
+    .bw-rw img { width: 96px; height: 96px; object-fit: contain; margin: 4px 0 8px; }
+    .bw-rw-tier { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 2px 10px; border-radius: 999px; margin-bottom: 6px; }
+    .bw-rw-tier.bronze   { background: #fde2c4; color: #7c2d12; }
+    .bw-rw-tier.silver   { background: #e5e7eb; color: #1f2937; }
+    .bw-rw-tier.gold     { background: #fde68a; color: #78350f; }
+    .bw-rw-tier.platinum { background: linear-gradient(135deg, #e0f2fe, #fce7f3); color: #1e3a5f; box-shadow: inset 0 0 0 1px #bae6fd; }
+    .bw-rw-vertical { font-size: 12px; color: #475569; text-transform: capitalize; margin-bottom: 4px; }
+    .bw-rw-amount { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+    .bw-rw-woo { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 12px; line-height: 1; }
+    .bw-rw-woo small { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: #64748b; text-transform: uppercase; display: block; margin-top: 2px; }
+    .bw-rw-actions { display: flex; gap: 6px; width: 100%; }
+    .bw-rw-btn { flex: 1; padding: 8px 6px; border-radius: 8px; font-size: 12px; font-weight: 700; border: 0; cursor: pointer; font-family: inherit; }
+    .bw-rw-btn.cash { background: #f59e0b; color: #fff; }
+    .bw-rw-btn.cash:hover { background: #d97706; }
+    .bw-rw-btn.cash:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .bw-rw-btn.keep { background: #fff; color: #1e3a5f; border: 1px solid #cbd5e1; }
+    .bw-rw-btn.keep:hover { background: #f8fafc; border-color: #1e3a5f; }
+    .bw-rw-redeemed-badge { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #475569; padding: 6px 0; }
+    .bw-rw-keep-caption { font-size: 10px; color: #94a3b8; margin-top: 6px; line-height: 1.3; }
+
+    /* Cash-in placeholder animation: coin burst around the card.
+       Full vaudeville hook ships at G4. */
+    .bw-rw.cashing { animation: bw-cashing .8s ease-out; }
+    @keyframes bw-cashing {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.08) rotate(-2deg); }
+      60%  { transform: scale(.92) rotate(3deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+    .bw-coin {
+      position: absolute; left: 50%; top: 50%; width: 18px; height: 18px;
+      background: radial-gradient(circle at 35% 35%, #fde68a, #f59e0b 70%);
+      border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+      pointer-events: none;
+      animation: bw-coin-fly .9s ease-out forwards;
+    }
+    @keyframes bw-coin-fly {
+      0%   { transform: translate(-50%, -50%) scale(.4); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translate(var(--bw-coin-x, 60px), var(--bw-coin-y, -60px)) scale(1); opacity: 0; }
+    }
+
+    .bw-stash-strip { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; color: #78350f; }
+    .bw-stash-strip strong { font-weight: 800; }
+
     .bw-orders { display: grid; gap: 10px; }
     .bw-order { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
     .bw-order-main { flex: 1; min-width: 0; }
@@ -231,6 +280,55 @@
         var nextMilestone = sd < 3 ? 3 : sd < 7 ? 7 : sd < 14 ? 14 : sd < 30 ? 30 : 100;
         var pct = Math.min(100, Math.round((sd / nextMilestone) * 100));
 
+        // Receipt Woogoros: split into kept (cashable) and redeemed.
+        // Newest first within each group.
+        var rwAll = (state.burrow.receiptWoogoros || []).slice().sort(function (a, b) {
+          return (b.capturedAt || 0) - (a.capturedAt || 0);
+        });
+        var rwKept = rwAll.filter(function (x) { return !x.redeemed; });
+        var rwRedeemed = rwAll.filter(function (x) { return x.redeemed; });
+        var stashWoo = rwKept.reduce(function (s, x) { return s + (Number(x.wooAmount) || 0); }, 0);
+
+        function rwCard(rw) {
+          var tier = rw.tier || "bronze";
+          var art = "/images/Receipt%20Woogoro/" + tier + "1.png";
+          var vert = (rw.vertical || "").replace(/_/g, " ");
+          var amt = Number(rw.declaredAmount) || 0;
+          var woo = Number(rw.wooAmount) || 0;
+          var headBits =
+            '<div class="bw-rw-tier ' + esc(tier) + '">' + esc(tier) + '</div>' +
+            '<img src="' + esc(art) + '" alt="' + esc(tier) + ' Receipt Woogoro" />' +
+            '<div class="bw-rw-vertical">' + esc(vert) + '</div>' +
+            '<div class="bw-rw-amount">$' + amt.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' receipt</div>' +
+            '<div class="bw-rw-woo">' + woo.toLocaleString() + ' Woo<small>locked in</small></div>';
+          if (rw.redeemed) {
+            return '<div class="bw-rw redeemed">' + headBits +
+              '<div class="bw-rw-redeemed-badge">Cashed in ' + esc(fmtTs(rw.redeemedAt)) + '</div>' +
+            '</div>';
+          }
+          return '<div class="bw-rw" data-rw-id="' + esc(rw.id) + '">' + headBits +
+            '<div class="bw-rw-actions">' +
+              '<button class="bw-rw-btn cash" type="button" data-cash>Cash in</button>' +
+            '</div>' +
+            '<div class="bw-rw-keep-caption">or leave it in your burrow to collect</div>' +
+          '</div>';
+        }
+
+        var rwSection = "";
+        if (rwAll.length) {
+          var rwGrid = rwKept.map(rwCard).join("") + rwRedeemed.map(rwCard).join("");
+          var stashStrip = "";
+          if (stashWoo > 0) {
+            stashStrip = '<div class="bw-stash-strip">' +
+              '<div><strong>' + stashWoo.toLocaleString() + ' Woo</strong> locked in ' + rwKept.length + ' Receipt Woogoro' + (rwKept.length === 1 ? '' : 's') + '. Cash in below to add to your spendable balance.</div>' +
+            '</div>';
+          }
+          rwSection =
+            '<div class="bw-section-h">Receipt Woogoros <span style="font-weight:500;color:#64748b;">' + rwKept.length + ' kept &bull; ' + rwRedeemed.length + ' cashed in</span></div>' +
+            stashStrip +
+            '<div class="bw-receipts">' + rwGrid + '</div>';
+        }
+
         // Orders
         var orders = (state.orders || []);
         var ordersHtml = "";
@@ -266,7 +364,7 @@
             '</div>' +
           '</div>' +
           '<div class="bw-actions">' +
-            '<a class="bw-action" href="/beta/submit-receipt.html">Submit a receipt<small>+500 Woo &bull; ' + caps.receipt.used + '/' + caps.receipt.cap + ' this week</small></a>' +
+            '<a class="bw-action" href="/beta/submit-receipt.html">Submit a receipt<small>500&ndash;5,000 Woo by tier &bull; ' + caps.receipt.used + '/' + caps.receipt.cap + ' this week</small></a>' +
             '<a class="bw-action alt" href="/beta/submit-quote.html">Submit a quote<small>+100 Woo &bull; ' + caps.quote.used + '/' + caps.quote.cap + ' this week</small></a>' +
             '<a class="bw-action gold" href="/beta/redeem.html">Redeem Woo Cash<small>Merch &mdash; gift cards soon</small></a>' +
           '</div>' +
@@ -285,30 +383,92 @@
           '</div>' +
           '<div class="bw-section-h">Your Woogoros <span style="font-weight:500;color:#64748b;">' + collectedCount + ' of ' + VERTICALS.length + ' collected</span></div>' +
           '<div class="bw-collection">' + grid + '</div>' +
+          rwSection +
           ordersHtml +
           '<div class="bw-section-h">Recent activity</div>' +
           '<div class="bw-ledger"><table><thead><tr><th>When</th><th>Source</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + ledgerRows + '</tbody></table></div>';
       }
 
-      fetch("/api/beta-burrow", { credentials: "same-origin" })
-        .then(function (r) {
-          if (r.status === 401) {
-            location.href = "/beta/login.html";
-            return null;
-          }
-          return r.json();
+      function loadAndRender() {
+        return fetch("/api/beta-burrow", { credentials: "same-origin" })
+          .then(function (r) {
+            if (r.status === 401) {
+              location.href = "/beta/login.html";
+              return null;
+            }
+            return r.json();
+          })
+          .then(function (state) {
+            if (!state) return;
+            loading.style.display = "none";
+            content.style.display = "block";
+            content.innerHTML = state.beta ? renderBurrow(state) : renderWaitlist(state);
+          })
+          .catch(function () {
+            loading.style.display = "none";
+            content.style.display = "block";
+            content.innerHTML = '<div class="bw-error">Could not load your burrow. Please refresh, or <a href="/beta/login.html">sign in again</a>.</div>';
+          });
+      }
+
+      // Placeholder coin-burst around a card. Full vaudeville hook
+      // animation ships at G4 alongside Tremendous gift cards.
+      function spawnCoinBurst(card, count) {
+        for (var i = 0; i < count; i++) {
+          var coin = document.createElement("div");
+          coin.className = "bw-coin";
+          var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
+          var dist = 70 + Math.random() * 40;
+          coin.style.setProperty("--bw-coin-x", (Math.cos(angle) * dist) + "px");
+          coin.style.setProperty("--bw-coin-y", (Math.sin(angle) * dist - 30) + "px");
+          coin.style.animationDelay = (i * 30) + "ms";
+          card.appendChild(coin);
+        }
+      }
+
+      // Cash In click delegate. Buttons live inside content.innerHTML
+      // which gets replaced on every render, so we delegate from content
+      // (which itself doesn't get replaced).
+      content.addEventListener("click", function (ev) {
+        var btn = ev.target.closest && ev.target.closest("[data-cash]");
+        if (!btn) return;
+        var card = btn.closest(".bw-rw");
+        if (!card || card.classList.contains("cashing")) return;
+        var rwId = card.getAttribute("data-rw-id");
+        if (!rwId) return;
+
+        btn.disabled = true;
+        btn.textContent = "Cashing in...";
+        card.classList.add("cashing");
+        spawnCoinBurst(card, 8);
+
+        fetch("/api/beta-cash-in-receipt", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ receiptWoogoroId: rwId }),
         })
-        .then(function (state) {
-          if (!state) return;
-          loading.style.display = "none";
-          content.style.display = "block";
-          content.innerHTML = state.beta ? renderBurrow(state) : renderWaitlist(state);
-        })
-        .catch(function () {
-          loading.style.display = "none";
-          content.style.display = "block";
-          content.innerHTML = '<div class="bw-error">Could not load your burrow. Please refresh, or <a href="/beta/login.html">sign in again</a>.</div>';
-        });
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+          .then(function (res) {
+            if (!res.ok || !res.body || !res.body.success) {
+              card.classList.remove("cashing");
+              btn.disabled = false;
+              btn.textContent = "Cash in";
+              alert((res.body && res.body.error) || "Cash in failed. Please try again.");
+              return;
+            }
+            // Let the burst finish before refreshing the view.
+            setTimeout(loadAndRender, 900);
+          })
+          .catch(function () {
+            card.classList.remove("cashing");
+            btn.disabled = false;
+            btn.textContent = "Cash in";
+            alert("Network error. Please try again.");
+          });
+      });
+
+      loadAndRender();
     })();
   </script>
 </body>

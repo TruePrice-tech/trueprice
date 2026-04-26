@@ -10,9 +10,16 @@
 //   merchant?: <string>
 // }
 //
-// Requires beta session. On verification pass: 500 Woo + Woogoro grant +
-// streak bump. On partial trust: stored as needs-review (no grant until
-// admin approves via beta-admin op:approve_submission).
+// Requires beta session. On verification pass: a tiered Receipt Woogoro
+// is minted with a locked-in Woo amount + the collectible vertical
+// Woogoro joins the burrow + streak bumps. The locked Woo is NOT
+// credited to spendable balance until the user cashes the Receipt
+// Woogoro in via /api/beta-cash-in-receipt. This makes the cash-in
+// animation narratively coherent (the Woogoro IS the locked Woo)
+// and gives "Keep vs Cash In" a real trade-off.
+//
+// On partial trust: stored as needs-review (no Woogoro and no Woo
+// until admin approves via beta-admin op:approve_submission).
 //
 // The image bytes are SHA-256 hashed and discarded after processing.
 // We store the hash for dedup ("you already submitted this receipt")
@@ -31,7 +38,6 @@ import {
   bumpStreak,
   addReceiptWoogoro,
 } from "./_beta-session.js";
-import { issueWoo } from "./_woogoros-ledger.js";
 import { verifyReceipt } from "./_woogoros-verifier.js";
 import { checkAndConsumeCap } from "./_woogoros-caps.js";
 import { VERTICALS } from "./_woogoros-vertical.js";
@@ -226,33 +232,15 @@ export default async function handler(req, res) {
   }
 
   // Tier the receipt by $ size + trust. wooAmount scales with tier so
-  // big receipts (where the alt-data is most valuable) earn more.
+  // big receipts (where the alt-data is most valuable) earn more. Note:
+  // wooAmount is locked into the Receipt Woogoro at this moment but
+  // not credited to spendable balance. Cash-in via the dedicated
+  // endpoint is what credits Woo + writes the ledger entry.
   const tierAssignment = assignReceiptTier({
     declaredAmount,
     trustScore: verification.trustScore,
   });
 
-  let entry;
-  try {
-    entry = await issueWoo({
-      userId: user.userId,
-      amount: tierAssignment.wooAmount,
-      source: `receipt:${submissionId}`,
-      meta: {
-        vertical: verification.vertical,
-        declaredAmount,
-        merchant: record.merchant,
-        tier: tierAssignment.tier,
-        cappedByTrust: tierAssignment.cappedByTrust,
-      },
-    });
-  } catch (e) {
-    console.error("[beta-receipt-submit] issueWoo failed:", e && e.message);
-    return res.status(500).json({ error: "Server error after verification. Contact support." });
-  }
-
-  // Grant the tiered Receipt Woogoro (the redemption unit). Separate
-  // from the collectible vertical Woogoro granted just below.
   let receiptWoogoro = null;
   try {
     const rw = await addReceiptWoogoro(user.userId, {
@@ -265,8 +253,7 @@ export default async function handler(req, res) {
     receiptWoogoro = rw.entry;
   } catch (e) {
     console.error("[beta-receipt-submit] addReceiptWoogoro failed:", e && e.message);
-    // Non-fatal: Woo was already issued, ledger is the truth. Admin
-    // can repair the burrow blob from the ledger if needed.
+    return res.status(500).json({ error: "Server error after verification. Contact support." });
   }
 
   const collect = await collectWoogoro(user.userId, verification.vertical);
@@ -277,7 +264,7 @@ export default async function handler(req, res) {
     pass: true,
     submissionId,
     vertical: verification.vertical,
-    wooEarned: tierAssignment.wooAmount,
+    wooEarnable: tierAssignment.wooAmount,
     tier: tierAssignment.tier,
     tierDisplay: tierAssignment.displayName,
     cappedByTrust: tierAssignment.cappedByTrust,
@@ -288,6 +275,5 @@ export default async function handler(req, res) {
     capLimit: cap.cap,
     trustScore: verification.trustScore,
     fields: verification.fields || null,
-    ledgerEntryId: entry.id,
   });
 }

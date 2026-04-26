@@ -49,9 +49,9 @@
     <div class="sub-wrap">
       <a class="sub-back" href="/beta/burrow.html">&larr; Back to your burrow</a>
       <div class="sub-card">
-        <div class="sub-pill">Earn 500 Woo</div>
+        <div class="sub-pill">Earn 500&ndash;5,000 Woo by tier</div>
         <h1 class="sub-h1">Submit a receipt</h1>
-        <p class="sub-sub">Upload a photo of a paid receipt. We verify the merchant, total, and tax math, then grant your Woogoro and 500 Woo Cash. Receipts that look good but can't be auto-verified go to manual review.</p>
+        <p class="sub-sub">Upload a photo of a paid receipt. We verify the merchant, total, and tax math, then mint a tiered Receipt Woogoro (bronze, silver, gold, or platinum &mdash; tier scales with the receipt size) plus your collectible vertical Woogoro. The Receipt Woogoro holds locked Woo Cash; cash it in from your burrow whenever you're ready. Receipts that look good but can't be auto-verified go to manual review.</p>
 
         <form id="rForm" novalidate>
           <div class="sub-row">
@@ -270,11 +270,14 @@
 
           if (resp.data.success && resp.data.pass) {
             msg.className = "sub-msg ok";
-            msg.innerHTML = '<strong>+' + resp.data.wooEarned + ' Woo Cash earned!</strong>' +
+            var tierLabel = (resp.data.tierDisplay || resp.data.tier || "Bronze");
+            var earnable = resp.data.wooEarnable || 0;
+            msg.innerHTML = '<strong>' + tierLabel + ' Receipt Woogoro minted! Worth ' + earnable.toLocaleString() + ' Woo Cash.</strong>' +
+              (resp.data.cappedByTrust ? ' <span style="font-size:11px;opacity:.85;">(tier capped by trust score &mdash; submit clearer photos to unlock higher tiers)</span>' : '') +
               (resp.data.newCollection ? ' New ' + resp.data.vertical.replace("_"," ") + ' Woogoro added to your burrow.' : '') +
               ' Streak: ' + resp.data.streakDays + ' day' + (resp.data.streakDays !== 1 ? 's' : '') + '.' +
               ' (' + resp.data.capUsed + '/' + resp.data.capLimit + ' receipts this week)' +
-              '<div style="margin-top:8px;"><a href="/beta/burrow.html" style="color:#065f46;font-weight:700;">View your burrow &rarr;</a></div>';
+              '<div style="margin-top:8px;"><a href="/beta/burrow.html" style="color:#065f46;font-weight:700;">View your burrow &rarr;</a> <span style="opacity:.7;font-size:12px;">Cash in your Receipt Woogoro from there.</span></div>';
             return;
           }
           if (resp.data.success && resp.data.requiresReview) {
