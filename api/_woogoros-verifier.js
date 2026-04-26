@@ -23,13 +23,22 @@ import { checkDeclaredVertical } from "./_woogoros-vertical.js";
 // These regexes are deliberately forgiving. We trust the user's declared
 // amount over what we can parse, and only use parsed fields for sanity.
 
-const MONEY_RE = /\$?\s?(\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d+\.\d{2})\b/g;
+// Money patterns. The inner alternation ORDER matters: comma-grouped
+// numbers (e.g. "1,234.56") MUST be tried first so "2038.35" doesn't
+// get truncated to "203" by a greedy \d{1,3} that doesn't require a
+// comma. Subtle bug class: any receipt total >= $1000 without commas
+// (which is most thermal-printer + OCR'd receipts) was previously
+// being parsed as the leading 3 digits, breaking tax math + amount
+// match. Fix: require the comma-form to actually contain a comma, then
+// fall back to "any-digits + optional decimals".
+const MONEY_NUM = "(?:\\d{1,3}(?:,\\d{3})+(?:\\.\\d{2})?|\\d+(?:\\.\\d{2})?)";
+const MONEY_RE = new RegExp("\\$?\\s?(" + MONEY_NUM + ")\\b", "g");
 // \b at start so "total" inside "subtotal" doesn't match. Word-boundary
 // is between word/non-word chars; "subtotal" has no boundary between
 // "sub" and "total", so \btotal correctly skips it.
-const TOTAL_RE = /\b(?:total|amount due|balance due|grand total)\b\s*:?\s*\$?\s?(\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d+\.\d{2})/i;
-const SUBTOTAL_RE = /\b(?:sub\s*total|subtotal)\b\s*:?\s*\$?\s?(\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d+\.\d{2})/i;
-const TAX_RE = /\b(?:sales\s*tax|tax|vat)\b\s*:?\s*\$?\s?(\d{1,3}(?:,\d{3})*(?:\.\d{2})?|\d+\.\d{2})/i;
+const TOTAL_RE = new RegExp("\\b(?:total|amount due|balance due|grand total)\\b\\s*:?\\s*\\$?\\s?(" + MONEY_NUM + ")", "i");
+const SUBTOTAL_RE = new RegExp("\\b(?:sub\\s*total|subtotal)\\b\\s*:?\\s*\\$?\\s?(" + MONEY_NUM + ")", "i");
+const TAX_RE = new RegExp("\\b(?:sales\\s*tax|tax|vat)\\b\\s*:?\\s*\\$?\\s?(" + MONEY_NUM + ")", "i");
 const DATE_RE = /\b(\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}|\d{4}[/.\-]\d{1,2}[/.\-]\d{1,2})\b/;
 
 function parseMoney(s) {

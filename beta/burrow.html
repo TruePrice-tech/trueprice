@@ -295,12 +295,13 @@
           var vert = (rw.vertical || "").replace(/_/g, " ");
           var amt = Number(rw.declaredAmount) || 0;
           var woo = Number(rw.wooAmount) || 0;
+          var wooSubLabel = rw.redeemed ? "cashed in" : "locked in";
           var headBits =
             '<div class="bw-rw-tier ' + esc(tier) + '">' + esc(tier) + '</div>' +
             '<img src="' + esc(art) + '" alt="' + esc(tier) + ' Receipt Woogoro" />' +
             '<div class="bw-rw-vertical">' + esc(vert) + '</div>' +
             '<div class="bw-rw-amount">$' + amt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' receipt</div>' +
-            '<div class="bw-rw-woo">' + woo.toLocaleString() + ' Woo<small>locked in</small></div>';
+            '<div class="bw-rw-woo">' + woo.toLocaleString() + ' Woo<small>' + wooSubLabel + '</small></div>';
           if (rw.redeemed) {
             return '<div class="bw-rw redeemed">' + headBits +
               '<div class="bw-rw-redeemed-badge">Cashed in ' + esc(fmtTs(rw.redeemedAt)) + '</div>' +
