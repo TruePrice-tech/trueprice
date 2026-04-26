@@ -3,6 +3,10 @@
     {
       "path": "/api/daily-counter-tick",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/pricing-drift-check",
+      "schedule": "0 13 * * 1"
     }
   ],
   "functions": {
@@ -74,6 +78,9 @@
     },
     "api/beta-interest.js": {
       "maxDuration": 5
+    },
+    "api/pricing-drift-check.js": {
+      "maxDuration": 60
     }
   },
   "headers": [
