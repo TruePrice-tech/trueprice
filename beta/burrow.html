@@ -43,9 +43,10 @@
     .bw-section-h a:hover { text-decoration: underline; }
 
     .bw-collection { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
-    .bw-cell { aspect-ratio: 1; border: 1px dashed #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 10px; text-align: center; font-size: 11px; color: #94a3b8; background: #f8fafc; }
+    .bw-cell { aspect-ratio: 1; border: 1px dashed #cbd5e1; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 8px; text-align: center; font-size: 11px; color: #94a3b8; background: #f8fafc; }
     .bw-cell.has-w { border-style: solid; border-color: #1e3a5f; background: #fff; color: #0f172a; }
     .bw-cell .icon { font-size: 22px; margin-bottom: 4px; }
+    .bw-cell .vw-art { width: 70%; height: auto; max-height: 60%; object-fit: contain; margin-bottom: 4px; }
 
     .bw-ledger { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
     .bw-ledger table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -163,6 +164,21 @@
         ["medical", "Medical"],["legal", "Legal"]
       ];
 
+      // Slug -> naked Vertical Woogoro filename (under /images/Vertical Woogoro/).
+      // Some files don't match the slug (windows -> Window singular,
+      // gutters -> Gutter singular, auto_repair -> Auto, etc.).
+      // Future: an accessories layer will overlay hats/outfits on top of
+      // these base sprites.
+      var VERTICAL_ART = {
+        roofing: "Roofing.png", hvac: "HVAC.png", plumbing: "Plumbing.png",
+        electrical: "Electrical.png", windows: "Window.png", siding: "Siding.png",
+        gutters: "Gutter.png", insulation: "Insulation.png", painting: "Painting.png",
+        concrete: "Concrete.png", foundation: "Foundation.png", fencing: "Fencing.png",
+        garage_door: "Garage Door.png", landscaping: "Landscaping.png", kitchen: "Kitchen.png",
+        solar: "Solar.png", moving: "Moving.png", auto_repair: "Auto.png",
+        medical: "Medical.png", legal: "Legal.png",
+      };
+
       function esc(s) {
         return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
           return ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" })[c];
@@ -255,9 +271,14 @@
         var grid = VERTICALS.map(function (row) {
           var slug = row[0], label = row[1];
           var has = !!collected[slug];
+          var artFile = VERTICAL_ART[slug];
+          var artSrc = artFile ? "/images/Vertical%20Woogoro/" + encodeURIComponent(artFile) : null;
           return '<div class="bw-cell ' + (has ? 'has-w' : '') + '">' +
             (has
-              ? '<div class="icon">&#x2728;</div><div style="font-weight:700;">' + esc(label) + '</div>'
+              ? (artSrc
+                  ? '<img class="vw-art" src="' + artSrc + '" alt="' + esc(label) + ' Woogoro" />'
+                  : '<div class="icon">&#x2728;</div>') +
+                '<div style="font-weight:700;">' + esc(label) + '</div>'
               : '<div style="opacity:.4;font-weight:600;">' + esc(label) + '</div><div style="margin-top:4px;">Uncollected</div>') +
           '</div>';
         }).join("");
