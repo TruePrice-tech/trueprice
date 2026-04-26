@@ -1,0 +1,314 @@
+{
+  "experimentId": "ctr-fence-city-2026-04-25",
+  "startedAt": "2026-04-25",
+  "measureAt": "2026-05-23",
+  "hypothesis": "Title-tag format affects CTR at fixed average position. Test which of 3 formulas outperforms.",
+  "formulas": {
+    "A": "${lo}-${hi} Fence Installation Cost in {name} (2026) | Woogoro",
+    "B": "Free Calculator: {name} Fence Cost ${lo}-${hi} (2026) | Woogoro",
+    "C": "2026 Fence Installation Cost in {name}: ${lo} to ${hi} | Woogoro"
+  },
+  "measurement": "GSC CTR (clicks/impressions), 28-day window, mean per group",
+  "pages": [
+    {
+      "slug": "atlanta-ga",
+      "file": "atlanta-ga-fence-cost.html",
+      "name": "Atlanta, GA",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Atlanta, GA (2026) | Woogoro",
+      "newTitle": "$3,950-$11,350 Fence Installation Cost in Atlanta, GA (2026) | Woogoro",
+      "priceLow": "$3,950",
+      "priceHigh": "$11,350,"
+    },
+    {
+      "slug": "austin-tx",
+      "file": "austin-tx-fence-cost.html",
+      "name": "Austin, TX",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Austin, TX (2026) | Woogoro",
+      "newTitle": "$3,900-$11,250 Fence Installation Cost in Austin, TX (2026) | Woogoro",
+      "priceLow": "$3,900",
+      "priceHigh": "$11,250,"
+    },
+    {
+      "slug": "baltimore-md",
+      "file": "baltimore-md-fence-cost.html",
+      "name": "Baltimore, MD",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Baltimore, MD (2026) | Woogoro",
+      "newTitle": "$4,150-$11,950 Fence Installation Cost in Baltimore, MD (2026) | Woogoro",
+      "priceLow": "$4,150",
+      "priceHigh": "$11,950,"
+    },
+    {
+      "slug": "boston-ma",
+      "file": "boston-ma-fence-cost.html",
+      "name": "Boston, MA",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Boston, MA (2026) | Woogoro",
+      "newTitle": "$4,900-$14,100 Fence Installation Cost in Boston, MA (2026) | Woogoro",
+      "priceLow": "$4,900",
+      "priceHigh": "$14,100,"
+    },
+    {
+      "slug": "charlotte-nc",
+      "file": "charlotte-nc-fence-cost.html",
+      "name": "Charlotte, NC",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Charlotte, NC (2026) | Woogoro",
+      "newTitle": "$3,850-$11,050 Fence Installation Cost in Charlotte, NC (2026) | Woogoro",
+      "priceLow": "$3,850",
+      "priceHigh": "$11,050,"
+    },
+    {
+      "slug": "chicago-il",
+      "file": "chicago-il-fence-cost.html",
+      "name": "Chicago, IL",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Chicago, IL (2026) | Woogoro",
+      "newTitle": "$5,100-$14,650 Fence Installation Cost in Chicago, IL (2026) | Woogoro",
+      "priceLow": "$5,100",
+      "priceHigh": "$14,650,"
+    },
+    {
+      "slug": "columbus-oh",
+      "file": "columbus-oh-fence-cost.html",
+      "name": "Columbus, OH",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Columbus, OH (2026) | Woogoro",
+      "newTitle": "$4,200-$12,150 Fence Installation Cost in Columbus, OH (2026) | Woogoro",
+      "priceLow": "$4,200",
+      "priceHigh": "$12,150,"
+    },
+    {
+      "slug": "dallas-tx",
+      "file": "dallas-tx-fence-cost.html",
+      "name": "Dallas, TX",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Dallas, TX (2026) | Woogoro",
+      "newTitle": "$3,950-$11,350 Fence Installation Cost in Dallas, TX (2026) | Woogoro",
+      "priceLow": "$3,950",
+      "priceHigh": "$11,350,"
+    },
+    {
+      "slug": "denver-co",
+      "file": "denver-co-fence-cost.html",
+      "name": "Denver, CO",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Denver, CO (2026) | Woogoro",
+      "newTitle": "$4,350-$12,500 Fence Installation Cost in Denver, CO (2026) | Woogoro",
+      "priceLow": "$4,350",
+      "priceHigh": "$12,500,"
+    },
+    {
+      "slug": "detroit-mi",
+      "file": "detroit-mi-fence-cost.html",
+      "name": "Detroit, MI",
+      "group": "A",
+      "baselineTitle": "Fence Installation Cost in Detroit, MI (2026) | Woogoro",
+      "newTitle": "$4,400-$12,700 Fence Installation Cost in Detroit, MI (2026) | Woogoro",
+      "priceLow": "$4,400",
+      "priceHigh": "$12,700,"
+    },
+    {
+      "slug": "houston-tx",
+      "file": "houston-tx-fence-cost.html",
+      "name": "Houston, TX",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Houston, TX (2026) | Woogoro",
+      "newTitle": "Free Calculator: Houston, TX Fence Cost $3,850-$11,100 (2026) | Woogoro",
+      "priceLow": "$3,850",
+      "priceHigh": "$11,100,"
+    },
+    {
+      "slug": "indianapolis-in",
+      "file": "indianapolis-in-fence-cost.html",
+      "name": "Indianapolis, IN",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Indianapolis, IN (2026) | Woogoro",
+      "newTitle": "Free Calculator: Indianapolis, IN Fence Cost $4,150-$11,950 (2026) | Woogoro",
+      "priceLow": "$4,150",
+      "priceHigh": "$11,950,"
+    },
+    {
+      "slug": "jacksonville-fl",
+      "file": "jacksonville-fl-fence-cost.html",
+      "name": "Jacksonville, FL",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Jacksonville, FL (2026) | Woogoro",
+      "newTitle": "Free Calculator: Jacksonville, FL Fence Cost $3,750-$10,800 (2026) | Woogoro",
+      "priceLow": "$3,750",
+      "priceHigh": "$10,800,"
+    },
+    {
+      "slug": "kansas-city-mo",
+      "file": "kansas-city-mo-fence-cost.html",
+      "name": "Kansas City, MO",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Kansas City, MO (2026) | Woogoro",
+      "newTitle": "Free Calculator: Kansas City, MO Fence Cost $4,100-$11,750 (2026) | Woogoro",
+      "priceLow": "$4,100",
+      "priceHigh": "$11,750,"
+    },
+    {
+      "slug": "las-vegas-nv",
+      "file": "las-vegas-nv-fence-cost.html",
+      "name": "Las Vegas, NV",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Las Vegas, NV (2026) | Woogoro",
+      "newTitle": "Free Calculator: Las Vegas, NV Fence Cost $4,050-$11,700 (2026) | Woogoro",
+      "priceLow": "$4,050",
+      "priceHigh": "$11,700,"
+    },
+    {
+      "slug": "los-angeles-ca",
+      "file": "los-angeles-ca-fence-cost.html",
+      "name": "Los Angeles, CA",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Los Angeles, CA (2026) | Woogoro",
+      "newTitle": "Free Calculator: Los Angeles, CA Fence Cost $4,750-$13,700 (2026) | Woogoro",
+      "priceLow": "$4,750",
+      "priceHigh": "$13,700,"
+    },
+    {
+      "slug": "memphis-tn",
+      "file": "memphis-tn-fence-cost.html",
+      "name": "Memphis, TN",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Memphis, TN (2026) | Woogoro",
+      "newTitle": "Free Calculator: Memphis, TN Fence Cost $3,700-$10,600 (2026) | Woogoro",
+      "priceLow": "$3,700",
+      "priceHigh": "$10,600,"
+    },
+    {
+      "slug": "miami-fl",
+      "file": "miami-fl-fence-cost.html",
+      "name": "Miami, FL",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Miami, FL (2026) | Woogoro",
+      "newTitle": "Free Calculator: Miami, FL Fence Cost $4,100-$11,850 (2026) | Woogoro",
+      "priceLow": "$4,100",
+      "priceHigh": "$11,850,"
+    },
+    {
+      "slug": "milwaukee-wi",
+      "file": "milwaukee-wi-fence-cost.html",
+      "name": "Milwaukee, WI",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Milwaukee, WI (2026) | Woogoro",
+      "newTitle": "Free Calculator: Milwaukee, WI Fence Cost $4,400-$12,600 (2026) | Woogoro",
+      "priceLow": "$4,400",
+      "priceHigh": "$12,600,"
+    },
+    {
+      "slug": "minneapolis-mn",
+      "file": "minneapolis-mn-fence-cost.html",
+      "name": "Minneapolis, MN",
+      "group": "B",
+      "baselineTitle": "Fence Installation Cost in Minneapolis, MN (2026) | Woogoro",
+      "newTitle": "Free Calculator: Minneapolis, MN Fence Cost $5,000-$14,350 (2026) | Woogoro",
+      "priceLow": "$5,000",
+      "priceHigh": "$14,350,"
+    },
+    {
+      "slug": "nashville-tn",
+      "file": "nashville-tn-fence-cost.html",
+      "name": "Nashville, TN",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Nashville, TN (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Nashville, TN: $3,900 to $11,200 | Woogoro",
+      "priceLow": "$3,900",
+      "priceHigh": "$11,200,"
+    },
+    {
+      "slug": "new-york-ny",
+      "file": "new-york-ny-fence-cost.html",
+      "name": "New York, NY",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in New York, NY (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in New York, NY: $4,900 to $14,150 | Woogoro",
+      "priceLow": "$4,900",
+      "priceHigh": "$14,150,"
+    },
+    {
+      "slug": "philadelphia-pa",
+      "file": "philadelphia-pa-fence-cost.html",
+      "name": "Philadelphia, PA",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Philadelphia, PA (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Philadelphia, PA: $4,450 to $12,800 | Woogoro",
+      "priceLow": "$4,450",
+      "priceHigh": "$12,800,"
+    },
+    {
+      "slug": "phoenix-az",
+      "file": "phoenix-az-fence-cost.html",
+      "name": "Phoenix, AZ",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Phoenix, AZ (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Phoenix, AZ: $4,100 to $11,750 | Woogoro",
+      "priceLow": "$4,100",
+      "priceHigh": "$11,750,"
+    },
+    {
+      "slug": "portland-or",
+      "file": "portland-or-fence-cost.html",
+      "name": "Portland, OR",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Portland, OR (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Portland, OR: $4,800 to $13,800 | Woogoro",
+      "priceLow": "$4,800",
+      "priceHigh": "$13,800,"
+    },
+    {
+      "slug": "raleigh-nc",
+      "file": "raleigh-nc-fence-cost.html",
+      "name": "Raleigh, NC",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Raleigh, NC (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Raleigh, NC: $3,850 to $11,050 | Woogoro",
+      "priceLow": "$3,850",
+      "priceHigh": "$11,050,"
+    },
+    {
+      "slug": "san-antonio-tx",
+      "file": "san-antonio-tx-fence-cost.html",
+      "name": "San Antonio, TX",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in San Antonio, TX (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in San Antonio, TX: $3,700 to $10,650 | Woogoro",
+      "priceLow": "$3,700",
+      "priceHigh": "$10,650,"
+    },
+    {
+      "slug": "san-diego-ca",
+      "file": "san-diego-ca-fence-cost.html",
+      "name": "San Diego, CA",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in San Diego, CA (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in San Diego, CA: $4,750 to $13,650 | Woogoro",
+      "priceLow": "$4,750",
+      "priceHigh": "$13,650,"
+    },
+    {
+      "slug": "san-francisco-ca",
+      "file": "san-francisco-ca-fence-cost.html",
+      "name": "San Francisco, CA",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in San Francisco, CA (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in San Francisco, CA: $5,300 to $15,200 | Woogoro",
+      "priceLow": "$5,300",
+      "priceHigh": "$15,200,"
+    },
+    {
+      "slug": "seattle-wa",
+      "file": "seattle-wa-fence-cost.html",
+      "name": "Seattle, WA",
+      "group": "C",
+      "baselineTitle": "Fence Installation Cost in Seattle, WA (2026) | Woogoro",
+      "newTitle": "2026 Fence Installation Cost in Seattle, WA: $5,100 to $14,750 | Woogoro",
+      "priceLow": "$5,100",
+      "priceHigh": "$14,750,"
+    }
+  ]
+}
