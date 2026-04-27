@@ -697,11 +697,14 @@
 
     // Service/repair quotes (recharge, capacitor swap, tune-up) shouldn't be
     // compared to install benchmarks. Returns a job-type label or null.
+    // Note: a service quote often mentions "condenser unit" (the existing
+    // equipment being serviced) or "installed [part]" — so we require an
+    // EXPLICIT new-system/replacement signal to flip from service to install.
     function detectHvacJobType(text) {
       var s = String(text || "").toLowerCase();
       if (!s) return null;
       var serviceRe = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance call\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/;
-      var installRe = /\bcondenser\b|\bair handler\b|\bnew system\b|\binstall(ed|ation)?\b|\breplace\s+(?:system|unit|condenser|furnace|ac|heat pump)\b/;
+      var installRe = /\bnew (?:system|condenser|air handler|furnace|heat pump|hvac)\b|\bsystem (?:install|replacement)\b|\bcomplete install\b|\bfull (?:install|replacement)\b|\breplace\s+(?:system|unit|condenser|furnace|ac\b|heat pump)|\bnew (?:ac|a\/c) (?:install|system|unit)\b|\binstall (?:new |a )?(?:ac|a\/c|condenser|air handler|furnace|heat pump)\b/;
       if (serviceRe.test(s) && !installRe.test(s)) return "service";
       return null;
     }

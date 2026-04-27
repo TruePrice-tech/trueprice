@@ -291,7 +291,10 @@ Rules:
       // Install benchmarks ($5k-$15k) don't apply to a $600 recharge; suppress them.
       const _allDescs = (parsed.lineItems || []).map(li => (li.description || "").toLowerCase()).join(" | ");
       const _serviceSignals = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/i;
-      const _installSignals = /\bcondenser\b|\bair handler\b|\bfurnace\b|\bheat pump\b|\bevaporator\b|\bnew system\b|\binstall(ed|ation)?\b|\breplace\s+(?:system|unit|condenser|furnace|ac|heat pump)/i;
+      // Require EXPLICIT new-system/replacement language. A service quote often
+      // mentions "outdoor condenser unit" (the existing equipment) or
+      // "installed [part]" — those alone aren't enough to flip to install.
+      const _installSignals = /\bnew (?:system|condenser|air handler|furnace|heat pump|hvac)\b|\bsystem (?:install|replacement)\b|\bcomplete install\b|\bfull (?:install|replacement)\b|\breplace\s+(?:system|unit|condenser|furnace|ac\b|heat pump)|\bnew (?:ac|a\/c) (?:install|system|unit)\b|\binstall (?:new |a )?(?:ac|a\/c|condenser|air handler|furnace|heat pump)\b/i;
       if (!parsed.jobType) {
         if (_serviceSignals.test(_allDescs) && !_installSignals.test(_allDescs)) {
           parsed.jobType = "service";
