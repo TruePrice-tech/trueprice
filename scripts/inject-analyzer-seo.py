@@ -87,7 +87,7 @@ VERTICALS = {
             ("\"Ductwork is fine as-is\"", "Ducts 15+ years old or with visible damage waste 20&ndash;30% of output. A legitimate quote inspects and prices repairs or replacements separately."),
             ("Parts warranty without labor", "Parts are often covered 10 years by manufacturer. Labor to install them usually only 1&ndash;2 years. Getting a 10-year labor warranty is a real perk; a 1-year labor warranty on a $10,000 install isn't."),
             ("No manufacturer registration", "Most Carrier/Trane/Lennox warranties require registration within 60&ndash;90 days. If the installer doesn't handle it, your warranty drops from 10 years to 5."),
-            ("Federal tax credit not itemized", "The Energy Efficient Home Improvement Credit (up to $2,000 on heat pumps) is real money. If a high-efficiency system isn't itemized as tax-credit-eligible, either it doesn't qualify or the contractor doesn't know."),
+            ("State/utility rebates not itemized", "The federal 25C heat-pump credit expired Dec 31, 2025, but state and utility rebates ($200&ndash;$8,000 via IRA HEAR + DSIRE programs) and the 25D geothermal credit (30%, no cap, through 2034) are still active. If your contractor doesn't list applicable rebates, ask before signing."),
         ],
         "hidden_costs": [
             "Pad replacement / new slab for outdoor unit ($150&ndash;$500)",

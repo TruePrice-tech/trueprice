@@ -88,7 +88,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac-v2-nullbetter", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac-v3-jobtype", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -153,6 +153,7 @@ Return this exact JSON structure:
 {
   "contractor": <string or null - HVAC contracting company name. Look at the top of the quote (letterhead), header, footer, signature line, or "from"/"prepared by" sections. Extract the company name even if it's in a logo image. This is REQUIRED whenever a name is visible.>,
   "totalPrice": <number or null - the total quoted price>,
+  "jobType": <"install" | "replacement" | "repair" | "service" | "maintenance" | null - what kind of job is this? "install"/"replacement" = full system or major component swap (condenser, air handler, furnace, full system). "repair" = fixing a specific problem (capacitor, contactor, leak, breaker). "service"/"maintenance" = recharge, tune-up, cleaning, filter, inspection. Default null only if truly ambiguous.>,
   "laborTotal": <number or null - total labor cost>,
   "laborCost": <number or null - same as laborTotal, alias for compatibility>,
   "equipmentTotal": <number or null - total equipment/materials cost>,
@@ -215,6 +216,7 @@ Add this top-level field to your JSON output:
 
 Rules:
 - totalPrice: Use the grand total / bottom line, not sum of line items. Return null if not clearly visible.
+- jobType: REQUIRED. Look at the line items. If you see things like "recharge", "refrigerant added", "capacitor replacement", "contactor", "tune-up", "maintenance", "cleaning", "leak repair", "diagnostic", "service call", "breaker replacement" without a full system swap, return "service" or "repair". Only return "install" or "replacement" when the quote covers a full system, condenser, air handler, or furnace swap. A $400-$2,000 quote with no equipment swap is almost always service/repair, not install.
 - systemType: "central_ac" for cooling only, "heat_pump" for heat pump (heats + cools), "gas_furnace" for furnace only, "mini_split" for ductless, "full_system" for AC + furnace combo, "geothermal" for ground-source. Return null if not clearly stated in the source.
 - seer: Extract SEER or SEER2 rating as a number (e.g. 16, 20). Use the higher if both SEER and SEER2 are listed
 - afue: Furnace efficiency as a whole number percentage (e.g. 96 for 96% AFUE)
@@ -285,9 +287,21 @@ Rules:
       const systemType = parsed.systemType || null;
       const systemData = pricingData.systemTypes?.[systemType] || null;
 
+      // Service/repair detection — fall back to line-item heuristics if Claude didn't classify.
+      // Install benchmarks ($5k-$15k) don't apply to a $600 recharge; suppress them.
+      const _allDescs = (parsed.lineItems || []).map(li => (li.description || "").toLowerCase()).join(" | ");
+      const _serviceSignals = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/i;
+      const _installSignals = /\bcondenser\b|\bair handler\b|\bfurnace\b|\bheat pump\b|\bevaporator\b|\bnew system\b|\binstall(ed|ation)?\b|\breplace\s+(?:system|unit|condenser|furnace|ac|heat pump)/i;
+      if (!parsed.jobType) {
+        if (_serviceSignals.test(_allDescs) && !_installSignals.test(_allDescs)) {
+          parsed.jobType = "service";
+        }
+      }
+      const _isServiceJob = parsed.jobType && /^(service|repair|maintenance)$/i.test(parsed.jobType);
+
       // Calculate expected price range for detected system type + efficiency
       let expectedRange = null;
-      if (systemData) {
+      if (systemData && !_isServiceJob) {
         if (systemData.pricingByEfficiency) {
           // Match by SEER or AFUE
           const seer = parsed.seer;
@@ -390,6 +404,18 @@ Rules:
       }
       // 25C heat-pump / furnace / AC credits EXPIRED 12/31/2025. Do not surface.
 
+      // R-22 backstop — Claude sometimes misses it when buried in service descriptions.
+      // R-22 has been banned for new manufacture since 2010 and import since 2020.
+      // Any 2026+ quote mentioning R-22 means used/gray-market refrigerant or pre-EPA stockpile.
+      const _r22InText = /\bR-?22\b|\bfreon\b/i.test(_allDescs) ||
+        /\bR-?22\b/i.test(String(parsed.refrigerantType || ""));
+      if (_r22InText) {
+        if (!parsed.redFlags) parsed.redFlags = [];
+        if (!parsed.redFlags.some(f => /\bR-?22\b|freon/i.test(f))) {
+          parsed.redFlags.unshift("R-22 (Freon) refrigerant detected. Production was banned in 2020 and the EPA phased out R-22 systems entirely. Existing R-22 servicing is legal but extremely expensive ($100+/lb wholesale, often $200+/lb installed) and supply is dwindling. Strongly consider replacement with an R-410A or R-454B system rather than continuing to recharge — the recharge cost adds up fast and the equipment is end-of-life.");
+        }
+      }
+
       // R-410A red flag - EPA AIM Act bans R-410A in new HVAC from Jan 1 2026
       if (parsed.refrigerantType) {
         const ref = String(parsed.refrigerantType).toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -454,6 +480,8 @@ Rules:
         stateMultiplier: stateMult,
         systemType: systemType,
         systemLabel: systemData?.label || null,
+        jobType: parsed.jobType || null,
+        isServiceJob: _isServiceJob || false,
         expectedRange: expectedRange,
         brandTier: brandTier,
         taxCredit: taxCreditInfo,
