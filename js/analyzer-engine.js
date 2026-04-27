@@ -354,6 +354,8 @@
         result.ocrText = normalizeWhitespace(ocrResult.text);
         result.ocrConfidence = ocrResult.confidence;
         result.ocrElapsed = Date.now() - t0;
+        // Expose for walk-script debugging (mirrors analyzer-page convention)
+        try { window.__TP_LAST_OCR_TEXT = result.ocrText; } catch (e) {}
       } catch (e) {
         console.warn("[TP_Engine] OCR failed:", e.message);
       }
@@ -387,6 +389,12 @@
         var _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/m);
         if (!_totalOverride) {
           _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+        }
+        // Sales agreements often use "CONTRACT PRICE" / "CONTRACT TOTAL" as the
+        // bottom-line number (EcoView, Renewal by Andersen, Window World forms).
+        // Allow this to win over earlier line items and TOTAL labels.
+        if (!_totalOverride) {
+          _totalOverride = result.ocrText.match(/contract\s*(?:price|total|amount|sum)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
