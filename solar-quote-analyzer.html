@@ -515,15 +515,44 @@
 
     function detectSystemSizeKw(text) {
       var t = text.toLowerCase();
-      // Match patterns like "6.5 kW", "8kW", "6500W", "6,500 W", "8.0 kw system"
-      var kwMatch = t.match(/(\d+\.?\d*)\s*kw/);
-      if (kwMatch) return parseFloat(kwMatch[1]);
-      // Watt patterns: "6500W", "6,500 watts"
-      var wMatch = t.match(/(\d[\d,]*)\s*(?:watts?|w(?:\s|$))/i);
+      // Strategy: prefer values labeled "system size" / "system" / "DC", reject kWh.
+      // Solar quotes always have a system-size kW value AND production kWh values.
+      // The naive /(\d+\.?\d*)\s*kw/ matches both because "kwh" starts with "kw".
+      // First pass: labeled "system size: X kW" or "X kW DC" or "X kW system"
+      var labeled = t.match(/(?:system\s*size|system|total)[\s:]*?(\d+\.?\d*)\s*kw(?:\s|dc|$)/i);
+      if (labeled) return parseFloat(labeled[1]);
+      var dcLabeled = t.match(/(\d+\.?\d*)\s*kw\s*dc\b/i);
+      if (dcLabeled) return parseFloat(dcLabeled[1]);
+      // General fallback: kW followed by space/end, NOT followed by 'h' (kWh).
+      // Reject huge values (>50 kW residential is rare, suggests kWh confusion).
+      var allKw = t.match(/(\d+\.?\d*)\s*kw(?!h|\d)/gi) || [];
+      for (var i = 0; i < allKw.length; i++) {
+        var num = parseFloat(allKw[i].match(/(\d+\.?\d*)/)[1]);
+        if (num >= 1 && num <= 50) return num;
+      }
+      // Watt patterns: "6500W", "6,500 watts" (must NOT be followed by 'h')
+      var wMatch = t.match(/(\d[\d,]*)\s*(?:watts?|w(?:[^a-z]|$))(?!h)/i);
       if (wMatch) {
         var watts = parseFloat(wMatch[1].replace(/,/g, ""));
-        if (watts >= 1000) return Math.round(watts / 100) / 10; // convert to kW
+        if (watts >= 1000 && watts <= 50000) return Math.round(watts / 100) / 10; // convert to kW
       }
+      return null;
+    }
+
+    // Detect lease / PPA / financed-only quotes — install benchmarks don't apply.
+    function detectSolarFinancingType(text) {
+      var t = String(text || "").toLowerCase();
+      if (!t) return null;
+      // Lease/PPA: monthly payment is the headline, no upfront purchase total
+      var leaseRe = /\blease\b|\bppa\b|\bpower purchase agreement\b|sunnova|lightreach|sunrun.*lease|\$\s?\d+(?:\.\d{2})?\s*\/\s*(?:mo|month)\b|monthly payment.*\$|\bescalator\b|\$\/kwh\b|price\s*\/\s*kwh\b/i;
+      var purchaseRe = /\bturnkey\b|\bpurchase\b|\bnet (?:cost|price|total)\b|\bgross (?:total|price|system)\b|\bcash price\b|\btotal system price\b|\bsystem price\b|\bafter (?:tax credit|itc)\b|\bfederal (?:itc|tax credit)\b/i;
+      var leaseHit = leaseRe.test(t);
+      var purchaseHit = purchaseRe.test(t);
+      // Lease wins only when no clear purchase signal
+      if (leaseHit && !purchaseHit) return "lease";
+      // Wholesale / parts-only: no install labor, just panels + shipping
+      var wholesaleRe = /\bddp\b|\balibaba\b|\bunit price\b.*per piece|\bwholesale\b|\bfob\b|\bunpacking the pallet\b/i;
+      if (wholesaleRe.test(t)) return "wholesale";
       return null;
     }
 
@@ -661,10 +690,12 @@
     }
 
     function verdictFromRatio(ratio) {
-      if (ratio < 0.78) return { label: "Unusually Low", css: "low", emoji: "" };
-      if (ratio <= 0.90) return { label: "Below Average", css: "low", emoji: "" };
-      if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
-      if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      // Solar pricing varies more than HVAC (panel brand, inverter type, battery,
+      // labor region, post-IRA flex). Wider Fair band, less aggressive flagging.
+      if (ratio < 0.65) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (ratio <= 0.85) return { label: "Below Average", css: "low", emoji: "" };
+      if (ratio <= 1.18) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (ratio <= 1.35) return { label: "Above Average", css: "high", emoji: "" };
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
@@ -869,6 +900,40 @@
 
         // Solar-specific detection
         var systemKw = detectSystemSizeKw(text);
+
+        // Reject kW/kWh-as-price: the regex price extractor can pick up
+        // "17,600 kW" (system size in watts) or "12,288 kWh" (production)
+        // as a $ figure when no $ sign was OCR'd. If the extracted price
+        // matches systemWatts (within 2%) or annualKwh (within 15%), it's
+        // not a price. Look for the next-best candidate.
+        if (systemKw && quotePrice > 0) {
+          var systemWatts = systemKw * 1000;
+          var annualKwhLow = systemKw * 1000;
+          var annualKwhHigh = systemKw * 1700;
+          var looksLikeWatts = Math.abs(quotePrice - systemWatts) / systemWatts < 0.02;
+          var looksLikeKwh = quotePrice >= annualKwhLow && quotePrice <= annualKwhHigh;
+          if (looksLikeWatts || looksLikeKwh) {
+            console.warn("[solar] Rejecting", quotePrice, looksLikeWatts ? "(=systemWatts)" : "(=annual kWh)");
+            // Try priceCandidates from analyzer-parser, biggest reasonable value wins
+            var alternatives = (parsed && parsed.priceCandidates) ? parsed.priceCandidates : [];
+            var goodCandidates = alternatives
+              .map(function(c) { return c.value; })
+              .filter(function(v) {
+                if (!(v >= 3000 && v <= 200000)) return false;
+                if (Math.abs(v - systemWatts) / systemWatts < 0.02) return false;
+                if (v >= annualKwhLow && v <= annualKwhHigh) return false;
+                return true;
+              })
+              .sort(function(a, b) { return b - a; });
+            if (goodCandidates.length) {
+              quotePrice = goodCandidates[0];
+              console.warn("[solar] Recovered price:", quotePrice);
+            } else {
+              quotePrice = 0; // give up rather than show a fake number
+            }
+          }
+        }
+
         var panelBrand = detectPanelBrand(text);
         var panelInfo = detectPanelCountAndWattage(text);
         var inverterInfo = detectInverterType(text);
@@ -906,10 +971,20 @@ setProgress(90, "Almost done...");
         var batteryType = batteryInfo ? batteryInfo.type : "none";
         var region = getRegionFromState(state.address.stateCode);
 
-        var benchmark = calcSolarBenchmark(systemKw, panelTier, inverterType, batteryType, region, "good");
+        // Lease/PPA/wholesale gating — install benchmarks ($2-4/W) don't apply
+        // to monthly lease payments or to bare-panels parts-only invoices.
+        var _financingType = detectSolarFinancingType(text);
+        var _isLease = _financingType === "lease";
+        var _isWholesale = _financingType === "wholesale";
 
-        var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var benchmark = (_isLease || _isWholesale) ? 0 : calcSolarBenchmark(systemKw, panelTier, inverterType, batteryType, region, "good");
+
+        var ratio = (!_isLease && !_isWholesale && confirmedPrice > 0 && benchmark > 0) ? confirmedPrice / benchmark : 1.0;
+        var verdict = _isLease
+          ? { label: "Lease / PPA", css: "fair", emoji: "" }
+          : _isWholesale
+            ? { label: "Parts Only", css: "fair", emoji: "" }
+            : verdictFromRatio(ratio);
 
         // Brand note
         var brandNote = "";
@@ -925,6 +1000,9 @@ setProgress(90, "Almost done...");
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
+          isLease: _isLease,
+          isWholesale: _isWholesale,
+          financingType: _financingType,
           systemKw: systemKw,
           panelBrand: panelBrand,
           panelInfo: panelInfo,
@@ -1280,11 +1358,17 @@ setProgress(90, "Almost done...");
       var displayPrice = isUpload ? r.quotePrice : r.benchmark;
 
       if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " &mdash; " + Math.abs(pct) + "% " + dir + " average";
+        if (r.isLease) {
+          rangeText = "This is a lease or PPA, not a purchase. Install benchmarks ($/W) don't apply. Compare the monthly payment, escalator (locked vs annual %), term length, and end-of-term options instead. Most homeowners save more with a purchase if they can afford it; leases trade upside for $0-down convenience.";
+        } else if (r.isWholesale) {
+          rangeText = "This appears to be a parts-only / wholesale quote (panels shipped, no install labor). A complete residential install runs ~$2&ndash;$4 per watt. Add labor ($1.00&ndash;$1.50/W), inverters, racking, electrical, permits, and inspections to compare apples-to-apples.";
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " &mdash; " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
