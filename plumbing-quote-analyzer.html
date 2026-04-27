@@ -911,6 +911,19 @@
           var apiJobLabel = String(engineResult.aiData.jobType).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
           serviceType = { value: engineResult.aiData.jobType, label: apiJobLabel };
         }
+        // OCR-confidence gate: pre-printed Roto-Rooter / Mr. Rooter / similar
+        // service-call forms list multiple service categories ("PLUMBING /
+        // DRAIN / WATER HEATER / GAS") on the form itself. Low-confidence OCR
+        // matches one of those labels and falsely categorizes a small repair.
+        // Below ~75% OCR confidence the pattern hits aren't trustworthy.
+        var ocrConf = engineResult.ocrConfidence || 0;
+        var lowConfidence = ocrConf > 0 && ocrConf < 75;
+        // If OCR was low-confidence AND the AI backup didn't fire, drop to
+        // uncategorized regardless of what regex matched.
+        var aiFired = engineResult.aiData && engineResult.aiData.jobType && engineResult.aiData.jobType !== "other";
+        if (lowConfidence && !aiFired) {
+          serviceType = null;
+        }
         var uncategorized = !serviceType;
         if (uncategorized) {
           serviceType = { value: "uncategorized", label: "Plumbing Service" };
