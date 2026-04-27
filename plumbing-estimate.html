@@ -168,8 +168,8 @@
   <main id="main" class="analyzer-wrap">
     <div style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">
       <span style="font-weight:700; color:#0f172a;">You are getting an estimate.</span>
-      <a href="/plumbing-quote-analyzer.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Already have a quote? Analyze it &rarr;</a>
-      <a href="/compare-plumbing-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>
+      <a href="/plumbing-quote-analyzer.html" data-path-switch="quote" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Already have a quote? Analyze it &rarr;</a>
+      <a href="/compare-plumbing-quotes.html" data-path-switch="compare" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>
     </div>
     <div class="plumb-app" id="plumbApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
@@ -330,25 +330,6 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
-  <script src="/js/plumbing-parser.min.js"></script>
-  <script src="/js/analyzer-parser.min.js" defer></script>
-
-  <!-- Vendor libs loaded on-demand when user uploads a quote -->
-  <script>
-    window._vendorLibsLoaded = false;
-    window.loadVendorLibs = function() {
-      if (window._vendorLibsLoaded) return Promise.resolve();
-      window._vendorLibsLoaded = true;
-      return Promise.all([
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
-      ]).then(function() {
-        if (window.pdfjsLib) {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
-        }
-      });
-    };
-  </script>
 
   <script>
   (function() {
@@ -553,10 +534,8 @@
     // ── State ──
     var appRoot = document.getElementById("plumbApp");
     var state = {
-      step: "address",        // address | uploading | estimator | result
+      step: "address",        // address | estimator | result
       address: { street: "", city: "", stateCode: "", zip: "" },
-      uploadedFile: null,
-      extractedText: "",
       // estimator answers
       est: { serviceType: null, subType: null, detailsDone: false, location: null, lineLength: null, bathType: null, gasLength: null, homeSize: null, stories: null, urgency: null },
       // result
@@ -574,21 +553,32 @@
 
     // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityMultPending = {};
     function fetchCityMult(city, stateCode) {
-      if (!city || !stateCode) return;
+      if (!city || !stateCode) return Promise.resolve(null);
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
-      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=plumbing")
+      if (cityMultCache[key] != null) return Promise.resolve(cityMultCache[key]);
+      if (cityMultPending[key]) return cityMultPending[key];
+      var p = fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=plumbing")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
-        .catch(function() {});
+        .then(function(d) {
+          var mult = d ? (d.svcMult || d.multiplier || null) : null;
+          if (mult) cityMultCache[key] = mult;
+          return mult;
+        })
+        .catch(function() { return null; });
+      cityMultPending[key] = p;
+      return p;
     }
     function getCityMult(city, stateCode) {
       var key = city + "|" + stateCode;
       return cityMultCache[key] || null;
     }
     var _now = new Date();
-    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
+    // Base prices anchored to 2026 dollars (refreshed annually). Inflation
+    // applies only to drift past the anchor year so we don't double-count.
+    var INFLATION_BASE_YEAR = 2026;
+    var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - INFLATION_BASE_YEAR + _now.getMonth() / 12));
     var SEASONAL_MULTS = { 1:0.97, 2:0.97, 3:0.98, 4:0.99, 5:1.01, 6:1.02, 7:1.03, 8:1.03, 9:1.01, 10:1.00, 11:0.99, 12:0.97 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
@@ -666,46 +656,10 @@
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
 
-    window.downloadAnalysisReport = function() {
-      var r = state.result;
-      if (!r) return;
-      var report = document.createElement("div");
-      report.style.cssText = "width:800px;padding:40px;background:#fff;font-family:system-ui,sans-serif;color:#1e293b;line-height:1.6;";
-      var h = "";
-      h += '<div style="display:flex;justify-content:space-between;border-bottom:2px solid #1d4ed8;padding-bottom:16px;margin-bottom:24px;"><div><div style="font-size:24px;font-weight:800;color:#1d4ed8;">Woogoro</div><div style="font-size:13px;color:#64748b;">Quote Analysis Report</div></div><div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>woogoro.com</div></div>';
-      var verdictColor = r.verdict && r.verdict.css === "fair" ? "#16a34a" : r.verdict && r.verdict.css === "high" ? "#dc2626" : "#d97706";
-      h += '<div style="background:#f8fafc;border:2px solid ' + verdictColor + ';border-radius:12px;padding:20px;margin-bottom:20px;text-align:center;"><div style="font-size:28px;font-weight:800;color:' + verdictColor + ';">' + (r.verdict ? r.verdict.label : "Analysis Complete") + '</div><div style="font-size:22px;font-weight:700;margin-top:8px;">Quote Total: $' + (r.quoteTotal || r.price || 0).toLocaleString() + '</div></div>';
-      if (r.lineItems && r.lineItems.length > 0) {
-        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Line Items</div><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#f1f5f9;"><th style="padding:6px 8px;text-align:left;">Description</th><th style="padding:6px 8px;text-align:right;">Amount</th></tr></thead><tbody>';
-        r.lineItems.forEach(function(li) { h += '<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;">' + (li.description || li.service || "") + '</td><td style="padding:6px 8px;text-align:right;">$' + ((li.cost || li.total || 0)).toLocaleString() + '</td></tr>'; });
-        h += '</tbody></table></div>';
-      }
-      if (r.redFlags && r.redFlags.length > 0) {
-        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;color:#dc2626;margin-bottom:8px;">Issues Found (' + r.redFlags.length + ')</div>';
-        r.redFlags.forEach(function(f) { var t = typeof f === "string" ? f : (f.title || f.label || ""); if(t) h += '<div style="padding:6px 10px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;margin-bottom:4px;font-size:12px;color:#991b1b;">' + t + '</div>'; });
-        h += '</div>';
-      }
-      if (r.pricingContext) {
-        h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">City-level pricing applied. Multiplier: ' + (r.pricingContext.multiplier || 1.0) + 'x. Source: ' + (r.pricingContext.source || "Woogoro data") + '</div>';
-      }
-      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. Not professional advice. Verify all findings independently.</div><div style="font-size:11px;color:#94a3b8;text-align:right;">woogoro.com</div></div>';
-      report.innerHTML = h;
-      document.body.appendChild(report);
-      report.style.position = "fixed"; report.style.left = "-9999px"; report.style.top = "0";
-      function doRender() {
-        html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
-          document.body.removeChild(report);
-          var link = document.createElement("a"); link.download = "woogoro-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
-        }).catch(function() { document.body.removeChild(report); });
-      }
-      if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
-    };
-
     // ── Render functions ──
     function render() {
       switch (state.step) {
         case "address": renderAddress(); break;
-        case "uploading": renderUploading(); break;
         case "estimator": renderEstimator(); break;
         case "result": renderResult(); break;
       }
@@ -734,23 +688,6 @@
             <button class="plumb-btn plumb-btn-primary plumb-btn-full" id="btnEstimate">Get Plumbing Estimate</button>\
           </div>\
         </div>';
-
-      // Events
-      var zone = document.getElementById("uploadZone");
-      var fileInput = document.getElementById("fileInput");
-      if (zone && fileInput) {
-        zone.addEventListener("click", function() { fileInput.click(); });
-        zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.style.borderColor = "#3b82f6"; });
-        zone.addEventListener("dragleave", function() { zone.style.borderColor = "#cbd5e1"; });
-        zone.addEventListener("drop", function(e) {
-          e.preventDefault();
-          zone.style.borderColor = "#cbd5e1";
-          if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-        });
-        fileInput.addEventListener("change", function() {
-          if (fileInput.files.length) handleFile(fileInput.files[0]);
-        });
-      }
 
       // Address autocomplete
       (function() {
@@ -835,290 +772,6 @@
         state.step = "estimator";
         render();
       });
-    }
-
-    // ── Upload / Processing ──
-    function handleFile(file) {
-      if (typeof tpTrack === "function") tpTrack("funnel_upload_quote", { service: "plumbing" });
-      state.uploadedFile = file;
-      // capture address before leaving
-      var streetEl = document.getElementById("addrStreet");
-      var cityEl = document.getElementById("addrCity");
-      var stateEl = document.getElementById("addrState");
-      var zipEl = document.getElementById("addrZip");
-      if (streetEl) state.address.street = streetEl.value.trim();
-      if (cityEl) state.address.city = cityEl.value.trim();
-      if (stateEl) {
-        var raw = stateEl.value.trim().toUpperCase();
-        state.address.stateCode = STATE_REGIONS[raw] ? raw : (US_STATES[stateEl.value.trim().toLowerCase()] || "");
-      }
-      if (zipEl) state.address.zip = zipEl.value.trim();
-
-      state.step = "uploading";
-      render();
-      processFile(file);
-    }
-
-    function renderUploading() {
-      appRoot.innerHTML = '\
-        <div class="plumb-hero">\
-          <h1>Analyzing your plumbing quote...</h1>\
-        </div>\
-        <div class="plumb-card">\
-          <div class="plumb-progress">\
-            <div class="plumb-progress-bar"><div class="plumb-progress-fill" id="progFill" style="width:10%"></div></div>\
-            <p class="plumb-progress-text" id="progText">Loading document...</p>\
-          </div>\
-        </div>';
-    }
-
-    function setProgress(pct, msg) {
-      var fill = document.getElementById("progFill");
-      var txt = document.getElementById("progText");
-      if (fill) fill.style.width = pct + "%";
-      if (txt) txt.textContent = msg;
-    }
-
-    async function processFile(file) {
-      try {
-        setProgress(15, "Loading parsing libraries...");
-        await window.loadVendorLibs();
-
-        var text = "";
-        if (file.type === "application/pdf") {
-          setProgress(30, "Extracting text from PDF...");
-          text = await extractPdfText(file);
-        } else {
-          setProgress(30, "Running OCR on image...");
-          text = await extractImageText(file);
-        }
-
-        setProgress(50, "Sending to AI for analysis...");
-        
-        // Try API-first approach
-        var apiResult = null;
-        try {
-          var apiPayload = { text: text };
-          // Add image if available
-          if (file.type && file.type.startsWith("image/")) {
-            var reader = new FileReader();
-            var imgData = await new Promise(function(resolve, reject) {
-              reader.onload = function() { resolve(reader.result); };
-              reader.onerror = reject;
-              reader.readAsDataURL(file);
-            });
-            apiPayload.images = [imgData];
-          }
-          var apiResp = await fetch("/api/plumbing-estimate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(apiPayload)
-          });
-          if (apiResp.ok) {
-            var apiData = await apiResp.json();
-            if (apiData.success && apiData.data) {
-              apiResult = apiData.data;
-            }
-          }
-        } catch(apiErr) {
-          console.warn("API unavailable, using local parsing:", apiErr);
-        }
-        
-        setProgress(70, "Building analysis...");
-        state.extractedText = text;
-
-        // Use analyzer-parser.js for price extraction
-        var parsed = null;
-        if (typeof parseExtractedText === "function") {
-          parsed = parseExtractedText(text);
-        }
-
-        // Use plumbing parser for service-specific detection
-        var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : { value: "water_heater", label: "Water Heater Replacement" };
-        var brand = (typeof detectPlumbingBrand === "function") ? detectPlumbingBrand(text) : null;
-        var scopeSignals = (typeof detectPlumbingScopeSignals === "function") ? detectPlumbingScopeSignals(text) : {};
-
-        // Detect sub-type based on service
-        var subType = null;
-        if (serviceType.value === "water_heater" && typeof detectWaterHeaterType === "function") {
-          subType = detectWaterHeaterType(text);
-        } else if (serviceType.value === "repipe" && typeof detectPipeMaterial === "function") {
-          subType = detectPipeMaterial(text) || "pex";
-        } else if (serviceType.value === "sewer_line") {
-          if (/trenchless/i.test(text)) subType = "trenchless";
-          else if (/pipe lining|lining/i.test(text)) subType = "pipe_lining";
-          else subType = "traditional_dig";
-        } else if (serviceType.value === "drain_cleaning") {
-          if (/hydro jet|jetting/i.test(text)) subType = "hydro_jet";
-          else if (/main line|main sewer/i.test(text)) subType = "main_line";
-          else if (/camera/i.test(text)) subType = "camera_inspection";
-          else subType = "simple_clog";
-        } else if (serviceType.value === "bathroom_rough_in") {
-          if (/master/i.test(text)) subType = "master_bath";
-          else if (/half bath/i.test(text)) subType = "half_bath";
-          else subType = "full_bath";
-        } else if (serviceType.value === "gas_line") {
-          if (/over 50|long/i.test(text)) subType = "long_over_50ft";
-          else if (/20.*50|medium/i.test(text)) subType = "medium_20_50ft";
-          else subType = "short_under_20ft";
-        }
-
-        // Location detection from parser
-        var location = (parsed && parsed.location) ? parsed.location : null;
-        if (location && location.stateCode && !state.address.stateCode) {
-          state.address.stateCode = location.stateCode;
-          if (location.city) state.address.city = location.city;
-        }
-        fetchCityMult(state.address.city, state.address.stateCode);
-
-        // Determine price
-        var quotePrice = 0;
-        if (parsed && parsed.finalPrice && parsed.finalPrice > 100) {
-          quotePrice = parsed.finalPrice;
-        } else if (parsed && parsed.priceCandidates && parsed.priceCandidates.length) {
-          var candidates = parsed.priceCandidates.filter(function(c) { return c.value >= 100 && c.value <= 50000; });
-          candidates.sort(function(a, b) { return b.score - a.score; });
-          if (candidates.length) quotePrice = candidates[0].value;
-        }
-
-        setProgress(85, "Calculating verdict...");
-
-        var region = getRegionFromState(state.address.stateCode);
-        var benchmark = calcBenchmark(serviceType.value, subType, region, null, null);
-
-        var ratio = quotePrice > 0 ? quotePrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
-
-        // Brand tier note
-        var brandNote = "";
-        if (brand) {
-          brandNote = brand.brand + " (" + brand.tier + " tier)";
-        }
-
-        setProgress(100, "Done!");
-
-        state.result = {
-          source: "upload",
-          quotePrice: quotePrice,
-          benchmark: benchmark,
-          ratio: ratio,
-          verdict: verdict,
-          serviceType: serviceType,
-          subType: subType,
-          brand: brand,
-          brandNote: brandNote,
-          scopeSignals: scopeSignals,
-          region: region,
-          location: location,
-          parsed: parsed
-        };
-
-        if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "plumbing" });
-        state.step = "result";
-        setTimeout(render, 400);
-
-      } catch (err) {
-        console.error("Plumbing analysis error:", err);
-        appRoot.innerHTML = '\
-          <div class="plumb-hero"><h1>We couldn\'t read that file</h1></div>\
-          <div class="plumb-card" style="text-align:center;">\
-            <p style="color:#475569;margin-bottom:16px;">The file might be a scanned image that\'s hard to read, or in an unsupported format.</p>\
-            <p style="color:#475569;margin-bottom:20px;">You can enter the quote total manually:</p>\
-            <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;">\
-              <span style="font-size:20px;font-weight:700;">$</span>\
-              <input type="number" id="manualPrice" placeholder="e.g. 4500" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:18px;width:180px;" />\
-            </div>\
-            <button class="plumb-btn plumb-btn-primary" id="manualPriceBtn">Analyze this price</button>\
-            <div style="margin-top:14px;"><button class="plumb-btn plumb-btn-secondary" onclick="state.step=\'address\';render();">Start over</button></div>\
-          </div>';
-        document.getElementById("manualPriceBtn").addEventListener("click", function() {
-          var price = parseFloat(document.getElementById("manualPrice").value);
-          if (!price || price < 100) { alert("Please enter a valid price."); return; }
-          var region = getRegionFromState(state.address.stateCode);
-          var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
-          var ratio = price / benchmark;
-          state.result = {
-            source: "manual", quotePrice: price, benchmark: benchmark,
-            ratio: ratio, verdict: verdictFromRatio(ratio),
-            serviceType: { value: "water_heater", label: "Water Heater Replacement" },
-            subType: "tank_50_gas", brand: null,
-            scopeSignals: {}, region: region, location: null, parsed: null
-          };
-          state.step = "result";
-          render();
-        });
-      }
-    }
-
-    async function extractPdfText(file) {
-      var arrayBuffer = await file.arrayBuffer();
-      var pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      var allText = [];
-      for (var i = 1; i <= pdf.numPages; i++) {
-        var page = await pdf.getPage(i);
-        var content = await page.getTextContent();
-        var pageText = content.items.map(function(item) { return item.str; }).join(" ");
-        allText.push(pageText);
-      }
-      return allText.join("\n");
-    }
-
-    async function preprocessImage(file, mode) {
-      return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function() {
-          var img = new Image();
-          img.onload = function() {
-            var canvas = document.createElement("canvas");
-            var scale = Math.max(1.5, Math.min(2.5, 2400 / Math.max(img.width, img.height)));
-            canvas.width = Math.round(img.width * scale);
-            canvas.height = Math.round(img.height * scale);
-            var ctx = canvas.getContext("2d");
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            var data = imageData.data;
-            if (mode === "strong") {
-              for (var i = 0; i < data.length; i += 4) {
-                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-                gray = (gray - 128) * 1.6 + 128;
-                gray = gray > 170 ? 255 : gray < 85 ? 0 : gray;
-                gray = Math.max(0, Math.min(255, gray));
-                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
-              }
-            } else {
-              for (var i = 0; i < data.length; i += 4) {
-                var gray = 0.299 * data[i] + 0.587 * data[i+1] + 0.114 * data[i+2];
-                gray = (gray - 128) * 1.3 + 128;
-                gray = Math.max(0, Math.min(255, gray));
-                data[i] = gray; data[i+1] = gray; data[i+2] = gray;
-              }
-            }
-            ctx.putImageData(imageData, 0, 0);
-            resolve(canvas.toDataURL("image/png"));
-          };
-          img.onerror = reject;
-          img.src = reader.result;
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function extractImageText(file) {
-      var softImage = await preprocessImage(file, "soft");
-      var worker = await Tesseract.createWorker("eng");
-      var result = await worker.recognize(softImage);
-      var text = (result.data.text || "").trim();
-      if (text.length < 50) {
-        var strongImage = await preprocessImage(file, "strong");
-        var result2 = await worker.recognize(strongImage);
-        var text2 = (result2.data.text || "").trim();
-        if (text2.length > text.length) text = text2;
-      }
-      await worker.terminate();
-      return text;
     }
 
     // ── Estimator Flow ──
@@ -1275,10 +928,12 @@
           <div class="plumb-step">\
             <h3>How soon do you need this done?</h3>\
             <div class="plumb-options" id="optUrg">\
-              <div class="plumb-option' + (est.urgency === "asap" ? " selected" : "") + '" data-val="asap">ASAP</div>\
+              <div class="plumb-option' + (est.urgency === "emergency" ? " selected" : "") + '" data-val="emergency" style="line-height:1.3;">Emergency<br><span style="font-size:0.78rem;font-weight:400;opacity:0.8;">After-hours / weekend / holiday</span></div>\
+              <div class="plumb-option' + (est.urgency === "asap" ? " selected" : "") + '" data-val="asap" style="line-height:1.3;">ASAP<br><span style="font-size:0.78rem;font-weight:400;opacity:0.8;">Within a few days, business hours</span></div>\
               <div class="plumb-option' + (est.urgency === "this_season" ? " selected" : "") + '" data-val="this_season">This season</div>\
               <div class="plumb-option' + (est.urgency === "planning" ? " selected" : "") + '" data-val="planning">Planning ahead</div>\
             </div>\
+            <p style="font-size:0.8rem;color:#94a3b8;margin:0.75rem 0 0;">Emergency / after-hours plumbers add a 50&ndash;100% premium nationwide.</p>\
           </div>';
         bindOptions("optUrg", "urgency");
       }
@@ -1339,9 +994,18 @@
       });
     }
 
-    function calculateEstimate() {
+    async function calculateEstimate() {
       var est = state.est;
       var region = getRegionFromState(state.address.stateCode);
+
+      // Wait for city multiplier so the first benchmark uses local pricing,
+      // not the regional fallback. Times out gracefully if the API is slow.
+      try {
+        await Promise.race([
+          fetchCityMult(state.address.city, state.address.stateCode),
+          new Promise(function(resolve) { setTimeout(resolve, 1500); })
+        ]);
+      } catch (_e) {}
 
       var benchmark = calcBenchmark(est.serviceType, est.subType, region, {
         homeSize: est.homeSize,
@@ -1350,8 +1014,13 @@
         homeAge: est.homeAge
       });
 
-      // Urgency adjustment
-      var urgMult = est.urgency === "asap" ? 1.08 : est.urgency === "this_season" ? 1.02 : 1.0;
+      // Urgency adjustment. Emergency = 50% premium (low end of the 50-100%
+      // industry range; we keep it conservative since the user can always
+      // call a higher number if they want to budget for the worst case).
+      var urgMult = 1.0;
+      if (est.urgency === "emergency") urgMult = 1.50;
+      else if (est.urgency === "asap") urgMult = 1.08;
+      else if (est.urgency === "this_season") urgMult = 1.02;
       benchmark = roundTo25(benchmark * urgMult);
 
       var low = roundTo25(benchmark * 0.85);
@@ -1527,20 +1196,6 @@
   </div>\
 </div>';
 
-      // Email report
-      var emailSubject = encodeURIComponent("My Plumbing Quote Analysis from Woogoro");
-      var emailBody = encodeURIComponent(
-        "Plumbing Quote Analysis\n" +
-        "Service: " + r.serviceType.label + "\n" +
-        (r.subLabel ? "Details: " + r.subLabel + "\n" : "") +
-        (r.brandNote ? "Brand: " + r.brandNote + "\n" : "") +
-        (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
-        "Benchmark: " + fmt(r.benchmark) + "\n" +
-        "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
-        "Analyzed by Woogoro - https://woogoro.com/plumbing-quote-analyzer.html"
-      );
-
       var disclaimerHtml = isUpload
         ? '<div style="font-size:12px; color:#64748b; margin:8px auto 0; max-width:520px; line-height:1.5;">Analysis only &mdash; benchmark estimate based on local pricing data. Not a guarantee of fair price. <a href="/methodology.html" style="color:#1d4ed8;">How we calculate</a> &middot; <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>'
         : '<div style="font-size:12px; color:#64748b; margin:8px auto 0; max-width:520px; line-height:1.5;">Estimate only &mdash; not a guaranteed quote. Final price depends on site conditions, code requirements, and contractor. <a href="/methodology.html" style="color:#1d4ed8;">How we calculate</a> &middot; <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>';
@@ -1579,16 +1234,14 @@
         ' + rebateHtml + '\
         ' + methodologyHtml + '\
         <div class="plumb-actions">\
-          <a class="plumb-btn plumb-btn-primary plumb-btn-full" href="/plumbing-quote-analyzer.html">Analyze a plumbing quote</a>\
-          <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/compare-plumbing-quotes.html">Compare 2-3 quotes side by side</a>\
+          <a class="plumb-btn plumb-btn-primary plumb-btn-full" href="/plumbing-quote-analyzer.html" data-path-switch="quote">Analyze a plumbing quote</a>\
+          <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/compare-plumbing-quotes.html" data-path-switch="compare">Compare 2-3 quotes side by side</a>\
         </div>';
 
       window.plumbingStartOver = function() {
         state = {
           step: "address",
           address: { street: "", city: "", stateCode: "", zip: "" },
-          uploadedFile: null,
-          extractedText: "",
           est: { serviceType: null, subType: null, detailsDone: false, location: null, lineLength: null, bathType: null, gasLength: null, homeSize: null, stories: null, urgency: null },
           result: null
         };
@@ -1611,6 +1264,17 @@
 
     // ── Init ──
     if (typeof tpTrack === "function") tpTrack("funnel_visit_analyzer", { service: "plumbing" });
+
+    // Path-switch tracking: clicking a cross-page link to the analyzer or
+    // compare page logs which path the user moved to. Delegated so it
+    // covers both the top bar and the result-page action buttons.
+    document.addEventListener("click", function(e) {
+      var a = e.target.closest && e.target.closest("a[data-path-switch]");
+      if (!a) return;
+      var to = a.getAttribute("data-path-switch") || "";
+      if (typeof tpTrack === "function") tpTrack("path_switch", { service: "plumbing", from: "estimate", to: to });
+    }, true);
+
     render();
 
   })();
@@ -1618,42 +1282,5 @@
 <script src="/js/tp-analytics.min.js" async></script>
 <script src="/js/result-footer.min.js" defer></script>
 <script src="/js/feedback-modal.min.js" defer></script>
-<script>
-(function applyPathFilter() {
-  try {
-    var path = (new URLSearchParams(location.search).get('path') || '').toLowerCase();
-    if (path !== 'estimate' && path !== 'quote') return;
-    function hide(el) { if (el) el.style.display = 'none'; }
-    function tryFilter() {
-      var uploadZone = document.getElementById('uploadZone') || document.querySelector('[class*="upload-zone"]');
-      var addressForm = document.querySelector('[class*="-address-form"]');
-      var divider = document.querySelector('[class*="-divider"]');
-      var compareBox = null;
-      document.querySelectorAll('div').forEach(function(d) {
-        if (compareBox) return;
-        var t = (d.textContent || '').toLowerCase();
-        if (t.indexOf('have multiple quotes') > -1 && t.length < 200) compareBox = d;
-      });
-      if (path === 'estimate') {
-        hide(uploadZone); hide(divider); hide(compareBox);
-        document.querySelectorAll('div').forEach(function(d) {
-          var t = (d.textContent || '');
-          if (t.indexOf('Your quote stays private') > -1 && t.length < 150) hide(d);
-        });
-      } else if (path === 'quote') {
-        hide(addressForm); hide(divider);
-      }
-      return !!(uploadZone && addressForm);
-    }
-    if (!tryFilter()) {
-      var attempts = 0;
-      var poll = setInterval(function() {
-        attempts++;
-        if (tryFilter() || attempts > 50) clearInterval(poll);
-      }, 100);
-    }
-  } catch (e) {}
-})();
-</script>
 </body>
 </html>
