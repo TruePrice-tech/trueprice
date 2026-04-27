@@ -290,7 +290,7 @@ Rules:
       // Service/repair detection — fall back to line-item heuristics if Claude didn't classify.
       // Install benchmarks ($5k-$15k) don't apply to a $600 recharge; suppress them.
       const _allDescs = (parsed.lineItems || []).map(li => (li.description || "").toLowerCase()).join(" | ");
-      const _serviceSignals = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/i;
+      const _serviceSignals = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance\b|\bcleaning\b|\bleak (?:repair|search|detection|test)\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac|\brecover refrigerant\b|\bnitrogen test\b|\bsoap bubbles?\b|\bevaporator coil\b|\bblower motor\b|\bcompressor (?:replac|repair)|\bcoil (?:replac|repair|leak)|\bpressure test\b|\badd \d.*(?:r-?410a|r-?22|refrigerant)/i;
       // Require EXPLICIT new-system/replacement language. A service quote often
       // mentions "outdoor condenser unit" (the existing equipment) or
       // "installed [part]" — those alone aren't enough to flip to install.

@@ -703,7 +703,7 @@
     function detectHvacJobType(text) {
       var s = String(text || "").toLowerCase();
       if (!s) return null;
-      var serviceRe = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance call\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/;
+      var serviceRe = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance call\b|\bcleaning\b|\bleak (?:repair|search|detection|test)\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac|\brecover refrigerant\b|\bnitrogen test\b|\bsoap bubbles?\b|\bevaporator coil\b|\bblower motor\b|\bcompressor (?:replac|repair)|\bcoil (?:replac|repair|leak)|\bpressure test\b|\badd \d.*(?:r-?410a|r-?22|refrigerant)/;
       var installRe = /\bnew (?:system|condenser|air handler|furnace|heat pump|hvac)\b|\bsystem (?:install|replacement)\b|\bcomplete install\b|\bfull (?:install|replacement)\b|\breplace\s+(?:system|unit|condenser|furnace|ac\b|heat pump)|\bnew (?:ac|a\/c) (?:install|system|unit)\b|\binstall (?:new |a )?(?:ac|a\/c|condenser|air handler|furnace|heat pump)\b/;
       if (serviceRe.test(s) && !installRe.test(s)) return "service";
       return null;
@@ -1020,12 +1020,21 @@
         var _jobType = detectHvacJobType(text);
         var _isService = _jobType === "service" || _jobType === "repair" || _jobType === "maintenance";
 
-        var benchmark = _isService ? 0 : calcBenchmark(systemType.value, effectiveSeer, effectiveTons, region, "good");
+        // Low-confidence gate: if we couldn't detect SEER/AFUE/tonnage AND the
+        // OCR has no HVAC-specific keywords, we're guessing. Don't compare
+        // against a fake default benchmark ($4,450 = central_ac 14-SEER 3-ton).
+        var _hvacKeywords = /\b(heat pump|mini.?split|central a\/?c|condenser|furnace|hvac|seer|afue|btu|ton\b|tonnage|air handler|evaporator|refrigerant|410a|r-?22|line set|ductwork)\b/i.test(text);
+        var _hasFields = !!(seer || afue || tonnage);
+        var _lowConfidence = !_isService && !_hasFields && !_hvacKeywords;
 
-        var ratio = (!_isService && confirmedPrice > 0 && benchmark > 0) ? confirmedPrice / benchmark : 1.0;
+        var benchmark = (_isService || _lowConfidence) ? 0 : calcBenchmark(systemType.value, effectiveSeer, effectiveTons, region, "good");
+
+        var ratio = (!_isService && !_lowConfidence && confirmedPrice > 0 && benchmark > 0) ? confirmedPrice / benchmark : 1.0;
         var verdict = _isService
           ? { label: "Service Quote", css: "fair", emoji: "" }
-          : verdictFromRatio(ratio);
+          : _lowConfidence
+            ? { label: "Needs Review", css: "low", emoji: "" }
+            : verdictFromRatio(ratio);
 
         // Brand tier adjustment context
         var brandNote = "";
@@ -1042,6 +1051,7 @@
           ratio: ratio,
           verdict: verdict,
           isServiceJob: _isService,
+          isLowConfidence: _lowConfidence,
           jobType: _jobType,
           systemType: systemType,
           seer: seer,
@@ -1463,6 +1473,8 @@
           var _jt = (r.jobType || "service").toLowerCase();
           var _jtLabel = _jt === "repair" ? "Repair" : _jt === "maintenance" ? "Maintenance" : "Service";
           rangeText = _jtLabel + " quote &mdash; install benchmarks don't apply. Typical " + _jtLabel.toLowerCase() + " calls run $150&ndash;$1,500 depending on parts and labor.";
+        } else if (r.isLowConfidence) {
+          rangeText = "We couldn't extract enough HVAC details (system type, SEER, tonnage) to benchmark this quote. The price was detected but we can't compare it to install averages without more context. Verify the document is a single HVAC quote (not a comparison table or general bill).";
         } else {
           rangeText = "Market benchmark: " + fmt(r.benchmark);
           if (r.quotePrice > 0) {
