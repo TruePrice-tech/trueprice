@@ -14,6 +14,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const IN_FILE = path.join(__dirname, 'output', 'trends-raw.json');
+const BING_FILE = path.join(__dirname, 'output', 'bing-raw.json');
 const OUT_JSON = path.join(__dirname, 'output', 'keywords-filtered.json');
 const OUT_CSV = path.join(__dirname, 'output', 'keywords-ranked.csv');
 
@@ -152,6 +153,47 @@ for (const row of raw) {
       deduped++;
     }
   }
+}
+
+// --- Merge Bing autocomplete harvest if present.
+// Bing entries are { seed, vertical, expansion, suggestion }. We treat each
+// suggestion as a "rising" kind with synthetic value (Bing has no relative
+// volume signal, so commercial score does the ranking work).
+let bingMerged = 0, bingExcluded = 0;
+if (fs.existsSync(BING_FILE)) {
+  const bingRaw = JSON.parse(fs.readFileSync(BING_FILE, 'utf8'));
+  for (const item of bingRaw) {
+    const q = String(item.suggestion || '').trim();
+    if (!q || q.length < 4) continue;
+    totalInput++;
+    const nq = normalize(q);
+    const reason = shouldExclude(nq);
+    if (reason) { bingExcluded++; excluded++; continue; }
+
+    const existing = byQuery.get(nq);
+    const entry = {
+      query: q,
+      normalized: nq,
+      vertical: item.vertical,
+      seed: item.seed || 'bing',
+      value: 1,           // Bing has no volume — let commercialScore drive ranking
+      kind: 'bing',
+      commercialScore: commercialScore(nq),
+    };
+    if (!existing) {
+      byQuery.set(nq, entry);
+      bingMerged++;
+    } else if (existing.kind === 'bing') {
+      // both bing — keep first
+      deduped++;
+    } else {
+      // existing is from Trends — Trends is more trustworthy, skip
+      deduped++;
+    }
+  }
+  console.log(`Bing merge: ${bingMerged} new entries added, ${bingExcluded} bing-only excluded`);
+} else {
+  console.log('No bing-raw.json present — Trends-only run.');
 }
 
 // Flag existing-page matches
