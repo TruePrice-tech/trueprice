@@ -166,6 +166,11 @@ export default async function handler(req, res) {
       html: tpl.html,
       emailHash,
       replyTo: "hello@woogoro.com",
+      // Saved-watch account-state update. § 7702(17)(C) administrative
+      // notification regarding the user's ongoing watch relationship —
+      // transactional. Email body must reflect account-state framing
+      // (per project_email_transactional_framing.md), not marketing pitch.
+      purpose: "transactional",
     });
 
     if (result.ok) {

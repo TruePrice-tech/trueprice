@@ -1,15 +1,27 @@
-// Shared Resend send helper for transactional + marketing emails.
+// Shared Resend send helper for transactional + commercial emails.
 //
 // Compliance shell wrapped around every send:
-//   1. Postal address footer (CAN-SPAM § 5(a)(5)) — gated on WOOGORO_POSTAL_ADDRESS env var.
-//      If the env var is not set, send() returns { ok: false, reason: "no_postal_address" }
-//      and does NOT call Resend. Capture flows still succeed; sends quietly no-op.
+//   1. Postal address footer (CAN-SPAM § 5(a)(5)) — required for COMMERCIAL sends only.
+//      Transactional sends (purpose: "transactional") are exempt under § 7702(17) and
+//      skip the postal requirement entirely. For commercial sends, gated on
+//      WOOGORO_POSTAL_ADDRESS env var; if unset, send() returns
+//      { ok: false, reason: "no_postal_address" } and does NOT call Resend.
 //   2. One-click unsubscribe headers (RFC 8058, Gmail/Yahoo bulk-sender rule, Feb 2024):
 //        List-Unsubscribe: <https://woogoro.com/api/email-unsubscribe?e=...&t=...>
 //        List-Unsubscribe-Post: List-Unsubscribe=One-Click
-//   3. Visible unsubscribe link in HTML footer.
+//      Always set, even for transactional, because bulk-sender filters apply
+//      regardless of CAN-SPAM classification.
+//   3. Visible unsubscribe / preferences link in HTML footer.
 //   4. Every send writes the suppression check before composing — callers should also
 //      pre-check, but defense in depth.
+//
+// Caller convention:
+//   - Pass `purpose: "transactional"` for account-state messages (magic links,
+//     receipt confirms, balance changes, saved-watch notifications, redemption
+//     confirms, account lifecycle). These are § 7702(17) transactional and DO NOT
+//     require a postal address.
+//   - Omit `purpose` (or pass anything else) for commercial sends (newsletters,
+//     promotional content). These require a valid WOOGORO_POSTAL_ADDRESS env var.
 //
 // Why this lives in api/ alongside endpoints rather than a top-level lib/: Vercel
 // serverless functions can only import from siblings without bundler config, and
@@ -46,9 +58,21 @@ function postalAddress() {
   return (process.env.WOOGORO_POSTAL_ADDRESS || "").trim();
 }
 
-function complianceFooter(emailHash) {
-  const addr = postalAddress();
+function complianceFooter(emailHash, isTransactional) {
   const unsub = unsubscribeUrl(emailHash);
+
+  if (isTransactional) {
+    // Transactional footer: § 7702(17) account-state notifications. No postal
+    // address required. Manage-preferences link kept as good practice and to
+    // satisfy bulk-sender filter expectations.
+    return `<div style="margin-top:32px;padding-top:20px;border-top:1px solid #e2e8f0;color:#94a3b8;font-size:12px;font-family:sans-serif;line-height:1.6;">
+      <p style="margin:0 0 8px;">You're receiving this because of activity on your Woogoro account.</p>
+      <p style="margin:0;"><a href="${unsub}" style="color:#64748b;text-decoration:underline;">Manage email preferences</a> &middot; <a href="${SITE_ORIGIN}/privacy.html" style="color:#64748b;text-decoration:underline;">Privacy</a></p>
+    </div>`;
+  }
+
+  // Commercial footer: CAN-SPAM § 5(a)(5) requires a valid physical postal address.
+  const addr = postalAddress();
   // Vercel's env editor flattens newlines to spaces. Insert breaks before
   // street-style tokens so single-line input still renders as a 2-3 line block.
   let addrHtml = "";
@@ -67,7 +91,7 @@ function complianceFooter(emailHash) {
     }
   }
   return `<div style="margin-top:32px;padding-top:20px;border-top:1px solid #e2e8f0;color:#94a3b8;font-size:12px;font-family:sans-serif;line-height:1.6;">
-    <p style="margin:0 0 8px;">You're getting this because you opted in to price updates at woogoro.com.</p>
+    <p style="margin:0 0 8px;">You're getting this because you opted in to updates at woogoro.com.</p>
     <p style="margin:0 0 8px;"><a href="${unsub}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a> &middot; <a href="${SITE_ORIGIN}/privacy.html" style="color:#64748b;text-decoration:underline;">Privacy</a></p>
     ${addrHtml ? `<p style="margin:0;color:#94a3b8;">${addrHtml}</p>` : ""}
   </div>`;
@@ -79,10 +103,12 @@ function escapeHtml(s) {
 
 // Send one email through Resend with compliance shell applied.
 // Required: { to, subject, html, emailHash }.
-// Optional: { from, replyTo }.
+// Optional: { from, replyTo, purpose }.
+//   purpose: "transactional" — § 7702(17) account-state message; postal address NOT required.
+//   purpose: anything else (or unset) — commercial message; postal address required.
 //
 // Returns { ok, reason, status, body } — never throws on Resend errors.
-export async function sendEmail({ to, subject, html, emailHash, from, replyTo }) {
+export async function sendEmail({ to, subject, html, emailHash, from, replyTo, purpose }) {
   if (!to || !subject || !html || !emailHash) {
     return { ok: false, reason: "missing_required_fields" };
   }
@@ -90,8 +116,9 @@ export async function sendEmail({ to, subject, html, emailHash, from, replyTo })
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { ok: false, reason: "no_api_key" };
 
+  const isTransactional = purpose === "transactional";
   const addr = postalAddress();
-  if (!addr) return { ok: false, reason: "no_postal_address" };
+  if (!isTransactional && !addr) return { ok: false, reason: "no_postal_address" };
 
   // Re-check suppression at send time (caller may have a stale record).
   try {
@@ -101,7 +128,7 @@ export async function sendEmail({ to, subject, html, emailHash, from, replyTo })
     // fail open — better to send than to lose a legitimate transactional email
   }
 
-  const finalHtml = `${html}${complianceFooter(emailHash)}`;
+  const finalHtml = `${html}${complianceFooter(emailHash, isTransactional)}`;
   const unsub = unsubscribeUrl(emailHash);
 
   const body = {

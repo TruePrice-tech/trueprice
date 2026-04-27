@@ -140,6 +140,9 @@ export default async function handler(req, res) {
           html: tpl.html,
           emailHash,
           replyTo: "hello@woogoro.com",
+          // Saved-watch account creation. § 7702(17)(C) administrative notice
+          // about an account / ongoing relationship — transactional.
+          purpose: "transactional",
         });
         if (!result.ok) {
           console.log(`[email-signup] welcome skipped (${result.reason}) for ${emailHash.slice(0, 8)}…`);
