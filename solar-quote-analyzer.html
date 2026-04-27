@@ -543,12 +543,16 @@
     function detectSolarFinancingType(text) {
       var t = String(text || "").toLowerCase();
       if (!t) return null;
-      // Lease/PPA: monthly payment is the headline, no upfront purchase total
-      var leaseRe = /\blease\b|\bppa\b|\bpower purchase agreement\b|sunnova|lightreach|sunrun.*lease|\$\s?\d+(?:\.\d{2})?\s*\/\s*(?:mo|month)\b|monthly payment.*\$|\bescalator\b|\$\/kwh\b|price\s*\/\s*kwh\b/i;
-      var purchaseRe = /\bturnkey\b|\bpurchase\b|\bnet (?:cost|price|total)\b|\bgross (?:total|price|system)\b|\bcash price\b|\btotal system price\b|\bsystem price\b|\bafter (?:tax credit|itc)\b|\bfederal (?:itc|tax credit)\b/i;
+      // Lease/PPA — strong signals only. Bare "escalator" or "$/kWh" are NOT
+      // sufficient (purchase quotes also project utility-rate escalators and
+      // post-solar $/kWh as savings projections). Need explicit lease/PPA
+      // language or a brand that's lease-only.
+      var leaseRe = /\blease\b|\bppa\b|\bpower purchase agreement\b|sunnova|lightreach|sunrun.*lease|\$\s?\d+(?:\.\d{2})?\s*\/\s*(?:mo|month)\b|monthly\s+(?:sunnova|lease|solar)\s+payment|\bsolar rate\b/i;
+      // Purchase / loan signals — disqualify lease detection.
+      var purchaseRe = /\bturnkey\b|\bpurchase\b|\bnet (?:cost|price|total)\b|\bgross (?:total|price|system)\b|\bcash price\b|\btotal system price\b|\bsystem price\b|\bafter (?:tax credit|itc)\b|\bfederal (?:itc|tax credit)\b|\bloan amount\b|\btotal loan\b|\bloan term\b|\bapr\s+\d|\bdown payment\b|\binterest rate\b|\bfinanced (?:via|with)?\s*loan\b/i;
       var leaseHit = leaseRe.test(t);
       var purchaseHit = purchaseRe.test(t);
-      // Lease wins only when no clear purchase signal
+      // Lease wins only when no clear purchase/loan signal
       if (leaseHit && !purchaseHit) return "lease";
       // Wholesale / parts-only: no install labor, just panels + shipping
       var wholesaleRe = /\bddp\b|\balibaba\b|\bunit price\b.*per piece|\bwholesale\b|\bfob\b|\bunpacking the pallet\b/i;
