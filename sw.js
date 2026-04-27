@@ -4,15 +4,15 @@
 // v4 (2026-04-09): plumbing analyzer accuracy overhaul (multi-pass Tesseract,
 // multi-strategy regex, opt-in AI). Bump invalidates returning visitors' caches
 // so they get the new plumbing-quote-analyzer.html and compare-plumbing-quotes.html.
-const CACHE_NAME = "woogoro-v6";
+// v7 (2026-04-27): Trudy retired; precache referenced dead Trudy image URLs
+// which made cache.addAll() reject (atomic), breaking the SW install for new
+// visitors. Precache trimmed to canonical assets only; Iris images are
+// runtime-cached lazily via the fetch handler below.
+const CACHE_NAME = "woogoro-v7";
 const PRECACHE = [
   "/",
   "/css/woogoro.min.css",
-  "/images/trudy-estimate-hero.webp",
-  "/images/trudy-compare-hero.webp",
-  "/images/trudy-analyze-hero.webp",
-  "/images/trudy.png",
-  "/favicon-trudy.svg"
+  "/images/Iris/Iris%20color%20side%20silhouette.webp"
 ];
 
 self.addEventListener("install", (e) => {

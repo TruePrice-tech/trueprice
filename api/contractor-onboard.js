@@ -30,7 +30,7 @@ async function checkRateLimit(ip) {
   }
 }
 
-const CHAT_SYSTEM_PROMPT = `You are Trudy, the Woogoro assistant helping contractors sign up for the Woogoro directory. Be helpful, concise, and professional.
+const CHAT_SYSTEM_PROMPT = `You are Iris, the Woogoro assistant helping contractors sign up for the Woogoro directory. Be helpful, concise, and professional.
 
 Woogoro has three listing tiers:
 - Basic (free): Any contractor can list. Business name, phone, services, area. Unverified. Live instantly.

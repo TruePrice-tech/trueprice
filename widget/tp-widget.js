@@ -180,7 +180,7 @@
 
     var html = [];
     html.push('<div class="tp-header">');
-    html.push('<img src="https://woogoro.com/images/trudy-peeking.png" alt="Trudy" width="32" height="32" style="flex-shrink:0;" onerror="this.style.display=\'none\'" />');
+    html.push('<img src="https://woogoro.com/images/Iris/Iris%20peeking.png" alt="Iris" width="32" height="32" style="flex-shrink:0;" onerror="this.style.display=\'none\'" />');
     html.push('<div>');
     html.push('<div class="tp-logo">Woogoro</div>');
     html.push('<div class="tp-title">' + esc(label) + ' Cost</div>');
@@ -236,7 +236,7 @@
     html.push('<a class="tp-cta-primary" href="' + esc(analyzerUrl) + '" target="_blank" rel="noopener">Check your quote free &rarr;</a>');
     html.push('<div class="tp-footer-row">');
     html.push('<a class="tp-cta" href="' + esc(cityUrl) + '" target="_blank" rel="noopener">Full pricing details &rarr;</a>');
-    html.push('<a class="tp-powered" href="https://woogoro.com/widget.html" target="_blank" rel="noopener"><img src="https://woogoro.com/images/trudy-peeking.png" alt="" width="14" height="14" onerror="this.style.display=\'none\'" /> by Woogoro</a>');
+    html.push('<a class="tp-powered" href="https://woogoro.com/widget.html" target="_blank" rel="noopener"><img src="https://woogoro.com/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="14" height="14" onerror="this.style.display=\'none\'" /> by Woogoro</a>');
     html.push('</div>');
     if (data.updated) {
       html.push('<div class="tp-updated">Updated ' + esc(data.updated) + '</div>');
