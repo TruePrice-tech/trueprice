@@ -10129,8 +10129,20 @@ function buildComparisonWinnerHtml(summary) {
         : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
+      // If the user edited the sqft input (different from the OSM-pre-filled
+      // value, which gets reset by the propertyType click handler), trust
+      // their number — they know their home. Otherwise prefer OSM's polygon
+      // measurement. Tolerance 5% to allow rounding noise.
+      const _osmHomeForCompare = Number(journeyState.osmHomeSize) || 0;
+      const _userEdited = homeSize > 0 && _osmHomeForCompare > 0 &&
+        Math.abs(homeSize - _osmHomeForCompare) / _osmHomeForCompare > 0.05;
+
       let footprint;
-      if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
+      if (_userEdited && homeSize > 0) {
+        // User-provided living area. Convert to footprint via storyMult.
+        footprint = homeSize * storyMult;
+        footprintSource = "user_home_size";
+      } else if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
         // Best signal: OSM building polygon area. Use directly.
         footprint = journeyState.osmFootprint;
         footprintSource = "osm_footprint";
