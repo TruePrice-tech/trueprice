@@ -1,0 +1,41 @@
+{
+  "_README": "Outcomes recorded against the regex-stub verifier (api/_woogoros-verifier.js). When Theia's receipt LoRA replaces the stub (~mid-May 2026), expectations should improve: the FAIL on auto-paper-photo and the REVIEWs on the HVAC fixtures should turn into PASS or stay REVIEW depending on Theia's classification. Update this file when Theia drops to lock the new baseline.",
+
+  "hvac-clean-invoice.jpeg": {
+    "_note": "Clean digital screenshot. Verifier today MISSES total ('Total job price $610.00' — TOTAL_RE doesn't match compound labels). Subtotal extracts cleanly. No date in screenshot. Lands REVIEW because trust low (49) without total bonus or date bonus.",
+    "declaredVertical": "hvac",
+    "declaredAmount": 610.00,
+    "expectedBucket": "review",
+    "minTrust": 40,
+    "maxTrust": 65,
+    "expectExtractedTotal": null
+  },
+
+  "hvac-coil-quote.jpeg": {
+    "_note": "Clean digital. Verifier extracts total + subtotal cleanly. No date in screenshot, no merchant heuristic match — trust 66, just under PASS threshold. REVIEW.",
+    "declaredVertical": "hvac",
+    "declaredAmount": 3810.00,
+    "expectedBucket": "review",
+    "minTrust": 60,
+    "maxTrust": 75,
+    "expectExtractedTotal": 3810
+  },
+
+  "auto-paper-photo.jpeg": {
+    "_note": "Real phone photo of paper estimate. OCR works. Verifier MISSES total ('Total Cost of Repairs 732.39' — same compound-label bug as the HVAC one). KEYWORDS.auto_repair doesn't match the receipt's accounting language ('Body Labor / Subtotal / Total Cost of Repairs') — vertical_mismatch fatal. FAIL.",
+    "declaredVertical": "auto_repair",
+    "declaredAmount": 732.39,
+    "expectedBucket": "fail",
+    "expectExtractedTotal": null
+  },
+
+  "audi-screenshot.jpg": {
+    "_note": "Partial screenshot — user scrolled, no total in the visible region. Verifier finds nothing. False-positive merchant heuristic on 'FRONT AND REAR ALIGNMENT'. REVIEW because trust 54 (no total/date bonus). Correct outcome — admin should look at this.",
+    "declaredVertical": "auto_repair",
+    "declaredAmount": 5557.45,
+    "expectedBucket": "review",
+    "minTrust": 40,
+    "maxTrust": 65,
+    "expectExtractedTotal": null
+  }
+}
