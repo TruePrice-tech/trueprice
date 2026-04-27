@@ -14,6 +14,8 @@
 
 import { Redis } from "@upstash/redis";
 import crypto from "crypto";
+import { sendEmail } from "./_email-send.js";
+import { welcomeTemplate } from "./_email-templates.js";
 
 const redis = Redis.fromEnv();
 
@@ -92,8 +94,10 @@ export default async function handler(req, res) {
     const interest = { city, stateCode, service, source, subscribedAt: now, ip };
 
     let record;
+    let isFirstSignup = false;
     try {
       const existing = await redis.get(`tp:email:${emailHash}`);
+      isFirstSignup = !existing;
       record = existing
         ? (typeof existing === "string" ? JSON.parse(existing) : existing)
         : { email, interests: [], unsubscribed: false, createdAt: now };
@@ -124,6 +128,26 @@ export default async function handler(req, res) {
       const c = await redis.incr(dailyKey);
       if (c === 1) await redis.expire(dailyKey, 100 * 24 * 3600);
     } catch (e) { /* swallow */ }
+
+    // Welcome email — only on first-ever signup for this address.
+    // Best-effort: a send failure must not fail the signup.
+    if (isFirstSignup) {
+      try {
+        const tpl = welcomeTemplate({ city, stateCode, service });
+        const result = await sendEmail({
+          to: email,
+          subject: tpl.subject,
+          html: tpl.html,
+          emailHash,
+          replyTo: "hello@woogoro.com",
+        });
+        if (!result.ok) {
+          console.log(`[email-signup] welcome skipped (${result.reason}) for ${emailHash.slice(0, 8)}…`);
+        }
+      } catch (e) {
+        console.error("[email-signup] welcome send threw:", e && e.message);
+      }
+    }
 
     return res.status(200).json({ success: true });
   } catch (e) {

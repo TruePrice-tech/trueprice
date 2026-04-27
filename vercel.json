@@ -7,6 +7,10 @@
     {
       "path": "/api/pricing-drift-check",
       "schedule": "0 13 * * 1"
+    },
+    {
+      "path": "/api/email-digest-cron",
+      "schedule": "0 14 1 * *"
     }
   ],
   "functions": {
@@ -80,6 +84,9 @@
       "maxDuration": 5
     },
     "api/pricing-drift-check.js": {
+      "maxDuration": 60
+    },
+    "api/email-digest-cron.js": {
       "maxDuration": 60
     }
   },
