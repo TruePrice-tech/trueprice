@@ -14,6 +14,7 @@
 // Cron schedule: 0 15 * * * (15:00 UTC daily — 2hr after pricing-drift on Mon).
 
 import { Redis } from "@upstash/redis";
+import { gate, maybeWarn } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 
@@ -34,6 +35,11 @@ export default async function handler(req, res) {
   const cronSecret = process.env.CRON_SECRET || "";
   if (!cronSecret) return res.status(503).json({ error: "CRON_SECRET not configured" });
   if (auth !== `Bearer ${cronSecret}`) return res.status(401).json({ error: "Unauthorized" });
+  if (await gate(req, res, 2)) return;
+
+  // Threshold warnings: heartbeat is the daily checkpoint where we look at
+  // Vercel usage and email if we crossed 70/85/95/99% in the past day.
+  const usageWarn = await maybeWarn();
 
   const now = Date.now();
   const results = [];
@@ -108,5 +114,7 @@ export default async function handler(req, res) {
     overdue: overdue.length,
     emailStatus,
     results,
+    vercelUsage: usageWarn.usage,
+    warningsFired: usageWarn.fired,
   });
 }

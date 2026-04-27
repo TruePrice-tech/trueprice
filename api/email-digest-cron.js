@@ -23,6 +23,7 @@
 import { Redis } from "@upstash/redis";
 import { sendEmail } from "./_email-send.js";
 import { digestTemplate } from "./_email-templates.js";
+import { gate } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 
@@ -96,6 +97,7 @@ export default async function handler(req, res) {
   if (auth !== `Bearer ${cronSecret}`) {
     return res.status(401).json({ error: "Unauthorized" });
   }
+  if (await gate(req, res, 2)) return;
 
   const dryRun = req.query.dryRun === "1" || req.query.dryRun === "true";
   const onlyEmail = req.query.to ? String(req.query.to).toLowerCase().trim() : null;

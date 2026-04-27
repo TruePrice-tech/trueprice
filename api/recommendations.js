@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 const MAX_RECS = 5000;
@@ -41,6 +42,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(204).end();
+  if (await gate(req, res, 3)) return;
 
   // GET: fetch recommendations, optionally filtered by city or trade
   if (req.method === "GET") {

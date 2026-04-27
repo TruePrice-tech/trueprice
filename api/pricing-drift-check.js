@@ -21,6 +21,7 @@
 // Cron schedule defined in vercel.json: 0 13 * * 1 (Mondays 13:00 UTC).
 
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 
@@ -63,6 +64,7 @@ export default async function handler(req, res) {
   if (auth !== `Bearer ${cronSecret}`) {
     return res.status(401).json({ error: "Unauthorized" });
   }
+  if (await gate(req, res, 3)) return;
 
   const dryRun = req.query.dryRun === "1" || req.query.dryRun === "true";
   const threshold = req.query.threshold ? Number(req.query.threshold) : DEFAULT_THRESHOLD;

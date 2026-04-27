@@ -119,6 +119,9 @@
     },
     "api/pricing-events-active.js": {
       "maxDuration": 5
+    },
+    "api/usage-status.js": {
+      "maxDuration": 5
     }
   },
   "headers": [

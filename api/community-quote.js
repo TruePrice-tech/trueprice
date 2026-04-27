@@ -3,6 +3,7 @@
 // Bridges to Redis cal:* aggregates for flywheel feedback
 
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 let redis;
 try { redis = Redis.fromEnv(); } catch (_) { redis = null; }
@@ -95,6 +96,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") return res.status(204).end();
+  if (await gate(req, res, 3)) return;
 
   // POST: Submit a quote
   if (req.method === "POST") {

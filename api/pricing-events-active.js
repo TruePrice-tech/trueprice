@@ -8,6 +8,7 @@
 //   { ok: true, events: [{ id, title, summary, severity, verticals, source, url, seenAt, validUntil }] }
 
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 const EVENT_PREFIX = "tp:price_event:";
@@ -22,13 +23,19 @@ export default async function handler(req, res) {
 
   try {
     const ids = (await redis.smembers(ACTIVE_KEY)) || [];
-    if (ids.length === 0) return res.status(200).json({ ok: true, events: [] });
+    if (ids.length === 0) {
+      if (await gate(req, res, 1)) return;
+      return res.status(200).json({ ok: true, events: [] });
+    }
 
+    // Pre-scan for severity-3 active so we can bypass Tier 1 gating.
+    let hasSev3 = false;
     const events = [];
     for (const id of ids) {
       const raw = await redis.get(EVENT_PREFIX + id);
       if (!raw) continue;
       const evt = typeof raw === "string" ? JSON.parse(raw) : raw;
+      if ((Number(evt.severity) || 0) >= 3) hasSev3 = true;
       if ((Number(evt.severity) || 0) < minSeverity) continue;
       if (vertical) {
         const verts = Array.isArray(evt.verticals) ? evt.verticals : [];
@@ -36,6 +43,10 @@ export default async function handler(req, res) {
       }
       events.push(evt);
     }
+
+    // Apply usage gate AFTER the sev3 pre-scan so a major-disruption banner
+    // stays callable even at 99% throttle.
+    if (await gate(req, res, 1, { bypass: hasSev3 })) return;
 
     // Sort: highest severity first, then most recent
     events.sort((a, b) => (Number(b.severity) - Number(a.severity)) ||

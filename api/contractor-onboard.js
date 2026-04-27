@@ -1,4 +1,5 @@
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 
@@ -291,6 +292,7 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
+  if (await gate(req, res, 3)) return;
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });

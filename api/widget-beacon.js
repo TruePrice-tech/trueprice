@@ -7,6 +7,7 @@
 // fires from widget/tp-widget.js after a successful render.
 
 import { Redis } from "@upstash/redis";
+import { gate } from "./_usage-gate.js";
 
 let redis;
 try { redis = Redis.fromEnv(); } catch (_) { redis = null; }
@@ -43,6 +44,7 @@ export default async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   if (!redis) return res.status(204).end();
+  if (await gate(req, res, 1)) return;
 
   try {
     let data = req.body;

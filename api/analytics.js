@@ -4,6 +4,7 @@
 // already uses the WHATWG URL API (new URL()). The warning will resolve when
 // Upstash updates their package. No action needed here.
 import { Redis } from "@upstash/redis";
+import { gate, track } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
 // TODO: Set ANALYTICS_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars)
@@ -144,6 +145,7 @@ export default async function handler(req, res) {
       const type = String(data.type || "pageview");
 
       if (type === "email_signup") {
+        await track();  // Tier 4: count but never gate
         const email = String(data.email || "").trim().toLowerCase().substring(0, 254);
         const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email || !emailRe.test(email)) {
@@ -159,6 +161,7 @@ export default async function handler(req, res) {
       }
 
       if (type === "feedback") {
+        if (await gate(req, res, 3)) return;
         // Accept both shapes: {type, rating, comment, path} (legacy)
         // and {type, data:{rating, comment, email, path}} (new modal)
         const fb = (data.data && typeof data.data === "object") ? data.data : data;
@@ -240,6 +243,7 @@ export default async function handler(req, res) {
       }
 
       if (type === "js_error") {
+        if (await gate(req, res, 1)) return;
         // Real-user error capture with 3 hard guards on Vercel cost:
         //   1. Daily global cap (5000 errors stored/day)
         //   2. Per-IP rate limit (10 errors/hour)
@@ -349,6 +353,7 @@ export default async function handler(req, res) {
       }
 
       if (type === "event") {
+        if (await gate(req, res, 1)) return;
         const event = String(data.event || "").substring(0, 50).trim();
         if (!event) return res.status(200).json({ ok: true });
         const meta = data.meta || {};
@@ -362,6 +367,7 @@ export default async function handler(req, res) {
         }));
         await redis.ltrim("tp:events", 0, MAX_ENTRIES - 1);
       } else {
+        if (await gate(req, res, 1)) return;
         const ua = req.headers["user-agent"] || "";
         const botName = detectBot(ua);
         const path = String(data.path || "/").substring(0, 200).trim();
@@ -400,6 +406,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     // Pixel: bot detection
     if (req.query.pixel === "1") {
+      if (await gate(req, res, 1)) return;
       const ua = req.headers["user-agent"] || "";
       const botName = detectBot(ua);
       const path = String(req.query.p || "/").substring(0, 200);
@@ -417,6 +424,7 @@ export default async function handler(req, res) {
 
     // Public counter - total real quotes across all sources and verticals
     if (req.query.counter === "1") {
+      await track();  // Tier 4: count but never gate (homepage hero number)
       try {
         // tp:total_quotes is incremented by the calibration API on every quote POST
         const totalQuotes = (await redis.get("tp:total_quotes")) || 0;
