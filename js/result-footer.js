@@ -147,12 +147,12 @@
     var label = escHtml(verticalLabel);
     var slug  = escHtml(vertical);
 
-    // Feature flag: email capture is built end-to-end (endpoints, privacy
-    // policy, unsubscribe) but hidden until send infra is ready (virtual
-    // mailbox + DKIM/SPF/DMARC + send provider). Flip on by setting
-    // `window.WOOGORO_EMAIL_CAPTURE = true` on the host page before
-    // result-footer.js runs, or by changing the default here to true.
-    var emailCaptureEnabled = (window.WOOGORO_EMAIL_CAPTURE === true);
+    // Feature flag: email capture defaults ON as of 2026-04-27 (LLC approved,
+    // transactional framing live, no postal address required for the saved-
+    // watch carrier model). To kill-switch off, set
+    // `window.WOOGORO_EMAIL_CAPTURE = false` on the host page before
+    // result-footer.js runs.
+    var emailCaptureEnabled = (window.WOOGORO_EMAIL_CAPTURE !== false);
 
     var emailCaptureHtml = emailCaptureEnabled
       ? (''
