@@ -62,6 +62,16 @@
       + '@media (max-width:600px) { .tp-action-row { grid-template-columns:1fr 1fr; } }'
       + '@media (max-width:400px) { .tp-action-row { grid-template-columns:1fr; } }'
       + '@media print { .tp-result-footer { display:none !important; } }'
+      // Cuts for the shareable PDF: hide site chrome, intent strip, branding banner,
+      // SEO content blocks, FAQ, cross-link lists, and in-result CTAs/buttons.
+      // Free tier should print as a 1-2 page focused report — verdict + system + scope + next steps.
+      + '@media print {'
+      +   '.tp-pdf-noprint { display:none !important; }'
+      +   '.skip-link, .site-header, .site-footer { display:none !important; }'
+      +   '[class$="-actions"], [class*="-actions "] { display:none !important; }'
+      +   'details { display:none !important; }'
+      +   'body { background:#fff !important; }'
+      + '}'
       + '.tp-qc { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:20px; margin:20px 0; }'
       + '.tp-qc-title { font-size:15px; font-weight:700; color:#166534; margin:0 0 4px; }'
       + '.tp-qc-sub { font-size:13px; color:#475569; margin:0 0 14px; }'

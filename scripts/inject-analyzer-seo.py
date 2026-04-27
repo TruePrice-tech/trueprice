@@ -979,7 +979,7 @@ def build_section(v):
 
     full_section = f'''
   <!-- TP-ANALYZER-SEO-V1 -->
-  <section style="padding:48px 0; border-top:1px solid var(--border, #e2e8f0); background:#f8fafc;">
+  <section class="tp-pdf-noprint" style="padding:48px 0; border-top:1px solid var(--border, #e2e8f0); background:#f8fafc;">
     <div class="container" style="max-width:960px;">
 {line_items_html}{red_flags_html}{hidden_costs_html}{faq_html}
     </div>
