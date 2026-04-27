@@ -960,6 +960,47 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Pre-detect lease/wholesale BEFORE the price-confirmation step. If we
+        // can't extract a $price for a lease quote, the standard "Enter your
+        // quote total" fallback is wrong — leases don't have a single $price.
+        // Skip straight to the lease/wholesale verdict in that case.
+        var _earlyFinancing = detectSolarFinancingType(text);
+        if ((_earlyFinancing === "lease" || _earlyFinancing === "wholesale") && (!quotePrice || quotePrice <= 0)) {
+          var _earlySystemKw = systemKw || 8;
+          state.result = {
+            source: "upload",
+            quotePrice: 0,
+            benchmark: 0,
+            ratio: 1.0,
+            verdict: _earlyFinancing === "lease"
+              ? { label: "Lease / PPA", css: "fair", emoji: "" }
+              : { label: "Parts Only", css: "fair", emoji: "" },
+            isLease: _earlyFinancing === "lease",
+            isWholesale: _earlyFinancing === "wholesale",
+            financingType: _earlyFinancing,
+            systemKw: _earlySystemKw,
+            panelBrand: panelBrand,
+            panelInfo: panelInfo,
+            panelTier: panelBrand ? panelBrand.tier : "mid",
+            inverterInfo: inverterInfo,
+            inverterType: inverterInfo ? inverterInfo.type : "string",
+            batteryInfo: batteryInfo,
+            batteryType: batteryInfo ? batteryInfo.type : "none",
+            brandNote: panelBrand ? panelBrand.brand + " (" + panelBrand.tier + " tier)" : "",
+            scopeSignals: scopeSignals,
+            taxCreditMentioned: taxCreditMentioned,
+            warrantyTerms: warrantyTerms,
+            region: getRegionFromState(state.address.stateCode),
+            location: location,
+            parsed: parsed
+          };
+          if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "solar" });
+          state.step = "result";
+          setTimeout(render, 400);
+          return;
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "sol", function(confirmedPrice) {
 
 
