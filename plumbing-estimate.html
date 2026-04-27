@@ -600,7 +600,21 @@
       return priceMap[subType] || 2000;
     }
 
-    function calcBenchmark(serviceType, subType, region, bathrooms, homeAge) {
+    function deriveBathroomsFromHomeSize(homeSize) {
+      var sqft = Number(homeSize);
+      if (!sqft || sqft < 400) return null;
+      // Find the closest match in PLUMBING_PRICING.homeSizes
+      var closest = PLUMBING_PRICING.homeSizes[0];
+      var bestDiff = Math.abs(sqft - Number(closest.label));
+      PLUMBING_PRICING.homeSizes.forEach(function(row) {
+        var d = Math.abs(sqft - Number(row.label));
+        if (d < bestDiff) { bestDiff = d; closest = row; }
+      });
+      return closest.bathrooms;
+    }
+
+    function calcBenchmark(serviceType, subType, region, opts) {
+      opts = opts || {};
       var basePrice = getBasePrice(serviceType, subType);
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
@@ -609,17 +623,26 @@
 
       var total = basePrice * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT;
 
-      // Bathroom count adjustment for repipe and bathroom_rough_in
-      if (serviceType === "repipe" && bathrooms) {
-        var baths = Number(bathrooms) || 2;
-        if (baths >= 3) total *= 1.15;
-        else if (baths >= 2) total *= 1.05;
+      // Bathroom count adjustment for repipe (more baths = more pipe runs + fixtures)
+      if (serviceType === "repipe") {
+        var baths = Number(opts.bathrooms);
+        if (!baths && opts.homeSize) baths = deriveBathroomsFromHomeSize(opts.homeSize);
+        if (baths) {
+          if (baths >= 3) total *= 1.15;
+          else if (baths >= 2) total *= 1.05;
+        }
       }
 
-      // Home age adjustment: older homes often cost more
-      if (homeAge === "pre_1970") total *= 1.18;
-      else if (homeAge === "1970_1990") total *= 1.08;
-      // 1990+ no adjustment
+      // Multi-story plumbing complexity (vertical stack runs, harder access)
+      if (serviceType === "repipe" && opts.stories) {
+        var stories = Number(opts.stories);
+        if (stories >= 3) total *= 1.10;
+        else if (stories >= 2) total *= 1.05;
+      }
+
+      // Home age adjustment: older homes often cost more (pipe degradation, code upgrades)
+      if (opts.homeAge === "pre_1970") total *= 1.18;
+      else if (opts.homeAge === "1970_1990") total *= 1.08;
 
       return roundTo25(total);
     }
@@ -774,19 +797,39 @@
 
       document.getElementById("btnEstimate").addEventListener("click", function() {
         if (typeof tpTrack === "function") tpTrack("funnel_confirm_address", { service: "plumbing" });
-        state.address.street = document.getElementById("addrStreet").value.trim();
-        state.address.city = document.getElementById("addrCity").value.trim();
+        var streetVal = document.getElementById("addrStreet").value.trim();
+        var cityVal = document.getElementById("addrCity").value.trim();
         var rawState = document.getElementById("addrState").value.trim();
-        state.address.zip = document.getElementById("addrZip").value.trim();
+        var zipVal = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state -- require valid US state, no silent fallback
         var upper = rawState.toUpperCase();
+        var resolvedState = null;
         if (STATE_REGIONS[upper]) {
-          state.address.stateCode = upper;
+          resolvedState = upper;
         } else {
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          if (lookup) resolvedState = lookup;
         }
+
+        var stateInput = document.getElementById("addrState");
+        var existingErr = document.getElementById("addrStateErr");
+        if (existingErr) existingErr.remove();
+        if (!resolvedState) {
+          if (stateInput) stateInput.style.borderColor = "#dc2626";
+          var errMsg = document.createElement("div");
+          errMsg.id = "addrStateErr";
+          errMsg.style.cssText = "color:#dc2626;font-size:13px;margin-top:6px;";
+          errMsg.textContent = "Please enter a valid US state (e.g. SC or South Carolina) so we can apply the right regional pricing.";
+          if (stateInput && stateInput.parentNode) stateInput.parentNode.insertAdjacentElement("afterend", errMsg);
+          return;
+        }
+        if (stateInput) stateInput.style.borderColor = "#cbd5e1";
+
+        state.address.street = streetVal;
+        state.address.city = cityVal;
+        state.address.stateCode = resolvedState;
+        state.address.zip = zipVal;
 
         fetchCityMult(state.address.city, state.address.stateCode);
         state.step = "estimator";
@@ -1300,7 +1343,12 @@
       var est = state.est;
       var region = getRegionFromState(state.address.stateCode);
 
-      var benchmark = calcBenchmark(est.serviceType, est.subType, region, est.bathrooms, est.homeAge);
+      var benchmark = calcBenchmark(est.serviceType, est.subType, region, {
+        homeSize: est.homeSize,
+        stories: est.stories,
+        bathrooms: est.bathrooms,
+        homeAge: est.homeAge
+      });
 
       // Urgency adjustment
       var urgMult = est.urgency === "asap" ? 1.08 : est.urgency === "this_season" ? 1.02 : 1.0;
@@ -1493,6 +1541,23 @@
         "Analyzed by Woogoro - https://woogoro.com/plumbing-quote-analyzer.html"
       );
 
+      var disclaimerHtml = isUpload
+        ? '<div style="font-size:12px; color:#64748b; margin:8px auto 0; max-width:520px; line-height:1.5;">Analysis only &mdash; benchmark estimate based on local pricing data. Not a guarantee of fair price. <a href="/methodology.html" style="color:#1d4ed8;">How we calculate</a> &middot; <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>'
+        : '<div style="font-size:12px; color:#64748b; margin:8px auto 0; max-width:520px; line-height:1.5;">Estimate only &mdash; not a guaranteed quote. Final price depends on site conditions, code requirements, and contractor. <a href="/methodology.html" style="color:#1d4ed8;">How we calculate</a> &middot; <a href="/terms.html" style="color:#1d4ed8;">Terms</a></div>';
+
+      var trustBadgeHtml = '<div style="display:flex; align-items:center; justify-content:center; gap:6px; margin:14px auto 18px; padding:8px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:999px; font-size:12px; color:#166534; font-weight:600; max-width:max-content;"><span>&#10003;</span><span>No email &middot; No phone &middot; No lead-selling</span></div>';
+
+      var methodologyHtml = '\
+<details class="plumb-card" style="cursor:pointer;">\
+  <summary style="font-weight:700; font-size:1rem; color:#1e293b;">How we calculated this estimate</summary>\
+  <div style="padding-top:12px; color:#475569; font-size:0.92rem; line-height:1.7;">\
+    <p style="margin:0 0 10px;">Estimate is a benchmark, not a quote. We start from a national base price for <strong>' + (r.serviceType.label || "this service") + '</strong>' + (r.subLabel ? ' (' + r.subLabel + ')' : '') + ' and adjust for your region, season, urgency, and (where applicable) home size.</p>\
+    <p style="margin:0 0 10px;"><strong>Data sources:</strong> HomeAdvisor / Angi / Thumbtack contractor surveys, BLS regional cost-of-living indexes, real plumbing quotes submitted to Woogoro, and DSIRE for rebate eligibility.</p>\
+    <p style="margin:0 0 10px;"><strong>What it doesn\'t include:</strong> emergency / after-hours surcharges (50&ndash;100% premium), drywall repair after in-wall work, structural changes, code-upgrade requirements, or permit fees outside the typical $50&ndash;$300 range.</p>\
+    <p style="margin:0;"><strong>Recency:</strong> Base prices reviewed annually; regional multipliers refreshed quarterly. See our full <a href="/methodology.html" style="color:#1d4ed8;">methodology</a>.</p>\
+  </div>\
+</details>';
+
       appRoot.innerHTML = '\
         <div class="plumb-hero">\
           <h1>' + (isUpload ? "Plumbing Quote Analysis" : "Your Plumbing Estimate") + '</h1>\
@@ -1501,7 +1566,9 @@
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Plumber%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Plumber%20worker.png" alt="Pip the Plumbing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Plumbing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
+          ' + disclaimerHtml + '\
         </div>\
+        ' + trustBadgeHtml + '\
         <div class="plumb-card">\
           <h3 style="margin-bottom:0.75rem;">Service Details</h3>\
           ' + detailsHtml + '\
@@ -1510,10 +1577,10 @@
         ' + contextHtml + '\
         ' + tipsHtml + '\
         ' + rebateHtml + '\
+        ' + methodologyHtml + '\
         <div class="plumb-actions">\
           <a class="plumb-btn plumb-btn-primary plumb-btn-full" href="/plumbing-quote-analyzer.html">Analyze a plumbing quote</a>\
           <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/compare-plumbing-quotes.html">Compare 2-3 quotes side by side</a>\
-          <a class="plumb-btn plumb-btn-secondary plumb-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
         </div>';
 
       window.plumbingStartOver = function() {
