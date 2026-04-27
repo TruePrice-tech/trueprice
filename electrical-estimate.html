@@ -1278,8 +1278,8 @@
       var urgMult = est.urgency === "emergency" ? 1.15 : est.urgency === "soon" ? 1.04 : 1.0;
       benchmark = roundTo50(benchmark * urgMult);
 
-      var low = roundTo50(benchmark * 0.85);
-      var high = roundTo50(benchmark * 1.18);
+      var low = roundTo50(benchmark * 0.88);
+      var high = roundTo50(benchmark * 1.15);
 
       var svcLabel = ELEC_PRICING.basePriceByService[est.serviceType] ? ELEC_PRICING.basePriceByService[est.serviceType].label : est.serviceType;
 

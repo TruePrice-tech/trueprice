@@ -1197,8 +1197,8 @@
 
       var benchmark = calcBenchmark(est.projectType, size, region, est.complexity, est.qualityTier);
 
-      var low = roundTo50(benchmark * 0.85);
-      var high = roundTo50(benchmark * 1.18);
+      var low = roundTo50(benchmark * 0.88);
+      var high = roundTo50(benchmark * 1.15);
 
       var projLabel = LAND_PRICING.basePricing[est.projectType] ? LAND_PRICING.basePricing[est.projectType].label : est.projectType;
       var projUnit = LAND_PRICING.basePricing[est.projectType] ? LAND_PRICING.basePricing[est.projectType].unit : "sqft";

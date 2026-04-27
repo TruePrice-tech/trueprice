@@ -1023,8 +1023,8 @@
       else if (est.urgency === "this_season") urgMult = 1.02;
       benchmark = roundTo25(benchmark * urgMult);
 
-      var low = roundTo25(benchmark * 0.85);
-      var high = roundTo25(benchmark * 1.18);
+      var low = roundTo25(benchmark * 0.88);
+      var high = roundTo25(benchmark * 1.15);
 
       var svcLabel = PLUMBING_PRICING.basePriceByService[est.serviceType] ? PLUMBING_PRICING.basePriceByService[est.serviceType].label : est.serviceType;
 

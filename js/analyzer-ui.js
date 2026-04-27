@@ -10242,8 +10242,13 @@ function buildComparisonWinnerHtml(summary) {
         * laborMult * tearOffFact * brandMult * scopeMult * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
 
       const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
-      const low = Math.round(mid * 0.85 / 50) * 50;
-      const high = Math.round(mid * 1.18 / 50) * 50;
+      // Standard band: 0.88 / 1.15 (30% spread). Per-vertical answers
+      // (material / pitch / complexity / insurance / season) already encode
+      // most legitimate variance, so a tighter band is honest. Moving and
+      // painting keep wider bands (0.82/1.20, 0.80/1.25) — distance/weight/
+      // seasonal and DIY-vs-premium-prep variance is real and not modeled.
+      const low = Math.round(mid * 0.88 / 50) * 50;
+      const high = Math.round(mid * 1.15 / 50) * 50;
       const benchmarkPerSqFt = Math.round((mid / estimatedRoofSize) * 100) / 100;
       const localDataUsed = true; // Always using regional data now
 
