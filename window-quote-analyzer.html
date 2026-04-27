@@ -830,30 +830,6 @@
 
         setProgress(70, "Building analysis...");
 
-        state.extractedText = text;
-
-        // Use analyzer-parser.js for price extraction
-        var parsed = null;
-        try {
-          if (typeof parseExtractedText === "function") {
-            parsed = parseExtractedText(text);
-          }
-        } catch (parseErr) {
-          console.warn("Parser error, falling back to regex:", parseErr);
-        }
-
-        // Fallback price extraction if parser fails or returns nothing
-        if (!parsed || (!parsed.finalPrice && (!parsed.priceCandidates || !parsed.priceCandidates.length))) {
-          var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
-          var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v >= 500 && v <= 200000; });
-          if (prices.length) {
-            prices.sort(function(a, b) { return b - a; });
-            parsed = parsed || {};
-            parsed.finalPrice = prices[0];
-            parsed.priceCandidates = prices.map(function(v) { return { value: v, score: 50 }; });
-          }
-        }
-
         // Window-specific detection
         var windowType = detectWindowType(text);
         var windowCount = detectWindowCount(text);
@@ -887,8 +863,9 @@ setProgress(90, "Almost done...");
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
 
-        // Per-window cost
-        var perWindowCost = (quotePrice > 0 && effectiveCount > 0) ? Math.round(quotePrice / effectiveCount) : null;
+        // Per-window cost (use the confirmed price the user agreed to, not the
+        // pre-confirm extraction — they may have corrected it).
+        var perWindowCost = (confirmedPrice > 0 && effectiveCount > 0) ? Math.round(confirmedPrice / effectiveCount) : null;
 
         // Brand note
         var brandNote = "";
