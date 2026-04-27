@@ -89,10 +89,14 @@ export function digestTemplate({ interests }) {
   if (meaningful.length === 0) return null;
 
   const month = new Date().toLocaleString("en-US", { month: "long", year: "numeric" });
+  // Subject + body lean into "saved-watch state update" framing so the CAN-SPAM
+  // § 7702(17)(C) classification holds (administrative notice about an account
+  // / ongoing relationship). Avoid generic "newsletter" or "monthly update"
+  // language that reads marketing-flavored.
   const subject =
     meaningful.length === 1
-      ? `${titleCaseService(meaningful[0].service)} prices in ${formatLocation(meaningful[0].city, meaningful[0].stateCode)} — ${month}`
-      : `Your monthly Woogoro price update — ${month}`;
+      ? `Watch update: ${titleCaseService(meaningful[0].service)} in ${formatLocation(meaningful[0].city, meaningful[0].stateCode)}`
+      : `Your saved watches — ${month} update`;
 
   const rows = meaningful
     .map((i) => {
@@ -120,11 +124,11 @@ export function digestTemplate({ interests }) {
     .join("");
 
   const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1e293b;">
-    <h1 style="font-size:22px;margin:0 0 8px;color:#0f172a;">Price update — ${month}</h1>
-    <p style="font-size:14px;line-height:1.6;margin:0 0 18px;color:#475569;">Iris here. Here's what moved more than 5% in your areas this month.</p>
+    <h1 style="font-size:22px;margin:0 0 8px;color:#0f172a;">Saved-watch update — ${month}</h1>
+    <p style="font-size:14px;line-height:1.6;margin:0 0 18px;color:#475569;">Iris here. Here's what changed on your saved watches this month — only the ones that moved more than 5%.</p>
     ${rows}
     <p style="font-size:14px;line-height:1.6;margin:24px 0 0;color:#475569;">
-      Got a real quote? <a href="${SITE_ORIGIN}/analyze-my-quote.html" style="color:#1d4ed8;">Send it over</a> and I'll tell you if it's fair. Every submission sharpens the numbers for your neighbors.
+      If you got a real quote in one of your watched areas, you can <a href="${SITE_ORIGIN}/analyze-my-quote.html" style="color:#1d4ed8;">send it over for analysis</a> — that also sharpens future updates on your watch.
     </p>
     <p style="font-size:14px;line-height:1.6;margin:14px 0 0;color:#475569;">— Iris</p>
   </div>`;
