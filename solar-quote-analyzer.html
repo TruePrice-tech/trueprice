@@ -1394,7 +1394,11 @@ setProgress(90, "Almost done...");
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
-      var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      // Lease/PPA quotes don't have a single $price — the OCR-extracted
+      // number is usually kWh production or annual savings, NOT the lease.
+      // Hide the misleading dollar figure for leases. Wholesale shows fine.
+      var hidePrice = !!r.isLease;
+      var priceDisplay = hidePrice ? "" : (isUpload ? fmt(r.quotePrice) : fmt(r.benchmark));
       var rangeText = "";
       var displayPrice = isUpload ? r.quotePrice : r.benchmark;
 
