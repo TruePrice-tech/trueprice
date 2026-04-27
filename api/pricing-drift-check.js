@@ -22,6 +22,9 @@
 
 import { Redis } from "@upstash/redis";
 import { gate } from "./_usage-gate.js";
+import { findUsersForVerticalState, claimSendSlot, listWatches } from "./_watches.js";
+import { sendEmail } from "./_email-send.js";
+import { hashEmail, getUserById } from "./_beta-session.js";
 
 const redis = Redis.fromEnv();
 
@@ -31,6 +34,57 @@ const HISTORY_MAX = 8;
 const DEFAULT_THRESHOLD = 0.10;
 const MIN_QUOTES_FOR_ALERT = 5;
 const REPORT_TTL_SECONDS = 180 * 24 * 60 * 60; // keep 6 months of reports
+
+function prettyVertical(slug) {
+  const map = {
+    hvac: "HVAC", plumbing: "Plumbing", roofing: "Roofing", electrical: "Electrical",
+    solar: "Solar", windows: "Windows", siding: "Siding", painting: "Painting",
+    "garage-doors": "Garage doors", fencing: "Fencing", concrete: "Concrete",
+    landscaping: "Landscaping", foundation: "Foundation", insulation: "Insulation",
+    gutters: "Gutters", kitchen: "Kitchen", moving: "Moving",
+    "auto-repair": "Auto repair", medical: "Medical", legal: "Legal",
+  };
+  return map[slug] || slug;
+}
+
+function renderWatchEmail({ fires }) {
+  // Per project framing rules: every entry references the user's specific
+  // saved watch by name, no general market commentary.
+  const rows = fires.map(({ watch, flag }) => {
+    const dev = flag.deviation;
+    const pct = (Math.abs(dev) * 100).toFixed(1);
+    const dir = dev > 0 ? "up" : "down";
+    const arrow = dev > 0 ? "&#9650;" : "&#9660;";
+    const color = dev > 0 ? "#b91c1c" : "#15803d";
+    const cur = `$${Math.round(flag.currentAvg).toLocaleString()}`;
+    const prior = `$${Math.round(flag.baseline).toLocaleString()}`;
+    const sample = flag.currentQuotes || 0;
+    const confidence = sample >= 20 ? "high confidence" : sample >= 10 ? "medium confidence" : "small sample";
+    return `<div style="padding:18px 0;border-bottom:1px solid #e2e8f0;">
+      <div style="font-size:15px;font-weight:600;color:#0f172a;margin-bottom:6px;">Your watch: ${prettyVertical(watch.vertical)} in ${escapeHtml(watch.city)}, ${escapeHtml(watch.state)}</div>
+      <div style="font-size:14px;color:#475569;margin-bottom:6px;">
+        <span style="color:${color};font-weight:600;">${arrow} ${pct}% ${dir}</span>
+        &middot; now ${cur} (was ${prior})
+      </div>
+      <div style="font-size:12px;color:#94a3b8;">${sample} recent quote${sample === 1 ? "" : "s"} &middot; ${confidence} &middot; your threshold ${(Number(watch.threshold) * 100).toFixed(0)}%</div>
+    </div>`;
+  }).join("");
+
+  const headerCount = fires.length;
+  return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1e293b;">
+    <h1 style="font-size:22px;margin:0 0 8px;color:#0f172a;">${headerCount === 1 ? "Watch update" : `${headerCount} of your saved watches updated`}</h1>
+    <p style="font-size:14px;line-height:1.6;margin:0 0 18px;color:#475569;">Iris here. ${headerCount === 1 ? "One of your saved watches" : "Some of your saved watches"} crossed your threshold this week. Each one is listed below with the specific state change.</p>
+    ${rows}
+    <p style="font-size:14px;line-height:1.6;margin:24px 0 0;color:#475569;">
+      You can <a href="https://woogoro.com/beta/burrow.html" style="color:#1d4ed8;">manage your saved watches</a> in your account at any time.
+    </p>
+    <p style="font-size:14px;line-height:1.6;margin:14px 0 0;color:#475569;">— Iris</p>
+  </div>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
 
 function median(nums) {
   if (!nums.length) return null;
@@ -236,6 +290,98 @@ export default async function handler(req, res) {
       }
     }
 
+    // Saved-watch fan-out. Per § 7702(17)(C) framing rules:
+    //   - Match flags to users via wg:watch_idx:{state}:{vertical} reverse index
+    //   - Apply each user's per-watch threshold (not the global cron threshold)
+    //   - Per-watch 7-day rate limit (claimSendSlot is atomic)
+    //   - Batch all of a user's matching watches into ONE email; body lists
+    //     each watch by name with its specific state change
+    //   - All sends go through sendEmail with purpose:"transactional"
+    let watchSendStats = { usersConsidered: 0, watchesMatched: 0, sent: 0, skippedRateLimit: 0, skippedBelowThreshold: 0, errors: 0 };
+    if (!dryRun && flags.length > 0) {
+      // Group flags by (state, vertical) — watches care about that pair, not
+      // about whether the original key was metro-level or city-specific.
+      const byStateVertical = new Map();
+      for (const f of flags) {
+        // Key shapes: "cal:metro:NC:hvac" or "cal:charlotte:NC:hvac:repair"
+        const parts = f.key.split(":");
+        if (parts.length < 4) continue;
+        let state, vertical;
+        if (parts[1] === "metro") {
+          state = parts[2];
+          vertical = parts[3];
+        } else {
+          state = parts[2];
+          vertical = parts[3];
+        }
+        if (!state || !vertical) continue;
+        const k = `${state}|${vertical}`;
+        if (!byStateVertical.has(k)) byStateVertical.set(k, []);
+        byStateVertical.get(k).push(f);
+      }
+
+      // Per-user accumulators: { userId -> { user, fires: [{watch, flag}] } }
+      const userBundle = new Map();
+
+      for (const [stateVerticalKey, matchingFlags] of byStateVertical.entries()) {
+        const [state, vertical] = stateVerticalKey.split("|");
+        const userIds = await findUsersForVerticalState(state, vertical);
+        for (const userId of userIds) {
+          watchSendStats.usersConsidered++;
+          const watches = await listWatches(userId);
+          const userWatchesHere = watches.filter(
+            (w) => w.state === state && w.vertical === vertical
+          );
+          for (const w of userWatchesHere) {
+            // Pick the worst flag for this (state, vertical) pair (largest |deviation|)
+            const flag = matchingFlags
+              .slice()
+              .sort((a, b) => Math.abs(b.deviation) - Math.abs(a.deviation))[0];
+            if (Math.abs(flag.deviation) < (Number(w.threshold) || 0.05)) {
+              watchSendStats.skippedBelowThreshold++;
+              continue;
+            }
+            const slot = await claimSendSlot(userId, w.id);
+            if (!slot) {
+              watchSendStats.skippedRateLimit++;
+              continue;
+            }
+            watchSendStats.watchesMatched++;
+            if (!userBundle.has(userId)) userBundle.set(userId, { fires: [] });
+            userBundle.get(userId).fires.push({ watch: w, flag });
+          }
+        }
+      }
+
+      // Compose + send one email per user
+      for (const [userId, bundle] of userBundle.entries()) {
+        const user = await getUserById(userId);
+        if (!user || !user.email) {
+          watchSendStats.errors++;
+          continue;
+        }
+        const fires = bundle.fires;
+        const subject = fires.length === 1
+          ? `Watch update: ${prettyVertical(fires[0].watch.vertical)} in ${fires[0].watch.city}, ${fires[0].watch.state}`
+          : `Your saved watches — ${fires.length} updates`;
+        const html = renderWatchEmail({ fires });
+        const r = await sendEmail({
+          to: user.email,
+          subject,
+          html,
+          emailHash: hashEmail(user.email),
+          replyTo: "hello@woogoro.com",
+          purpose: "transactional",
+        });
+        if (r.ok) {
+          watchSendStats.sent++;
+        } else {
+          watchSendStats.errors++;
+          console.error("[drift-check] watch send failed for", userId, ":", r.reason);
+        }
+      }
+    }
+
     if (!dryRun) {
       await redis.set("tp:cron_run:pricing-drift-check", new Date().toISOString());
     }
@@ -244,6 +390,7 @@ export default async function handler(req, res) {
       ok: true,
       ...report,
       emailStatus,
+      watchSendStats,
       // Truncate flagDetails in JSON response when many fired (full set is in Redis report)
       flagDetails: report.flagDetails.slice(0, 25),
     });

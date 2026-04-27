@@ -98,17 +98,15 @@
     .bw-rw-keep-caption { font-size: 10px; color: #94a3b8; margin-top: 6px; line-height: 1.3; }
     .bw-rw-error { font-size: 11px; color: #b91c1c; margin-top: 8px; line-height: 1.3; }
 
-    /* ========== Vaudeville hook cash-in animation ==========
-       5-second tier-graded sequence: hook descends from above the card,
-       catches the Receipt Woogoro, yanks it offstage, then a tier-sized
-       coin shower drops in its place. Bronze/silver are grumpy and exit
-       stage left (rude yank). Gold/platinum are snobby and exit stage
-       right with a sparkle trail; platinum gets a red-carpet sendoff
-       and a richer coin shower.
-
-       The card needs overflow:visible so elements can escape the card
-       boundary during the yank. Children use z-index to layer over the
-       static card content. */
+    /* ========== Vaudeville hook cash-in animation v2 ==========
+       Hook now ENTERS FROM THE SIDE (not from above) like a real
+       vaudeville stage hook coming in from the wings. Two-layer SVG
+       trick gives a 3D wrap-around: shaft renders BEHIND the character
+       (z-index 4) and the curled tip-grip renders IN FRONT of the
+       character (z-index 6) — when they overlap on the character
+       (z-index 5), the hook visually wraps around the woogoro.
+       Coins are now metallic discs with "W" face + rotateY flip
+       on fall so they read as coins, not balls. */
     .bw-rw { overflow: visible; }
     .bw-rw.vh-active { animation: vh-card-shake .35s ease-out; }
     .bw-rw.vh-active .bw-rw-actions,
@@ -121,78 +119,153 @@
       100% { transform: translate(0, 0) rotate(0); }
     }
 
-    /* The hook: thin black cane with a J-curve at the bottom. SVG is
-       inserted dynamically by JS so we can tier-tune size + drop speed. */
-    .bw-rw-hook {
-      position: absolute; left: 50%; top: -200px;
-      width: 26px; height: 200px;
-      transform: translateX(-50%);
-      pointer-events: none; z-index: 5;
+    /* During yank the character image MUST sit between hook layers. */
+    .bw-rw.vh-yanking img,
+    .bw-rw.vh-active img { position: relative; z-index: 5; }
+
+    /* HOOK SHAFT (back layer): the wooden pole part that comes in from
+       the wings. Sits BEHIND the character. */
+    .bw-rw-hook-shaft {
+      position: absolute;
+      top: 38px; /* roughly aligned with the character's torso */
+      width: 220px; height: 40px;
+      pointer-events: none; z-index: 4;
       opacity: 0;
+      filter: drop-shadow(2px 3px 4px rgba(0,0,0,.35));
     }
-    .bw-rw.vh-active .bw-rw-hook { animation: vh-hook-descend var(--vh-descend, .55s) ease-in forwards; }
-    @keyframes vh-hook-descend {
-      0%   { top: -200px; opacity: 0; }
-      15%  { opacity: 1; }
-      100% { top: 30px; opacity: 1; }
+    .bw-rw-hook-shaft.left  { left: -240px; transform: translateX(0); }
+    .bw-rw-hook-shaft.right { right: -240px; transform: scaleX(-1); }
+
+    /* HOOK TIP (front layer): the curled metal hook that wraps the
+       character. Sits IN FRONT of the character. Same SVG geometry as
+       the shaft's tip portion so they overlap perfectly. */
+    .bw-rw-hook-tip {
+      position: absolute;
+      top: 30px;
+      width: 60px; height: 60px;
+      pointer-events: none; z-index: 6;
+      opacity: 0;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,.4));
+    }
+    .bw-rw-hook-tip.left  { left: -60px; }
+    .bw-rw-hook-tip.right { right: -60px; transform: scaleX(-1); }
+
+    /* Hook entry: swings in from the side toward the character */
+    .bw-rw.vh-active .bw-rw-hook-shaft.left  { animation: vh-hook-in-left  var(--vh-descend, .55s) cubic-bezier(.2,.8,.4,1) forwards; }
+    .bw-rw.vh-active .bw-rw-hook-shaft.right { animation: vh-hook-in-right var(--vh-descend, .55s) cubic-bezier(.2,.8,.4,1) forwards; }
+    .bw-rw.vh-active .bw-rw-hook-tip.left    { animation: vh-tip-in-left   var(--vh-descend, .55s) cubic-bezier(.2,.8,.4,1) forwards; }
+    .bw-rw.vh-active .bw-rw-hook-tip.right   { animation: vh-tip-in-right  var(--vh-descend, .55s) cubic-bezier(.2,.8,.4,1) forwards; }
+    @keyframes vh-hook-in-left {
+      0%   { left: -240px; opacity: 0; }
+      20%  { opacity: 1; }
+      100% { left: -10px; opacity: 1; }
+    }
+    @keyframes vh-hook-in-right {
+      0%   { right: -240px; opacity: 0; }
+      20%  { opacity: 1; }
+      100% { right: -10px; opacity: 1; }
+    }
+    @keyframes vh-tip-in-left {
+      0%   { left: -60px; opacity: 0; }
+      30%  { opacity: 1; }
+      100% { left: 110px; opacity: 1; }
+    }
+    @keyframes vh-tip-in-right {
+      0%   { right: -60px; opacity: 0; }
+      30%  { opacity: 1; }
+      100% { right: 110px; opacity: 1; transform: scaleX(-1); }
     }
 
-    /* Woogoro yank: bronze/silver exit left ("rude yank"),
-       gold/platinum exit right (flair). Yank duration scales with tier. */
-    .bw-rw.vh-yanking img { animation: var(--vh-yank-keyframes, vh-yank-left) var(--vh-yank, .35s) ease-in forwards; position: relative; z-index: 5; }
-    .bw-rw.vh-yanking .bw-rw-hook { animation: var(--vh-hook-exit-keyframes, vh-hook-exit-left) var(--vh-yank, .35s) ease-in forwards; }
+    /* Yank phase: woogoro + hook layers all exit together */
+    .bw-rw.vh-yanking img { animation: var(--vh-yank-keyframes, vh-yank-left) var(--vh-yank, .35s) ease-in forwards; }
+    .bw-rw.vh-yanking .bw-rw-hook-shaft.left,
+    .bw-rw.vh-yanking .bw-rw-hook-tip.left   { animation: vh-hook-out-left  var(--vh-yank, .35s) ease-in forwards; }
+    .bw-rw.vh-yanking .bw-rw-hook-shaft.right,
+    .bw-rw.vh-yanking .bw-rw-hook-tip.right  { animation: vh-hook-out-right var(--vh-yank, .35s) ease-in forwards; }
     @keyframes vh-yank-left {
       0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
-      30%  { transform: translate(-30px, -10px) rotate(-15deg); opacity: 1; }
-      100% { transform: translate(-260px, -120px) rotate(-65deg); opacity: 0; }
+      30%  { transform: translate(-30px, -8px) rotate(-12deg); opacity: 1; }
+      100% { transform: translate(-300px, -50px) rotate(-25deg); opacity: 0; }
     }
     @keyframes vh-yank-right {
       0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
-      30%  { transform: translate(30px, -10px) rotate(15deg); opacity: 1; }
-      100% { transform: translate(260px, -120px) rotate(65deg); opacity: 0; }
+      30%  { transform: translate(30px, -8px) rotate(12deg); opacity: 1; }
+      100% { transform: translate(300px, -50px) rotate(25deg); opacity: 0; }
     }
-    @keyframes vh-hook-exit-left {
-      0%   { top: 30px; transform: translateX(-50%) rotate(0); opacity: 1; }
-      100% { top: -90px; transform: translateX(calc(-50% - 260px)) rotate(-25deg); opacity: 0; }
+    @keyframes vh-hook-out-left {
+      0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
+      100% { transform: translate(-320px, -40px) rotate(-12deg); opacity: 0; }
     }
-    @keyframes vh-hook-exit-right {
-      0%   { top: 30px; transform: translateX(-50%) rotate(0); opacity: 1; }
-      100% { top: -90px; transform: translateX(calc(-50% + 260px)) rotate(25deg); opacity: 0; }
+    @keyframes vh-hook-out-right {
+      0%   { transform: translate(0, 0) scaleX(-1) rotate(0); opacity: 1; }
+      100% { transform: translate(320px, -40px) scaleX(-1) rotate(-12deg); opacity: 0; }
     }
 
-    /* Coins. Variable count + size by tier via CSS vars set inline.
-       Each coin has its own --vh-coin-x / --vh-coin-y / --vh-coin-rot
-       set by JS for varied trajectories. */
+    /* COINS v2: actual minted-coin look, not balls.
+       - Layered radial gradient + inset shadows for metallic disc depth
+       - rotateY flip during fall reads as a tossed coin
+       - "W" face via ::before pseudo-element
+    */
     .bw-vh-coin {
       position: absolute; left: 50%; top: 40%;
-      width: var(--vh-coin-size, 20px); height: var(--vh-coin-size, 20px);
-      background: radial-gradient(circle at 35% 35%, #fde68a, #f59e0b 70%);
-      border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -2px 0 rgba(0,0,0,.15);
+      width: var(--vh-coin-size, 24px); height: var(--vh-coin-size, 24px);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #ffe9a3 0%, #f59e0b 50%, #b45309 100%);
+      box-shadow:
+        inset 0 0 0 1.5px rgba(0,0,0,.30),
+        inset 0 -2px 4px rgba(0,0,0,.30),
+        inset 0 2px 3px rgba(255,255,255,.55),
+        0 2px 5px rgba(0,0,0,.30);
       pointer-events: none; z-index: 4;
-      transform: translate(-50%, -50%) scale(0);
-      animation: vh-coin-drop var(--vh-coin-dur, 1.1s) cubic-bezier(.4, 0, .55, 1.35) forwards;
+      transform: translate(-50%, -50%) scale(0) rotateY(0);
+      animation: vh-coin-drop var(--vh-coin-dur, 1.2s) cubic-bezier(.4, 0, .55, 1.35) forwards;
       animation-delay: var(--vh-coin-delay, 0ms);
     }
+    .bw-vh-coin::before {
+      content: "W";
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-weight: 900; font-style: italic;
+      font-size: calc(var(--vh-coin-size, 24px) * 0.55);
+      color: rgba(0,0,0,.40);
+      text-shadow: 0 1px 0 rgba(255,255,255,.45);
+      line-height: 1;
+    }
     .bw-vh-coin.gold {
-      background: radial-gradient(circle at 35% 35%, #fff5b8, #d97706 75%);
+      background: radial-gradient(circle at 35% 30%, #fff5b8 0%, #facc15 40%, #ca8a04 75%, #78350f 100%);
     }
+    .bw-vh-coin.gold::before { color: rgba(75, 35, 5, .45); }
     .bw-vh-coin.platinum {
-      background: radial-gradient(circle at 35% 35%, #fff, #cbd5e1 50%, #64748b 90%);
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f1f5f9 40%, #94a3b8 75%, #475569 100%);
     }
+    .bw-vh-coin.platinum::before { color: rgba(15, 23, 42, .50); }
     .bw-vh-coin.jewel {
-      width: 14px; height: 14px; border-radius: 4px;
-      background: linear-gradient(135deg, #fbcfe8, #db2777);
-      box-shadow: 0 0 8px rgba(219, 39, 119, .6), 0 1px 3px rgba(0,0,0,.2);
+      width: calc(var(--vh-coin-size, 24px) * .65);
+      height: calc(var(--vh-coin-size, 24px) * .65);
+      border-radius: 4px;
+      background: linear-gradient(135deg, #fbcfe8 0%, #ec4899 50%, #9d174d 100%);
+      box-shadow:
+        0 0 12px rgba(236, 72, 153, .7),
+        inset 0 1px 2px rgba(255,255,255,.6),
+        inset 0 -1px 2px rgba(0,0,0,.3),
+        0 2px 4px rgba(0,0,0,.3);
     }
+    .bw-vh-coin.jewel::before { content: ""; }
     @keyframes vh-coin-drop {
-      0%   { transform: translate(-50%, -50%) scale(0) rotate(0); opacity: 0; }
-      12%  { opacity: 1; transform: translate(-50%, -50%) scale(.4) rotate(20deg); }
-      45%  { opacity: 1;
-        transform: translate(calc(-50% + var(--vh-coin-x, 0px) * .9), calc(-50% + var(--vh-coin-y, 80px) * .9)) scale(1) rotate(calc(var(--vh-coin-rot, 360deg) * .85)); }
-      80%  { opacity: 1;
-        transform: translate(calc(-50% + var(--vh-coin-x, 0px)), calc(-50% + var(--vh-coin-y, 80px))) scale(1) rotate(var(--vh-coin-rot, 360deg)); }
+      0%   { transform: translate(-50%, -50%) scale(0) rotateY(0deg); opacity: 0; }
+      12%  { opacity: 1; transform: translate(-50%, -50%) scale(.4) rotateY(45deg); }
+      45%  {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--vh-coin-x, 0px) * .9), calc(-50% + var(--vh-coin-y, 80px) * .9)) scale(1) rotateY(calc(var(--vh-coin-flip, 540deg) * .65));
+      }
+      80%  {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--vh-coin-x, 0px)), calc(-50% + var(--vh-coin-y, 80px))) scale(1) rotateY(var(--vh-coin-flip, 540deg));
+      }
       100% {
-        transform: translate(calc(-50% + var(--vh-coin-x, 0px)), calc(-50% + var(--vh-coin-y, 80px))) scale(1) rotate(var(--vh-coin-rot, 360deg));
+        transform: translate(calc(-50% + var(--vh-coin-x, 0px)), calc(-50% + var(--vh-coin-y, 80px))) scale(1) rotateY(var(--vh-coin-flip, 540deg));
         opacity: 0;
       }
     }
@@ -242,6 +315,30 @@
       100% { width: 0; opacity: 0; }
     }
 
+    /* Money sack: drops in where the Woogoro stood, after the yank
+       completes. Bounces in with a slight overshoot. Sits as the
+       centerpiece while coins shower around it. */
+    .bw-vh-sack {
+      position: absolute;
+      left: 50%; top: 38%;
+      width: 80px; height: 100px;
+      transform: translate(-50%, -180%) scale(.3) rotate(-15deg);
+      pointer-events: none; z-index: 3;
+      opacity: 0;
+      filter: drop-shadow(0 5px 7px rgba(0,0,0,.4));
+      animation: vh-sack-drop var(--vh-sack-dur, .65s) cubic-bezier(.34, 1.56, .64, 1) forwards;
+      animation-delay: var(--vh-sack-delay, 0ms);
+    }
+    .bw-vh-sack.platinum { width: 90px; height: 112px; }
+    @keyframes vh-sack-drop {
+      0%   { transform: translate(-50%, -180%) scale(.3) rotate(-15deg); opacity: 0; }
+      30%  { opacity: 1; }
+      62%  { transform: translate(-50%, -45%)  scale(1.12) rotate(3deg);  opacity: 1; }
+      78%  { transform: translate(-50%, -52%)  scale(.94)  rotate(-2deg); opacity: 1; }
+      90%  { transform: translate(-50%, -49%)  scale(1.02) rotate(1deg);  opacity: 1; }
+      100% { transform: translate(-50%, -50%)  scale(1)    rotate(0);     opacity: 1; }
+    }
+
     /* Lens flare (platinum only). One brief radial flash when coins peak. */
     .bw-vh-flare {
       position: absolute; left: 50%; top: 45%;
@@ -277,7 +374,7 @@
 <body>
   <header class="site-header">
     <div class="container">
-      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris-color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris-color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
     </div>
   </header>
 
@@ -341,32 +438,32 @@
       // copy doc; tweak here if we adjust the milestones.
       function irisFor(streakDays) {
         if (!streakDays || streakDays <= 0) return {
-          img: "Iris%20sad",
+          img: "Iris-sad",
           title: "Your burrow's a bit quiet.",
           sub: "Submit a verified quote or receipt to start a streak. Iris is waiting.",
         };
         if (streakDays < 3) return {
-          img: "Iris%20peeking",
+          img: "Iris-peeking",
           title: "Day " + streakDays + ". Off to a start!",
           sub: "Keep going. Hit 3 days in a row and Iris will cheer up.",
         };
         if (streakDays < 7) return {
-          img: "Iris%20happy",
+          img: "Iris-happy",
           title: "Day " + streakDays + ". Iris is happy.",
           sub: (7 - streakDays) + " more day" + (7 - streakDays === 1 ? "" : "s") + " to your first weekly milestone.",
         };
         if (streakDays < 14) return {
-          img: "Iris%20happy",
+          img: "Iris-happy",
           title: "Day " + streakDays + ". Streak unlocked.",
           sub: "Two-week milestone in " + (14 - streakDays) + " day" + (14 - streakDays === 1 ? "" : "s") + ". Future streak bonuses will land in Woo Cash.",
         };
         if (streakDays < 30) return {
-          img: "Iris%20catching",
+          img: "Iris-catching",
           title: "Day " + streakDays + ". Iris is catching them all.",
           sub: (30 - streakDays) + " more day" + (30 - streakDays === 1 ? "" : "s") + " to a 30-day milestone.",
         };
         return {
-          img: "Iris%20laurel%20seal%20180",
+          img: "Iris-laurel%20seal%20180",
           title: "Day " + streakDays + ". Hall of Fame.",
           sub: "You're in rare territory. Iris approves.",
         };
@@ -411,7 +508,7 @@
           var slug = row[0], label = row[1];
           var has = !!collected[slug];
           var artFile = VERTICAL_ART[slug];
-          var artSrc = artFile ? "/images/Vertical%20Woogoro/" + encodeURIComponent(artFile) : null;
+          var artSrc = artFile ? "/images/Vertical-Woogoro/" + encodeURIComponent(artFile) : null;
           return '<div class="bw-cell ' + (has ? 'has-w' : '') + '">' +
             (has
               ? (artSrc
@@ -452,7 +549,7 @@
 
         function rwCard(rw) {
           var tier = rw.tier || "bronze";
-          var art = "/images/Receipt%20Woogoro/" + tier + "1.png";
+          var art = "/images/Receipt-Woogoro/" + tier + "1.png";
           var vert = (rw.vertical || "").replace(/_/g, " ");
           var amt = Number(rw.declaredAmount) || 0;
           var woo = Number(rw.wooAmount) || 0;
@@ -548,8 +645,129 @@
           '<div class="bw-collection">' + grid + '</div>' +
           rwSection +
           ordersHtml +
+          '<div class="bw-section-h">Saved watches <span style="font-weight:500;color:#64748b;">price alerts on areas you care about</span></div>' +
+          '<div id="bw-watches-section">' +
+            '<div id="bw-watches-list" style="margin-bottom:12px;">Loading watches&hellip;</div>' +
+            '<form id="bw-watch-form" style="display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;background:#f8fafc;padding:14px;border-radius:10px;border:1px solid #e2e8f0;">' +
+              '<div style="flex:1;min-width:140px;">' +
+                '<label style="display:block;font-size:12px;color:#475569;margin-bottom:4px;">Vertical</label>' +
+                '<select id="bw-watch-vertical" required style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:inherit;">' +
+                  '<option value="">Pick one&hellip;</option>' +
+                  '<option value="hvac">HVAC</option><option value="plumbing">Plumbing</option><option value="roofing">Roofing</option>' +
+                  '<option value="electrical">Electrical</option><option value="solar">Solar</option><option value="windows">Windows</option>' +
+                  '<option value="siding">Siding</option><option value="painting">Painting</option><option value="garage-doors">Garage doors</option>' +
+                  '<option value="fencing">Fencing</option><option value="concrete">Concrete</option><option value="landscaping">Landscaping</option>' +
+                  '<option value="foundation">Foundation</option><option value="insulation">Insulation</option><option value="gutters">Gutters</option>' +
+                  '<option value="kitchen">Kitchen</option><option value="moving">Moving</option><option value="auto-repair">Auto repair</option>' +
+                  '<option value="medical">Medical</option><option value="legal">Legal</option>' +
+                '</select>' +
+              '</div>' +
+              '<div style="flex:1;min-width:120px;">' +
+                '<label style="display:block;font-size:12px;color:#475569;margin-bottom:4px;">City</label>' +
+                '<input id="bw-watch-city" type="text" required maxlength="60" placeholder="Charlotte" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:inherit;">' +
+              '</div>' +
+              '<div style="width:70px;">' +
+                '<label style="display:block;font-size:12px;color:#475569;margin-bottom:4px;">State</label>' +
+                '<input id="bw-watch-state" type="text" required maxlength="2" placeholder="NC" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:inherit;text-transform:uppercase;">' +
+              '</div>' +
+              '<div style="width:90px;">' +
+                '<label style="display:block;font-size:12px;color:#475569;margin-bottom:4px;">Threshold</label>' +
+                '<select id="bw-watch-threshold" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:inherit;">' +
+                  '<option value="0.05">5%</option><option value="0.10" selected>10%</option><option value="0.15">15%</option>' +
+                '</select>' +
+              '</div>' +
+              '<button type="submit" style="background:#1d4ed8;color:#fff;border:0;padding:9px 18px;border-radius:6px;font:inherit;font-weight:600;cursor:pointer;">Add watch</button>' +
+            '</form>' +
+            '<div id="bw-watch-msg" style="margin-top:8px;font-size:13px;min-height:18px;"></div>' +
+          '</div>' +
           '<div class="bw-section-h">Recent activity</div>' +
           '<div class="bw-ledger"><table><thead><tr><th>When</th><th>Source</th><th style="text-align:right;">Amount</th></tr></thead><tbody>' + ledgerRows + '</tbody></table></div>';
+      }
+
+      function vName(slug) {
+        var m = { hvac:"HVAC", plumbing:"Plumbing", roofing:"Roofing", electrical:"Electrical",
+          solar:"Solar", windows:"Windows", siding:"Siding", painting:"Painting",
+          "garage-doors":"Garage doors", fencing:"Fencing", concrete:"Concrete",
+          landscaping:"Landscaping", foundation:"Foundation", insulation:"Insulation",
+          gutters:"Gutters", kitchen:"Kitchen", moving:"Moving",
+          "auto-repair":"Auto repair", medical:"Medical", legal:"Legal" };
+        return m[slug] || slug;
+      }
+
+      function escapeText(s) {
+        var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML;
+      }
+
+      function renderWatchesList(watches) {
+        var listEl = document.getElementById("bw-watches-list");
+        if (!listEl) return;
+        if (!watches || !watches.length) {
+          listEl.innerHTML = '<div style="font-size:13px;color:#64748b;padding:8px 0;">No watches yet. Add one below to get a heads-up when prices in an area you care about move.</div>';
+          return;
+        }
+        var rows = watches.map(function (w) {
+          return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:6px;font-size:14px;">' +
+            '<div style="flex:1;"><strong>' + escapeText(vName(w.vertical)) + '</strong> in ' + escapeText(w.city) + ', ' + escapeText(w.state) + ' <span style="color:#94a3b8;font-size:12px;">&middot; threshold ' + ((Number(w.threshold) || 0.05) * 100).toFixed(0) + '%</span></div>' +
+            '<button type="button" data-watch-id="' + escapeText(w.id) + '" class="bw-watch-remove" style="background:transparent;color:#b91c1c;border:1px solid #fecaca;padding:4px 10px;border-radius:6px;font:inherit;font-size:12px;cursor:pointer;">Remove</button>' +
+            '</div>';
+        }).join("");
+        listEl.innerHTML = rows;
+      }
+
+      function loadWatches() {
+        return fetch("/api/beta-watch-list", { credentials: "same-origin" })
+          .then(function (r) { return r.ok ? r.json() : { watches: [] }; })
+          .then(function (j) { renderWatchesList(j.watches || []); })
+          .catch(function () { renderWatchesList([]); });
+      }
+
+      function bindWatchUI() {
+        var form = document.getElementById("bw-watch-form");
+        var msg = document.getElementById("bw-watch-msg");
+        if (!form) return;
+        form.addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          msg.textContent = ""; msg.style.color = "#475569";
+          var payload = {
+            vertical: document.getElementById("bw-watch-vertical").value,
+            city: document.getElementById("bw-watch-city").value.trim(),
+            state: document.getElementById("bw-watch-state").value.trim().toUpperCase(),
+            threshold: Number(document.getElementById("bw-watch-threshold").value),
+          };
+          fetch("/api/beta-watch-add", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }).then(function (r) { return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+            .then(function (res) {
+              if (res.status === 200 && res.body.ok) {
+                msg.style.color = "#15803d";
+                msg.textContent = "Watch added.";
+                form.reset();
+                document.getElementById("bw-watch-threshold").value = "0.10";
+                loadWatches();
+              } else {
+                msg.style.color = "#b91c1c";
+                msg.textContent = "Could not add watch: " + (res.body.error || "unknown error");
+              }
+            })
+            .catch(function () { msg.style.color = "#b91c1c"; msg.textContent = "Network error."; });
+        });
+
+        document.addEventListener("click", function (ev) {
+          var btn = ev.target.closest && ev.target.closest(".bw-watch-remove");
+          if (!btn) return;
+          var id = btn.getAttribute("data-watch-id");
+          if (!id) return;
+          if (!confirm("Remove this watch?")) return;
+          fetch("/api/beta-watch-remove", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id }),
+          }).then(function () { loadWatches(); });
+        });
       }
 
       function loadAndRender() {
@@ -566,6 +784,9 @@
             loading.style.display = "none";
             content.style.display = "block";
             content.innerHTML = state.beta ? renderBurrow(state) : renderWaitlist(state);
+            if (state.beta) {
+              try { bindWatchUI(); loadWatches(); } catch (e) { /* watches are best-effort UI */ }
+            }
           })
           .catch(function () {
             loading.style.display = "none";
@@ -579,29 +800,227 @@
       // left rudely; gold/platinum are snobby and exit stage right with
       // sparkles + (platinum) red carpet + lens flare.
       var TIER_VH = {
-        bronze:   { yankDir: "left",  descendMs: 350, yankMs: 220,  coinCount: 9,  coinSize: 16, coinClass: "",         sparkles: 0,  carpet: false, flare: false, jewels: 0, totalMs: 2600 },
-        silver:   { yankDir: "left",  descendMs: 450, yankMs: 380,  coinCount: 14, coinSize: 18, coinClass: "",         sparkles: 0,  carpet: false, flare: false, jewels: 0, totalMs: 3100 },
-        gold:     { yankDir: "right", descendMs: 550, yankMs: 700,  coinCount: 22, coinSize: 24, coinClass: "gold",     sparkles: 7,  carpet: false, flare: false, jewels: 0, totalMs: 3900 },
-        platinum: { yankDir: "right", descendMs: 750, yankMs: 1200, coinCount: 28, coinSize: 30, coinClass: "platinum", sparkles: 12, carpet: true,  flare: true,  jewels: 6, totalMs: 5500 },
+        bronze:   { yankDir: "left",  descendMs: 350, yankMs: 220,  coinCount: 5,  coinSize: 16, coinClass: "",         sparkles: 0,  carpet: false, flare: false, jewels: 0, totalMs: 2800 },
+        silver:   { yankDir: "left",  descendMs: 450, yankMs: 380,  coinCount: 8,  coinSize: 18, coinClass: "",         sparkles: 0,  carpet: false, flare: false, jewels: 0, totalMs: 3200 },
+        gold:     { yankDir: "right", descendMs: 550, yankMs: 700,  coinCount: 12, coinSize: 22, coinClass: "gold",     sparkles: 7,  carpet: false, flare: false, jewels: 0, totalMs: 3900 },
+        platinum: { yankDir: "right", descendMs: 750, yankMs: 1200, coinCount: 16, coinSize: 26, coinClass: "platinum", sparkles: 12, carpet: true,  flare: true,  jewels: 4, totalMs: 5500 },
       };
 
-      // Build the hook SVG once and clone per use.
-      function makeHookSvg() {
-        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute("viewBox", "0 0 26 200");
-        svg.setAttribute("class", "bw-rw-hook");
-        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", "M 13 0 L 13 175 A 7 7 0 0 0 6 175 L 6 188");
-        path.setAttribute("stroke", "#1a1a1a");
-        path.setAttribute("stroke-width", "3.5");
-        path.setAttribute("stroke-linecap", "round");
-        path.setAttribute("fill", "none");
-        svg.appendChild(path);
-        // tip ball for the hook end
-        var dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        dot.setAttribute("cx", "6"); dot.setAttribute("cy", "188"); dot.setAttribute("r", "3");
-        dot.setAttribute("fill", "#1a1a1a");
-        svg.appendChild(dot);
+      // SVG_NS shorthand
+      var SVG_NS = "http://www.w3.org/2000/svg";
+
+      // Build the SHAFT (back layer) SVG: long horizontal wooden cane
+      // with an OPEN shepherd's-crook curl at the far end. The crook is
+      // a true J-shape with an opening, not a closed loop, so it reads
+      // as a hook for catching things.
+      function makeHookShaftSvg(direction) {
+        var svg = document.createElementNS(SVG_NS, "svg");
+        // Taller viewBox so the curl can extend above the cane line
+        svg.setAttribute("viewBox", "-5 -5 230 60");
+        svg.setAttribute("class", "bw-rw-hook-shaft " + direction);
+        var defs = document.createElementNS(SVG_NS, "defs");
+        defs.innerHTML =
+          '<linearGradient id="vh-wood" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0" stop-color="#8b4513"/>' +
+            '<stop offset=".35" stop-color="#a0522d"/>' +
+            '<stop offset=".7" stop-color="#6b3410"/>' +
+            '<stop offset="1" stop-color="#3d1f08"/>' +
+          '</linearGradient>' +
+          '<linearGradient id="vh-metal" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0" stop-color="#e5e7eb"/>' +
+            '<stop offset=".5" stop-color="#94a3b8"/>' +
+            '<stop offset="1" stop-color="#475569"/>' +
+          '</linearGradient>';
+        svg.appendChild(defs);
+        // Wooden cane (horizontal pole). Stops short of the crook so the
+        // metal portion clearly attaches at the end.
+        var cane = document.createElementNS(SVG_NS, "rect");
+        cane.setAttribute("x", "0"); cane.setAttribute("y", "32");
+        cane.setAttribute("width", "165"); cane.setAttribute("height", "8");
+        cane.setAttribute("rx", "4"); cane.setAttribute("fill", "url(#vh-wood)");
+        svg.appendChild(cane);
+        // Wood-grain highlight stripe (fakes a cylindrical pole)
+        var hi = document.createElementNS(SVG_NS, "rect");
+        hi.setAttribute("x", "2"); hi.setAttribute("y", "33");
+        hi.setAttribute("width", "161"); hi.setAttribute("height", "1.5");
+        hi.setAttribute("rx", "1"); hi.setAttribute("fill", "rgba(255,220,180,.45)");
+        svg.appendChild(hi);
+        // Brass ferrule where wood meets metal
+        var ferrule = document.createElementNS(SVG_NS, "rect");
+        ferrule.setAttribute("x", "162"); ferrule.setAttribute("y", "30");
+        ferrule.setAttribute("width", "8"); ferrule.setAttribute("height", "12");
+        ferrule.setAttribute("rx", "1.5"); ferrule.setAttribute("fill", "#b8860b");
+        svg.appendChild(ferrule);
+        // Open shepherd's-crook hook in metal. Path traces an inverted
+        // U (top of the curl) with the tip pointing down on the LEFT
+        // side, leaving the right side OPEN for catching.
+        var hook = document.createElementNS(SVG_NS, "path");
+        hook.setAttribute("d",
+          // Start at the right edge of the cane (attach point)
+          "M 168 36 " +
+          // Curve UP and slightly RIGHT to the top of the curl
+          "Q 200 36 205 18 " +
+          // Continue UP to the apex
+          "Q 209 0 192 0 " +
+          // Curve down on the LEFT side forming the inner curl
+          "Q 172 0 172 18 " +
+          // Continue down to form the open hook tip
+          "L 172 30");
+        hook.setAttribute("stroke", "url(#vh-metal)");
+        hook.setAttribute("stroke-width", "7");
+        hook.setAttribute("stroke-linecap", "round");
+        hook.setAttribute("stroke-linejoin", "round");
+        hook.setAttribute("fill", "none");
+        svg.appendChild(hook);
+        // Inner sheen on the metal curl
+        var sheen = document.createElementNS(SVG_NS, "path");
+        sheen.setAttribute("d",
+          "M 174 30 L 174 18 Q 174 4 192 4 Q 204 4 201 16");
+        sheen.setAttribute("stroke", "rgba(255,255,255,.6)");
+        sheen.setAttribute("stroke-width", "1.5");
+        sheen.setAttribute("stroke-linecap", "round");
+        sheen.setAttribute("fill", "none");
+        svg.appendChild(sheen);
+        return svg;
+      }
+
+      // Build the TIP (front overlay layer) SVG: just the curled metal
+      // hook portion that wraps in front of the character. Same J-curl
+      // geometry as the shaft's end but isolated so we can z-index it
+      // above the character image for the 3D wrap-around illusion.
+      function makeHookTipSvg(direction) {
+        var svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("viewBox", "-5 -5 70 60");
+        svg.setAttribute("class", "bw-rw-hook-tip " + direction);
+        var defs = document.createElementNS(SVG_NS, "defs");
+        defs.innerHTML =
+          '<linearGradient id="vh-metal2" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0" stop-color="#f1f5f9"/>' +
+            '<stop offset=".4" stop-color="#94a3b8"/>' +
+            '<stop offset="1" stop-color="#334155"/>' +
+          '</linearGradient>';
+        svg.appendChild(defs);
+        // Same crook shape as the shaft tip, scaled to fit a 60x60 box
+        var curl = document.createElementNS(SVG_NS, "path");
+        curl.setAttribute("d",
+          "M 8 36 " +
+          "Q 40 36 45 18 " +
+          "Q 49 0 32 0 " +
+          "Q 12 0 12 18 " +
+          "L 12 30");
+        curl.setAttribute("stroke", "url(#vh-metal2)");
+        curl.setAttribute("stroke-width", "7");
+        curl.setAttribute("stroke-linecap", "round");
+        curl.setAttribute("stroke-linejoin", "round");
+        curl.setAttribute("fill", "none");
+        svg.appendChild(curl);
+        var sheen = document.createElementNS(SVG_NS, "path");
+        sheen.setAttribute("d",
+          "M 14 30 L 14 18 Q 14 4 32 4 Q 44 4 41 16");
+        sheen.setAttribute("stroke", "rgba(255,255,255,.65)");
+        sheen.setAttribute("stroke-width", "1.5");
+        sheen.setAttribute("stroke-linecap", "round");
+        sheen.setAttribute("fill", "none");
+        svg.appendChild(sheen);
+        return svg;
+      }
+
+      // Money sack that drops in where the Woogoro stood, after the
+      // yank completes. Tier-styled (bronze burlap, silver fabric, gold
+      // silk, platinum satin). Centerpiece of the post-yank moment.
+      var SACK_TIERS = {
+        bronze:   { fillA: "#d4a373", fillB: "#7c5230", rope: "#3d240e", textColor: "rgba(60,35,10,.85)", label: "500" },
+        silver:   { fillA: "#f1f5f9", fillB: "#64748b", rope: "#334155", textColor: "rgba(30,41,59,.65)", label: "1,000" },
+        gold:     { fillA: "#fde68a", fillB: "#b45309", rope: "#78350f", textColor: "rgba(60,30,5,.85)", label: "2,500" },
+        platinum: { fillA: "#ffffff", fillB: "#94a3b8", rope: "#475569", textColor: "rgba(15,23,42,.7)", label: "5,000" },
+      };
+      function makeSackSvg(tier, wooAmount) {
+        var t = SACK_TIERS[tier] || SACK_TIERS.bronze;
+        var label = wooAmount ? wooAmount.toLocaleString() : t.label;
+        var svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("viewBox", "0 0 70 90");
+        svg.setAttribute("class", "bw-vh-sack " + tier);
+        var defs = document.createElementNS(SVG_NS, "defs");
+        defs.innerHTML =
+          '<radialGradient id="vh-sack-' + tier + '" cx="35%" cy="35%">' +
+            '<stop offset="0" stop-color="' + t.fillA + '"/>' +
+            '<stop offset="1" stop-color="' + t.fillB + '"/>' +
+          '</radialGradient>';
+        svg.appendChild(defs);
+        // Main sack body: pear-shaped curve
+        var body = document.createElementNS(SVG_NS, "path");
+        body.setAttribute("d",
+          "M 35 22 " +
+          "Q 18 22 16 38 " +
+          "Q 12 60 22 76 " +
+          "Q 35 86 48 76 " +
+          "Q 58 60 54 38 " +
+          "Q 52 22 35 22 Z");
+        body.setAttribute("fill", "url(#vh-sack-" + tier + ")");
+        body.setAttribute("stroke", "rgba(0,0,0,.35)");
+        body.setAttribute("stroke-width", "1");
+        svg.appendChild(body);
+        // Tied/wrinkled portion at top (drawstring gather)
+        var gather = document.createElementNS(SVG_NS, "ellipse");
+        gather.setAttribute("cx", "35"); gather.setAttribute("cy", "24");
+        gather.setAttribute("rx", "14"); gather.setAttribute("ry", "4");
+        gather.setAttribute("fill", t.fillB);
+        gather.setAttribute("stroke", "rgba(0,0,0,.3)");
+        gather.setAttribute("stroke-width", ".75");
+        svg.appendChild(gather);
+        // Drawstring strands sticking up (tied)
+        var ropeL = document.createElementNS(SVG_NS, "path");
+        ropeL.setAttribute("d", "M 28 22 Q 25 14 26 6");
+        ropeL.setAttribute("stroke", t.rope);
+        ropeL.setAttribute("stroke-width", "1.5");
+        ropeL.setAttribute("stroke-linecap", "round");
+        ropeL.setAttribute("fill", "none");
+        svg.appendChild(ropeL);
+        var ropeR = document.createElementNS(SVG_NS, "path");
+        ropeR.setAttribute("d", "M 42 22 Q 45 14 44 6");
+        ropeR.setAttribute("stroke", t.rope);
+        ropeR.setAttribute("stroke-width", "1.5");
+        ropeR.setAttribute("stroke-linecap", "round");
+        ropeR.setAttribute("fill", "none");
+        svg.appendChild(ropeR);
+        // $ symbol on the front
+        var sym = document.createElementNS(SVG_NS, "text");
+        sym.setAttribute("x", "35"); sym.setAttribute("y", "56");
+        sym.setAttribute("text-anchor", "middle");
+        sym.setAttribute("font-family", "-apple-system, system-ui, sans-serif");
+        sym.setAttribute("font-size", "20");
+        sym.setAttribute("font-weight", "900");
+        sym.setAttribute("font-style", "italic");
+        sym.setAttribute("fill", t.textColor);
+        sym.textContent = "$";
+        svg.appendChild(sym);
+        // Amount label below the $
+        var amt = document.createElementNS(SVG_NS, "text");
+        amt.setAttribute("x", "35"); amt.setAttribute("y", "70");
+        amt.setAttribute("text-anchor", "middle");
+        amt.setAttribute("font-family", "-apple-system, system-ui, sans-serif");
+        amt.setAttribute("font-size", "10");
+        amt.setAttribute("font-weight", "700");
+        amt.setAttribute("fill", t.textColor);
+        amt.textContent = label;
+        svg.appendChild(amt);
+        // Tier-specific accents
+        if (tier === "platinum") {
+          // Pink jewel pinned to the rope tie
+          var jewel = document.createElementNS(SVG_NS, "circle");
+          jewel.setAttribute("cx", "35"); jewel.setAttribute("cy", "9");
+          jewel.setAttribute("r", "3.5");
+          jewel.setAttribute("fill", "#ec4899");
+          jewel.setAttribute("stroke", "#fff");
+          jewel.setAttribute("stroke-width", ".6");
+          svg.appendChild(jewel);
+        } else if (tier === "gold") {
+          // Tiny gold sparkle highlight
+          var spark = document.createElementNS(SVG_NS, "path");
+          spark.setAttribute("d", "M 24 40 L 26 44 L 30 46 L 26 48 L 24 52 L 22 48 L 18 46 L 22 44 Z");
+          spark.setAttribute("fill", "rgba(255,255,255,.7)");
+          svg.appendChild(spark);
+        }
         return svg;
       }
 
@@ -628,7 +1047,7 @@
         }
       }
 
-      function spawnVaudevilleHook(card, tier) {
+      function spawnVaudevilleHook(card, tier, wooAmount) {
         var cfg = TIER_VH[tier] || TIER_VH.bronze;
 
         // Configure tier-specific CSS variables on the card
@@ -637,13 +1056,15 @@
         card.style.setProperty("--vh-yank-keyframes", cfg.yankDir === "right" ? "vh-yank-right" : "vh-yank-left");
         card.style.setProperty("--vh-hook-exit-keyframes", cfg.yankDir === "right" ? "vh-hook-exit-right" : "vh-hook-exit-left");
 
-        // Insert the hook SVG into the card
-        var hook = makeHookSvg();
-        // Defer the descend animation start until the next frame so the
-        // initial CSS state (top: -200px, opacity 0) lands first.
-        card.appendChild(hook);
+        // Insert both hook layers (shaft behind character, tip in front)
+        // matching the yank direction.
+        var dir = cfg.yankDir; // "left" or "right"
+        var shaft = makeHookShaftSvg(dir);
+        var tip   = makeHookTipSvg(dir);
+        card.appendChild(shaft);
+        card.appendChild(tip);
 
-        // Phase A: card shake + hook descend (ALREADY underway via .vh-active class)
+        // Phase A: card shake + hook swing-in (driven by .vh-active class)
         card.classList.add("vh-active");
 
         // Phase B: hook catches and yanks. Trigger after descend completes.
@@ -660,8 +1081,16 @@
           card.appendChild(carpet);
         }
 
-        // Phase C: coin shower starts when yank completes
+        // Phase C: yank completes -> sack drops in (centerpiece) +
+        // coins start showering around it
         var coinPhaseStart = cfg.descendMs + cfg.yankMs;
+
+        // Money sack: lands where the Woogoro stood, slightly before
+        // coins start, so it's visible as the source of the wealth.
+        var sack = makeSackSvg(tier, wooAmount);
+        sack.style.setProperty("--vh-sack-delay", (coinPhaseStart - 50) + "ms");
+        sack.style.animationDelay = (coinPhaseStart - 50) + "ms";
+        card.appendChild(sack);
         var totalCoins = cfg.coinCount + cfg.jewels;
         for (var i = 0; i < totalCoins; i++) {
           var coin = document.createElement("div");
@@ -675,10 +1104,11 @@
           var rot = (Math.random() < .5 ? -1 : 1) * (180 + Math.random() * 540);
           coin.style.setProperty("--vh-coin-x", xEnd + "px");
           coin.style.setProperty("--vh-coin-y", yEnd + "px");
-          coin.style.setProperty("--vh-coin-rot", rot + "deg");
           coin.style.setProperty("--vh-coin-size", cfg.coinSize + "px");
           coin.style.setProperty("--vh-coin-dur", (1000 + Math.random() * 400) + "ms");
-          // Tight inter-coin spacing for a denser shower (was 40ms)
+          // rotateY flip varies per coin so they spin like real tossed coins
+          coin.style.setProperty("--vh-coin-flip", ((Math.random() < .5 ? -1 : 1) * (360 + Math.random() * 720)) + "deg");
+          // Tight inter-coin spacing for a denser shower
           coin.style.setProperty("--vh-coin-delay", (coinPhaseStart + i * 22) + "ms");
           coin.style.animationDelay = (coinPhaseStart + i * 22) + "ms";
           card.appendChild(coin);
@@ -732,7 +1162,10 @@
 
         btn.disabled = true;
         btn.textContent = "Cashing in...";
-        var animMs = spawnVaudevilleHook(card, tier);
+        // Pass the woo amount from the card so the sack shows the right number
+        var wooEl = card.querySelector(".bw-rw-woo");
+        var wooAmount = wooEl ? parseInt(wooEl.textContent.replace(/[^0-9]/g, ""), 10) : 0;
+        var animMs = spawnVaudevilleHook(card, tier, wooAmount);
         var animDone = new Promise(function (r) { setTimeout(r, animMs); });
 
         var apiPromise = fetch("/api/beta-cash-in-receipt", {
@@ -758,7 +1191,7 @@
             animDone.then(function () {
               card.classList.remove("vh-active", "vh-yanking");
               // Remove animation children (hook, coins, sparkles, etc.)
-              card.querySelectorAll(".bw-rw-hook, .bw-vh-coin, .bw-vh-sparkle, .bw-vh-carpet, .bw-vh-flare").forEach(function (n) { n.remove(); });
+              card.querySelectorAll(".bw-rw-hook-shaft, .bw-rw-hook-tip, .bw-vh-coin, .bw-vh-sparkle, .bw-vh-carpet, .bw-vh-flare, .bw-vh-sack").forEach(function (n) { n.remove(); });
               var msg = (res.body && res.body.error) || "Cash in failed. Try again in a moment.";
               showCardError(card, btn, msg);
             });
@@ -769,7 +1202,7 @@
         }).catch(function () {
           animDone.then(function () {
             card.classList.remove("vh-active", "vh-yanking");
-            card.querySelectorAll(".bw-rw-hook, .bw-vh-coin, .bw-vh-sparkle, .bw-vh-carpet, .bw-vh-flare").forEach(function (n) { n.remove(); });
+            card.querySelectorAll(".bw-rw-hook-shaft, .bw-rw-hook-tip, .bw-vh-coin, .bw-vh-sparkle, .bw-vh-carpet, .bw-vh-flare, .bw-vh-sack").forEach(function (n) { n.remove(); });
             showCardError(card, btn, "Network error. Try again.");
           });
         });

@@ -129,6 +129,15 @@
     },
     "api/discovery-scan.js": {
       "maxDuration": 60
+    },
+    "api/beta-watch-list.js": {
+      "maxDuration": 5
+    },
+    "api/beta-watch-add.js": {
+      "maxDuration": 5
+    },
+    "api/beta-watch-remove.js": {
+      "maxDuration": 5
     }
   },
   "headers": [
