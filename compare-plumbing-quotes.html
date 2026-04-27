@@ -631,9 +631,11 @@
       var isTight = spread <= 5;
 
       // Apples-to-oranges check: detect when uploaded quotes are for different
-      // job types (e.g. drain cleaning vs water heater install) and warn the
-      // user that the comparison is not directly meaningful.
-      var jobTypes = active.map(function(a) { return (a.data && a.data.jobType) || ""; }).filter(Boolean);
+      // job types (e.g. drain cleaning vs water heater install, or tank vs
+      // tankless) and warn the user that the comparison is not directly
+      // meaningful. jobType actually lives on a.data.api.jobType (a.data is
+      // the slot record { name, price, api, ... }, not the API payload).
+      var jobTypes = active.map(function(a) { return (a.data && a.data.api && a.data.api.jobType) || ""; }).filter(Boolean);
       var uniqueJobTypes = jobTypes.filter(function(v, i, arr) { return arr.indexOf(v) === i; });
       var mixedJobs = uniqueJobTypes.length >= 2;
 
