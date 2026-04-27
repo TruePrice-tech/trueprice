@@ -471,43 +471,12 @@ Rules:
         console.log("[plumbing-estimate] brand tier detection error:", btErr.message);
       }
 
-      // --- IRA 25C heat pump water heater credit surfacing ---
-      try {
-        const combinedText = ((text || "") + " " + (parsed.summary || "") + " " +
-          (parsed.lineItems || []).map(li => li.description || "").join(" ")).toLowerCase();
-        const isHPWH = /\b(heat pump water heater|hpwh|hybrid water heater|proterra|voltex|aerotherm)\b/i.test(combinedText)
-          || parsed.brandTier?.category === "heat_pump_water_heater";
-        if (isHPWH && pricingData.iraCredit) {
-          const qualifyingCost = Number(parsed.totalPrice) || 0;
-          const estimatedCredit = Math.min(
-            Math.round(qualifyingCost * pricingData.iraCredit.rate),
-            pricingData.iraCredit.annualCap
-          );
-          parsed.iraCredit = {
-            applies: true,
-            section: pricingData.iraCredit.section,
-            rate: pricingData.iraCredit.rate,
-            cap: pricingData.iraCredit.annualCap,
-            estimatedCredit,
-            requirements: [
-              "Heat pump water heater with UEF >= 2.2",
-              "Principal residence (not rentals, not new construction)",
-              "Manufacturer Qualified Manufacturer PIN required on Form 5695 (2025+)"
-            ],
-            claimForm: pricingData.iraCredit.claimForm,
-            notes: pricingData.iraCredit.notes,
-            stacksWith: pricingData.iraCredit.stacksWith,
-          };
-          if (!(parsed.redFlags || []).some(f => /25c|tax credit|ira/i.test(f))) {
-            parsed.redFlags = parsed.redFlags || [];
-            parsed.redFlags.push(
-              `Note: the federal 25C tax credit for heat pump water heaters EXPIRED Dec 31 2025 and is not available for 2026 installs. Check state utility rebates and IRA HEAR (income-qualified) programs at dsireusa.org.`
-            );
-          }
-        }
-      } catch (iraErr) {
-        console.log("[plumbing-estimate] IRA credit surfacing error:", iraErr.message);
-      }
+      // --- IRA 25C heat pump water heater credit ---
+      // Removed: the federal 25C credit expired Dec 31 2025 (Public Law
+      // 119-21) and does not apply to 2026 installs. We don't surface the
+      // expiration in the API response either -- that's a tax fact, not a
+      // quote red flag, and belongs in static page copy. State utility
+      // rebates remain in `parsed.utilityRebates` below.
 
       // --- State licensing surfacing ---
       try {

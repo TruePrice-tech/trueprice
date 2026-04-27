@@ -661,15 +661,6 @@
       "action": "Scope must specify whether access-hole drywall repair is included, and to what finish level (patched only, textured, textured + painted)."
     },
     {
-      "name": "hpwh_no_ira_mention",
-      "regex": "\\b(heat pump water heater|hpwh|hybrid water heater)\\b",
-      "secondaryRegex": "\\b(25c|tax credit|ira|inflation reduction|qualified manufacturer|qm pin|manufacturer pin)\\b",
-      "secondaryMode": "absence",
-      "severity": "low",
-      "explanation": "Heat pump water heater quote with no mention of the 25C federal tax credit (30% up to $2,000, including labor). Homeowner could miss a $1,500-$2,000 refund. Reputable HPWH installers always surface this.",
-      "action": "Ask the contractor for the manufacturer's Qualified Manufacturer PIN for Form 5695. Required for 25C claims starting 2025."
-    },
-    {
       "name": "no_line_item_breakdown",
       "regex": "\\b(line[- ]?item|itemiz|breakdown|parts.*labor|materials? (and|&) labor)\\b",
       "detectMode": "absence",
@@ -724,7 +715,6 @@
     "Will you pull and pay for the permit, or am I expected to?",
     "For repipe: what is the exact pipe brand and type — PEX-A, PEX-B, Type L copper?",
     "For water heater: what brand, model, and UEF? Is it ENERGY STAR?",
-    "For heat pump water heater: will you provide the Qualified Manufacturer PIN for my 25C tax credit?",
     "Is this quote a firm bid or time-and-materials? What is the not-to-exceed?",
     "How long is this quote valid?",
     "What is your labor rate, and how many hours are estimated for this job?",
