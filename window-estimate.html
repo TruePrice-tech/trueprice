@@ -160,6 +160,7 @@
 }
 </script>
 <script src="/js/community-capture.min.js" defer></script>
+<script src="/js/home-type-classifier.js"></script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
@@ -666,7 +667,30 @@
             .then(function(payload) {
               clearTimeout(_osmTimer);
               if (!payload || !payload.success || !payload.data) return;
-              var sqft = Number(payload.data.livingAreaSqFt || payload.data.footprintSqFt || 0);
+              var d = payload.data;
+              // Use the data-driven WoogoroHomeType classifier when available
+              // — converts footprint to LIVING area using region + stories +
+              // garage + Sun Belt ranch / bulk-import polygon heuristics.
+              // Old code used raw footprint as living area, which undercounts
+              // windows by 30-50% for multi-story homes.
+              var sqft = 0;
+              if (window.WoogoroHomeType && d.footprintSqFt) {
+                var picked = window.WoogoroHomeType.estimateLivingArea({
+                  footprintSqFt: Number(d.footprintSqFt) || 0,
+                  regionType: d.regionType || "suburban",
+                  osmStories: d.osmStories || null,
+                  osmHeightMeters: d.osmHeightMeters || null,
+                  buildingTag: d.buildingTag || "",
+                  buildingSource: d.buildingSource || null,
+                  isBulkImportPolygon: !!d.isBulkImportPolygon,
+                  likelyAttachedGarage: !!d.likelyAttachedGarage,
+                  stateCode: wState.address.stateCode || ""
+                });
+                if (picked && picked.livingSqFt) sqft = picked.livingSqFt;
+              }
+              if (!sqft) {
+                sqft = Number(d.livingAreaSqFt || d.footprintSqFt || 0);
+              }
               if (sqft >= 500 && sqft <= 10000) {
                 wState.osmSqFt = Math.round(sqft);
                 // Auto-suggest window count range if user hasn't picked yet

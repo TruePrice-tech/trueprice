@@ -9194,6 +9194,22 @@ function buildComparisonWinnerHtml(summary) {
             const d = payload.data;
             const livingArea = Number(d.livingAreaSqFt || 0);
             const footprint = Number(d.footprintSqFt || 0);
+            // Stash full classifier signals so the propertyType click handler
+            // (and the final roof-area calc) can use the data-driven
+            // WoogoroHomeType multiplier table instead of hardcoded fallbacks.
+            // This is the same shape HVAC/insulation/painting/electrical use.
+            journeyState.osmSignals = {
+              footprintSqFt: footprint > 0 ? Math.round(footprint) : 0,
+              regionType: d.regionType || "suburban",
+              osmStories: d.osmStories || null,
+              osmHeightMeters: d.osmHeightMeters || null,
+              buildingTag: d.buildingTag || "",
+              buildingSource: d.buildingSource || null,
+              isBulkImportPolygon: !!d.isBulkImportPolygon,
+              likelyAttachedGarage: !!d.likelyAttachedGarage,
+              convexityRatio: d.convexityRatio || null,
+              stateCode: (journeyState.propertyPreview && journeyState.propertyPreview.state) || ""
+            };
             // If we have living area, use it directly. Otherwise save
             // raw footprint and multiply by stories when user selects.
             if (livingArea >= 500 && livingArea <= 15000) {
@@ -9202,8 +9218,16 @@ function buildComparisonWinnerHtml(summary) {
             } else if (footprint >= 400 && footprint <= 15000) {
               journeyState.osmFootprint = Math.round(footprint);
               // Default to footprint as home size; will be adjusted when
-              // user selects stories (two_story = footprint * 2, etc.)
-              journeyState.osmHomeSize = Math.round(footprint);
+              // user selects stories. Auto-pick from classifier if available
+              // — gives suburban-2-story-with-garage ≈ 1.20x (vs old 1.35
+              // hardcoded) and applies Sun Belt ranch + bulk-import haircut
+              // for AZ/FL/NV polygons.
+              const _picked = (window.WoogoroHomeType && journeyState.osmSignals)
+                ? window.WoogoroHomeType.estimateLivingArea(journeyState.osmSignals)
+                : null;
+              journeyState.osmHomeSize = _picked && _picked.livingSqFt
+                ? _picked.livingSqFt
+                : Math.round(footprint);
             }
             if (journeyState.osmHomeSize) {
               // If user is already on the estimator step, populate the input now
@@ -9893,10 +9917,28 @@ function buildComparisonWinnerHtml(summary) {
             journeyState.estimatorAnswers[group] = value;
 
             // When user selects stories, estimate total living area from footprint.
-            // This adjusted value feeds into the estimate calc.
+            // Prefer the data-driven WoogoroHomeType classifier (region-aware,
+            // Sun Belt ranch bias, Phoenix tract-home haircut) over hardcoded
+            // fallback multipliers. Lane's Fort Mill SC suburban 2-story with
+            // garage gets 1.20x (= 3,210 for 2,675 footprint) instead of the
+            // old 1.35x (3,611, which felt high to her — bug she caught).
             if (group === "propertyType" && journeyState.osmFootprint) {
-              var livingMults = { single: 1.0, two_story: 1.35, townhome: 2.0 };
-              var lm = livingMults[value] || 1.0;
+              var lm = 1.0;
+              if (window.WoogoroHomeType && journeyState.osmSignals) {
+                // Map the 3 simple options to the 5-row classifier.
+                var homeTypeId = value === "single" ? "single_ranch"
+                  : value === "townhome" ? "two_story_no_garage"
+                  : "two_story_with_garage"; // two_story default = with-garage modal
+                lm = window.WoogoroHomeType.getMultiplier(
+                  homeTypeId,
+                  journeyState.osmSignals.regionType,
+                  journeyState.osmSignals
+                );
+              } else {
+                // Fallback when classifier unavailable
+                var livingMults = { single: 1.0, two_story: 1.35, townhome: 2.0 };
+                lm = livingMults[value] || 1.0;
+              }
               var estLiving = Math.round(journeyState.osmFootprint * lm);
               journeyState.osmHomeSize = estLiving;
               const _inp = document.getElementById("estHomeSize");
