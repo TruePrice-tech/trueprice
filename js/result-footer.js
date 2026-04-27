@@ -175,20 +175,29 @@
         + '  </div>')
       : '';
 
-    // Receipt-scan CTA: links to the beta receipt-submit flow with the
-    // current vertical pre-selected via query param. Bounces to /beta/login
-    // first if the user isn't signed in (acceptable friction in v1).
+    // Receipt-scan CTA — gated OFF by default (2026-04-27) until Tesseract
+    // OCR accuracy on real receipts is benchmarked. The verifier is tested,
+    // but the OCR layer is not, and a low-accuracy first impression would
+    // train users to bounce. Flip on by setting
+    //   window.WOOGORO_RECEIPT_SCAN_PUBLIC = true
+    // on the host page before result-footer.js runs, OR by changing the
+    // default below to "!== false" once accuracy is verified or Theia's
+    // receipt LoRA replaces Tesseract (~mid-May 2026).
+    //
     // submit-receipt.html uses the underscored vertical slugs from
     // _woogoros-vertical.js (garage_door, auto_repair) — convert here.
+    var receiptScanPublic = (window.WOOGORO_RECEIPT_SCAN_PUBLIC === true);
     var receiptVerticalSlug = (slug === 'garage-doors' || slug === 'garage-door') ? 'garage_door'
       : (slug === 'auto-repair' || slug === 'auto') ? 'auto_repair'
       : slug;
-    var receiptCtaHtml = ''
-      + '  <a class="tp-rs" href="/beta/submit-receipt.html?vertical=' + encodeURIComponent(receiptVerticalSlug) + '" data-rs-vertical="' + slug + '">'
-      + '    <div class="tp-rs-title">Already paid? Scan your ' + label.toLowerCase() + ' receipt</div>'
-      + '    <p class="tp-rs-sub">Mint a tiered Receipt Woogoro + your collectible vertical Woogoro. Sharpens the numbers in your area for everyone. Sign-in required (free).</p>'
-      + '    <span class="tp-rs-cta">Scan a receipt &rarr;</span>'
-      + '  </a>';
+    var receiptCtaHtml = receiptScanPublic
+      ? (''
+        + '  <a class="tp-rs" href="/beta/submit-receipt.html?vertical=' + encodeURIComponent(receiptVerticalSlug) + '" data-rs-vertical="' + slug + '">'
+        + '    <div class="tp-rs-title">Already paid? Scan your ' + label.toLowerCase() + ' receipt</div>'
+        + '    <p class="tp-rs-sub">Mint a tiered Receipt Woogoro + your collectible vertical Woogoro. Sharpens the numbers in your area for everyone. Sign-in required (free).</p>'
+        + '    <span class="tp-rs-cta">Scan a receipt &rarr;</span>'
+        + '  </a>')
+      : '';
 
     var html = ''
       + '<div class="tp-result-footer" data-vertical="' + slug + '">'
