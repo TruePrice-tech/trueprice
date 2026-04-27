@@ -239,6 +239,115 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, emailStatus });
       }
 
+      if (type === "js_error") {
+        // Real-user error capture with 3 hard guards on Vercel cost:
+        //   1. Daily global cap (5000 errors stored/day)
+        //   2. Per-IP rate limit (10 errors/hour)
+        //   3. Bot UA filter (drop, don't store)
+        // Worst-case spend: ~0.75 GB-hr/month vs 1000 GB-hr Pro budget.
+        const botName = detectBot(ua);
+        if (botName) return res.status(200).json({ ok: true, skipped: "bot" });
+
+        const todayStr = new Date().toISOString().substring(0, 10);
+        const dayKey = `tp:js_error_count:${todayStr}`;
+        let dailyCount = 0;
+        try {
+          dailyCount = await redis.incr(dayKey);
+          if (dailyCount === 1) await redis.expire(dayKey, 26 * 3600);
+        } catch (e) { /* fail open */ }
+        if (dailyCount > 5000) return res.status(200).json({ ok: true, skipped: "daily_cap" });
+
+        const hourBucket = Math.floor(Date.now() / 3600000);
+        const ipRateKey = `tp:js_error_rate:${ipHash}:${hourBucket}`;
+        let ipCount = 0;
+        try {
+          ipCount = await redis.incr(ipRateKey);
+          if (ipCount === 1) await redis.expire(ipRateKey, 3700);
+        } catch (e) { /* fail open */ }
+        if (ipCount > 10) return res.status(200).json({ ok: true, skipped: "ip_rate" });
+
+        const message = String(data.message || "").substring(0, 240);
+        const source  = String(data.source || "").substring(0, 200);
+        const lineno  = Number(data.lineno) || 0;
+        const colno   = Number(data.colno) || 0;
+        const stack   = String(data.stack || "").substring(0, 1000);
+        const path    = String(data.path || "/").substring(0, 200);
+        const errTitle = String(data.title || "").substring(0, 120);
+
+        // Short stable hash for dedupe (no crypto import needed)
+        const hashSource = message + "|" + source + ":" + lineno;
+        let h = 5381;
+        for (let i = 0; i < hashSource.length; i++) h = ((h << 5) + h + hashSource.charCodeAt(i)) | 0;
+        const errHash = "e" + Math.abs(h).toString(36);
+
+        const geo = getGeo(req);
+        await redis.lpush("tp:js_errors", JSON.stringify({
+          message, source, lineno, colno, stack, path, title: errTitle,
+          ipHash, device, browser, city: geo.city, region: geo.region, country: geo.country,
+          hash: errHash, ts: Date.now()
+        }));
+        await redis.ltrim("tp:js_errors", 0, 4999);
+
+        // First-sighting email (7-day seen TTL, with daily email cap)
+        let emailStatus = "not_new";
+        let isNew = false;
+        try {
+          const seenKey = `tp:js_error_seen:${errHash}`;
+          const setRes = await redis.set(seenKey, todayStr, { nx: true, ex: 7 * 24 * 3600 });
+          isNew = setRes === "OK" || setRes === true;
+        } catch (e) { /* fail open */ }
+
+        if (isNew) {
+          const emailDayKey = `tp:js_error_emails:${todayStr}`;
+          let emailCount = 0;
+          try {
+            emailCount = await redis.incr(emailDayKey);
+            if (emailCount === 1) await redis.expire(emailDayKey, 26 * 3600);
+          } catch (e) { /* fail open */ }
+
+          if (emailCount > 20) {
+            emailStatus = "daily_email_cap";
+          } else {
+            const resendKey = process.env.RESEND_API_KEY;
+            if (resendKey) {
+              try {
+                const escape = (s) => String(s).replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+                const r = await fetch("https://api.resend.com/emails", {
+                  method: "POST",
+                  headers: { "Authorization": `Bearer ${resendKey}`, "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    from: "Woogoro Errors <noreply@woogoro.com>",
+                    to: ["hello@woogoro.com"],
+                    subject: `[Woogoro] New JS error: ${message.substring(0, 80)}`,
+                    html: `<div style="font-family:sans-serif;max-width:760px;padding:20px;">
+                      <h2 style="color:#b91c1c;margin:0 0 8px;">New JS error caught from a real user</h2>
+                      <p style="color:#475569;font-size:13px;margin:0 0 16px;">First time this signature has been seen in 7 days. Subsequent occurrences are deduped silently.</p>
+                      <table style="font-size:13px;color:#1e293b;border-collapse:collapse;width:100%;">
+                        <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Message</td><td style="padding:6px 0;font-family:monospace;">${escape(message)}</td></tr>
+                        <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Source</td><td style="padding:6px 0;font-family:monospace;font-size:12px;">${escape(source)}:${lineno}:${colno}</td></tr>
+                        <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Page</td><td style="padding:6px 0;"><a href="https://woogoro.com${escape(path)}">${escape(path)}</a></td></tr>
+                        <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Device</td><td style="padding:6px 0;">${device} / ${browser}</td></tr>
+                        <tr><td style="padding:6px 12px 6px 0;font-weight:600;">Location</td><td style="padding:6px 0;">${escape(geo.city || "")} ${escape(geo.region || "")} ${escape(geo.country || "")}</td></tr>
+                      </table>
+                      ${stack ? `<pre style="margin-top:14px;padding:12px;background:#f8fafc;border:1px solid #e2e8f0;font-size:11px;overflow:auto;max-height:280px;white-space:pre-wrap;">${escape(stack)}</pre>` : ""}
+                      <p style="color:#64748b;font-size:11px;margin-top:14px;">Hash: ${errHash} · Daily error volume: ${dailyCount}/5000 · IP-hour: ${ipCount}/10 · Email day: ${emailCount}/20</p>
+                    </div>`
+                  })
+                });
+                emailStatus = r.ok ? "sent" : ("resend_error_" + r.status);
+              } catch (e) {
+                emailStatus = "exception";
+                console.error("[js_error] email failed:", e.message);
+              }
+            } else {
+              emailStatus = "no_api_key";
+            }
+          }
+        }
+
+        return res.status(200).json({ ok: true, isNew, emailStatus });
+      }
+
       if (type === "event") {
         const event = String(data.event || "").substring(0, 50).trim();
         if (!event) return res.status(200).json({ ok: true });

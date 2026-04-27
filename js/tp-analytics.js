@@ -77,4 +77,62 @@
     bannerScript.async = true;
     (document.head || document.documentElement).appendChild(bannerScript);
   } catch(e) {}
+
+  // Real-user error capture. Forwards JS exceptions and unhandled promise
+  // rejections to /api/analytics so site breaks surface immediately rather
+  // than waiting for a deep-dive. Heavy client-side filtering keeps noise
+  // out: cross-origin opaque errors, browser-extension scripts, and per-
+  // session repeat errors are all dropped before the network call.
+  var errorSeenThisSession = {};
+  var errorBudget = 8;  // max errors per page load
+  function isOurOrigin(src) {
+    if (!src) return false;
+    if (src.indexOf("chrome-extension://") === 0) return false;
+    if (src.indexOf("moz-extension://") === 0) return false;
+    if (src.indexOf("safari-extension://") === 0) return false;
+    if (src.indexOf("about:") === 0) return false;
+    try {
+      var u = new URL(src, window.location.href);
+      if (u.host && u.host !== window.location.host) return false;
+    } catch (e) { return false; }
+    return true;
+  }
+  function reportError(payload) {
+    if (errorBudget <= 0) return;
+    // Dedupe within session by message + first stack line
+    var key = (payload.message || "") + "|" + (payload.source || "") + ":" + (payload.lineno || "");
+    if (errorSeenThisSession[key]) return;
+    errorSeenThisSession[key] = true;
+    errorBudget--;
+    send({
+      type: "js_error",
+      path: window.location.pathname,
+      title: (document.title || "").substring(0, 120),
+      message: String(payload.message || "").substring(0, 240),
+      source: String(payload.source || "").substring(0, 200),
+      lineno: payload.lineno || 0,
+      colno: payload.colno || 0,
+      stack: String(payload.stack || "").substring(0, 1000),
+      ua: navigator.userAgent.substring(0, 200),
+      pageNum: pageCount
+    });
+  }
+  window.addEventListener("error", function (ev) {
+    // ev.message is "Script error." for cross-origin scripts — useless, drop it
+    if (!ev || !ev.message || ev.message === "Script error.") return;
+    if (ev.filename && !isOurOrigin(ev.filename)) return;
+    reportError({
+      message: ev.message,
+      source: ev.filename,
+      lineno: ev.lineno,
+      colno: ev.colno,
+      stack: ev.error && ev.error.stack ? ev.error.stack : ""
+    });
+  });
+  window.addEventListener("unhandledrejection", function (ev) {
+    var r = ev && ev.reason;
+    var msg = r && r.message ? r.message : String(r);
+    var stack = r && r.stack ? r.stack : "";
+    reportError({ message: "[promise] " + msg, source: window.location.pathname, stack: stack });
+  });
 })();
