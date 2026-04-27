@@ -9379,17 +9379,45 @@ function buildComparisonWinnerHtml(summary) {
         const _verdictBlocked = (_rsSrc === "price_based_estimate" || _rsSrc === "unavailable" || _rsSrc === "");
 
         if (_verdictBlocked) {
+          // Verdict requires roof size, but the rest of the analysis (red flags
+          // detected from quote text, scope review, next-steps checklist) is
+          // independent of size and still useful to the user even before they
+          // provide an address or sqft. Render those, with the size-prompt at
+          // the top so the path-to-verdict is obvious.
+          const _priceLine = a.quotePrice && a.quotePrice > 0
+            ? `<div style="font-size:14px; color:#475569; margin-top:10px;">Quote total detected: <strong>$${Math.round(a.quotePrice).toLocaleString()}</strong>. We extracted the rest of your scope below — add roof size for the price-vs-benchmark verdict.</div>`
+            : "";
           return `
             <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
               ${sampleBanner}
               <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; margin-bottom:16px; text-align:center;">
-                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">We need your roof size to check this quote</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">Add your roof size for the price verdict</div>
                 <div style="font-size:14px; color:#475569; max-width:520px; margin:0 auto;">
-                  Roofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we&#39;ll measure it from satellite data) or your known roof size below and we&#39;ll re-check instantly.
+                  Roofing prices are driven by roof area, so we don't fake a verdict without it. Enter your address (we measure from satellite) or your known roof size below for the price check &mdash; we already extracted the scope and red flags from your quote.
                 </div>
+                ${_priceLine}
               </div>
               ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }))}
               ${sideBySideBtn}
+              ${renderRedFlags(latestExtractedText)}
+              ${renderBeforeYouSign(a)}
+
+              <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+                <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+                <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+                  <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+                  <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+                  <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+                  <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+                  <li>Confirm permit and disposal are included in the price</li>
+                </ul>
+              </section>
+
+              <div style="text-align:center; margin:20px 0 10px;">
+                <a class="btn-outline" href="/compare-roofing-quotes.html" style="text-decoration:none;">
+                  Compare 2-3 roofing quotes side by side
+                </a>
+              </div>
             </div>
           `;
         }
@@ -10090,43 +10118,47 @@ function buildComparisonWinnerHtml(summary) {
       const complexArea = COMPLEXITY_AREA[answers.complexity] || 1.0;
       const ROOF_AREA_RATIO = pitchGeometry * OVERHANG_FACTOR * complexArea;
 
-      let baseArea;
-      // Check saved home size (saved before DOM was replaced by loading screen),
-      // then fallback to address step home size or OSM data
+      // Determine the building FOOTPRINT (single-story-equivalent ground area)
+      // as the canonical input to roof-area math. Roof area = footprint *
+      // pitch * overhang * complexity. Living area is NOT footprint — for a
+      // 2-story home with 3,200 sqft living area, footprint is ~1,600.
+      // Earlier versions treated homeSize (living area) as footprint, which
+      // produced ~2x oversized roof estimates for multi-story homes.
       const estHomeSizeVal = journeyState._savedHomeSize || Number(document.getElementById("estHomeSize")?.value || 0);
       const homeSize = estHomeSizeVal > 0 ? estHomeSizeVal
         : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
-      if (homeSize) {
-        // homeSize is the story-adjusted value the user sees.
-        // When OSM footprint is available, it was already multiplied by
-        // the living-area factor (e.g. footprint*1.4 for 2-story).
-        // Use it directly -- no further storyMult conversion.
-        baseArea = homeSize * ROOF_AREA_RATIO;
-        footprintSource = journeyState.osmFootprint ? "osm_footprint" : "user_home_size";
+      let footprint;
+      if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
+        // Best signal: OSM building polygon area. Use directly.
+        footprint = journeyState.osmFootprint;
+        footprintSource = "osm_footprint";
+      } else if (homeSize) {
+        // User-provided living area. Convert to footprint via storyMult.
+        footprint = homeSize * storyMult;
+        footprintSource = "user_home_size";
       } else if (footprintSqFt) {
-        // OSM footprint available, no home size entered
-        baseArea = footprintSqFt * pitchFact;
+        // Older code path with raw footprintSqFt variable
+        footprint = footprintSqFt;
         footprintSource = "osm_footprint";
       } else {
-        // No footprint data — ask user for home size instead of guessing
+        // No data — prompt user, then fall back to regional average
         const userSize = prompt("We couldn't detect your roof size from satellite data.\n\nEnter your home's square footage (e.g. 2000):");
         const parsedSize = parseInt(userSize);
         if (parsedSize && parsedSize >= 400 && parsedSize <= 20000) {
-          const footprint = parsedSize * storyMult;
-          baseArea = footprint * ROOF_AREA_RATIO;
+          footprint = parsedSize * storyMult;
           footprintSource = "user_home_size";
         } else {
-          // User cancelled or invalid — use conservative estimate
-          const avgHome = 1800;
-          baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
+          footprint = 1800 * storyMult;
           footprintSource = "regional_average";
         }
       }
 
-      // Apply complexity on top (dormers, valleys add area)
-      const estimatedRoofSize = Math.round(baseArea * complexFact);
+      // Roof area from footprint. ROOF_AREA_RATIO already bakes in pitch
+      // geometry + overhang + complexity-area-bump, so don't multiply
+      // complexFact again here (complexFact is a *cost* factor used below).
+      const estimatedRoofSize = Math.round(footprint * ROOF_AREA_RATIO);
 
       // Calculate cost using regional pricing model
       const city = preview.city || "";
