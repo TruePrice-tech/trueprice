@@ -340,7 +340,7 @@
     var ENDPOINT = "/api/plumbing-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
     var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Fixture / Equipment", "field": "fixtureType", "type": "text"}, {"label": "Brand", "field": "brand", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyYears", "type": "years"}];
-    var SCOPE_ITEMS = [{"key":"permit","label":"Permit included"},{"key":"warranty_parts","label":"Parts warranty"},{"key":"warranty_labor","label":"Labor warranty"},{"key":"disposal","label":"Old unit disposal"},{"key":"labor_rate","label":"Labor rate disclosed"},{"key":"code_compliance","label":"Code compliance"},{"key":"camera_inspection","label":"Camera inspection"},{"key":"expansion_tank","label":"Expansion tank"},{"key":"shutoff_valve","label":"Shut-off valve"},{"key":"cleanup","label":"Cleanup"},{"key":"pressure_test","label":"Pressure test"}];
+    var SCOPE_ITEMS = [{"key":"permit","label":"Permit included"},{"key":"warranty_parts","label":"Parts warranty"},{"key":"warranty_labor","label":"Labor warranty"},{"key":"disposal","label":"Old unit disposal"},{"key":"labor_rate","label":"Labor rate disclosed"},{"key":"code_compliance","label":"Code compliance"},{"key":"camera_inspection","label":"Camera inspection"},{"key":"expansion_tank","label":"Expansion tank"},{"key":"shutoff_valve","label":"Shut-off valve"},{"key":"earthquake_straps","label":"Earthquake straps (CA)"},{"key":"cleanup","label":"Cleanup"},{"key":"pressure_test","label":"Pressure test"}];
     var IRIS = "/images/Worker%20Woogoro/Plumber%20worker.png";
     var SINGLE_PAGE = "/plumbing-quote-analyzer.html";
     var GUIDE_PAGE = "/plumbing-cost-guide.html";
@@ -458,8 +458,12 @@
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "plumbing");
             if (extracted.jobType && extracted.jobType.value !== "other") api.jobType = extracted.jobType.label;
             if (extracted.brand) api.brand = extracted.brand.brand;
+            // Prefer rate*hours when both are present; fall back to a directly
+            // extracted labor TOTAL (e.g. "Labor: 2.5 hours $325" with no @rate).
             if (extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
+            else if (extracted.laborTotal) api.laborTotal = extracted.laborTotal;
             if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            if (extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
             api.scopeItems = {};
             extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
           }
@@ -481,7 +485,9 @@
           if (!api.jobType && extracted.jobType && extracted.jobType.value !== "other") api.jobType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.laborTotal && extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
+          else if (!api.laborTotal && extracted.laborTotal) api.laborTotal = extracted.laborTotal;
           if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+          if (!api.warrantyLaborDays && extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
           api.scopeItems = {};
           extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
         }
@@ -495,6 +501,17 @@
           if (api.linearFeet > 0) api._dollarsPerLinearFt = (price / api.linearFeet).toFixed(2);
           if (api.windowCount > 0) api._dollarsPerWindow = Math.round(price / api.windowCount);
           if (api.systemSizeKw > 0) api._dollarsPerWatt = (price / (api.systemSizeKw * 1000)).toFixed(2);
+        }
+
+        // Surface short labor warranty as a red flag. Industry norm is 1yr+
+        // on installation labor; under 90 days is a real cost-shift to the
+        // homeowner if any install issue surfaces.
+        api.redFlags = api.redFlags || [];
+        if (api.warrantyLaborDays != null && api.warrantyLaborDays > 0 && api.warrantyLaborDays < 90) {
+          var flagText = "Labor warranty is only " + api.warrantyLaborDays + " days. Industry standard is 1+ year on installation labor; anything shorter shifts the cost of install issues back to you.";
+          if (!api.redFlags.some(function(f) { return /labor warranty.*day/i.test(typeof f === "string" ? f : (f && f.title) || ""); })) {
+            api.redFlags.push(flagText);
+          }
         }
 
         quotes[idx] = { name: name, price: price, api: api, scopeItems: api.scopeItems || {}, redFlags: api.redFlags || [] };

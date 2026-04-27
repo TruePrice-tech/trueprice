@@ -99,7 +99,10 @@ function detectPlumbingServiceType(text) {
     });
   });
 
-  if (matches.length === 0) return { value: "water_heater", label: "Water Heater Replacement" };
+  // No match: return null so callers can render an "uncategorized" verdict
+  // instead of defaulting to water heater (which produced a misleading
+  // "unusually low" verdict on small repair invoices).
+  if (matches.length === 0) return null;
   matches.sort(function(a, b) { return b.score - a.score; });
   return { value: matches[0].value, label: matches[0].label };
 }

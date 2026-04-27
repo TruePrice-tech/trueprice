@@ -110,10 +110,12 @@
     .plumb-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
     .plumb-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
     .plumb-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    .plumb-verdict.neutral { background: #f8fafc; border: 2px solid #cbd5e1; }
     .plumb-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
     .plumb-verdict.fair .verdict-label { color: #16a34a; }
     .plumb-verdict.high .verdict-label { color: #dc2626; }
     .plumb-verdict.low .verdict-label { color: #ca8a04; }
+    .plumb-verdict.neutral .verdict-label { color: #475569; }
     .plumb-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
     .plumb-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
 
@@ -900,11 +902,18 @@
         var parsed = engineResult.parsed;
 
         // ── Plumbing-specific detection (runs on OCR text) ──
-        var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : { value: "water_heater", label: "Water Heater Replacement" };
+        // detectPlumbingServiceType returns null when no service patterns match
+        // (was: defaulted to water_heater, which produced misleading verdicts
+        // on small repair invoices).
+        var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : null;
         // If AI backup fired and returned a jobType, prefer it
         if (engineResult.aiData && engineResult.aiData.jobType && engineResult.aiData.jobType !== "other") {
           var apiJobLabel = String(engineResult.aiData.jobType).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
           serviceType = { value: engineResult.aiData.jobType, label: apiJobLabel };
+        }
+        var uncategorized = !serviceType;
+        if (uncategorized) {
+          serviceType = { value: "uncategorized", label: "Plumbing Service" };
         }
         var brand = (typeof detectPlumbingBrand === "function") ? detectPlumbingBrand(text) : null;
         var scopeSignals = (typeof detectPlumbingScopeSignals === "function") ? detectPlumbingScopeSignals(text) : {};
@@ -960,9 +969,20 @@
 
         renderPriceConfirmation({ extractedPrice: quotePrice }, function(confirmedPrice) {
           var region = getRegionFromState(state.address.stateCode);
-          var benchmark = calcBenchmark(_serviceType.value, _subType, region, null, null);
-          var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-          var verdict = verdictFromRatio(ratio);
+          var benchmark, ratio, verdict;
+          if (uncategorized) {
+            // Couldn't identify the plumbing service. Skip the benchmark
+            // comparison entirely -- a confident verdict against the wrong
+            // service category misleads the user (e.g. a $581 service-call
+            // invoice flagged "68% below water heater average").
+            benchmark = null;
+            ratio = null;
+            verdict = { label: "Needs Review", css: "neutral", emoji: "" };
+          } else {
+            benchmark = calcBenchmark(_serviceType.value, _subType, region, null, null);
+            ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
+            verdict = verdictFromRatio(ratio);
+          }
           var brandNote = "";
           if (_brand) brandNote = _brand.brand + " (" + _brand.tier + " tier)";
 
@@ -972,6 +992,7 @@
             benchmark: benchmark,
             ratio: ratio,
             verdict: verdict,
+            uncategorized: uncategorized,
             serviceType: _serviceType,
             subType: _subType,
             brand: _brand,
@@ -992,12 +1013,15 @@
         state.pendingFile = file;
         renderPriceConfirmation({ extractedPrice: 0 }, function(price) {
           var region = getRegionFromState(state.address.stateCode);
-          var benchmark = calcBenchmark("water_heater", "tank_50_gas", region, null, null);
+          // OCR/parse failed -- treat as uncategorized rather than guessing a
+          // water-heater benchmark and producing a misleading verdict.
           state.result = {
-            source: "manual", quotePrice: price, benchmark: benchmark,
-            ratio: price / benchmark, verdict: verdictFromRatio(price / benchmark),
-            serviceType: { value: "water_heater", label: "Water Heater" },
-            subType: "tank_50_gas", brand: null, scopeSignals: {}, region: region, location: null, parsed: null
+            source: "manual", quotePrice: price,
+            benchmark: null, ratio: null,
+            verdict: { label: "Needs Review", css: "neutral", emoji: "" },
+            uncategorized: true,
+            serviceType: { value: "uncategorized", label: "Plumbing Service" },
+            subType: null, brand: null, scopeSignals: {}, region: region, location: null, parsed: null
           };
           state.step = "result";
           render();
@@ -1284,10 +1308,20 @@
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
-      var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      // For uncategorized results we always show the user's quote price (never
+      // a benchmark, since we don't have one we trust).
+      var priceDisplay;
+      if (r.uncategorized) {
+        priceDisplay = fmt(r.quotePrice);
+      } else {
+        priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
+      }
       var rangeText = "";
 
-      if (isUpload) {
+      if (r.uncategorized) {
+        // No reliable benchmark since service type couldn't be identified.
+        rangeText = "We couldn’t identify the specific plumbing service from this quote, so we can’t fairly compare it to a benchmark. Plumbing prices vary widely by service: a service call runs $75&ndash;$200, leak repairs $150&ndash;$2,500, water heater installs $1,200&ndash;$5,500, sewer line replacements $3,000&ndash;$25,000.";
+      } else if (isUpload) {
         rangeText = "Market benchmark: " + fmt(r.benchmark);
         if (r.quotePrice > 0) {
           var pct = Math.round((r.ratio - 1) * 100);
@@ -1321,9 +1355,11 @@
       }
       detailsHtml += '</div>';
 
-      // Scope checklist (upload only)
+      // Scope checklist (upload only) -- skipped for uncategorized since the
+      // "missing items" cost adders are water-heater-specific and would
+      // misrepresent risk on a small repair invoice.
       var scopeHtml = "";
-      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+      if (isUpload && !r.uncategorized && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
         scopeHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="plumb-scope">';
         PLUMBING_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
@@ -1361,7 +1397,9 @@
 
       // Market context
       var contextHtml = '';
-      if (isUpload && r.quotePrice > 0) {
+      if (r.uncategorized && r.quotePrice > 0) {
+        contextHtml = '<div class="plumb-card"><h3 style="margin-bottom:0.5rem;">Why we can’t verdict this quote</h3><p style="color:#475569;font-size:0.95rem;">We extracted a price from this document but couldn’t identify what plumbing service it covers. Plumbing prices vary too widely by job type for a generic benchmark to be useful. If you can tell us what the work was for (water heater? leak repair? sewer line?), we can give you a fair comparison.</p></div>';
+      } else if (isUpload && r.quotePrice > 0) {
         var tip = "";
         if (r.verdict.css === "high") {
           tip = "This quote is higher than typical market rates for this plumbing service. Consider getting 2-3 additional quotes to compare.";

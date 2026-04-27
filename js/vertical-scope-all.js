@@ -11,7 +11,11 @@
   // ══════════════════════════════════════════════════════════════
 
   function extractWarranty(text) {
-    var result = { parts: null, labor: null, text: null };
+    // labor:      labor warranty in YEARS (rounded if months/days)
+    // laborDays:  raw labor warranty in DAYS when expressed sub-year. Used to
+    //             flag suspiciously short labor warranties (e.g. "30-day labor")
+    //             that round to 0 years and otherwise vanish.
+    var result = { parts: null, labor: null, laborDays: null, text: null };
     var t = String(text || "").replace(/\n/g, " ").replace(/\s+/g, " ");
 
     var partsMatch = t.match(/(\d+)[- ]*(?:yr|year)s?[- ]*(?:manufacturer|tank|parts?|equipment|compressor|heat exchanger|material|shingle|panel|product|finish|door)\s*(?:warranty|guarantee)/i) ||
@@ -41,7 +45,24 @@
 
     if (!result.labor) {
       var monthMatch = t.match(/(\d+)\s*(?:month|mo)\s*(?:labor|workmanship|installation)?\s*(?:warranty|guarantee)/i);
-      if (monthMatch) result.labor = parseInt(monthMatch[1]) >= 12 ? Math.round(parseInt(monthMatch[1]) / 12) : 0;
+      if (monthMatch) {
+        var months = parseInt(monthMatch[1]);
+        result.labor = months >= 12 ? Math.round(months / 12) : 0;
+        result.laborDays = months * 30;
+      }
+    }
+
+    // Sub-year labor warranties expressed in days: "30-day labor",
+    // "90 days on labor", "60-day workmanship guarantee", etc. Industry
+    // norm is 1 year+; anything under 90 days is a red flag.
+    if (!result.laborDays) {
+      var dayMatch = t.match(/(\d+)\s*-?\s*day\s*(?:labor|workmanship|installation|on\s*labor|on\s*workmanship)/i) ||
+                     t.match(/(?:labor|workmanship|installation)\s*(?:warranty|guarantee)?\s*:?\s*(\d+)\s*-?\s*days?/i);
+      if (dayMatch) {
+        var days = parseInt(dayMatch[1]);
+        result.laborDays = days;
+        if (!result.labor) result.labor = days >= 365 ? Math.round(days / 365) : 0;
+      }
     }
 
     return result;
@@ -65,6 +86,26 @@
                 t.match(/labor.*?(\d+(?:\.\d+)?)\s*(?:hrs?|hours?)/i) ||
                 t.match(/(\d+)\s*(?:techs?|crew|painters?|movers?|plumbers?|electricians?)\s*x\s*(\d+(?:\.\d+)?)\s*(?:hrs?|hours?)/i);
     return match ? parseFloat(match[2] || match[1]) : null;
+  }
+
+  // Look for the labor TOTAL on the line (not the rate). Catches plain
+  // "Labor: 2.5 hours $325" formats where the rate isn't given but the
+  // total is. Used as a fallback when rate * hours can't be computed.
+  function extractLaborTotal(text) {
+    var t = String(text || "");
+    var lines = t.split(/\n/);
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      // Skip lines that already have a per-hour rate (those are parsed elsewhere)
+      if (/\$\s*\d+\s*\/\s*h(?:ou)?r|\$\s*\d+\s*per\s*hour|hrs?\s*@/i.test(line)) continue;
+      // "Labor[:]? ... $X" with X >= 100 (avoids matching unit-cost tokens)
+      var m = line.match(/\blabor\b(?:[^$]{0,80})\$\s*(\d{2,5}(?:\.\d{2})?)\b/i);
+      if (m) {
+        var v = parseFloat(m[1]);
+        if (v >= 100 && v <= 50000) return v;
+      }
+    }
+    return null;
   }
 
   function extractLocation(text) {
@@ -115,6 +156,10 @@
         { key: "camera_inspection", label: "Camera inspection", patterns: [/camera inspect/i, /video inspect/i, /sewer camera/i] },
         { key: "expansion_tank", label: "Expansion tank", patterns: [/expansion tank/i, /thermal expansion/i] },
         { key: "shutoff_valve", label: "Shut-off valve", patterns: [/shut.?off/i, /ball valve/i, /isolation valve/i] },
+        // CA seismic strapping is required by code (CPC §507.2) on all water
+        // heater installs. Listed under scope so the comparison flags quotes
+        // that omit it for CA addresses.
+        { key: "earthquake_straps", label: "Earthquake straps (CA)", patterns: [/earthquake\s*strap/i, /seismic\s*strap/i, /seismic\s*brac/i, /strap\s*(?:water\s*heater|tank)/i] },
         { key: "cleanup", label: "Cleanup included", patterns: [/clean.?up/i, /backfill/i, /restoration/i, /sod patch/i, /site.*clean/i] },
         { key: "pressure_test", label: "Pressure test", patterns: [/pressure test/i, /leak test/i, /air test/i] },
       ],
@@ -136,14 +181,18 @@
         { pattern: /grohe/i, brand: "Grohe", tier: "premium" },
       ],
       jobTypes: [
-        { pattern: /water\s*heater.*(?:replac|install|swap)/i, value: "water_heater", label: "Water Heater" },
+        // Most specific first -- "tankless" must beat the generic "water_heater"
+        // pattern so a Rinnai/Navien/Noritz quote isn't lumped in with tank
+        // installs. extractFields() returns the first match.
         { pattern: /tankless/i, value: "tankless", label: "Tankless Water Heater" },
-        { pattern: /sewer\s*line/i, value: "sewer_line", label: "Sewer Line" },
+        { pattern: /heat\s*pump\s*water\s*heater|hpwh|hybrid\s*water\s*heater/i, value: "hpwh", label: "Heat Pump Water Heater" },
         { pattern: /trenchless/i, value: "sewer_trenchless", label: "Trenchless Sewer" },
+        { pattern: /sewer\s*line/i, value: "sewer_line", label: "Sewer Line" },
         { pattern: /drain\s*clean/i, value: "drain_cleaning", label: "Drain Cleaning" },
         { pattern: /repipe|re-pipe/i, value: "repipe", label: "Repipe" },
         { pattern: /gas\s*line/i, value: "gas_line", label: "Gas Line" },
         { pattern: /leak\s*repair/i, value: "leak_repair", label: "Leak Repair" },
+        { pattern: /water\s*heater.*(?:replac|install|swap)/i, value: "water_heater", label: "Tank Water Heater" },
       ],
     },
 
@@ -924,6 +973,7 @@
       warranty: extractWarranty(t),
       laborRate: extractLaborRate(t),
       laborHours: extractLaborHours(t),
+      laborTotal: extractLaborTotal(t),
       brand: brand,
       jobType: jobType,
       lineItems: extractLineItems(t),
