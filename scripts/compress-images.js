@@ -5,7 +5,6 @@ const fs = require('fs');
 const imagesDir = path.join(__dirname, '..', 'images');
 
 const TARGETS = [
-  { label: 'Trudy (legacy)', dir: '.', maxWidth: 500, match: f => f.startsWith('trudy') && f.endsWith('.png') },
   { label: 'Iris', dir: 'Iris', maxWidth: 800, match: f => /^Iris .*\.png$/i.test(f) },
   { label: 'Worker Woogoro', dir: 'Worker Woogoro', maxWidth: 800, match: f => / worker\.png$/i.test(f) },
 ];

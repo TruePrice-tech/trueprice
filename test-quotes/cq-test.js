@@ -141,16 +141,18 @@
     var serviceLabel = SERVICE_LABELS[compareService] || "Contractor";
     document.getElementById("compareH1").textContent = "Compare your " + serviceLabel.toLowerCase() + " quotes";
 
-    // Dynamic Trudy image based on service
-    var TRUDY_IMAGE_MAP = {
-      solar: "solar", insulation: "insulation", kitchen: "kitchen", electrical: "electrical",
-      fencing: "fencing", foundation: "foundation", windows: "windows", concrete: "concrete",
-      "garage-doors": "garage", landscaping: "landscaping", hvac: "hvac", painting: "painting",
-      plumbing: "plumbing", siding: "siding", gutters: "gutters", roofing: "roofing"
+    // Dynamic mascot image based on service (mirrors compare-quotes.html prod)
+    var WORKER_WOOGORO_MAP = {
+      solar: "Solar", insulation: "Insulation", kitchen: "Kitchen", electrical: "Electrical",
+      fencing: "Fencing", foundation: "Foundation", windows: "Windows", concrete: "Concrete",
+      "garage-doors": "Garage", landscaping: "Landscape", hvac: "HVAC", painting: "Painter",
+      plumbing: "Plumber", siding: "Siding", gutters: "Gutter", roofing: "Roofer",
+      auto: "Auto", medical: "Medical", legal: "Legal", moving: "Mover"
     };
-    var trudySlug = TRUDY_IMAGE_MAP[compareService];
-    if (trudySlug) {
-      document.getElementById("trudyHero").src = "/images/trudy-" + trudySlug + ".png";
+    var workerSlug = WORKER_WOOGORO_MAP[compareService];
+    if (workerSlug) {
+      var heroEl = document.getElementById("mascotHero") || document.getElementById("trudyHero");
+      if (heroEl) heroEl.src = "/images/Worker%20Woogoro/" + workerSlug + "%20worker.png";
     }
 
     // Track uploaded file signatures to detect duplicates
