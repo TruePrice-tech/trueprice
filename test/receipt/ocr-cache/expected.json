@@ -1,8 +1,8 @@
 {
-  "_README": "Outcomes recorded against the regex-stub verifier (api/_woogoros-verifier.js). When Theia's receipt LoRA replaces the stub (~mid-May 2026), expectations should improve: the FAIL on auto-paper-photo and the REVIEWs on the HVAC fixtures should turn into PASS or stay REVIEW depending on Theia's classification. Update this file when Theia drops to lock the new baseline.",
+  "_README": "Outcomes recorded against the regex-stub verifier (api/_woogoros-verifier.js). When Theia's receipt LoRA replaces the stub (~mid-May 2026), expectations should improve materially. Most of today's FAIL/REVIEW outcomes are caused by two known bugs: (1) TOTAL_RE doesn't match compound labels like 'Total Project Cost Estimate' or 'Total Cost of Repairs'; (2) KEYWORDS dictionaries miss common receipt-language and OCR'd line items (e.g., 'control arm', 'ball joint', 'fuel injector' aren't in KEYWORDS.auto_repair). Update this file when Theia drops to lock the new baseline.",
 
   "hvac-clean-invoice.jpeg": {
-    "_note": "Clean digital screenshot. Verifier today MISSES total ('Total job price $610.00' — TOTAL_RE doesn't match compound labels). Subtotal extracts cleanly. No date in screenshot. Lands REVIEW because trust low (49) without total bonus or date bonus.",
+    "_note": "Clean digital screenshot. Verifier MISSES total ('Total job price $610' — TOTAL_RE doesn't match compound labels). Subtotal extracts cleanly. No date in screenshot. REVIEW because trust low (49) without total bonus or date bonus.",
     "declaredVertical": "hvac",
     "declaredAmount": 610.00,
     "expectedBucket": "review",
@@ -12,7 +12,7 @@
   },
 
   "hvac-coil-quote.jpeg": {
-    "_note": "Clean digital. Verifier extracts total + subtotal cleanly. No date in screenshot, no merchant heuristic match — trust 66, just under PASS threshold. REVIEW.",
+    "_note": "Clean digital. Total + subtotal extract cleanly. No date, no merchant heuristic match. Trust 66 just under PASS threshold. REVIEW.",
     "declaredVertical": "hvac",
     "declaredAmount": 3810.00,
     "expectedBucket": "review",
@@ -22,7 +22,7 @@
   },
 
   "auto-paper-photo.jpeg": {
-    "_note": "Real phone photo of paper estimate. OCR works. Verifier MISSES total ('Total Cost of Repairs 732.39' — same compound-label bug as the HVAC one). KEYWORDS.auto_repair doesn't match the receipt's accounting language ('Body Labor / Subtotal / Total Cost of Repairs') — vertical_mismatch fatal. FAIL.",
+    "_note": "Real phone photo of paper estimate (JEEP body shop). OCR works (753 chars). MISSES total ('Total Cost of Repairs 732.39' — compound-label bug). KEYWORDS.auto_repair doesn't match 'Body Labor / Subtotal / Total Cost of Repairs / Deductible' accounting language. vertical_mismatch fatal. FAIL.",
     "declaredVertical": "auto_repair",
     "declaredAmount": 732.39,
     "expectedBucket": "fail",
@@ -30,12 +30,61 @@
   },
 
   "audi-screenshot.jpg": {
-    "_note": "Partial screenshot — user scrolled, no total in the visible region. Verifier finds nothing. False-positive merchant heuristic on 'FRONT AND REAR ALIGNMENT'. REVIEW because trust 54 (no total/date bonus). Correct outcome — admin should look at this.",
+    "_note": "Partial digital screenshot — user scrolled, no total in visible region. Verifier finds no total/subtotal. False-positive merchant heuristic on 'FRONT AND REAR ALIGNMENT'. REVIEW.",
     "declaredVertical": "auto_repair",
     "declaredAmount": 5557.45,
     "expectedBucket": "review",
     "minTrust": 40,
     "maxTrust": 65,
+    "expectExtractedTotal": null
+  },
+
+  "auto-equinox-quote.jpeg": {
+    "_note": "Clean digital quote (2014 Chevrolet Equinox, MasterPro control arm). Total $585.70 + Tax $38.32 extract cleanly. KEYWORDS.auto_repair MISSES 'control arm', 'ball joint', 'labor' which is what's in the OCR — vertical_mismatch fatal. FAIL despite strong field extraction. Theia should fix.",
+    "declaredVertical": "auto_repair",
+    "declaredAmount": 585.70,
+    "expectedBucket": "fail",
+    "minTrust": 50,
+    "maxTrust": 70,
+    "expectExtractedTotal": 585.70
+  },
+
+  "auto-honda-paper-photo.jpeg": {
+    "_note": "Real phone photo of paper Honda CR-V work order (highlighter on key fields, slight glare). OCR got 381 chars from a difficult image. Total $2,054.91 extracts cleanly. KEYWORDS.auto_repair MISSES 'fuel injector', 'Honda', 'CR-V' — vertical_mismatch fatal. Same bug class as equinox quote.",
+    "declaredVertical": "auto_repair",
+    "declaredAmount": 2054.91,
+    "expectedBucket": "fail",
+    "minTrust": 50,
+    "maxTrust": 70,
+    "expectExtractedTotal": 2054.91
+  },
+
+  "roofing-gaf-quote.jpeg": {
+    "_note": "FIRST PASS in the test set. GAF Timberline roof quote, $16,765.79. Strong roofing keywords (GAF, Timberline, Shingle, Roof, Ridge). Total + subtotal both extract correctly. Only signal missing is date. Trust 75 -> PASS.",
+    "declaredVertical": "roofing",
+    "declaredAmount": 16765.79,
+    "expectedBucket": "pass",
+    "minTrust": 70,
+    "expectExtractedTotal": 16765.79
+  },
+
+  "roofing-scope-doc.png": {
+    "_note": "Page 2 of 3 of a roofing scope document, $14,800 total. TOTAL_RE doesn't match 'Total Project Cost Estimate $14,800.00' (compound label bug). Vertical OK (Malarkey, shingle, roof). REVIEW.",
+    "declaredVertical": "roofing",
+    "declaredAmount": 14800,
+    "expectedBucket": "review",
+    "minTrust": 40,
+    "maxTrust": 70,
+    "expectExtractedTotal": null
+  },
+
+  "utility-water-bill.jpeg": {
+    "_note": "Edge case: city water utility bill (NOT a contractor receipt). Phone-photo of paper. OCR got 1988 chars but TOTAL_RE doesn't match 'Total Current Charges 154.17' or 'Total Due if Paid by'. Date 2025-09-15 extracts. KEYWORDS.plumbing matches 'sewer' so vertical check passes. REVIEW. The harness now records that the verifier WOULD let utility bills through if other signals were stronger — worth knowing.",
+    "declaredVertical": "plumbing",
+    "declaredAmount": 154.17,
+    "expectedBucket": "review",
+    "minTrust": 40,
+    "maxTrust": 70,
     "expectExtractedTotal": null
   }
 }
