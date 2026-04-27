@@ -26,12 +26,57 @@
       <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris" style="margin-bottom:16px;"  width="800" height="800"/></picture>
       <h1 style="font-size:48px; margin-bottom:16px;">Iris can't find this page</h1>
       <p style="font-size:18px; color:#6b7280; margin-bottom:32px;">Kind of like that line item your contractor forgot to include.</p>
+      <div id="tp-suggestion" style="display:none;margin-bottom:24px;padding:16px 20px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;">
+        <p style="margin:0 0 10px;color:#1e3a8a;font-size:14px;">Did you mean:</p>
+        <a id="tp-suggestion-link" href="/" class="btn primary" style="min-width:200px;">…</a>
+      </div>
       <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
         <a href="/analyze-my-quote.html" class="btn primary" style="min-width:200px;">Analyze a quote</a>
         <a href="/all-cities.html" class="btn secondary" style="min-width:200px;">Browse pricing guides</a>
       </div>
     </div>
   </main>
+  <script src="/js/match-engine.min.js"></script>
+  <script>
+    (function () {
+      var attempted = window.location.pathname + window.location.search;
+      try {
+        if (window.WoogoroMatch) {
+          var result = window.WoogoroMatch.match(attempted);
+          if (result.confidence >= 60 && result.matchedPage) {
+            var box = document.getElementById("tp-suggestion");
+            var link = document.getElementById("tp-suggestion-link");
+            if (box && link) {
+              var pretty = result.matchedPage
+                .replace(/^\//, "").replace(/\.html.*$/, "").replace(/[-_/]+/g, " ")
+                .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+              link.href = result.matchedPage;
+              link.textContent = pretty;
+              box.style.display = "block";
+            }
+          }
+          // Log every 404 with what the match engine thought, so the discovery
+          // cron can mine these for content gaps. Bot UAs are filtered server-side.
+          var beacon = JSON.stringify({
+            type: "404",
+            attempted: attempted,
+            referrer: document.referrer || "",
+            matchedVertical: result.vertical,
+            matchConfidence: result.confidence,
+            gapType: result.gapType,
+          });
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon("/api/analytics", beacon);
+          } else {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/api/analytics", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(beacon);
+          }
+        }
+      } catch (e) { /* fail silent */ }
+    })();
+  </script>
 
   <footer class="site-footer">
     <div class="container">

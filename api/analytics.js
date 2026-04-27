@@ -242,6 +242,48 @@ export default async function handler(req, res) {
         return res.status(200).json({ ok: true, emailStatus });
       }
 
+      if (type === "404") {
+        if (await gate(req, res, 1)) return;
+        // 404 capture for the weekly discovery cron. Same hard guards as
+        // js_error: bot filter, per-IP rate limit, daily global cap.
+        const botName = detectBot(ua);
+        if (botName) return res.status(200).json({ ok: true, skipped: "bot" });
+
+        const todayStr = new Date().toISOString().substring(0, 10);
+        const dayKey = `tp:404_count:${todayStr}`;
+        let dailyCount = 0;
+        try {
+          dailyCount = await redis.incr(dayKey);
+          if (dailyCount === 1) await redis.expire(dayKey, 26 * 3600);
+        } catch (e) { /* fail open */ }
+        if (dailyCount > 2000) return res.status(200).json({ ok: true, skipped: "daily_cap" });
+
+        const hourBucket = Math.floor(Date.now() / 3600000);
+        const ipRateKey = `tp:404_rate:${ipHash}:${hourBucket}`;
+        let ipCount = 0;
+        try {
+          ipCount = await redis.incr(ipRateKey);
+          if (ipCount === 1) await redis.expire(ipRateKey, 3700);
+        } catch (e) { /* fail open */ }
+        if (ipCount > 20) return res.status(200).json({ ok: true, skipped: "ip_rate" });
+
+        const attempted = String(data.attempted || "").substring(0, 240);
+        const referrer = String(data.referrer || "").substring(0, 240);
+        const matchedVertical = data.matchedVertical ? String(data.matchedVertical).substring(0, 30) : null;
+        const matchConfidence = Number(data.matchConfidence) || 0;
+        const gapType = data.gapType ? String(data.gapType).substring(0, 60) : null;
+
+        const geo = getGeo(req);
+        await redis.lpush("tp:404_log", JSON.stringify({
+          attempted, referrer, matchedVertical, matchConfidence, gapType,
+          ipHash, device, browser, city: geo.city, region: geo.region, country: geo.country,
+          ts: Date.now()
+        }));
+        await redis.ltrim("tp:404_log", 0, 4999);
+
+        return res.status(200).json({ ok: true });
+      }
+
       if (type === "js_error") {
         if (await gate(req, res, 1)) return;
         // Real-user error capture with 3 hard guards on Vercel cost:
