@@ -10325,7 +10325,7 @@ function buildComparisonWinnerHtml(summary) {
       const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
 
       return `
-        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+        <div class="result-card" style="max-width:800px; margin:40px auto; padding:0 24px;">
 
           <!-- Main estimate card -->
           <div style="padding:32px; background:#fff; border:2px solid #2563eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">
@@ -10496,12 +10496,12 @@ function buildComparisonWinnerHtml(summary) {
             </ul>
           </section>
 
-          <div style="text-align:center; margin:16px 0;">
+          <div style="text-align:center; margin:16px 0;" class="tp-pdf-noprint">
             <a href="/methodology.html" style="display:inline-block; padding:10px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-size:14px; font-weight:600; color:#475569; text-decoration:none;">How we calculate estimates</a>
           </div>
 
           <!-- CTAs -->
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;" class="tp-pdf-noprint">
             <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
               Upload a quote to compare
             </button>
@@ -10510,7 +10510,7 @@ function buildComparisonWinnerHtml(summary) {
             </a>
           </div>
 
-          <div style="text-align:center; margin-top:10px;">
+          <div style="text-align:center; margin-top:10px;" class="tp-pdf-noprint">
             <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>
           </div>
         </div>
