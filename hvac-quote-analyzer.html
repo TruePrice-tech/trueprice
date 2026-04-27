@@ -695,6 +695,17 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
+    // Service/repair quotes (recharge, capacitor swap, tune-up) shouldn't be
+    // compared to install benchmarks. Returns a job-type label or null.
+    function detectHvacJobType(text) {
+      var s = String(text || "").toLowerCase();
+      if (!s) return null;
+      var serviceRe = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance call\b|\bcleaning\b|\bleak repair\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac/;
+      var installRe = /\bcondenser\b|\bair handler\b|\bnew system\b|\binstall(ed|ation)?\b|\breplace\s+(?:system|unit|condenser|furnace|ac|heat pump)\b/;
+      if (serviceRe.test(s) && !installRe.test(s)) return "service";
+      return null;
+    }
+
     window.submitFeedback = function(response) {
       var fb = document.getElementById("estimateFeedback");
       if (!fb) return;
@@ -1001,10 +1012,17 @@
         var effectiveTons = tonnage || 3;
         var region = getRegionFromState(state.address.stateCode);
 
-        var benchmark = calcBenchmark(systemType.value, effectiveSeer, effectiveTons, region, "good");
+        // Detect service/repair jobs from OCR text. Install benchmarks ($5k-$15k)
+        // don't apply to a $400 capacitor swap or $600 recharge.
+        var _jobType = detectHvacJobType(text);
+        var _isService = _jobType === "service" || _jobType === "repair" || _jobType === "maintenance";
 
-        var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var benchmark = _isService ? 0 : calcBenchmark(systemType.value, effectiveSeer, effectiveTons, region, "good");
+
+        var ratio = (!_isService && confirmedPrice > 0 && benchmark > 0) ? confirmedPrice / benchmark : 1.0;
+        var verdict = _isService
+          ? { label: "Service Quote", css: "fair", emoji: "" }
+          : verdictFromRatio(ratio);
 
         // Brand tier adjustment context
         var brandNote = "";
@@ -1020,6 +1038,8 @@
           benchmark: benchmark,
           ratio: ratio,
           verdict: verdict,
+          isServiceJob: _isService,
+          jobType: _jobType,
           systemType: systemType,
           seer: seer,
           afue: afue,
