@@ -102,7 +102,12 @@
       + '.tp-em-privacy a { color:#475569; text-decoration:underline; }'
       + '.tp-em-err { font-size:13px; color:#dc2626; margin:6px 0 0; }'
       + '.tp-em-thanks { font-size:14px; color:#1e3a5f; line-height:1.5; }'
-      + '.tp-em-thanks strong { font-weight:700; }';
+      + '.tp-em-thanks strong { font-weight:700; }'
+      + '.tp-rs { display:block; background:linear-gradient(135deg,#fef9e7 0%,#fef3c7 100%); border:1px solid #fde68a; border-radius:12px; padding:18px 20px; margin:16px 0 20px; text-decoration:none; color:#1e293b; transition:transform 0.15s, box-shadow 0.15s; }'
+      + '.tp-rs:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(146,64,14,0.12); text-decoration:none; }'
+      + '.tp-rs-title { font-size:15px; font-weight:700; color:#78350f; margin:0 0 4px; }'
+      + '.tp-rs-sub { font-size:13px; color:#475569; margin:0 0 10px; line-height:1.5; }'
+      + '.tp-rs-cta { font-size:14px; font-weight:700; color:#92400e; }';
     document.head.appendChild(s);
   }
 
@@ -164,11 +169,26 @@
         + '        <input type="email" class="tp-em-input" placeholder="your@email.com" autocomplete="email" maxlength="254" />'
         + '        <button type="button" class="tp-em-btn">Notify me</button>'
         + '      </div>'
-        + '      <p class="tp-em-privacy">We never sell, share, or rent your email. See our <a href="/privacy.html#5.1-price-alert-email-notifications-opt-in" target="_blank" rel="noopener">privacy policy</a>.</p>'
+        + '      <p class="tp-em-privacy">We never sell, share, or rent your email. See our <a href="/privacy.html#5.1-saved-watch-account-notifications" target="_blank" rel="noopener">privacy policy</a>.</p>'
         + '      <div class="tp-em-err" hidden></div>'
         + '    </div>'
         + '  </div>')
       : '';
+
+    // Receipt-scan CTA: links to the beta receipt-submit flow with the
+    // current vertical pre-selected via query param. Bounces to /beta/login
+    // first if the user isn't signed in (acceptable friction in v1).
+    // submit-receipt.html uses the underscored vertical slugs from
+    // _woogoros-vertical.js (garage_door, auto_repair) — convert here.
+    var receiptVerticalSlug = (slug === 'garage-doors' || slug === 'garage-door') ? 'garage_door'
+      : (slug === 'auto-repair' || slug === 'auto') ? 'auto_repair'
+      : slug;
+    var receiptCtaHtml = ''
+      + '  <a class="tp-rs" href="/beta/submit-receipt.html?vertical=' + encodeURIComponent(receiptVerticalSlug) + '" data-rs-vertical="' + slug + '">'
+      + '    <div class="tp-rs-title">Already paid? Scan your ' + label.toLowerCase() + ' receipt</div>'
+      + '    <p class="tp-rs-sub">Mint a tiered Receipt Woogoro + your collectible vertical Woogoro. Sharpens the numbers in your area for everyone. Sign-in required (free).</p>'
+      + '    <span class="tp-rs-cta">Scan a receipt &rarr;</span>'
+      + '  </a>';
 
     var html = ''
       + '<div class="tp-result-footer" data-vertical="' + slug + '">'
@@ -202,6 +222,7 @@
       + '    </div>'
       + '  </div>'
       + emailCaptureHtml
+      + receiptCtaHtml
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
       + '    <button type="button" class="tp-action tp-action-primary" onclick="' + startOverHandler + '">'

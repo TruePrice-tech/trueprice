@@ -1,0 +1,53 @@
+{
+  "pass-hvac-clean.txt": {
+    "declaredVertical": "hvac",
+    "declaredAmount": 9175.16,
+    "expectedBucket": "pass",
+    "minTrust": 70,
+    "expectFields": { "total": 9175.16, "tax": 580.16, "subtotal": 8595 }
+  },
+  "pass-plumbing-medium.txt": {
+    "declaredVertical": "plumbing",
+    "declaredAmount": 4077.85,
+    "expectedBucket": "pass",
+    "minTrust": 70,
+    "expectFields": { "total": 4077.85 }
+  },
+  "pass-roofing-large.txt": {
+    "declaredVertical": "roofing",
+    "declaredAmount": 19321.75,
+    "expectedBucket": "pass",
+    "minTrust": 70
+  },
+  "review-thin-ocr.txt": {
+    "declaredVertical": "landscaping",
+    "declaredAmount": 650,
+    "expectedBucket": "review",
+    "maxTrust": 69,
+    "minTrust": 40
+  },
+  "fail-vertical-mismatch.txt": {
+    "declaredVertical": "plumbing",
+    "declaredAmount": 9175.16,
+    "expectedBucket": "fail",
+    "expectReason": "vertical_mismatch"
+  },
+  "fail-future-date.txt": {
+    "declaredVertical": "painting",
+    "declaredAmount": 2652.74,
+    "expectedBucket": "fail",
+    "expectReason": "date_in_future"
+  },
+  "fail-amount-mismatch.txt": {
+    "declaredVertical": "gutters",
+    "declaredAmount": 5000.00,
+    "expectedBucket": "fail",
+    "expectReason": "amount_mismatch_total"
+  },
+  "fail-too-short.txt": {
+    "declaredVertical": "hvac",
+    "declaredAmount": 250,
+    "expectedBucket": "fail",
+    "expectReason": "text_too_short"
+  }
+}

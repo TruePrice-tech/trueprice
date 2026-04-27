@@ -115,6 +115,17 @@
         sel.appendChild(o);
       });
 
+      // Pre-select vertical from ?vertical=<slug> (set by result-footer's
+      // "Scan a receipt" CTA on each vertical's result page).
+      try {
+        var qs = new URLSearchParams(window.location.search);
+        var requested = (qs.get("vertical") || "").toLowerCase();
+        if (requested) {
+          var validSlugs = VERTICALS.map(function (v) { return v[0]; });
+          if (validSlugs.indexOf(requested) >= 0) sel.value = requested;
+        }
+      } catch (_) { /* fail open — user can pick manually */ }
+
       var drop = document.getElementById("rDrop");
       var fileInput = document.getElementById("rFile");
       var thumb = document.getElementById("rThumb");
