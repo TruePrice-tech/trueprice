@@ -12,6 +12,9 @@
 //                              (real demand the site isn't serving well).
 //                              Optional: requires GSC_* env vars; cron skips
 //                              GSC silently if not configured.
+//   4. Bing Webmaster Tools — same shape as GSC (real Bing impressions,
+//                              clicks, position) over last ~6 months. Auth is
+//                              just an API key. Optional: requires BWT_API_KEY.
 //
 // Each unique attempted-URL or query is run through match-engine. The
 // engine's gapType field drives the output bucket:
@@ -30,6 +33,10 @@
 //   - GSC_CLIENT_EMAIL   service-account email
 //   - GSC_PRIVATE_KEY    RSA private key (escape \n as \\n in Vercel UI)
 //   - GSC_SITE_URL       e.g. "https://woogoro.com/" (trailing slash required)
+//
+// BWT env vars (all optional — missing = skip BWT):
+//   - BWT_API_KEY        BWT account API key (Settings → API access)
+//   - BWT_SITE_URL       defaults to https://woogoro.com if unset
 
 import { Redis } from "@upstash/redis";
 import crypto from "crypto";
@@ -100,6 +107,63 @@ async function getGscAccessToken() {
   }
 }
 
+// ---- Bing Webmaster Tools fetcher ---------------------------------------
+// API-key auth (no JWT, no OAuth, no Cloud project). Returns rows in the
+// same shape as fetchGscQueries so the aggregation code can ignore which
+// source produced a given row. Returns [] if BWT_API_KEY missing or call
+// fails — never throws.
+
+async function fetchBwtQueries() {
+  const apiKey = process.env.BWT_API_KEY;
+  if (!apiKey) return { rows: [], reason: "no_api_key" };
+  const siteUrl = process.env.BWT_SITE_URL || "https://woogoro.com";
+
+  // BWT GetQueryStats returns daily entries per query — aggregate to one row
+  // per query (sum impressions/clicks, weighted-mean position).
+  try {
+    const url = `https://ssl.bing.com/webmaster/api.svc/json/GetQueryStats?siteUrl=${encodeURIComponent(siteUrl)}&apikey=${encodeURIComponent(apiKey)}`;
+    const r = await fetch(url, { method: "GET" });
+    if (!r.ok) {
+      const text = await r.text();
+      console.error("[discovery-scan] BWT query failed:", r.status, text.slice(0, 200));
+      return { rows: [], reason: "bwt_" + r.status };
+    }
+    const data = await r.json();
+    const entries = data && Array.isArray(data.d) ? data.d : [];
+
+    // Aggregate by Query
+    const byQuery = new Map();
+    for (const e of entries) {
+      const q = e.Query || e.query;
+      if (!q) continue;
+      const impr = Number(e.Impressions || e.impressions || 0);
+      const clicks = Number(e.Clicks || e.clicks || 0);
+      const pos = Number(e.Position || e.AvgImpressionPosition || e.position || 0);
+      const cur = byQuery.get(q) || { impressions: 0, clicks: 0, weightedPos: 0 };
+      cur.impressions += impr;
+      cur.clicks += clicks;
+      cur.weightedPos += pos * impr;  // impressions-weighted average position
+      byQuery.set(q, cur);
+    }
+
+    // Convert to GSC-compatible row shape: { keys: [query], impressions, clicks, position }
+    const rows = [];
+    for (const [q, agg] of byQuery.entries()) {
+      rows.push({
+        keys: [q],
+        impressions: agg.impressions,
+        clicks: agg.clicks,
+        position: agg.impressions > 0 ? agg.weightedPos / agg.impressions : 0,
+        source: "bwt",
+      });
+    }
+    return { rows, reason: null };
+  } catch (e) {
+    console.error("[discovery-scan] BWT query error:", e.message);
+    return { rows: [], reason: "exception" };
+  }
+}
+
 async function fetchGscQueries() {
   const siteUrl = process.env.GSC_SITE_URL;
   if (!siteUrl) return { rows: [], reason: "no_site_url" };
@@ -166,9 +230,10 @@ export default async function handler(req, res) {
     .map((r) => (typeof r === "string" ? JSON.parse(r) : r))
     .filter((e) => /search|unmatched_query/i.test(e.event || ""));
 
-  // ---- 3. Pull Google Search Console queries (optional) ------------------
-  const gscResult = await fetchGscQueries();
+  // ---- 3. Pull search-console queries (GSC + BWT, both optional) ---------
+  const [gscResult, bwtResult] = await Promise.all([fetchGscQueries(), fetchBwtQueries()]);
   const gscRows = gscResult.rows;
+  const bwtRows = bwtResult.rows;
 
   // ---- 4. Aggregate -------------------------------------------------------
   // Group by attempted query (normalized). For each, count hits and run
@@ -176,19 +241,34 @@ export default async function handler(req, res) {
   // since "hit count" doesn't apply (they're query-position records).
   const counts = new Map();   // normalizedKey -> { count, attempted, normalized, gsc? }
 
-  function bump(rawAttempted, gscData) {
+  function bump(rawAttempted, searchData) {
     if (!rawAttempted) return;
     const normalized = matchEngine.normalize(rawAttempted);
     if (!normalized || normalized.length < 3) return;
     const key = normalized.toLowerCase();
     const cur = counts.get(key) || { count: 0, attempted: rawAttempted, normalized, gsc: null };
     cur.count += 1;
-    if (gscData) {
-      cur.gsc = {
-        impressions: (cur.gsc?.impressions || 0) + (gscData.impressions || 0),
-        clicks: (cur.gsc?.clicks || 0) + (gscData.clicks || 0),
-        position: gscData.position,
-      };
+    if (searchData) {
+      const newImpr = searchData.impressions || 0;
+      const newClicks = searchData.clicks || 0;
+      const newPos = searchData.position || 0;
+      const source = searchData.source || "unknown";
+      if (cur.gsc) {
+        // Combine sources (impressions-weighted average for position)
+        const totalImpr = cur.gsc.impressions + newImpr;
+        const weightedPos = (cur.gsc.position * cur.gsc.impressions) + (newPos * newImpr);
+        cur.gsc.impressions = totalImpr;
+        cur.gsc.clicks += newClicks;
+        cur.gsc.position = totalImpr > 0 ? weightedPos / totalImpr : 0;
+        if (!cur.gsc.sources.includes(source)) cur.gsc.sources.push(source);
+      } else {
+        cur.gsc = {
+          impressions: newImpr,
+          clicks: newClicks,
+          position: newPos,
+          sources: [source],
+        };
+      }
     }
     counts.set(key, cur);
   }
@@ -202,6 +282,17 @@ export default async function handler(req, res) {
       impressions: row.impressions || 0,
       clicks: row.clicks || 0,
       position: row.position || 0,
+      source: "gsc",
+    });
+  }
+  for (const row of bwtRows) {
+    const q = row.keys && row.keys[0];
+    if (!q) continue;
+    bump(q, {
+      impressions: row.impressions || 0,
+      clicks: row.clicks || 0,
+      position: row.position || 0,
+      source: "bwt",
     });
   }
 
@@ -252,6 +343,8 @@ export default async function handler(req, res) {
       searchEvents: searchEvents.length,
       gscRows: gscRows.length,
       gscReason: gscResult.reason,
+      bwtRows: bwtRows.length,
+      bwtReason: bwtResult.reason,
     },
     totalUniqueQueries: totalScanned,
     totalHits,
@@ -283,16 +376,30 @@ export default async function handler(req, res) {
         <td style="padding:6px 12px 6px 0;font-size:11px;"><a href="https://woogoro.com${escape(q.matchedPage || "/")}">${escape(q.matchedPage || "?")}</a></td>
       </tr>`).join("");
 
+      const sourceLabel = (sources) => {
+        if (!sources || sources.length === 0) return "—";
+        if (sources.includes("gsc") && sources.includes("bwt")) return "G+B";
+        if (sources.includes("gsc")) return "G";
+        if (sources.includes("bwt")) return "B";
+        return "?";
+      };
+
       const gscRowsHtml = gscOpportunities.slice(0, 15).map((q) => `<tr>
         <td style="padding:6px 12px 6px 0;font-family:monospace;font-size:12px;">${escape(q.query)}</td>
         <td style="padding:6px 12px 6px 0;">${escape(q.vertical || "—")}</td>
+        <td style="padding:6px 12px 6px 0;text-align:center;font-size:11px;color:#64748b;">${sourceLabel(q.gsc?.sources)}</td>
         <td style="padding:6px 12px 6px 0;text-align:right;font-weight:600;">${q.gsc?.impressions || 0}</td>
         <td style="padding:6px 12px 6px 0;text-align:right;color:${(q.gsc?.clicks || 0) === 0 ? "#b91c1c" : "#1e293b"};">${q.gsc?.clicks || 0}</td>
         <td style="padding:6px 12px 6px 0;text-align:right;">${q.gsc?.position ? q.gsc.position.toFixed(1) : "—"}</td>
         <td style="padding:6px 12px 6px 0;font-size:11px;">${q.matchedPage ? `<a href="https://woogoro.com${escape(q.matchedPage)}">${escape(q.matchedPage)}</a>` : "<em>no page</em>"}</td>
       </tr>`).join("");
 
-      const sourcesLine = `404 log: ${events404.length}, search events: ${searchEvents.length}, GSC queries: ${gscRows.length}${gscResult.reason ? ` (skipped: ${gscResult.reason})` : ""}`;
+      const sourcesLine = [
+        `404 log: ${events404.length}`,
+        `site events: ${searchEvents.length}`,
+        `GSC: ${gscRows.length}${gscResult.reason ? " (skipped: " + gscResult.reason + ")" : ""}`,
+        `BWT: ${bwtRows.length}${bwtResult.reason ? " (skipped: " + bwtResult.reason + ")" : ""}`,
+      ].join(", ");
 
       try {
         const r = await fetch("https://api.resend.com/emails", {
@@ -308,12 +415,13 @@ export default async function handler(req, res) {
               <p style="color:#94a3b8;font-size:12px;margin:0 0 16px;">Sources — ${sourcesLine}</p>
 
               ${gscOpportunities.length > 0 ? `
-              <h3 style="margin:20px 0 8px;color:#7c2d12;">GSC opportunities (${gscOpportunities.length})</h3>
-              <p style="color:#475569;font-size:12px;margin:0 0 8px;">Real Google impressions but few/no clicks — meaning Woogoro is showing in results but not winning the click. These are the highest-leverage gaps: real demand the site isn't serving well. Filter: 50+ impressions, 0 clicks OR average position > 10.</p>
+              <h3 style="margin:20px 0 8px;color:#7c2d12;">Search opportunities (${gscOpportunities.length})</h3>
+              <p style="color:#475569;font-size:12px;margin:0 0 8px;">Real impressions but few/no clicks — Woogoro is showing in results but not winning. Highest-leverage gaps. Filter: 50+ impressions, 0 clicks OR average position > 10. Source code: G = Google Search Console, B = Bing Webmaster Tools, G+B = both.</p>
               <table style="font-size:13px;border-collapse:collapse;width:100%;">
                 <thead><tr style="border-bottom:2px solid #e2e8f0;">
                   <th style="padding:8px 12px 8px 0;text-align:left;">Query</th>
                   <th style="padding:8px 12px 8px 0;text-align:left;">Vertical</th>
+                  <th style="padding:8px 12px 8px 0;text-align:center;">Src</th>
                   <th style="padding:8px 12px 8px 0;text-align:right;">Impr.</th>
                   <th style="padding:8px 12px 8px 0;text-align:right;">Clicks</th>
                   <th style="padding:8px 12px 8px 0;text-align:right;">Avg Pos</th>
