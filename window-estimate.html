@@ -1127,7 +1127,7 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       };
 
-      window.__tpResultContext = { city: state.address.city, stateCode: state.address.stateCode, result: state.result };
+      window.__tpResultContext = { city: wState.address.city, stateCode: wState.address.stateCode, result: wState.result };
       if (window.tpRenderResultFooter) {
         appRoot.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
           vertical: "windows",
