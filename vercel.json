@@ -5,8 +5,24 @@
       "schedule": "0 9 * * *"
     },
     {
+      "path": "/api/pricing-event-scan",
+      "schedule": "0 11 * * *"
+    },
+    {
+      "path": "/api/vertical-health",
+      "schedule": "0 12 * * 1"
+    },
+    {
       "path": "/api/pricing-drift-check",
       "schedule": "0 13 * * 1"
+    },
+    {
+      "path": "/api/cron-heartbeat",
+      "schedule": "0 15 * * *"
+    },
+    {
+      "path": "/api/flywheel-integrity",
+      "schedule": "0 16 1 * *"
     },
     {
       "path": "/api/email-digest-cron",
@@ -88,6 +104,21 @@
     },
     "api/email-digest-cron.js": {
       "maxDuration": 60
+    },
+    "api/cron-heartbeat.js": {
+      "maxDuration": 30
+    },
+    "api/vertical-health.js": {
+      "maxDuration": 60
+    },
+    "api/flywheel-integrity.js": {
+      "maxDuration": 60
+    },
+    "api/pricing-event-scan.js": {
+      "maxDuration": 60
+    },
+    "api/pricing-events-active.js": {
+      "maxDuration": 5
     }
   },
   "headers": [

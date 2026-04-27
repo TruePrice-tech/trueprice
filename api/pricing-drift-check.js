@@ -234,6 +234,10 @@ export default async function handler(req, res) {
       }
     }
 
+    if (!dryRun) {
+      await redis.set("tp:cron_run:pricing-drift-check", new Date().toISOString());
+    }
+
     return res.status(200).json({
       ok: true,
       ...report,

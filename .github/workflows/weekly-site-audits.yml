@@ -1,0 +1,104 @@
+name: Weekly Site Audits
+
+# Runs the five existing audit scripts every Sunday at 03:00 UTC and emails
+# a single summary to hello@woogoro.com. Each audit runs with continue-on-error
+# so one failure does not mask the others. Output is captured per-audit and
+# included verbatim in the digest email.
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Sitemap drift
+        id: sitemap
+        continue-on-error: true
+        run: node scripts/_audit-sitemap-drift.js 2>&1 | tee /tmp/audit-sitemap.log
+
+      - name: Broken internal links
+        id: links
+        continue-on-error: true
+        run: node scripts/_audit-broken-links.js 2>&1 | tee /tmp/audit-links.log
+
+      - name: Stub spot-check (puppeteer)
+        id: stubs
+        continue-on-error: true
+        run: node scripts/_audit-stub-spot-check.js 2>&1 | tee /tmp/audit-stubs.log
+
+      - name: Runtime stability (puppeteer)
+        id: runtime
+        continue-on-error: true
+        run: node scripts/_audit-runtime.js 2>&1 | tee /tmp/audit-runtime.log
+
+      - name: Uniqueness (Google-aligned)
+        id: unique
+        continue-on-error: true
+        run: node scripts/audit-uniqueness-google.js 2>&1 | tee /tmp/audit-unique.log
+
+      - name: Email digest
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const files = [
+            ['Sitemap drift',        '/tmp/audit-sitemap.log',  '${{ steps.sitemap.outcome }}'],
+            ['Broken links',         '/tmp/audit-links.log',    '${{ steps.links.outcome }}'],
+            ['Stub spot-check',      '/tmp/audit-stubs.log',    '${{ steps.stubs.outcome }}'],
+            ['Runtime stability',    '/tmp/audit-runtime.log',  '${{ steps.runtime.outcome }}'],
+            ['Uniqueness',           '/tmp/audit-unique.log',   '${{ steps.unique.outcome }}'],
+          ];
+          const failed = files.filter(f => f[2] === 'failure').length;
+          const today = new Date().toISOString().substring(0, 10);
+          const sections = files.map(([name, file, outcome]) => {
+            let log = '';
+            try { log = fs.readFileSync(file, 'utf8').slice(-6000); } catch { log = '(no output)'; }
+            const color = outcome === 'failure' ? '#b91c1c' : '#16a34a';
+            const label = outcome === 'failure' ? 'FAIL' : 'OK';
+            return `<h3 style="color:${color};margin:20px 0 4px;">${label} — ${name}</h3>
+              <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;overflow:auto;max-height:400px;white-space:pre-wrap;">${log.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>`;
+          }).join('');
+          const subject = failed > 0
+            ? `[Woogoro] ${failed} weekly audit failure${failed === 1 ? '' : 's'} — ${today}`
+            : `[Woogoro] Weekly audits all green — ${today}`;
+          const html = `<div style="font-family:sans-serif;max-width:900px;padding:20px;">
+            <h2 style="margin:0 0 8px;">Weekly site audits — ${today}</h2>
+            <p style="color:#475569;font-size:14px;margin:0;">${failed} of ${files.length} audits failed. Logs below (last 6KB each).</p>
+            ${sections}
+          </div>`;
+          if (!process.env.RESEND_API_KEY) {
+            console.error('RESEND_API_KEY not set — skipping email');
+            process.exit(0);
+          }
+          const r = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + process.env.RESEND_API_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: 'Woogoro Audits <noreply@woogoro.com>',
+              to: ['hello@woogoro.com'],
+              subject,
+              html,
+            }),
+          });
+          if (!r.ok) {
+            console.error('Resend error:', r.status, await r.text());
+            process.exit(1);
+          }
+          console.log('Audit digest emailed.');
+          EOF

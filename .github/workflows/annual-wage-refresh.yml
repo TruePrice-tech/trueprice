@@ -1,0 +1,105 @@
+name: Annual Wage Refresh Reminder
+
+# BLS OEWS data drops once per year (typically late Q1). The input file URL
+# changes each cycle, so this can't fully self-serve — a human needs to
+# download the new MSA_MYYYY_dl.xlsx into data/bls/oesmYY/oesmYYma/ before
+# running. This workflow opens a tracking Issue every April 15 with the
+# checklist + run instructions, and a workflow_dispatch path that runs the
+# extraction + multiplier rebuild and opens a PR for review.
+
+on:
+  schedule:
+    - cron: '0 14 15 4 *'   # Apr 15, 14:00 UTC, every year
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'reminder = open issue only. rebuild = run extraction + open PR (requires fresh BLS xlsx already in repo)'
+        required: true
+        default: 'reminder'
+        type: choice
+        options:
+          - reminder
+          - rebuild
+
+jobs:
+  open-reminder:
+    if: github.event_name == 'schedule' || github.event.inputs.mode == 'reminder'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Open tracking issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const year = new Date().getUTCFullYear();
+            const title = `Annual wage + RPP refresh due (${year})`;
+            const body = [
+              `Time for the yearly city-cost-multipliers rebuild.`,
+              ``,
+              `## Checklist`,
+              `- [ ] Download latest BLS OEWS metro file (MSA_M${year}_dl.xlsx) from https://www.bls.gov/oes/tables.htm`,
+              `- [ ] Drop into \`data/bls/oesm${String(year).slice(-2)}/oesm${String(year).slice(-2)}ma/\``,
+              `- [ ] Update INPUT path in \`scripts/extract-bls-wages.js\` if directory naming changed`,
+              `- [ ] Refresh BEA RPP figures (https://apps.bea.gov/regional/downloadzip.cfm) if new release available`,
+              `- [ ] Run the "Annual Wage Refresh Reminder" workflow with mode=rebuild — opens a PR for review`,
+              `- [ ] Verify city-cost-multipliers.json diff is sane before merging`,
+              ``,
+              `## Why a PR not a commit`,
+              `City multipliers feed every vertical's pricing model. A bad refresh silently corrupts pricing across 8,956 city pages. Always review the diff.`,
+            ].join('\n');
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'wage-refresh',
+              state: 'open',
+            });
+            if (existing.length > 0) {
+              console.log('Tracking issue already open: ' + existing[0].html_url);
+              return;
+            }
+            const r = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['wage-refresh'],
+            });
+            console.log('Opened: ' + r.data.html_url);
+
+  rebuild-and-pr:
+    if: github.event.inputs.mode == 'rebuild'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install xlsx
+        run: npm install --no-save xlsx@0.18.5
+
+      - name: Extract BLS wages
+        run: node scripts/extract-bls-wages.js
+
+      - name: Build blended multipliers
+        run: node scripts/build-blended-multipliers.js
+
+      - name: Build city multipliers
+        run: node scripts/build-city-multipliers.js
+
+      - name: Open PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: annual-wage-refresh-${{ github.run_number }}
+          title: Annual wage refresh (rebuilt city multipliers)
+          body: |
+            Automated rebuild of trade-wages-by-metro.json, blended-multipliers.json, and city-cost-multipliers.json from the freshly-checked-in BLS OEWS xlsx and current BEA RPP.
+
+            **Review carefully — these files feed every vertical's pricing model.** Diff against last year's file should show modest drift, not wholesale rewrites.
+          labels: wage-refresh,automated
+          add-paths: |
+            data/trade-wages-by-metro.json
+            data/blended-multipliers.json
+            data/city-cost-multipliers.json

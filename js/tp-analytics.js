@@ -68,4 +68,13 @@
 
   window.addEventListener("pagehide", sendDuration);
   window.addEventListener("beforeunload", sendDuration);
+
+  // Pricing-event banner: lazy-load on every page so site-wide and per-vertical
+  // disruption events surface without per-page wiring.
+  try {
+    var bannerScript = document.createElement("script");
+    bannerScript.src = "/js/pricing-event-banner.min.js";
+    bannerScript.async = true;
+    (document.head || document.documentElement).appendChild(bannerScript);
+  } catch(e) {}
 })();

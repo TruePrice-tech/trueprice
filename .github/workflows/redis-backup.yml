@@ -1,0 +1,95 @@
+name: Weekly Redis Backup
+
+# Snapshots all flywheel-critical Upstash keys to a JSON file and stores it
+# as a workflow artifact (90-day retention). Single point of failure today is
+# Upstash — if the database is wiped or corrupted, we lose tp:total_quotes,
+# every cal:* bucket, and all calibration history. Cheap insurance.
+#
+# Restore path: download the latest artifact, run scripts/restore-redis.js
+# (write that when needed — not a tested code path until disaster strikes).
+
+on:
+  schedule:
+    - cron: '0 4 * * 0'  # Sunday 04:00 UTC
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Upstash client
+        run: npm install --no-save @upstash/redis@1.37.0
+
+      - name: Snapshot Redis
+        env:
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const { Redis } = require('@upstash/redis');
+          const redis = Redis.fromEnv();
+
+          // Match patterns we want to back up. Skip per-quote and rate-limit
+          // keys (huge volume, regenerable) and ephemeral session keys.
+          const PATTERNS = [
+            'tp:total_quotes',
+            'tp:counter_history',
+            'tp:cron_run:*',
+            'tp:drift_history:*',
+            'tp:drift_report:*',
+            'tp:price_event:*',
+            'tp:price_event_active',
+            'tp:vertical_health:*',
+            'tp:flywheel_integrity:*',
+            'cal:*',
+          ];
+
+          const snapshot = {};
+          let totalKeys = 0;
+
+          for (const pattern of PATTERNS) {
+            if (!pattern.includes('*')) {
+              const v = await redis.get(pattern);
+              if (v !== null && v !== undefined) {
+                snapshot[pattern] = { type: 'string', value: v };
+                totalKeys++;
+              }
+              continue;
+            }
+            let cursor = 0;
+            do {
+              const [next, batch] = await redis.scan(cursor, { match: pattern, count: 500 });
+              cursor = Number(next);
+              for (const k of batch) {
+                const type = await redis.type(k);
+                let value;
+                if (type === 'string') value = await redis.get(k);
+                else if (type === 'list') value = await redis.lrange(k, 0, -1);
+                else if (type === 'set') value = await redis.smembers(k);
+                else if (type === 'hash') value = await redis.hgetall(k);
+                else if (type === 'zset') value = await redis.zrange(k, 0, -1, { withScores: true });
+                else continue;
+                snapshot[k] = { type, value };
+                totalKeys++;
+              }
+            } while (cursor !== 0);
+          }
+
+          const date = new Date().toISOString().substring(0, 10);
+          const out = { date, totalKeys, patterns: PATTERNS, data: snapshot };
+          fs.mkdirSync('backup', { recursive: true });
+          fs.writeFileSync(`backup/redis-${date}.json`, JSON.stringify(out));
+          console.log(`Backed up ${totalKeys} keys (${(fs.statSync(`backup/redis-${date}.json`).size / 1024).toFixed(1)} KB)`);
+          EOF
+
+      - name: Upload backup
+        uses: actions/upload-artifact@v4
+        with:
+          name: redis-backup-${{ github.run_id }}
+          path: backup/*.json
+          retention-days: 90

@@ -190,5 +190,9 @@ export default async function handler(req, res) {
     } catch { /* swallow */ }
   }
 
+  if (!dryRun) {
+    await redis.set("tp:cron_run:email-digest-cron", new Date().toISOString());
+  }
+
   return res.status(200).json({ ok: true, ...summary });
 }

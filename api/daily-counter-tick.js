@@ -56,6 +56,8 @@ export default async function handler(req, res) {
       growth30d = current - oldest.count;
     }
 
+    await redis.set("tp:cron_run:daily-counter-tick", new Date().toISOString());
+
     return res.status(200).json({
       ok: true,
       current,
