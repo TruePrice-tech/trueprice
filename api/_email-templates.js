@@ -4,8 +4,42 @@
 const SITE_ORIGIN = "https://woogoro.com";
 const IRIS_HEADSHOT = `${SITE_ORIGIN}/images/Iris/Iris-laurel-seal-180.png`;
 
+// Display names per service slug. Falls through to title case for unknowns.
+// Industry acronyms stay uppercase; multi-word slugs get spacing.
+const SERVICE_DISPLAY_NAMES = {
+  hvac: "HVAC",
+  plumbing: "Plumbing",
+  electrical: "Electrical",
+  foundation: "Foundation Repair",
+  concrete: "Concrete",
+  fencing: "Fencing",
+  fence: "Fencing",
+  "garage-door": "Garage Door",
+  landscaping: "Landscaping",
+  insulation: "Insulation",
+  painting: "Painting",
+  kitchen: "Kitchen Remodel",
+  gutters: "Gutters",
+  gutter: "Gutters",
+  siding: "Siding",
+  windows: "Windows",
+  window: "Windows",
+  solar: "Solar",
+  roofing: "Roofing",
+  roof: "Roofing",
+  moving: "Moving",
+  medical: "Medical Bill",
+  "medical-bill": "Medical Bill",
+  legal: "Legal Fee",
+  "legal-fee": "Legal Fee",
+  auto: "Auto Repair",
+  "auto-repair": "Auto Repair",
+};
+
 function titleCaseService(service) {
-  return String(service || "")
+  const slug = String(service || "").toLowerCase().trim();
+  if (SERVICE_DISPLAY_NAMES[slug]) return SERVICE_DISPLAY_NAMES[slug];
+  return slug
     .replace(/[-_]/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }

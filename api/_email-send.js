@@ -49,18 +49,32 @@ function postalAddress() {
 function complianceFooter(emailHash) {
   const addr = postalAddress();
   const unsub = unsubscribeUrl(emailHash);
-  const addrHtml = addr
-    ? addr
-        .split(/\r?\n/)
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .join("<br>")
-    : "";
+  // Vercel's env editor flattens newlines to spaces. Insert breaks before
+  // street-style tokens so single-line input still renders as a 2-3 line block.
+  let addrHtml = "";
+  if (addr) {
+    const lines = addr.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+    if (lines.length > 1) {
+      addrHtml = lines.map(escapeHtml).join("<br>");
+    } else {
+      // Heuristic split: "Woogoro LLC, 17064 Laurelmont Court, Fort Mill, SC 29707"
+      // or the same string with spaces. Break on commas first.
+      const flat = lines[0];
+      const parts = flat.includes(",")
+        ? flat.split(",").map((s) => s.trim()).filter(Boolean)
+        : [flat];
+      addrHtml = parts.map(escapeHtml).join("<br>");
+    }
+  }
   return `<div style="margin-top:32px;padding-top:20px;border-top:1px solid #e2e8f0;color:#94a3b8;font-size:12px;font-family:sans-serif;line-height:1.6;">
     <p style="margin:0 0 8px;">You're getting this because you opted in to price updates at woogoro.com.</p>
     <p style="margin:0 0 8px;"><a href="${unsub}" style="color:#64748b;text-decoration:underline;">Unsubscribe</a> &middot; <a href="${SITE_ORIGIN}/privacy.html" style="color:#64748b;text-decoration:underline;">Privacy</a></p>
-    ${addrHtml ? `<p style="margin:0;color:#94a3b8;">Woogoro<br>${addrHtml}</p>` : ""}
+    ${addrHtml ? `<p style="margin:0;color:#94a3b8;">${addrHtml}</p>` : ""}
   </div>`;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
 // Send one email through Resend with compliance shell applied.
