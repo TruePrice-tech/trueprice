@@ -86,6 +86,7 @@ export default async function handler(req, res) {
   return res.status(200).json({
     authenticated: true,
     beta: !!user.isBeta,
+    canRedeem: !!user.canRedeem,
     user: {
       email: user.email,
       createdAt: user.createdAt,

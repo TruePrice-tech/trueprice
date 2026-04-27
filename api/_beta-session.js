@@ -83,7 +83,14 @@ export async function ensureUserRecord(email) {
     userId: newUserId(),
     email: normalizeEmail(email),
     emailHash: eh,
-    isBeta: false,
+    // Open beta as of 2026-04-27: every new account can sign in, view burrow,
+    // submit receipts, earn Woogoros, and cash in to Woo Cash.
+    isBeta: true,
+    // Redemption (Printful merch fulfillment, real-money exposure) starts
+    // gated. Admin promotes per-user via beta-admin once submission patterns
+    // look legitimate — or globally flip the default if Lane decides to open
+    // redemption to everyone after watching real-world fraud patterns.
+    canRedeem: false,
     ageVerified: false,
     createdAt: nowMs(),
     lastSeen: nowMs(),

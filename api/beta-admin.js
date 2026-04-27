@@ -99,6 +99,21 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, user: updated });
     }
 
+    if (op === "set_redeem" || op === "unset_redeem") {
+      // Per-user redemption gate (open-beta soft launch). Promote a user
+      // to canRedeem:true once their submission patterns look legitimate.
+      // unset_redeem reverses it (e.g., on suspected fraud).
+      if (!isValidEmail(body.email)) return res.status(400).json({ error: "Bad email" });
+      const user = await getUserByEmail(body.email);
+      if (!user) return res.status(404).json({ error: "User not found" });
+      const updated = await updateUser(user.userId, {
+        canRedeem: op === "set_redeem",
+        canRedeemSetAt: Date.now(),
+        canRedeemSource: "admin",
+      });
+      return res.status(200).json({ ok: true, user: updated });
+    }
+
     if (op === "fetch_magic_link") {
       if (!isValidEmail(body.email)) return res.status(400).json({ error: "Bad email" });
       const eh = hashEmail(body.email);

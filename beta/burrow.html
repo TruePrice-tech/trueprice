@@ -626,8 +626,14 @@
           '<div class="bw-actions">' +
             '<a class="bw-action" href="/beta/submit-receipt.html">Submit a receipt<small>500&ndash;5,000 Woo by tier &bull; ' + caps.receipt.used + '/' + caps.receipt.cap + ' this week</small></a>' +
             '<a class="bw-action alt" href="/beta/submit-quote.html">Submit a quote<small>+100 Woo &bull; ' + caps.quote.used + '/' + caps.quote.cap + ' this week</small></a>' +
-            '<a class="bw-action gold" href="/beta/redeem.html">Redeem Woo Cash<small>Merch &mdash; gift cards soon</small></a>' +
+            (state.canRedeem
+              ? '<a class="bw-action gold" href="/beta/redeem.html">Redeem Woo Cash<small>Merch &mdash; gift cards soon</small></a>'
+              : '<span class="bw-action" style="opacity:.65;cursor:not-allowed;background:#f1f5f9;color:#64748b;border-color:#e2e8f0;" title="Redemption unlocks once your account is verified.">Redeem Woo Cash<small>Unlocks after verification</small></span>') +
           '</div>' +
+          (state.canRedeem ? '' :
+            '<div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 14px;margin:0 0 16px;font-size:13px;color:#1e3a8a;line-height:1.5;">' +
+              '<strong>Redemption pending verification.</strong> You can earn Woogoros, cash in for Woo Cash, and watch it grow now. Merch redemption unlocks once your submission patterns are reviewed. Want priority? Reply to any Woogoro email or write <a href="mailto:hello@woogoro.com" style="color:#1e3a8a;">hello@woogoro.com</a>.' +
+            '</div>') +
           '<div class="bw-grid">' +
             '<div class="bw-stat">' +
               '<div class="bw-stat-label">Woo Cash</div>' +

@@ -54,6 +54,18 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
+  // Redemption gate (open-beta soft launch, 2026-04-27). Receipt submit /
+  // Woogoros earn / cash-in to Woo Cash all work for any beta user; only
+  // converting Woo Cash to fulfilled merch is gated. Promote per-user via
+  // beta-admin once submission patterns look legitimate.
+  if (!user.canRedeem) {
+    return res.status(403).json({
+      error: "Redemption is not enabled on your account yet.",
+      reason: "redemption_gate",
+      detail: "Your account can earn and hold Woo Cash. Redemption for merch unlocks after your submissions are verified. Reply to a Woogoro email or write hello@woogoro.com if you'd like to be considered for early redemption.",
+    });
+  }
+
   let body;
   try {
     body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
