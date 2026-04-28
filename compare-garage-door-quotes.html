@@ -368,6 +368,23 @@
       TP_Engine.analyzeQuote(file, { vertical: "garage-door", apiEndpoint: "/api/garage-door-estimate" }).then(function(engineResult) {
         var _engOcrText = engineResult.ocrText || "";
         var regexPrice = engineResult.price || 0;
+        // Garage-door price sanity guard: garage door totals are virtually
+        // never above $15K. The shared engine can grab LiftMaster opener
+        // model numbers (84501, 84505, 8500, etc.) as 5-digit "prices".
+        // Re-scan for $-prefixed plausible totals if the engine price
+        // looks implausible.
+        if (regexPrice > 15000) {
+          var _dm = _engOcrText.match(/\$\s*[\d,]+(?:\.\d{2})?/g) || [];
+          var _plausible = _dm
+            .map(function(p) { return parseFloat(p.replace(/[$\s,]/g, "")); })
+            .filter(function(v) { return v >= 100 && v <= 15000; });
+          if (_plausible.length) {
+            _plausible.sort(function(a, b) { return b - a; });
+            regexPrice = _plausible[0];
+          } else {
+            regexPrice = 0;
+          }
+        }
         if (regexPrice > 0) {
           var api = { totalPrice: regexPrice, _source: "regex" };
           if (engineResult.contractor) api.contractor = engineResult.contractor;
@@ -478,16 +495,23 @@
         }
 
     function scoreQuote(q, all) {
-      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
+      // Scope 40%, Price 30%, Transparency 10%, Red Flags up to -15%.
+      // The previous price band (5-40) over-weighted bargain pricing
+      // and over-punished premium quotes: a 9/10-scope $3,700 quote
+      // could score below a 5/10-scope $1,420 quote because the price
+      // penalty (-23pts) exceeded the scope gain (+16pts). Tightening
+      // the price band to 5-30 + nudging suspicious-low to 15 pts so
+      // that comprehensive-but-pricey ranks above bargain-with-gaps.
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 20; // suspiciously low
-        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
-        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
-      } else if (q.price > 0) priceScore = 20;
+        if (ratio < 0.6) priceScore = 15; // suspiciously low — likely missing scope
+        else if (ratio <= 1) priceScore = 25 + (1 - ratio) * 12.5; // 25..30
+        else if (ratio <= 1.5) priceScore = 25 - (ratio - 1) * 20; // 25..15
+        else priceScore = Math.max(5, 15 - (ratio - 1.5) * 10);
+      } else if (q.price > 0) priceScore = 18;
       else priceScore = 0; // no price = can't evaluate
 
       var confirmed = 0;

@@ -502,28 +502,50 @@
       return null;
     }
 
-    // Detect scope signals from text
+    // Detect scope signals from text. A scope match is downgraded to
+    // "excluded" when its line contains a negation token (NOT included,
+    // not provided, excludes, etc.) or when the substring is preceded
+    // by an "un" prefix (uninsulated). Without this, a Valley-Discount-
+    // style "Weather seal NOT included" line was rendering as
+    // "✓ Weatherstripping included".
     function detectGdScopeSignals(text) {
-      var t = (text || "").toLowerCase();
+      var raw = text || "";
+      var t = raw.toLowerCase();
+      var lines = t.split(/\r?\n/);
       var signals = {};
       var checks = {
-        oldDoorRemoval: /remov|dispos|haul\s*away|tear\s*out|old\s*door/,
-        tracks: /track|rail|hardware/,
-        springs: /spring|torsion|extension/,
-        opener: /opener|motor|lift\s*master|chamberlain|genie/,
-        remotes: /remote|transmitter|clicker/,
-        weatherstripping: /weather\s*strip|seal|bottom\s*seal|threshold/,
-        insulation: /insul|r[\s-]*value|polyurethane|polystyrene/,
-        safetySensors: /sensor|safety|auto[\s-]*reverse|photo[\s-]*eye/,
-        keypad: /keypad|keyless|wireless\s*entry/,
-        warranty: /warrant|guarant/,
-        permits: /permit|inspect|code\s*compliance/
+        oldDoorRemoval: /\b(remov|dispos|haul\s*away|haul[- ]?off|tear\s*out|old\s*door)\b/,
+        tracks: /\b(track|rail|hardware)\b/,
+        springs: /\b(spring|torsion|extension)\b/,
+        opener: /\b(opener|motor|lift\s*master|chamberlain|genie)\b/,
+        remotes: /\b(remote|transmitter|clicker)\b/,
+        weatherstripping: /\b(weather\s*strip|weather\s*seal|bottom\s*seal|threshold)\b/,
+        insulation: /\b(r[\s-]?value|polyurethane|polystyrene|insulated|insulation)\b/,
+        safetySensors: /\b(safety\s*sensor|photo[\s-]?eye|auto[\s-]?reverse)\b/,
+        keypad: /\b(keypad|keyless|wireless\s*entry)\b/,
+        warranty: /\b(warrant|guarant)\b/,
+        permits: /\b(permit|code\s*compliance)\b/
       };
-      for (var key in checks) {
-        if (checks[key].test(t)) {
+      var negationRe = /\b(not\s*included|not\s*provided|excludes?|excluded|n\/?a|no\s+(weather|warranty|permit|opener|spring|track|insulation)|no\s+sensor|no\s+keypad)\b/i;
+      var antiInsulRe = /\b(uninsulated|un\s*insulated|non[- ]?insulated)\b/i;
+      Object.keys(checks).forEach(function(key) {
+        var re = checks[key];
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          if (!re.test(line)) continue;
+          // Insulation-specific anti-pattern: explicit "uninsulated" cancels the match.
+          if (key === "insulation" && antiInsulRe.test(line)) {
+            signals[key] = { status: "excluded" };
+            return;
+          }
+          if (negationRe.test(line)) {
+            signals[key] = { status: "excluded" };
+            return;
+          }
           signals[key] = { status: "included" };
+          return;
         }
-      }
+      });
       return signals;
     }
 
@@ -1137,15 +1159,25 @@
         rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
       }
 
+      // Service-type flags drive what details/scope/copy are relevant.
+      // For opener_only and spring_replacement, door-replacement detail
+      // rows (Material, Opener Included/Not) are misleading and were
+      // showing up incorrectly (e.g., spring quote saying "OPENER: Not
+      // included" though no opener question was ever asked).
+      var stKey = r.serviceType && r.serviceType.value;
+      var isDoorJob = stKey === "single_car" || stKey === "double_car" || stKey === "custom_carriage";
+      var isOpenerJob = stKey === "opener_only";
+      var isSpringJob = stKey === "spring_replacement";
+
       // Build details
       var detailsHtml = '<div class="gd-details">';
       detailsHtml += '<div class="gd-detail"><div class="label">Service Type</div><div class="value">' + r.serviceType.label + '</div></div>';
 
-      if (r.material) {
+      if (isDoorJob && r.material) {
         var matLabel = typeof r.material === "object" ? r.material.label : r.material;
         detailsHtml += '<div class="gd-detail"><div class="label">Material</div><div class="value">' + matLabel + '</div></div>';
       }
-      if (r.includesOpener) {
+      if (isDoorJob && r.includesOpener) {
         var openerLabels = { yes: "Included", no: "Not included", already: "Existing opener" };
         detailsHtml += '<div class="gd-detail"><div class="label">Opener</div><div class="value">' + (openerLabels[r.includesOpener] || r.includesOpener) + '</div></div>';
       }
@@ -1180,18 +1212,31 @@
         scopeHtml += '</div>';
       }
 
-      // Estimator scope info
+      // Estimator scope info — tailored per service type. Door
+      // replacement, opener swap, and spring replacement each include a
+      // very different set of items; a single hardcoded list misled
+      // users on the spring/opener paths.
       if (!isUpload) {
         scopeHtml = '<div class="gd-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="gd-scope">';
-        var typicalItems = ["oldDoorRemoval", "tracks", "springs", "weatherstripping", "safetySensors", "warranty"];
-        if (r.includesOpener === "yes") typicalItems.splice(3, 0, "opener", "remotes");
+        var typicalItems;
+        var assumesNote = "Estimate assumes standard installation. Custom framing, electrical work, or structural modifications may add cost.";
+        if (isSpringJob) {
+          typicalItems = ["springs", "warranty"];
+          assumesNote = "Estimate assumes standard torsion-spring replacement on a residential door. Doubles the spring count if your door uses a pair (recommended).";
+        } else if (isOpenerJob) {
+          typicalItems = ["opener", "remotes", "safetySensors", "warranty"];
+          assumesNote = "Estimate assumes a chain or belt-drive replacement opener installed on existing door, tracks, and springs.";
+        } else {
+          typicalItems = ["oldDoorRemoval", "tracks", "springs", "weatherstripping", "safetySensors", "warranty"];
+          if (r.includesOpener === "yes") typicalItems.splice(3, 0, "opener", "remotes");
+        }
         typicalItems.forEach(function(key) {
           var item = GD_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Custom framing, electrical work, or structural modifications may add cost.</p></div>';
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + assumesNote + '</p></div>';
       }
 
       // Market context
@@ -1208,32 +1253,64 @@
         contextHtml = '<div class="gd-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
-      // Next Steps tips
+      // Next Steps tips — tailored per service type so spring/opener
+      // jobs don't get door-replacement-flavored advice (R-value,
+      // tracks-and-hardware reuse, etc.).
       var tipsHtml = '<div class="gd-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      tipsHtml += '<li>Ask if the quote includes removal and disposal of the old door</li>';
-      tipsHtml += '<li>Confirm whether new tracks and hardware are included or if old ones will be reused</li>';
-      tipsHtml += '<li>Verify the warranty covers both parts AND labor (many only cover parts)</li>';
-      tipsHtml += '<li>Ask about insulation R-value if energy efficiency matters to you</li>';
+      if (isSpringJob) {
+        tipsHtml += '<li>Confirm both springs are being replaced (the unbroken spring is usually within months of failing)</li>';
+        tipsHtml += '<li>Ask whether the springs are torsion (preferred, longer-lived, quieter) or extension type</li>';
+        tipsHtml += '<li>Ask the cycle rating &mdash; standard 10,000 cycles vs high-cycle 20,000+</li>';
+        tipsHtml += '<li>Verify a labor warranty (1&ndash;2 years minimum) on the replacement</li>';
+        tipsHtml += '<li>Confirm the installer carries liability insurance &mdash; spring tension is dangerous</li>';
+      } else if (isOpenerJob) {
+        tipsHtml += '<li>Confirm photoelectric safety sensors (UL 325 federal requirement) are included</li>';
+        tipsHtml += '<li>Ask for opener brand, drive type (chain/belt/jackshaft), and HP rating in writing</li>';
+        tipsHtml += '<li>Consider belt drive over chain if the garage is attached to living space (much quieter)</li>';
+        tipsHtml += '<li>Ask whether smart connectivity (myQ, HomeLink) is included or an add-on</li>';
+        tipsHtml += '<li>Verify door, opener, and labor warranties are listed separately</li>';
+      } else {
+        tipsHtml += '<li>Ask if the quote includes removal and disposal of the old door</li>';
+        tipsHtml += '<li>Confirm whether new tracks and hardware are included or if old ones will be reused</li>';
+        tipsHtml += '<li>Verify the warranty covers both parts AND labor (many only cover parts)</li>';
+        tipsHtml += '<li>Ask about insulation R-value if energy efficiency matters to you</li>';
+      }
       if (r.verdict.css === "high") {
         tipsHtml += '<li>Get 2-3 additional quotes from local contractors</li>';
         tipsHtml += '<li>Ask about manufacturer rebates or seasonal promotions</li>';
       }
       if (r.verdict.css === "low") {
-        tipsHtml += '<li>Confirm the door brand and model are specified, not just "equivalent"</li>';
+        if (isDoorJob) tipsHtml += '<li>Confirm the door brand and model are specified, not just "equivalent"</li>';
         tipsHtml += '<li>Ask if springs are torsion (preferred) or extension type</li>';
       }
       tipsHtml += '</ul></div>';
 
-      // Ways to save / rebates card (standardized)
+      // Ways to save / rebates card — also tailored. Door-replacement
+      // tips (Clopay/Amarr rebates, R-12 utility rebates, bundle door +
+      // opener) are irrelevant for spring or opener-only jobs.
       var savingsHtml = '<div class="gd-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
       savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      savingsHtml += '<li>Manufacturer rebates &mdash; Clopay, Wayne Dalton, Amarr, and CHI run seasonal promotions ($50-$200 off)</li>';
-      savingsHtml += '<li>Bundle door + opener install for crew-day discount (often $100-$200 off vs separate visits)</li>';
-      savingsHtml += '<li>Off-season scheduling: late fall and winter pricing is often 10-15% lower than spring/summer peak</li>';
-      savingsHtml += '<li>Insulated doors (R-12 or higher) may qualify for utility rebates in some states &mdash; check <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
-      savingsHtml += '<li>Smart openers (myQ, LiftMaster WiFi) may qualify for home automation/security discounts via your insurance</li>';
-      savingsHtml += '<li>Ask about cash discount &mdash; many garage door companies offer 3-5% off for check or cash payment</li>';
+      if (isSpringJob) {
+        savingsHtml += '<li>Replace both springs at once &mdash; saves a second service-call fee within months</li>';
+        savingsHtml += '<li>Ask about high-cycle springs ($50&ndash;$100 upgrade, lasts 2&ndash;3x longer)</li>';
+        savingsHtml += '<li>Off-season scheduling (late fall, winter) is often 10&ndash;15% cheaper</li>';
+        savingsHtml += '<li>Bundle a tune-up (track lube, hinge tighten, balance check) for $30&ndash;$50 extra</li>';
+        savingsHtml += '<li>Ask about cash discount &mdash; many companies offer 3&ndash;5% off for check or cash</li>';
+      } else if (isOpenerJob) {
+        savingsHtml += '<li>Manufacturer rebates &mdash; LiftMaster, Chamberlain, and Genie run seasonal promotions ($25&ndash;$100 off)</li>';
+        savingsHtml += '<li>Off-season scheduling: late fall and winter pricing is often 10&ndash;15% lower</li>';
+        savingsHtml += '<li>Smart openers (myQ, HomeLink) may qualify for home-security insurance discounts</li>';
+        savingsHtml += '<li>If your door is older than 10 years, ask whether replacing the door now bundles cheaper than separate visits</li>';
+        savingsHtml += '<li>Ask about cash discount &mdash; many companies offer 3&ndash;5% off for check or cash payment</li>';
+      } else {
+        savingsHtml += '<li>Manufacturer rebates &mdash; Clopay, Wayne Dalton, Amarr, and CHI run seasonal promotions ($50-$200 off)</li>';
+        savingsHtml += '<li>Bundle door + opener install for crew-day discount (often $100-$200 off vs separate visits)</li>';
+        savingsHtml += '<li>Off-season scheduling: late fall and winter pricing is often 10-15% lower than spring/summer peak</li>';
+        savingsHtml += '<li>Insulated doors (R-12 or higher) may qualify for utility rebates in some states &mdash; check <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
+        savingsHtml += '<li>Smart openers (myQ, LiftMaster WiFi) may qualify for home automation/security discounts via your insurance</li>';
+        savingsHtml += '<li>Ask about cash discount &mdash; many garage door companies offer 3-5% off for check or cash payment</li>';
+      }
       savingsHtml += '</ul></div>';
 
       // Safety tips (garage door specific)
