@@ -1326,7 +1326,14 @@
       var savingsHtml = '<div class="gut-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
       savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      savingsHtml += '<li>Off-season scheduling: late winter or early spring installs can be 5-15% cheaper</li>';
+      // Only suggest off-season scheduling when the user is currently
+      // in the high-demand season (May-October). In late winter / early
+      // spring the seasonal multiplier is already at the off-season
+      // floor and the tip would mislead.
+      var _curMonth = (new Date()).getMonth() + 1;
+      if (_curMonth >= 5 && _curMonth <= 10) {
+        savingsHtml += '<li>Off-season scheduling: late winter or early spring installs can be 5-15% cheaper</li>';
+      }
       savingsHtml += '<li>Bundle with other exterior work (roofing, siding) for multi-project discounts</li>';
       if (!r.hasGuards) {
         savingsHtml += '<li>Consider gutter guards to reduce long-term cleaning costs ($150-300/year savings)</li>';
