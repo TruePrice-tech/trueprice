@@ -1330,13 +1330,20 @@
         scopeHtml = '<div class="fence-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="fence-scope">';
         var typicalItems = ["postHoles", "concreteFootings", "posts", "rails", "picketsPanels", "hardware", "permits"];
         if (r.gate) typicalItems.push("gate");
+        // Demo answer maps directly to a removalOldFence line. Steep
+        // terrain pulls in extra grading. Reflect both so the bottom-
+        // line price is clearly tied to the user's selections instead
+        // of looking like an unexplained surcharge.
+        if (r.demo === "yes") typicalItems.push("removalOldFence");
+        if (r.terrain === "gentle" || r.terrain === "steep") typicalItems.push("grading");
         typicalItems.forEach(function(key) {
           var item = FENCE_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation on level ground. Old fence removal, grading, staining, or difficult terrain may add cost.</p></div>';
+        var trailer = "Estimate assumes standard installation. Staining, sealing, or upgraded posts (UC4A ground-contact rated) may add cost.";
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + trailer + '</p></div>';
       }
 
       // Market context
@@ -1355,9 +1362,18 @@
           { key: "aluminum", label: "Aluminum", brands: "Ameristar, Jerith, Specrail" },
           { key: "composite", label: "Composite", brands: "Trex, Barrette, SimTek" }
         ];
+        // Apply the user's terrain + demo selections to every comp row
+        // so YOUR PICK lines up with the headline verdict. Without this,
+        // the user's selected material shows a different number in the
+        // table than in the verdict tile (e.g. $9,950 in the row but
+        // $10,950 in the verdict for cedar with demo=yes), which reads
+        // as a calculation error.
+        var _compTerrainMult = TERRAIN_MULTS[r.terrain] || 1.00;
+        var _compDemoCost = (DEMO_COSTS_PER_LF[r.demo] || 0) * (Number(r.length) || 0);
         for (var ci = 0; ci < _compTypes.length; ci++) {
           var _ct = _compTypes[ci];
           var _cBench = calcBenchmark(_ct.key, r.length, r.height, r.gate);
+          _cBench = roundTo50(_cBench * _compTerrainMult + _compDemoCost);
           var _cLow = roundTo50(_cBench * 0.88);
           var _cHigh = roundTo50(_cBench * 1.15);
           var _cSel = r.fenceType && r.fenceType.value === _ct.key;
