@@ -1,267 +1,23 @@
-const fs = require("fs");
-const path = require("path");
-
-const ROOT = path.resolve(__dirname, "..");
-const DATA_PATH = path.join(ROOT, "data", "city-house-size-pricing.json");
-
-const PAGE_YEAR = "2026";
-const SITE_NAME = "Woogoro";
-const BASE_URL = "https://woogoro.com";
-
-const RELATED_GUIDES = [
-  {
-    title: "Architectural shingle roof cost",
-    description: "Learn how architectural shingle pricing works and what usually changes it.",
-    href: "./architectural-shingle-roof-cost.html"
-  },
-  {
-    title: "Metal roof replacement cost",
-    description: "See how metal roof pricing compares to asphalt systems.",
-    href: "./metal-roof-replacement-cost.html"
-  },
-  {
-    title: "Roof replacement cost guide",
-    description: "Review the broader fundamentals behind fair residential roof pricing.",
-    href: "./roof-cost-by-material.html"
-  }
-];
-
-function loadCityData() {
-  if (!fs.existsSync(DATA_PATH)) {
-    throw new Error(`Missing data file: ${DATA_PATH}`);
-  }
-
-  const raw = fs.readFileSync(DATA_PATH, "utf8");
-  const data = JSON.parse(raw);
-
-  if (!data || typeof data !== "object") {
-    throw new Error("City pricing JSON is invalid.");
-  }
-
-  // The on-disk JSON is an array of city records ({city, state, state_code, ...}).
-  // The downstream code expects a dict keyed by `${slug(city)}-${state_code.lower()}`.
-  // Without this conversion the script writes files named "0-roof-cost.html",
-  // "1-roof-cost.html", etc. (using array indices as keys).
-  if (Array.isArray(data)) {
-    const dict = {};
-    for (const c of data) {
-      if (!c || !c.city || !c.state_code) continue;
-      const slug = String(c.city).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-      const key = `${slug}-${c.state_code.toLowerCase()}`;
-      dict[key] = { city: c.city, state: c.state_code, sizes: c.sizes };
-    }
-    return dict;
-  }
-
-  return data;
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function cityDisplay(city, state) {
-  return `${city} ${state}`;
-}
-
-function pageSlugFromKey(cityKey) {
-  return `${cityKey}-roof-cost.html`;
-}
-
-function titleFor(city, state) {
-  return `Roof Replacement Cost in ${city} ${state} (${PAGE_YEAR}) | ${SITE_NAME}`;
-}
-
-function descriptionFor(city, state) {
-  return `Average roof replacement cost in ${city} ${state}. Compare pricing by roof material and house size, review local cost factors, and check whether your roofing quote is fair.`;
-}
-
-function articleDescriptionFor(city, state) {
-  return `Average roof replacement cost in ${city} ${state} with pricing by house size, material, and local quote comparison guidance.`;
-}
-
-function pageUrlFor(slug) {
-  return `${BASE_URL}/${slug}`;
-}
-
-function buildFaqData(city, state) {
-  const display = cityDisplay(city, state);
-
-  return [
-    {
-      question: `How much does a roof replacement cost in ${display}?`,
-      answer: `${display} roof replacement pricing depends on size, material, pitch, tear off conditions, flashing, and ventilation scope. Asphalt systems usually cost less than premium or specialty roof systems.`
-    },
-    {
-      question: `Why are roofing quotes in ${display} sometimes far apart?`,
-      answer: `Quotes may differ because contractors are offering different materials, underlayment systems, flashing scope, ventilation work, warranty levels, or decking assumptions.`
-    },
-    {
-      question: `Should I choose the cheapest roofing quote in ${display}?`,
-      answer: `Not automatically. A cheaper quote may exclude key components or use lower grade materials. The better choice is the quote with the strongest full scope and value for the price.`
-    },
-    {
-      question: `Does house size matter a lot for roofing cost in ${display}?`,
-      answer: `Yes. House size strongly affects labor, material quantities, waste, disposal, and accessory needs, making it one of the biggest price drivers.`
-    }
-  ];
-}
-
-function buildOtherCities(cityData, currentKey) {
-  return Object.entries(cityData)
-    .filter(([key, value]) => key !== currentKey && value && value.city && value.state)
-    .sort((a, b) => {
-      const aLabel = `${a[1].city} ${a[1].state}`;
-      const bLabel = `${b[1].city} ${b[1].state}`;
-      return aLabel.localeCompare(bLabel);
-    })
-    .map(([key, value]) => ({
-      href: `./${pageSlugFromKey(key)}`,
-      label: `${value.city} ${value.state}`
-    }));
-}
-
-function buildGuideCards() {
-  return RELATED_GUIDES.map((guide) => `
-            <div class="guide-card">
-              <h3>${escapeHtml(guide.title)}</h3>
-              <p>${escapeHtml(guide.description)}</p>
-              <a class="card-link" href="${escapeHtml(guide.href)}">Read guide</a>
-            </div>
-  `).join("");
-}
-
-function buildOtherCitiesLinks(cityData, currentKey) {
-  return buildOtherCities(cityData, currentKey)
-    .map((item) => `<a class="pill-link" href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`)
-    .join("");
-}
-
-function buildFaqHtml(city, state) {
-  return buildFaqData(city, state)
-    .map((item) => `
-            <div class="faq-item">
-              <h3>${escapeHtml(item.question)}</h3>
-              <p>${escapeHtml(item.answer)}</p>
-            </div>
-    `)
-    .join("");
-}
-
-function buildFaqSchema(city, state) {
-  return JSON.stringify(
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: buildFaqData(city, state).map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer
-        }
-      }))
-    },
-    null,
-    2
-  );
-}
-
-function buildArticleSchema(city, state, slug) {
-  return JSON.stringify(
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: `Roof Replacement Cost in ${city} ${state} (${PAGE_YEAR})`,
-      description: articleDescriptionFor(city, state),
-      author: {
-        "@type": "Organization",
-        name: SITE_NAME
-      },
-      publisher: {
-        "@type": "Organization",
-        name: SITE_NAME
-      },
-      mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": pageUrlFor(slug)
-      },
-      datePublished: "2026-03-10",
-      dateModified: "2026-03-10"
-    },
-    null,
-    2
-  );
-}
-
-function buildBreadcrumbSchema(city, state, slug) {
-  return JSON.stringify(
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: `${BASE_URL}/`
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Roof Replacement Cost by City",
-          item: `${BASE_URL}/#city-guides`
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: `Roof Replacement Cost in ${city} ${state}`,
-          item: pageUrlFor(slug)
-        }
-      ]
-    },
-    null,
-    2
-  );
-}
-
-function renderCityPage({ cityKey, city, state, slug, allCityData }) {
-  const display = cityDisplay(city, state);
-  const description = descriptionFor(city, state);
-  const pageUrl = pageUrlFor(slug);
-
-  const guideCards = buildGuideCards();
-  const otherCitiesLinks = buildOtherCitiesLinks(allCityData, cityKey);
-  const faqHtml = buildFaqHtml(city, state);
-  const faqSchema = buildFaqSchema(city, state);
-  const articleSchema = buildArticleSchema(city, state, slug);
-  const breadcrumbSchema = buildBreadcrumbSchema(city, state, slug);
-
-  return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>${escapeHtml(titleFor(city, state))}</title>
-  <meta name="description" content="${escapeHtml(description)}" />
-  <link rel="canonical" href="${escapeHtml(pageUrl)}" />
+  <title>Roof Replacement Cost in Fort Mill SC (2026) | Woogoro</title>
+  <meta name="description" content="Average roof replacement cost in Fort Mill SC. Compare pricing by roof material and house size, review local cost factors, and check whether your roofing quote is fair." />
+  <link rel="canonical" href="https://woogoro.com/fort-mill-sc-roof-cost.html" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="${escapeHtml(titleFor(city, state))}" />
-  <meta property="og:description" content="${escapeHtml(description)}" />
+  <meta property="og:title" content="Roof Replacement Cost in Fort Mill SC (2026) | Woogoro" />
+  <meta property="og:description" content="Average roof replacement cost in Fort Mill SC. Compare pricing by roof material and house size, review local cost factors, and check whether your roofing quote is fair." />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="${escapeHtml(pageUrl)}" />
-  <meta property="og:site_name" content="${escapeHtml(SITE_NAME)}" />
+  <meta property="og:url" content="https://woogoro.com/fort-mill-sc-roof-cost.html" />
+  <meta property="og:site_name" content="Woogoro" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="${escapeHtml(titleFor(city, state))}" />
-  <meta name="twitter:description" content="${escapeHtml(description)}" />
+  <meta name="twitter:title" content="Roof Replacement Cost in Fort Mill SC (2026) | Woogoro" />
+  <meta name="twitter:description" content="Average roof replacement cost in Fort Mill SC. Compare pricing by roof material and house size, review local cost factors, and check whether your roofing quote is fair." />
 
   <style>
     :root {
@@ -667,15 +423,94 @@ function renderCityPage({ cityKey, city, state, slug, allCityData }) {
   </style>
 
   <script id="article-schema" type="application/ld+json">
-${articleSchema}
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Roof Replacement Cost in Fort Mill SC (2026)",
+  "description": "Average roof replacement cost in Fort Mill SC with pricing by house size, material, and local quote comparison guidance.",
+  "author": {
+    "@type": "Organization",
+    "name": "Woogoro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Woogoro"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://woogoro.com/fort-mill-sc-roof-cost.html"
+  },
+  "datePublished": "2026-03-10",
+  "dateModified": "2026-03-10"
+}
   </script>
 
   <script id="faq-schema" type="application/ld+json">
-${faqSchema}
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a roof replacement cost in Fort Mill SC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fort Mill SC roof replacement pricing depends on size, material, pitch, tear off conditions, flashing, and ventilation scope. Asphalt systems usually cost less than premium or specialty roof systems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are roofing quotes in Fort Mill SC sometimes far apart?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Quotes may differ because contractors are offering different materials, underlayment systems, flashing scope, ventilation work, warranty levels, or decking assumptions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I choose the cheapest roofing quote in Fort Mill SC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not automatically. A cheaper quote may exclude key components or use lower grade materials. The better choice is the quote with the strongest full scope and value for the price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does house size matter a lot for roofing cost in Fort Mill SC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. House size strongly affects labor, material quantities, waste, disposal, and accessory needs, making it one of the biggest price drivers."
+      }
+    }
+  ]
+}
   </script>
 
   <script id="breadcrumb-schema" type="application/ld+json">
-${breadcrumbSchema}
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://woogoro.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Roof Replacement Cost by City",
+      "item": "https://woogoro.com/#city-guides"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Roof Replacement Cost in Fort Mill SC",
+      "item": "https://woogoro.com/fort-mill-sc-roof-cost.html"
+    }
+  ]
+}
   </script>
 </head>
 <body>
@@ -694,10 +529,10 @@ ${breadcrumbSchema}
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">${escapeHtml(display)} Roofing Pricing Guide</span>
-        <h1>Roof Replacement Cost in ${escapeHtml(display)}</h1>
+        <span class="eyebrow">Fort Mill SC Roofing Pricing Guide</span>
+        <h1>Roof Replacement Cost in Fort Mill SC</h1>
         <p>
-          Use this ${escapeHtml(display)} roofing cost guide to understand price ranges by house size, compare quote details more accurately, and spot the main factors that move roof replacement costs up or down.
+          Use this Fort Mill SC roofing cost guide to understand price ranges by house size, compare quote details more accurately, and spot the main factors that move roof replacement costs up or down.
         </p>
         <div class="button-row">
           <a class="btn primary" href="./roof-cost-calculator.html">Use Roof Calculator</a>
@@ -707,9 +542,9 @@ ${breadcrumbSchema}
       </div>
 
       <aside class="hero-card" aria-label="Quick overview">
-        <h2>What affects ${escapeHtml(display)} roof pricing</h2>
+        <h2>What affects Fort Mill SC roof pricing</h2>
         <p>
-          In ${escapeHtml(display)}, roofing costs often move with material selection, underlayment specification, labor access, roof pitch, flashing detail, and ventilation or decking corrections.
+          In Fort Mill SC, roofing costs often move with material selection, underlayment specification, labor access, roof pitch, flashing detail, and ventilation or decking corrections.
         </p>
         <div class="quick-stats">
           <div class="stat">
@@ -722,7 +557,7 @@ ${breadcrumbSchema}
           </div>
           <div class="stat">
             <strong>Helpful next step</strong>
-            <span>Check the ${escapeHtml(display)} house size pricing table below</span>
+            <span>Check the Fort Mill SC house size pricing table below</span>
           </div>
           <div class="stat">
             <strong>Built for</strong>
@@ -737,9 +572,9 @@ ${breadcrumbSchema}
     <div class="content-grid">
       <div class="content">
         <section id="pricing-overview">
-          <h2>${escapeHtml(display)} roof replacement pricing overview</h2>
+          <h2>Fort Mill SC roof replacement pricing overview</h2>
           <p>
-            ${escapeHtml(display)} roofing quotes can look similar at a glance while differing substantially in what is actually included. Roof replacement price is shaped by size, material, slope, tear off conditions, and the amount of accessory work included in the proposal.
+            Fort Mill SC roofing quotes can look similar at a glance while differing substantially in what is actually included. Roof replacement price is shaped by size, material, slope, tear off conditions, and the amount of accessory work included in the proposal.
           </p>
           <p>
             That is why Woogoro uses reusable city by house size pricing data. It gives homeowners a cleaner baseline and a more structured way to review whether a contractor quote looks fair.
@@ -748,7 +583,7 @@ ${breadcrumbSchema}
           <div class="pricing-callout">
             <strong>How to use this page:</strong>
             <p>
-              Start with the ${escapeHtml(display)} pricing table, identify the house size closest to your home, then compare your quote scope, materials, and complexity against that baseline.
+              Start with the Fort Mill SC pricing table, identify the house size closest to your home, then compare your quote scope, materials, and complexity against that baseline.
             </p>
           </div>
 
@@ -761,7 +596,7 @@ ${breadcrumbSchema}
         </section>
 
         <section id="house-size-links">
-          <h2>Roof cost by house size in ${escapeHtml(display)}</h2>
+          <h2>Roof cost by house size in Fort Mill SC</h2>
           <p>
             Use the quick links below to jump to the reusable pricing section and find the range closest to your home.
           </p>
@@ -771,9 +606,9 @@ ${breadcrumbSchema}
         </section>
 
         <section id="example-pricing">
-          <h2>Example ${escapeHtml(display)} roofing scenario</h2>
+          <h2>Example Fort Mill SC roofing scenario</h2>
           <p id="example-pricing-copy">
-            A typical ${escapeHtml(display)} asphalt shingle replacement on a straightforward mid sized home may land near the center of the range if the roof is walkable and the tear off conditions are clean. The same home can move higher if the proposal includes premium shingles, multiple penetrations, chimney work, upgraded flashing, or a larger than expected wood replacement allowance.
+            A typical Fort Mill SC asphalt shingle replacement on a straightforward mid sized home may land near the center of the range if the roof is walkable and the tear off conditions are clean. The same home can move higher if the proposal includes premium shingles, multiple penetrations, chimney work, upgraded flashing, or a larger than expected wood replacement allowance.
           </p>
 
           <div class="example-box">
@@ -785,7 +620,7 @@ ${breadcrumbSchema}
         </section>
 
         <section id="cost-factors">
-          <h2>Main cost factors in ${escapeHtml(display)}</h2>
+          <h2>Main cost factors in Fort Mill SC</h2>
           <ul>
             <li><strong>Roof size:</strong> larger roofs require more shingles, underlayment, accessories, labor, and disposal.</li>
             <li><strong>Material selection:</strong> architectural shingles, designer shingles, metal panels, and specialty systems all price differently.</li>
@@ -797,7 +632,7 @@ ${breadcrumbSchema}
         </section>
 
         <section id="quote-guidance">
-          <h2>How to compare roofing quotes in ${escapeHtml(display)}</h2>
+          <h2>How to compare roofing quotes in Fort Mill SC</h2>
           <p>
             Ignore the urge to compare only the bottom line. Roofing quotes should be compared system against system, not just total against total.
           </p>
@@ -835,12 +670,30 @@ ${breadcrumbSchema}
         <section id="related-guides">
           <h2>Related roofing guides</h2>
           <div class="guide-grid">
-${guideCards}
+
+            <div class="guide-card">
+              <h3>Architectural shingle roof cost</h3>
+              <p>Learn how architectural shingle pricing works and what usually changes it.</p>
+              <a class="card-link" href="./architectural-shingle-roof-cost.html">Read guide</a>
+            </div>
+  
+            <div class="guide-card">
+              <h3>Metal roof replacement cost</h3>
+              <p>See how metal roof pricing compares to asphalt systems.</p>
+              <a class="card-link" href="./metal-roof-replacement-cost.html">Read guide</a>
+            </div>
+  
+            <div class="guide-card">
+              <h3>Roof replacement cost guide</h3>
+              <p>Review the broader fundamentals behind fair residential roof pricing.</p>
+              <a class="card-link" href="./roof-cost-by-material.html">Read guide</a>
+            </div>
+  
           </div>
         </section>
 
         <section id="city-pricing-table">
-          <h2>${escapeHtml(display)} house size pricing table</h2>
+          <h2>Fort Mill SC house size pricing table</h2>
           <p>
             This reusable table loads from the shared city pricing JSON file so the structure remains consistent and easy to maintain.
           </p>
@@ -865,21 +718,41 @@ ${guideCards}
         <section id="other-cities">
           <h2>Compare other city roofing costs</h2>
           <div class="city-grid" id="other-cities-grid">
-${otherCitiesLinks}
+
           </div>
         </section>
 
         <section id="faq">
-          <h2>${escapeHtml(display)} roofing cost FAQ</h2>
+          <h2>Fort Mill SC roofing cost FAQ</h2>
           <div id="faq-container">
-${faqHtml}
+
+            <div class="faq-item">
+              <h3>How much does a roof replacement cost in Fort Mill SC?</h3>
+              <p>Fort Mill SC roof replacement pricing depends on size, material, pitch, tear off conditions, flashing, and ventilation scope. Asphalt systems usually cost less than premium or specialty roof systems.</p>
+            </div>
+    
+            <div class="faq-item">
+              <h3>Why are roofing quotes in Fort Mill SC sometimes far apart?</h3>
+              <p>Quotes may differ because contractors are offering different materials, underlayment systems, flashing scope, ventilation work, warranty levels, or decking assumptions.</p>
+            </div>
+    
+            <div class="faq-item">
+              <h3>Should I choose the cheapest roofing quote in Fort Mill SC?</h3>
+              <p>Not automatically. A cheaper quote may exclude key components or use lower grade materials. The better choice is the quote with the strongest full scope and value for the price.</p>
+            </div>
+    
+            <div class="faq-item">
+              <h3>Does house size matter a lot for roofing cost in Fort Mill SC?</h3>
+              <p>Yes. House size strongly affects labor, material quantities, waste, disposal, and accessory needs, making it one of the biggest price drivers.</p>
+            </div>
+    
           </div>
         </section>
       </div>
 
       <aside class="sidebar">
         <div class="sidebar-card">
-          <h2>${escapeHtml(display)} quick links</h2>
+          <h2>Fort Mill SC quick links</h2>
           <ul>
             <li><a href="#pricing-overview">Pricing overview</a></li>
             <li><a href="#city-pricing-table">House size pricing table</a></li>
@@ -908,9 +781,9 @@ ${faqHtml}
 
   <script>
     const PAGE_CONFIG = {
-      cityKey: "${escapeHtml(cityKey)}",
-      pageSlug: "${escapeHtml(slug)}",
-      pageYear: "${escapeHtml(PAGE_YEAR)}",
+      cityKey: "fort-mill-sc",
+      pageSlug: "fort-mill-sc-roof-cost.html",
+      pageYear: "2026",
       dataUrl: "data/city-house-size-pricing.json"
     };
 
@@ -929,30 +802,30 @@ ${faqHtml}
       const previous = index > 0 ? Number(sizes[index - 1]) : null;
 
       if (index === 0) {
-        return \`Up to \${current.toLocaleString()} sq ft\`;
+        return `Up to ${current.toLocaleString()} sq ft`;
       }
 
-      return \`\${(previous + 1).toLocaleString()} to \${current.toLocaleString()} sq ft\`;
+      return `${(previous + 1).toLocaleString()} to ${current.toLocaleString()} sq ft`;
     }
 
     function buildHouseSizeLinks(orderedSizes) {
       const container = document.getElementById("house-size-links-grid");
       if (!container || !orderedSizes.length) return;
 
-      container.innerHTML = orderedSizes.map((size, index) => \`
-        <a class="pill-link" href="#city-pricing-table">\${formatSizeLabel(size, index, orderedSizes)}</a>
-      \`).join("");
+      container.innerHTML = orderedSizes.map((size, index) => `
+        <a class="pill-link" href="#city-pricing-table">${formatSizeLabel(size, index, orderedSizes)}</a>
+      `).join("");
     }
 
     function buildPricingTable(cityData) {
       const sizes = cityData && cityData.sizes ? cityData.sizes : null;
 
       if (!sizes || typeof sizes !== "object") {
-        return \`
+        return `
           <div class="pricing-callout">
             Pricing data is not available yet.
           </div>
-        \`;
+        `;
       }
 
       const orderedSizes = Object.keys(sizes)
@@ -961,11 +834,11 @@ ${faqHtml}
         .sort((a, b) => a - b);
 
       if (!orderedSizes.length) {
-        return \`
+        return `
           <div class="pricing-callout">
             Pricing data is not available yet.
           </div>
-        \`;
+        `;
       }
 
       buildHouseSizeLinks(orderedSizes);
@@ -978,17 +851,17 @@ ${faqHtml}
           ? Math.round((low + high) / 2)
           : null;
 
-        return \`
+        return `
           <tr>
-            <td>\${formatSizeLabel(size, index, orderedSizes)}</td>
-            <td>\${Number.isFinite(low) ? formatCurrency(low) : "—"}</td>
-            <td>\${typical !== null ? formatCurrency(typical) : "—"}</td>
-            <td>\${Number.isFinite(high) ? formatCurrency(high) : "—"}</td>
+            <td>${formatSizeLabel(size, index, orderedSizes)}</td>
+            <td>${Number.isFinite(low) ? formatCurrency(low) : "—"}</td>
+            <td>${typical !== null ? formatCurrency(typical) : "—"}</td>
+            <td>${Number.isFinite(high) ? formatCurrency(high) : "—"}</td>
           </tr>
-        \`;
+        `;
       }).join("");
 
-      return \`
+      return `
         <div class="table-wrap">
           <table>
             <thead>
@@ -1000,11 +873,11 @@ ${faqHtml}
               </tr>
             </thead>
             <tbody>
-              \${rows}
+              ${rows}
             </tbody>
           </table>
         </div>
-      \`;
+      `;
     }
 
     async function loadCityPricing() {
@@ -1013,14 +886,14 @@ ${faqHtml}
       try {
         const response = await fetch(PAGE_CONFIG.dataUrl);
         if (!response.ok) {
-          throw new Error(\`Failed to load pricing data: \${response.status}\`);
+          throw new Error(`Failed to load pricing data: ${response.status}`);
         }
 
         const data = await response.json();
         const cityData = data[PAGE_CONFIG.cityKey];
 
         if (!cityData || !cityData.sizes) {
-          throw new Error(\`Missing or invalid city data for \${PAGE_CONFIG.cityKey}\`);
+          throw new Error(`Missing or invalid city data for ${PAGE_CONFIG.cityKey}`);
         }
 
         if (container) {
@@ -1030,11 +903,11 @@ ${faqHtml}
         console.error(error);
 
         if (container) {
-          container.innerHTML = \`
+          container.innerHTML = `
             <div class="pricing-callout">
               We could not load pricing data right now. Please try again shortly.
             </div>
-          \`;
+          `;
         }
       }
     }
@@ -1045,86 +918,3 @@ ${faqHtml}
   <script src="/js/tp-analytics.min.js" async></script>
 </body>
 </html>
-`;
-}
-
-function generatePages() {
-  const cityData = loadCityData();
-  const entries = Object.entries(cityData);
-
-  if (!entries.length) {
-    throw new Error("No city data found.");
-  }
-
-  const generated = [];
-
-  for (const [cityKey, value] of entries) {
-    if (!value || !value.city || !value.state || !value.sizes) {
-      throw new Error(`Invalid city record for key: ${cityKey}`);
-    }
-
-    const slug = pageSlugFromKey(cityKey);
-    const html = renderCityPage({
-      cityKey,
-      city: value.city,
-      state: value.state,
-      slug,
-      allCityData: cityData
-    });
-
-    const outputPath = path.join(ROOT, slug);
-    fs.writeFileSync(outputPath, html, "utf8");
-    generated.push(slug);
-  }
-
-  return generated;
-}
-function generateSitemap(cityData) {
-  const staticPages = [
-    "",
-    "/roof-cost-calculator.html",
-    "/roofing-quote-analyzer.html",
-    "/compare-roofing-quotes.html",
-    "/roof-cost-by-material.html",
-    "/architectural-shingle-roof-cost.html",
-    "/metal-roof-replacement-cost.html"
-  ];
-
-  const urls = [];
-
-  staticPages.forEach((page) => {
-    urls.push(`${BASE_URL}${page}`);
-  });
-
-  Object.keys(cityData).forEach((cityKey) => {
-    urls.push(`${BASE_URL}/${cityKey}-roof-cost.html`);
-  });
-
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
-  urls.forEach((url) => {
-    sitemap += `  <url>\n`;
-    sitemap += `    <loc>${url}</loc>\n`;
-    sitemap += `  </url>\n`;
-  });
-
-  sitemap += `</urlset>\n`;
-
-  const outputPath = path.join(ROOT, "sitemap.xml");
-  fs.writeFileSync(outputPath, sitemap, "utf8");
-}
-try {
-  const cityData = loadCityData();
-  const generated = generatePages();
-  generateSitemap(cityData);
-
-  console.log(`Generated ${generated.length} city pages:`);
-  for (const file of generated) {
-    console.log(`  - ${file}`);
-  }
-  console.log("Generated sitemap.xml");
-} catch (error) {
-  console.error(error.message);
-  process.exit(1);
-}
