@@ -76,7 +76,7 @@ function genHexToken() {
 
 async function grantPro(token) {
   if (!GRANT_TOKEN) return { granted: false, reason: "no_grant_token" };
-  const res = await fetch(`${BASE}/api/_pro-dev-grant`, {
+  const res = await fetch(`${BASE}/api/pro-dev-grant`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -90,7 +90,7 @@ async function grantPro(token) {
 
 async function revokePro(token) {
   if (!GRANT_TOKEN) return { revoked: false, reason: "no_grant_token" };
-  const res = await fetch(`${BASE}/api/_pro-dev-grant`, {
+  const res = await fetch(`${BASE}/api/pro-dev-grant`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
