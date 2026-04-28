@@ -79,6 +79,27 @@ export function welcomeTemplate({ city, stateCode, service }) {
   return { subject, html };
 }
 
+// Beta sign-in magic link. Sent transactionally per CAN-SPAM
+// § 7702(17)(C) — pure account-state, never marketing.
+export function magicLinkTemplate({ verifyUrl, ttlMinutes }) {
+  const subject = "Sign in to your Woogoro burrow";
+  const minutes = Math.max(1, Math.round(ttlMinutes || 15));
+  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1e293b;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img src="${IRIS_HEADSHOT}" alt="Iris" width="84" height="84" style="border-radius:50%;border:3px solid #f1f5f9;">
+    </div>
+    <h1 style="font-size:22px;margin:0 0 16px;text-align:center;color:#0f172a;">Sign in to your Woogoro burrow</h1>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 18px;">You (or someone using your email) asked to sign in to <a href="${SITE_ORIGIN}" style="color:#1d4ed8;">Woogoro</a>. Click the button below to finish signing in.</p>
+    <div style="text-align:center;margin:24px 0;">
+      <a href="${verifyUrl}" style="display:inline-block;padding:14px 28px;background:#1d4ed8;color:#fff;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;">Sign in to Woogoro</a>
+    </div>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 12px;color:#64748b;">This link expires in about ${minutes} minutes and works once. If it times out, just request a new one from the sign-in page.</p>
+    <p style="font-size:13px;line-height:1.6;margin:0 0 0;color:#64748b;">If you didn't request this, you can ignore the email — no account changes happen until the link is clicked.</p>
+    <p style="font-size:13px;line-height:1.6;margin:18px 0 0;color:#94a3b8;word-break:break-all;">Or copy this URL into your browser:<br>${verifyUrl}</p>
+  </div>`;
+  return { subject, html };
+}
+
 // Monthly digest. interests is an array of { city, stateCode, service, change }
 // where change is { currentAvg, baseline, deviation, currentQuotes } or null.
 // Returns null if there's nothing meaningful to say (all interests skipped).
