@@ -432,12 +432,10 @@ For each red flag found, populate redFlagDetails with the name, severity, the ex
       console.log("[windows-estimate] Pricing enrichment error:", e.message);
     }
 
-    // Strip PII before returning
-    delete parsed.city;
-
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
+    delete parsed.city;
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "windows" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("windows", parsed);

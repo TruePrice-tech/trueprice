@@ -328,10 +328,10 @@ Rules:
       console.log("[siding-estimate] Pricing enrichment error:", e.message);
     }
 
-    delete parsed.city;
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
+    delete parsed.city;
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "siding" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("siding", parsed);

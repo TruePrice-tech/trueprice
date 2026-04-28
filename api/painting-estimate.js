@@ -327,12 +327,10 @@ Rules:
       console.log("[painting-estimate] Pricing enrichment error:", e.message);
     }
 
-    // Strip PII before returning or storing
-    delete parsed.city;
-
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
+    delete parsed.city;
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "painting" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("painting", parsed); // fire and forget

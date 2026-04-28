@@ -430,12 +430,10 @@ For each red flag found, populate redFlagDetails with name, severity, the exact 
       console.log("[landscaping-estimate] Pricing enrichment error:", e.message);
     }
 
-    // Strip PII
-    delete parsed.city;
-
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
+    delete parsed.city;
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "landscaping" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("landscaping", parsed);
