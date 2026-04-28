@@ -428,6 +428,15 @@
           /(\$\s*\d{1,3})\.(\d{3})(?!\d)/g,
           "$1,$2"
         );
+        // The opposite misread also happens: "$1,225.00" read as "$1,225,00".
+        // A real US thousands separator always groups in 3-digit chunks, so a
+        // trailing 2-digit comma group is unambiguously a decimal misread.
+        // Promote that comma back to a period or downstream parsing inflates
+        // the price by 100x (e.g. medical "Total billed $1,225,00" → 122500).
+        _ocrTextForOverride = _ocrTextForOverride.replace(
+          /(\$\s*\d{1,3}(?:,\d{3})*),(\d{2})(?!\d)/g,
+          "$1.$2"
+        );
 
         // Post-processing: prefer explicitly labeled "TOTAL" over line items
         // Must be at line start or after newline (not "12 total" mid-sentence)

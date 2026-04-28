@@ -183,9 +183,21 @@ function parseMoneyToNumber(value) {
 
   if (!cleaned) return NaN;
 
-  const normalized = cleaned.includes(",") && cleaned.includes(".")
-    ? cleaned.replace(/,/g, "")
-    : cleaned.replace(/,/g, "");
+  let normalized;
+  if (cleaned.includes(".")) {
+    normalized = cleaned.replace(/,/g, "");
+  } else {
+    // Tesseract frequently misreads the decimal in "1,225.00" as a comma,
+    // producing "1,225,00". A real US thousands separator always groups in
+    // 3-digit chunks, so a trailing 2-digit group is an unambiguous decimal
+    // misread; treat it as the cents separator instead of stripping it.
+    const trailingTwoDigit = cleaned.match(/^(\d{1,3}(?:,\d{3})*),(\d{2})$/);
+    if (trailingTwoDigit) {
+      normalized = trailingTwoDigit[1].replace(/,/g, "") + "." + trailingTwoDigit[2];
+    } else {
+      normalized = cleaned.replace(/,/g, "");
+    }
+  }
 
   const num = Number(normalized);
   return isFinite(num) ? num : NaN;

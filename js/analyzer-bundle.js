@@ -835,7 +835,13 @@ async function lookupPropertyRoofSignals(address = {}) {
       source: apiResult.source || "property_api"
     };
 
-    setCachedPropertyRoofSignals(normalized, normalizedApiResult);
+    // Only cache positive lookups. Caching null/failed results would lock
+    // users out of OSM for 30 days after a single transient failure (e.g.
+    // Overpass mirrors momentarily down).
+    const footprintSqFt = Number(normalizedApiResult.footprintSqFt);
+    if (footprintSqFt > 0) {
+      setCachedPropertyRoofSignals(normalized, normalizedApiResult);
+    }
     return normalizedApiResult;
   }
 
@@ -1450,7 +1456,7 @@ function scoreMoneyCandidate(value, contextText, lineText = "") {
   const lineClass = classifyMoneyLine(line);
 
   const totalPhraseRegex =
-    /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|final total|final amount|amount due|amount owed|total due|total estimated cost|totol estimated cost|project amount|total investment|total cost/;
+    /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|final total|final amount|amount due|amount owed|total due|total estimated cost|totol estimated cost|project amount|total investment|total cost|total job price|total job cost|total service cost|total repair cost|total charges/;
 
   const datePhraseRegex =
     /invoice date|due date|payment due date|proposal date|issue date|issued|date issued|expires|expiration date|valid through|valid until|date|signed on|customer signature date/;
@@ -1597,9 +1603,21 @@ function parseMoneyToNumber(value) {
 
   if (!cleaned) return NaN;
 
-  const normalized = cleaned.includes(",") && cleaned.includes(".")
-    ? cleaned.replace(/,/g, "")
-    : cleaned.replace(/,/g, "");
+  let normalized;
+  if (cleaned.includes(".")) {
+    normalized = cleaned.replace(/,/g, "");
+  } else {
+    // Tesseract frequently misreads the decimal in "1,225.00" as a comma,
+    // producing "1,225,00". A real US thousands separator always groups in
+    // 3-digit chunks, so a trailing 2-digit group is an unambiguous decimal
+    // misread; treat it as the cents separator instead of stripping it.
+    const trailingTwoDigit = cleaned.match(/^(\d{1,3}(?:,\d{3})*),(\d{2})$/);
+    if (trailingTwoDigit) {
+      normalized = trailingTwoDigit[1].replace(/,/g, "") + "." + trailingTwoDigit[2];
+    } else {
+      normalized = cleaned.replace(/,/g, "");
+    }
+  }
 
   const num = Number(normalized);
   return isFinite(num) ? num : NaN;
@@ -1624,7 +1642,7 @@ function repairBrokenLeadingMoney(raw, contextText = "") {
   const digits = text.replace(/[^\d]/g, "");
   if (!digits) return NaN;
 
-  if (/grand total|total estimated cost|proposal total|contract total|total due|amount due|total cost|final total/.test(ctx)) {
+  if (/grand total|total estimated cost|proposal total|contract total|total due|amount due|total cost|final total|total job price|total job cost|total service cost|total repair cost/.test(ctx)) {
     const repaired8 = Number("8" + digits);
     if (isFinite(repaired8) && repaired8 >= 3000 && repaired8 <= 250000) return repaired8;
 
@@ -1763,7 +1781,7 @@ function extractPriceCandidates(text) {
     }
 
     const strongTotalLineRegex =
-      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|\btotal\b/;
+      /grand total|total estimate|estimate total|total project cost|project total|contract total|contract price|proposal total|total estimated cost|totol estimated cost|total due|estimated cost|total cost|final total|amount due|total job price|total job cost|total service cost|total repair cost|\btotal\b/;
 
     const candidateIndexInLine = start - lineStart;
     const totalPhraseIndexInLine = lineText.search(strongTotalLineRegex);
@@ -1901,12 +1919,21 @@ function extractPriceCandidates(text) {
     sourceType = "final_total_phrase";
     
     } else if (
+      /kwh|kilowatt.?hour|annual.*production|yearly.*production|estimated.*production/i.test(lineText)
+    ) {
+      sourceType = "energy_production_not_price";
+    } else if (
 
       /roof size|roof area|sq\.?\s*f[tf]|square feet|square foot|\bsf\b|\bsquares\b/.test(lineText) &&
       !strongTotalLineRegex.test(lineText)
     ) {
       sourceType = "roof_size_like";
     } else if (
+      // Auto-repair fixtures use "12,000 mile warranty" or
+      // "12 month / 12,000 mile warranty" — these mileage values get
+      // grabbed as $12,000 prices when "12,000" sits as a 5-digit
+      // money-like token with comma. Reject when "mile" / "warranty"
+      // appears within ~24 chars of the number.
       /\b(?:warranty|mile|miles|mileage|odomet)\b/.test(fullMatchContext) &&
       !/(?:\$\s*\d|grand\s+total|amount\s+due|total\s+due|balance\s+due)/i.test(lineText)
     ) {
@@ -1958,9 +1985,11 @@ function extractPriceCandidates(text) {
 
     if (!hasStrongTotalContext) continue;
 
-    // Reject percentage-shaped fragments — "@ 6.7500 %" tax-rate fragments
-    // would otherwise be repaired to $87,500 when "Total Cost" appears
-    // nearby in the context window.
+    // Reject percentage-shaped fragments near "%" or "rate" — auto-repair
+    // insurance estimates have lines like "Sales Tax $686.08 @ 6.7500 %
+    // 46.31" where ".7500" is a tax rate, not a broken-leading total. The
+    // broken-leading repair would otherwise prefix "8" and produce $87,500
+    // because "Total Cost" appears 1-2 lines away in the context window.
     const adjacentText = source.slice(Math.max(0, start - 12), Math.min(source.length, end + 12));
     if (/%|\bpercent|\brate\b|@\s*\d/i.test(adjacentText)) continue;
 
@@ -2379,6 +2408,9 @@ function detectContractor(text) {
     );
 
     name = name
+      .replace(/^\s*(please\s+)?make\s+all\s+checks\s+payable\s+to\s*/i, "")
+      .replace(/^\s*pay\s+to\s+the\s+order\s+of\s*/i, "")
+      .replace(/^\s*checks?\s+payable\s+to\s*/i, "")
       .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)\s*[:\-]\s*/i, "")
       .replace(/[:\-|,\s]+$/g, "")
       .trim();
@@ -2413,7 +2445,7 @@ function detectContractor(text) {
     }
 
     if (
-      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(normalizedForMatch)
+      /\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|tear-off|underlayment|shingles|permit|sales tax|remove existing|install \d|install new|install synthetic|install .*plywood|install .*panel|install .*steel|install .*insulation|replace all|roof cover|cement fiber|standing seam|new roof|existing roof|disposal|dumpster|haul off|clean up|debris|nailboard|plywood|fiber board|steel panel|services amount|services\s+amount|description of work|scope of work|total job price|job price|total price|grand total|amount due|balance due)\b/i.test(normalizedForMatch)
     ) {
       return false;
     }
@@ -3314,10 +3346,15 @@ function detectTotalLinePrice(text) {
       for (const match of matches) {
         const raw = match[0];
         // Require a money-shape marker ($, comma-thousands, or .XX decimals)
-        // before accepting — pure letter-mapped OCR ("Basis" → 84515) would
-        // otherwise win when the floor is small.
+        // before accepting a token as a total candidate. Pure letter-mapped
+        // OCR strings ("Basis" → 84515, "AAISB" → 44158) can otherwise win
+        // when the floor is small enough to admit them. Real labeled totals
+        // always carry a $ or .00 in OCR.
         if (!/\$|,\d{3}|\.\d{2}\b/.test(raw)) continue;
         const value = parseMoneyLikeValue(raw);
+        // Auto-repair quotes can be small ($300-800 brake jobs); lowered
+        // floor from 1000 to 200. The bad-context filter (warranty, mile)
+        // catches the warranty-mileage case that previously slipped through.
         if (!isFinite(value) || value < 200 || value > 200000) continue;
 
         if (Number.isInteger(value) && value >= 2024 && value <= 2035) continue;
@@ -3699,8 +3736,9 @@ function parseExtractedText(extractedText, options = {}) {
     balance_or_acv: -1,
     subtotal_line: -2,
     deposit_or_deductible: -3,
-    roof_size_like: -4,
+    energy_production_not_price: -5,
     warranty_mileage_not_price: -5,
+    roof_size_like: -4,
     zip_or_address_candidate: -5,
     date_like_year_candidate: -6
   };
@@ -3708,9 +3746,11 @@ function parseExtractedText(extractedText, options = {}) {
   const aRank = sourceRank[a.sourceType] ?? 0;
   const bRank = sourceRank[b.sourceType] ?? 0;
 
-  // Strongly-negative ranks (warranty_mileage, energy_production, year, zip)
-  // always lose — the score-shortcut below would otherwise let a high-score
-  // warranty-mileage match jump ahead of a legitimate price.
+  // If either candidate is strongly negatively ranked (warranty_mileage,
+  // energy_production, year, zip — things we KNOW aren't prices), rank
+  // always beats score. The score-shortcut below would otherwise let a
+  // warranty mileage match (rank -5, often score >200) jump ahead of a
+  // legitimate but lower-scored price candidate.
   if (aRank <= -4 || bRank <= -4) return bRank - aRank;
 
   // If score difference is large (>30), prefer higher score regardless of source rank
@@ -9121,18 +9161,13 @@ function buildComparisonWinnerHtml(summary) {
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
-        // Worker Woogoro for vertical-specific verdict per
-        // feedback_rainbow_is_iris_only.md (rainbow Iris is reserved for
-        // landing/about pages; vertical analyzers use the worker variant).
-        // Verdict tone is carried by the card border/colors and label text;
-        // mascot is neutral.
-        var verdictMascotImg = "/images/Worker%20Woogoro/Roofer%20worker.png";
-        var verdictMascotAlt = "Shingle the Roofing Woogoro";
+        var irisVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/Iris/Iris%20happy.png" : "/images/Iris/Iris%20concerned.png";
+        var irisVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Iris gives a thumbs up" : "Iris looks concerned";
 
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
-              <img src="${verdictMascotImg}" alt="${verdictMascotAlt}" width="64" height="64" style="flex-shrink:0; object-fit:contain;" />
+              <img src="${irisVerdictImg}" alt="${irisVerdictAlt}" width="64" height="64" style="flex-shrink:0;" />
               <div style="flex:1;">
                 <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">Woogoro ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
                 <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>
@@ -9773,11 +9808,82 @@ function buildComparisonWinnerHtml(summary) {
           alert("Please enter either a street address or a roof size.");
           return;
         }
-        // Stash into the hidden form fields analyzeQuote() reads from
-        const setVal = function(id, val) { const el = document.getElementById(id); if (el) el.value = val; };
-        if (addr) setVal("streetAddress", addr);
-        if (zip) setVal("zipCode", zip);
-        if (sz) setVal("roofSize", String(sz));
+
+        // The verdict screen has replaced the analyzing screen by the time the
+        // accuracy prompt is shown, so the hidden canonical form inputs and
+        // output containers analyzeQuote needs are gone. Re-create the same
+        // hidden scaffolding confirmProperty originally rendered (matching
+        // analyzer-ui.js confirmProperty's hidden form), with the user's new
+        // address values, then re-run analyzeQuote — its result render will
+        // call setJourneyStep("result") which re-paints the verdict.
+        const p = latestParsed || {};
+        const preview = (typeof journeyState !== "undefined" && journeyState && journeyState.propertyPreview) || {};
+
+        let hiddenHost = document.getElementById("__accuracyRerunHost");
+        if (hiddenHost) hiddenHost.remove();
+        hiddenHost = document.createElement("div");
+        hiddenHost.id = "__accuracyRerunHost";
+        hiddenHost.style.cssText = "position:absolute; left:-9999px; top:-9999px;";
+
+        const street = addr || preview.street || p.address?.street || "";
+        const cityName = preview.city || p.city || p.address?.city || "";
+        const stateCode = preview.state || p.stateCode || p.address?.stateCode || "";
+        const zipCode = zip || preview.zip || p.address?.zip || "";
+        const roofSizeVal = sz > 0 ? String(sz) : "";
+        const quotePriceVal = String(p.finalBestPrice || p.totalLinePrice || p.price || "");
+
+        const setHidden = function(id, val) {
+          // Reuse existing canonical input if present (manual-entry path),
+          // otherwise add to the rerun host.
+          let el = document.getElementById(id);
+          if (el && el.tagName === "INPUT") {
+            el.value = val;
+            return;
+          }
+          if (el) return; // existing div/select — leave it alone
+          el = document.createElement("input");
+          el.type = "hidden";
+          el.id = id;
+          el.value = val;
+          hiddenHost.appendChild(el);
+        };
+        const setHiddenSelect = function(id, val) {
+          if (document.getElementById(id)) return;
+          const sel = document.createElement("select");
+          sel.id = id;
+          const opt = document.createElement("option");
+          opt.value = val;
+          opt.selected = true;
+          sel.appendChild(opt);
+          hiddenHost.appendChild(sel);
+        };
+        const ensureDiv = function(id) {
+          if (document.getElementById(id)) return;
+          const d = document.createElement("div");
+          d.id = id;
+          hiddenHost.appendChild(d);
+        };
+
+        document.body.appendChild(hiddenHost);
+
+        setHidden("streetAddress", street);
+        setHidden("cityName", cityName);
+        setHidden("stateCode", stateCode);
+        setHidden("zipCode", zipCode);
+        setHidden("roofSize", roofSizeVal);
+        setHidden("quotePrice", quotePriceVal);
+        setHidden("warrantyYears", String(p.warrantyYears || ""));
+        setHiddenSelect("materialType", p.material || "architectural");
+        setHiddenSelect("complexityFactor", "1.00");
+        setHiddenSelect("tearOffIncluded", "1.00");
+        ensureDiv("analysisOutput");
+        ensureDiv("aiAnalysisOutput");
+        ensureDiv("analysisPanels");
+        ensureDiv("parsedSignalSection");
+        ensureDiv("inlineAnalyzingState");
+        ensureDiv("inlineShareReportOutput");
+        ensureDiv("inlineShareCopyStatus");
+
         if (typeof analyzeQuote === "function") analyzeQuote();
       };
 
@@ -13770,9 +13876,8 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isUploadMode ? `
             <div style="text-align:center; margin-bottom:24px;">
-              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="margin-bottom:10px;" />
               <h2 style="margin:0 0 8px; font-size:26px; color:#0f172a;">Upload your roofing quote</h2>
-              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Iris will check the price, scope, and flag anything missing.</p>
+              <p style="margin:0; font-size:15px; color:#64748b; max-width:380px; margin-left:auto; margin-right:auto; line-height:1.5;">Juniper will check the price, scope, and flag anything missing.</p>
             </div>
 
             <div style="border:2px dashed #bfdbfe; border-radius:18px; padding:3rem 1.5rem; text-align:center; background:#f8fbff; cursor:pointer; transition:border-color 0.2s, background 0.2s, transform 0.15s;" id="uploadDropZone" onmouseover="this.style.borderColor='#3b82f6';this.style.background='#eff6ff';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#bfdbfe';this.style.background='#f8fbff';this.style.transform='none'">
@@ -13833,7 +13938,6 @@ function buildComparisonWinnerHtml(summary) {
 
             ${isEstimatorMode ? `
             <div style="text-align:center; margin-bottom:20px;">
-              <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" style="margin-bottom:8px;" />
               <h2 style="margin:0 0 6px; font-size:22px;">Enter your address</h2>
               <p style="margin:0; font-size:14px; color:#64748b;">We'll look up your property and estimate your roof size from satellite data.</p>
             </div>
@@ -14254,6 +14358,22 @@ function buildComparisonWinnerHtml(summary) {
             const d = payload.data;
             const livingArea = Number(d.livingAreaSqFt || 0);
             const footprint = Number(d.footprintSqFt || 0);
+            // Stash full classifier signals so the propertyType click handler
+            // (and the final roof-area calc) can use the data-driven
+            // WoogoroHomeType multiplier table instead of hardcoded fallbacks.
+            // This is the same shape HVAC/insulation/painting/electrical use.
+            journeyState.osmSignals = {
+              footprintSqFt: footprint > 0 ? Math.round(footprint) : 0,
+              regionType: d.regionType || "suburban",
+              osmStories: d.osmStories || null,
+              osmHeightMeters: d.osmHeightMeters || null,
+              buildingTag: d.buildingTag || "",
+              buildingSource: d.buildingSource || null,
+              isBulkImportPolygon: !!d.isBulkImportPolygon,
+              likelyAttachedGarage: !!d.likelyAttachedGarage,
+              convexityRatio: d.convexityRatio || null,
+              stateCode: (journeyState.propertyPreview && journeyState.propertyPreview.state) || ""
+            };
             // If we have living area, use it directly. Otherwise save
             // raw footprint and multiply by stories when user selects.
             if (livingArea >= 500 && livingArea <= 15000) {
@@ -14262,8 +14382,16 @@ function buildComparisonWinnerHtml(summary) {
             } else if (footprint >= 400 && footprint <= 15000) {
               journeyState.osmFootprint = Math.round(footprint);
               // Default to footprint as home size; will be adjusted when
-              // user selects stories (two_story = footprint * 2, etc.)
-              journeyState.osmHomeSize = Math.round(footprint);
+              // user selects stories. Auto-pick from classifier if available
+              // — gives suburban-2-story-with-garage ≈ 1.20x (vs old 1.35
+              // hardcoded) and applies Sun Belt ranch + bulk-import haircut
+              // for AZ/FL/NV polygons.
+              const _picked = (window.WoogoroHomeType && journeyState.osmSignals)
+                ? window.WoogoroHomeType.estimateLivingArea(journeyState.osmSignals)
+                : null;
+              journeyState.osmHomeSize = _picked && _picked.livingSqFt
+                ? _picked.livingSqFt
+                : Math.round(footprint);
             }
             if (journeyState.osmHomeSize) {
               // If user is already on the estimator step, populate the input now
@@ -14439,17 +14567,45 @@ function buildComparisonWinnerHtml(summary) {
         const _verdictBlocked = (_rsSrc === "price_based_estimate" || _rsSrc === "unavailable" || _rsSrc === "");
 
         if (_verdictBlocked) {
+          // Verdict requires roof size, but the rest of the analysis (red flags
+          // detected from quote text, scope review, next-steps checklist) is
+          // independent of size and still useful to the user even before they
+          // provide an address or sqft. Render those, with the size-prompt at
+          // the top so the path-to-verdict is obvious.
+          const _priceLine = a.quotePrice && a.quotePrice > 0
+            ? `<div style="font-size:14px; color:#475569; margin-top:10px;">Quote total detected: <strong>$${Math.round(a.quotePrice).toLocaleString()}</strong>. We extracted the rest of your scope below — add roof size for the price-vs-benchmark verdict.</div>`
+            : "";
           return `
             <div id="resultContainer" style="max-width:800px; margin:40px auto; padding:0 24px;">
               ${sampleBanner}
               <div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; margin-bottom:16px; text-align:center;">
-                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">We need your roof size to check this quote</div>
+                <div style="font-size:20px; font-weight:700; color:#0f172a; margin-bottom:8px;">Add your roof size for the price verdict</div>
                 <div style="font-size:14px; color:#475569; max-width:520px; margin:0 auto;">
-                  Roofing prices depend almost entirely on roof area. Without it, any verdict would be a guess. Enter your address (we&#39;ll measure it from satellite data) or your known roof size below and we&#39;ll re-check instantly.
+                  Roofing prices are driven by roof area, so we don't fake a verdict without it. Enter your address (we measure from satellite) or your known roof size below for the price check &mdash; we already extracted the scope and red flags from your quote.
                 </div>
+                ${_priceLine}
               </div>
               ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }))}
               ${sideBySideBtn}
+              ${renderRedFlags(latestExtractedText)}
+              ${renderBeforeYouSign(a)}
+
+              <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
+                <h2 style="margin:0 0 12px; font-size:18px; color:#0f172a;">Next steps before you sign</h2>
+                <ul style="margin:0; padding-left:20px; color:#475569; line-height:1.7;">
+                  <li>Confirm tear-off scope &mdash; old shingles fully removed, not layered over</li>
+                  <li>Ask for a written decking replacement allowance (e.g. "first 2 sheets included")</li>
+                  <li>Verify drip edge, ice &amp; water shield, and starter strip are itemized</li>
+                  <li>Ask if the warranty covers materials AND workmanship, and for how long</li>
+                  <li>Confirm permit and disposal are included in the price</li>
+                </ul>
+              </section>
+
+              <div style="text-align:center; margin:20px 0 10px;">
+                <a class="btn-outline" href="/compare-roofing-quotes.html" style="text-decoration:none;">
+                  Compare 2-3 roofing quotes side by side
+                </a>
+              </div>
             </div>
           `;
         }
@@ -14823,16 +14979,6 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
-            <!-- Property type -->
-            <div class="est-section">
-              <div class="est-section-label">Describe your home</div>
-              <div class="est-options" id="estPropertyType">
-                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
-                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
-                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
-              </div>
-            </div>
-
             <!-- Material — framed as preference, not knowledge -->
             <div class="est-section">
               <div class="est-section-label">What look do you want?</div>
@@ -14877,6 +15023,16 @@ function buildComparisonWinnerHtml(summary) {
               </div>
             </div>
 
+            <!-- Property type / stories -->
+            <div class="est-section">
+              <div class="est-section-label">How many stories?</div>
+              <div class="est-options" id="estPropertyType">
+                ${makeOptionCard("propertyType", "single", "Single story", "Ranch, bungalow")}
+                ${makeOptionCard("propertyType", "two_story", "Two story", "Colonial, traditional")}
+                ${makeOptionCard("propertyType", "townhome", "Townhome / Condo", "Shared walls")}
+              </div>
+            </div>
+
             <!-- Home size -->
             <div class="est-section">
               <div class="est-section-label">How big is your home?</div>
@@ -14884,7 +15040,7 @@ function buildComparisonWinnerHtml(summary) {
                 <input type="number" id="estHomeSize" placeholder="e.g. 2400" value="${journeyState.osmHomeSize ? String(journeyState.osmHomeSize) : ""}" style="padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; font-size:16px; width:160px; font-family:inherit;" />
                 <span style="font-size:14px; color:#64748b;">sq ft</span>
               </div>
-              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Adjusted for home type selected above.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
+              <div id="estHomeSizeHint" style="font-size:12px; margin-top:4px; color:${journeyState.osmHomeSize ? '#16a34a' : '#94a3b8'};">${journeyState.osmHomeSize ? '✓ Pre-filled from satellite data. Select stories above to adjust.' : 'Total living area. Check your listing, tax records, or Zillow if unsure.'}</div>
             </div>
 
             <!-- Ownership -->
@@ -14924,17 +15080,38 @@ function buildComparisonWinnerHtml(summary) {
             if (!journeyState.estimatorAnswers) journeyState.estimatorAnswers = {};
             journeyState.estimatorAnswers[group] = value;
 
-            // When user selects stories (propertyType), keep footprint as-is for roofing
-            // The roof covers the building footprint regardless of how many stories
+            // When user selects stories, estimate total living area from footprint.
+            // Prefer the data-driven WoogoroHomeType classifier (region-aware,
+            // Sun Belt ranch bias, Phoenix tract-home haircut) over hardcoded
+            // fallback multipliers. Lane's Fort Mill SC suburban 2-story with
+            // garage gets 1.20x (= 3,210 for 2,675 footprint) instead of the
+            // old 1.35x (3,611, which felt high to her — bug she caught).
             if (group === "propertyType" && journeyState.osmFootprint) {
-              journeyState.osmHomeSize = journeyState.osmFootprint;
+              var lm = 1.0;
+              if (window.WoogoroHomeType && journeyState.osmSignals) {
+                // Map the 3 simple options to the 5-row classifier.
+                var homeTypeId = value === "single" ? "single_ranch"
+                  : value === "townhome" ? "two_story_no_garage"
+                  : "two_story_with_garage"; // two_story default = with-garage modal
+                lm = window.WoogoroHomeType.getMultiplier(
+                  homeTypeId,
+                  journeyState.osmSignals.regionType,
+                  journeyState.osmSignals
+                );
+              } else {
+                // Fallback when classifier unavailable
+                var livingMults = { single: 1.0, two_story: 1.35, townhome: 2.0 };
+                lm = livingMults[value] || 1.0;
+              }
+              var estLiving = Math.round(journeyState.osmFootprint * lm);
+              journeyState.osmHomeSize = estLiving;
               const _inp = document.getElementById("estHomeSize");
               if (_inp) {
-                _inp.value = String(journeyState.osmFootprint);
+                _inp.value = String(estLiving);
                 const _hint = document.getElementById("estHomeSizeHint");
                 if (_hint) {
                   var storyLabel = value === "two_story" ? "2-story" : value === "townhome" ? "townhome" : "single-story";
-                  _hint.textContent = "\u2713 " + journeyState.osmFootprint.toLocaleString() + " sq ft building footprint from satellite data (" + storyLabel + ")";
+                  _hint.textContent = "\u2713 ~" + estLiving.toLocaleString() + " sq ft estimated (" + storyLabel + ", " + journeyState.osmFootprint.toLocaleString() + " sq ft footprint). Edit if you know exact.";
                   _hint.style.color = "#16a34a";
                 }
               }
@@ -14961,7 +15138,7 @@ function buildComparisonWinnerHtml(summary) {
           const _inp = document.getElementById("estHomeSize");
           if (_inp && !_inp.value) _inp.value = String(journeyState.osmHomeSize);
           if (_hint) {
-            _hint.textContent = "\u2713 Pre-filled from satellite data. Select your home type above to adjust for stories.";
+            _hint.textContent = "\u2713 Pre-filled from satellite data. Select stories above to estimate total living area.";
             _hint.style.color = "#16a34a";
           }
           return true;
@@ -15093,7 +15270,7 @@ function buildComparisonWinnerHtml(summary) {
       const CURRENT_SEASONAL_MULT = SEASONAL_MULT_BY_MONTH[now.getMonth() + 1] || 1.0;
 
       // Multipliers from user selections
-      const storyMultipliers = { single: 1.0, two_story: 0.55, townhome: 0.45 };
+      const storyMultipliers = { single: 1.0, two_story: 0.741, townhome: 0.50 };
       const pitchFactors = { flat: 1.0, normal: 1.12, steep: 1.25, very_steep: 1.40 };
       const complexityFactors = { normal: 1.0, complex: 1.15, very_complex: 1.30 };
       const tearOffFactors = { replacement: 1.0, repair: 0.35, proactive: 1.0 };
@@ -15147,52 +15324,59 @@ function buildComparisonWinnerHtml(summary) {
       const complexArea = COMPLEXITY_AREA[answers.complexity] || 1.0;
       const ROOF_AREA_RATIO = pitchGeometry * OVERHANG_FACTOR * complexArea;
 
-      let baseArea;
-      // Check saved home size (saved before DOM was replaced by loading screen),
-      // then fallback to address step home size or OSM data
+      // Determine the building FOOTPRINT (single-story-equivalent ground area)
+      // as the canonical input to roof-area math. Roof area = footprint *
+      // pitch * overhang * complexity. Living area is NOT footprint — for a
+      // 2-story home with 3,200 sqft living area, footprint is ~1,600.
+      // Earlier versions treated homeSize (living area) as footprint, which
+      // produced ~2x oversized roof estimates for multi-story homes.
       const estHomeSizeVal = journeyState._savedHomeSize || Number(document.getElementById("estHomeSize")?.value || 0);
       const homeSize = estHomeSizeVal > 0 ? estHomeSizeVal
         : journeyState.osmHomeSize > 0 ? journeyState.osmHomeSize
         : (preview.homeSize && preview.homeSize > 0 ? preview.homeSize : null);
 
-      if (homeSize) {
-        // If OSM footprint was used and user didn't manually override,
-        // the input already IS the footprint — don't apply story multiplier
-        const isOsmFootprint = journeyState.osmFootprint && homeSize === journeyState.osmFootprint;
-        const footprint = isOsmFootprint ? homeSize : homeSize * storyMult;
-        baseArea = footprint * ROOF_AREA_RATIO;
-        footprintSource = isOsmFootprint ? "osm_footprint" : "user_home_size";
+      // If the user edited the sqft input (different from the OSM-pre-filled
+      // value, which gets reset by the propertyType click handler), trust
+      // their number — they know their home. Otherwise prefer OSM's polygon
+      // measurement. Tolerance 5% to allow rounding noise.
+      const _osmHomeForCompare = Number(journeyState.osmHomeSize) || 0;
+      const _userEdited = homeSize > 0 && _osmHomeForCompare > 0 &&
+        Math.abs(homeSize - _osmHomeForCompare) / _osmHomeForCompare > 0.05;
 
-        // Cross-check with OSM if available — use larger of the two for safety
-        if (footprintSqFt && footprintSqFt > footprint * 0.8) {
-          const osmRoofSize = footprintSqFt * pitchFact;
-          if (osmRoofSize > baseArea) {
-            baseArea = osmRoofSize;
-            footprintSource = "osm_footprint";
-          }
-        }
+      let footprint;
+      if (_userEdited && homeSize > 0) {
+        // User-provided living area. Convert to footprint via storyMult.
+        footprint = homeSize * storyMult;
+        footprintSource = "user_home_size";
+      } else if (journeyState.osmFootprint && journeyState.osmFootprint > 400) {
+        // Best signal: OSM building polygon area. Use directly.
+        footprint = journeyState.osmFootprint;
+        footprintSource = "osm_footprint";
+      } else if (homeSize) {
+        // User-provided living area. Convert to footprint via storyMult.
+        footprint = homeSize * storyMult;
+        footprintSource = "user_home_size";
       } else if (footprintSqFt) {
-        // OSM footprint available, no home size entered
-        baseArea = footprintSqFt * pitchFact;
+        // Older code path with raw footprintSqFt variable
+        footprint = footprintSqFt;
         footprintSource = "osm_footprint";
       } else {
-        // No footprint data — ask user for home size instead of guessing
+        // No data — prompt user, then fall back to regional average
         const userSize = prompt("We couldn't detect your roof size from satellite data.\n\nEnter your home's square footage (e.g. 2000):");
         const parsedSize = parseInt(userSize);
         if (parsedSize && parsedSize >= 400 && parsedSize <= 20000) {
-          const footprint = parsedSize * storyMult;
-          baseArea = footprint * ROOF_AREA_RATIO;
+          footprint = parsedSize * storyMult;
           footprintSource = "user_home_size";
         } else {
-          // User cancelled or invalid — use conservative estimate
-          const avgHome = 1800;
-          baseArea = avgHome * storyMult * ROOF_AREA_RATIO;
+          footprint = 1800 * storyMult;
           footprintSource = "regional_average";
         }
       }
 
-      // Apply complexity on top (dormers, valleys add area)
-      const estimatedRoofSize = Math.round(baseArea * complexFact);
+      // Roof area from footprint. ROOF_AREA_RATIO already bakes in pitch
+      // geometry + overhang + complexity-area-bump, so don't multiply
+      // complexFact again here (complexFact is a *cost* factor used below).
+      const estimatedRoofSize = Math.round(footprint * ROOF_AREA_RATIO);
 
       // Calculate cost using regional pricing model
       const city = preview.city || "";
@@ -15222,8 +15406,13 @@ function buildComparisonWinnerHtml(summary) {
         * laborMult * tearOffFact * brandMult * scopeMult * seasonFact * INFLATION_MULT * CURRENT_SEASONAL_MULT;
 
       const mid = Math.round(totalCost / 50) * 50; // round to nearest $50
-      const low = Math.round(mid * 0.85 / 50) * 50;
-      const high = Math.round(mid * 1.18 / 50) * 50;
+      // Standard band: 0.88 / 1.15 (30% spread). Per-vertical answers
+      // (material / pitch / complexity / insurance / season) already encode
+      // most legitimate variance, so a tighter band is honest. Moving and
+      // painting keep wider bands (0.82/1.20, 0.80/1.25) — distance/weight/
+      // seasonal and DIY-vs-premium-prep variance is real and not modeled.
+      const low = Math.round(mid * 0.88 / 50) * 50;
+      const high = Math.round(mid * 1.15 / 50) * 50;
       const benchmarkPerSqFt = Math.round((mid / estimatedRoofSize) * 100) / 100;
       const localDataUsed = true; // Always using regional data now
 
@@ -15305,7 +15494,7 @@ function buildComparisonWinnerHtml(summary) {
       const workLabel = r.workType === "repair" ? "Roof Repair" : "Roof Replacement";
 
       return `
-        <div style="max-width:800px; margin:40px auto; padding:0 24px;">
+        <div class="result-card" style="max-width:800px; margin:40px auto; padding:0 24px;">
 
           <!-- Main estimate card -->
           <div style="padding:32px; background:#fff; border:2px solid #2563eb; border-radius:24px; box-shadow:0 10px 30px rgba(15,23,42,0.08); margin-bottom:20px;">
@@ -15477,12 +15666,12 @@ function buildComparisonWinnerHtml(summary) {
             </ul>
           </section>
 
-          <div style="text-align:center; margin:16px 0;">
+          <div style="text-align:center; margin:16px 0;" class="tp-pdf-noprint">
             <a href="/methodology.html" style="display:inline-block; padding:10px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-size:14px; font-weight:600; color:#475569; text-decoration:none;">How we calculate estimates</a>
           </div>
 
           <!-- CTAs -->
-          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;" class="tp-pdf-noprint">
             <button class="btn" style="flex:1; min-width:200px; font-size:16px; padding:14px 24px;" onclick="startQuoteUploadFromEstimator()">
               Upload a quote to compare
             </button>
@@ -15491,7 +15680,7 @@ function buildComparisonWinnerHtml(summary) {
             </a>
           </div>
 
-          <div style="text-align:center; margin-top:10px;">
+          <div style="text-align:center; margin-top:10px;" class="tp-pdf-noprint">
             <a href="/roofing-quote-analyzer.html" style="font-size:14px; color:var(--muted, #6b7280);">Start over</a>
           </div>
         </div>
