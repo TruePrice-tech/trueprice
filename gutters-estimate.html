@@ -338,6 +338,7 @@
 
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
+  <script src="/js/home-type-classifier.js"></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
   <script>
@@ -689,16 +690,65 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. Don't default to TX when input is unrecognized —
+        // an unknown state should fall through to the national-average code
+        // path downstream rather than silently biasing toward Texas.
         var upper = rawState.toUpperCase();
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = lookup || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
+
+        // Pre-fill linear feet from OSM footprint when available. For a
+        // typical 1.4:1 aspect-ratio rectangular home, perimeter ≈
+        // 4.06 × √footprint, which is close enough to true gutter LF for a
+        // first-pass dropdown selection (user can adjust). Snaps to the
+        // nearest 50 LF bucket the dropdown supports.
+        if (state.address.street && state.address.city) {
+          fetch("/api/property-signals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              street: state.address.street,
+              city: state.address.city,
+              stateCode: state.address.stateCode,
+              zip: state.address.zip
+            })
+          })
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(payload) {
+              if (!payload || !payload.success || !payload.data) return;
+              var d = payload.data;
+              var fp = Number(d.footprintSqFt || 0);
+              if (!(fp > 0)) return;
+              state.osmFootprint = Math.round(fp);
+              state.osmSignals = {
+                footprintSqFt: state.osmFootprint,
+                regionType: d.regionType || "suburban",
+                osmStories: d.osmStories || null,
+                osmHeightMeters: d.osmHeightMeters || null,
+                buildingTag: d.buildingTag || "",
+                buildingSource: d.buildingSource || null,
+                isBulkImportPolygon: !!d.isBulkImportPolygon,
+                likelyAttachedGarage: !!d.likelyAttachedGarage,
+                stateCode: state.address.stateCode || ""
+              };
+              if (window.WoogoroHomeType) {
+                try { state.homeTypePick = window.WoogoroHomeType.estimateLivingArea(state.osmSignals); } catch(e) {}
+              }
+              // Estimate gutter LF from footprint perimeter (rounded to 50).
+              var perim = 4.06 * Math.sqrt(fp);
+              var bucket = Math.max(100, Math.min(250, Math.round(perim / 50) * 50));
+              state.est.linearFeet = String(bucket);
+              if (state.step === "estimator") render();
+            })
+            .catch(function() { /* silent — user picks LF manually */ });
+        }
+
         state.step = "estimator";
         render();
       });

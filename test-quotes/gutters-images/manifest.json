@@ -1,50 +1,46 @@
-[
-  {
-    "id": "1q3auie",
-    "title": "[FL Hip Roof] Quote Discrepancy: $22k vs $28k. The expensive guy refuses to do F",
-    "url": "https://i.redd.it/h4hik30478bg1.jpeg",
-    "permalink": "https://reddit.com/r/Roofing/comments/1q3auie/fl_hip_roof_quote_discrepancy_22k_vs_28k_the/",
-    "score": 28,
-    "sub": "Roofing",
-    "query": "gutter quote",
-    "file": "real-05-fl-hip-roof-quote-discrepancy-22k-vs-28k-the-expen.jpeg",
-    "size": 1173526,
-    "status": "ok"
-  },
-  {
-    "id": "1cgenjq",
-    "title": "I received this quote for a new roof. Does it look reasonable? Seems like the gu",
-    "url": "https://i.redd.it/v950h060cixc1.png",
-    "permalink": "https://reddit.com/r/Roofing/comments/1cgenjq/i_received_this_quote_for_a_new_roof_does_it_look/",
-    "score": 19,
-    "sub": "Roofing",
-    "query": "gutter quote",
-    "file": "real-06-i-received-this-quote-for-a-new-roof-does-it-look.png",
-    "size": 145852,
-    "status": "ok"
-  },
-  {
-    "id": "19e1axt",
-    "title": "Another estimate. I\u2019m going broke from just reading these",
-    "url": "https://i.redd.it/464v1xzjp9ec1.jpeg",
-    "permalink": "https://reddit.com/r/Roofing/comments/19e1axt/another_estimate_im_going_broke_from_just_reading/",
-    "score": 11,
-    "sub": "Roofing",
-    "query": "gutter estimate",
-    "file": "real-09-another-estimate-im-going-broke-from-just-reading.jpeg",
-    "size": 353660,
-    "status": "ok"
-  },
-  {
-    "id": "1s3hza7",
-    "title": "Help me pick a quote!",
-    "url": "https://i.redd.it/4f6yssc2c8rg1.jpeg",
-    "permalink": "https://reddit.com/r/Roofing/comments/1s3hza7/help_me_pick_a_quote/",
-    "score": 8,
-    "sub": "Roofing",
-    "query": "gutter quote",
-    "file": "real-10-help-me-pick-a-quote.jpeg",
-    "size": 71796,
-    "status": "ok"
-  }
-]
+{
+  "_note": "All 4 'real-*' fixtures here are ROOFING quotes with gutters as a side line item, not pure-gutter quotes. The original 10-entry manifest had 5 missing-on-disk plus a recursive-scrape pollution screenshot of Woogoro's own UI. Cleaned 2026-04-28. These remaining files are still useful as vertical-deflection test cases (analyzer should recognize them as roofing and offer to switch). Pure-gutter compare fixtures live at comparison-gutters-{low,mid,high}.png + messy-comparison-gutters-{low,mid,high}.jpg.",
+  "_pure_gutter_fixtures_pending": "Source fresh hand-curated fixtures from BBB / state AG complaint databases. See feedback_validate_fixtures_first.md.",
+  "fixtures": [
+    {
+      "id": "1q3auie",
+      "title": "[FL Hip Roof] Quote Discrepancy: $22k vs $28k",
+      "url": "https://i.redd.it/h4hik30478bg1.jpeg",
+      "permalink": "https://reddit.com/r/Roofing/comments/1q3auie/fl_hip_roof_quote_discrepancy_22k_vs_28k_the/",
+      "sub": "Roofing",
+      "file": "real-05-fl-hip-roof-quote-discrepancy-22k-vs-28k-the-expen.jpeg",
+      "verticalContamination": "roofing",
+      "useFor": "vertical_deflection_test"
+    },
+    {
+      "id": "1cgenjq",
+      "title": "I received this quote for a new roof. Does it look reasonable?",
+      "url": "https://i.redd.it/v950h060cixc1.png",
+      "permalink": "https://reddit.com/r/Roofing/comments/1cgenjq/i_received_this_quote_for_a_new_roof_does_it_look/",
+      "sub": "Roofing",
+      "file": "real-06-i-received-this-quote-for-a-new-roof-does-it-look.png",
+      "verticalContamination": "roofing",
+      "useFor": "vertical_deflection_test"
+    },
+    {
+      "id": "19e1axt",
+      "title": "Another estimate. I'm going broke from just reading these",
+      "url": "https://i.redd.it/464v1xzjp9ec1.jpeg",
+      "permalink": "https://reddit.com/r/Roofing/comments/19e1axt/another_estimate_im_going_broke_from_just_reading/",
+      "sub": "Roofing",
+      "file": "real-09-another-estimate-im-going-broke-from-just-reading.jpeg",
+      "verticalContamination": "roofing",
+      "useFor": "vertical_deflection_test"
+    },
+    {
+      "id": "1s3hza7",
+      "title": "Help me pick a quote!",
+      "url": "https://i.redd.it/4f6yssc2c8rg1.jpeg",
+      "permalink": "https://reddit.com/r/Roofing/comments/1s3hza7/help_me_pick_a_quote/",
+      "sub": "Roofing",
+      "file": "real-10-help-me-pick-a-quote.jpeg",
+      "verticalContamination": "roofing_comparison_table",
+      "useFor": "vertical_deflection_hardest_case"
+    }
+  ]
+}
