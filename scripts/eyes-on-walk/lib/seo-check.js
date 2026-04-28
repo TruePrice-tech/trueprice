@@ -38,6 +38,14 @@ function parsePage(html) {
   const robots = (extractFirst(html, /<meta[^>]+name=["']robots["'][^>]*content=["']([^"']+)["']/i) || "").toLowerCase();
   const h1Count = (html.match(/<h1[\s>][^>]*>/gi) || []).length;
   const skipLink = /class=["'][^"']*\bskip-link\b/i.test(html) || /href=["']#main["']/i.test(html);
+  // CTR-EXP marker: pages running an active title/description A/B test opt
+  // out of the length contract. Marker shape:
+  //   <!-- CTR-EXP 2026-04-25 group=A formula-id=A baseline-title="..." -->
+  // The variant title may legitimately exceed the SERP band while the test
+  // measures CTR. Detect the marker and skip title/description length checks
+  // for the page (other contract checks still apply).
+  const ctrExpTitle = /<!--\s*CTR-EXP\b[^>]*\b(?:baseline-title|title)\b/i.test(html) || /<!--\s*CTR-EXP\b/i.test(html);
+  const ctrExpDescription = /<!--\s*CTR-EXP-DESC\b/i.test(html);
 
   const ogTags = {};
   const ogRe = /<meta[^>]+property=["'](og:[^"']+)["'][^>]*content=["']([^"']*)["']/gi;
@@ -89,6 +97,8 @@ function parsePage(html) {
     jsonLdBlocks,
     jsonLdParseErrors,
     internalLinkCount: internalLinks.size,
+    ctrExpTitle,
+    ctrExpDescription,
   };
 }
 
@@ -125,14 +135,15 @@ function checkPage(urlPath, parsed, contract) {
     push("high", `${parsed.jsonLdParseErrors.length} JSON-LD block(s) failed to parse`, parsed.jsonLdParseErrors.join(" | "));
   }
 
-  // Title length band
-  if (contract.titleLength && parsed.title) {
+  // Title length band -- skipped when an active CTR-EXP A/B test is running
+  // on the title (variant titles may legitimately fall outside the band).
+  if (contract.titleLength && parsed.title && !parsed.ctrExpTitle) {
     const len = parsed.title.length;
     if (len < contract.titleLength.min) push("medium", `title shorter than ${contract.titleLength.min} chars`, `len=${len}: "${parsed.title}"`);
     else if (len > contract.titleLength.max) push("medium", `title longer than ${contract.titleLength.max} chars (Google truncates ~60)`, `len=${len}: "${parsed.title}"`);
   }
-  // Description length band
-  if (contract.descriptionLength && parsed.description) {
+  // Description length band -- same CTR-EXP-DESC bypass.
+  if (contract.descriptionLength && parsed.description && !parsed.ctrExpDescription) {
     const len = parsed.description.length;
     if (len < contract.descriptionLength.min) push("medium", `description shorter than ${contract.descriptionLength.min} chars`, `len=${len}`);
     else if (len > contract.descriptionLength.max) push("medium", `description longer than ${contract.descriptionLength.max} chars`, `len=${len}`);
