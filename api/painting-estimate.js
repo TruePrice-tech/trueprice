@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "painting", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "painting", cacheNamespace: "painting:v2", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -246,7 +246,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("painting", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("painting:v2", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
@@ -289,27 +289,6 @@ Rules:
       let paintQualityInfo = null;
       if (parsed.paintQuality && pricingData.paintQuality?.[parsed.paintQuality]) {
         paintQualityInfo = pricingData.paintQuality[parsed.paintQuality];
-      }
-
-      // Check for upsell patterns from commonUpsells
-      const serverUpsells = [];
-      if (parsed.lineItems && pricingData.commonUpsells) {
-        const allDescs = parsed.lineItems.map(li => (li.description || "").toLowerCase()).join(" ");
-        for (const upsell of pricingData.commonUpsells) {
-          const itemLower = upsell.item.toLowerCase();
-          const itemWords = itemLower.split(/[\s\/]+/).filter(w => w.length > 3);
-          if (itemWords.some(w => allDescs.includes(w)) || allDescs.includes(itemLower)) {
-            serverUpsells.push({
-              item: upsell.item,
-              necessary: upsell.necessary,
-              typicalCost: upsell.cost,
-              notes: upsell.notes
-            });
-          }
-        }
-      }
-      if (serverUpsells.length > 0) {
-        parsed.detectedUpsells = serverUpsells;
       }
 
       // Add pricing context

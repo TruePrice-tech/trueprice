@@ -87,7 +87,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "electrical", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "electrical", cacheNamespace: "electrical:v2", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -248,7 +248,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("electrical", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("electrical:v2", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
@@ -434,31 +434,19 @@ Rules:
         }
       } catch (_e) { /* optional */ }
 
-      // --- IRA 25C EXPIRED Dec 31 2025; 30C still active for EV chargers (verify per current IRS guidance) ---
+      // --- IRA tax credits ---
+      // 25C (panel upgrade, heat pump electrical work) EXPIRED Dec 31 2025
+      // — DO NOT surface as iraApplicable. Frontend reads this array and
+      // shows each entry to the user as if claimable.
+      // 30C (EV charger) is still active in eligible census tracts.
       try {
         const iraApplicable = [];
-        if (jobType && jobType.startsWith("panel_upgrade")) {
-          iraApplicable.push({
-            program: "25C Panelboard Credit (EXPIRED Dec 31 2025)",
-            amount: "30% up to $600/yr",
-            condition: "Panel must be upgraded to enable a heat pump, HPWH, EV charger, or similar electrification upgrade placed in service same tax year",
-            form: "IRS Form 5695 Part II"
-          });
-        }
         if (jobType === "ev_charger_level2") {
           iraApplicable.push({
             program: "30C EV Charger Credit",
             amount: "30% up to $1,000",
             condition: "Residence must be in an eligible low-income or non-urban census tract; check Argonne 30C eligibility map",
             form: "IRS Form 8911"
-          });
-        }
-        if (jobType === "heat_pump_circuit") {
-          iraApplicable.push({
-            program: "25C Heat Pump Credit (EXPIRED Dec 31 2025)",
-            amount: "30% up to $2,000/yr",
-            condition: "Electrical work bundled with qualified heat pump install",
-            form: "IRS Form 5695 Part II"
           });
         }
         if (iraApplicable.length) parsed.iraApplicable = iraApplicable;

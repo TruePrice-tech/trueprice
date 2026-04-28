@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "gutters", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "gutters", cacheNamespace: "gutters:v2", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -240,7 +240,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("gutters", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("gutters:v2", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
