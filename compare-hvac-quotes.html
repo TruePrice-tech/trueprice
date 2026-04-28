@@ -414,7 +414,7 @@
             if (extracted.warranty && extracted.warranty.parts) api.warrantyPartsYears = extracted.warranty.parts;
             if (extracted.warranty && extracted.warranty.labor) api.warrantyLaborYears = extracted.warranty.labor;
             api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
+            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
           return { raw: { data: api }, ocrText: _engOcrText };
         }
@@ -437,7 +437,7 @@
           if (!api.warrantyPartsYears && extracted.warranty && extracted.warranty.parts) api.warrantyPartsYears = extracted.warranty.parts;
           if (!api.warrantyLaborYears && extracted.warranty && extracted.warranty.labor) api.warrantyLaborYears = extracted.warranty.labor;
           api.scopeItems = {};
-          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; });
+          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
 
         // Fallback: if still no price, try client-side parser

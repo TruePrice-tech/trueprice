@@ -924,7 +924,14 @@
     var config = VERTICALS[vertical] || VERTICALS["plumbing"];
     var t = String(text || "");
 
-    // Scope detection (with negation handling)
+    // Scope detection (with negation handling).
+    // detected:true  → an unambiguous "included" line was found
+    // excluded:true  → only mentions of this item were on negated lines
+    //                  ("Sealer NOT included", "permit excluded", etc.)
+    // both false     → not mentioned at all
+    // detected wins over excluded (one positive line is enough), so the
+    // compare table treats "Sealer included on driveway, NOT on patio"
+    // as included, not excluded.
     var scope = [];
     var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b|\bnon-\w+ed\b|\bnon\s+insulated\b/i;
     if (config.scope) {
@@ -933,17 +940,27 @@
       for (var i = 0; i < config.scope.length; i++) {
         var item = config.scope[i];
         var found = false;
+        var negatedOnly = false;
         for (var li = 0; li < lines.length; li++) {
           var line = lines[li];
           if (item.patterns.some(function (p) { return p.test(line); })) {
-            // Check if this line negates the item
-            if (!negationPattern.test(line)) {
+            if (negationPattern.test(line)) {
+              // Pattern present but negated on this line. Don't claim
+              // detection yet — keep scanning in case a later line
+              // includes the item without negation.
+              negatedOnly = true;
+            } else {
               found = true;
               break;
             }
           }
         }
-        scope.push({ key: item.key, label: item.label, detected: found });
+        scope.push({
+          key: item.key,
+          label: item.label,
+          detected: found,
+          excluded: !found && negatedOnly
+        });
       }
     }
 

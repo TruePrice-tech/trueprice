@@ -487,7 +487,7 @@
           var extracted = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
           if (extracted.jobType && extracted.jobType.value !== "other") regexApi.practiceArea = extracted.jobType.label;
           if (extracted.laborRate) regexApi.hourlyRate = extracted.laborRate;
-          regexApi.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) regexApi.scopeItems[s.key] = "included"; });
+          regexApi.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) regexApi.scopeItems[s.key] = "included"; else if (s.excluded) regexApi.scopeItems[s.key] = "excluded"; });
         }
         var apiResult = { data: regexApi };
 
@@ -532,7 +532,7 @@
         var d = apiResult.data || apiResult;
         if (!d.practiceArea && extracted.jobType && extracted.jobType.value !== "other") d.practiceArea = extracted.jobType.label;
         if (!d.hourlyRate && extracted.laborRate) d.hourlyRate = extracted.laborRate;
-        if (!d.scopeItems) { d.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; }); }
+        if (!d.scopeItems) { d.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; else if (s.excluded) d.scopeItems[s.key] = "excluded"; }); }
       }
 
       return buildResultFromAPI(apiResult);
