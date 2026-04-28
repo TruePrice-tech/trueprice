@@ -2478,9 +2478,34 @@ function detectContractor(text) {
     }
   }
 
+  // A real company name needs a proper-noun BRAND prefix in addition to any
+  // trade-keyword suffix. Without this guard, contractor detection happily
+  // returns "Windows and Siding", "Roofing Services", or "SERVICES OFFERED"
+  // — pure trade/header phrases from side panels, category lists, and
+  // letterhead taglines that have no actual brand identifier.
+  const TRADE_KEYWORDS = new Set([
+    "roofing","roof","exteriors","construction","contracting","restoration",
+    "builders","plumbing","plumber","electric","electrical","electrician",
+    "hvac","heating","cooling","fencing","fence","foundation","concrete",
+    "masonry","gutters","gutter","insulation","kitchen","remodel","remodeling",
+    "landscaping","landscape","moving","movers","mover","painting","painter",
+    "solar","energy","siding","windows","window","garage","auto","repair",
+    "mechanic","services","solutions","pros","professionals","enterprises",
+    "industries","works","specialists","experts","group","brothers","sons",
+    "associates","partners","team","and","&","of","the","by","for","or",
+    "company","co","llc","inc","corp","ltd","offered","available"
+  ]);
+  function hasBrandWord(name) {
+    var words = String(name || "").split(/[\s&]+/).filter(Boolean);
+    return words.some(function(w) {
+      var lc = w.toLowerCase().replace(/[.,]/g, "");
+      return lc.length >= 3 && !TRADE_KEYWORDS.has(lc);
+    });
+  }
+
   for (const line of lines.slice(0, 10)) {
     const cleaned = cleanCompanyName(line);
-    if (looksLikeCompanyName(cleaned)) return cleaned;
+    if (looksLikeCompanyName(cleaned) && hasBrandWord(cleaned)) return cleaned;
   }
 
   // Fallback: scan ALL company-name matches and pick the longest valid one.
@@ -2497,7 +2522,8 @@ function detectContractor(text) {
       cleaned &&
       !/\$|,\d{3}|\.\d{2}\b/.test(cleaned) &&
       !/\b(qty|quantity|unit price|unit cost|subtotal|labor|materials|flashing replacement|ventilation upgrade|tear off|underlayment|shingles|permit|sales tax)\b/i.test(cleaned) &&
-      looksLikeCompanyName(cleaned)
+      looksLikeCompanyName(cleaned) &&
+      hasBrandWord(cleaned)
     ) {
       candidates.push(cleaned);
     }

@@ -160,10 +160,15 @@ export default async function handler(req, res) {
     const ip = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "unknown";
 
     if (!isAdmin) {
-      // Rate limit: max 3 submissions per IP per 24 hours
+      // Rate limit: max 15 submissions per IP per 24 hours.
+      // The analyzer auto-POSTs here on every successful analysis (source:
+      // "upload") which is the bulk of real traffic — 3/day was too low and
+      // throttled power users + shared-NAT offices. The 5-minute duplicate
+      // check below + the abuse-guard image dedup at the analyzer level keep
+      // garbage out; the per-IP cap is just defense against scripted floods.
       const rateLimitKey = `cal_rate:${ip}`;
       const submissions = await redis.get(rateLimitKey) || 0;
-      if (submissions >= 3) {
+      if (submissions >= 15) {
         return res.status(429).json({ error: "Too many submissions. Try again tomorrow." });
       }
       // Update rate limit
