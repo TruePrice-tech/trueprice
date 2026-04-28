@@ -1933,18 +1933,44 @@ function initQuoteApp(){
     if(api.stateCode) qState.stateCode=api.stateCode;
     var shopType=api.shopType||qState.shopType||"independent";
     var regionalRates=getRegionalLaborRate(shopType,region);
-    // API returns `repairs` (per the Claude prompt schema in api/auto-repair-estimate.js).
-    // Older callers passed `lineItems`; accept both. Each repair item from the
-    // API uses `lineTotal` (not `total`); fall back to parts+labor sum.
+
+    // Insurance / body-shop estimate detection runs on the same OCR text as
+    // the local fallback. API path was missing this previously, so insurance
+    // estimates rendered with mechanic-shop framing ("$55/hr Below market"
+    // when $55 is industry-standard insurance book rate). Use the captured
+    // OCR text or the API-returned text fields.
+    var _ocrForCheck = (qState && qState.extractedText) || api.text || api.ocrText || "";
+    var _isInsuranceEstimate = /estimate\s+of\s+record|net\s+cost\s+of\s+repairs|adjuster|insurance\s+(?:policy|company|adjuster)|deductible|total\s+adjustments|claim\s+number/i.test(_ocrForCheck);
+
+    // Recommendation-list detection: dealer "Additional Service
+    // Recommendations" sections list optional add-ons, not a single ordered
+    // repair. Different framing applies (these are upsell candidates).
+    var _looksLikeRecommendationList = /(?:additional\s+service\s+recommendations|recommended\s+services)/i.test(_ocrForCheck);
+
+    // Labor-hours decimal-reconciliation. OCR sometimes drops the decimal
+    // point in fractional hours ("4.4 hrs" → "44 hrs"), making the labor
+    // line look 10x too long. If laborRate × laborHours diverges sharply
+    // from laborTotal, prefer laborTotal ÷ laborRate as the corrected
+    // hours value.
+    var _apiHours = Number(api.laborHours)||null;
+    var _apiRate  = Number(api.laborRate)||null;
+    var _apiLaborTotal = Number(api.laborTotal)||null;
+    if (_apiHours && _apiRate && _apiLaborTotal) {
+      var _expected = _apiHours * _apiRate;
+      var _ratio = _expected > 0 ? _apiLaborTotal / _expected : 1;
+      if (_ratio > 0 && _ratio < 0.2) {
+        // Computed labor would be 5x+ greater than stated total — hours
+        // are almost certainly missing a decimal. Recover from total.
+        var _recovered = _apiLaborTotal / _apiRate;
+        if (_recovered >= 0.1 && _recovered <= 40) _apiHours = Math.round(_recovered * 10) / 10;
+      }
+    }
+
     var _src=api.repairs||api.lineItems||[];
     var lineItems=_src.map(function(item){
       var p=Number(item.partsCost)||0;
       var l=Number(item.laborCost)||0;
       var t=Number(item.lineTotal||item.total)||(p+l);
-      // Per-line benchmark from API: repair.benchmark.totalRange tells us
-      // the typical price range for THIS repair (e.g. brake job $250-$450).
-      // If the line total falls outside the range, the verdict copy can
-      // call out that specific item instead of just an overall ratio.
       var bench=item.benchmark||null;
       var benchFlag=null;
       if(bench&&bench.totalRange&&t>0){
@@ -1956,12 +1982,45 @@ function initQuoteApp(){
           else benchFlag="in_range";
         }
       }
-      return{description:item.description||"Repair item",partsCost:p,laborCost:l,total:t,urgency:item.repairUrgency||item.urgency||null,benchmark:bench,benchmarkFlag:benchFlag,laborHoursFlag:item.laborHoursFlag||null};
+      // Suppress urgency badge on insurance estimates: body-labor lines on
+      // an insurance Estimate of Record aren't user-deferrable repairs,
+      // and Claude defaults to "can_wait" for unfamiliar descriptions
+      // (e.g. "Body Labor"), surfacing a misleading "CAN WAIT" tag.
+      var urgency = (_isInsuranceEstimate || _looksLikeRecommendationList) ? null : (item.repairUrgency||item.urgency||null);
+      return{description:item.description||"Repair item",partsCost:p,laborCost:l,total:t,urgency:urgency,benchmark:bench,benchmarkFlag:benchFlag,laborHoursFlag:item.laborHoursFlag||null};
     });
-    var quoteTotal=api.quoteTotal||0;
-    var benchmark=api.benchmark||quoteTotal;
-    var ratio=benchmark>0?quoteTotal/benchmark:1.0;
-    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:api.laborRate||null,laborHours:api.laborHours||null,partsTotal:api.partsTotal||null,laborTotal:api.laborTotal||null,shopType:shopType,partsType:api.partsType||null,region:region,regionalRates:regionalRates,laborFlag:api.laborRate?laborRateFlag(api.laborRate,regionalRates):null,scopeSignals:api.scopeSignals||{},parsed:api,vehicleCategory:api.vehicleCategory||null,possibleUpsells:api.possibleUpsells||[],pricingContext:api.pricingContext||null,stateConsumerProtection:api.stateConsumerProtection||null,aftermarketSavings:api.aftermarketSavings||null,commonRepairBenchmarks:api.commonRepairBenchmarks||null};
+
+    // When the API returns only a single repair line but separate
+    // partsTotal / laborTotal totals exist (Jeep insurance fixture: just
+    // "Body Labor", with $324 parts and $120 misc folded into the totals
+    // but absent from repairs[]), synthesize Parts / Misc / Tax rows so
+    // the breakdown sums to the displayed grand total.
+    var _quoteTotal=Number(api.quoteTotal)||0;
+    if(lineItems.length<=1 && (_apiLaborTotal>0 || Number(api.partsTotal)>0)){
+      var _laborSum=lineItems.reduce(function(s,it){return s+(it.laborCost||0)+(it.partsCost?0:(it.total||0));},0);
+      var rebuilt=[];
+      if(Number(api.partsTotal)>0){
+        rebuilt.push({description:"Parts",partsCost:Number(api.partsTotal),laborCost:0,total:Number(api.partsTotal),urgency:null,benchmark:null,benchmarkFlag:null});
+      }
+      if(_apiLaborTotal>0){
+        var hoursLabel=_apiHours?(" ("+_apiHours+" hrs"+(_apiRate?" @ $"+_apiRate+"/hr":"")+")"):"";
+        rebuilt.push({description:"Labor"+hoursLabel,partsCost:0,laborCost:_apiLaborTotal,total:_apiLaborTotal,urgency:null,benchmark:null,benchmarkFlag:null});
+      }
+      var sum=rebuilt.reduce(function(s,it){return s+(it.total||0);},0);
+      var residual=_quoteTotal-sum;
+      if(residual>=10 && residual<_quoteTotal*0.5){
+        rebuilt.push({description:_isInsuranceEstimate?"Tax / Misc":"Other charges",partsCost:0,laborCost:0,total:residual,urgency:null,benchmark:null,benchmarkFlag:null});
+      }
+      if(rebuilt.length>=2) lineItems=rebuilt;
+    }
+
+    var benchmark=api.benchmark||_quoteTotal;
+    var ratio=benchmark>0?_quoteTotal/benchmark:1.0;
+    // Insurance estimates: don't render labor-rate "below/above market"
+    // because insurance book rates ($55/hr is industry standard) aren't
+    // comparable to retail mechanic shop rates.
+    var laborFlag = (api.laborRate && !_isInsuranceEstimate) ? laborRateFlag(api.laborRate,regionalRates) : null;
+    return{source:"upload",quoteTotal:_quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:api.laborRate||null,laborHours:_apiHours,partsTotal:api.partsTotal||null,laborTotal:_apiLaborTotal,shopType:shopType,partsType:api.partsType||null,region:region,regionalRates:regionalRates,laborFlag:laborFlag,scopeSignals:api.scopeSignals||{},parsed:api,vehicleCategory:api.vehicleCategory||null,possibleUpsells:api.possibleUpsells||[],pricingContext:api.pricingContext||null,stateConsumerProtection:api.stateConsumerProtection||null,aftermarketSavings:api.aftermarketSavings||null,commonRepairBenchmarks:api.commonRepairBenchmarks||null,isInsuranceEstimate:_isInsuranceEstimate,looksLikeRecommendationList:_looksLikeRecommendationList};
   }
 
   function buildResultFromLocal(text){
@@ -2003,16 +2062,67 @@ function initQuoteApp(){
     if(stateMatch&&STATE_REGIONS[stateMatch[1]]) qState.stateCode=stateMatch[1];
     var region=getRegionFromState(qState.stateCode);
     var regionalRates=getRegionalLaborRate(shopType,region);
+    // Line-by-line item extraction. Walks each OCR line and:
+    //  1. Strips known section headers ("Additional Service Recommendations",
+    //     "Services", etc.) so they don't bleed into the first line item.
+    //  2. Handles multi-line labels: when a line has no $ amount but is
+    //     followed by a line with one, the label is prepended to the next
+    //     line's description (Audi dealer fixture has labels like
+    //     "PERFORM ALL WHEEL DRIVE / FRONT AND REAR ALIGNMENT" on two
+    //     separate lines).
+    //  3. Allows digits in the description (e.g. "MOUNT AND BALANCE 4 TIRES").
     var lineItems=[];
-    var lineItemPattern=/([A-Za-z][A-Za-z\s\/\-&]+?)[\s.]*\$?([\d,]+(?:\.\d{2})?)/g;
-    var match;var seenDescriptions={};
-    while((match=lineItemPattern.exec(text))!==null){
-      var desc=match[1].trim();var val=parseFloat(match[2].replace(/,/g,""));
-      if(desc.length>3&&desc.length<80&&val>=10&&val<20000&&!seenDescriptions[desc.toLowerCase()]){
-        seenDescriptions[desc.toLowerCase()]=true;
-        lineItems.push({description:desc,partsCost:0,laborCost:0,total:val});
+    var seenDescriptions={};
+    var SECTION_HEADERS=/^\s*(?:additional\s+service\s+recommendations|recommended\s+services|services|estimate\s+totals?|invoice\s+totals?|repair\s+totals?|total(?:\s+cost)?|subtotal|grand\s+total|amount\s+due|balance\s+due|estimate\s+of\s+record|category\s+(?:basis|rate|cost)|description\s+(?:qty|amount)|customer\s+information|vehicle\s+information|warranty\s+information|please\s+make.*payable|thank\s+you|payment\s+(?:options?|due))\s*\$?[\s\d.,%]*$/i;
+    var STOPWORDS=/(?:warranty|signature|page\s*\d|invoice\s*#|customer|address|phone|email|date|estimate\s+date|claim\s+number|deductible|policy|adjuster|pearlcoat|envelope|docusign|account|routing|tax\s+rate)/i;
+    var rawLines=text.split(/\r?\n/).map(function(s){return s.replace(/\s+/g," ").trim();}).filter(Boolean);
+    var pendingLabel="";
+    for(var li=0;li<rawLines.length;li++){
+      var rawLine=rawLines[li];
+      // Strip leading "Additional Service Recommendations" if it shares a
+      // line with the first item (Audi: "Additional Service Recommendations
+      // Pollen Filter - Replace $234.25").
+      var stripped=rawLine.replace(/^\s*(?:additional\s+service\s+recommendations|recommended\s+services|services\s*[:\-]?)\s*/i,"");
+      if(SECTION_HEADERS.test(stripped)) { pendingLabel=""; continue; }
+      // Find the LAST $ amount on the line (avoids mis-grabbing "$686.08"
+      // basis-amount when a different cost is the line value, and lets us
+      // anchor the description as everything to the left of it).
+      var moneyMatches=[...stripped.matchAll(/\$?\s?([\d,]{1,3}(?:[,.]\d{3})*(?:\.\d{2})?|[\d,]{2,5}(?:\.\d{2})?)/g)];
+      var lastMoney=null;
+      for(var m=moneyMatches.length-1;m>=0;m--){
+        var raw=moneyMatches[m][0].trim();
+        if(!/[\d]/.test(raw)) continue;
+        var v=parseFloat(raw.replace(/[^0-9.]/g,""));
+        if(!isFinite(v)||v<10||v>=100000) continue;
+        // Skip lines that are clearly rates / percentages / hours / years.
+        var ctx=stripped.slice(Math.max(0,moneyMatches[m].index-12),(moneyMatches[m].index||0)+raw.length+12).toLowerCase();
+        if(/\/\s*hr|\bper\s*hour|\bhrs?\b|%|year|\bzip|\bphone|\bfax/.test(ctx)) continue;
+        if(Number.isInteger(v)&&v>=1990&&v<=2035) continue;
+        lastMoney={raw:raw,value:v,index:moneyMatches[m].index||0};
+        break;
       }
-      if(lineItems.length>=15)break;
+      if(!lastMoney){
+        // No price on this line — could be a multi-line label. Save it as
+        // pending and prepend it to the next line that has a price (only
+        // if it looks like a service description, not a stopword/header).
+        if(stripped.length>=3 && stripped.length<=70 && !STOPWORDS.test(stripped) && /[A-Za-z]{3,}/.test(stripped)){
+          pendingLabel=(pendingLabel?pendingLabel+" ":"")+stripped;
+        } else {
+          pendingLabel="";
+        }
+        continue;
+      }
+      var desc=stripped.slice(0,lastMoney.index).replace(/[\s.\-:]+$/,"").trim();
+      if(pendingLabel){ desc=(pendingLabel+" "+desc).replace(/\s+/g," ").trim(); pendingLabel=""; }
+      // Drop "Basis"/"Rate"/"Cost $" column-header crud if it leaks in.
+      desc=desc.replace(/\b(?:basis|rate|cost\s*\$?|amount|qty|quantity)\b/gi,"").replace(/\s+/g," ").trim();
+      if(!desc || desc.length<3 || desc.length>90) continue;
+      if(STOPWORDS.test(desc)) continue;
+      var key=desc.toLowerCase();
+      if(seenDescriptions[key]) continue;
+      seenDescriptions[key]=true;
+      lineItems.push({description:desc,partsCost:0,laborCost:0,total:lastMoney.value});
+      if(lineItems.length>=15) break;
     }
     // Prefer label-anchored totals over generic max-price. The shared parser
     // sometimes returns the Subtotal when both Subtotal and Total appear on
@@ -2060,7 +2170,47 @@ function initQuoteApp(){
       benchmark=expectedLabor+partsEstimate;
       ratio=benchmark>0?quoteTotal/benchmark:null;
     }
-    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:laborRate,laborHours:laborHours,partsTotal:partsTotal,laborTotal:laborTotal,shopType:shopType,partsType:partsType,region:region,regionalRates:regionalRates,laborFlag:laborRate?laborRateFlag(laborRate,regionalRates):null,scopeSignals:scopeSignals,parsed:parsed,isInsuranceEstimate:_isInsuranceEstimate};
+
+    // Dealer-upsell red flag detection. When the OCR shows a
+    // "Recommendations" list with multiple optional services bundled into
+    // one visit, surface the classic dealer-upsell candidates (pollen
+    // filter, mount-balance with no tire purchase, alignment with no
+    // suspension work, fluid flushes, "torn boot" / "leaking" diagnostic
+    // upcharges) so a user can ask their mechanic which are actually
+    // necessary today vs. deferrable.
+    var possibleUpsells=[];
+    if(_looksLikeRecommendationList||shopType==="dealer"){
+      var allText=lineItems.map(function(it){return it.description.toLowerCase();}).join(" | ");
+      var hasTirePurchase=/tire\s*(?:purchase|set|replac|new)/i.test(allText);
+      var hasSuspensionWork=/(?:strut|shock|control\s*arm|ball\s*joint|sway|spring)/i.test(allText);
+      lineItems.forEach(function(it){
+        var d=it.description.toLowerCase();
+        if(/pollen\s*filter|cabin\s*air\s*filter|cabin\s*filter/.test(d)){
+          possibleUpsells.push({service:it.description,reason:"cabin/pollen filters typically cost $20-40 in parts; dealer rates of $150+ usually include 1+ hours of labor for what's a 5-minute swap most owners can do themselves",typicalCost:60});
+        } else if(/mount\s*and\s*balance|mount\s*\&\s*balance|tire\s*balance|balance\s*\d?\s*tires?/.test(d) && !hasTirePurchase){
+          possibleUpsells.push({service:it.description,reason:"mount and balance is typically only needed when buying new tires; without a tire purchase, this charge is hard to justify",typicalCost:80});
+        } else if(/alignment/.test(d) && !hasSuspensionWork){
+          possibleUpsells.push({service:it.description,reason:"alignment is recommended after suspension work or noticeable pull/uneven wear; on a maintenance visit without those triggers it's often an upsell",typicalCost:130});
+        } else if(/(?:engine|fuel|trans|coolant|brake)\s*(?:flush|service|treatment)/.test(d)){
+          possibleUpsells.push({service:it.description,reason:"manufacturer fluid intervals rarely require dealer-pace flushes; verify against your owner's manual mileage chart before approving",typicalCost:150});
+        } else if(/torn\s*(?:p\/s|boot|cv\s*boot)|leaking|seepage/.test(d) && /(?:\$\d{3,})/.test(rawLines.find(function(rl){return rl.toLowerCase().indexOf(d)>=0;})||"")){
+          // Inspection findings ("alternator pulley is leaking") are common
+          // dealer pre-repair calls; flag if the listed cost is $400+.
+          if(it.total>=400) possibleUpsells.push({service:it.description,reason:"diagnostic findings labeled 'leaking' or 'torn' often appear as full-replacement quotes; ask whether a re-seal or boot-only repair is an option before authorizing the full job",typicalCost:Math.round(it.total*0.4)});
+        }
+      });
+      // Cap at 5 to avoid overwhelming the user.
+      if(possibleUpsells.length>5) possibleUpsells=possibleUpsells.slice(0,5);
+    }
+
+    // Suppress urgency tags on insurance / recommendation lists for the
+    // same reason as the API path: insurance-claim line items aren't
+    // user-deferrable, and a "CAN WAIT" badge would mislead.
+    if(_isInsuranceEstimate||_looksLikeRecommendationList){
+      lineItems.forEach(function(it){ it.urgency=null; });
+    }
+
+    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:laborRate,laborHours:laborHours,partsTotal:partsTotal,laborTotal:laborTotal,shopType:shopType,partsType:partsType,region:region,regionalRates:regionalRates,laborFlag:(laborRate&&!_isInsuranceEstimate)?laborRateFlag(laborRate,regionalRates):null,scopeSignals:scopeSignals,parsed:parsed,isInsuranceEstimate:_isInsuranceEstimate,looksLikeRecommendationList:_looksLikeRecommendationList,possibleUpsells:possibleUpsells};
   }
 
   function renderErrorFallback(){
@@ -2308,6 +2458,14 @@ function initQuoteApp(){
 <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:16px;">\
   <p style="margin:0 0 4px;font-weight:700;color:#92400e;">This looks like an insurance / body-shop estimate</p>\
   <p style="margin:0;font-size:14px;color:#78350f;line-height:1.5;">Body shop and insurance-claim estimates use different pricing models (Mitchell / CCC / Audatex labor units, deductibles, paint matching). Our mechanic benchmarks may not apply here. Compare the totals below carefully and ask the body shop for an itemized parts + labor breakdown.</p>\
+</div>';
+    } else if (r.looksLikeRecommendationList) {
+      // Dealer "Additional Service Recommendations" list. Different from
+      // a single repair quote — these are optional upsell candidates.
+      insuranceBanner = '\
+<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:10px;padding:14px 18px;margin-bottom:16px;">\
+  <p style="margin:0 0 4px;font-weight:700;color:#1e40af;">This looks like a list of dealer service recommendations</p>\
+  <p style="margin:0;font-size:14px;color:#1e3a8a;line-height:1.5;">Dealers commonly bundle several optional services into one visit (filters, fluid flushes, alignments, balances). The total below is the sum of every recommendation — you almost never need all of them at once. Check the upsell flags below and ask which items can wait for the next service interval.</p>\
 </div>';
     }
 
