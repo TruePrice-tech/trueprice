@@ -58,10 +58,13 @@ const SUBMETRO_URLS = [
 ];
 
 // Calculators / interactive tools.
+// Note: /roof-replacement-cost-calculator.html is a redirect stub (meta-refresh
+// to /roof-cost-calculator.html), not a content page -- it's intentionally
+// noindex and intentionally has no schema. Excluded from this list because
+// the SEO contract rules don't apply to redirect stubs.
 const CALCULATOR_URLS = [
   "/legal-billing-calculator.html",
   "/roof-cost-calculator.html",
-  "/roof-replacement-cost-calculator.html",
 ];
 
 // Tool pages: must remain noindex. A regression here would mean a tool
