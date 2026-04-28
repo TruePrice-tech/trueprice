@@ -885,20 +885,57 @@ setProgress(90, "Almost done...");
     }
 
     // ── Landscaping-specific detectors ──
+    // First-match-wins was misclassifying lighting quotes ("Inlite LED
+    // bollard / spotlight / timer") as Paver Patio because /patio/ hit
+    // before /lighting/. Now we count the matches across all categories
+    // and return the most-mentioned type (specific patterns weighted
+    // higher than ambiguous ones).
     function detectLandscapingProjectType(text) {
       var t = (text || "").toLowerCase();
       var types = [
-        { pattern: /retaining\s*wall/i, value: "retaining_wall", label: "Retaining Wall" },
-        { pattern: /french\s*drain/i, value: "french_drain", label: "French Drain" },
-        { pattern: /sod\b|turf|grass\s*install/i, value: "sod_installation", label: "Sod Installation" },
-        { pattern: /grading|leveling|grade\s*work/i, value: "grading_leveling", label: "Grading/Leveling" },
-        { pattern: /landscape\s*design|full\s*landscape|planting\s*plan/i, value: "landscape_design_install", label: "Landscape Design + Install" },
-        { pattern: /paver|patio|hardscape|flagstone|bluestone/i, value: "paver_patio", label: "Paver Patio" }
+        { value: "retaining_wall",          label: "Retaining Wall",
+          patterns: [/retaining\s*wall/g, /\bsegmental\s*block\b/g, /\bgeogrid\b/g, /\bbatter\b/g] },
+        { value: "french_drain",            label: "French Drain",
+          patterns: [/french\s*drain/g, /\bsubsurface\s*drain\b/g, /\bcurtain\s*drain\b/g, /\bperforated\s*pipe\b/g] },
+        { value: "sod_installation",        label: "Sod Installation",
+          patterns: [/\bsod\b/g, /grass\s*install/g, /lay(ing)?\s*sod/g, /\bfescue\b/g, /\bzoysia\b/g, /\bbermuda\b/g, /\bst\.?\s*augustine\b/g] },
+        { value: "artificial_turf",         label: "Artificial Turf",
+          patterns: [/artificial\s*turf/g, /synthetic\s*turf/g, /\bfake\s*grass\b/g, /turf\s*install/g] },
+        { value: "tree_removal",            label: "Tree Removal",
+          patterns: [/tree\s*removal/g, /tree\s*service/g, /stump\s*grind/g, /\barborist\b/g] },
+        { value: "grading_leveling",        label: "Grading/Leveling",
+          patterns: [/\bgrading\b/g, /leveling/g, /grade\s*work/g, /soil\s*regrade/g, /rough\s*grade/g, /finish\s*grade/g] },
+        { value: "irrigation_system",       label: "Irrigation System",
+          patterns: [/\birrigat/g, /sprinkler\s*system/g, /drip\s*line/g, /\bzone(?:\s*\d)?\s*valve\b/g, /\bbackflow\s*preventer\b/g, /rainbird/g, /hunter\s*industries/g] },
+        { value: "lighting",                label: "Landscape Lighting",
+          patterns: [/landscape\s*light/g, /low\s*voltage\s*light/g, /path\s*light/g, /\bled\s*spot/g, /uplight/g, /transformer/g, /bollard/g, /\binlite\b/g, /\bvolt\s*light/g] },
+        { value: "outdoor_kitchen",         label: "Outdoor Kitchen",
+          patterns: [/outdoor\s*kitchen/g, /built[- ]?in\s*grill/g, /\bbbq\s*island\b/g, /\bcountertop\s*outdoor/g] },
+        { value: "fire_pit",                label: "Fire Pit",
+          patterns: [/fire\s*pit/g, /fire\s*ring/g, /fire\s*table/g, /\bgas\s*fire/g] },
+        { value: "pergola_gazebo",          label: "Pergola / Gazebo",
+          patterns: [/pergola/g, /gazebo/g, /pavilion/g, /arbor/g] },
+        { value: "walkway_path",            label: "Walkway / Path",
+          patterns: [/walkway/g, /\bpath\s*(?:install|stone)\b/g, /stepping\s*stone/g, /flagstone\s*path/g] },
+        { value: "planting_beds",           label: "Planting Beds",
+          patterns: [/planting\s*bed/g, /flower\s*bed/g, /shrub\s*bed/g, /perennial\s*bed/g, /mulch\s*bed/g] },
+        { value: "landscape_design_install",label: "Landscape Design + Install",
+          patterns: [/landscape\s*design/g, /full\s*landscape/g, /planting\s*plan/g, /master\s*plan/g, /design[- ]?build/g] },
+        { value: "paver_patio",             label: "Paver Patio",
+          patterns: [/paver/g, /\bpatio\b/g, /hardscape/g, /flagstone\b(?!\s*path)/g, /bluestone/g, /\btravertine\b/g, /\bbelgard\b/g, /\btechobloc\b/g] }
       ];
+      var best = null;
       for (var i = 0; i < types.length; i++) {
-        if (types[i].pattern.test(t)) return { value: types[i].value, label: types[i].label };
+        var hits = 0;
+        for (var p = 0; p < types[i].patterns.length; p++) {
+          var matches = t.match(types[i].patterns[p]);
+          if (matches) hits += matches.length;
+        }
+        if (hits > 0 && (!best || hits > best.hits)) {
+          best = { value: types[i].value, label: types[i].label, hits: hits };
+        }
       }
-      return { value: "paver_patio", label: "Paver Patio" };
+      return best ? { value: best.value, label: best.label } : { value: "paver_patio", label: "Paver Patio" };
     }
 
     function detectLandscapingScopeSignals(text) {

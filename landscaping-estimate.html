@@ -1295,17 +1295,56 @@
         scopeHtml += '</div>';
       }
 
-      // Estimator scope info
+      // Estimator scope info — per-project so sod / irrigation / lighting
+      // each show their actual typical scope, not the same hardscape-
+      // flavored 8-item list for every project.
       if (!isUpload) {
         scopeHtml = '<div class="land-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="land-scope">';
-        var typicalItems = ["designPlan", "excavation", "baseMaterial", "edging", "mulchRock", "permits", "cleanup", "warranty"];
+        var _projKey = (r.projectType && r.projectType.value) || "paver_patio";
+        var SCOPE_BY_PROJECT = {
+          paver_patio:             ["designPlan", "excavation", "baseMaterial", "edging", "sealing", "permits", "cleanup", "warranty"],
+          retaining_wall:          ["designPlan", "excavation", "drainage", "baseMaterial", "permits", "cleanup", "warranty"],
+          sod_installation:        ["excavation", "baseMaterial", "plants", "irrigation", "cleanup", "warranty"],
+          artificial_turf:         ["excavation", "baseMaterial", "edging", "cleanup", "warranty"],
+          tree_removal:            ["permits", "cleanup", "warranty"],
+          grading_leveling:        ["excavation", "drainage", "baseMaterial", "cleanup", "warranty"],
+          irrigation_system:       ["designPlan", "excavation", "permits", "cleanup", "warranty"],
+          lighting:                ["designPlan", "permits", "cleanup", "warranty"],
+          outdoor_kitchen:         ["designPlan", "excavation", "baseMaterial", "permits", "cleanup", "warranty"],
+          fire_pit:                ["designPlan", "excavation", "baseMaterial", "permits", "cleanup", "warranty"],
+          pergola_gazebo:          ["designPlan", "excavation", "permits", "cleanup", "warranty"],
+          walkway_path:            ["excavation", "baseMaterial", "edging", "cleanup", "warranty"],
+          planting_beds:           ["designPlan", "excavation", "baseMaterial", "mulchRock", "plants", "cleanup", "warranty"],
+          landscape_design_install:["designPlan", "excavation", "drainage", "baseMaterial", "edging", "mulchRock", "plants", "irrigation", "lighting", "permits", "cleanup", "warranty"],
+          french_drain:            ["excavation", "drainage", "baseMaterial", "cleanup", "warranty"]
+        };
+        var typicalItems = SCOPE_BY_PROJECT[_projKey] || SCOPE_BY_PROJECT.paver_patio;
         typicalItems.forEach(function(key) {
           var item = LAND_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Irrigation, lighting, and complex drainage may add cost.</p></div>';
+        // Per-project trailer text for the items that may add cost.
+        var _trailerByProject = {
+          sod_installation:    "Estimate assumes standard installation. Soil amendment, starter fertilizer, and post-install watering may add cost.",
+          artificial_turf:     "Estimate assumes standard installation. Drainage tile, infill, and pet-grade backing may add cost.",
+          irrigation_system:   "Estimate assumes standard installation. Backflow preventer, smart controller, and trenching through hardscape may add cost.",
+          lighting:            "Estimate assumes standard low-voltage installation. Larger transformers, smart controls, and conduit through hardscape may add cost.",
+          tree_removal:        "Estimate assumes standard removal. Stump grinding, crane access, and proximity to power lines may add cost.",
+          fire_pit:            "Estimate assumes standard build. Gas line plumbing, decorative cap stones, and seat-wall integration may add cost.",
+          outdoor_kitchen:     "Estimate assumes standard build. Plumbing, gas, electrical, and appliance integration may add cost.",
+          pergola_gazebo:      "Estimate assumes standard build. Concrete piers, electrical for fans/lights, and roofing upgrades may add cost.",
+          retaining_wall:      "Estimate assumes standard build. Geogrid reinforcement (>4ft), drainage tile, and engineered plans may add cost.",
+          french_drain:        "Estimate assumes standard installation. Pop-up emitters, daylight tie-ins, and core drilling may add cost.",
+          grading_leveling:    "Estimate assumes standard grading. Soil import / removal, retaining walls, and erosion control may add cost.",
+          walkway_path:        "Estimate assumes standard installation. Stairs, complex curves, and decorative cap may add cost.",
+          planting_beds:       "Estimate assumes standard planting. Soil amendments, larger specimen plants, and seasonal color rotation may add cost.",
+          landscape_design_install: "Estimate assumes standard installation. Site engineering, mature trees, and water features may add cost.",
+          paver_patio:         "Estimate assumes standard installation. Drainage solutions, retaining walls, and complex curves may add cost."
+        };
+        var _trailer = _trailerByProject[_projKey] || _trailerByProject.paver_patio;
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + _trailer + '</p></div>';
       }
 
       // Quality tier comparison (estimator only)
@@ -1329,7 +1368,29 @@
           compHtml += '<div>';
           compHtml += '<strong>' + _cd.label + '</strong>';
           if (_isSelected) compHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
-          compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _cd.examples + '</div>';
+          // Per-project examples so an irrigation result doesn't read
+          // "Concrete pavers, basic sod, gravel borders" for the budget tier.
+          var _projKey = (r.projectType && r.projectType.value) || "paver_patio";
+          var _examplesByProject = {
+            paver_patio:             { budget: "Concrete pavers, gravel base, no edge restraint", mid: "Interlocking pavers, polymeric joint sand, plastic edge restraint", premium: "Flagstone or bluestone, geotextile + 6-inch base, metal edge restraint", luxury: "Custom stonework, mortared joints, integrated lighting + drainage" },
+            retaining_wall:          { budget: "Concrete block, no geogrid, surface drainage", mid: "Allan Block / Versa-Lok with geogrid <4ft, drainage tile", premium: "Engineered Belgard / Techo-Bloc with deep geogrid, full drainage", luxury: "Natural stone or boulder wall, engineered, integrated lighting" },
+            sod_installation:        { budget: "Standard fescue or bermuda, basic prep, no fertilizer", mid: "Premium variety, tilling + soil amendment, starter fertilizer", premium: "Bluegrass / zoysia blend, deep tilling, compost amendment, watering plan", luxury: "Custom blend, smart irrigation included, 1-year health guarantee" },
+            artificial_turf:         { budget: "Builder-grade synthetic, basic infill, no pet backing", mid: "Mid-pile synthetic, silica sand infill, drainage holes", premium: "Heavy-pile commercial-grade, anti-microbial pet-grade backing", luxury: "Custom blend with shock pad, putting-green inserts, pet odor system" },
+            tree_removal:            { budget: "Cut + leave wood, no stump grinding", mid: "Cut + haul-off, stump grinding included", premium: "Crane-assisted, full clean-up, replanting plan", luxury: "Certified arborist, salvage milling option, full landscape repair" },
+            grading_leveling:        { budget: "Rough grade, no compaction, surface only", mid: "Compacted grade with finish slope to spec", premium: "Engineered grade with drainage tie-ins and silt control", luxury: "Survey-staked grade plan, soil import, full erosion control" },
+            irrigation_system:       { budget: "Builder-grade timer, basic pop-up heads, 4-6 zones", mid: "Mid-tier controller, pressure-regulated heads, 6-10 zones", premium: "Smart Wi-Fi controller, rain sensor, drip + spray mix, 8-15 zones", luxury: "ET-based smart controller, soil-moisture sensors, fully zoned drip" },
+            lighting:                { budget: "Plug-in low-voltage starter kit, basic path lights", mid: "Hardwired transformer, mid-tier path + spot fixtures", premium: "Premium brass / copper fixtures, dimmable transformer, smart controller", luxury: "Architectural fixtures, color-tunable, app-controlled scenes, 25-yr warranty" },
+            outdoor_kitchen:         { budget: "Built-in grill island, basic countertop, no plumbing", mid: "Stainless cabinets, granite top, gas + cold water rough-in", premium: "Full kitchen with side burner, fridge, sink, stone veneer", luxury: "Architect-designed pavilion with full appliances, pizza oven, smoker" },
+            fire_pit:                { budget: "Wood-burning steel ring, gravel pad", mid: "Stone-faced gas pit on paver pad with simple controls", premium: "Custom natural-stone surround, gas with electronic ignition", luxury: "Architectural gas fire feature with seat-wall and ambient lighting" },
+            pergola_gazebo:          { budget: "Pre-fab kit pergola, surface-mounted, untreated wood", mid: "Treated lumber, anchored to concrete piers, basic stain", premium: "Cedar / aluminum, sealed, integrated electrical for fans / lights", luxury: "Architect-designed structure, retractable canopy, full lighting + speakers" },
+            walkway_path:            { budget: "Stepping stones in mulch, no base", mid: "Concrete pavers on 4-inch base with edge restraint", premium: "Flagstone / bluestone on 6-inch base, polymeric joint sand", luxury: "Custom natural-stone path, lighting integrated, mortared joints" },
+            planting_beds:           { budget: "Few starter plants, generic mulch, no soil amendment", mid: "Native + ornamental mix, hardwood mulch, basic edging", premium: "Curated planting plan, compost-amended soil, larger specimens", luxury: "Designer planting with mature specimens, drip irrigation, seasonal rotation" },
+            landscape_design_install:{ budget: "Functional plan, basic plants + grass, minimal hardscape", mid: "Mid-tier mixed plan with hardscape, plants, mulch, lighting", premium: "Designed plan with stone, specimen plants, drip irrigation, low-volt lighting", luxury: "Architect-designed full property, mature trees, water feature, smart systems" },
+            french_drain:            { budget: "Surface trench with perforated PVC, daylight outlet", mid: "Sock-wrapped pipe, 24-inch trench, gravel + filter fabric", premium: "Catch basins + perforated pipe network, pop-up emitter, full slope spec", luxury: "Engineered drainage system with multiple catch basins and dry well" }
+          };
+          var _projExamples = _examplesByProject[_projKey] || _examplesByProject.paver_patio;
+          var _exTxt = _projExamples[_ck] || _cd.examples;
+          compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _exTxt + '</div>';
           compHtml += '</div>';
           compHtml += '<div style="text-align:right;">';
           compHtml += '<div style="font-size:1.05rem;color:#1e293b;font-weight:700;">' + fmt(_cMid) + '</div>';
@@ -1353,18 +1414,39 @@
         contextHtml = '<div class="land-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
-      // Next Steps tips
+      // Next Steps tips — per-project so sod / irrigation / lighting don't
+      // get hardscape-flavored advice ('compacted gravel depth' for sod,
+      // 'drainage to prevent erosion' for landscape lighting). Universal
+      // tips first, then project-scoped, then verdict-scoped.
+      var _projKey3 = (r.projectType && r.projectType.value) || "paver_patio";
       var tipsHtml = '<div class="land-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
       tipsHtml += '<li>Ask for a detailed scope of work listing every material and step</li>';
-      tipsHtml += '<li>Confirm the base preparation method (compacted gravel depth, geotextile fabric)</li>';
-      tipsHtml += '<li>Ask about drainage solutions to prevent water pooling or erosion</li>';
+      var _stepsByProject = {
+        sod_installation:    ['Confirm tilling depth and soil amendment (compost, lime, starter fertilizer)', 'Ask which sod variety is being installed and whether it suits your sun / shade conditions', 'Confirm post-install watering and re-seeding policy if patches fail'],
+        artificial_turf:     ['Confirm sub-base spec (3-4 inch compacted Class II road base + decomposed granite)', 'Ask which turf product (face weight, pile height) and pet-grade backing options are included', 'Verify infill type (silica sand vs. zeolite for pet odor control)'],
+        irrigation_system:   ['Confirm zone count, head spacing, and head type (rotor vs. spray vs. drip)', 'Ask about backflow preventer code compliance and winterization plan', 'Confirm controller type (smart / Wi-Fi vs. mechanical) and rain-sensor inclusion'],
+        lighting:            ['Confirm transformer wattage capacity vs. fixture load (target 80% utilization)', 'Ask about fixture warranty (10-year is standard for quality LED) and lamp serviceability', 'Confirm wire gauge (12 AWG for runs >100ft) and astronomical timer / smart controller'],
+        tree_removal:        ['Confirm whether stump grinding is included or extra', 'Ask about insurance / certified-arborist credentials before any removal', 'Confirm crane / equipment access fees if your tree is in a tight space'],
+        fire_pit:            ['Confirm gas / propane line size and routing if not wood-burning', 'Ask about a permanent vent or air-gap design for safe combustion', 'Confirm distance from structures meets local fire code (typically 10-25 ft)'],
+        outdoor_kitchen:     ['Confirm utility coordination (gas, water, drain, 240V circuit)', 'Ask about appliance warranties and installer-vs-owner-supplied appliance policy', 'Confirm countertop sealing schedule and freeze-thaw rating'],
+        pergola_gazebo:      ['Confirm anchor type (concrete piers vs. surface mount) and depth for your frost line', 'Ask about wood vs. aluminum vs. fiberglass and the warranty differences', 'Confirm whether electrical for fans / lights is included'],
+        retaining_wall:      ['Confirm engineering plans for any wall over 4 ft tall', 'Ask about geogrid placement, drainage stone behind the wall, and weep holes', 'Confirm cap stone adhesive and freeze-thaw warranty'],
+        french_drain:        ['Confirm trench depth (24-36 inch) and slope (1% min)', 'Ask about pipe type (rigid vs. flex perforated) and sock vs. fabric wrap', 'Confirm where the daylight outlet will discharge and whether a pop-up emitter is included'],
+        grading_leveling:    ['Confirm finish-grade tolerance (typically ±1 inch over 10 ft)', 'Ask about soil import / export costs separate from labor', 'Confirm erosion-control plan during the work (silt fence / straw blanket)'],
+        walkway_path:        ['Confirm base depth (4-6 inch compacted gravel for foot-traffic walkways)', 'Ask about edge restraint and joint sand or polymeric sand', 'Confirm step / stair structure if grade changes'],
+        planting_beds:       ['Confirm bed depth and soil amendment recipe', 'Ask about plant warranty (typically 1 year on installed plants from a licensed installer)', 'Confirm mulch type and reapplication schedule'],
+        landscape_design_install: ['Confirm the design package includes plan view, plant schedule, and 3D rendering', 'Ask which scope items are bid vs. allowance and how change orders are priced', 'Confirm site protection (driveway, lawn, existing trees)'],
+        paver_patio:         ['Confirm the base preparation method (compacted gravel depth, geotextile fabric)', 'Ask about drainage solutions to prevent water pooling or erosion', 'Confirm joint sand type (regular vs. polymeric) and edge restraint']
+      };
+      var _ps = _stepsByProject[_projKey3] || _stepsByProject.paver_patio;
+      _ps.forEach(function (txt) { tipsHtml += '<li>' + txt + '</li>'; });
       tipsHtml += '<li>Check if the quote includes site cleanup and debris haul-off</li>';
       if (r.verdict.css === "high") {
         tipsHtml += '<li>Get 2-3 additional quotes from local landscapers, not just large franchises</li>';
         tipsHtml += '<li>Ask if off-season scheduling (fall/winter) would lower the price</li>';
       }
       if (r.verdict.css === "low") {
-        tipsHtml += '<li>Verify material quality: paver thickness, sod variety, and base depth</li>';
+        tipsHtml += '<li>Verify material quality matches the project (paver thickness / sod variety / fixture grade / etc.)</li>';
         tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
       }
       tipsHtml += '</ul></div>';

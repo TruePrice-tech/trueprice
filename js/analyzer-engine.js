@@ -419,6 +419,15 @@
         if (!_totalOverride) {
           _totalOverride = result.ocrText.match(/contract\s*(?:price|total|amount|sum)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
+        // Some quotes lay out "Total Cost" as a top-row header cell (often
+        // landscaping multi-table layouts) where OCR strips the line break,
+        // so the existing line-anchored TOTAL override misses. Allow a
+        // non-anchored fallback for explicit "Total Cost / Total Project
+        // Cost / Total Investment" labels — these are unambiguous bottom-
+        // line numbers, not interior line items.
+        if (!_totalOverride) {
+          _totalOverride = result.ocrText.match(/\btotal\s*(?:project\s*|job\s*|investment\s*)?(?:cost|price|amount|investment)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
+        }
         // Many residential service quotes (fencing, concrete, painting)
         // bottom-line as "Subtotal" with no separate Tax/Total because
         // the contractor isn't collecting sales tax. Treat Subtotal as
