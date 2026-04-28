@@ -14,13 +14,30 @@ const { writeFindings, summaryLine } = require("./lib/findings");
 const ROOT = path.resolve(__dirname, "..", "..");
 const OUTPUT_ROOT = path.join(ROOT, "output");
 
-// Verticals available to walk. Add new entries here as runners are written.
+// Verticals available to walk. Each runner is a thin config built on lib/runner.js.
 const RUNNERS = {
   fencing: () => require("./runners/fencing"),
-  // TODO add as runners are written:
-  // roofing, hvac, solar, plumbing, electrical, gutters, landscaping,
-  // medical, legal, moving, auto-repair, garage-door, windows,
-  // kitchen, siding, painting, foundation, concrete, insulation
+  hvac: () => require("./runners/hvac"),
+  solar: () => require("./runners/solar"),
+  plumbing: () => require("./runners/plumbing"),
+  electrical: () => require("./runners/electrical"),
+  gutters: () => require("./runners/gutters"),
+  landscaping: () => require("./runners/landscaping"),
+  "garage-door": () => require("./runners/garage-door"),
+  concrete: () => require("./runners/concrete"),
+  moving: () => require("./runners/moving"),
+  windows: () => require("./runners/windows"),
+  insulation: () => require("./runners/insulation"),
+  roofing: () => require("./runners/roofing"),
+  "auto-repair": () => require("./runners/auto-repair"),
+  medical: () => require("./runners/medical"),
+  // The following 5 are registered but have empty estimatePermutations
+  // until manual selector verification (no prior <vertical>-walk.js):
+  kitchen: () => require("./runners/kitchen"),
+  siding: () => require("./runners/siding"),
+  painting: () => require("./runners/painting"),
+  foundation: () => require("./runners/foundation"),
+  legal: () => require("./runners/legal"),
 };
 
 // Stable rotation order. Day-of-month modulo 10 picks the slot pair.
