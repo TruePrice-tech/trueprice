@@ -3278,7 +3278,7 @@ function detectTotalLinePrice(text) {
   ];
 
   const badContextPatterns =
-    /invoice date|due date|payment due date|proposal date|issue date|issued|expires|valid through|valid until|roof size|roof area|sq\.?\s*f[tf]|square feet|claim number|policy number|invoice number|estimate number|proposal number/i;
+    /invoice date|due date|payment due date|proposal date|issue date|issued|expires|valid through|valid until|roof size|roof area|sq\.?\s*f[tf]|square feet|claim number|policy number|invoice number|estimate number|proposal number|\bwarranty\b|\bmile(?:s|age)?\b|\bodomet/i;
 
   const moneyRegex =
     /\$?\s?[0-9OIlSBGZAoilsbgza]{1,3}(?:[.,][0-9OIlSBGZAoilsbgza]{3})+(?:[.,][0-9OIlSBGZAoilsbgza]{2})?|\$?\s?[0-9OIlSBGZAoilsbgza]{4,6}(?:[.,][0-9OIlSBGZAoilsbgza]{2})?/g;
@@ -3308,7 +3308,7 @@ function detectTotalLinePrice(text) {
       for (const match of matches) {
         const raw = match[0];
         const value = parseMoneyLikeValue(raw);
-        if (!isFinite(value) || value < 1000 || value > 200000) continue;
+        if (!isFinite(value) || value < 200 || value > 200000) continue;
 
         if (Number.isInteger(value) && value >= 2024 && value <= 2035) continue;
 

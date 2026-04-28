@@ -469,6 +469,28 @@
             _totalOverride = _ocrTextForOverride.match(/(?:^|\n)\s*sub.?total\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/im);
           }
         }
+        // Dealer "Additional Service Recommendations" lists (Audi service
+        // estimate fixture). When the OCR contains that header AND has
+        // multiple priced items but no explicit grand total, sum them all
+        // — a $5,557 dealer recommendation set should display as $5,557,
+        // not as the single biggest line item ($2,543 for the CV boot).
+        // This brings compare path in line with analyze path's
+        // _looksLikeRecommendationList logic in auto-repair.html.
+        if (!_totalOverride) {
+          var _looksLikeRecs = /(?:additional\s+service\s+recommendations|recommended\s+services)/i.test(_ocrTextForOverride) &&
+            !/(?:grand\s+total|total\s+due|amount\s+due|total\s+cost\s+of\s+repairs|balance\s+due)/i.test(_ocrTextForOverride);
+          if (_looksLikeRecs) {
+            var _recPrices = (_ocrTextForOverride.match(/\$\s*[\d,]+(?:\.\d{2})?/g) || [])
+              .map(function (s) { return parseFloat(s.replace(/[^0-9.]/g, "")); })
+              .filter(function (n) { return isFinite(n) && n >= 10 && n <= 100000; });
+            if (_recPrices.length >= 3) {
+              var _recSum = _recPrices.reduce(function (s, v) { return s + v; }, 0);
+              if (_recSum >= 100 && _recSum <= 200000) {
+                _totalOverride = ["", String(_recSum.toFixed(2))];
+              }
+            }
+          }
+        }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
           // Defense against pathological OCR misreads slipping through the
