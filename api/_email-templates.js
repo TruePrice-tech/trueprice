@@ -72,7 +72,7 @@ export function welcomeTemplate({ city, stateCode, service }) {
       <li><a href="${SITE_ORIGIN}/${service}-cost.html" style="color:#1d4ed8;">Run another estimate</a> for a different service or city.</li>
       <li><a href="${SITE_ORIGIN}/analyze-my-quote.html" style="color:#1d4ed8;">Send me a real quote you got</a> — I'll tell you if it's fair, and it sharpens our numbers for everyone in ${where}.</li>
     </ul>
-    <p style="font-size:14px;line-height:1.6;margin:18px 0 0;color:#475569;">Reply to this email if you have questions. It hits a real human (Lane, Woogoro's founder).</p>
+    <p style="font-size:14px;line-height:1.6;margin:18px 0 0;color:#475569;">Reply to this email if you have questions. It hits a real human (Geoff, Woogoro's founder).</p>
     <p style="font-size:14px;line-height:1.6;margin:14px 0 0;color:#475569;">— Iris</p>
   </div>`;
 
