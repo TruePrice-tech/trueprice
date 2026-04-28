@@ -448,6 +448,20 @@
           if (!p.brand && extracted.brand) p.brand = extracted.brand.brand;
         }
 
+        // Shop-type detection from OCR text. Without this, regex-path
+        // quotes (where the API isn't called) showed "Unknown" for every
+        // shop, which broke the side-by-side comparison.
+        if ((!p.shopType || p.shopType === "Unknown") && _engOcrText) {
+          var _stxt = _engOcrText.toLowerCase();
+          if (/(authorized\s+(?:honda|toyota|ford|chevy|chevrolet|nissan|hyundai|kia|mazda|subaru|bmw|mercedes|audi|lexus|acura|infiniti|cadillac|gmc|jeep|ram|chrysler|dodge|volkswagen|porsche|volvo|tesla)\s+(?:service|dealer|technician)|factory[- ]?(?:trained|certified|warranty|service)|dealership|dealer\s+repair\s+order|(?:honda|toyota|ford|chevrolet|nissan|hyundai|kia|mazda|subaru|bmw|mercedes|audi|lexus|acura|infiniti|cadillac|gmc|jeep|ram|chrysler|dodge|volkswagen|porsche|volvo|tesla)\s+of\s+\w+)/i.test(_stxt)) {
+            p.shopType = "dealer";
+          } else if (/(midas|firestone|jiffy\s*lube|pep\s*boys|brake\s*check|valvoline|meineke|aamco|maaco|goodyear|monro|ntb|tires?\s*plus|big\s*o\s*tires|discount\s*tire)/i.test(_stxt)) {
+            p.shopType = "chain";
+          } else if (/(family[- ]?owned|locally[- ]?owned|since\s+\d{4}|ase\s*certified|independent|local\s+(?:auto|repair|mechanic)\s+shop)/i.test(_stxt)) {
+            p.shopType = "independent";
+          }
+        }
+
         // Build scope items from API response
         var scopeItems = {};
         SCOPE_ITEMS.forEach(function(item) {
@@ -458,8 +472,12 @@
           }
         });
 
-        // Detect scope from raw text if available
-        var rawText = (p.rawText || "").toLowerCase();
+        // Detect scope from OCR text. The previous code checked p.rawText
+        // (an API-only field never populated), so the entire scope-from-text
+        // detection block below was dead and every quote rendered 0/N scope.
+        // Using _engOcrText (the engine's OCR output we already have) lets
+        // these regex hints actually fire.
+        var rawText = (_engOcrText || p.rawText || "").toLowerCase();
         if (rawText) {
           if (!scopeItems.partsItemized || scopeItems.partsItemized === "unclear") {
             if (/part\s*#|part\s*number|p\/n/i.test(rawText)) scopeItems.partsItemized = "included";
@@ -494,7 +512,14 @@
         }
 
         var price = parseFloat(String(p.totalPrice || p.quoteTotal || p.price || p.finalPrice || 0).replace(/[^0-9.]/g, "")) || 0;
-        var shopName = p.shopName || p.contractor || "Shop " + (idx + 1);
+        var shopName = p.shopName || p.contractor || "";
+        // Reject obvious receipt headings that the OCR/API mistakes for a
+        // shop name. "DEALERSHIP REPAIR ORDER", "INVOICE", "ESTIMATE", etc.
+        // are document labels, not business names.
+        var _badHeadings = /^(?:dealership\s*repair\s*order|repair\s*order|invoice|estimate|quote|service\s*order|work\s*order|receipt|customer\s*copy)$/i;
+        if (!shopName || _badHeadings.test(shopName.trim())) {
+          shopName = "Shop " + (idx + 1);
+        }
 
         quotes[idx] = {
           shopName: shopName,

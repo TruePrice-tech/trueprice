@@ -89,7 +89,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "auto-repair", cacheNamespace: "auto-repair:v2", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "auto-repair", cacheNamespace: "auto-repair:v3-redflags-summary", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -188,7 +188,9 @@ Return this exact JSON structure:
     "laborWarranty": <"yes" | "no" | "unclear">,
     "diagnosticFee": <"yes" | "no" | "unclear">,
     "fluidDisposal": <"yes" | "no" | "unclear">
-  }
+  },
+  "redFlags": [<string - any concerning items found in the quote (see CRITICAL RULES below)>],
+  "summary": <string - brief plain-English explanation of why the price is high/low/fair (see CRITICAL RULES below)>
 }
 
 CRITICAL RULES:

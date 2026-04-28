@@ -1176,6 +1176,31 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
   if(!stateVal){alert("Select your state (or wait for ZIP lookup to fill it).");return;}
   if(!year||!make||!model){alert("Select year, make, and model.");return;}
 
+  // EV/hybrid validator: refuse to compute battery-pack / hybrid-battery
+  // pricing for vehicles that don't have an EV/hybrid drivetrain. Without
+  // this guard the estimator would happily price a Tesla battery on a 2018
+  // Honda Civic.
+  var _evRepairKeys = repairKeys.filter(function(k){
+    return k === "ev_battery_pack" || k === "ev_battery_module" || k === "hybrid_battery";
+  });
+  if (_evRepairKeys.length) {
+    var _makeL = String(make).toLowerCase();
+    var _modelL = String(model).toLowerCase();
+    var _evMakes = ["tesla","rivian","lucid","polestar","fisker","byd","nio","vinfast"];
+    var _evModelTokens = ["hybrid","ev","leaf","bolt","volt","prius","ioniq","niro","kona electric","mach-e","mach e","lightning","i3","i4","i5","i7","i8","ix","eqs","eqe","eqb","etron","e-tron","plug-in","phev","bev","taycan","id.4","id4","id3"];
+    var _looksEv = _evMakes.indexOf(_makeL) !== -1 ||
+                   _evModelTokens.some(function(t){ return _modelL.indexOf(t) !== -1; });
+    if (!_looksEv) {
+      alert("EV battery / hybrid battery repairs only apply to electric or hybrid vehicles. \"" + year + " " + make + " " + model + "\" doesn't look like an EV or hybrid. If this is a hybrid trim of an ICE model, edit the model field to include 'Hybrid' (e.g. 'Camry Hybrid'). Otherwise, please select a different repair.");
+      return;
+    }
+    // Tesla pack work is dealer/Tesla-only — independents can't service.
+    if (_makeL === "tesla" && repairKeys.indexOf("ev_battery_pack") !== -1 && shopType === "independent") {
+      var _proceed = confirm("Tesla battery packs are typically only serviced by Tesla service centers or Tesla-certified shops. Independent shops generally cannot perform this work safely or under warranty. Continue with an independent estimate anyway?");
+      if (!_proceed) return;
+    }
+  }
+
   lastEstimateInputs={year:year,make:make,model:model,zip:zip,state:stateVal,shopType:shopType};
 
   // Support single repair for backward compat
@@ -1376,7 +1401,9 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
         onStartOver: "autoRepairStartOver"
       })
     : "";
-  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+renderReportActions()+sharedFooterHtml;
+  // Single Print/Share row at the top via actionsHtml; the shared footer
+  // still provides Start Over and other CTAs without duplicating Print.
+  resultEl.innerHTML=headerHtml+actionsHtml+partsToggle+mh+(currentMode==="parts"?"":matrixHtml)+sharedFooterHtml;
   // Define autoRepairStartOver as a window fn so the shared footer's Start Over button works
   if (!window.autoRepairStartOver) {
     window.autoRepairStartOver = function() {
@@ -1843,7 +1870,22 @@ function initQuoteApp(){
       var p=Number(item.partsCost)||0;
       var l=Number(item.laborCost)||0;
       var t=Number(item.lineTotal||item.total)||(p+l);
-      return{description:item.description||"Repair item",partsCost:p,laborCost:l,total:t,urgency:item.repairUrgency||item.urgency||null};
+      // Per-line benchmark from API: repair.benchmark.totalRange tells us
+      // the typical price range for THIS repair (e.g. brake job $250-$450).
+      // If the line total falls outside the range, the verdict copy can
+      // call out that specific item instead of just an overall ratio.
+      var bench=item.benchmark||null;
+      var benchFlag=null;
+      if(bench&&bench.totalRange&&t>0){
+        var bLow=Number(bench.totalRange.low||bench.totalRange[0])||0;
+        var bHigh=Number(bench.totalRange.high||bench.totalRange[1])||0;
+        if(bLow>0&&bHigh>0){
+          if(t>bHigh*1.25) benchFlag="above";
+          else if(t<bLow*0.75) benchFlag="below";
+          else benchFlag="in_range";
+        }
+      }
+      return{description:item.description||"Repair item",partsCost:p,laborCost:l,total:t,urgency:item.repairUrgency||item.urgency||null,benchmark:bench,benchmarkFlag:benchFlag,laborHoursFlag:item.laborHoursFlag||null};
     });
     var quoteTotal=api.quoteTotal||0;
     var benchmark=api.benchmark||quoteTotal;
@@ -2074,7 +2116,19 @@ function initQuoteApp(){
         runningTotal+=lineTotal;
         var urgencyBadge="";
         if(item.urgency){var uCss=item.urgency==="critical"?"critical":item.urgency==="soon"?"soon":"can-wait";var uLabel=item.urgency==="critical"?"Critical":item.urgency==="soon"?"Soon":"Can Wait";urgencyBadge=' <span class="ar-urgency '+uCss+'">'+uLabel+'</span>';}
-        tableHtml+='<tr><td>'+item.description+urgencyBadge+'</td>';
+        // Per-line benchmark badge from API: surfaces "above typical" /
+        // "below typical" so users can see which specific line is driving
+        // an over- or under-priced quote.
+        var benchBadge="";
+        if(item.benchmarkFlag&&item.benchmark&&item.benchmark.totalRange){
+          var bLow=Number(item.benchmark.totalRange.low||item.benchmark.totalRange[0])||0;
+          var bHigh=Number(item.benchmark.totalRange.high||item.benchmark.totalRange[1])||0;
+          var rangeStr=fmtCents(bLow)+'–'+fmtCents(bHigh);
+          if(item.benchmarkFlag==="above") benchBadge=' <span style="display:inline-block;padding:1px 6px;border-radius:4px;background:#fef2f2;color:#b91c1c;font-size:11px;font-weight:600;" title="Typical: '+rangeStr+'">above typical</span>';
+          else if(item.benchmarkFlag==="below") benchBadge=' <span style="display:inline-block;padding:1px 6px;border-radius:4px;background:#fefce8;color:#854d0e;font-size:11px;font-weight:600;" title="Typical: '+rangeStr+'">below typical</span>';
+          else if(item.benchmarkFlag==="in_range") benchBadge=' <span style="display:inline-block;padding:1px 6px;border-radius:4px;background:#f0fdf4;color:#15803d;font-size:11px;font-weight:600;" title="Typical: '+rangeStr+'">typical</span>';
+        }
+        tableHtml+='<tr><td>'+item.description+urgencyBadge+benchBadge+'</td>';
         if(hasPartsSplit){tableHtml+='<td style="text-align:right;">'+(item.partsCost?fmtCents(item.partsCost):'-')+'</td>';tableHtml+='<td style="text-align:right;">'+(item.laborCost?fmtCents(item.laborCost):'-')+'</td>';}
         tableHtml+='<td style="text-align:right;">'+fmtCents(lineTotal)+'</td></tr>';
       });
