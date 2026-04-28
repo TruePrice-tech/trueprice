@@ -395,7 +395,7 @@
             if (extracted.warranty) {
               if (extracted.warranty.parts) api.warrantyParts = extracted.warranty.parts + " yrs";
               if (extracted.warranty.labor) api.warrantyLabor = extracted.warranty.labor + " yrs";
-              api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+              api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
             }
             api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
@@ -413,7 +413,7 @@
           if (extracted.warranty) {
             if (!api.warrantyParts && extracted.warranty.parts) api.warrantyParts = extracted.warranty.parts + " yrs";
             if (!api.warrantyLabor && extracted.warranty.labor) api.warrantyLabor = extracted.warranty.labor + " yrs";
-            if (!api.warrantyYears) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+            if (!api.warrantyYears) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
           }
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
