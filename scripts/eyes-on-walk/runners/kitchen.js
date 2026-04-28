@@ -1,18 +1,41 @@
-// TODO: selectors not yet verified. No prior <vertical>-walk.js exists for
-// kitchen. Onboarding steps:
-//   1. Manually walk kitchen-estimate.html and note option container IDs +
-//      data-val values for each step.
-//   2. Confirm the result-page app id (likely #kitApp or similar).
-//   3. Replace the placeholder permutations below with real ones.
-//   4. Smoke test: node scripts/eyes-on-walk/run.js kitchen
-//
-// Until then this runner is registered but estimatePermutations is empty so
-// only analyze + compare paths walk -- which still catches plenty (mascot
-// brand violations, undefined / NaN, missing CTAs on result pages).
+// Kitchen: per kitchen-estimate.html source. 5 steps - optTier / optSize /
+// optCabinet / optCounter / optAppliance. optSize values are array indices
+// (0=small, 1=average, 2=large, 3=expansive) per KIT_PRICING.kitchenSizes.
 const { defineRunner } = require("../lib/runner");
 
 module.exports = defineRunner({
   vertical: "kitchen",
   resultSelector: "#kitApp, main",
-  estimatePermutations: [],
+  estimatePermutations: [
+    {
+      label: "midrange-average-semicustom-quartz",
+      picks: {
+        optTier: "midrange",
+        optSize: "1",
+        optCabinet: "semicustom",
+        optCounter: "quartz",
+        optAppliance: "midrange",
+      },
+    },
+    {
+      label: "minor-small-stock-laminate-existing",
+      picks: {
+        optTier: "minor",
+        optSize: "0",
+        optCabinet: "stock",
+        optCounter: "laminate",
+        optAppliance: "existing",
+      },
+    },
+    {
+      label: "major-expansive-custom-marble-premium",
+      picks: {
+        optTier: "major",
+        optSize: "3",
+        optCabinet: "custom",
+        optCounter: "marble",
+        optAppliance: "premium",
+      },
+    },
+  ],
 });

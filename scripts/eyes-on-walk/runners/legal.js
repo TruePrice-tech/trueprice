@@ -1,16 +1,37 @@
-// Legal is the "different beast" per project_deep_dive_status.md -- fee-
-// structure-driven, not range-based. Analyzer URL is /legal-fee-analyzer.html
-// (NOT the default /legal-quote-analyzer.html which doesn't exist). Estimate
-// page exists at /legal-estimate.html but the question flow hasn't been
-// walked-as-human yet, so estimatePermutations stays empty until that dive
-// happens. Analyzer + compare paths still walk and surface mascot/copy/CTA
-// issues automatically.
+// Legal: per legal-estimate.html source. Steps are optService -> optSubType
+// -> optFee -> optComplexity. analyzerUrl is /legal-fee-analyzer.html (NOT
+// the default /legal-quote-analyzer.html which doesn't exist in repo).
 const { defineRunner } = require("../lib/runner");
 
 module.exports = defineRunner({
   vertical: "legal",
-  resultSelector: "#legalApp, #legalFeeApp, main",
+  resultSelector: "#legalApp, main",
   analyzerUrl: "/legal-fee-analyzer.html",
   compareUrl: "/compare-legal-quotes.html",
-  estimatePermutations: [],
+  estimatePermutations: [
+    {
+      label: "divorce-hourly-moderate",
+      picks: {
+        optService: "divorce",
+        optFee: "hourly",
+        optComplexity: "moderate",
+      },
+    },
+    {
+      label: "personal-injury-contingency-complex",
+      picks: {
+        optService: "personal_injury",
+        optFee: "contingency",
+        optComplexity: "complex",
+      },
+    },
+    {
+      label: "estate-planning-flat-simple",
+      picks: {
+        optService: "estate_planning",
+        optFee: "flat_fee",
+        optComplexity: "simple",
+      },
+    },
+  ],
 });
