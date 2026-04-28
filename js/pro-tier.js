@@ -589,15 +589,33 @@
     reportBody.appendChild(wrap);
   }
 
+  // Different analyzer verticals render results into different containers.
+  // Try the known candidates in order and return the first one that has
+  // content. Roofing uses #resultContainer; some verticals use
+  // #analysisOutput; older flows use .estimator-result.
+  function findResultContainer() {
+    var candidates = [
+      document.getElementById("analysisOutput"),
+      document.getElementById("resultContainer"),
+      document.querySelector(".estimator-result"),
+      document.querySelector(".analyzer-result"),
+      document.querySelector(".result-container"),
+    ];
+    for (var i = 0; i < candidates.length; i++) {
+      var c = candidates[i];
+      if (c && c.children && c.children.length > 0) return c;
+    }
+    return null;
+  }
+
   function injectIntoInlineResult() {
     // For free users only: add a single Pro CTA to the inline analyzer
     // result, after the existing result content. Pro users get nothing here
     // because their Pro sections appear in the printable report.
     if (cachedStatus && cachedStatus.isPro) return;
-    var output = document.getElementById("analysisOutput");
+    var output = findResultContainer();
     if (!output) return;
     if (output.querySelector(".tp-pro-inline-cta")) return;
-    if (!output.children || output.children.length === 0) return;
 
     var div = document.createElement("div");
     div.className = "tp-pro-inline-cta tp-pdf-noprint";
@@ -623,20 +641,28 @@
     window.showShareScreen.__woogoroProWrapped = true;
   }
 
-  // Watch the inline result for population, then inject the upsell once.
+  // Watch the page for the result container to appear AND get populated.
+  // Different verticals render into different IDs (#analysisOutput,
+  // #resultContainer, .estimator-result, etc.) so we observe a stable
+  // ancestor and re-scan candidates on every mutation.
   function observeInlineResult() {
-    var output = document.getElementById("analysisOutput");
-    if (!output) return;
+    var rootEl = document.getElementById("appRoot") || document.body;
+    if (!rootEl) return;
     var done = false;
-    var observer = new MutationObserver(function () {
+    var tryInject = function () {
       if (done) return;
-      if (output.children && output.children.length > 0) {
+      var c = findResultContainer();
+      if (c) {
         done = true;
         // Defer slightly so other render hooks run first.
         setTimeout(injectIntoInlineResult, 250);
       }
-    });
-    observer.observe(output, { childList: true, subtree: false });
+    };
+    // Initial scan in case the result is already on screen (rare, but safe)
+    tryInject();
+    if (done) return;
+    var observer = new MutationObserver(tryInject);
+    observer.observe(rootEl, { childList: true, subtree: true });
   }
 
   // ---- styles (injected once) -----------------------------------------
