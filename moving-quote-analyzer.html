@@ -811,6 +811,22 @@
       // 1) Generic suffix pattern: "Acme Moving", "Allied Van Lines", etc.
       var nameMatch = text.match(/([A-Z][A-Za-z'&.\-]+(?:\s+[A-Z][A-Za-z'&.\-]+){0,4}\s+(?:Moving|Movers|Van Lines|Relocations?|Transfer|Storage|Logistics)(?:\s+(?:Inc|LLC|Co|Company|Group))?)/);
       var name = nameMatch ? nameMatch[1].trim() : null;
+      // Reject common section headings (not real company names) so the
+      // brand-fallback list below has a chance to match a real brand.
+      // Fixture 01's "Long Distance Moving Services" header was getting
+      // picked over the actual mover (American Long Distance Moving).
+      var headingBlacklist = [
+        /^Long\s+Distance\s+Moving(?:\s+Services?)?$/i,
+        /^Local\s+Moving(?:\s+Services?)?$/i,
+        /^Moving\s+Services?$/i,
+        /^Full\s+Service\s+Moving$/i,
+        /^Long\s+Distance\s+Movers?$/i,
+        /^Local\s+Movers?$/i,
+        /^Number\s+of\s+Movers?$/i,
+        /^Total\s+(?:Moving|Movers?)$/i,
+        /^Quote\s+Moving$/i,
+      ];
+      if (name && headingBlacklist.some(function(re) { return re.test(name); })) name = null;
       // 2) Known-brand fallback: catches Brightside / MVM / College Hunks / etc
       // that don't have a "Moving" suffix in their wordmark.
       if (!name) {
@@ -1645,7 +1661,12 @@
             }
           }
         }
-        var _regexFoundPrice = result && result.quoteTotal > 100;
+        // A "found" regex price under $200 for moving is almost always
+        // garbled OCR (e.g., fixture 06 united-vs-mayflower extracted $28
+        // from a multi-quote document where the actual totals are $28K and
+        // $48K). Treat this as a regex MISS so the AI fallback fires.
+        var _suspiciouslyLow = result && result.quoteTotal > 0 && result.quoteTotal < 200;
+        var _regexFoundPrice = result && result.quoteTotal >= 200;
 
         // ── AI backup: engine already called /api/moving-estimate when
         // regex couldn't find a price; reuse engineResult.aiData rather than
@@ -1655,6 +1676,30 @@
           if (apiPrice > 0) {
             // buildResultFromAPI expects an object with the parsed fields at top level
             result = await buildResultFromAPI(engineResult.aiData);
+          }
+        } else if (_suspiciouslyLow && !engineResult.aiData) {
+          // Engine accepted the bad regex hit and never fired AI; force one.
+          try {
+            var imgDataUrl = engineResult.imageDataUrl || null;
+            if (!imgDataUrl) {
+              imgDataUrl = await fileToBase64(file).catch(function() { return null; });
+            }
+            var apiPayload = { text: text };
+            if (imgDataUrl) apiPayload.images = [imgDataUrl];
+            var resp = await fetch("/api/moving-estimate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(apiPayload)
+            });
+            if (resp.ok) {
+              var apiJson = await resp.json();
+              var apiData = apiJson && apiJson.data ? apiJson.data : apiJson;
+              if (apiData && Number(apiData.totalPrice) > 0) {
+                result = await buildResultFromAPI(apiData);
+              }
+            }
+          } catch (forceErr) {
+            console.warn("Forced AI fallback failed, keeping low regex price:", forceErr);
           }
         }
 
@@ -1913,6 +1958,22 @@
       state.moveType = moveType;
 
       var cityMult = getWeightedMult();
+
+      // Price-sanity move-type fallback: when no explicit "long distance"
+      // signal is in the OCR text but the extracted total dwarfs the LOCAL
+      // high-band for this home size, the quote is almost certainly LD.
+      // Without this, fixture 03 (Two Men $22,715) and fixture 07 (Mayflower
+      // $5,717) got scored against $600-$1,200 local 2BR baseline and
+      // rendered "2424% above average" / "535% above average" — confidently
+      // wrong. Compute first against current moveType, then re-evaluate.
+      var probeQuote = (typeof prices !== "undefined" && prices.length) ? Math.max.apply(null, prices) : 0;
+      if (moveType === "local" && probeQuote > 0) {
+        var localHigh = (MOVING_PRICING.localByHomeSize[homeSize] || MOVING_PRICING.localByHomeSize["2br"]).high;
+        if (probeQuote > localHigh * 2.5) {
+          moveType = "longDistance";
+          state.moveType = "longDistance";
+        }
+      }
       var expected = getExpectedRange(moveType, homeSize, cityMult, distance);
 
       var lineItems = [];
