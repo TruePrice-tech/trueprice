@@ -553,6 +553,14 @@ function extractPriceCandidates(text) {
 
     if (!hasStrongTotalContext) continue;
 
+    // Reject percentage-shaped fragments near "%" or "rate" — auto-repair
+    // insurance estimates have lines like "Sales Tax $686.08 @ 6.7500 %
+    // 46.31" where ".7500" is a tax rate, not a broken-leading total. The
+    // broken-leading repair would otherwise prefix "8" and produce $87,500
+    // because "Total Cost" appears 1-2 lines away in the context window.
+    const adjacentText = source.slice(Math.max(0, start - 12), Math.min(source.length, end + 12));
+    if (/%|\bpercent|\brate\b|@\s*\d/i.test(adjacentText)) continue;
+
     let score = scoreMoneyCandidate(value, context, lineText);
     score += 180;
 
@@ -1905,6 +1913,12 @@ function detectTotalLinePrice(text) {
 
       for (const match of matches) {
         const raw = match[0];
+        // Require a money-shape marker ($, comma-thousands, or .XX decimals)
+        // before accepting a token as a total candidate. Pure letter-mapped
+        // OCR strings ("Basis" → 84515, "AAISB" → 44158) can otherwise win
+        // when the floor is small enough to admit them. Real labeled totals
+        // always carry a $ or .00 in OCR.
+        if (!/\$|,\d{3}|\.\d{2}\b/.test(raw)) continue;
         const value = parseMoneyLikeValue(raw);
         // Auto-repair quotes can be small ($300-800 brake jobs); lowered
         // floor from 1000 to 200. The bad-context filter (warranty, mile)
@@ -2299,6 +2313,13 @@ function parseExtractedText(extractedText, options = {}) {
 
   const aRank = sourceRank[a.sourceType] ?? 0;
   const bRank = sourceRank[b.sourceType] ?? 0;
+
+  // If either candidate is strongly negatively ranked (warranty_mileage,
+  // energy_production, year, zip — things we KNOW aren't prices), rank
+  // always beats score. The score-shortcut below would otherwise let a
+  // warranty mileage match (rank -5, often score >200) jump ahead of a
+  // legitimate but lower-scored price candidate.
+  if (aRank <= -4 || bRank <= -4) return bRank - aRank;
 
   // If score difference is large (>30), prefer higher score regardless of source rank
   const scoreDiff = b.score - a.score;

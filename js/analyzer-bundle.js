@@ -1958,6 +1958,12 @@ function extractPriceCandidates(text) {
 
     if (!hasStrongTotalContext) continue;
 
+    // Reject percentage-shaped fragments — "@ 6.7500 %" tax-rate fragments
+    // would otherwise be repaired to $87,500 when "Total Cost" appears
+    // nearby in the context window.
+    const adjacentText = source.slice(Math.max(0, start - 12), Math.min(source.length, end + 12));
+    if (/%|\bpercent|\brate\b|@\s*\d/i.test(adjacentText)) continue;
+
     let score = scoreMoneyCandidate(value, context, lineText);
     score += 180;
 
@@ -3307,6 +3313,10 @@ function detectTotalLinePrice(text) {
 
       for (const match of matches) {
         const raw = match[0];
+        // Require a money-shape marker ($, comma-thousands, or .XX decimals)
+        // before accepting — pure letter-mapped OCR ("Basis" → 84515) would
+        // otherwise win when the floor is small.
+        if (!/\$|,\d{3}|\.\d{2}\b/.test(raw)) continue;
         const value = parseMoneyLikeValue(raw);
         if (!isFinite(value) || value < 200 || value > 200000) continue;
 
@@ -3697,6 +3707,11 @@ function parseExtractedText(extractedText, options = {}) {
 
   const aRank = sourceRank[a.sourceType] ?? 0;
   const bRank = sourceRank[b.sourceType] ?? 0;
+
+  // Strongly-negative ranks (warranty_mileage, energy_production, year, zip)
+  // always lose — the score-shortcut below would otherwise let a high-score
+  // warranty-mileage match jump ahead of a legitimate price.
+  if (aRank <= -4 || bRank <= -4) return bRank - aRank;
 
   // If score difference is large (>30), prefer higher score regardless of source rank
   const scoreDiff = b.score - a.score;
