@@ -2,8 +2,8 @@
   "metadata": {
     "sources": "ACI 318 / ACI 332, RSMeans residential 2026, NRMCA 2026 ready-mix pricing, BBB concrete complaint patterns, ICRI concrete contractor surveys",
     "baseYear": 2026,
-    "cacheNamespace": "concrete:v2-deepdive",
-    "lastReview": "2026-04-08"
+    "cacheNamespace": "concrete:v3-calibration-2026-04-27",
+    "lastReview": "2026-04-27"
   },
   "stateMultipliers": {
     "AL": 0.85, "AK": 1.25, "AZ": 0.95, "AR": 0.82, "CA": 1.20, "CO": 1.00,
@@ -35,8 +35,8 @@
   "commonJobs": {
     "driveway_replacement_2car": {
       "label": "2-car driveway replacement (~600 sqft, 4-inch slab, 4000 PSI air-entrained)",
-      "total": [4500, 11000],
-      "perSqft": [7.50, 18],
+      "total": [3900, 9000],
+      "perSqft": [6.50, 15],
       "scope": "Tear-out, haul-off, base prep, rebar/wire, control joints every 10 feet, broom finish, sealing.",
       "urgency": "soon"
     },
@@ -47,8 +47,8 @@
     },
     "patio_400sqft": {
       "label": "Patio (~400 sqft, 4-inch slab)",
-      "total": [3000, 7000],
-      "perSqft": [7, 17]
+      "total": [2000, 5200],
+      "perSqft": [5, 13]
     },
     "stamped_concrete_patio": {
       "label": "Stamped concrete patio (~400 sqft)",

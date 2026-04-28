@@ -407,10 +407,16 @@
     // ── Concrete Pricing Model ──
     var CONC_PRICING = {
       basePricePerSqft: {
-        standard_driveway: { label: "Standard Driveway", low: 8, high: 15, mid: 11.50 },
+        // Recalibrated 2026-04-27 against HomeAdvisor / Concrete Network /
+        // Angi 2024-25 industry rates and the API's flywheel-calibrated
+        // expectedRange. Old mid values (driveway 11.50, patio 12, sidewalk
+        // 11) sat near stamped/decorative territory and produced false
+        // "Below Average" verdicts on full-scope plain quotes (e.g. $9.75/sqft
+        // patio with rebar+base prep flagged as 22% below average).
+        standard_driveway: { label: "Standard Driveway", low: 6, high: 13, mid: 9.00 },
         stamped_concrete: { label: "Stamped Concrete", low: 12, high: 20, mid: 16.00 },
-        concrete_patio: { label: "Concrete Patio", low: 8, high: 16, mid: 12.00 },
-        sidewalk: { label: "Sidewalk", low: 8, high: 14, mid: 11.00 },
+        concrete_patio: { label: "Concrete Patio", low: 5, high: 13, mid: 8.50 },
+        sidewalk: { label: "Sidewalk", low: 5, high: 11, mid: 7.50 },
         asphalt_driveway: { label: "Asphalt Driveway", low: 5, high: 10, mid: 7.50 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
