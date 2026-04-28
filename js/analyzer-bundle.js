@@ -10989,6 +10989,8 @@ function buildComparisonWinnerHtml(summary) {
           roofSizeConsistency
         };
 
+        latestAnalysis.contractor = latestParsed?.contractor || "";
+
         latestAnalysis.roofSizeSource =
         latestAnalysis?.meta?.roofSize?.source ||
         latestAnalysis?.roofSizeEstimateSource ||
