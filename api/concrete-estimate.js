@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "concrete", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "concrete", cacheNamespace: "concrete:v2-pricingfix", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -239,7 +239,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("concrete", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("concrete:v2-pricingfix", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
@@ -254,41 +254,52 @@ Rules:
       const stateCode = parsed.stateCode || null;
       const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
 
-      // Match job type + finish to commonJobs for expected range
+      // Match job type + finish to commonJobs for expected range.
+      // commonJobs keys: driveway_replacement_2car, driveway_new_2car,
+      // patio_400sqft, stamped_concrete_patio, exposed_aggregate,
+      // sidewalk_replacement, garage_slab, foundation_slab_new_construction,
+      // stamped_pool_deck, concrete_repair. Fields are camelCase
+      // (`perSqft`, `total`) — not snake_case.
       let expectedRange = null;
       const jobType = parsed.jobType || "patio";
       const finish = parsed.finish || "plain";
       const sqft = parsed.squareFootage || null;
 
-      // Build job key from type and finish
+      const isStamped = finish === "stamped" || finish === "colored";
+      const isExposed = finish === "exposed_aggregate";
       const jobKeyMap = {
-        "driveway_plain": "driveway_plain",
-        "driveway_stamped": "driveway_stamped",
-        "driveway_colored": "driveway_stamped",
-        "patio_plain": "patio_plain",
-        "patio_stamped": "patio_stamped",
-        "patio_colored": "patio_stamped",
-        "sidewalk": "sidewalk",
-        "slab": "slab_foundation",
-        "retaining_wall": "retaining_wall"
+        // driveway
+        "driveway_plain": "driveway_replacement_2car",
+        "driveway_new": "driveway_new_2car",
+        "driveway_stamped": "stamped_concrete_patio", // no driveway-stamped pricing; stamped-patio rate is closest
+        // patio
+        "patio_plain": "patio_400sqft",
+        "patio_stamped": "stamped_concrete_patio",
+        "patio_exposed": "exposed_aggregate",
+        // sidewalk / slabs / pool / repair
+        "sidewalk_plain": "sidewalk_replacement",
+        "sidewalk": "sidewalk_replacement",
+        "slab_plain": "garage_slab",
+        "slab": "garage_slab",
+        "foundation_plain": "foundation_slab_new_construction",
+        "foundation": "foundation_slab_new_construction",
+        "pool_deck_stamped": "stamped_pool_deck",
+        "pool_deck": "stamped_pool_deck",
+        "repair": "concrete_repair"
       };
-      const isStamped = finish === "stamped" || finish === "colored" || finish === "exposed_aggregate";
-      let lookupKey = `${jobType}_${isStamped ? "stamped" : "plain"}`;
-      let matchKey = jobKeyMap[lookupKey] || jobKeyMap[jobType] || "patio_plain";
+      const lookupKey = isExposed
+        ? `${jobType}_exposed`
+        : `${jobType}_${isStamped ? "stamped" : "plain"}`;
+      const matchKey = jobKeyMap[lookupKey] || jobKeyMap[jobType] || "patio_400sqft";
 
       const jobData = pricingData.commonJobs?.[matchKey];
       if (jobData) {
-        if (sqft && jobData.per_sqft) {
+        if (sqft && Array.isArray(jobData.perSqft)) {
           expectedRange = {
-            low: Math.round(jobData.per_sqft[0] * sqft * stateMult),
-            high: Math.round(jobData.per_sqft[1] * sqft * stateMult)
+            low: Math.round(jobData.perSqft[0] * sqft * stateMult),
+            high: Math.round(jobData.perSqft[1] * sqft * stateMult)
           };
-        } else if (sqft && jobData.per_sqft_face) {
-          expectedRange = {
-            low: Math.round(jobData.per_sqft_face[0] * sqft * stateMult),
-            high: Math.round(jobData.per_sqft_face[1] * sqft * stateMult)
-          };
-        } else if (jobData.total) {
+        } else if (Array.isArray(jobData.total)) {
           expectedRange = {
             low: Math.round(jobData.total[0] * stateMult),
             high: Math.round(jobData.total[1] * stateMult)
@@ -333,24 +344,12 @@ Rules:
         }
       }
 
-      // Check for upsell patterns
-      const serverUpsells = [];
-      if (parsed.lineItems && pricingData.commonUpsells) {
-        const allDescs = parsed.lineItems.map(li => (li.description || "").toLowerCase()).join(" ");
-        for (const upsell of pricingData.commonUpsells) {
-          const itemLower = upsell.item.toLowerCase();
-          const itemWords = itemLower.split(/[\s\/]+/).filter(w => w.length > 3);
-          if (itemWords.some(w => allDescs.includes(w)) || allDescs.includes(itemLower)) {
-            serverUpsells.push({
-              item: upsell.item,
-              necessary: upsell.necessary,
-              typicalCost: upsell.cost,
-              notes: upsell.notes
-            });
-          }
-        }
-      }
-      if (serverUpsells.length > 0) parsed.detectedUpsells = serverUpsells;
+      // (No upsell-detection block — concrete-pricing.json has `additives`
+      // and `supportingComponents` but neither is shaped for the
+      // "upsell found in line items" semantic, and missing-scope detection
+      // already lives in the red-flag block above. The previous code
+      // referenced a non-existent `commonUpsells` array and was a silent
+      // no-op.)
 
       // Compute scope score
       let scopeScore = 0;
