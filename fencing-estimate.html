@@ -533,41 +533,7 @@
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
-
-    window.downloadAnalysisReport = function() {
-      var r = state.result;
-      if (!r) return;
-      var report = document.createElement("div");
-      report.style.cssText = "width:800px;padding:40px;background:#fff;font-family:system-ui,sans-serif;color:#1e293b;line-height:1.6;";
-      var h = "";
-      h += '<div style="display:flex;justify-content:space-between;border-bottom:2px solid #1d4ed8;padding-bottom:16px;margin-bottom:24px;"><div><div style="font-size:24px;font-weight:800;color:#1d4ed8;">Woogoro</div><div style="font-size:13px;color:#64748b;">Quote Analysis Report</div></div><div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>woogoro.com</div></div>';
-      var verdictColor = r.verdict && r.verdict.css === "fair" ? "#16a34a" : r.verdict && r.verdict.css === "high" ? "#dc2626" : "#d97706";
-      h += '<div style="background:#f8fafc;border:2px solid ' + verdictColor + ';border-radius:12px;padding:20px;margin-bottom:20px;text-align:center;"><div style="font-size:28px;font-weight:800;color:' + verdictColor + ';">' + (r.verdict ? r.verdict.label : "Analysis Complete") + '</div><div style="font-size:22px;font-weight:700;margin-top:8px;">Quote Total: $' + (r.quoteTotal || r.price || 0).toLocaleString() + '</div></div>';
-      if (r.lineItems && r.lineItems.length > 0) {
-        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Line Items</div><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#f1f5f9;"><th style="padding:6px 8px;text-align:left;">Description</th><th style="padding:6px 8px;text-align:right;">Amount</th></tr></thead><tbody>';
-        r.lineItems.forEach(function(li) { h += '<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:6px 8px;">' + (li.description || li.service || "") + '</td><td style="padding:6px 8px;text-align:right;">$' + ((li.cost || li.total || 0)).toLocaleString() + '</td></tr>'; });
-        h += '</tbody></table></div>';
-      }
-      if (r.redFlags && r.redFlags.length > 0) {
-        h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;color:#dc2626;margin-bottom:8px;">Issues Found (' + r.redFlags.length + ')</div>';
-        r.redFlags.forEach(function(f) { var t = typeof f === "string" ? f : (f.title || f.label || ""); if(t) h += '<div style="padding:6px 10px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;margin-bottom:4px;font-size:12px;color:#991b1b;">' + t + '</div>'; });
-        h += '</div>';
-      }
-      if (r.pricingContext) {
-        h += '<div style="font-size:12px;color:#94a3b8;margin-bottom:16px;">City-level pricing applied. Multiplier: ' + (r.pricingContext.multiplier || 1.0) + 'x. Source: ' + (r.pricingContext.source || "Woogoro data") + '</div>';
-      }
-      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. Not professional advice. Verify all findings independently.</div><div style="font-size:11px;color:#94a3b8;text-align:right;">woogoro.com</div></div>';
-      report.innerHTML = h;
-      document.body.appendChild(report);
-      report.style.position = "fixed"; report.style.left = "-9999px"; report.style.top = "0";
-      function doRender() {
-        html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
-          document.body.removeChild(report);
-          var link = document.createElement("a"); link.download = "woogoro-analysis-report.png"; link.href = canvas.toDataURL("image/png"); link.click();
-        }).catch(function() { document.body.removeChild(report); });
-      }
-      if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
-    };
+
 
     // ── Quote Parsing Helpers ──
     function detectFenceType(text) {

@@ -530,35 +530,6 @@
     };
 
     // ── Save as PDF ──
-    window.downloadAnalysisReport = function() {
-      var r = state.result;
-      if (!r) return;
-      var report = document.createElement("div");
-      report.style.cssText = "width:800px;padding:40px;background:#fff;font-family:system-ui,sans-serif;color:#1e293b;line-height:1.6;";
-      var h = "";
-      h += '<div style="display:flex;justify-content:space-between;border-bottom:2px solid #1d4ed8;padding-bottom:16px;margin-bottom:24px;"><div><div style="font-size:24px;font-weight:800;color:#1d4ed8;">Woogoro</div><div style="font-size:13px;color:#64748b;">Moving Cost Estimate</div></div><div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>woogoro.com</div></div>';
-      h += '<div style="background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:20px;margin-bottom:20px;text-align:center;"><div style="font-size:28px;font-weight:800;color:#16a34a;">' + r.verdict.label + '</div><div style="font-size:22px;font-weight:700;margin-top:8px;">' + fmt(r.benchmark) + '</div><div style="font-size:14px;color:#64748b;margin-top:4px;">Range: ' + fmt(r.low) + ' to ' + fmt(r.high) + '</div></div>';
-      h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Move Details</div>';
-      h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-      h += '<div style="background:#f8fafc;padding:8px 12px;border-radius:6px;"><div style="font-size:11px;color:#64748b;text-transform:uppercase;">Move Type</div><div style="font-weight:600;">' + r.moveTypeLabel + '</div></div>';
-      h += '<div style="background:#f8fafc;padding:8px 12px;border-radius:6px;"><div style="font-size:11px;color:#64748b;text-transform:uppercase;">Home Size</div><div style="font-weight:600;">' + r.homeSizeLabel + '</div></div>';
-      if (r.distanceLabel) h += '<div style="background:#f8fafc;padding:8px 12px;border-radius:6px;"><div style="font-size:11px;color:#64748b;text-transform:uppercase;">Distance</div><div style="font-weight:600;">' + r.distanceLabel + '</div></div>';
-      h += '<div style="background:#f8fafc;padding:8px 12px;border-radius:6px;"><div style="font-size:11px;color:#64748b;text-transform:uppercase;">Packing</div><div style="font-weight:600;">' + r.packingLabel + '</div></div>';
-      if (r.specialLabel && r.specialLabel !== "None") h += '<div style="background:#f8fafc;padding:8px 12px;border-radius:6px;"><div style="font-size:11px;color:#64748b;text-transform:uppercase;">Special Items</div><div style="font-weight:600;">' + r.specialLabel + '</div></div>';
-      h += '</div></div>';
-      h += '<div style="border-top:2px solid #e2e8f0;padding-top:16px;margin-top:24px;display:flex;justify-content:space-between;"><div style="font-size:11px;color:#94a3b8;max-width:500px;">This report is AI-generated and informational only. Not professional moving advice. Verify all findings independently.</div><div style="font-size:11px;color:#94a3b8;text-align:right;">woogoro.com</div></div>';
-      report.innerHTML = h;
-      document.body.appendChild(report);
-      report.style.position = "fixed"; report.style.left = "-9999px"; report.style.top = "0";
-      function doRender() {
-        html2canvas(report, { scale: 2, useCORS: true, backgroundColor: "#ffffff", width: 800 }).then(function(canvas) {
-          document.body.removeChild(report);
-          var link = document.createElement("a"); link.download = "woogoro-moving-estimate.png"; link.href = canvas.toDataURL("image/png"); link.click();
-        }).catch(function() { document.body.removeChild(report); });
-      }
-      if (typeof html2canvas === "undefined") { window.loadVendorLibs && window.loadVendorLibs().then(doRender); } else { doRender(); }
-    };
-
     // ── Render functions ──
     function render() {
       switch (state.step) {

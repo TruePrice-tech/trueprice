@@ -4431,9 +4431,6 @@ function buildComparisonWinnerHtml(summary) {
         }
       };
 
-      window.emailContractorQuestions = function emailContractorQuestions() {};
-      window.emailReport = function emailReport() {};
-
       window.copyBeforeYouSignChecklist = function copyBeforeYouSignChecklist() {
         const scopeItems = [
           { key: "tearOff", label: "Tear off" },
