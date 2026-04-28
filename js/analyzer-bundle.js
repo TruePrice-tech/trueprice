@@ -10505,6 +10505,13 @@ function buildComparisonWinnerHtml(summary) {
           if (!stateCode) stateCode = (parsedPropertyAddress.stateCode || "").toUpperCase();
           if (!zipCode) zipCode = parsedPropertyAddress.postalCode || "";
         }
+
+        // pdfjs / split-character OCR artifacts can leave the city as e.g.
+        // "E V Ans" instead of "Evans". repairDisplayText collapses those
+        // single-letter splits before we store on latestAnalysis (downstream
+        // consumers like result-footer.js read latestAnalysis.city directly
+        // and don't re-apply this normalization).
+        if (city) city = repairDisplayText(city);
         const roofSize = Number(byId("roofSize")?.value || 0);
         const quotePrice = Number(byId("quotePrice")?.value || 0);
         const material = byId("materialType")?.value || "architectural";
@@ -11002,6 +11009,7 @@ function buildComparisonWinnerHtml(summary) {
       });
 
         window.__latestAnalysis = latestAnalysis;
+        await awaitMinAnalyzingDelay();
         setJourneyStep("result");
 
         // Auto-contribute anonymized benchmark data (Option C: silent capture
@@ -14208,9 +14216,22 @@ function buildComparisonWinnerHtml(summary) {
       `;
     }
 
+    // Minimum time to keep the Iris analyzing state on screen, even if the
+    // parse + API completes faster. Cached fixtures, AI-skip paths, and tiny
+    // PDFs can all return in <300ms which made Iris flash buggy. 1.5s gives
+    // her enough screen time to register as a brand moment without dragging.
+    const MIN_ANALYZING_MS = 1500;
+    function awaitMinAnalyzingDelay() {
+      const shownAt = window.__analyzingShownAt || 0;
+      const remaining = MIN_ANALYZING_MS - (Date.now() - shownAt);
+      if (remaining <= 0) return Promise.resolve();
+      return new Promise(function (resolve) { setTimeout(resolve, remaining); });
+    }
+
     function renderAnalyzingState() {
       const root = document.getElementById("appRoot");
       if (!root) return;
+      window.__analyzingShownAt = Date.now();
 
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
@@ -14474,12 +14495,18 @@ function buildComparisonWinnerHtml(summary) {
         }
       }
 
-      // Render analyzing screen + hidden form elements in one shot (no flash)
+      // Render analyzing screen + hidden form elements in one shot. Use the
+      // SAME Iris-analyze image + iris-bounce class as renderAnalyzingState
+      // so the upload → confirm → analyze visual is one continuous bouncing
+      // mascot. Previously this swapped to Iris-peeking (static, different
+      // dimensions) which read as "Iris disappeared" when the upload-state
+      // bounce stopped abruptly.
       const preview = journeyState.propertyPreview || {};
       const p = latestParsed || {};
+      if (!window.__analyzingShownAt) window.__analyzingShownAt = Date.now();
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="margin-bottom:16px;" />
+          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" style="margin-bottom:16px;" />
           <div class="progress-phase" id="analysisPhaseLabel">Iris is reading the fine print so you don't have to...</div>
           <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
