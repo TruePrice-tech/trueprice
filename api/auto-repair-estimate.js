@@ -256,16 +256,49 @@ CRITICAL RULES:
     // --- Server-side enrichment from pricing data ---
     try {
       const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'auto-repair-pricing.json'), 'utf-8'));
+      let cityMultipliers = {};
+      try {
+        cityMultipliers = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'city-cost-multipliers.json'), 'utf-8'));
+      } catch (e) { /* optional; fall back to state multiplier */ }
 
       const stateCode = parsed.stateCode || null;
       const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
+      // Prefer city-level labor multiplier when the city is known and we have
+      // data for it. SC state-median pulls indie rates down to ~$67/hr in
+      // Charlotte where actual market is $80-$110/hr; the city multiplier
+      // (msa_direct in city-cost-multipliers.json) corrects that.
+      const cityKey = parsed.city && stateCode ? `${parsed.city}|${stateCode}` : null;
+      const cityData = cityKey ? cityMultipliers[cityKey] : null;
+      const cityLaborMult = cityData ? (cityData.laborMult ?? cityData.multiplier) : null;
+      const effectiveLaborMult = cityLaborMult != null ? cityLaborMult : stateMult;
+
       const vehicleCat = parsed.vehicleCategory || null;
       const vehicleMult = pricingData.vehicleCategoryMultipliers?.[vehicleCat]?.mult || 1.0;
       const shopType = parsed.shopType || "independent";
       const shopTypeRate = pricingData.laborRatesByShopType?.[shopType] || pricingData.laborRatesByShopType?.independent;
 
       // Adjusted labor rate benchmark
-      const adjustedLaborRate = Math.round(shopTypeRate.mid * stateMult * vehicleMult);
+      let adjustedLaborRate = Math.round(shopTypeRate.mid * effectiveLaborMult * vehicleMult);
+
+      // Luxury / performance dealer floor: a Charlotte-area Audi/BMW/Mercedes
+      // dealership doesn't quote $130/hr regardless of state-median wage.
+      // Real luxury-dealer floor is $180-$220/hr nationwide; performance
+      // brands push higher.
+      if (shopType === "dealer" && (vehicleCat === "luxury" || vehicleCat === "performance")) {
+        const luxFloor = shopTypeRate.luxuryFloor || 180;
+        if (adjustedLaborRate < luxFloor) adjustedLaborRate = luxFloor;
+      }
+      // Indie metro floor: any city with population >= 300k OR a labor
+      // multiplier within 10% of national has a real-world indie floor that
+      // the BLS state-median can drag below. Keeps SC indie rates above the
+      // unrealistic $63-$67/hr range when the customer is in Charlotte etc.
+      if (shopType === "independent" && shopTypeRate.metroFloor) {
+        const isMetro = (cityData && cityData.population >= 300000) ||
+                        (cityLaborMult != null && cityLaborMult >= 0.90);
+        if (isMetro && adjustedLaborRate < shopTypeRate.metroFloor) {
+          adjustedLaborRate = shopTypeRate.metroFloor;
+        }
+      }
 
       // Enrich each repair with benchmark data
       let oemPartsTotal = 0;
@@ -384,6 +417,8 @@ CRITICAL RULES:
       parsed.pricingContext = {
         state: stateCode,
         stateMultiplier: stateMult,
+        cityLaborMultiplier: cityLaborMult,
+        effectiveLaborMultiplier: effectiveLaborMult,
         vehicleCategory: vehicleCat,
         vehicleCategoryMultiplier: vehicleMult,
         shopType: shopType,

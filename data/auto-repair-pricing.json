@@ -60,19 +60,21 @@
   },
   "laborRatesByShopType": {
     "dealer": {
-      "low": 125,
-      "mid": 155,
-      "high": 200
+      "low": 130,
+      "mid": 170,
+      "high": 240,
+      "luxuryFloor": 180
     },
     "independent": {
       "low": 75,
       "mid": 105,
-      "high": 150
+      "high": 150,
+      "metroFloor": 80
     },
     "chain": {
       "low": 90,
       "mid": 120,
-      "high": 145
+      "high": 150
     }
   },
   "shopTypeLabels": {
