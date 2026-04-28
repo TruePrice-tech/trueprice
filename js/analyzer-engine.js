@@ -419,6 +419,16 @@
         if (!_totalOverride) {
           _totalOverride = result.ocrText.match(/contract\s*(?:price|total|amount|sum)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
+        // Many residential service quotes (fencing, concrete, painting)
+        // bottom-line as "Subtotal" with no separate Tax/Total because
+        // the contractor isn't collecting sales tax. Treat Subtotal as
+        // the bottom line when no later TOTAL appears in the text.
+        if (!_totalOverride) {
+          var _hasLaterTotal = /(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$/m.test(result.ocrText);
+          if (!_hasLaterTotal) {
+            _totalOverride = result.ocrText.match(/(?:^|\n)\s*sub.?total\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/im);
+          }
+        }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
           if (_overrideVal >= 10 && _overrideVal <= 500000 && _overrideVal !== result.price) {
