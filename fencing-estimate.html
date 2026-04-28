@@ -1337,10 +1337,26 @@
         // of looking like an unexplained surcharge.
         if (r.demo === "yes") typicalItems.push("removalOldFence");
         if (r.terrain === "gentle" || r.terrain === "steep") typicalItems.push("grading");
+        // Per-fence-type label override for the infill row. "Pickets/panels"
+        // is misleading for chain-link (which uses fabric mesh) and for
+        // ornamental fences (which only use panels, not pickets).
+        var infillLabelByType = {
+          chain_link: "Fabric mesh + top rail + tension wire",
+          wood_privacy: "Pickets",
+          cedar: "Pickets",
+          picket: "Pickets",
+          vinyl_privacy: "Panels",
+          aluminum: "Panels",
+          composite: "Panels",
+          wrought_iron: "Panels"
+        };
         typicalItems.forEach(function(key) {
           var item = FENCE_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
-            scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
+            var label = item.label;
+            var _ftKey = (r.fenceType && r.fenceType.value) || r.fenceType;
+            if (key === "picketsPanels" && _ftKey && infillLabelByType[_ftKey]) label = infillLabelByType[_ftKey];
+            scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + label + '</span></li>';
           }
         });
         var trailer = "Estimate assumes standard installation. Staining, sealing, or upgraded posts (UC4A ground-contact rated) may add cost.";
@@ -1459,7 +1475,7 @@
           <h1>' + (isUpload ? "Fence Quote Analysis" : "Your Fence Estimate") + '</h1>\
         </div>\
         <div class="fence-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Fencing%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Fencing%20worker.png" alt="Posie the Fencing Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Fencing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Fencing%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Fencing%20worker.png" alt="Posie the Fencing Woogoro" style="height:64px; width:64px; object-fit:contain;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Fencing Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\

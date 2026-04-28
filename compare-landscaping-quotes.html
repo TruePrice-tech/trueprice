@@ -279,7 +279,7 @@
     function escHtml(s) { var d = document.createElement("div"); d.appendChild(document.createTextNode(s == null ? "" : String(s))); return d.innerHTML; }
     function fmtMoney(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? "$" + Math.round(n).toLocaleString() : "N/A"; }
     function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
-    function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
+    function fmtYears(n) { n = parseFloat(n); if (!n || n <= 0) return "N/A"; if (n >= 50) return "Lifetime"; return n + (n === 1 ? " yr" : " yrs"); }
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
     function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
@@ -544,39 +544,37 @@
         html += '<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:14px;color:#92400e;"><strong>Note:</strong> One or more quotes are missing a price. Enter the missing price above for a more accurate comparison.</div>';
       }
       var priced = active.filter(function(a) { return a.data.price > 0; });
-      if (priced.length >= 2) {
-        priced.sort(function(a, b) { return a.data.price - b.data.price; });
-        var diff = priced[priced.length - 1].data.price - priced[0].data.price;
-        var pct = Math.round(diff / priced[0].data.price * 100);
-        if (pct > 5) {
-          // Frame the spread relative to scope completeness, not just price.
-          // 'X is 61% more than Y' reads like X is overpriced when X may
-          // actually be covering more scope items. When the priciest quote has
-          // materially more scope confirmed than the cheapest, lead with that.
-          var pricey = priced[priced.length - 1];
-          var cheap = priced[0];
-          var scopeDiff = (pricey.score.scopeCount || 0) - (cheap.score.scopeCount || 0);
-          var ctx;
-          if (scopeDiff >= 2) {
-            var missingFromCheap = [];
-            SCOPE_ITEMS.forEach(function(it) {
-              var pv = pricey.data.scopeItems && pricey.data.scopeItems[it.key];
-              var cv = cheap.data.scopeItems && cheap.data.scopeItems[it.key];
-              var inPricey = pv === "included" || pv === "yes" || pv === true;
-              var inCheap = cv === "included" || cv === "yes" || cv === true;
-              if (inPricey && !inCheap) missingFromCheap.push(it.label.toLowerCase());
-            });
-            var shown = missingFromCheap.slice(0, 3).join(", ");
-            var more = missingFromCheap.length > 3 ? ", and others" : "";
-            ctx = escHtml(pricey.data.name) + " covers " + scopeDiff + " more scope items ("
-              + pricey.score.scopeCount + "/" + SCOPE_ITEMS.length + " vs "
-              + cheap.score.scopeCount + "/" + SCOPE_ITEMS.length + ") for $"
-              + diff.toLocaleString() + " more. " + escHtml(cheap.data.name)
-              + " leaves out " + (shown || "items the other includes") + more + ".";
+      if (priced.length >= 2 && !isTight) {
+        // Frame the spread from the best-value pick's perspective so the
+        // verdict copy aligns with the BEST VALUE badge. Comparing the
+        // highest vs lowest price (and ignoring which one we just declared
+        // the winner) confused users when bestValue was the mid quote.
+        var alternatives = priced.filter(function(a) { return a !== bestValue; });
+        var bvPrice = bestValue.data.price;
+        var bvScope = bestValue.score.scopeCount || 0;
+        var lines = [];
+        alternatives.forEach(function(alt) {
+          var altPrice = alt.data.price;
+          var altScope = alt.score.scopeCount || 0;
+          var priceGap = altPrice - bvPrice;
+          var scopeGap = bvScope - altScope;
+          var fragment;
+          if (priceGap > 0 && scopeGap >= 0) {
+            fragment = escHtml(alt.data.name) + " costs $" + priceGap.toLocaleString() + " more"
+              + (scopeGap > 0 ? " and confirms " + scopeGap + " fewer scope item" + (scopeGap === 1 ? "" : "s") : " for similar scope coverage")
+              + ".";
+          } else if (priceGap < 0 && scopeGap > 0) {
+            fragment = escHtml(alt.data.name) + " is $" + Math.abs(priceGap).toLocaleString() + " cheaper but is missing "
+              + scopeGap + " scope item" + (scopeGap === 1 ? "" : "s") + " " + escHtml(bestValue.data.name) + " covers.";
+          } else if (priceGap < 0 && scopeGap <= 0) {
+            fragment = escHtml(alt.data.name) + " is $" + Math.abs(priceGap).toLocaleString() + " cheaper with comparable scope \u2014 worth a closer look on warranty + materials.";
           } else {
-            ctx = escHtml(pricey.data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(cheap.data.name) + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
+            fragment = escHtml(alt.data.name) + " costs $" + priceGap.toLocaleString() + " more for the same scope coverage.";
           }
-          html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
+          lines.push(fragment);
+        });
+        if (lines.length) {
+          html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + lines.join(" ") + '</p>';
         }
       }
       html += '</div></div>';

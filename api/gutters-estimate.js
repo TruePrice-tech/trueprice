@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "gutters", cacheNamespace: "gutters:v2", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "gutters", cacheNamespace: "gutters:v3-pricealign", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -162,7 +162,7 @@ Return this exact JSON structure:
     "removal": <"yes" | "no" | "unclear" - old gutter removal>,
     "gutters": <"yes" | "no" | "unclear" - gutter installation>,
     "downspouts": <"yes" | "no" | "unclear" - downspouts>,
-    "hangers": <"yes" | "no" | "unclear" - hidden hangers/brackets>,
+    "hangers": <"yes" | "no" | "unclear" - HIDDEN hangers specifically. Only "yes" if quote uses the words "hidden hanger", "concealed hanger", or "internal bracket". Plain "hangers", "spike-and-ferrule", "spike", "nail", "ferrule", or "standard hangers" → "no" (those are obsolete).>,
     "endCaps": <"yes" | "no" | "unclear" - end caps and corners>,
     "outlets": <"yes" | "no" | "unclear" - outlets and connectors>,
     "splashBlocks": <"yes" | "no" | "unclear" - splash blocks or extensions>,
@@ -340,15 +340,25 @@ Rules:
       // Server-side red flag checks
       if (!parsed.redFlags) parsed.redFlags = [];
 
-      if (!parsed.downspoutPlan) {
+      // Implicit-signal detection before flagging. Contractors rarely write
+      // the literal phrases "slope assessment" or "downspout plan" but often
+      // mention "drainage", "downspouts at corners", "1/4 inch per foot",
+      // etc. — those should count as covered.
+      const _ocrLower = (text || "").toLowerCase();
+      const _hasDownspoutSignal = parsed.downspoutPlan ||
+        parsed.downspoutCount > 0 ||
+        /\bdownspout/.test(_ocrLower) ||
+        /\bdrain(?:age)?\b/.test(_ocrLower);
+      const _hasSlopeSignal = parsed.slopeAssessment ||
+        /\bslope|pitch|fall\b|drainage|1\/4\s*(?:inch|in|")\s*(?:per|\/)/i.test(_ocrLower);
+      if (!_hasDownspoutSignal) {
         if (!parsed.redFlags.some(f => f.toLowerCase().includes("downspout"))) {
-          parsed.redFlags.push("No downspout placement plan included. Proper downspout placement is critical for water management and foundation protection.");
+          parsed.redFlags.push("Ask the contractor: where will downspouts be placed? Proper downspout placement protects the foundation from water damage.");
         }
       }
-
-      if (!parsed.slopeAssessment) {
-        if (!parsed.redFlags.some(f => f.toLowerCase().includes("slope"))) {
-          parsed.redFlags.push("No slope/pitch assessment mentioned. Gutters must slope 1/4 inch per 10 feet toward downspouts for proper drainage.");
+      if (!_hasSlopeSignal) {
+        if (!parsed.redFlags.some(f => f.toLowerCase().includes("slope") || f.toLowerCase().includes("pitch"))) {
+          parsed.redFlags.push("Ask the contractor: how will gutters be sloped? Industry standard is 1/4 inch per 10 feet of run toward downspouts.");
         }
       }
 

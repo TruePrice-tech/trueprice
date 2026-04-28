@@ -398,9 +398,20 @@
           // Filter out kWh production values mistaken as prices (solar quotes)
           var _priceStr = String(Math.round(regexPrice));
           var _kwhCheck = result.ocrText.match(new RegExp(_priceStr.replace(/,/g, "[,\\s]?") + "\\s*(?:kwh|kWh|kilowatt)", "i"));
+          // Filter out 4-digit model years (1900-2099) that aren't preceded
+          // by a dollar sign. Auto-repair quotes regularly contain "2019",
+          // "2024", etc. as model years and the parser would grab them as
+          // 4-digit prices when no labeled total survived OCR.
+          var _yearCheck = false;
+          if (regexPrice >= 1900 && regexPrice <= 2099 && Math.floor(regexPrice) === regexPrice) {
+            var _yearStr = String(Math.round(regexPrice));
+            var _hasDollarPrefix = new RegExp("\\$\\s*" + _yearStr + "\\b").test(result.ocrText);
+            if (!_hasDollarPrefix) _yearCheck = true;
+          }
           if (_kwhCheck) {
-            // This price is actually a kWh production value, skip it
             console.warn("[TP_Engine] Filtered kWh value from price: " + regexPrice);
+          } else if (_yearCheck) {
+            console.warn("[TP_Engine] Filtered model-year value from price: " + regexPrice);
           } else {
             result.price = regexPrice;
             result.source = "regex";
@@ -444,6 +455,29 @@
             // Always prefer the explicit total -- it's the labeled final price
             result.price = _overrideVal;
             result.source = "regex";
+          }
+        }
+
+        // Last-resort defense for hand-drawn / sparse-OCR quotes where no
+        // explicit TOTAL label survives: if the picked price exactly matches
+        // a labeled MATERIAL/PARTS sub-cost and a separate LABOR sub-cost
+        // is present, prefer the sum. This catches the failure mode where
+        // OCR splits "TOTAL JOB COST" badly and the parser falls back to the
+        // largest labeled sub-cost.
+        if (!_totalOverride && result.price > 0) {
+          var _matMatch = result.ocrText.match(/(?:^|\n)\s*(?:material(?:s)?|parts)\s*(?:cost|total|price|subtotal)?\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+          var _labMatch = result.ocrText.match(/(?:^|\n)\s*labor\s*(?:cost|total|price|subtotal)?\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+          if (_matMatch && _labMatch) {
+            var _matVal = parseFloat(_matMatch[1].replace(/,/g, ""));
+            var _labVal = parseFloat(_labMatch[1].replace(/,/g, ""));
+            // Only fire when the parser's pick exactly equals one of the
+            // sub-costs (suggesting it grabbed a sub-line as the total).
+            if ((Math.abs(result.price - _matVal) < 0.5 || Math.abs(result.price - _labVal) < 0.5) &&
+                (_matVal + _labVal) > result.price &&
+                (_matVal + _labVal) <= 500000) {
+              result.price = Math.round((_matVal + _labVal) * 100) / 100;
+              result.source = "regex_sum";
+            }
           }
         }
 

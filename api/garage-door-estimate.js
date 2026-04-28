@@ -245,6 +245,15 @@ Rules:
     // --- Server-side enrichment from pricing data ---
     try {
       const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'garage-door-pricing-model.json'), 'utf-8'));
+      // Also load the rich pricing JSON for red-flag regex patterns + scope
+      // weights. Keep `pricingData` (the simple model) for benchmark math
+      // since the existing code branches on basePriceByType / multipliers.
+      let richPricing = null;
+      try {
+        richPricing = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'garage-door-pricing.json'), 'utf-8'));
+      } catch (rpErr) {
+        console.log("[garage-door-estimate] rich pricing JSON not loaded:", rpErr.message);
+      }
 
       const doorType = parsed.doorType || null;
       const material = parsed.material || null;
@@ -326,6 +335,33 @@ Rules:
       if (parsed.material && parsed.material.includes("insulated") && !parsed.insulationRValue) {
         if (!parsed.redFlags.some(f => f.toLowerCase().includes("r-value"))) {
           parsed.redFlags.push("Insulated door quoted but no R-value specified. R-value determines actual insulation performance (R-6 to R-18 typical).");
+        }
+      }
+
+      // Apply rich-JSON red-flag regex patterns (DASMA wind rating, deposit
+      // above 50%, no warranty stated, spring lifecycle, no door brand,
+      // attached-garage insulation, etc.) — these were dead before because
+      // the API didn't load garage-door-pricing.json.
+      if (richPricing && Array.isArray(richPricing.redFlagPatterns)) {
+        const _allText = ((text || "") + " " + ((parsed.lineItems || []).map(li => li.description || "").join(" "))).toLowerCase();
+        for (const pat of richPricing.redFlagPatterns) {
+          try {
+            const primary = new RegExp(pat.regex, "i");
+            const primaryMatch = primary.test(_allText);
+            const inversePrimary = pat.matchInverse ? !primaryMatch : primaryMatch;
+            if (!inversePrimary) continue;
+            if (pat.secondaryRegex) {
+              const secondary = new RegExp(pat.secondaryRegex, "i");
+              const secondaryMatch = secondary.test(_allText);
+              const inverseSec = pat.matchInverseSecondary ? !secondaryMatch : secondaryMatch;
+              if (!inverseSec) continue;
+            }
+            if (!parsed.redFlags.some(f => f.toLowerCase().includes(pat.key.replace(/_/g, " ").slice(0, 12)))) {
+              parsed.redFlags.push(pat.explanation);
+            }
+          } catch (rxErr) {
+            console.log("[garage-door-estimate] red-flag regex error for " + pat.key + ":", rxErr.message);
+          }
         }
       }
 

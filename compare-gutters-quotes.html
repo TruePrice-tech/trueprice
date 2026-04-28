@@ -279,7 +279,7 @@
     function escHtml(s) { var d = document.createElement("div"); d.appendChild(document.createTextNode(s == null ? "" : String(s))); return d.innerHTML; }
     function fmtMoney(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? "$" + Math.round(n).toLocaleString() : "N/A"; }
     function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
-    function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
+    function fmtYears(n) { n = parseFloat(n); if (!n || n <= 0) return "N/A"; if (n >= 50) return "Lifetime"; return n + (n === 1 ? " yr" : " yrs"); }
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
     function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
@@ -374,7 +374,7 @@
           if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "gutters");
             if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
             api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
           return { raw: { data: api }, ocrText: _engOcrText };
@@ -388,7 +388,7 @@
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "gutters");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
-          if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+          if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
@@ -478,16 +478,20 @@
         }
 
     function scoreQuote(q, all) {
-      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
+      // Price 25%, Scope 50%, Warranty 10%, Transparency 5%, Red Flags -10%
+      // Re-weighted from Price 40%/Scope 40% so a more-complete higher-priced
+      // quote can outscore a bargain that's missing items. Suspiciously cheap
+      // (ratio < 0.6) is also down-weighted because it usually signals scope
+      // gaps not yet detected.
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 20;
-        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
-        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
-      } else if (q.price > 0) priceScore = 20;
+        if (ratio < 0.6) priceScore = 12;             // suspicious lowball
+        else if (ratio <= 1) priceScore = 18 + (1 - ratio) * 17;  // 18-25
+        else priceScore = Math.max(8, 18 - (ratio - 1) * 18);     // softer falloff
+      } else if (q.price > 0) priceScore = 15;
       else priceScore = 0;
 
       var confirmed = 0;
@@ -495,13 +499,17 @@
         var v = (q.scopeItems && q.scopeItems[it.key]) || "";
         if (v === "included" || v === "yes" || v === true) confirmed++;
       });
-      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 40 : 0;
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 50 : 0;
 
-      var transparencyScore = Math.min(10, confirmed * 1.5);
+      // Warranty bonus: 10 yr+ → full 10, 5-9 → 6, 1-4 → 3, none → 0
+      var wy = parseFloat(q.warrantyYears || 0);
+      var warrantyScore = wy >= 10 ? 10 : wy >= 5 ? 6 : wy >= 1 ? 3 : 0;
+
+      var transparencyScore = Math.min(5, confirmed * 0.8);
       var flagPenalty = Math.min(15, (q.redFlags || []).length * 5);
 
-      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + transparencyScore - flagPenalty)));
-      return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + warrantyScore + transparencyScore - flagPenalty)));
+      return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), warrantyScore: warrantyScore, flagPenalty: flagPenalty };
     }
 
     function scoreColor(s) { return s >= 70 ? "#16a34a" : s >= 40 ? "#d97706" : "#ef4444"; }

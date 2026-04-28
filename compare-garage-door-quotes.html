@@ -270,7 +270,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/garage-door-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Door Style", "field": "doorStyle", "type": "text"}, {"label": "Material", "field": "material", "type": "text"}, {"label": "Insulation R-value", "field": "rValue", "type": "text"}, {"label": "Door Size", "field": "doorSize", "type": "text"}, {"label": "Opener Brand", "field": "openerBrand", "type": "text"}, {"label": "Opener HP", "field": "openerHp", "type": "text"}, {"label": "Warranty (door)", "field": "warrantyDoorYears", "type": "years"}, {"label": "Warranty (opener)", "field": "warrantyOpenerYears", "type": "years"}];
+    var ROWS = [{"label": "Door Style", "field": "doorType", "type": "text"}, {"label": "Material", "field": "material", "type": "text"}, {"label": "Insulation R-value", "field": "insulationRValue", "type": "text"}, {"label": "Door Size", "field": "doorSize", "type": "text"}, {"label": "Opener Brand", "field": "openerBrand", "type": "text"}, {"label": "Opener Drive", "field": "openerType", "type": "text"}, {"label": "Warranty (parts)", "field": "warrantyParts", "type": "text"}, {"label": "Warranty (labor)", "field": "warrantyLabor", "type": "text"}];
     var SCOPE_ITEMS = [{"key":"old_removal","label":"Old door removal"},{"key":"opener","label":"Opener included"},{"key":"tracks","label":"New tracks/hardware"},{"key":"springs","label":"Springs"},{"key":"weather_seal","label":"Weather seal"},{"key":"insulated","label":"Insulated door"},{"key":"wifi","label":"WiFi/smart"},{"key":"safety","label":"Safety inspection"},{"key":"warranty","label":"Warranty"},{"key":"permit","label":"Permit"}];
     var IRIS = "/images/Worker%20Woogoro/Garage%20worker.png";
     var SINGLE_PAGE = "/garage-door-quote-analyzer.html";
@@ -280,7 +280,7 @@
     function escHtml(s) { var d = document.createElement("div"); d.appendChild(document.createTextNode(s == null ? "" : String(s))); return d.innerHTML; }
     function fmtMoney(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? "$" + Math.round(n).toLocaleString() : "N/A"; }
     function fmtNumber(n) { n = parseFloat(String(n).replace(/[^0-9.-]/g, "")); return (n && n > 0) ? n.toLocaleString() : "N/A"; }
-    function fmtYears(n) { n = parseFloat(n); return (n && n > 0) ? n + (n === 1 ? " yr" : " yrs") : "N/A"; }
+    function fmtYears(n) { n = parseFloat(n); if (!n || n <= 0) return "N/A"; if (n >= 50) return "Lifetime"; return n + (n === 1 ? " yr" : " yrs"); }
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
     function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
@@ -392,7 +392,11 @@
           if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "garage-door");
             if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            if (extracted.warranty) {
+              if (extracted.warranty.parts) api.warrantyParts = extracted.warranty.parts + " yrs";
+              if (extracted.warranty.labor) api.warrantyLabor = extracted.warranty.labor + " yrs";
+              api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+            }
             api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
           return { raw: { data: api }, ocrText: _engOcrText };
@@ -406,7 +410,11 @@
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "garage-door");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
-          if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+          if (extracted.warranty) {
+            if (!api.warrantyParts && extracted.warranty.parts) api.warrantyParts = extracted.warranty.parts + " yrs";
+            if (!api.warrantyLabor && extracted.warranty.labor) api.warrantyLabor = extracted.warranty.labor + " yrs";
+            if (!api.warrantyYears) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+          }
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";

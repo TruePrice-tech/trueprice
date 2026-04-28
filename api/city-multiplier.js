@@ -43,7 +43,11 @@ module.exports = async (req, res) => {
 
   const { city, state } = req.query;
   if (!city || !state) {
-    return res.status(400).json({ error: 'Missing city or state' });
+    // Return a soft 200 with national-default multipliers rather than a
+    // 400. Frontend pages call this on every render and an empty
+    // address (geolocation pending, manual flow, etc.) shouldn't show
+    // up as a console error.
+    return res.status(200).json({ multiplier: 1.0, rangeLow: 0.85, rangeHigh: 1.18, source: 'no_address' });
   }
 
   const stateUpper = state.toUpperCase();

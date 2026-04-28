@@ -101,10 +101,14 @@
     .gut-verdict.fair { background: #f0fdf4; border: 2px solid #86efac; }
     .gut-verdict.high { background: #fef2f2; border: 2px solid #fca5a5; }
     .gut-verdict.low { background: #fefce8; border: 2px solid #fde047; }
+    /* Neutral / estimator card — distinct from green "fair" so users
+       don't read an estimate range as a "your quote is fair" verdict. */
+    .gut-verdict.estimate { background: #f8fafc; border: 2px solid #cbd5e1; }
     .gut-verdict .verdict-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.25rem; }
     .gut-verdict.fair .verdict-label { color: #16a34a; }
     .gut-verdict.high .verdict-label { color: #dc2626; }
     .gut-verdict.low .verdict-label { color: #ca8a04; }
+    .gut-verdict.estimate .verdict-label { color: #475569; }
     .gut-verdict .verdict-price { font-size: 2rem; font-weight: 800; color: #1e293b; }
     .gut-verdict .verdict-range { font-size: 0.95rem; color: #64748b; margin-top: 0.25rem; }
 
@@ -590,7 +594,7 @@
       report.style.cssText = "width:800px;padding:40px;background:#fff;font-family:system-ui,sans-serif;color:#1e293b;line-height:1.6;";
       var h = "";
       h += '<div style="display:flex;justify-content:space-between;border-bottom:2px solid #1d4ed8;padding-bottom:16px;margin-bottom:24px;"><div><div style="font-size:24px;font-weight:800;color:#1d4ed8;">Woogoro</div><div style="font-size:13px;color:#64748b;">Quote Analysis Report</div></div><div style="text-align:right;font-size:12px;color:#94a3b8;">Generated ' + new Date().toLocaleDateString() + '<br>woogoro.com</div></div>';
-      var verdictColor = r.verdict && r.verdict.css === "fair" ? "#16a34a" : r.verdict && r.verdict.css === "high" ? "#dc2626" : "#d97706";
+      var verdictColor = r.verdict && r.verdict.css === "fair" ? "#16a34a" : r.verdict && r.verdict.css === "high" ? "#dc2626" : r.verdict && r.verdict.css === "estimate" ? "#475569" : "#d97706";
       h += '<div style="background:#f8fafc;border:2px solid ' + verdictColor + ';border-radius:12px;padding:20px;margin-bottom:20px;text-align:center;"><div style="font-size:28px;font-weight:800;color:' + verdictColor + ';">' + (r.verdict ? r.verdict.label : "Analysis Complete") + '</div><div style="font-size:22px;font-weight:700;margin-top:8px;">Quote Total: $' + (r.quoteTotal || r.price || 0).toLocaleString() + '</div></div>';
       if (r.lineItems && r.lineItems.length > 0) {
         h += '<div style="margin-bottom:20px;"><div style="font-size:16px;font-weight:700;margin-bottom:8px;">Line Items</div><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#f1f5f9;"><th style="padding:6px 8px;text-align:left;">Description</th><th style="padding:6px 8px;text-align:right;">Amount</th></tr></thead><tbody>';
@@ -1175,7 +1179,7 @@
         low: range.low,
         high: range.high,
         ratio: 1.0,
-        verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
+        verdict: { label: "Estimated Cost", css: "estimate", emoji: "" },
         gutterType: { value: est.gutterType, label: typeLabel },
         linearFeet: lf,
         detectedLength: null,
@@ -1361,7 +1365,7 @@
           <h1>' + (isUpload ? "Gutter Quote Analysis" : "Your Gutter Estimate") + '</h1>\
         </div>\
         <div class="gut-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Gutter%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Gutter%20worker.png" alt="River the Gutter Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Gutters Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Gutter%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Gutter%20worker.png" alt="River the Gutter Woogoro" style="height:64px; width:64px; object-fit:contain;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Gutters Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\

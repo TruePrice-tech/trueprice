@@ -370,10 +370,12 @@
 
     // ── Landscaping Pricing Model ──
     var LAND_PRICING = {
+      // Pricing aligned to data/landscaping-pricing.json commonJobs (2026)
+      // so the estimator and analyzer paths agree. JSON is authoritative.
       basePricing: {
-        paver_patio: { label: "Paver Patio", unit: "sqft", low: 15, high: 30, mid: 22.50 },
-        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 50, mid: 37.50 },
-        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1, high: 2, mid: 1.50 },
+        paver_patio: { label: "Paver Patio", unit: "sqft", low: 18, high: 38, mid: 26 },
+        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 55, mid: 38 },
+        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1.10, high: 2.60, mid: 1.75 },
         landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000 },
         french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50 },
         grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000 },

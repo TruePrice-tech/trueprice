@@ -369,14 +369,17 @@
     "use strict";
 
     // ── Electrical Pricing Model ──
+    // Ranges sourced from data/electrical-pricing.json commonJobs.
+    // Frontend keys are UI labels; api/electrical-estimate.js jobKeyMap
+    // remaps them to the canonical JSON keys server-side.
     var ELEC_PRICING = {
       basePriceByService: {
-        panel_upgrade: { label: "Panel Upgrade (100A to 200A)", low: 1800, high: 3500 },
-        whole_house_rewire: { label: "Whole House Rewire", low: 8000, high: 15000 },
-        ev_charger: { label: "EV Charger Installation", low: 800, high: 2500 },
-        generator: { label: "Generator Installation", low: 3500, high: 12000 },
-        circuit_addition: { label: "Circuit Addition", low: 200, high: 500 },
-        outlet_switch: { label: "Outlet/Switch Replacement", low: 150, high: 300 }
+        panel_upgrade: { label: "Panel Upgrade (100A to 200A)", low: 1800, high: 4500 },
+        whole_house_rewire: { label: "Whole House Rewire", low: 8000, high: 30000 },
+        ev_charger: { label: "EV Charger Installation", low: 900, high: 3000 },
+        generator: { label: "Generator Installation (Whole Home)", low: 6500, high: 18000 },
+        circuit_addition: { label: "Circuit Addition", low: 180, high: 450 },
+        outlet_switch: { label: "Outlet/Switch Replacement", low: 180, high: 350 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       overheadMultiplier: 1.0,
@@ -584,11 +587,18 @@
     }
 
     function detectAmperage(text) {
+      // Prefer panel-context matches over branch-circuit matches.
+      // OCR like "Replace 20A breaker, upgrade 200A panel" used to grab
+      // "20" because it was first; we now look for amperage that sits
+      // next to panel/service/main/entrance/upgrade keywords first.
       var t = (text || "");
-      var match = t.match(/(\d{2,3})\s*[- ]?\s*amp/i);
-      if (match) return parseInt(match[1]);
-      match = t.match(/(\d{2,3})\s*A\b/);
-      if (match) return parseInt(match[1]);
+      var contextRe = /(?:(\d{2,3})\s*(?:amp|amps|A)\b[^.]{0,30}(?:panel|service|main|entrance|upgrade|meter|disconnect))|(?:(?:panel|service|main|entrance|upgrade|meter|disconnect)[^.]{0,30}(\d{2,3})\s*(?:amp|amps|A)\b)/i;
+      var ctx = t.match(contextRe);
+      if (ctx) return parseInt(ctx[1] || ctx[2]);
+      var all = (t.match(/(\d{2,3})\s*(?:amp|amps|A)\b/gi) || [])
+        .map(function(s) { var m = s.match(/(\d{2,3})/); return m ? parseInt(m[1]) : 0; })
+        .filter(function(v) { return v >= 30 && v <= 400; });
+      if (all.length) return Math.max.apply(null, all);
       return null;
     }
 
@@ -725,13 +735,17 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. If lookup fails, leave empty rather than
+        // silently defaulting to Texas — TX has its own pricing band
+        // and pretending an unknown user lives in Texas produced wrong
+        // verdicts. Downstream code falls back to national/region
+        // defaults when stateCode is empty.
         var upper = rawState.toUpperCase();
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = lookup || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
@@ -1510,7 +1524,7 @@
           <h1>' + (isUpload ? "&#9889; Electrical Quote Analysis" : "&#9889; Your Electrical Estimate") + '</h1>\
         </div>\
         <div class="elec-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Electrical%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Electrical%20worker.png" alt="Nova the Electrical Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Electrical Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Electrical%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Electrical%20worker.png" alt="Nova the Electrical Woogoro" style="height:64px; width:64px; object-fit:contain;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Electrical Verdict</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
