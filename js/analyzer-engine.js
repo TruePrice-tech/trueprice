@@ -546,6 +546,44 @@
           }
         }
 
+        // Floor sanity-check: when the OCR text contains a CONTRACT/TOTAL/
+        // GRAND TOTAL keyword (i.e. the quote *does* have a labeled bottom-
+        // line) but the override regexes failed to capture a number from it
+        // (Tesseract garbled the digits, or the keyword was on a separate
+        // line from the price), the parser falls back to the largest line-
+        // item dollar amount — which on a multi-window/roof/HVAC contract
+        // can be wildly low (a $2,445 sub-line on a $10,627 EcoView job).
+        // If the picked price is below a credible vertical floor under those
+        // exact conditions, drop it to null so the AI fallback fires (or the
+        // UI surfaces the manual-entry path) rather than displaying a green
+        // "great deal" verdict on a misread.
+        var _verticalFloors = {
+          windows: 2500,
+          roofing: 3000,
+          siding: 3000,
+          hvac: 2000,
+          solar: 5000,
+          foundation: 2000,
+          kitchen: 5000
+        };
+        var _floor = _verticalFloors[options.vertical];
+        if (_floor && result.price && result.price < _floor && !_totalOverride) {
+          var _hasTotalKeyword =
+            /(?:^|\n)\s*(?:contract\s*(?:price|total|amount|sum)|total\s+(?:estimat\w*|investment|project\s+cost|cost|price)|grand\s+total|amount\s+due|balance\s+due|final\s+total)/im
+              .test(_ocrTextForOverride);
+          if (_hasTotalKeyword) {
+            console.warn(
+              "[TP_Engine] Dropping picked price " + result.price +
+              " — below " + options.vertical + " floor " + _floor +
+              " and OCR contains a TOTAL/CONTRACT keyword the override regex " +
+              "could not parse. Will fall back to AI or manual entry."
+            );
+            result.price = null;
+            result.source = null;
+            result.priceFloorTripped = true;
+          }
+        }
+
         result.contractor = parsed.contractor || null;
         result.material = parsed.material || null;
         result.materialLabel = parsed.materialLabel || null;
