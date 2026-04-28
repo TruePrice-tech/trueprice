@@ -122,7 +122,8 @@ async function runAnalyzePath(browser, outDir, config) {
     shots.push(await shot(page, outDir, `${label}-01-landing`));
 
     const inputSel = config.fileInputSelector || 'input[type="file"]';
-    const fileInput = await page.$(inputSel);
+    // waitForSelector handles slow first-load and Vercel JS-challenge gates.
+    const fileInput = await page.waitForSelector(inputSel, { timeout: 30000 }).catch(() => null);
     if (!fileInput) throw new Error(`no file input matching ${inputSel}`);
     await fileInput.uploadFile(config.fixture.fullPath);
 
@@ -190,7 +191,7 @@ async function runComparePath(browser, outDir, config) {
     shots.push(await shot(page, outDir, `${label}-01-landing`));
 
     for (let i = 0; i < config.compareFixtures.length && i < 3; i++) {
-      const inp = await page.$(`#file${i}`);
+      const inp = await page.waitForSelector(`#file${i}`, { timeout: 15000 }).catch(() => null);
       if (!inp) continue;
       await inp.uploadFile(config.compareFixtures[i].file);
       await sleep(3500);
@@ -201,7 +202,8 @@ async function runComparePath(browser, outDir, config) {
     let clicked = false;
     while (Date.now() - start < 60000) {
       const ok = await page.evaluate(() => {
-        const btn = document.querySelector(".cmp-compare-btn, button[onclick*='compare'], #compareBtn, button[data-action='compare']");
+        const btn = document.querySelector(".cmp-compare-btn, button[onclick*='compare'], #compareBtn, button[data-action='compare']") ||
+          Array.from(document.querySelectorAll("button")).find((b) => /compare quotes|compare these|compare now/i.test((b.textContent || "").trim()));
         if (btn && !btn.disabled) { btn.click(); return true; }
         return false;
       });

@@ -1,21 +1,24 @@
 const { defineRunner } = require("../lib/runner");
 
-// Auto-repair has unique URLs and file input ID. Per scripts/auto-repair-walk2.js:
-//   analyzer at /auto-repair.html?path=quote (single page with ?path= router)
+// Auto-repair: per scripts/auto-repair-walk2.js + repo file inventory.
+//   estimate at /auto-repair-cost-estimate.html (selectors not yet captured)
+//   analyzer at /auto-repair-quote-analyzer.html (also reachable via the
+//     /auto-repair.html?path=quote router; using the standalone URL for clarity)
 //   file input id="fileInput", confirm button id="tpConfirmPriceBtn"
-//   compare at /compare-auto-quotes.html (auto, not auto-repair)
-//   manifest dir is "auto-images" (not "auto-repair-images")
-// Estimate path lives at the same /auto-repair.html?path=estimate but the
-// flow isn't standardized in walks yet -- skipped for now; analyzer + compare
-// give plenty of signal.
+//   compare at /compare-auto-quotes.html (note: "auto", not "auto-repair")
+//   manifest dir is "auto-images" (fixturesDir override)
+//   result selector: #quoteApp
+// Estimate flow stays empty until a dedicated walker captures the option
+// container IDs from /auto-repair-cost-estimate.html.
 module.exports = defineRunner({
   vertical: "auto-repair",
   fixturesDir: "auto",
   resultSelector: "#quoteApp, main",
-  analyzerUrl: "/auto-repair.html?path=quote",
+  estimateUrl: "/auto-repair-cost-estimate.html",
+  analyzerUrl: "/auto-repair-quote-analyzer.html",
   compareUrl: "/compare-auto-quotes.html",
   fileInputSelector: "#fileInput",
   analyzerPriceConfirm: true,
   confirmButtonSelector: "#tpConfirmPriceBtn",
-  estimatePermutations: [], // estimate path TODO -- needs a dedicated walker run as human first
+  estimatePermutations: [],
 });
