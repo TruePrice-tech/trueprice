@@ -599,16 +599,21 @@
         }
 
     function scoreQuote(q, all) {
-      // Price 40%, Scope 40%, Transparency 10%, Red Flags -10%
+      // Price 25%, Scope 50%, Warranty 10%, Transparency 5%, Red Flags -10%
+      // Re-weighted from Price 40%/Scope 40% so a more-complete higher-priced
+      // quote can outscore a bargain that's missing items. Suspiciously cheap
+      // (ratio < 0.6) is also down-weighted because it usually signals scope
+      // gaps not yet detected. Same formula now used across gutters, fencing,
+      // electrical, garage door, and the 14 Family A compare pages.
       var prices = all.map(function(a) { return a.price; }).filter(function(p) { return p > 0; });
       var priceScore = 0;
       if (q.price > 0 && prices.length >= 2) {
         var avg = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avg;
-        if (ratio < 0.5) priceScore = 20; // suspiciously low -- may be missing scope
-        else if (ratio <= 1) priceScore = 30 + (1 - ratio) * 20;
-        else priceScore = Math.max(5, 30 - (ratio - 1) * 30);
-      } else if (q.price > 0) priceScore = 20;
+        if (ratio < 0.6) priceScore = 12;
+        else if (ratio <= 1) priceScore = 18 + (1 - ratio) * 17;
+        else priceScore = Math.max(8, 18 - (ratio - 1) * 18);
+      } else if (q.price > 0) priceScore = 15;
       else priceScore = 0;
 
       var confirmed = 0;
@@ -616,15 +621,19 @@
         var v = (q.scopeItems && q.scopeItems[it.key]) || "";
         if (v === "included" || v === "yes" || v === true) confirmed++;
       });
-      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 40 : 0;
+      var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 50 : 0;
 
-      // Transparency: quotes showing more detail earn a small bonus
-      var transparencyScore = Math.min(10, confirmed * 1.5);
+      // Reads any common warranty field name so HVAC's split (warrantyParts +
+      // warrantyLabor) and single-field verticals both work without per-
+      // vertical branching. Verticals with no warranty extraction get 0.
+      var wy = parseFloat(q.warrantyYears || q.warrantyPartsYears || q.warrantyLaborYears || 0);
+      var warrantyScore = wy >= 10 ? 10 : wy >= 5 ? 6 : wy >= 1 ? 3 : 0;
 
+      var transparencyScore = Math.min(5, confirmed * 0.8);
       var flagPenalty = Math.min(15, (q.redFlags || []).length * 5);
 
-      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + transparencyScore - flagPenalty)));
-      return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), flagPenalty: flagPenalty };
+      var total = Math.round(Math.max(0, Math.min(100, priceScore + scopeScore + warrantyScore + transparencyScore - flagPenalty)));
+      return { total: total, scopeCount: confirmed, priceScore: Math.round(priceScore), scopeScore: Math.round(scopeScore), warrantyScore: warrantyScore, flagPenalty: flagPenalty };
     }
 
     function scoreColor(s) { return s >= 70 ? "#16a34a" : s >= 40 ? "#d97706" : "#ef4444"; }
