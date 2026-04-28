@@ -9098,13 +9098,18 @@ function buildComparisonWinnerHtml(summary) {
           deltaText = "This quote is " + safeFormatCurrency(deltaAbs) + " " + direction + " expected" + (suffix ? " for a " + suffix : "");
         }
 
-        var irisVerdictImg = (a.verdict === "fair" || a.verdict === "low") ? "/images/Iris/Iris%20happy.png" : "/images/Iris/Iris%20concerned.png";
-        var irisVerdictAlt = (a.verdict === "fair" || a.verdict === "low") ? "Iris gives a thumbs up" : "Iris looks concerned";
+        // Worker Woogoro for vertical-specific verdict per
+        // feedback_rainbow_is_iris_only.md (rainbow Iris is reserved for
+        // landing/about pages; vertical analyzers use the worker variant).
+        // Verdict tone is carried by the card border/colors and label text;
+        // mascot is neutral.
+        var verdictMascotImg = "/images/Worker%20Woogoro/Roofer%20worker.png";
+        var verdictMascotAlt = "Shingle the Roofing Woogoro";
 
         return `
           <div class="verdict-card ${getVerdictCardClass(a.verdict)}">
             <div style="display:flex; align-items:center; gap:16px; margin-bottom:8px;">
-              <img src="${irisVerdictImg}" alt="${irisVerdictAlt}" width="64" height="64" style="flex-shrink:0;" />
+              <img src="${verdictMascotImg}" alt="${verdictMascotAlt}" width="64" height="64" style="flex-shrink:0; object-fit:contain;" />
               <div style="flex:1;">
                 <div style="font-size:13px; font-weight:700; color:var(--brand); margin-bottom:2px;">Woogoro ${escapeHtml(a.serviceLabel || "Roofing")} Verdict</div>
                 <div class="verdict-headline" style="margin:0;">${getVerdictHeadline(a.verdict)}</div>

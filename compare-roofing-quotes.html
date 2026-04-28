@@ -261,6 +261,49 @@
     function fmtYesNo(v) { if (v === true || v === "yes" || v === "Yes" || v === "true") return '<span class="cmp-scope-check">&#10003; Yes</span>'; if (v === false || v === "no" || v === "No" || v === "false") return '<span class="cmp-scope-no">&#10007; No</span>'; return '<span class="cmp-scope-missing">? Unclear</span>'; }
     function fmtText(v) { if (v == null || v === "" || v === "Unknown" || v === "unknown") return "Not stated"; var s = String(v).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); }).replace(/\bAc\b/g, "AC").replace(/\bHvac\b/g, "HVAC").replace(/\bSeer\b/g, "SEER").replace(/\bAfue\b/g, "AFUE"); return escHtml(s); }
 
+    // Roofing-local material detector. Reads the material TYPE (asphalt
+    // 3-tab vs architectural vs metal vs tile vs slate vs cedar vs flat
+    // membrane) directly from OCR text. Falls back to extracted.jobType
+    // (work-type, e.g. "Full Replacement") only when no material keyword
+    // matches. Pinnacle's "GAF Timberline HDZ Lifetime architectural"
+    // would now resolve as "architectural" instead of "Not stated".
+    function detectRoofMaterial(text) {
+      var t = String(text || "").toLowerCase();
+      // Order matters: more-specific patterns first
+      if (/standing[- ]?seam/.test(t)) return "Standing-seam metal";
+      if (/(?:metal|steel|aluminum|copper)\s*(?:roof|shingle|panel|standing)/.test(t)) return "Metal";
+      if (/\bslate\b/.test(t) && !/slate.*color/.test(t)) return "Slate";
+      if (/\bcedar\b|\bcedar\s*shake|wood\s*shake|\bshake\s*roof/.test(t)) return "Cedar shake";
+      if (/concrete\s*tile|clay\s*tile|spanish\s*tile|barrel\s*tile|\btile\s*roof|tile\s*shingle/.test(t)) return "Tile";
+      if (/(?:tpo|epdm|modified\s*bitumen|membrane|flat\s*roof)/.test(t)) return "Flat membrane";
+      if (/architectural\s*(?:shingle|asphalt)?|laminated\s*shingle|dimensional\s*shingle|timberline|landmark|duration/.test(t)) return "Architectural asphalt";
+      if (/3.?tab|three.?tab|strip\s*shingle/.test(t)) return "3-tab asphalt";
+      if (/asphalt\s*shingle|composition\s*shingle|composition\s*roof/.test(t)) return "Asphalt";
+      return null;
+    }
+
+    // Roofing-local manufacturer-warranty detector. Catches brand-named
+    // warranties like "CertainTeed SureStart Plus 50-yr warranty" or
+    // "GAF Golden Pledge 30-year non-prorated" that the shared
+    // extractWarranty regex misses because there's no generic noun
+    // (manufacturer/material/shingle/etc.) directly between the year and
+    // "warranty". Only fires when labor/workmanship is detected separately
+    // and parts is empty — and only for big years (>=20) since labor caps
+    // at ~10 yrs in industry. excludeYear avoids duplicating the labor #.
+    function detectMfrWarrantyYears(text, excludeYear) {
+      var t = String(text || "");
+      var matches = t.match(/(\d{2,3})\s*(?:-)?\s*(?:yr|year)s?\b[^.\n]{0,80}\b(?:warranty|guarantee|pledge|prorated|protection)/gi);
+      if (!matches) return null;
+      var best = 0;
+      matches.forEach(function(m) {
+        var year = parseInt((m.match(/(\d{2,3})/) || [])[1], 10);
+        if (year >= 20 && year <= 99 && year !== excludeYear) {
+          if (year > best) best = year;
+        }
+      });
+      return best > 0 ? best : null;
+    }
+
     function readPrice(api) {
       for (var i = 0; i < PRICE_FIELDS.length; i++) {
         var v = api[PRICE_FIELDS[i]];
@@ -414,10 +457,18 @@
           if (engineResult.material) api.material = engineResult.material;
           if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "roofing");
-            if (!api.material && extracted.jobType && extracted.jobType.value !== "other") api.material = extracted.jobType.label;
+            if (!api.material) api.material = detectRoofMaterial(_engOcrText) || (extracted.jobType && extracted.jobType.value !== "other" ? extracted.jobType.label : null);
             if (extracted.brand) api.brand = extracted.brand.brand;
             if (extracted.warranty && extracted.warranty.parts) api.warrantyManufacturerYears = extracted.warranty.parts;
             if (extracted.warranty && extracted.warranty.labor) api.warrantyWorkmanshipYears = extracted.warranty.labor;
+            // If labor warranty was detected but parts/manufacturer wasn't,
+            // scan for brand-named manufacturer warranties (CertainTeed
+            // SureStart Plus 50-yr, GAF Golden Pledge 30-year, etc.) that
+            // sit between brand modifiers + "warranty" without an explicit
+            // noun the shared extractor can grab. Local to roofing only.
+            if (!api.warrantyManufacturerYears && api.warrantyWorkmanshipYears) {
+              api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, api.warrantyWorkmanshipYears);
+            }
             api.scopeItems = {};
             extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
@@ -436,10 +487,13 @@
         // Enrich with regex scope extraction when API fields are missing
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "roofing");
-          if (!api.material && extracted.jobType && extracted.jobType.value !== "other") api.material = extracted.jobType.label;
+          if (!api.material) api.material = detectRoofMaterial(_engOcrText) || (extracted.jobType && extracted.jobType.value !== "other" ? extracted.jobType.label : null);
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyManufacturerYears && extracted.warranty && extracted.warranty.parts) api.warrantyManufacturerYears = extracted.warranty.parts;
           if (!api.warrantyWorkmanshipYears && extracted.warranty && extracted.warranty.labor) api.warrantyWorkmanshipYears = extracted.warranty.labor;
+          if (!api.warrantyManufacturerYears && api.warrantyWorkmanshipYears) {
+            api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, api.warrantyWorkmanshipYears);
+          }
           api.scopeItems = {};
           extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
