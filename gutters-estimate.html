@@ -383,12 +383,15 @@
       ]
     };
 
+    // Mirrors api/gutters-estimate.js stateToRegion. Keep in sync — drift
+    // here causes ~10% benchmark disagreement between calculator and the
+    // API's expectedRange for the same address.
     var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      AL:"southeast",AK:"west",AZ:"mountain",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
       DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
       IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
       MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      MT:"mountain",NE:"midwest",NV:"mountain",NH:"northeast",NJ:"northeast",NM:"mountain",
       NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
       PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
       UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
@@ -1249,17 +1252,37 @@
         scopeHtml += '</div>';
       }
 
-      // Estimator scope info
+      // Estimator scope info — include guards in the checklist when the
+      // user actually opted in. Otherwise the user paid for guards in the
+      // verdict total but couldn't see them in the included scope.
       if (!isUpload) {
         scopeHtml = '<div class="gut-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="gut-scope">';
         var typicalItems = ["removal", "gutters", "downspouts", "hangers", "endCaps", "outlets", "sealant", "cleanup", "warranty"];
+        if (r.hasGuards) typicalItems.splice(1, 0, "gutterGuards");
         typicalItems.forEach(function(key) {
           var item = GUT_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Fascia repair, gutter guards, or complex roof lines may add cost.</p></div>';
+        var _includesTrailer = r.hasGuards
+          ? "Estimate assumes standard installation with leaf guards. Fascia repair or complex roof lines may add cost."
+          : "Estimate assumes standard installation. Fascia repair, gutter guards, or complex roof lines may add cost.";
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + _includesTrailer + '</p></div>';
+      }
+
+      // Vinyl + cold-climate warning. The API surfaces this red flag on
+      // quote upload but the estimate path didn't — MN/WI/MI users picking
+      // vinyl never saw the warning that vinyl becomes brittle in
+      // freeze-thaw climates and cracks. Mirror the API check here.
+      var vinylColdHtml = '';
+      var COLD_STATES_VINYL = ["MN","WI","MI","ME","VT","NH","ND","SD","MT","WY","AK","NY","MA","CT","RI","PA","OH","IN","IL","IA","NE","CO"];
+      if (!isUpload && r.gutterType && r.gutterType.value === "vinyl"
+          && state.address.stateCode && COLD_STATES_VINYL.indexOf(state.address.stateCode) >= 0) {
+        vinylColdHtml = '<div class="gut-card" style="background:#fef3c7;border:1px solid #f59e0b;">'
+          + '<h3 style="margin:0 0 8px;font-size:1.05rem;color:#92400e;">Material warning for ' + state.address.stateCode + '</h3>'
+          + '<p style="font-size:14px;color:#78350f;margin:0;">Vinyl gutters in a freeze/thaw climate become brittle in cold temperatures and are prone to cracking. Aluminum or steel typically lasts 2-3x longer in your region — worth the small premium.</p>'
+          + '</div>';
       }
 
       // Market context
@@ -1292,13 +1315,17 @@
       }
       tipsHtml += '</ul></div>';
 
-      // Savings tips
+      // Savings tips — only suggest adding guards when the user did NOT
+      // already opt in. Recommending guards to someone who already
+      // checked the guards box reads as broken UX.
       var savingsHtml = '<div class="gut-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
       savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
       savingsHtml += '<li>Off-season scheduling: late winter or early spring installs can be 5-15% cheaper</li>';
       savingsHtml += '<li>Bundle with other exterior work (roofing, siding) for multi-project discounts</li>';
-      savingsHtml += '<li>Consider gutter guards to reduce long-term cleaning costs ($150-300/year savings)</li>';
+      if (!r.hasGuards) {
+        savingsHtml += '<li>Consider gutter guards to reduce long-term cleaning costs ($150-300/year savings)</li>';
+      }
       savingsHtml += '</ul></div>';
 
       // Feedback prompt
@@ -1341,6 +1368,7 @@
           <h3 style="margin-bottom:0.75rem;">Project Details</h3>\
           ' + detailsHtml + '\
         </div>\
+        ' + vinylColdHtml + '\
         ' + scopeHtml + '\
         ' + contextHtml + '\
         ' + tipsHtml + '\

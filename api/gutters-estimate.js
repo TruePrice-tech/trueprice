@@ -291,16 +291,32 @@ Rules:
       const region = stateToRegion[stateCode] || "south";
       const regionMult = pricingData.laborMultiplierByRegion?.[region] || 1.0;
 
+      // Story multiplier — frontend has been applying { 1:1.0, 2:1.20, 3:1.40 }
+      // because two-story gutter installs require ladder safety, fall protection,
+      // and slower per-LF pace. API was ignoring it and underbenchmarking
+      // multi-story homes by ~20%. Pull the count from the parsed quote
+      // (may be null if Claude didn't extract it).
+      const storyMult = (function () {
+        const s = parsed.stories || parsed.storyCount || null;
+        if (!s) return 1.0;
+        if (s >= 3) return 1.40;
+        if (s === 2) return 1.20;
+        return 1.0;
+      })();
+
       let expectedRange = null;
       if (gutterPricing && linearFeet) {
         const roundTo = pricingData.roundTo || 25;
-        let low = gutterPricing.low * linearFeet * regionMult;
-        let high = gutterPricing.high * linearFeet * regionMult;
+        let low = gutterPricing.low * linearFeet * regionMult * storyMult;
+        let high = gutterPricing.high * linearFeet * regionMult * storyMult;
 
-        // Add gutter guards if included
+        // Add gutter guards if included. Apply regionMult here too — labor
+        // for guard installation scales with regional labor rates the same
+        // as gutter installation. Frontend already does this; API was
+        // adding raw guard cost without regional adjustment.
         if (parsed.gutterGuards && guardPricing) {
-          low += guardPricing.low * linearFeet;
-          high += guardPricing.high * linearFeet;
+          low += guardPricing.low * linearFeet * regionMult;
+          high += guardPricing.high * linearFeet * regionMult;
         }
 
         expectedRange = {
