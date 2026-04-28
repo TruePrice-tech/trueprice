@@ -1906,6 +1906,11 @@ function extractPriceCandidates(text) {
       !strongTotalLineRegex.test(lineText)
     ) {
       sourceType = "roof_size_like";
+    } else if (
+      /\b(?:warranty|mile|miles|mileage|odomet)\b/.test(fullMatchContext) &&
+      !/(?:\$\s*\d|grand\s+total|amount\s+due|total\s+due|balance\s+due)/i.test(lineText)
+    ) {
+      sourceType = "warranty_mileage_not_price";
     } else if (/[OIlSBGZAoilsbgza]/.test(matchText)) {
       sourceType = "ocr_repaired_candidate";
     }
@@ -3685,6 +3690,7 @@ function parseExtractedText(extractedText, options = {}) {
     subtotal_line: -2,
     deposit_or_deductible: -3,
     roof_size_like: -4,
+    warranty_mileage_not_price: -5,
     zip_or_address_candidate: -5,
     date_like_year_candidate: -6
   };

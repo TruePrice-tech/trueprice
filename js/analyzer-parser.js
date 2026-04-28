@@ -496,6 +496,16 @@ function extractPriceCandidates(text) {
       !strongTotalLineRegex.test(lineText)
     ) {
       sourceType = "roof_size_like";
+    } else if (
+      // Auto-repair fixtures use "12,000 mile warranty" or
+      // "12 month / 12,000 mile warranty" — these mileage values get
+      // grabbed as $12,000 prices when "12,000" sits as a 5-digit
+      // money-like token with comma. Reject when "mile" / "warranty"
+      // appears within ~24 chars of the number.
+      /\b(?:warranty|mile|miles|mileage|odomet)\b/.test(fullMatchContext) &&
+      !/(?:\$\s*\d|grand\s+total|amount\s+due|total\s+due|balance\s+due)/i.test(lineText)
+    ) {
+      sourceType = "warranty_mileage_not_price";
     } else if (/[OIlSBGZAoilsbgza]/.test(matchText)) {
       sourceType = "ocr_repaired_candidate";
     }
@@ -2278,6 +2288,7 @@ function parseExtractedText(extractedText, options = {}) {
     subtotal_line: -2,
     deposit_or_deductible: -3,
     energy_production_not_price: -5,
+    warranty_mileage_not_price: -5,
     roof_size_like: -4,
     zip_or_address_candidate: -5,
     date_like_year_candidate: -6

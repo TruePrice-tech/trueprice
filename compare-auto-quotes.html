@@ -472,42 +472,37 @@
           }
         });
 
-        // Detect scope from OCR text. The previous code checked p.rawText
-        // (an API-only field never populated), so the entire scope-from-text
-        // detection block below was dead and every quote rendered 0/N scope.
-        // Using _engOcrText (the engine's OCR output we already have) lets
-        // these regex hints actually fire.
+        // Detect scope from OCR text. SCOPE_ITEMS uses snake_case keys
+        // (parts_warranty, tax_shown, shop_supplies, etc.) — the previous
+        // detection block wrote camelCase keys (partsWarranty, taxNoted)
+        // that never matched the renderer, so every quote scored 0/N
+        // even when the OCR clearly showed labor rate, hours, tax,
+        // warranty, etc. Using SCOPE_ITEMS' actual keys here.
         var rawText = (_engOcrText || p.rawText || "").toLowerCase();
         if (rawText) {
-          if (!scopeItems.partsItemized || scopeItems.partsItemized === "unclear") {
-            if (/part\s*#|part\s*number|p\/n/i.test(rawText)) scopeItems.partsItemized = "included";
+          if (scopeItems.parts_warranty === "unclear") {
+            if (/parts?\s*warrant|warrant.*parts|\d+\s*(?:month|year|day|mile)\s*\/?\s*[\d,]*\s*(?:mile)?\s*warrant|warranty\s+included/i.test(rawText)) scopeItems.parts_warranty = "included";
           }
-          if (!scopeItems.laborRateStated || scopeItems.laborRateStated === "unclear") {
-            if (/labor\s*rate|\$\s*\d+\s*\/?\s*(hr|hour)/i.test(rawText)) scopeItems.laborRateStated = "included";
+          if (scopeItems.labor_warranty === "unclear") {
+            if (/labor\s*warrant|warrant.*labor|workmanship|\d+\s*(?:month|year)\s*\/?\s*[\d,]*\s*(?:mile)?\s*warrant/i.test(rawText)) scopeItems.labor_warranty = "included";
           }
-          if (!scopeItems.laborHoursListed || scopeItems.laborHoursListed === "unclear") {
-            if (/\d+\.?\d*\s*(hrs?|hours?)/i.test(rawText)) scopeItems.laborHoursListed = "included";
+          if (scopeItems.diagnostic === "unclear") {
+            if (/diagnost|diag\s*fee|inspection\s*fee/i.test(rawText)) scopeItems.diagnostic = "included";
           }
-          if (!scopeItems.partsTypeSpecified || scopeItems.partsTypeSpecified === "unclear") {
-            if (/oem|aftermarket|reman|remanufactured|genuine/i.test(rawText)) scopeItems.partsTypeSpecified = "included";
+          if (scopeItems.fluid_change === "unclear") {
+            if (/(?:brake|coolant|trans(?:mission)?|oil|power\s*steering)\s*(?:fluid\s*)?(?:flush|change|service)|fluid\s*(?:recycle|disposal)|hazardous\s*waste/i.test(rawText)) scopeItems.fluid_change = "included";
           }
-          if (!scopeItems.shopSuppliesDisclosed || scopeItems.shopSuppliesDisclosed === "unclear") {
-            if (/shop\s*suppl|misc\s*suppl|environmental/i.test(rawText)) scopeItems.shopSuppliesDisclosed = "included";
+          if (scopeItems.tax_shown === "unclear") {
+            if (/(?:sales\s*tax|tax\s*[:$]|tax\s*\$|\btax\s+[\d.,]+)/i.test(rawText)) scopeItems.tax_shown = "included";
           }
-          if (!scopeItems.taxNoted || scopeItems.taxNoted === "unclear") {
-            if (/tax|sales\s*tax/i.test(rawText)) scopeItems.taxNoted = "included";
+          if (scopeItems.shop_supplies === "unclear") {
+            if (/shop\s*suppl|misc\s*suppl|environmental\s*fee|disposal\s*fee/i.test(rawText)) scopeItems.shop_supplies = "included";
           }
-          if (!scopeItems.partsWarranty || scopeItems.partsWarranty === "unclear") {
-            if (/parts?\s*warrant|warrant.*parts/i.test(rawText)) scopeItems.partsWarranty = "included";
+          if (scopeItems.oem_parts === "unclear") {
+            if (/\b(?:oem|original\s*equipment|genuine\s*(?:honda|toyota|ford|chevy|chevrolet|nissan|hyundai|kia|bmw|mercedes|audi|lexus|acura|gm))\b/i.test(rawText)) scopeItems.oem_parts = "included";
           }
-          if (!scopeItems.laborWarranty || scopeItems.laborWarranty === "unclear") {
-            if (/labor\s*warrant|warrant.*labor|workmanship/i.test(rawText)) scopeItems.laborWarranty = "included";
-          }
-          if (!scopeItems.diagnosticFeeNoted || scopeItems.diagnosticFeeNoted === "unclear") {
-            if (/diagnost|diag\s*fee|inspection\s*fee/i.test(rawText)) scopeItems.diagnosticFeeNoted = "included";
-          }
-          if (!scopeItems.fluidDisposalNoted || scopeItems.fluidDisposalNoted === "unclear") {
-            if (/disposal|hazardous|waste|fluid\s*recycle/i.test(rawText)) scopeItems.fluidDisposalNoted = "included";
+          if (scopeItems.aftermarket === "unclear") {
+            if (/\b(?:aftermarket|reman(?:ufactured)?|premium\s*(?:coated|aftermarket))\b/i.test(rawText)) scopeItems.aftermarket = "included";
           }
         }
 

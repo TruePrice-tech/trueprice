@@ -1,0 +1,55 @@
+
+=== ANALYZE: ana-jeep (07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg) ===
+  shot: ana-jeep-01-upload-page
+  uploaded 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+  [ana-jeep] warn [TP_Engine] Filtered model-year value from price: 2019
+  [ana-jeep] log [TP_Engine] vertical=auto price=732.39 source=ai ocrChars=816 ocrConf=85% aiCalled=true
+  shot (full): ana-jeep-02-after-parse
+  dump: ana-jeep-02-after-parse.txt (180 chars)
+  detected price: $732
+  ocr 816 chars
+  clicked confirm
+  shot (full): ana-jeep-04-result
+  dump: ana-jeep-04-result.txt (1534 chars)
+
+=== ANALYZE: ana-audi (09-am-i-crazy-or-is-this-quote.jpg) ===
+  shot: ana-audi-01-upload-page
+  uploaded 09-am-i-crazy-or-is-this-quote.jpg
+  [ana-audi] log [TP_Engine] vertical=auto price=2543.94 source=regex ocrChars=281 ocrConf=93% aiCalled=false
+  shot (full): ana-audi-02-after-parse
+  dump: ana-audi-02-after-parse.txt (182 chars)
+  detected price: $5,557
+  ocr 281 chars
+  clicked confirm
+  shot (full): ana-audi-04-result
+  dump: ana-audi-04-result.txt (3010 chars)
+
+=== COMPARE: cmp-3way-brake ===
+  shot: cmp-3way-brake-01-upload-page
+  uploaded slot 0: comparison-brake-01-shop-a-low.png
+  [cmp-3way-brake] warn [TP_Engine] Filtered model-year value from price: 1998
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=327.6 source=regex ocrChars=587 ocrConf=91% aiCalled=false
+  uploaded slot 1: comparison-brake-02-shop-b-mid.png
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=12000 source=regex ocrChars=547 ocrConf=91% aiCalled=false
+  uploaded slot 2: comparison-brake-03-shop-c-high.png
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=919 source=regex ocrChars=699 ocrConf=90% aiCalled=false
+  shot (full): cmp-3way-brake-02-after-uploads
+  compare button enabled: true
+  shot (full): cmp-3way-brake-03-results
+  dump: cmp-3way-brake-03-results.txt (2658 chars)
+
+=== COMPARE: cmp-2way-real-mix ===
+  shot: cmp-2way-real-mix-01-upload-page
+  uploaded slot 0: 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+  [cmp-2way-real-mix] warn [TP_Engine] Filtered model-year value from price: 2019
+  [cmp-2way-real-mix] log [TP_Engine] vertical=auto price=732.39 source=ai ocrChars=816 ocrConf=85% aiCalled=true
+  uploaded slot 1: 09-am-i-crazy-or-is-this-quote.jpg
+  [cmp-2way-real-mix] log [TP_Engine] vertical=auto price=2543.94 source=regex ocrChars=281 ocrConf=93% aiCalled=false
+  shot (full): cmp-2way-real-mix-02-after-uploads
+  compare button enabled: true
+  shot (full): cmp-2way-real-mix-03-results
+  dump: cmp-2way-real-mix-03-results.txt (2443 chars)
+
+=== ESTIMATE: est-jeep-charlotte ===
+  shot: est-jeep-charlotte-01-landing
+  shot (full): est-jeep-charlotte-02-form-filled
