@@ -290,17 +290,54 @@
     // "warranty". Only fires when labor/workmanship is detected separately
     // and parts is empty — and only for big years (>=20) since labor caps
     // at ~10 yrs in industry. excludeYear avoids duplicating the labor #.
+    //
+    // Known brand-product warranties used as a fallback when the OCR'd quote
+    // names a coverage program (Heritage uses "SureStart Plus" without
+    // restating the year on every page) but the word "warranty" isn't within
+    // 80 chars of the year. Years reflect industry standard for each program.
+    var ROOFING_BRAND_WARRANTY_YEARS = {
+      "surestart plus":           50,   // CertainTeed
+      "system plus":              50,   // CertainTeed
+      "golden pledge":            30,   // GAF Master Elite
+      "goldenpledge":             30,   // OCR collapse
+      "silver pledge":            30,   // GAF
+      "weatherstopper":           50,   // CertainTeed
+      "platinum protection":      50,   // Owens Corning (functionally lifetime)
+      "preferred protection":     50,   // Owens Corning
+      "system protection":        50,   // generic
+      "diamond pledge":           50    // Tamko
+    };
+
     function detectMfrWarrantyYears(text, excludeYear) {
       var t = String(text || "");
       var matches = t.match(/(\d{2,3})\s*(?:-)?\s*(?:yr|year)s?\b[^.\n]{0,80}\b(?:warranty|guarantee|pledge|prorated|protection)/gi);
-      if (!matches) return null;
       var best = 0;
-      matches.forEach(function(m) {
-        var year = parseInt((m.match(/(\d{2,3})/) || [])[1], 10);
-        if (year >= 20 && year <= 99 && year !== excludeYear) {
-          if (year > best) best = year;
-        }
-      });
+      if (matches) {
+        matches.forEach(function(m) {
+          var year = parseInt((m.match(/(\d{2,3})/) || [])[1], 10);
+          if (year >= 20 && year <= 99 && year !== excludeYear) {
+            if (year > best) best = year;
+          }
+        });
+      }
+      // Lifetime warranty: industry-standard equivalent is ~50 years for
+      // prorated material coverage. Don't apply when "lifetime" appears next
+      // to a workmanship/labor word (some contractors offer lifetime labor).
+      if (best === 0 && /\blifetime\s+(?:warranty|coverage|guarantee|protection|pledge)\b/i.test(t)
+          && !/\blifetime\s+(?:labor|workmanship)/i.test(t)) {
+        best = 50;
+      }
+      // Brand-product fallback: "Heritage SureStart Plus" implies 50yr even
+      // when the year isn't restated near the word "warranty".
+      if (best === 0) {
+        var lc = t.toLowerCase();
+        Object.keys(ROOFING_BRAND_WARRANTY_YEARS).forEach(function(brand) {
+          if (lc.indexOf(brand) !== -1) {
+            var yrs = ROOFING_BRAND_WARRANTY_YEARS[brand];
+            if (yrs > best) best = yrs;
+          }
+        });
+      }
       return best > 0 ? best : null;
     }
 
@@ -484,8 +521,14 @@
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
-        // Enrich with regex scope extraction when API fields are missing
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // Enrich with regex scope extraction when API fields are missing.
+        // Each enrichment fires independently — gating ALL of them on
+        // !api.scopeItems would skip material/brand/warranty fill-ins
+        // whenever the AI returned a scope list, which is the common case
+        // for clean OCR. That's how Pinnacle's "GAF Timberline HDZ" was
+        // showing "Not stated" for material even though detectRoofMaterial
+        // would have caught the timberline keyword.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "roofing");
           if (!api.material) api.material = detectRoofMaterial(_engOcrText) || (extracted.jobType && extracted.jobType.value !== "other" ? extracted.jobType.label : null);
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
@@ -494,8 +537,16 @@
           if (!api.warrantyManufacturerYears && api.warrantyWorkmanshipYears) {
             api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, api.warrantyWorkmanshipYears);
           }
-          api.scopeItems = {};
-          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          // Last-resort manufacturer warranty even when no labor warranty
+          // anchor was found — the brand-product lookup ("SureStart Plus",
+          // "Golden Pledge") is unambiguous enough to trust on its own.
+          if (!api.warrantyManufacturerYears) {
+            api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, 0);
+          }
+          if (!api.scopeItems) {
+            api.scopeItems = {};
+            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          }
         }
 
         // Fallback: if still no price, try client-side parser
