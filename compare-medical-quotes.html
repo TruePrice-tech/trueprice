@@ -454,11 +454,29 @@
     };
 
     function updateBtn() {
-      var n = quotes.filter(function(q) { return q !== null; }).length;
+      // A slot is "in flight" once a file is selected (uploadedFiles[i] is
+      // set in handleUpload BEFORE the OCR promise) but quotes[i] is still
+      // null because the async parse hasn't returned yet. If we let Compare
+      // fire while a slot is in flight, the still-parsing quote is silently
+      // dropped from the comparison. Block the button while any slot is
+      // mid-parse.
+      var parsed = quotes.filter(function(q) { return q !== null; }).length;
+      var inFlight = 0;
+      for (var i = 0; i < 3; i++) {
+        if (uploadedFiles[i] && !quotes[i]) inFlight++;
+      }
       var b = document.getElementById("compareBtn");
-      if (n >= 2) { b.disabled = false; b.textContent = "Compare " + n + " quotes"; }
-      else { b.disabled = true; b.textContent = "Upload at least 2 quotes to compare"; }
-    }
+      if (inFlight > 0) {
+        b.disabled = true;
+        b.textContent = "Still parsing... " + parsed + " of " + (parsed + inFlight) + " ready";
+      } else if (parsed >= 2) {
+        b.disabled = false;
+        b.textContent = "Compare " + parsed + " quotes";
+      } else {
+        b.disabled = true;
+        b.textContent = "Upload at least 2 quotes to compare";
+      }
+        }
 
     function scoreQuote(q, all) {
       // Price 50%, scope 30%, red flags -20%
