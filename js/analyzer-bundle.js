@@ -9466,7 +9466,7 @@ function buildComparisonWinnerHtml(summary) {
         if (flags.length === 0) return "";
         var html = '<div style="margin:20px 0; padding:20px 24px; background:#fef2f2; border:1px solid #fecaca; border-radius:16px;">';
         html += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">';
-        html += '<img src="/images/Iris/Iris%20concerned.png" alt="" />';
+        html += '<img src="/images/Iris/Iris%20concerned.png" alt="" width="32" height="32" />';
         html += '<div style="font-size:16px; font-weight:800; color:#991b1b;">Fine print & red flags</div>';
         html += '</div>';
         flags.forEach(function(f) {
@@ -10120,7 +10120,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div id="estimateFeedback" style="margin:24px 0 0; padding:16px; background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:10px; text-align:center;">
-              <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:8px;" />
+              <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" width="64" height="64" style="margin-bottom:8px;" />
               <div style="font-size:14px; color:var(--text-secondary,#475569); margin-bottom:10px;">Iris wants to know: was this estimate close to your actual quote?</div>
               <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
                 <button onclick="submitEstimateFeedback('accurate')" style="padding:8px 16px; border:1px solid var(--border,#e2e8f0); border-radius:8px; background:#fff; cursor:pointer; font-size:13px; font-family:inherit;">Yes, accurate</button>
@@ -11621,7 +11621,7 @@ function buildComparisonWinnerHtml(summary) {
                 output.innerHTML = `
             <div class="panel" style="margin-top:8px; border-width:2px;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" />
+                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" width="32" height="32" />
                 <div>
                   <div style="font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--brand, #1e3a5f);">Woogoro ${escapeHtml(report.serviceLabel || "Roofing")} Decision Report</div>
                 </div>
@@ -11778,7 +11778,7 @@ function buildComparisonWinnerHtml(summary) {
 
           <div style="text-align:center; margin-top:16px; padding-top:12px; border-top:1px solid #e2e8f0;">
             <a href="https://woogoro.com" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px;" target="_blank" rel="noopener">
-              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" /> Powered by <strong style="color:#1e3a5f;">Woogoro</strong>
+              <img src="/images/Iris/Iris%20peeking.png" alt="" width="20" height="20" /> Powered by <strong style="color:#1e3a5f;">Woogoro</strong>
             </a>
           </div>
         </div>
@@ -13922,7 +13922,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
 
             <div style="text-align:center; font-size:12px; color:#94a3b8;">
-              <img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" style="vertical-align:middle; margin-right:4px;" />
+              <img src="/images/Iris/Iris%20peeking.png" alt="" width="20" height="20" style="vertical-align:middle; margin-right:4px;" />
               Your quote stays private. Processed in your browser, never stored or shared.
             </div>
 
@@ -14236,7 +14236,7 @@ function buildComparisonWinnerHtml(summary) {
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
 
-          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" style="margin-bottom:16px;" />
+          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" width="120" height="120" style="margin-bottom:16px;" />
 
           <div class="progress-phase" id="analysisPhaseLabel">
             Iris is reading your document...
@@ -14506,7 +14506,7 @@ function buildComparisonWinnerHtml(summary) {
       if (!window.__analyzingShownAt) window.__analyzingShownAt = Date.now();
       root.innerHTML = `
         <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
-          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" style="margin-bottom:16px;" />
+          <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" class="iris-bounce" width="120" height="120" style="margin-bottom:16px;" />
           <div class="progress-phase" id="analysisPhaseLabel">Iris is reading the fine print so you don't have to...</div>
           <div class="progress-sub" id="analysisPhaseDetail">Checking what your neighbors paid</div>
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:18px;">
@@ -14674,7 +14674,7 @@ function buildComparisonWinnerHtml(summary) {
             ${(a.contractor && a.contractor !== "Not detected" && a.contractor.length > 2) ? `
             <div id="contractorReviewSection" style="padding:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; margin:16px 0;">
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
-                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" />
+                <img src="/images/Iris/Iris%20analyze.png" alt="Iris holding up a quote, ready to analyze" width="32" height="32" />
                 <div>
                   <div style="font-size:15px; font-weight:700;">Already hired ${escapeHtml(a.contractor)}?</div>
                   <div style="font-size:13px; color:#64748b;">Help other homeowners by sharing your experience</div>
