@@ -87,7 +87,7 @@ const NEIGHBORHOODS = [
   { name: "Fort Worth", parentCity: "Dallas", parentState: "Texas", stateCode: "TX" },
   { name: "Southlake", parentCity: "Dallas", parentState: "Texas", stateCode: "TX" },
 
-  // Charlotte, NC
+  // Charlotte, NC (and immediately-adjacent SC suburbs in the Charlotte metro)
   { name: "Ballantyne", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
   { name: "Dilworth", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
   { name: "NoDa", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
@@ -98,6 +98,11 @@ const NEIGHBORHOODS = [
   { name: "Mint Hill", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
   { name: "Waxhaw", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
   { name: "Indian Trail", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
+  { name: "Concord", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
+  { name: "Kannapolis", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
+  { name: "Gastonia", parentCity: "Charlotte", parentState: "North Carolina", stateCode: "NC" },
+  { name: "Fort Mill", parentCity: "Charlotte", parentState: "South Carolina", stateCode: "SC" },
+  { name: "Rock Hill", parentCity: "Charlotte", parentState: "South Carolina", stateCode: "SC" },
 
   // Atlanta, GA
   { name: "Buckhead", parentCity: "Atlanta", parentState: "Georgia", stateCode: "GA" },
@@ -324,11 +329,13 @@ function buildPriceTableRows(sizes) {
 // ---------------------------------------------------------------------------
 
 function buildSiblingLinks(currentNeighborhood, allNeighborhoods, existingCitySlugs) {
+  // Group siblings by parentCity only — some metros (Charlotte, Kansas City,
+  // DC, Memphis, etc.) span state lines and the SC suburbs of Charlotte still
+  // belong in the same neighborhood network as the NC ones.
   const siblings = allNeighborhoods.filter(
     (n) =>
       n.parentCity === currentNeighborhood.parentCity &&
-      n.stateCode === currentNeighborhood.stateCode &&
-      n.name !== currentNeighborhood.name
+      !(n.name === currentNeighborhood.name && n.stateCode === currentNeighborhood.stateCode)
   );
 
   return siblings
