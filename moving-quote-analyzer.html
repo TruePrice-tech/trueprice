@@ -1813,6 +1813,11 @@
       if (dCity) state.toCity = dCity;
 
       var moveType = normalizeMoveType(api.moveType) || state.moveType || "local";
+      // The API sometimes returns moveType "unknown" (e.g. fragment OCR
+      // where the route isn't visible). Treat that as a missing signal so
+      // the price-sanity check below can promote to long_distance when the
+      // total dwarfs local-high.
+      if (!moveType || moveType === "unknown") moveType = "local";
       var homeSize = api.homeSize || state.homeSize || "2br";
       var distance = api.distance || state.distance || null;
 
@@ -1832,17 +1837,31 @@
       state.moveType = moveType; state.distance = distance;
 
       var cityMult = getWeightedMult();
+
+      // The API spec returns totalPrice (Claude prompt). Older code looked for
+      // quoteTotal; accept either so a future prompt change doesn't silently
+      // zero-out the result.
+      var quoteTotal = Number(api.totalPrice || api.quoteTotal || 0);
+
+      // Same price-sanity move-type fallback as buildResultFromLocal: when
+      // the AI returned moveType local/unknown but the price clearly dwarfs
+      // a local quote for this home size (fixture 06 united-vs-may $28K
+      // against $600-$1,200 local 2BR baseline), promote to long_distance
+      // before computing the verdict range.
+      if (moveType === "local" && quoteTotal > 0) {
+        var localHigh = (MOVING_PRICING.localByHomeSize[homeSize] || MOVING_PRICING.localByHomeSize["2br"]).high;
+        if (quoteTotal > localHigh * 2.5) {
+          moveType = "longDistance";
+          state.moveType = "longDistance";
+        }
+      }
+
       var expected = getExpectedRange(moveType, homeSize, cityMult, distance);
 
       // Map API line items (description, cost, category) into the renderer shape.
       var lineItems = (api.lineItems || []).map(function(item) {
         return { description: item.description || "Service", cost: Number(item.cost) || 0 };
       });
-
-      // The API spec returns totalPrice (Claude prompt). Older code looked for
-      // quoteTotal; accept either so a future prompt change doesn't silently
-      // zero-out the result.
-      var quoteTotal = Number(api.totalPrice || api.quoteTotal || 0);
       var ratio = expected.mid > 0 && quoteTotal > 0 ? quoteTotal / expected.mid : 1.0;
       var isInterstate = state.fromState && state.toState && state.fromState !== state.toState;
 
