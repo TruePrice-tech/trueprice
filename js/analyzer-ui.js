@@ -3952,12 +3952,14 @@ function buildComparisonWinnerHtml(summary) {
 
       function renderAffiliateLink(a) {
         const aff = window.AFFILIATE_LINKS;
-        if (!aff || !aff.enabled) return "";
+        if (!aff || !(aff.isLive ? aff.isLive() : aff.enabled)) return "";
         const material = a?.material || "";
         const link = aff.link(material, "material");
         if (!link) return "";
+        const footer = typeof aff.disclosureFooter === "function" ? aff.disclosureFooter() : "";
         return `<div style="padding:14px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:16px; font-size:14px;">
           <span style="color:#475569;">Comparing material options? </span>${link}
+          ${footer}
         </div>`;
       }
 
@@ -10391,11 +10393,12 @@ function buildComparisonWinnerHtml(summary) {
           <!-- Affiliate: material shopping link -->
           ${(function() {
             const aff = window.AFFILIATE_LINKS;
-            if (!aff || !aff.enabled) return "";
+            if (!aff || !(aff.isLive ? aff.isLive() : aff.enabled)) return "";
             const link = aff.link(r.material, "material");
             if (!link) return "";
+            const footer = typeof aff.disclosureFooter === "function" ? aff.disclosureFooter() : "";
             return '<div style="padding:16px 20px; background:#f0f9ff; border:1px solid #bfdbfe; border-radius:14px; margin-bottom:20px; font-size:14px;">'
-              + '<span style="color:#475569;">Planning to buy materials yourself? </span>' + link + '</div>';
+              + '<span style="color:#475569;">Planning to buy materials yourself? </span>' + link + footer + '</div>';
           })()}
 
           <!-- What's included -->

@@ -38,6 +38,10 @@ const RUNNERS = {
   painting: () => require("./runners/painting"),
   foundation: () => require("./runners/foundation"),
   legal: () => require("./runners/legal"),
+  // Cross-vertical SEO contract pass -- not a vertical proper, but slots
+  // into the same dispatcher / digest pipeline. Invoke with `node run.js seo`
+  // or as part of the new seo-gate workflow.
+  seo: () => require("./runners/seo"),
 };
 
 // Stable rotation order. Day-of-month modulo 10 picks the slot pair.

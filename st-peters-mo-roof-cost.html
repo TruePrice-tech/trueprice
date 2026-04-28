@@ -592,13 +592,22 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 // Activate affiliate links if enabled
 (function() {
   var aff = window.AFFILIATE_LINKS;
-  if (!aff || !aff.enabled) return;
+  if (!aff || !(aff.isLive ? aff.isLive() : aff.enabled)) return;
+  var lastEl = null;
   document.querySelectorAll('.affiliate-link[data-material]').forEach(function(el) {
     var key = el.dataset.material;
     var type = (key === 'impact_resistant' || key === 'underlayment' || key === 'ice_barrier' || key === 'ridge_vent') ? 'accessory' : 'material';
     var link = aff.link(key, type);
-    if (link) { el.innerHTML = link; el.style.display = 'block'; }
+    if (link) { el.innerHTML = link; el.style.display = 'block'; lastEl = el; }
   });
+  if (lastEl && typeof aff.disclosureFooter === 'function') {
+    var footerHtml = aff.disclosureFooter();
+    if (footerHtml) {
+      var wrap = document.createElement('div');
+      wrap.innerHTML = footerHtml;
+      if (wrap.firstElementChild) lastEl.parentNode.insertBefore(wrap.firstElementChild, lastEl.nextSibling);
+    }
+  }
 })();
 </script>
 <script>

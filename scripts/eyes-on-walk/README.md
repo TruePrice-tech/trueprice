@@ -14,6 +14,32 @@ Past dive sessions kept finding 5-20 bugs per vertical because cross-vertical ch
 
 Both run on **GitHub Actions free tier**, not Vercel cron — Vercel function timeouts (60s) and the existing 8-cron quota make it the wrong host. Anthropic API cost is the only variable: ~$0.30-0.60/night for 2 verticals via Sonnet vision = ~$15/month.
 
+## SEO contract gate (added 2026-04-28)
+
+Same harness, second check. Runs on every push to main (and PRs) via `.github/workflows/seo-gate.yml`. ~30 sec, no puppeteer, no Claude vision — just `fetch` + regex parse against per-template contracts.
+
+Catches the regressions that bit roofing flagship sub-metros: missing canonical, broken JSON-LD, lost OG tags, title/description length drift, accidental `noindex` flips on indexable pages, accidental indexable flips on tool pages.
+
+Five contract templates in `lib/seo-contracts.js`:
+- `hub` — vertical hub / cost guide (e.g. `/hvac-cost.html`, `/legal-cost-guide.html`)
+- `metroCity` — flagship + non-flagship metro pages (e.g. `/charlotte-nc-roof-cost.html`, `/abilene-tx-foundation-cost.html`)
+- `subMetro` — neighborhood pages (e.g. `/ballantyne-charlotte-roof-cost.html`)
+- `blog` — blog posts under `/blog/`
+- `calculator` — interactive tool pages (e.g. `/legal-billing-calculator.html`)
+- `toolNoindex` — estimate / analyzer / compare pages, asserts they STAY noindex
+
+Each contract checks: title length band, description length band, exactly one `<h1>`, canonical points to self, JSON-LD blocks parse + carry expected `@type`, OG tags present, internal-link count above floor, skip-link present, indexability matches policy.
+
+Run locally:
+```bash
+node scripts/eyes-on-walk/run.js seo                     # check all sample URLs
+BASE=http://localhost:3000 node scripts/eyes-on-walk/run.js seo
+```
+
+Adding a new sample URL: edit `runners/seo.js` (one of `HUB_URLS` / `METRO_URLS` / `SUBMETRO_URLS` / `CALCULATOR_URLS` / `TOOL_NOINDEX_URLS`).
+
+Adding a new template type: edit `lib/seo-contracts.js`, add a new entry to `TEMPLATES` with a `urlMatches` predicate + the contract fields.
+
 ## Local run
 
 ```bash

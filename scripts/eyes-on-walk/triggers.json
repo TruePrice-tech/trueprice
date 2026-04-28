@@ -1,5 +1,6 @@
 {
-  "_comment": "Tier-1 trigger map: when these files change in a commit, the listed verticals get a fresh eyes-on walk before the commit lands. Run via `node scripts/eyes-on-walk/run.js --triggered <changed files>` from a pre-push hook or CI gate. Cross-vertical files map to ALL verticals; per-vertical files map to one. Add new mappings as new shared modules are introduced.",
+  "_comment": "Tier-1 trigger map: when these files change in a commit, the listed verticals get a fresh eyes-on walk before the commit lands. Run via `node scripts/eyes-on-walk/run.js --triggered <changed files>` from a pre-push hook or CI gate. Cross-vertical files map to ALL verticals; per-vertical files map to one. SEO entries map to the special pseudo-vertical 'seo' (runs the SEO contract pass). Add new mappings as new shared modules are introduced.",
+  "_seo_note": "Files that affect SEO templates -- editing any of these triggers the SEO gate (already wired to run on every push to main via .github/workflows/seo-gate.yml, but pre-push catches it earlier).",
   "map": {
     "js/analyzer-bundle.js": ["roofing", "hvac", "solar", "plumbing", "electrical", "fencing", "gutters", "landscaping", "medical", "moving", "auto-repair", "garage-door", "windows", "kitchen", "siding", "painting", "foundation", "concrete", "insulation"],
     "js/tp-engine.js": ["roofing", "hvac", "solar", "plumbing", "electrical", "fencing", "gutters", "landscaping", "medical", "moving", "auto-repair", "garage-door", "windows", "kitchen", "siding", "painting", "foundation", "concrete", "insulation"],
@@ -46,6 +47,13 @@
     "js/concrete-estimate.js": ["concrete"],
     "api/concrete-estimate.js": ["concrete"],
     "js/insulation-estimate.js": ["insulation"],
-    "api/insulation-estimate.js": ["insulation"]
+    "api/insulation-estimate.js": ["insulation"],
+    "scripts/build-neighborhood-pages.js": ["seo"],
+    "scripts/build-city-pages.js": ["seo"],
+    "scripts/build-flagship-metros.js": ["seo"],
+    "templates/**": ["seo"],
+    "partials/**": ["seo"],
+    "css/woogoro.min.css": ["seo"],
+    "scripts/eyes-on-walk/lib/seo-contracts.js": ["seo"]
   }
 }

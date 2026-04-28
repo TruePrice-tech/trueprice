@@ -1,0 +1,98 @@
+name: SEO Contract Gate
+
+# Runs on every push to main and on manual dispatch. Fast (~30 sec) -- no
+# puppeteer, no Claude vision, just fetch + regex parse against per-template
+# contracts in scripts/eyes-on-walk/lib/seo-contracts.js. Catches the
+# regressions that bit roofing flagship sub-metros (commit 5c6c84a96e fixed
+# them after the fact): missing canonical, broken JSON-LD, lost OG tags,
+# title/description length drift, accidental noindex flips on indexable
+# pages, accidental indexable flips on tool pages.
+#
+# Lives outside Vercel cron entirely. Adds zero invocation cost. Anthropic
+# API not needed.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: SEO contract pass
+        id: seo
+        continue-on-error: true
+        env:
+          BASE: https://woogoro.com
+        run: |
+          node scripts/eyes-on-walk/run.js seo 2>&1 | tee /tmp/seo-walk.log
+          # Surface the FINDINGS.md so the workflow log carries the report.
+          DIR=$(ls -td output/eyes-on-seo-* 2>/dev/null | head -1)
+          if [ -n "$DIR" ] && [ -f "$DIR/FINDINGS.md" ]; then
+            echo "=== FINDINGS.md ==="
+            cat "$DIR/FINDINGS.md"
+            HIGH=$(grep -c '^## HIGH' "$DIR/FINDINGS.md" || true)
+            HIGH_COUNT=$(grep '^**Summary:**' "$DIR/FINDINGS.md" | grep -oE '[0-9]+ high' | grep -oE '[0-9]+' || echo 0)
+            echo "high_count=$HIGH_COUNT" >> $GITHUB_OUTPUT
+          else
+            echo "high_count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload findings
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-gate-${{ github.run_id }}
+          path: output/eyes-on-seo-*/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Email digest if HIGH issues
+        if: always()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          if (!process.env.RESEND_API_KEY) { console.log('no RESEND_API_KEY -- skip email'); process.exit(0); }
+          const dirs = fs.readdirSync('output').filter((d) => d.startsWith('eyes-on-seo-'));
+          if (dirs.length === 0) { console.log('no SEO output dir -- skip'); process.exit(0); }
+          const findings = fs.readFileSync(path.join('output', dirs[0], 'FINDINGS.md'), 'utf8');
+          const m = findings.match(/Summary:\*\*\s+(\d+)\s+high/);
+          const high = m ? parseInt(m[1]) : 0;
+          if (high === 0) { console.log('no HIGH issues -- skip email'); process.exit(0); }
+          const today = new Date().toISOString().substring(0, 10);
+          const r = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              from: 'Woogoro SEO Gate <noreply@woogoro.com>',
+              to: ['hello@woogoro.com'],
+              subject: `[Woogoro] SEO gate flagged ${high} HIGH issue(s) on ${today}`,
+              html: `<div style="font-family:sans-serif;max-width:900px;padding:20px;">
+                <h2>SEO contract gate &mdash; ${today}</h2>
+                <p style="color:#475569;">${high} HIGH-severity issue(s). Trigger: ${process.env.GITHUB_EVENT_NAME || 'unknown'}. Commit: ${process.env.GITHUB_SHA?.substring(0,7) || 'unknown'}.</p>
+                <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:800px;overflow:auto;">${findings.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+                <p style="color:#475569;font-size:12px;">Workflow run: ${process.env.GITHUB_SERVER_URL || ''}/${process.env.GITHUB_REPOSITORY || ''}/actions/runs/${process.env.GITHUB_RUN_ID || ''}</p>
+              </div>`,
+            }),
+          });
+          if (!r.ok) { console.error('Resend error:', r.status, await r.text()); process.exit(1); }
+          console.log('SEO gate digest emailed.');
+          EOF
+
+      - name: Fail build on HIGH issues
+        if: steps.seo.outputs.high_count != '0'
+        run: |
+          echo "::error::SEO gate found ${{ steps.seo.outputs.high_count }} HIGH-severity issue(s). See artifact + email digest. Fix before merge."
+          exit 1
