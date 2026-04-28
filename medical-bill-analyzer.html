@@ -623,29 +623,6 @@
       } else { doRender(); }
     };
 
-    // ── Email report ──
-    window.emailReport = function() {
-      var r = state.result;
-      if (!r) return;
-      var subject = "My Medical Bill Analysis - Woogoro";
-      var body = "Medical Bill Analysis from Woogoro\n\n";
-      body += "Facility: " + (r.facility || "Unknown") + "\n";
-      body += "Total Billed: " + fmt(r.totalBilled) + "\n";
-      body += "Insurance Paid: " + fmt(r.insurancePaid) + "\n";
-      body += "You Owe: " + fmt(r.youOwe) + "\n\n";
-      if (r.redFlags.length > 0) {
-        body += "Issues Found: " + r.redFlags.length + "\n";
-        r.redFlags.forEach(function(f, i) {
-          body += (i + 1) + ". " + f.title + "\n";
-        });
-      } else {
-        body += "No billing issues found.\n";
-      }
-      body += "\nView full analysis at https://woogoro.com/medical-bill-analyzer.html";
-      body += "\n\nDisclaimer: This analysis compares charges against published Medicare rates and is for informational purposes only. It does not constitute medical, insurance, or legal advice. Verify all information with your provider and insurer before taking action.";
-      window.location.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-    };
-
     // ── Start over ──
     window.startOver = function() {
       state.step = "upload";
