@@ -418,17 +418,35 @@
           }
         }
 
+        // OCR sometimes misreads thousand-separator commas as periods, turning
+        // "$11,750" into "$11.750". Without this normalization the override
+        // regexes below capture "11.75" as cents and tank the parsed price by
+        // 1000x. Defensive fix: any "$\d{1,3}\.\d{3}\b" looks like an OCR
+        // comma-period swap (real cents are 2 digits), so promote the period
+        // back to a comma before any override matching runs.
+        var _ocrTextForOverride = result.ocrText.replace(
+          /(\$\s*\d{1,3})\.(\d{3})(?!\d)/g,
+          "$1,$2"
+        );
+
         // Post-processing: prefer explicitly labeled "TOTAL" over line items
         // Must be at line start or after newline (not "12 total" mid-sentence)
-        var _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/m);
+        var _totalOverride = _ocrTextForOverride.match(/(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/m);
         if (!_totalOverride) {
-          _totalOverride = result.ocrText.match(/(?:^|\n)\s*(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+          _totalOverride = _ocrTextForOverride.match(/(?:^|\n)\s*(?:total\s*(?:job|service|repair|project)?\s*(?:price|cost|amount|due)|amount\s*due|balance\s*due)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+        }
+        // "TOTAL ESTIMATE $X" / "TOTAL ESTIMATED COST $X" / "ESTIMATE TOTAL $X"
+        // (Heritage / CertainTeed proposals where TOTAL is followed by a noun
+        // before the dollar sign — original regex required colon/dash/space
+        // only between TOTAL and $).
+        if (!_totalOverride) {
+          _totalOverride = _ocrTextForOverride.match(/(?:^|\n)\s*(?:total\s+estimate(?:d\s+cost)?|estimate\s+total|proposal\s+total|contract\s+total|final\s+total)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
         // Sales agreements often use "CONTRACT PRICE" / "CONTRACT TOTAL" as the
         // bottom-line number (EcoView, Renewal by Andersen, Window World forms).
         // Allow this to win over earlier line items and TOTAL labels.
         if (!_totalOverride) {
-          _totalOverride = result.ocrText.match(/contract\s*(?:price|total|amount|sum)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
+          _totalOverride = _ocrTextForOverride.match(/contract\s*(?:price|total|amount|sum)\s*[:\-]?\s*\$?\s*([\d,]+(?:\.\d{1,2})?)/im);
         }
         // Some quotes lay out "Total Cost" as a top-row header cell (often
         // landscaping multi-table layouts) where OCR strips the line break,
@@ -437,21 +455,37 @@
         // Cost / Total Investment" labels — these are unambiguous bottom-
         // line numbers, not interior line items.
         if (!_totalOverride) {
-          _totalOverride = result.ocrText.match(/\btotal\s*(?:project\s*|job\s*|investment\s*)?(?:cost|price|amount|investment)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
+          _totalOverride = _ocrTextForOverride.match(/\btotal\s*(?:project\s*|job\s*|investment\s*)?(?:cost|price|amount|investment)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
         }
         // Many residential service quotes (fencing, concrete, painting)
         // bottom-line as "Subtotal" with no separate Tax/Total because
         // the contractor isn't collecting sales tax. Treat Subtotal as
         // the bottom line when no later TOTAL appears in the text.
         if (!_totalOverride) {
-          var _hasLaterTotal = /(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$/m.test(result.ocrText);
+          var _hasLaterTotal =
+            /(?:^|\n)\s*(?:TOTAL|Total|grand\s*total)\s*[:\-]?\s*\$/m.test(_ocrTextForOverride) ||
+            /(?:^|\n)\s*(?:total\s+estimate|estimate\s+total|proposal\s+total|contract\s+total|final\s+total)/im.test(_ocrTextForOverride);
           if (!_hasLaterTotal) {
-            _totalOverride = result.ocrText.match(/(?:^|\n)\s*sub.?total\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/im);
+            _totalOverride = _ocrTextForOverride.match(/(?:^|\n)\s*sub.?total\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/im);
           }
         }
         if (_totalOverride) {
           var _overrideVal = parseFloat(_totalOverride[1].replace(/,/g, ""));
-          if (_overrideVal >= 10 && _overrideVal <= 500000 && _overrideVal !== result.price) {
+          // Defense against pathological OCR misreads slipping through the
+          // normalization pass: if the override is a tiny fraction of the
+          // parser's already-picked price (>10x smaller), prefer the parser.
+          // Real overrides from labeled totals should be near-equal to or
+          // larger than the candidate from line-item scoring.
+          var _overrideIsSuspect =
+            result.price &&
+            result.price >= 500 &&
+            _overrideVal < result.price * 0.1;
+          if (
+            _overrideVal >= 10 &&
+            _overrideVal <= 500000 &&
+            _overrideVal !== result.price &&
+            !_overrideIsSuspect
+          ) {
             // Always prefer the explicit total -- it's the labeled final price
             result.price = _overrideVal;
             result.source = "regex";

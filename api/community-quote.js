@@ -43,6 +43,11 @@ const VALID_VERDICTS = new Set([
   "Fair Price", "Higher Than Expected", "Overpriced",
   "Unusually Low", "Possible Scope Risk",
   "Possibly Overpriced", "May Be Overpriced",
+  // Estimator-path label: not a real verdict but used by tpCaptureCommunity to
+  // tag estimator-derived submissions (no uploaded quote). Accepting it stops
+  // every roofing estimate from logging a 400 in the console + lets estimator
+  // data into the flywheel with the correct provenance flag.
+  "estimate",
   ""
 ]);
 
