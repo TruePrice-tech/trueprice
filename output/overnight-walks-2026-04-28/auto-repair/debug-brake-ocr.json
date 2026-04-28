@@ -1,0 +1,94 @@
+{
+  "price": 12000,
+  "source": "regex",
+  "ocr": "PRECISION AUTO CARE\nFull-service auto repair - Established 2008\n\n1925 East 7th Street - Charlotte, NC 28204\nESTIMATE\n\nCustomer: J. Patterson\n\nVehicle: 2018 Honda Civic\n\nDate: Apnl 7.2026\n\nFront Brake Service - Pads + Rotors\n\nFront brake pad set (semi-metallic) $78.00\nFront rotors (premium coated. set of 2) $145.00\nBrake hardware & abutment clips $22.00\nBrake fluid flush (recommended) $89.00\nLabor: 2.0 hrs @ S115/hr $230.00\nSubtotal $564.00\n\nShop supplies $2450\n\nSales tax $44.50\n\nTOTAL ESTIMATE $633.00\n12 month / 12,000 mile warranty included",
+  "parsedKeys": [
+    "price",
+    "finalBestPrice",
+    "totalLinePrice",
+    "priceCandidates",
+    "quoteStructure",
+    "material",
+    "materialLabel",
+    "warranty",
+    "warrantyYears",
+    "contractor",
+    "city",
+    "stateCode",
+    "propertyAddress",
+    "roofSize",
+    "roofSizeSource",
+    "pricePerSqFt",
+    "priceSanityStatus",
+    "priceSanityReason",
+    "priceSanityFallbackUsed",
+    "priceSanityOriginalBestPrice",
+    "priceSanityOriginalStatus",
+    "priceSanityFallbackCandidate",
+    "warnings",
+    "confidenceScore",
+    "confidenceLabel",
+    "signals",
+    "includedSignals",
+    "missingSignals",
+    "premiumSignals",
+    "rawText",
+    "extractionMethod",
+    "extractedTextLength"
+  ],
+  "candidates": [
+    {
+      "value": 2450,
+      "score": 200,
+      "sourceType": "generic_money_candidate"
+    },
+    {
+      "value": 12000,
+      "score": 220,
+      "sourceType": "warranty_mileage_not_price"
+    },
+    {
+      "value": 1510,
+      "score": 30,
+      "sourceType": "ocr_repaired_candidate"
+    },
+    {
+      "value": 5115,
+      "score": 20,
+      "sourceType": "ocr_repaired_candidate"
+    },
+    {
+      "value": 28204,
+      "score": -20,
+      "sourceType": "generic_money_candidate"
+    },
+    {
+      "value": 2018,
+      "score": -40,
+      "sourceType": "generic_money_candidate"
+    },
+    {
+      "value": 2008,
+      "score": -40,
+      "sourceType": "generic_money_candidate"
+    },
+    {
+      "value": 1925,
+      "score": -60,
+      "sourceType": "generic_money_candidate"
+    },
+    {
+      "value": 815,
+      "score": -80,
+      "sourceType": "ocr_repaired_candidate"
+    },
+    {
+      "value": 7202,
+      "score": -150,
+      "sourceType": "generic_money_candidate"
+    }
+  ],
+  "finalBest": 12000,
+  "parsedPrice": "12000",
+  "parsedFinal": 12000
+}

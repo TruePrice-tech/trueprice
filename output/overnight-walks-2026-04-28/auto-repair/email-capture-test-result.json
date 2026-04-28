@@ -1,0 +1,26 @@
+{
+  "testEmail": "lane+overnight-walk-test-1777376119279@woogoro.com",
+  "widgetVisible": {
+    "found": true,
+    "vertical": "auto-repair",
+    "btnText": "Notify me",
+    "inputType": "email"
+  },
+  "after": {
+    "hasThanks": true,
+    "thanksText": "You're on the list. We'll email you only when auto-repair prices move meaningfully in your area. Every email has one-click unsubscribe.",
+    "hasError": false,
+    "errorText": null,
+    "btnText": "Saving...",
+    "btnDisabled": true
+  },
+  "networkLog": [
+    {
+      "url": "https://woogoro.com/api/email-signup",
+      "status": 200,
+      "body": {
+        "success": true
+      }
+    }
+  ]
+}

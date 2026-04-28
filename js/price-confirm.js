@@ -37,15 +37,43 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
   var _vertAliases = { "window": "windows", "gutter": "gutters" };
   if (_vertAliases[_curVert]) _curVert = _vertAliases[_curVert];
   var verticalWarning = "";
-  if (_ocrText && _curVert && typeof detectVerticalFromText === "function") {
+  var _deflectTarget = null;
+  // Suppress deflection warning after user has explicitly dismissed it once this session.
+  // Set by the "Continue here anyway" handler below — we then re-render in manual-entry
+  // mode so the user types the price for the *current* vertical instead of inheriting
+  // the OCR-extracted total from the wrong-vertical quote.
+  var _suppressVertWarn = (typeof window !== "undefined") && window.__TP_SUPPRESS_VERTICAL_WARN;
+  if (!_suppressVertWarn && _ocrText && _curVert && typeof detectVerticalFromText === "function") {
     var detected = detectVerticalFromText(_ocrText);
-    if (detected.vertical && detected.vertical !== _curVert && detected.score >= 3) {
+    var allScores = (detected && detected.all) || [];
+    var nonCurTop = null, curEntry = null;
+    for (var _i = 0; _i < allScores.length; _i++) {
+      if (!nonCurTop && allScores[_i].vertical !== _curVert) nonCurTop = allScores[_i];
+      if (!curEntry && allScores[_i].vertical === _curVert) curEntry = allScores[_i];
+    }
+    var curScore = curEntry ? curEntry.score : 0;
+    // Deflect when ANY of:
+    //   (a) winner is a different vertical with >=3 hits  (original rule)
+    //   (b) current vertical is weak (<3) but another vertical hits >=3
+    //   (c) another vertical scores >=2x current's score (and >=3 absolute)
+    // (b) + (c) catch comparison-table fixtures (e.g. roofing+gutter contracts)
+    // where the side line item lets the current vertical "win" even though the
+    // document is dominated by the other service.
+    if (nonCurTop && nonCurTop.score >= 3) {
+      var winnerNotCurrent = (detected.vertical && detected.vertical !== _curVert);
+      var currentWeak = (curScore < 3);
+      var otherDominates = (nonCurTop.score >= curScore * 2);
+      if (winnerNotCurrent || currentWeak || otherDominates) {
+        _deflectTarget = nonCurTop;
+      }
+    }
+    if (_deflectTarget) {
       verticalWarning = '\
         <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:16px;text-align:left;">\
-          <p style="margin:0 0 8px;font-weight:600;color:#92400e;">This looks like a ' + detected.label + ' quote</p>\
-          <p style="margin:0 0 10px;font-size:14px;color:#78350f;">Want to analyze it with our ' + detected.label + ' tool instead?</p>\
-          <a href="' + detected.url + '" style="display:inline-block;background:#f59e0b;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Go to ' + detected.label + ' Analyzer</a>\
-          <span style="margin-left:12px;font-size:13px;color:#92400e;cursor:pointer;" id="tpIgnoreVertical">Continue here anyway</span>\
+          <p style="margin:0 0 8px;font-weight:600;color:#92400e;">This looks like a ' + _deflectTarget.label + ' quote</p>\
+          <p style="margin:0 0 10px;font-size:14px;color:#78350f;">Want to analyze it with our ' + _deflectTarget.label + ' tool instead?</p>\
+          <a href="' + _deflectTarget.url + '" style="display:inline-block;background:#f59e0b;color:#fff;padding:8px 16px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Go to ' + _deflectTarget.label + ' Analyzer</a>\
+          <span style="margin-left:12px;font-size:13px;color:#92400e;cursor:pointer;text-decoration:underline;" id="tpIgnoreVertical">Continue here anyway</span>\
         </div>';
     }
   }
@@ -80,6 +108,7 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
     document.getElementById("tpStartOver").addEventListener("click", function() {
       window.location.reload();
     });
+    _wireIgnoreVerticalDeflection(appRoot, cssPrefix, onConfirm, _ocrText, _curVert, _conf, _deflectTarget);
   } else {
     appRoot.innerHTML = '\
       <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;">Enter your quote total</h1></div>\
@@ -102,5 +131,31 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
     document.getElementById("tpStartOverManual").addEventListener("click", function() {
       window.location.reload();
     });
+    _wireIgnoreVerticalDeflection(appRoot, cssPrefix, onConfirm, _ocrText, _curVert, _conf, _deflectTarget);
   }
+}
+
+// "Continue here anyway" handler. The OCR-extracted price for a wrong-vertical
+// quote is unreliable (e.g. $18,692 whole roof+gutter contract showing up as a
+// "gutter total"). On dismiss, drop the auto-extracted price and force the user
+// to type the portion that applies to the current vertical.
+function _wireIgnoreVerticalDeflection(appRoot, cssPrefix, onConfirm, ocrText, curVert, confidence, deflectTarget) {
+  if (!deflectTarget) return;
+  var ignoreEl = document.getElementById("tpIgnoreVertical");
+  if (!ignoreEl) return;
+  ignoreEl.addEventListener("click", function() {
+    if (typeof window !== "undefined") window.__TP_SUPPRESS_VERTICAL_WARN = true;
+    // Re-render in manual-entry mode (price=0) so the user must type a number
+    // before analysis runs.
+    renderPriceConfirmation(appRoot, 0, cssPrefix, onConfirm, ocrText, curVert, confidence);
+    var prefix = cssPrefix || "tp";
+    var card = appRoot.querySelector("." + prefix + "-card");
+    if (card) {
+      var note = document.createElement("div");
+      note.style.cssText = "background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin:0 auto 14px;max-width:460px;text-align:left;font-size:13px;color:#78350f;";
+      note.innerHTML = "Heads up: this quote looked like a " + deflectTarget.label + " job. Enter just the portion that matches this analyzer below.";
+      // Insert before the manual-entry input row
+      card.insertBefore(note, card.firstChild);
+    }
+  });
 }
