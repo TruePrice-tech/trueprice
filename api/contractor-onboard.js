@@ -164,7 +164,7 @@ async function handleReviewDoc(image, docType, apiKey) {
   return { success: true, data: parsed };
 }
 
-async function handleSubmit(tier, business, verification, pledge) {
+async function handleSubmit(tier, business, verification, pledge, agreementAcceptedAt) {
   // Validate basic fields
   if (!business?.name || !business?.email || !business?.phone || !business?.state) {
     throw new Error("Missing required fields: business name, email, phone, and state are required.");
@@ -254,6 +254,7 @@ async function handleSubmit(tier, business, verification, pledge) {
     pledge: !!pledge,
     status,
     submittedAt,
+    agreementAcceptedAt: agreementAcceptedAt || submittedAt,
     reviewNotes: autoApprovalNotes.join(", ")
   };
 
@@ -337,11 +338,19 @@ export default async function handler(req, res) {
     }
 
     if (action === "submit") {
-      const { tier, business, verification, pledge } = req.body;
+      const { tier, business, verification, pledge, agreementAccepted, agreementAcceptedAt } = req.body;
       if (!tier || !["basic", "verified", "featured"].includes(tier)) {
         return res.status(400).json({ error: "Invalid tier. Expected: basic, verified, or featured." });
       }
-      const result = await handleSubmit(tier, business, verification, pledge);
+      // Hard server-side gate on the Contractor Participation Agreement.
+      // The frontend disables the submit button until the checkbox is ticked,
+      // but a hand-crafted POST could bypass that. Reject without it.
+      if (agreementAccepted !== true) {
+        return res.status(400).json({
+          error: "Contractor Participation Agreement must be accepted before signup. See /contractor-terms.html."
+        });
+      }
+      const result = await handleSubmit(tier, business, verification, pledge, agreementAcceptedAt);
       return res.status(200).json(result);
     }
 
