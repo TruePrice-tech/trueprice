@@ -577,6 +577,56 @@ function switchPath(path, silent){
   if(typeof tpTrack==="function") tpTrack("path_switch",{path:path,page:"/auto-repair.html",silent:!!silent});
 }
 
+// Pre-fill estimate form from a parsed quote so users hitting "Get a
+// Fresh Estimate for This Repair" don't have to re-enter year / make /
+// model / state / shop type they already gave us via the quote upload.
+window.prefillEstimateFromQuote = function() {
+  try {
+    var r = (typeof qState !== "undefined" && qState.result) ? qState.result : null;
+    var api = r && r.parsed ? r.parsed : null;
+    var prefill = {};
+    if (api && api.yearMakeModel) {
+      var ymm = String(api.yearMakeModel).trim();
+      var ymmMatch = ymm.match(/^(\d{4})\s+([A-Za-z]+)\s+(.+)$/);
+      if (ymmMatch) {
+        prefill.year = ymmMatch[1];
+        prefill.make = ymmMatch[2];
+        prefill.model = ymmMatch[3];
+      }
+    }
+    if (api && api.stateCode) prefill.state = api.stateCode;
+    else if (r && r.stateCode) prefill.state = r.stateCode;
+    if (qState && qState.stateCode) prefill.state = prefill.state || qState.stateCode;
+    if (api && api.shopType) prefill.shop = api.shopType;
+    else if (r && r.shopType) prefill.shop = r.shopType;
+    if (qState && qState.shopType) prefill.shop = prefill.shop || qState.shopType;
+
+    switchPath("estimate");
+
+    // Apply after switchPath so the estimate panel is visible and form
+    // elements exist. Use rAF to wait for the fadeSlideIn animation.
+    requestAnimationFrame(function() {
+      function setVal(id, v) {
+        if (v == null || v === "") return;
+        var el = document.getElementById(id);
+        if (el) { el.value = v; el.dispatchEvent(new Event("change", { bubbles: true })); }
+      }
+      setVal("yearInput", prefill.year);
+      setVal("makeInput", prefill.make);
+      setVal("modelInput", prefill.model);
+      setVal("stateSelect", prefill.state);
+      setVal("shopSelect", prefill.shop);
+      // Scroll the form into view so the user sees what was pre-filled
+      var form = document.getElementById("estimatePath");
+      if (form && form.scrollIntoView) form.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  } catch (err) {
+    // If anything goes wrong, just fall back to the un-prefilled estimate path
+    switchPath("estimate");
+  }
+};
+
+
 // Handle URL param — open the panel but leave both buttons in neutral (light) state.
 // Defer until DOMContentLoaded AND until qState is defined further down the script,
 // otherwise switchPath('quote') triggers initQuoteApp → qRender → qState.step crash
@@ -722,8 +772,11 @@ var METRO_RATES={
   "940":1.45,"941":1.45,"943":1.42,"944":1.42,"945":1.42,"946":1.40,"947":1.40,"948":1.38,"949":1.35,
   // LA / OC / SD
   "900":1.30,"901":1.30,"902":1.30,"903":1.28,"904":1.28,"905":1.28,"906":1.28,"907":1.28,"908":1.28,"910":1.28,"911":1.28,"912":1.28,"913":1.28,"914":1.28,"915":1.28,"916":1.28,"917":1.28,"918":1.28,"919":1.25,"920":1.22,"921":1.22,"922":1.22,
-  // Charlotte
-  "280":1.02,"281":1.02,"282":1.00,
+  // Charlotte (incl Fort Mill/York/Lancaster SC suburbs in 297). Bumped
+  // from 1.00-1.02 to 1.20-1.22 — SC state-median wage understates the
+  // Charlotte metro labor market (real indie $80-$110/hr vs state-median-
+  // derived $66/hr). Now lands $79-$81/hr indie which is the lower band.
+  "280":1.22,"281":1.22,"282":1.20,"297":1.18,
   // Nashville
   "372":1.02,"370":1.02,"371":1.00,
   // Detroit
@@ -799,11 +852,18 @@ function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsP
   var laborRateLow,laborRateMid,laborRateHigh,geoSource,blsMsa=null;
   if(bls){
     var overhead=BLS_OVERHEAD[shopType]||BLS_OVERHEAD.independent;
-    var midRate=bls.wage*overhead*vehicleMult;
+    // Metro-aware floor: when the BLS lookup falls back to state or
+    // national median, apply the existing METRO_RATES ZIP3 multiplier
+    // as a wage bump. The state median understates metro labor rates
+    // (SC indie via state-median was $66/hr; real Charlotte metro is
+    // $80-$110/hr). When BLS already has metro-specific data
+    // (bls.source === "metro"), no extra bump.
+    var metroBump = (bls.source !== "metro" && metroMult != null) ? Math.max(1.0, metroMult) : 1.0;
+    var midRate=bls.wage*overhead*vehicleMult*metroBump;
     laborRateMid=Math.round(midRate);
     laborRateLow=Math.round(midRate*0.85);
     laborRateHigh=Math.round(midRate*1.20);
-    geoSource="bls_"+bls.source;  // bls_metro | bls_state | bls_national
+    geoSource="bls_"+bls.source+(metroBump>1?"_metro_floor":"");
     blsMsa=bls.msa;
   } else {
     // Fallback while BLS_WAGES is still loading or for unknown states
@@ -1389,7 +1449,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
 
     mh+='<div style="margin-bottom:10px;"><strong>Parts pricing.</strong> Industry-typical retail ranges by parts tier (Aftermarket / OEM / Genuine / Remanufactured). Auto parts are mostly nationally-distributed commodities, so a brake caliper costs roughly the same in San Francisco as in rural Georgia &mdash; we only apply about 25% of the local geo factor to parts (capturing shop-markup variance and local fees, not the full labor delta). Live retailer pricing from our parts data partners is coming in a future update.</div>';
 
-    mh+='<div style="margin-bottom:10px;"><strong>Shop supplies, tax, and fees.</strong> Shop supplies estimated at 6% of labor (industry standard). Sales tax computed from your state\'s rate ('+(firstEst.taxRate*100).toFixed(1)+'%). Hazmat / disposal / refrigerant fees added per repair category where applicable. Diagnostic fees ($50-150, often waived if you proceed with the work) are NOT included in the totals.</div>';
+    mh+='<div style="margin-bottom:10px;"><strong>Shop supplies, tax, and fees.</strong> Shop supplies estimated at 6% of labor (industry standard). Sales tax computed from your state\'s base rate ('+(firstEst.taxRate*100).toFixed(1)+'%) — this is the state floor only and does not include county or city add-ons. Most counties add 1-2.5% on top (e.g. SC base 6% + Lancaster County ~2% = 8%); your actual receipt tax may be higher. Hazmat / disposal / refrigerant fees added per repair category where applicable. Diagnostic fees ($50-150, often waived if you proceed with the work) are NOT included in the totals.</div>';
 
     mh+='<div style="margin-bottom:10px;"><strong>What we DON\'T include.</strong> Diagnostic fees, towing, pre-existing damage discovered mid-repair, specialty tool fees, programming/coding charges (common on European cars and ADAS-equipped vehicles), or any premium for after-hours service.</div>';
 
@@ -1768,7 +1828,7 @@ function initQuoteApp(){
         var total=parseFloat(document.getElementById("manualTotal").value);
         if(!total||total<50){alert("Please enter a valid quote total.");return;}
         var rawState=(document.getElementById("manualState").value||"").trim().toUpperCase();
-        qState.stateCode=STATE_REGIONS[rawState]?rawState:"TX";
+        qState.stateCode=STATE_REGIONS[rawState]?rawState:"";
         qState.shopType=document.getElementById("manualShopType").value||"independent";
         var laborRate=parseFloat(document.getElementById("manualLaborRate").value)||null;
         var region=getRegionFromState(qState.stateCode);
@@ -1869,7 +1929,7 @@ function initQuoteApp(){
   }
 
   function buildResultFromAPI(api){
-    var region=getRegionFromState(api.stateCode||qState.stateCode||"TX");
+    var region=getRegionFromState(api.stateCode||qState.stateCode||"");
     if(api.stateCode) qState.stateCode=api.stateCode;
     var shopType=api.shopType||qState.shopType||"independent";
     var regionalRates=getRegionalLaborRate(shopType,region);
@@ -2028,7 +2088,7 @@ function initQuoteApp(){
       var price=parseFloat(document.getElementById("fallbackPrice").value);
       if(!price||price<50){alert("Please enter a valid price.");return;}
       var rawSt=(document.getElementById("fallbackState").value||"").trim().toUpperCase();
-      qState.stateCode=STATE_REGIONS[rawSt]?rawSt:"TX";
+      qState.stateCode=STATE_REGIONS[rawSt]?rawSt:"";
       qState.shopType=document.getElementById("fallbackShopType").value||"independent";
       var region=getRegionFromState(qState.stateCode);
       var regionalRates=getRegionalLaborRate(qState.shopType,region);
@@ -2267,7 +2327,7 @@ function initQuoteApp(){
       '+scopeHtml+'\
       '+contextHtml+'\
       <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">\
-        <button class="ar-btn-q ar-btn-primary ar-btn-full" onclick="switchPath(\'estimate\')">Get a Fresh Estimate for This Repair</button>\
+        <button class="ar-btn-q ar-btn-primary ar-btn-full" onclick="prefillEstimateFromQuote()">Get a Fresh Estimate for This Repair</button>\
         <a class="ar-btn-q ar-btn-secondary ar-btn-full" href="/repair-check.html" style="text-align:center;">Is This Repair Actually Needed?</a>\
       </div>\
       '+feedbackHtml;
