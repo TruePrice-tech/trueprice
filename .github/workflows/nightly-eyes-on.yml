@@ -1,0 +1,141 @@
+name: Nightly Eyes-On Walk
+
+# Runs every night at 04:30 UTC (00:30 Eastern). Picks 2 verticals via
+# day-of-month rotation, walks all 3 paths (estimate / analyze / compare)
+# with puppeteer + real fixtures, then runs each screenshot batch through
+# Claude vision to flag what HTML diffs miss (oversized mascots, duplicate
+# images, ranges too wide, missing buttons, copy mismatches, brand
+# violations, undefined / NaN / $0 -- per Lane's standing memories).
+#
+# Sends a single email digest with the FINDINGS.md from each vertical and
+# pings ntfy if any HIGH-severity issue is flagged. Lives entirely on
+# GitHub Actions free tier (~30 min/run x 30 runs/mo = 900 min, well under
+# the 2000 min/mo budget for private repos). Zero Vercel cron impact.
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+    inputs:
+      verticals:
+        description: 'Space-separated vertical names (overrides rotation)'
+        required: false
+        default: ''
+      triggered_files:
+        description: 'Tier-1 mode: space-separated changed file list'
+        required: false
+        default: ''
+
+jobs:
+  eyes-on:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Resolve verticals
+        id: pick
+        run: |
+          if [ -n "${{ github.event.inputs.triggered_files }}" ]; then
+            V=$(node scripts/eyes-on-walk/check-triggers.js ${{ github.event.inputs.triggered_files }})
+            echo "mode=triggered" >> $GITHUB_OUTPUT
+          elif [ -n "${{ github.event.inputs.verticals }}" ]; then
+            V="${{ github.event.inputs.verticals }}"
+            echo "mode=manual" >> $GITHUB_OUTPUT
+          else
+            V="--rotation"
+            echo "mode=rotation" >> $GITHUB_OUTPUT
+          fi
+          echo "verticals=$V" >> $GITHUB_OUTPUT
+          echo "Resolved verticals: $V"
+
+      - name: Eyes-on walk
+        id: walk
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          BASE: https://woogoro.com
+          WALK_HEADLESS: 'true'
+        run: |
+          if [ "${{ steps.pick.outputs.verticals }}" = "--rotation" ]; then
+            node scripts/eyes-on-walk/run.js --rotation 2>&1 | tee /tmp/eyes-walk.log
+          elif [ "${{ steps.pick.outputs.mode }}" = "triggered" ]; then
+            node scripts/eyes-on-walk/run.js --triggered ${{ steps.pick.outputs.verticals }} 2>&1 | tee /tmp/eyes-walk.log
+          else
+            node scripts/eyes-on-walk/run.js ${{ steps.pick.outputs.verticals }} 2>&1 | tee /tmp/eyes-walk.log
+          fi
+
+      - name: Upload findings artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: eyes-on-walk-${{ github.run_id }}
+          path: |
+            output/eyes-on-*/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Email digest
+        if: always()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          if (!process.env.RESEND_API_KEY) {
+            console.error('RESEND_API_KEY not set -- skipping email');
+            process.exit(0);
+          }
+          const today = new Date().toISOString().substring(0, 10);
+          const outRoot = path.join(process.cwd(), 'output');
+          const dirs = fs.existsSync(outRoot)
+            ? fs.readdirSync(outRoot).filter((d) => d.startsWith('eyes-on-') && d.endsWith('-' + today))
+            : [];
+          let walkLog = '';
+          try { walkLog = fs.readFileSync('/tmp/eyes-walk.log', 'utf8').slice(-4000); } catch { walkLog = '(no walk log)'; }
+          const sections = dirs.map((d) => {
+            const findingsFile = path.join(outRoot, d, 'FINDINGS.md');
+            let body = '(no FINDINGS.md)';
+            try { body = fs.readFileSync(findingsFile, 'utf8'); } catch {}
+            return `<h3 style="margin:18px 0 4px;">${d}</h3>
+              <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;overflow:auto;max-height:600px;white-space:pre-wrap;">${body.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>`;
+          }).join('');
+          const highMatch = walkLog.match(/(\d+)h /g) || [];
+          const totalHigh = highMatch.reduce((s, m) => s + parseInt(m), 0);
+          const subject = totalHigh > 0
+            ? `[Woogoro] Eyes-on walk: ${totalHigh} HIGH issue(s) -- ${today}`
+            : `[Woogoro] Eyes-on walk green -- ${today}`;
+          const html = `<div style="font-family:sans-serif;max-width:900px;padding:20px;">
+            <h2 style="margin:0 0 8px;">Nightly eyes-on walk -- ${today}</h2>
+            <p style="color:#475569;font-size:13px;margin:0;">Walked ${dirs.length} vertical(s). Total HIGH severity issues across all verticals: ${totalHigh}.</p>
+            <h3 style="margin:18px 0 4px;">Run log (tail)</h3>
+            <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;overflow:auto;max-height:240px;white-space:pre-wrap;">${walkLog.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+            ${sections}
+          </div>`;
+          const r = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + process.env.RESEND_API_KEY,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: 'Woogoro Audits <noreply@woogoro.com>',
+              to: ['hello@woogoro.com'],
+              subject,
+              html,
+            }),
+          });
+          if (!r.ok) {
+            console.error('Resend error:', r.status, await r.text());
+            process.exit(1);
+          }
+          console.log('Eyes-on digest emailed.');
+          EOF
