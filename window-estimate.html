@@ -891,9 +891,16 @@
 
       var baseMult = styleMult * glassMult * installMult * regionMult * INFLATION_MULT;
 
-      var perLow  = roundTo50(frame.low  * baseMult);
-      var perMid  = roundTo50(frame.mid  * baseMult);
-      var perHigh = roundTo50(frame.high * baseMult);
+      // Anchor the displayed range on the per-window midpoint, then apply the
+      // standard 0.88 / 1.15 band (see project_estimate_range_bands memo).
+      // Using frame.low / frame.high directly produced a 2.5x ratio because
+      // those values span ALL brands inside the picked tier (e.g. mid vinyl
+      // covers Pella 250 at the low end through Andersen 100 at the high end).
+      // The brand-tier comparison card below already shows the cross-tier
+      // spread; the verdict range should reflect a typical brand at this tier.
+      var perMid  = roundTo50(frame.mid * baseMult);
+      var perLow  = roundTo50(perMid * 0.88);
+      var perHigh = roundTo50(perMid * 1.15);
 
       var totalLow  = perLow  * count;
       var totalMid  = perMid  * count;
