@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pro Activated | Woogoro</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="canonical" href="https://woogoro.com/pro-success.html" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
+  <style>
+    .pro-wrap { max-width:600px; margin:48px auto; padding:0 20px; }
+    .pro-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:36px 28px; text-align:center; }
+    .pro-card.pending { border-left:4px solid #f59e0b; }
+    .pro-card.active { border-left:4px solid #16a34a; }
+    .pro-card.error { border-left:4px solid #dc2626; }
+    .pro-tag { display:inline-block; padding:4px 14px; background:#1d4ed8; color:#fff; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.08em; margin-bottom:14px; }
+    .pro-tag.active { background:#16a34a; }
+    .pro-h { font-size:24px; margin:8px 0 12px; color:#0f172a; }
+    .pro-msg { font-size:15px; color:#334155; line-height:1.6; margin:0 0 20px; }
+    .pro-meta { font-size:13px; color:#64748b; margin-top:14px; }
+    .pro-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+    .pro-btn { display:inline-block; padding:10px 20px; background:#1d4ed8; color:#fff; border-radius:8px; text-decoration:none; font-weight:600; font-size:14px; border:none; cursor:pointer; font-family:inherit; }
+    .pro-btn:hover { background:#1e40af; }
+    .pro-btn-ghost { background:#fff; color:#1d4ed8; border:2px solid #1d4ed8; }
+    .pro-btn-ghost:hover { background:#f0f7ff; }
+    .pro-spinner { display:inline-block; width:14px; height:14px; border:2px solid #cbd5e1; border-top-color:#1d4ed8; border-radius:50%; animation:pro-spin 1s linear infinite; vertical-align:middle; margin-right:6px; }
+    @keyframes pro-spin { to { transform:rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+
+  <main>
+    <div class="pro-wrap">
+      <div id="proCard" class="pro-card pending">
+        <span id="proTag" class="pro-tag">PENDING</span>
+        <h1 class="pro-h" id="proHeadline"><span class="pro-spinner"></span>Confirming your purchase&hellip;</h1>
+        <p class="pro-msg" id="proMessage">Stripe is sending the confirmation. This usually takes a few seconds.</p>
+        <div class="pro-meta" id="proMeta"></div>
+        <div class="pro-actions" id="proActions">
+          <a href="/" class="pro-btn pro-btn-ghost">Back to Woogoro</a>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:13px; color:#64748b; margin-top:18px;">
+        Need help? Email <a href="mailto:hello@woogoro.com">hello@woogoro.com</a> with your Stripe receipt and we will sort it out.
+      </p>
+    </div>
+  </main>
+
+  <script src="/js/pro-tier.min.js"></script>
+  <script>
+    (function () {
+      var card = document.getElementById("proCard");
+      var tag = document.getElementById("proTag");
+      var headline = document.getElementById("proHeadline");
+      var message = document.getElementById("proMessage");
+      var meta = document.getElementById("proMeta");
+      var actions = document.getElementById("proActions");
+
+      function showActive(status) {
+        card.className = "pro-card active";
+        tag.className = "pro-tag active";
+        tag.textContent = "PRO ACTIVE";
+        headline.textContent = "Pro is active.";
+        var days = status && status.daysRemaining;
+        message.textContent = "You have " + (days || 30) + " days of Pro access across all 20 verticals. Open any analyzer and your Pro report will be unlocked.";
+        var exp = status && status.expiresAt ? new Date(status.expiresAt).toLocaleDateString() : "";
+        meta.textContent = exp ? "Pro access expires on " + exp + "." : "";
+        actions.innerHTML =
+          '<a href="/" class="pro-btn">Start a new analysis</a>' +
+          '<a href="/all-cities.html" class="pro-btn pro-btn-ghost">Browse pricing guides</a>';
+      }
+
+      function showError(reason) {
+        card.className = "pro-card error";
+        tag.textContent = "ISSUE";
+        headline.textContent = "We could not confirm your purchase.";
+        message.innerHTML =
+          "Stripe may still be processing the payment. Try refreshing in a minute. " +
+          "If this persists, email <a href=\"mailto:hello@woogoro.com\">hello@woogoro.com</a> with your Stripe receipt " +
+          "(check your email inbox) and we will activate Pro for you within one business day.";
+        meta.textContent = "Reason: " + (reason || "unknown");
+        actions.innerHTML =
+          '<button class="pro-btn" onclick="location.reload()">Refresh</button>' +
+          '<a href="/" class="pro-btn pro-btn-ghost">Back to Woogoro</a>';
+      }
+
+      function poll() {
+        if (!window.WoogoroPro || typeof window.tpUnlockPremium !== "function") {
+          setTimeout(poll, 200);
+          return;
+        }
+        window.tpUnlockPremium().then(function (status) {
+          if (status && status.isPro) {
+            showActive(status);
+          } else {
+            showError("not_pro_after_polling");
+          }
+        }).catch(function (e) {
+          showError(e && e.message);
+        });
+      }
+      poll();
+    })();
+  </script>
+</body>
+</html>
