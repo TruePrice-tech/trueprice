@@ -387,11 +387,17 @@
         var regexPrice = engineResult.price || 0;
         if (regexPrice > 0) {
           var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
           if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "moving");
+            // Prefer the moving-specific brand list (Allied / Mayflower / Two
+            // Men and a Truck / etc) over engine.contractor — engine.contractor
+            // grabs random capitalized phrases like "Number of Movers".
+            if (extracted.brand && extracted.brand.brand) api.contractor = extracted.brand.brand;
+            else if (engineResult.contractor) api.contractor = engineResult.contractor;
             if (extracted.jobType && extracted.jobType.value !== "other") api.moveType = extracted.jobType.label;
             api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          } else if (engineResult.contractor) {
+            api.contractor = engineResult.contractor;
           }
           return { raw: { data: api }, ocrText: _engOcrText };
         }

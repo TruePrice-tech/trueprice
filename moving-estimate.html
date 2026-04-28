@@ -493,14 +493,21 @@
       var packMult = MOVING_PRICING.packingMultiplier[packing] || 1.0;
       var specialCost = MOVING_PRICING.specialItemsCost[specialItems] || 0;
 
-      // For local moves, distance affects price too
+      // distanceMultiplier is tuned for long_distance (under_50=0.40 / 50_250=0.65
+      // approximate same-state pricing). Other move types need their own
+      // distance handling — without this, a local + under_50 pick was getting
+      // a 0.40 multiplier and producing $650 for a 2BR move (vs ~$1,650 fair).
       if (moveType === "local") {
-        if (distance === "50_250") distMult = 1.30;
-        // local doesn't really go beyond 250, but just in case
+        if (distance === "under_50") distMult = 1.0;
+        else if (distance === "50_250") distMult = 1.30;
+        // local doesn't really go beyond 250, but the table lets it pass through
+      } else if (moveType === "office") {
+        if (distance === "under_50") distMult = 1.0;
+        else if (distance === "50_250") distMult = 1.20;
+        // office moves treat distance similarly to local; LD office is rare.
+      } else if (moveType === "same_building") {
+        distMult = 1.0;
       }
-
-      // For same_building, distance is always 1.0
-      if (moveType === "same_building") distMult = 1.0;
 
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var regionMult = cityMult || (LABOR_MULT_BY_REGION[region] || 1.0);

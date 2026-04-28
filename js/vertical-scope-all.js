@@ -446,11 +446,15 @@
         { pattern: /budget.*truck/i, brand: "Budget Truck", tier: "budget" },
       ],
       jobTypes: [
-        { pattern: /local\s*mov/i, value: "local", label: "Local Move" },
-        { pattern: /long\s*distance|interstate/i, value: "long_distance", label: "Long Distance" },
-        { pattern: /office|commercial/i, value: "commercial", label: "Commercial Move" },
-        { pattern: /container|portable/i, value: "container", label: "Moving Container" },
-        { pattern: /labor.*only|load.*unload/i, value: "labor_only", label: "Labor Only" },
+        // Order matters — first match wins. Long-distance and local checked
+        // first, then specialty types with multi-word phrases that won't
+        // false-match incidental "office" or "container" mentions in
+        // residential moving inventories.
+        { pattern: /\blong[\s-]*distance\b|\binterstate\s+(?:move|moving|relocation)\b|\bcross[\s-]*country\b/i, value: "long_distance", label: "Long Distance" },
+        { pattern: /\blocal\s+mov(?:e|ing)\b|\bintrastate\b/i, value: "local", label: "Local Move" },
+        { pattern: /\b(?:office|commercial)\s+mov(?:e|ing|er)\b|\boffice\s+relocation\b/i, value: "commercial", label: "Commercial Move" },
+        { pattern: /\bportable\s+container\b|\b(?:pods|u-?pack)\b|\bmoving\s+container\b/i, value: "container", label: "Moving Container" },
+        { pattern: /\blabor[\s-]*only\b|\bload\s*&?\s*unload\b/i, value: "labor_only", label: "Labor Only" },
       ],
     },
 
@@ -513,7 +517,7 @@
         { key: "utility_locate", label: "Utility locate (811)", patterns: [/utility locate/i, /811/i, /call before/i, /underground/i, /locate.*util/i] },
         { key: "survey", label: "Property survey", patterns: [/survey/i, /property line/i, /stake/i, /boundary/i, /plat/i] },
         { key: "stain_seal", label: "Stain/seal", patterns: [/stain/i, /seal/i, /treat/i, /preserv/i, /thompson/i, /water.?proof/i] },
-        { key: "hardware", label: "Hardware/hinges", patterns: [/hardware/i, /hinge/i, /latch/i, /lock/i, /post cap/i] },
+        { key: "hardware", label: "Hardware/hinges", patterns: [/hardware/i, /hinge/i, /latch/i, /lock/i, /post cap/i, /steel frame/i, /\bframe\b/i, /bracket/i, /fastener/i] },
         { key: "permit", label: "Permit", patterns: [/permit/i, /inspection/i, /code.*complian/i] },
         { key: "cleanup", label: "Cleanup", patterns: [/clean.?up/i, /haul.?off/i, /debris/i, /site.*clean/i] },
         { key: "warranty", label: "Warranty", patterns: [/warranty/i, /guarantee/i, /workmanship/i, /\d+.?year/i] },
@@ -622,7 +626,7 @@
         { key: "guards", label: "Gutter guards", patterns: [/guard/i, /leaf guard/i, /screen/i, /helmet/i, /cover/i, /micro.?mesh/i, /leaffilter/i] },
         { key: "fascia", label: "Fascia inspection", patterns: [/fascia/i, /fascia.*inspect/i, /fascia.*repair/i, /soffit/i] },
         { key: "seamless", label: "Seamless", patterns: [/seamless/i, /on.?site.*fabrica/i, /formed on.?site/i, /continuous/i] },
-        { key: "hangers", label: "Hidden hangers", patterns: [/hanger/i, /hidden hanger/i, /bracket/i, /every\s+\d+/i] },
+        { key: "hangers", label: "Hidden hangers", patterns: [/hidden\s*hanger/i, /concealed\s*hanger/i, /internal\s*bracket/i, /hidden\s*bracket/i] },
         { key: "splash_blocks", label: "Splash blocks/extensions", patterns: [/splash/i, /extension/i, /diverter/i] },
         { key: "gauge", label: "Gauge specified", patterns: [/0\.0\d+.*gauge/i, /gauge.*0\.0\d+/i, /\d+\s*gauge/i] },
         { key: "warranty", label: "Warranty", patterns: [/warranty/i, /guarantee/i, /lifetime/i, /workmanship/i] },

@@ -1626,9 +1626,25 @@
 
         setProgress(70, "Building analysis...");
 
-        // ── Regex parser first ──
+        // ── Regex parser first (for moveType / route / line items / scope) ──
         setProgress(60, "Parsing quote...");
         var result = await buildResultFromLocal(text);
+
+        // The engine has a more sophisticated total extractor that prefers
+        // labeled grand-totals over the largest-dollar-amount in the page.
+        // The local regex picks max($) which mis-IDs valuation-coverage figures
+        // ($30,000 NO DEDUCTIBLE, $12,600 OPTIONAL, $85,100 line items) as the
+        // bill total. Trust engine.price when it's set; fall back to local.
+        if (result && engineResult.price && engineResult.price > 0) {
+          if (Math.abs(result.quoteTotal - engineResult.price) > 1) {
+            result.quoteTotal = engineResult.price;
+            // Recompute downstream fields that depend on quoteTotal
+            if (result.expectedRange && result.expectedRange.mid > 0) {
+              result.ratio = engineResult.price / result.expectedRange.mid;
+              result.verdict = verdictFromRatio(result.ratio);
+            }
+          }
+        }
         var _regexFoundPrice = result && result.quoteTotal > 100;
 
         // ── AI backup: engine already called /api/moving-estimate when

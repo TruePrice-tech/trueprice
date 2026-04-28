@@ -89,7 +89,11 @@ function detectVerticalFromText(text) {
       label: "Insulation"
     },
     kitchen: {
-      patterns: /\b(kitchen|cabinet|countertop|backsplash|granite|quartz|appliance|kitchen remodel|island|sink install)\b/gi,
+      // Tightened: bare "kitchen" / "cabinet" / "appliance" / "island" trigger
+      // false positives on moving inventories (Kitchen-4 room labels, "Small
+      // Appliances" line items, "Long Island, NY" addresses). Require kitchen
+      // remodel-specific multi-word phrases.
+      patterns: /\b(kitchen remodel|kitchen renovation|kitchen cabinet|kitchen island|kitchen install|granite countertop|quartz countertop|tile backsplash|cabinet install|countertop install|backsplash install|cabinet refacing)\b/gi,
       url: "/kitchen-quote-analyzer.html?path=quote",
       label: "Kitchen"
     },
