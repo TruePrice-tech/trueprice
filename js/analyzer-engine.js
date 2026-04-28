@@ -33,38 +33,47 @@
     return new Promise(function (resolve, reject) {
       var reader = new FileReader();
       reader.onload = function () {
-        var img = new Image();
-        img.onload = function () {
-          var w = img.width;
-          var h = img.height;
-          var longest = Math.max(w, h);
-
-          // Skip resize if already small enough
-          if (longest <= MAX_IMAGE_DIMENSION && file.size < MAX_API_PAYLOAD_KB * 1024) {
-            resolve({ dataUrl: reader.result, width: w, height: h, resized: false });
-            return;
-          }
-
-          var scale = MAX_IMAGE_DIMENSION / longest;
-          var nw = Math.round(w * scale);
-          var nh = Math.round(h * scale);
-
-          var canvas = document.createElement("canvas");
-          canvas.width = nw;
-          canvas.height = nh;
-          var ctx = canvas.getContext("2d");
-          ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = "high";
-          ctx.drawImage(img, 0, 0, nw, nh);
-
-          var dataUrl = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
-          resolve({ dataUrl: dataUrl, width: nw, height: nh, resized: true });
-        };
-        img.onerror = function () { reject(new Error("Failed to load image for resize")); };
-        img.src = reader.result;
+        resizeImageFromDataUrl(reader.result, file.size).then(resolve, reject);
       };
       reader.onerror = function () { reject(new Error("Failed to read file")); };
       reader.readAsDataURL(file);
+    });
+  }
+
+  // Same resize logic but starting from a data URL instead of a File.
+  // Used by the analyzeQuote pipeline so we can read the file once and
+  // share the original data URL between resize + OCR-fallback paths.
+  function resizeImageFromDataUrl(dataUrl, originalSizeBytes) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      img.onload = function () {
+        var w = img.width;
+        var h = img.height;
+        var longest = Math.max(w, h);
+
+        // Skip resize if already small enough.
+        if (longest <= MAX_IMAGE_DIMENSION && (!originalSizeBytes || originalSizeBytes < MAX_API_PAYLOAD_KB * 1024)) {
+          resolve({ dataUrl: dataUrl, width: w, height: h, resized: false });
+          return;
+        }
+
+        var scale = MAX_IMAGE_DIMENSION / longest;
+        var nw = Math.round(w * scale);
+        var nh = Math.round(h * scale);
+
+        var canvas = document.createElement("canvas");
+        canvas.width = nw;
+        canvas.height = nh;
+        var ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, 0, 0, nw, nh);
+
+        var resizedDataUrl = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
+        resolve({ dataUrl: resizedDataUrl, width: nw, height: nh, resized: true });
+      };
+      img.onerror = function () { reject(new Error("Failed to decode image for resize")); };
+      img.src = dataUrl;
     });
   }
 
@@ -330,21 +339,35 @@
       }
     } else {
       onProgress(10, "Preparing image...");
-      try {
-        var resized = await resizeImage(file);
-        imageDataUrl = resized.dataUrl;
+      // Read the file ONCE into a data URL up front. Some images (HEIC mis-
+      // labeled as JPEG, screenshots with unusual color profiles, files
+      // already streamed somewhere else) cause the resize step's
+      // FileReader to error with "Failed to read file" — and re-reading
+      // the same File from a fresh FileReader after that failure is
+      // unreliable in some browsers (a follow-up readAsDataURL also errors).
+      // Reading once and reusing the data URL eliminates the second
+      // file-read attempt and gives us a data URL OCR can fall back to
+      // even when the <img> decode used by resize fails.
+      var originalDataUrl = await new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = function() { resolve(null); };
+        try { reader.readAsDataURL(file); } catch (readErr) { resolve(null); }
+      });
+
+      if (originalDataUrl) {
+        try {
+          var resized = await resizeImageFromDataUrl(originalDataUrl, file.size);
+          imageDataUrl = resized.dataUrl;
+          ocrInput = imageDataUrl;
+        } catch (e) {
+          console.warn("[TP_Engine] Image resize failed (using original):", e.message);
+          imageDataUrl = originalDataUrl;
+          ocrInput = originalDataUrl;
+        }
         result.imageDataUrl = imageDataUrl;
-        ocrInput = imageDataUrl;
-      } catch (e) {
-        console.warn("[TP_Engine] Image resize failed:", e.message);
-        // Fall back to reading original file as data URL
-        ocrInput = await new Promise(function(resolve) {
-          var reader = new FileReader();
-          reader.onload = function() { resolve(reader.result); };
-          reader.onerror = function() { resolve(null); };
-          reader.readAsDataURL(file);
-        });
-        if (ocrInput) imageDataUrl = ocrInput;
+      } else {
+        console.warn("[TP_Engine] Could not read file as data URL; OCR will be skipped");
       }
 
       // Step 2: Tesseract OCR (multi-pass with preprocessing)
