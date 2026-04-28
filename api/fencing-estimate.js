@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "fencing", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "fencing", cacheNamespace: "fencing:v3-deepdive", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -234,7 +234,7 @@ Rules:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("fencing", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("fencing:v3-deepdive", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {
@@ -256,31 +256,34 @@ Rules:
       const height = parsed.height || 6;
       const gateCount = parsed.gateCount || 0;
 
+      // commonJobs in fencing-pricing.json hold totals priced for a
+      // canonical 150 LF run, so we normalize back to a per-LF range
+      // before scaling to the user's actual linear footage.
       const jobKeyMap = {
-        "wood": height >= 6 ? "wood_privacy_6ft" : "wood_privacy_6ft",
-        "vinyl": "vinyl_privacy",
-        "chain_link": "chain_link_4ft",
-        "aluminum": "aluminum_ornamental",
-        "wrought_iron": "wrought_iron",
-        "composite": "composite"
+        "wood": "wood_priv_150ft",
+        "vinyl": "vinyl_priv_150ft",
+        "chain_link": "chain_link_150ft",
+        "aluminum": "aluminum_orn_150ft",
+        "wrought_iron": "aluminum_orn_150ft",
+        "composite": "wood_priv_cedar_150ft"
       };
-      const matchKey = jobKeyMap[material] || "wood_privacy_6ft";
+      const matchKey = jobKeyMap[material] || "wood_priv_150ft";
       const jobData = pricingData.commonJobs?.[matchKey];
 
       if (jobData && jobData.total && linearFeet) {
-        if (jobData.per_foot) {
-          let low = Math.round(jobData.total[0] * linearFeet * stateMult);
-          let high = Math.round(jobData.total[1] * linearFeet * stateMult);
-          // Add gate costs
-          if (gateCount > 0) {
-            const gateData = pricingData.commonJobs?.gate_install;
-            if (gateData && gateData.total) {
-              low += gateData.total[0] * gateCount;
-              high += gateData.total[1] * gateCount;
-            }
+        const baseLfRef = 150;
+        const lowPerLf = jobData.total[0] / baseLfRef;
+        const highPerLf = jobData.total[1] / baseLfRef;
+        let low = Math.round(lowPerLf * linearFeet * stateMult);
+        let high = Math.round(highPerLf * linearFeet * stateMult);
+        if (gateCount > 0) {
+          const gateData = pricingData.commonJobs?.single_gate_4ft;
+          if (gateData && gateData.total) {
+            low += gateData.total[0] * gateCount;
+            high += gateData.total[1] * gateCount;
           }
-          expectedRange = { low, high };
         }
+        expectedRange = { low, high };
       }
 
       // Cost per linear foot
@@ -306,25 +309,6 @@ Rules:
           parsed.redFlags.push("No utility locate (call 811) mentioned. Digging post holes without locating underground lines is dangerous and may be illegal.");
         }
       }
-
-      // Check for upsell patterns
-      const serverUpsells = [];
-      if (parsed.lineItems && pricingData.commonUpsells) {
-        const allDescs = parsed.lineItems.map(li => (li.description || "").toLowerCase()).join(" ");
-        for (const upsell of pricingData.commonUpsells) {
-          const itemLower = upsell.item.toLowerCase();
-          const itemWords = itemLower.split(/[\s\/]+/).filter(w => w.length > 3);
-          if (itemWords.some(w => allDescs.includes(w)) || allDescs.includes(itemLower)) {
-            serverUpsells.push({
-              item: upsell.item,
-              necessary: upsell.necessary,
-              typicalCost: upsell.cost,
-              notes: upsell.notes
-            });
-          }
-        }
-      }
-      if (serverUpsells.length > 0) parsed.detectedUpsells = serverUpsells;
 
       // Compute scope score
       let scopeScore = 0;
@@ -353,10 +337,11 @@ Rules:
       console.log("[fencing-estimate] Pricing enrichment error:", e.message);
     }
 
-    delete parsed.city;
-    // FLYWHEEL READ: blend real-world calibration data into the model estimate
+    // FLYWHEEL READ: blend real-world calibration data into the model estimate.
+    // Capture city before scrubbing so calibration + flywheel writes still see it.
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
+    delete parsed.city;
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "fencing" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("fencing", parsed);
