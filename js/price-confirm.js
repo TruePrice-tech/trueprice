@@ -55,7 +55,7 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
       <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;">We found your quote total</h1></div>\
       <div class="' + cardClass + '" style="text-align:center;max-width:520px;margin:0 auto;padding:32px 24px;">\
         ' + verticalWarning + '\
-        <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;" />\
+        <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" width="120" height="120" style="margin-bottom:12px;" />\
         <div style="font-size:36px;font-weight:800;color:#166534;margin-bottom:8px;">$' + Math.round(price).toLocaleString() + '</div>\
         <p style="color:#475569;margin-bottom:20px;">Is this your quote total?</p>\
         <button class="' + btnPrimary + '" id="tpConfirmPriceBtn" style="font-size:16px;padding:14px 32px;margin-bottom:16px;">Yes, analyze this price</button>\
@@ -85,7 +85,7 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
       <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;">Enter your quote total</h1></div>\
       <div class="' + cardClass + '" style="text-align:center;max-width:520px;margin:0 auto;padding:32px 24px;">\
         ' + verticalWarning + '\
-        <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" style="margin-bottom:12px;" />\
+        <img src="/images/Iris/Iris%20happy.png" alt="Iris the Woogoro shire keeper" width="120" height="120" style="margin-bottom:12px;" />\
         <p style="color:#475569;margin-bottom:16px;">We couldn\'t read a price from your image. Enter your quote total:</p>\
         <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:16px;">\
           <span style="font-size:22px;font-weight:700;">$</span>\

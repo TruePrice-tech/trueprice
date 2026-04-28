@@ -252,7 +252,7 @@
       + '    </a>'
       + '  </div>'
       + '  <div class="tp-footer-brand">'
-      + '    <a href="/"><img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
+      + '    <a href="/"><img src="/images/Iris/Iris%20peeking.png" alt="Iris peeking out from behind" width="20" height="20" />Powered by <strong style="color:#1e3a5f;">Woogoro</strong></a>'
       + '  </div>'
       + '</div>';
 
