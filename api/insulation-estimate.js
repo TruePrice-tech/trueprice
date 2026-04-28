@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "insulation", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "insulation", cacheNamespace: "insulation-v3-25cexpired-pricingfix", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -289,31 +289,20 @@ Rules:
         }
       }
 
-      // IRA 25C tax credit for insulation — EXPIRED Dec 31 2025; commenting out user-facing surfacing
+      // IRA Section 25C insulation credit EXPIRED Dec 31 2025. Don't surface
+      // an estimated credit or effectiveCost — that misleads users into
+      // expecting savings they can't claim. Pricing.json carries the
+      // canonical status; we just expose the headline + utility rebate hint.
       const taxCreditInfo = {
-        program: "IRA Section 25C - Energy Efficient Home Improvement Credit (EXPIRED Dec 31 2025)",
-        maxCredit: 1200,
-        percentage: 30,
-        description: "30% of project cost up to $1,200 for insulation and air sealing materials (not labor). Applies to insulation that meets IECC prescriptive criteria.",
-        eligibleItems: ["Insulation materials", "Air sealing materials", "Ventilation baffles"],
-        notEligible: ["Labor costs", "Removal of old insulation"],
-        requiresForm: "IRS Form 5695",
-        expiresYear: 2032
+        program: "Section 25C Energy Efficient Home Improvement Credit",
+        status: "EXPIRED",
+        expirationDate: "2025-12-31",
+        description: "The federal 25C credit (30% of insulation materials up to $1,200/year) expired Dec 31 2025. Insulation installed on or after Jan 1 2026 does not qualify for the federal credit.",
+        stillActive: ["State utility rebates ($200-$1,700 typical)", "IRA HEAR program (income-qualified, state-administered)"],
+        suggestedAction: "Check dsireusa.org for state and utility rebates available where the work is being done.",
+        estimatedCredit: 0,
+        effectiveCost: parsed.totalPrice || null
       };
-
-      // Calculate estimated credit
-      if (parsed.materialsTotal) {
-        const estimatedCredit = Math.min(Math.round(parsed.materialsTotal * 0.30), 1200);
-        taxCreditInfo.estimatedCredit = estimatedCredit;
-        taxCreditInfo.effectiveCost = parsed.totalPrice ? parsed.totalPrice - estimatedCredit : null;
-      } else if (parsed.totalPrice) {
-        // Estimate materials at ~50% of total for insulation
-        const estMaterials = parsed.totalPrice * 0.5;
-        const estimatedCredit = Math.min(Math.round(estMaterials * 0.30), 1200);
-        taxCreditInfo.estimatedCredit = estimatedCredit;
-        taxCreditInfo.estimatedCreditNote = "Based on estimated material cost (materials breakdown not provided in quote)";
-        taxCreditInfo.effectiveCost = parsed.totalPrice - estimatedCredit;
-      }
 
       // Server-side red flag checks
       if (!parsed.redFlags) parsed.redFlags = [];

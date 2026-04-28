@@ -2,28 +2,28 @@
   "basePriceByType": {
     "blown_in": {
       "label": "Blown-In (Attic)",
-      "lowPerSqft": 1.50,
-      "highPerSqft": 3.50
+      "lowPerSqft": 0.90,
+      "highPerSqft": 2.30
     },
     "spray_foam_open": {
       "label": "Spray Foam (Open Cell)",
-      "lowPerSqft": 1.00,
-      "highPerSqft": 2.00
+      "lowPerSqft": 1.50,
+      "highPerSqft": 3.50
     },
     "spray_foam_closed": {
       "label": "Spray Foam (Closed Cell)",
-      "lowPerSqft": 2.00,
-      "highPerSqft": 3.50
+      "lowPerSqft": 2.50,
+      "highPerSqft": 5.50
     },
     "batts": {
       "label": "Batts (Fiberglass)",
       "lowPerSqft": 0.80,
-      "highPerSqft": 1.50
+      "highPerSqft": 2.00
     },
     "rigid_foam": {
       "label": "Rigid Foam Board",
-      "lowPerSqft": 1.50,
-      "highPerSqft": 3.00
+      "lowPerSqft": 1.20,
+      "highPerSqft": 3.20
     }
   },
   "laborMultiplierByRegion": {

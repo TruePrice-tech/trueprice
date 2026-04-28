@@ -398,11 +398,12 @@
     // ── Insulation Pricing Model ──
     var INS_PRICING = {
       basePriceByType: {
-        blown_in: { label: "Blown-In (Attic)", lowPerSqft: 1.50, highPerSqft: 3.50 },
-        spray_foam_open: { label: "Spray Foam (Open Cell)", lowPerSqft: 1.00, highPerSqft: 2.00 },
-        spray_foam_closed: { label: "Spray Foam (Closed Cell)", lowPerSqft: 2.00, highPerSqft: 3.50 },
-        batts: { label: "Batts (Fiberglass)", lowPerSqft: 0.80, highPerSqft: 1.50 },
-        rigid_foam: { label: "Rigid Foam Board", lowPerSqft: 1.50, highPerSqft: 3.00 }
+        // Per-sqft installed ranges. Mirrors data/insulation-pricing.json materialTiers.
+        blown_in: { label: "Blown-In (Attic)", lowPerSqft: 0.90, highPerSqft: 2.30 },
+        spray_foam_open: { label: "Spray Foam (Open Cell)", lowPerSqft: 1.50, highPerSqft: 3.50 },
+        spray_foam_closed: { label: "Spray Foam (Closed Cell)", lowPerSqft: 2.50, highPerSqft: 5.50 },
+        batts: { label: "Batts (Fiberglass)", lowPerSqft: 0.80, highPerSqft: 2.00 },
+        rigid_foam: { label: "Rigid Foam Board", lowPerSqft: 1.20, highPerSqft: 3.20 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       locationMultiplier: { attic: 1.0, walls: 1.15, crawl_space: 1.20, basement: 1.05 },
@@ -429,12 +430,13 @@
       ]
     };
 
+    // Mirrors api/insulation-estimate.js stateToRegion map. Keep in sync.
     var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
+      AL:"south",AK:"west",AZ:"mountain",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
       DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
       IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
       MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
+      MT:"mountain",NE:"midwest",NV:"mountain",NH:"northeast",NJ:"northeast",NM:"mountain",
       NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
       PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
       UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
