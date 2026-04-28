@@ -808,9 +808,35 @@
       if (!text) return { dotNumber: null, name: null };
       var dotMatch = text.match(/\b(?:U\.?S\.?\s*)?DOT\s*(?:#|number|no\.?)?\s*[:\-]?\s*(\d{5,8})\b/i);
       var dotNumber = dotMatch ? dotMatch[1] : null;
-      // Look for "Moving" or "Movers" or "Van Lines" or "Relocations" company names — common patterns
-      var nameMatch = text.match(/([A-Z][A-Za-z'&.\-]+(?:\s+[A-Z][A-Za-z'&.\-]+){0,4}\s+(?:Moving|Movers|Van Lines|Relocations?|Transfer|Storage)(?:\s+(?:Inc|LLC|Co|Company|Group))?)/);
-      return { dotNumber: dotNumber, name: nameMatch ? nameMatch[1].trim() : null };
+      // 1) Generic suffix pattern: "Acme Moving", "Allied Van Lines", etc.
+      var nameMatch = text.match(/([A-Z][A-Za-z'&.\-]+(?:\s+[A-Z][A-Za-z'&.\-]+){0,4}\s+(?:Moving|Movers|Van Lines|Relocations?|Transfer|Storage|Logistics)(?:\s+(?:Inc|LLC|Co|Company|Group))?)/);
+      var name = nameMatch ? nameMatch[1].trim() : null;
+      // 2) Known-brand fallback: catches Brightside / MVM / College Hunks / etc
+      // that don't have a "Moving" suffix in their wordmark.
+      if (!name) {
+        var brands = [
+          /\b(Two\s+Men\s+and\s+a\s+Truck)\b/i,
+          /\b(Allied\s+Van\s+Lines)\b/i,
+          /\b(United\s+Van\s+Lines)\b/i,
+          /\b(Mayflower(?:\s+Transit)?)\b/i,
+          /\b(North\s+American\s+Van\s+Lines)\b/i,
+          /\b(Atlas\s+Van\s+Lines)\b/i,
+          /\b(College\s+Hunks(?:\s+Hauling\s+Junk)?)\b/i,
+          /\b(Bellhop)\b/i,
+          /\b(Brightside)\b/i,
+          /\b(U[\s\-]?Pack)\b/i,
+          /\b(U[\s\-]?Haul)\b/i,
+          /\b(Penske)\b/i,
+          /\b(PODS)\b/,
+          /\b(1[\s\-]?800[\s\-]?PACK[\s\-]?RAT)\b/i,
+          /\b(MVM)\b/,
+        ];
+        for (var i = 0; i < brands.length; i++) {
+          var m = text.match(brands[i]);
+          if (m) { name = m[1].trim(); break; }
+        }
+      }
+      return { dotNumber: dotNumber, name: name };
     }
 
     var homeSizeLabels = {
@@ -2415,7 +2441,7 @@
         ' + routeHtml + '\
         ' + transitHtml + '\
         <div class="mv-verdict ' + verdictCss + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Mover%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Verdict</div></div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Mover%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" style="height:48px; width:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Verdict</div></div>\
           <div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\

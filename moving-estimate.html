@@ -374,10 +374,16 @@
         "4br_plus": 1.90,
         office:     1.60
       },
-      // Distance multipliers (applied to long_distance base)
+      // Distance multipliers (applied to long_distance base $5K for 2BR).
+      // Tuned to match the SEO range table on the same page:
+      //   Same-state (50-250 mi) 2BR: $1,500-$4,500   → 0.65 * 5000 ≈ $3,250
+      //   Long-distance (250-1,000 mi) 2BR: $3,000-$7,000 → 1.40 * 5000 = $7,000
+      //   Cross-country (1,000+ mi) 2BR: $5,000-$11,000 → 1.90 * 5000 = $9,500
+      // Long-distance + under-50 is semantically off (it's really a local
+      // move) but the wizard allows it, so price it like a long local.
       distanceMultiplier: {
-        under_50:    1.00,
-        "50_250":    1.00,
+        under_50:    0.40,
+        "50_250":    0.65,
         "250_1000":  1.40,
         "1000_plus": 1.90
       },
@@ -629,14 +635,35 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. If the user typed an unrecognized value, surface
+        // it inline rather than silently defaulting to TX (which produced
+        // wildly wrong city multipliers for any non-TX user with a typo).
         var upper = rawState.toUpperCase();
+        var resolved = null;
         if (STATE_REGIONS[upper]) {
-          state.address.stateCode = upper;
+          resolved = upper;
         } else {
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          if (lookup) resolved = lookup;
         }
+        if (!resolved) {
+          var stateInput = document.getElementById("addrState");
+          if (stateInput) {
+            stateInput.style.borderColor = "#dc2626";
+            stateInput.style.background = "#fef2f2";
+            stateInput.focus();
+          }
+          var existing = document.getElementById("stateError");
+          if (!existing) {
+            var msg = document.createElement("div");
+            msg.id = "stateError";
+            msg.style.cssText = "font-size:13px;color:#dc2626;margin-top:6px;";
+            msg.textContent = "Enter a 2-letter state code (e.g. SC) or full state name.";
+            stateInput && stateInput.parentNode && stateInput.parentNode.appendChild(msg);
+          }
+          return;
+        }
+        state.address.stateCode = resolved;
 
         fetchCityMult(state.address.city, state.address.stateCode);
 
@@ -897,7 +924,7 @@
           <h1>Your Moving Estimate</h1>\
         </div>\
         <div class="move-verdict ' + r.verdict.css + '">\
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Mover%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Estimate</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Mover%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Mover%20worker.png" alt="Dash the Moving Woogoro" style="height:48px; width:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Moving Estimate</div></div><div class="verdict-label">' + r.verdict.label + '</div>\
           <div class="verdict-price">' + priceDisplay + '</div>\
           <div class="verdict-range">' + rangeText + '</div>\
         </div>\
