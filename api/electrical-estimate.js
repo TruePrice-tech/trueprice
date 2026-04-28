@@ -263,7 +263,24 @@ Rules:
       const stateCode = parsed.stateCode || null;
       const stateMult = pricingData.stateMultipliers?.[stateCode] || 1.0;
       const jobType = parsed.jobType || null;
-      const jobData = pricingData.commonJobs?.[jobType] || null;
+
+      // The Claude prompt enum uses short keys (ev_charger, generator_install,
+      // outlet_install, ceiling_fan, recessed_lights, circuit_breaker) but
+      // data/electrical-pricing.json#commonJobs uses long ones
+      // (ev_charger_level2, generator_whole_home, outlet_install_standard,
+      // ceiling_fan_install, recessed_lights_6pack, circuit_breaker_replace).
+      // Without this map, expectedRange + scope-specific red flags never
+      // fire for 6 of 14 job types. Same shape as concrete bug 5.
+      const jobKeyMap = {
+        "ev_charger": "ev_charger_level2",
+        "generator_install": "generator_whole_home",
+        "outlet_install": "outlet_install_standard",
+        "ceiling_fan": "ceiling_fan_install",
+        "recessed_lights": "recessed_lights_6pack",
+        "circuit_breaker": "circuit_breaker_replace"
+      };
+      const matchKey = jobKeyMap[jobType] || jobType;
+      const jobData = pricingData.commonJobs?.[matchKey] || null;
 
       // Calculate expected price range for detected job type
       let expectedRange = null;
@@ -387,8 +404,12 @@ Rules:
         const detectedPatterns = [];
         for (const pat of (pricingData.redFlagPatterns || [])) {
           try {
+            // scopedToJobTypes uses the data file's long keys (e.g.
+            // generator_whole_home), so compare against the remapped key
+            // — otherwise generator-no-gas-line / missing-permit /
+            // missing-loadcalc red flags never fire.
             if (pat.scopedToJobTypes && pat.scopedToJobTypes.length &&
-                jobType && !pat.scopedToJobTypes.includes(jobType)) continue;
+                matchKey && !pat.scopedToJobTypes.includes(matchKey)) continue;
 
             const primary = new RegExp(pat.regex, "i");
             const primaryHit = primary.test(haystack);

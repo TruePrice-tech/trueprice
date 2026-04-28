@@ -776,6 +776,17 @@
             .catch(function() {});
         } catch(e) {}
 
+        // Persist for sibling pages (analyzer / compare) so the user
+        // doesn't have to re-enter their state for the next interaction.
+        try {
+          sessionStorage.setItem("woogoro_elec_addr", JSON.stringify({
+            street: state.address.street,
+            city: state.address.city,
+            stateCode: state.address.stateCode,
+            zip: state.address.zip
+          }));
+        } catch (e) {}
+
         state.step = "estimator";
         render();
       });
@@ -1386,7 +1397,19 @@
       // Estimator scope info
       if (!isUpload) {
         scopeHtml = '<div class="elec-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="elec-scope">';
-        var typicalItems = ["permits", "panel", "breakers", "wiring", "grounding", "testing", "cleanup", "warranty"];
+        // Per-job scope so EV charger / generator / rewire / panel each
+        // show their actual typical scope, not the same hardcoded panel
+        // checklist for every job type.
+        var _svcKey = (r.serviceType && r.serviceType.value) || "panel_upgrade";
+        var SCOPE_BY_SERVICE = {
+          panel_upgrade: ["permits", "panel", "breakers", "wiring", "grounding", "testing", "meterUpgrade", "warranty"],
+          whole_house_rewire: ["permits", "wiring", "breakers", "grounding", "conduit", "testing", "codeCompliance", "cleanup", "warranty"],
+          ev_charger: ["permits", "wiring", "breakers", "conduit", "testing", "warranty"],
+          generator: ["permits", "wiring", "panel", "trenching", "testing", "warranty"],
+          circuit_addition: ["permits", "wiring", "breakers", "testing", "warranty"],
+          outlet_switch: ["wiring", "testing", "warranty"]
+        };
+        var typicalItems = SCOPE_BY_SERVICE[_svcKey] || SCOPE_BY_SERVICE.panel_upgrade;
         typicalItems.forEach(function(key) {
           var item = ELEC_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
@@ -1410,15 +1433,31 @@
         contextHtml = '<div class="elec-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
-      // Next Steps tips
+      // Next Steps tips — job-type-aware so EV charger / generator estimates
+      // don't recommend drywall patching (no interior wiring) and panel
+      // upgrades don't push EV-charger-only utility rebates.
+      var _svcKey2 = (r.serviceType && r.serviceType.value) || "panel_upgrade";
+      var _isInteriorWiring = _svcKey2 === "whole_house_rewire" || _svcKey2 === "circuit_addition" || _svcKey2 === "outlet_switch";
       var tipsHtml = '<div class="elec-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
       tipsHtml += '<li>Verify the electrician is licensed and insured in your state</li>';
       tipsHtml += '<li>Confirm all work will be permitted and inspected by the local authority</li>';
-      tipsHtml += '<li>Ask if the quote includes drywall patching and cleanup after wiring work</li>';
+      if (_isInteriorWiring) {
+        tipsHtml += '<li>Ask if the quote includes drywall patching and cleanup after wiring work</li>';
+      }
+      if (_svcKey2 === "ev_charger") {
+        tipsHtml += '<li>Confirm the dedicated 240V circuit, breaker size, and conduit routing are itemized</li>';
+        tipsHtml += '<li>Verify the charger will be installed on a load-calc-approved panel (not a maxed-out panel)</li>';
+      }
+      if (_svcKey2 === "generator") {
+        tipsHtml += '<li>Confirm the gas / propane line work, transfer switch, and concrete pad are included or coordinated</li>';
+        tipsHtml += '<li>Ask whether the install includes a load-shedding module if the generator is undersized for the panel</li>';
+      }
+      if (_svcKey2 === "panel_upgrade") {
+        tipsHtml += '<li>Confirm the meter base, service entrance cable, and grounding electrode system are included or coordinated with the utility</li>';
+      }
       tipsHtml += '<li>Check that the warranty covers both materials and labor</li>';
       if (r.verdict.css === "high") {
         tipsHtml += '<li>Get 2-3 additional quotes from licensed local electricians</li>';
-        tipsHtml += '<li>Ask about utility rebates for panel upgrades or EV charger installations</li>';
       }
       if (r.verdict.css === "low") {
         tipsHtml += '<li>Verify materials are specified (brand, gauge, type) and not just "equivalent"</li>';
@@ -1426,12 +1465,16 @@
       }
       tipsHtml += '</ul></div>';
 
-      // Rebate/savings tips
+      // Potential Savings — only show 30C EV charger credit when the job
+      // is actually an EV charger install. Showing it on every estimate
+      // (panel, generator, whole-house rewire) was misleading.
       var rebateHtml = '<div class="elec-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
       rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
       rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      rebateHtml += '<li>Federal 30C tax credit: up to $1,000 for residential EV charger installations in eligible census tracts (verify status — check IRS Form 8911 guidance for current year)</li>';
-      rebateHtml += '<li>Utility rebates: many utilities offer incentives for panel upgrades that support electrification</li>';
+      if (_svcKey2 === "ev_charger") {
+        rebateHtml += '<li>Federal 30C tax credit: up to $1,000 for residential EV charger installations in eligible low-income or non-urban census tracts (check the Argonne 30C eligibility map and IRS Form 8911 guidance)</li>';
+      }
+      rebateHtml += '<li>Utility rebates: many utilities offer incentives for ' + (_svcKey2 === "ev_charger" ? "EV charger installations" : _svcKey2 === "generator" ? "standby generator installs and resilience upgrades" : _svcKey2 === "panel_upgrade" ? "panel upgrades that support electrification" : "electrification upgrades and energy audits") + '</li>';
       rebateHtml += '<li>Off-peak scheduling: booking during fall or winter can reduce labor costs 5-10%</li>';
       rebateHtml += '</ul></div>';
 
