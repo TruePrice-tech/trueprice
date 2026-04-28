@@ -641,26 +641,26 @@
     window.showShareScreen.__woogoroProWrapped = true;
   }
 
-  // Watch the page for the result container to appear AND get populated.
-  // Different verticals render into different IDs (#analysisOutput,
-  // #resultContainer, .estimator-result, etc.) so we observe a stable
-  // ancestor and re-scan candidates on every mutation.
+  // Watch the page for the result container and (re)inject the upsell.
+  // The analyzer can replace appRoot.innerHTML multiple times during a
+  // session (sample banner -> real result -> side-by-side toggle), each
+  // wiping any previously-injected children. We therefore keep the
+  // observer active for the whole page lifetime and rely on the
+  // already-injected check inside injectIntoInlineResult for idempotency.
+  // A debounce timer prevents spamming injectIntoInlineResult during
+  // bursts of mutations from a single render pass.
   function observeInlineResult() {
-    var rootEl = document.getElementById("appRoot") || document.body;
+    var rootEl = document.body || document.documentElement;
     if (!rootEl) return;
-    var done = false;
+    var pending = null;
     var tryInject = function () {
-      if (done) return;
-      var c = findResultContainer();
-      if (c) {
-        done = true;
-        // Defer slightly so other render hooks run first.
-        setTimeout(injectIntoInlineResult, 250);
-      }
+      if (pending) return;
+      pending = setTimeout(function () {
+        pending = null;
+        injectIntoInlineResult();
+      }, 250);
     };
-    // Initial scan in case the result is already on screen (rare, but safe)
     tryInject();
-    if (done) return;
     var observer = new MutationObserver(tryInject);
     observer.observe(rootEl, { childList: true, subtree: true });
   }
