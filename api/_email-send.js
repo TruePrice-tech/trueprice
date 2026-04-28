@@ -39,6 +39,13 @@ export function signUnsubscribeToken(emailHash) {
     process.env.EMAIL_UNSUBSCRIBE_SECRET ||
     process.env.WOOGORO_HMAC_SECRET ||
     "dev-secret-do-not-use-in-prod";
+  // Refuse to mint tokens with the literal dev secret in production —
+  // unsubscribe tokens signed with a known-public secret are forgeable
+  // and would let anyone unsubscribe arbitrary recipients. Dev/local
+  // and test runs still get the fallback so they don't need env wiring.
+  if (secret === "dev-secret-do-not-use-in-prod" && process.env.NODE_ENV === "production") {
+    throw new Error("EMAIL_UNSUBSCRIBE_SECRET (or WOOGORO_HMAC_SECRET) must be set in production");
+  }
   return crypto.createHmac("sha256", secret).update(emailHash).digest("hex");
 }
 

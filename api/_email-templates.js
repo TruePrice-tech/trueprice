@@ -66,7 +66,7 @@ export function welcomeTemplate({ city, stateCode, service }) {
     </div>
     <h1 style="font-size:22px;margin:0 0 16px;text-align:center;color:#0f172a;">You're in.</h1>
     <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">Hi, I'm Iris. I'll keep an eye on <strong>${svc}</strong> prices in <strong>${where}</strong> for you.</p>
-    <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">Once a month, if prices in your area shift more than about 10% up or down, I'll send you a short note with the numbers and what's behind the move. If nothing meaningful changed, I'll skip the month — your inbox doesn't need filler.</p>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">Once a month, if prices in your area shift more than about 7% up or down, I'll send you a short note with the numbers and what's behind the move. If nothing meaningful changed, I'll skip the month — your inbox doesn't need filler.</p>
     <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">Two things you can do right now:</p>
     <ul style="font-size:15px;line-height:1.7;margin:0 0 18px;padding-left:20px;">
       <li><a href="${SITE_ORIGIN}/${service}-cost.html" style="color:#1d4ed8;">Run another estimate</a> for a different service or city.</li>
@@ -103,9 +103,13 @@ export function magicLinkTemplate({ verifyUrl, ttlMinutes }) {
 // Monthly digest. interests is an array of { city, stateCode, service, change }
 // where change is { currentAvg, baseline, deviation, currentQuotes } or null.
 // Returns null if there's nothing meaningful to say (all interests skipped).
+//
+// IMPORTANT: the 0.07 threshold below MUST stay in sync with the welcome
+// email copy (welcomeTemplate above) which promises "more than about 7% up
+// or down". If you change one, change the other in the same edit.
 export function digestTemplate({ interests }) {
   const meaningful = (interests || []).filter(
-    (i) => i.change && Number.isFinite(i.change.deviation) && Math.abs(i.change.deviation) >= 0.05
+    (i) => i.change && Number.isFinite(i.change.deviation) && Math.abs(i.change.deviation) >= 0.07
   );
   if (meaningful.length === 0) return null;
 

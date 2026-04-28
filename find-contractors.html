@@ -322,7 +322,7 @@
           let tierBadge = "";
           if (!isNoRank) {
             if (c.tier === "featured") tierBadge = '<span class="tier-badge featured">Featured</span>';
-            else if (c.tier === "verified") tierBadge = '<span class="tier-badge verified">Verified</span>';
+            else if (c.tier === "verified") tierBadge = '<span class="tier-badge verified" title="Insurance and license self-reported by the contractor on the date below">Self-reported</span>';
           }
 
           // Score badge (only if score exists and not a no-rank service)
