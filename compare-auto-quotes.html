@@ -609,19 +609,24 @@
     }
 
     function scoreQuote(q, allQuotes) {
-      // Price weight: 40%
+      // Price weight: ~28 max (down from 55). Down-weighted so scope +
+      // warranty + parts signals can override a price advantage and the
+      // Best Value pick stops defaulting to the cheapest quote when scope
+      // is comparable. Over-budget falloff softened (max 8 at ratio>>1
+      // instead of 5 at ratio>=2). Suspicious-lowball band widened to 0.6
+      // (was 0.5) and capped at 18 (was 15-40 depending on exact ratio).
       var priceScore = 0;
       var prices = allQuotes.map(function(aq) { return aq.price; }).filter(function(p) { return p > 0; });
       if (q.price > 0 && prices.length >= 2) {
         var avgPrice = prices.reduce(function(s, p) { return s + p; }, 0) / prices.length;
         var ratio = q.price / avgPrice;
-        if (ratio < 0.5) {
-          // Suspiciously low
-          priceScore = 15;
+        if (ratio < 0.6) {
+          // Suspiciously low — usually missing scope or substituted parts
+          priceScore = 18;
         } else if (ratio <= 1.0) {
-          priceScore = 25 + (1 - ratio) * 30;
+          priceScore = 22 + (1 - ratio) * 15; // 22..28
         } else {
-          priceScore = Math.max(5, 25 - (ratio - 1) * 30);
+          priceScore = Math.max(8, 22 - (ratio - 1) * 18); // softer over-budget falloff
         }
       } else if (q.price > 0) {
         priceScore = 20;

@@ -89,7 +89,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "auto-repair", cacheNamespace: "auto-repair:v3-redflags-summary", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "auto-repair", cacheNamespace: "auto-repair:v4-standalone-upsells", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -349,6 +349,35 @@ CRITICAL RULES:
       }
       if (serverUpsells.length > 0) {
         parsed.detectedUpsells = serverUpsells;
+      }
+
+      // Standalone overpriced lines: per-repair benchmark.totalRange.high
+      // is set above. Any line >=1.5x the high end of the typical range
+      // gets flagged into possibleUpsells regardless of trigger pairing.
+      // Catches Audi-style standalone overpriced services (pollen filter
+      // at 3-5x retail, mount/balance at 3x retail) that the trigger-
+      // based commonUpsells loop above can't see because there's no
+      // anchor repair.
+      if (parsed.repairs && Array.isArray(parsed.repairs)) {
+        if (!Array.isArray(parsed.possibleUpsells)) parsed.possibleUpsells = [];
+        const seenDesc = new Set((parsed.possibleUpsells || []).map(u => String(u.service || u.name || u).toLowerCase()));
+        for (const r of parsed.repairs) {
+          const lt = Number(r.lineTotal || (Number(r.partsCost || 0) + Number(r.laborCost || 0))) || 0;
+          if (lt <= 0) continue;
+          const hi = r.benchmark && r.benchmark.totalRange ? Number(r.benchmark.totalRange.high || r.benchmark.totalRange[1]) || 0 : 0;
+          if (hi <= 0) continue;
+          if (lt >= hi * 1.5) {
+            const descKey = String(r.description || "").toLowerCase();
+            if (descKey && !seenDesc.has(descKey)) {
+              parsed.possibleUpsells.push({
+                service: r.description,
+                reason: `priced at $${Math.round(lt)}, ~${(lt / hi).toFixed(1)}x the typical high of $${Math.round(hi)} for this repair`,
+                typicalCost: r.benchmark.totalRange
+              });
+              seenDesc.add(descKey);
+            }
+          }
+        }
       }
 
       // Add pricing context

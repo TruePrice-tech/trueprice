@@ -655,7 +655,11 @@ var REPAIRS={"brakes_front":{"label":"Front Brake Pads & Rotors","category":"bra
 var STATES={"AL":0.82,"AK":1.1,"AZ":0.95,"AR":0.78,"CA":1.25,"CO":1.08,"CT":1.18,"DE":1.05,"FL":0.92,"GA":0.88,"HI":1.12,"ID":0.85,"IL":1.02,"IN":0.88,"IA":0.85,"KS":0.85,"KY":0.82,"LA":0.85,"ME":0.95,"MD":1.05,"MA":1.15,"MI":0.88,"MN":0.95,"MS":0.78,"MO":0.85,"MT":0.9,"NE":0.85,"NV":1.0,"NH":1.05,"NJ":1.12,"NM":0.88,"NY":1.18,"NC":0.88,"ND":0.85,"OH":0.88,"OK":0.8,"OR":1.02,"PA":1.0,"RI":1.05,"SC":0.85,"SD":0.82,"TN":0.85,"TX":0.9,"UT":0.92,"VT":0.95,"VA":0.95,"WA":1.12,"WV":0.78,"WI":0.9,"WY":0.88,"DC":1.2};
 
 var CATEGORIES={"brakes":{"label":"Brakes"},"engine":{"label":"Engine"},"transmission":{"label":"Transmission"},"electrical":{"label":"Electrical / Starting / Charging"},"ac":{"label":"AC / Heating"},"exhaust":{"label":"Exhaust / Emissions"},"suspension":{"label":"Suspension"},"cooling":{"label":"Cooling System"},"fuel":{"label":"Fuel System"},"steering":{"label":"Steering"},"drivetrain":{"label":"Drivetrain / Clutch"},"maintenance":{"label":"Routine Maintenance"},"tires":{"label":"Tires & Wheels"},"body":{"label":"Body & Interior"},"glass":{"label":"Glass"},"sensors":{"label":"Sensors & Diagnostics"},"ev":{"label":"Electric / Hybrid"}};
-var VEHICLES={"economy":{"mult":0.85,"label":"Economy (Civic, Corolla, Sentra)","examples":"Honda Civic, Toyota Corolla, Nissan Sentra, Hyundai Elantra"},"standard":{"mult":1.0,"label":"Standard (Camry, Accord, Altima)","examples":"Toyota Camry, Honda Accord, Ford Fusion, Chevy Malibu"},"truck_suv":{"mult":1.15,"label":"Truck / SUV","examples":"Ford F-150, Chevy Silverado, Toyota 4Runner, Jeep Wrangler"},"luxury":{"mult":1.35,"label":"Luxury / European","examples":"BMW, Mercedes, Audi, Lexus, Volvo, Jaguar"},"performance":{"mult":1.5,"label":"Performance / Exotic","examples":"Porsche, Corvette, AMG, M-series, RS models"},"ev_hybrid":{"mult":1.2,"label":"Electric / Hybrid","examples":"Tesla, Prius, Bolt, Leaf, Mach-E, ID.4"}};
+// Vehicle multipliers calibrated against real-world labor rates 2026:
+// luxury bumped from 1.35 to 1.65 (Audi/BMW/Mercedes dealer is $180-$220/hr,
+// not the $134/hr the old 1.35x produced for SC). Performance bumped from
+// 1.5 to 1.85 (Porsche/AMG/Corvette dealer commonly $220-$280/hr).
+var VEHICLES={"economy":{"mult":0.85,"label":"Economy (Civic, Corolla, Sentra)","examples":"Honda Civic, Toyota Corolla, Nissan Sentra, Hyundai Elantra"},"standard":{"mult":1.0,"label":"Standard (Camry, Accord, Altima)","examples":"Toyota Camry, Honda Accord, Ford Fusion, Chevy Malibu"},"truck_suv":{"mult":1.15,"label":"Truck / SUV","examples":"Ford F-150, Chevy Silverado, Toyota 4Runner, Jeep Wrangler"},"luxury":{"mult":1.65,"label":"Luxury / European","examples":"BMW, Mercedes, Audi, Lexus, Volvo, Jaguar"},"performance":{"mult":1.85,"label":"Performance / Exotic","examples":"Porsche, Corvette, AMG, M-series, RS models"},"ev_hybrid":{"mult":1.2,"label":"Electric / Hybrid","examples":"Tesla, Prius, Bolt, Leaf, Mach-E, ID.4"}};
 
 var SHOPS={"dealer":{"low":125,"mid":155,"high":200},"independent":{"low":75,"mid":105,"high":150},"chain":{"low":90,"mid":120,"high":145}};
 
@@ -829,7 +833,14 @@ function buildClientEstimate(repairKey,year,make,model,zip,state,shopType,partsP
   // Pick parts source based on user preference (aftermarket | oem | genuine | reman)
   // genuine = OEM part in dealer-branded packaging (e.g. Land Rover-branded radiator)
   // Same physical part as OEM, typically 30-50% markup. Higher for luxury/European.
+  // Dealer default upgrade: when shopType is "dealer" and the user hasn't
+  // explicitly picked a parts source, swap aftermarket → genuine. Real
+  // dealers sell brand-packaged OEM with markup, not aftermarket parts.
+  // Without this the dealer-vs-indie matrix delta was a misleading ~21%
+  // (purely labor-driven); with this it lands closer to industry's
+  // observed 50-100% delta on the same job.
   var pref=partsPref||"aftermarket";
+  if (shopType === "dealer" && pref === "aftermarket") pref = "genuine";
   var sourcePref=(pref==="genuine")?"oem":pref;
   var partsDefault=repair.partsRange[sourcePref]||repair.partsRange.aftermarket||repair.partsRange.oem||[0,0];
   var prefMult=1.0;
