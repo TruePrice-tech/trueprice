@@ -936,18 +936,23 @@
     var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b|\bnon-\w+ed\b|\bnon\s+insulated\b/i;
     if (config.scope) {
       var tLower = t.toLowerCase();
-      var lines = tLower.split(/\n/);
+      // Split on newlines AND sentence punctuation so OCR-induced line
+      // wraps don't sever a pattern match from its negation. e.g.
+      // "Stain/seal NOT\nincluded." has the negation on the next line
+      // and would have been missed if we only split on \n.
+      var segments = tLower.split(/[\n.;]+/);
       for (var i = 0; i < config.scope.length; i++) {
         var item = config.scope[i];
         var found = false;
         var negatedOnly = false;
-        for (var li = 0; li < lines.length; li++) {
-          var line = lines[li];
-          if (item.patterns.some(function (p) { return p.test(line); })) {
-            if (negationPattern.test(line)) {
-              // Pattern present but negated on this line. Don't claim
-              // detection yet — keep scanning in case a later line
-              // includes the item without negation.
+        for (var si = 0; si < segments.length; si++) {
+          var seg = segments[si];
+          if (!seg) continue;
+          if (item.patterns.some(function (p) { return p.test(seg); })) {
+            // Scan a window around this segment so wrap continuations
+            // ("Stain/seal NOT" / "included.") still detect negation.
+            var windowText = (segments[si - 1] || "") + " " + seg + " " + (segments[si + 1] || "");
+            if (negationPattern.test(windowText)) {
               negatedOnly = true;
             } else {
               found = true;
