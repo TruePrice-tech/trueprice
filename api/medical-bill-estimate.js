@@ -81,7 +81,7 @@ export default async function handler(req, res) {
 
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
   if (!(await checkRateLimit(clientIp))) {
-    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
+    return res.status(429).json({ error: `Rate limit exceeded. Maximum ${RATE_LIMIT_MAX} requests per hour. Please try again later.` });
   }
 
     // Abuse guard: burst detect, IP daily cap, suspicious patterns,
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "medical-bill:v2-medical-prompt", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "medical-bill:v3-direct-call-2026-04-27", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -261,7 +261,7 @@ CRITICAL ANALYSIS RULES:
     // and cache the parsed result by image hash for 24h dedup.
     await recordClaudeCall();
     if (_guard.imageHash) {
-      await storeImageCache("medical-bill:v2-medical-prompt", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
+      await storeImageCache("medical-bill:v3-direct-call-2026-04-27", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
     }
 
     } catch (e) {

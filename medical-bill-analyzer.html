@@ -428,18 +428,34 @@
     };
 
     // ── Bill check items ──
+    // `key` is the frontend display key. `apiKey` is the field name the
+    // /api/medical-bill-estimate prompt actually returns. They diverged
+    // historically; never delete apiKey without also updating the prompt.
     var BILL_CHECKS = [
-      { key: "cptListed", label: "CPT codes listed" },
-      { key: "chargesItemized", label: "Charges itemized" },
-      { key: "feesSeparated", label: "Facility vs professional fees separated" },
-      { key: "insuranceAdjusted", label: "Insurance adjustments applied" },
-      { key: "inNetwork", label: "In-network provider" },
-      { key: "noDuplicates", label: "No duplicate charges" },
-      { key: "datesMatch", label: "Dates match visit" },
-      { key: "noUnbundling", label: "No unbundled charges" },
-      { key: "noUpcoding", label: "No upcoding" },
-      { key: "responsibilityClear", label: "Patient responsibility clear" }
+      { key: "cptListed", apiKey: "cptCodes", label: "CPT codes listed" },
+      { key: "chargesItemized", apiKey: "itemized", label: "Charges itemized" },
+      { key: "feesSeparated", apiKey: "facility", label: "Facility vs professional fees separated" },
+      { key: "insuranceAdjusted", apiKey: "insuranceApplied", label: "Insurance adjustments applied" },
+      { key: "inNetwork", apiKey: "inNetwork", label: "In-network provider" },
+      { key: "noDuplicates", apiKey: "duplicates", label: "No duplicate charges", invertNoneFound: true },
+      { key: "datesMatch", apiKey: "dateMatch", label: "Dates match visit" },
+      { key: "noUnbundling", apiKey: "unbundling", label: "No unbundled charges", invertNoneFound: true },
+      { key: "noUpcoding", apiKey: "upcoding", label: "No upcoding", invertNoneFound: true },
+      { key: "responsibilityClear", apiKey: "patientResponsibility", label: "Patient responsibility clear" }
     ];
+
+    // Translate API's "yes"/"no"/"unclear"/"none_found"/"possible"/"partial"
+    // values to the {pass|fail|warn|null} the renderer expects.
+    function translateCheckValue(v, invertNoneFound) {
+      if (v === "yes" || v === true) return "pass";
+      if (v === "no" || v === false) return "fail";
+      if (v === "none_found") return invertNoneFound ? "pass" : "warn";
+      if (v === "possible") return invertNoneFound ? "fail" : "warn";
+      if (v === "partial") return "warn";
+      if (v === "not_applicable") return "pass";
+      // "unclear" or unknown → null → renders as "?"
+      return null;
+    }
 
     // ── State ──
     var appRoot = document.getElementById("mbApp");
@@ -654,7 +670,7 @@
         <div class="mb-hero">\
           <picture><source srcset="/images/Worker%20Woogoro/Medical%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Medical%20worker.png" alt="Scout the Medical Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture>\
           <h1>Is your medical bill correct?</h1>\
-          <p>Upload your bill, EOB, or hospital invoice. Iris compares every charge against published benchmark rates and flags potential billing errors, charges that exceed those benchmarks, and items you may want to question with your provider.</p>\
+          <p>Upload your bill, EOB, or hospital invoice. Woogoro compares every charge against published benchmark rates and flags potential billing errors, charges that exceed those benchmarks, and items you may want to question with your provider.</p>\
           <p style="font-size:0.9rem; color:#64748b; margin-top:4px;">New to medical billing? Read our <a href="/medical-cost-guide.html" style="color:#16a34a;">Medical Cost Guide</a></p>\
         </div>\
         <div class="mb-card">\
@@ -704,7 +720,7 @@
         <div style="max-width:720px; margin:60px auto; text-align:center; padding:0 24px;">\
           <picture><source srcset="/images/Worker%20Woogoro/Medical%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Medical%20worker.png" alt="Scout the Medical Woogoro" class="iris-bounce" style="margin-bottom:16px;"  width="800" height="800"/></picture>\
           <h1 style="font-size:24px; margin-bottom:8px;">Analyzing your medical bill...</h1>\
-          <p style="color:#64748b; margin-bottom:24px;">Don\'t pay until Iris checks it</p>\
+          <p style="color:#64748b; margin-bottom:24px;">Don\'t pay until we check it</p>\
           <div style="height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin-bottom:12px;">\
             <div id="progFill" style="width:10%; height:100%; background:#0d9488; transition:width .4s;"></div>\
           </div>\
@@ -721,27 +737,64 @@
 
     async function processFile(file) {
       try {
-        // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
-        var engineResult = await TP_Engine.analyzeQuote(file, {
-          vertical: "medical",
-          apiEndpoint: "/api/medical-bill-estimate",
-          onProgress: setProgress
+        // Medical bills require structured CPT/HCPCS extraction that the
+        // shared regex engine cannot produce. Going through TP_Engine causes
+        // the regex parser to short-circuit on any dollar amount and skip
+        // the AI call entirely (engine sets shouldCallAI = !result.price),
+        // so the analyzer page sees engineResult.aiData === null and falls
+        // back to local fabrication. Bypass the engine for medical and post
+        // the bill directly to /api/medical-bill-estimate, which runs OCR
+        // server-side and returns a fully-structured response.
+        setProgress(15, "Reading document...");
+
+        var payload = { _client: "medical-bill-analyzer" };
+        var name = (file.name || "").toLowerCase();
+
+        if (name.endsWith(".pdf") || (file.type && file.type.indexOf("pdf") >= 0)) {
+          // PDF: extract text locally with pdfjs, send as text.
+          await window.loadVendorLibs();
+          payload.text = await extractPdfText(file);
+        } else {
+          // Image: send as base64; API runs OCR.space / Claude vision as needed.
+          var dataUrl = await fileToBase64(file);
+          payload.images = [dataUrl];
+        }
+
+        setProgress(45, "Checking against benchmark rates...");
+
+        var resp = await fetch("/api/medical-bill-estimate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
 
-        var text = engineResult.ocrText || "";
-        state.extractedText = text;
-        var apiResult = engineResult.aiData || null;
+        var apiData = null;
+        if (resp.ok) {
+          var json = await resp.json();
+          if (json && json.success && json.data) apiData = json.data;
+        } else {
+          console.warn("Medical API responded " + resp.status);
+        }
 
         setProgress(85, "Scanning for billing errors...");
 
-        var result = null;
-        if (apiResult && (apiResult.totalBilled || apiResult.lineItems)) {
-          result = buildResultFromAPI(apiResult);
+        var result;
+        if (apiData && (Number(apiData.totalBilled) > 0 || (apiData.lineItems && apiData.lineItems.length))) {
+          result = buildResultFromAPI(apiData);
         } else {
-          result = buildResultFromLocal(text);
+          // Do NOT fabricate a verdict from raw OCR text — that produced
+          // false "ALL CLEAR" results on $11K bills (medical dive 2026-04-27).
+          // Show the unreadable state instead.
+          result = null;
         }
 
         setProgress(100, "Done!");
+
+        if (!result) {
+          renderUnreadableFallback();
+          return;
+        }
+
         state.result = result;
         state.step = "result";
         setTimeout(render, 400);
@@ -750,6 +803,20 @@
         console.error("Medical bill analysis error:", err);
         renderErrorFallback();
       }
+    }
+
+    // Shown when the API can't extract a usable total or line items.
+    // Better to admit we can't read the bill than fabricate an "All Clear".
+    function renderUnreadableFallback() {
+      appRoot.innerHTML = '\
+        <div class="mb-hero">\
+          <h1>We could not read this bill clearly</h1>\
+          <p style="color:#64748b;">The image or PDF did not contain a total amount or itemized line we could extract. This is usually a photo angle, low resolution, or a non-bill document. Try uploading a clearer scan or a PDF from your patient portal.</p>\
+        </div>\
+        <div class="mb-card" style="text-align:center;">\
+          <button class="mb-btn mb-btn-primary" onclick="startOver()">Upload a different file</button>\
+          <div style="margin-top:14px; font-size:13px; color:#64748b;">Or look up specific procedure prices in the <a href="/medical-cost-lookup.html" style="color:#0d9488; font-weight:600;">cost lookup</a>.</div>\
+        </div>';
     }
 
     function fileToBase64(file) {
@@ -808,11 +875,14 @@
       });
 
       var checks = {};
+      var rawChecks = api.billChecks || api.checks || {};
       BILL_CHECKS.forEach(function(c) {
-        var val = null;
-        if (api.billChecks && api.billChecks[c.key] !== undefined) val = api.billChecks[c.key];
-        else if (api.checks && api.checks[c.key] !== undefined) val = api.checks[c.key];
-        checks[c.key] = val;
+        // Try apiKey first (what the API prompt actually returns), then fall
+        // back to display key for any older callers that match by display key.
+        var raw = (rawChecks[c.apiKey] !== undefined) ? rawChecks[c.apiKey]
+                : (rawChecks[c.key] !== undefined) ? rawChecks[c.key]
+                : null;
+        checks[c.key] = translateCheckValue(raw, !!c.invertNoneFound);
       });
 
       var redFlags = api.redFlags || [];
@@ -838,118 +908,13 @@
       };
     }
 
-    // ── Build result from local text parsing ──
-    function buildResultFromLocal(text) {
-      var lineItems = [];
-      var redFlags = [];
-
-      // Extract CPT codes and charges from text
-      var cptPattern = /(\d{5})\s*[-:]?\s*([^$\n]{3,50})\s*\$?([\d,]+(?:\.\d{2})?)/g;
-      var match;
-      while ((match = cptPattern.exec(text)) !== null) {
-        var cpt = match[1];
-        var service = match[2].trim();
-        var charged = parseFloat(match[3].replace(/,/g, ""));
-        if (charged > 0 && charged < 500000) {
-          var medicareRate = MEDICARE_RATES[cpt] || null;
-          var ratio = (medicareRate && medicareRate > 0) ? (charged / medicareRate) : null;
-          lineItems.push({
-            service: service,
-            cptCode: cpt,
-            charged: charged,
-            medicareRate: medicareRate,
-            ratio: ratio,
-            flagged: ratio !== null && ratio > 3
-          });
-        }
-      }
-
-      // If no CPT-based parsing, try generic dollar amounts
-      if (lineItems.length === 0) {
-        var priceMatches = text.match(/\$[\d,]+(?:\.\d{2})?/g) || [];
-        var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 500000; });
-        prices.forEach(function(p, i) {
-          lineItems.push({
-            service: "Charge #" + (i + 1),
-            cptCode: "",
-            charged: p,
-            medicareRate: null,
-            ratio: null,
-            flagged: false
-          });
-        });
-      }
-
-      // Calculate totals
-      var totalBilled = 0;
-      lineItems.forEach(function(item) { totalBilled += item.charged; });
-
-      // Detect insurance paid from text
-      var insPaidMatch = text.match(/(?:insurance|plan)\s*(?:paid|payment|adj)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i);
-      var insurancePaid = insPaidMatch ? parseFloat(insPaidMatch[1].replace(/,/g, "")) : 0;
-
-      var youOweMatch = text.match(/(?:patient|you)\s*(?:owe|responsibility|balance|due)[:\s]*\$?([\d,]+(?:\.\d{2})?)/i);
-      var youOwe = youOweMatch ? parseFloat(youOweMatch[1].replace(/,/g, "")) : Math.max(0, totalBilled - insurancePaid);
-
-      // Detect facility name
-      var facilityMatch = text.match(/^(.{5,60}(?:hospital|medical|health|clinic|center|surgery|emergency))/im);
-      var facility = facilityMatch ? facilityMatch[1].trim() : "Unknown Facility";
-
-      // Build checks from what we can detect
-      var checks = {};
-      var hasCpt = lineItems.some(function(i) { return i.cptCode.length === 5; });
-      checks.cptListed = hasCpt ? "pass" : "warn";
-      checks.chargesItemized = lineItems.length > 1 ? "pass" : "warn";
-      checks.feesSeparated = null;
-      checks.insuranceAdjusted = insurancePaid > 0 ? "pass" : "warn";
-      checks.inNetwork = null;
-      checks.noDuplicates = detectDuplicates(lineItems) ? "fail" : "pass";
-      checks.datesMatch = null;
-      checks.noUnbundling = null;
-      checks.noUpcoding = null;
-      checks.responsibilityClear = youOwe > 0 ? "pass" : "warn";
-
-      // Generate red flags from local analysis
-      lineItems.forEach(function(item) {
-        if (item.ratio !== null && item.ratio > 3) {
-          redFlags.push({
-            title: "Above benchmark: " + item.service + " (CPT " + item.cptCode + ")",
-            why: "Charged " + fmt(item.charged) + " which is " + item.ratio.toFixed(1) + "x the Medicare rate of " + fmt(item.medicareRate) + ".",
-            action: "Request itemized breakdown and ask billing to justify the charge above benchmark rates."
-          });
-        }
-      });
-
-      if (detectDuplicates(lineItems)) {
-        redFlags.push({
-          title: "Possible duplicate charges detected",
-          why: "Two or more line items appear to be the same service charged multiple times.",
-          action: "Compare dates of service and ask billing department to verify each charge is for a separate service."
-        });
-      }
-
-      return {
-        facility: facility,
-        facilityType: "",
-        totalBilled: totalBilled,
-        insurancePaid: insurancePaid,
-        youOwe: youOwe,
-        lineItems: lineItems,
-        checks: checks,
-        redFlags: redFlags,
-        source: "local"
-      };
-    }
-
-    function detectDuplicates(items) {
-      var seen = {};
-      for (var i = 0; i < items.length; i++) {
-        var key = items[i].cptCode + "|" + items[i].charged;
-        if (key !== "|0" && seen[key]) return true;
-        seen[key] = true;
-      }
-      return false;
-    }
+    // ── (Removed) Local text-fallback parser. ──
+    // The previous regex-based parser fabricated CPT codes from any 5-digit
+    // substring (NDC drug codes, dates, account numbers) and produced false
+    // "All Clear" verdicts on $11K-plus bills (see medical dive 2026-04-27).
+    // processFile() now calls /api/medical-bill-estimate directly and shows
+    // renderUnreadableFallback() when the API can't extract usable data,
+    // rather than guessing.
 
     function renderErrorFallback() {
       appRoot.innerHTML = '\
