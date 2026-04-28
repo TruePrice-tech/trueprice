@@ -1597,43 +1597,22 @@
 
         var text = engineResult.ocrText || "";
         state.extractedText = text;
-        var parsed = engineResult.parsed;
-        var apiResult = engineResult.aiData || null;
-
-        // Price from engine (regex-first, AI backup if regex failed)
-        var quotePrice = engineResult.price || 0;
 
         setProgress(70, "Building analysis...");
-
-        state.extractedText = text;
 
         // ── Regex parser first ──
         setProgress(60, "Parsing quote...");
         var result = await buildResultFromLocal(text);
         var _regexFoundPrice = result && result.quoteTotal > 100;
 
-        // ── AI backup: only fires when regex fails ──
-        var apiResult = null;
-        if (!_regexFoundPrice) {
-          try {
-            setProgress(65, "Getting a second opinion...");
-            var apiPayload = { text: text };
-            if (imageData) apiPayload.images = [imageData];
-            var apiResponse = await fetch("/api/moving-estimate", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(apiPayload)
-            });
-            if (apiResponse.ok) {
-              apiResult = await apiResponse.json();
-            }
-            try { fetch("/api/ai-counter", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({vertical:"moving",action:"increment"}) }).catch(function(){}); } catch(e){}
-          } catch (apiErr) {
-            console.warn("API unavailable, falling back to local parsing:", apiErr);
-          }
-
-          if (apiResult && apiResult.quoteTotal) {
-            result = await buildResultFromAPI(apiResult);
+        // ── AI backup: engine already called /api/moving-estimate when
+        // regex couldn't find a price; reuse engineResult.aiData rather than
+        // re-firing the request and burning Claude budget.
+        if (!_regexFoundPrice && engineResult.aiData) {
+          var apiPrice = Number(engineResult.aiData.totalPrice || engineResult.aiData.quoteTotal || engineResult.price || 0);
+          if (apiPrice > 0) {
+            // buildResultFromAPI expects an object with the parsed fields at top level
+            result = await buildResultFromAPI(engineResult.aiData);
           }
         }
 
@@ -1703,16 +1682,58 @@
       });
     }
 
+    // Normalize API moveType (server returns snake_case "long_distance") to
+    // analyzer's internal camelCase ("longDistance") so getExpectedRange and
+    // getComparisonEstimates pick the long-distance benchmark table.
+    function normalizeMoveType(mt) {
+      if (!mt) return null;
+      var s = String(mt).toLowerCase();
+      if (s === "long_distance" || s === "longdistance" || s === "long distance" || s === "interstate") return "longDistance";
+      if (s === "local") return "local";
+      return s;
+    }
+
+    // Map API scopeItems (string values yes/no/unclear, with packing/insurance
+    // style keys) into the scopeSignals shape the renderer expects (object
+    // with .status keyed by analyzer's MOVING_PRICING.scopeItems keys).
+    function mapApiScopeToSignals(apiScope) {
+      var out = {};
+      if (!apiScope || typeof apiScope !== "object") return out;
+      function s(v) { return v === "yes" || v === true || v === "included" ? "included" : v === "no" || v === false || v === "excluded" ? "excluded" : "unclear"; }
+      // API keys -> analyzer keys
+      if (apiScope.bindingEstimate != null) out.bindingEstimate = { status: s(apiScope.bindingEstimate) };
+      if (apiScope.inventoryList != null) out.inventoryList = { status: s(apiScope.inventoryList) };
+      if (apiScope.weightEstimate != null) out.laborRateStated = { status: s(apiScope.weightEstimate) };
+      if (apiScope.insurance != null) out.insuranceCoverage = { status: s(apiScope.insurance) };
+      if (apiScope.packingCosts != null) out.packingCosts = { status: s(apiScope.packingCosts) };
+      if (apiScope.stairsFees != null) out.stairsElevator = { status: s(apiScope.stairsFees) };
+      if (apiScope.cancellationPolicy != null) out.cancellationPolicy = { status: s(apiScope.cancellationPolicy) };
+      if (apiScope.usdotNumber != null) out.licenseDOT = { status: s(apiScope.usdotNumber) };
+      // API doesn't surface storageFees / specialItems explicitly — leave unclear
+      return out;
+    }
+
     async function buildResultFromAPI(api) {
-      if (api.stateCode) { state.fromState = api.stateCode; state.toState = api.toStateCode || api.stateCode; }
-      var moveType = api.moveType || state.moveType || "local";
+      // The API returns snake_case state keys (pickupState/deliveryState) and
+      // separate city/state pairs. Map them onto our local from/to state.
+      var pState = api.pickupState || api.stateCode || state.fromState || "";
+      var dState = api.deliveryState || api.toStateCode || api.stateCode || state.toState || pState || "";
+      if (pState) state.fromState = pState;
+      if (dState) state.toState = dState;
+      var pCity = api.pickupCity || api.originCity || state.fromCity || "";
+      var dCity = api.deliveryCity || api.destCity || state.toCity || "";
+      if (pCity) state.fromCity = pCity;
+      if (dCity) state.toCity = dCity;
+
+      var moveType = normalizeMoveType(api.moveType) || state.moveType || "local";
       var homeSize = api.homeSize || state.homeSize || "2br";
       var distance = api.distance || state.distance || null;
 
       // Fetch city multipliers
-      var originData = await fetchCityData(api.originCity || state.fromCity || "", state.fromState || "TX");
-      var destData = await fetchCityData(api.destCity || state.toCity || state.fromCity || "", state.toState || state.fromState || "TX");
-      state.originMult = originData.mult; state.destMult = destData.mult;
+      var originData = await fetchCityData(state.fromCity || "", state.fromState || "");
+      var destData = await fetchCityData(state.toCity || state.fromCity || "", state.toState || state.fromState || "");
+      state.originMult = originData.mult || 1.0;
+      state.destMult = destData.mult || 1.0;
       state.originLat = originData.lat; state.originLng = originData.lng;
       state.destLat = destData.lat; state.destLng = destData.lng;
 
@@ -1720,36 +1741,54 @@
         distance = Math.round(haversineMiles(state.originLat, state.originLng, state.destLat, state.destLng));
       }
       if (distance && distance > 100) moveType = "longDistance";
+      if (state.fromState && state.toState && state.fromState !== state.toState) moveType = "longDistance";
       state.moveType = moveType; state.distance = distance;
 
       var cityMult = getWeightedMult();
       var expected = getExpectedRange(moveType, homeSize, cityMult, distance);
-      var lineItems = (api.lineItems || []).map(function(item) { return { description: item.description || "Service", cost: item.cost || 0 }; });
-      var quoteTotal = api.quoteTotal || 0;
-      var ratio = expected.mid > 0 ? quoteTotal / expected.mid : 1.0;
+
+      // Map API line items (description, cost, category) into the renderer shape.
+      var lineItems = (api.lineItems || []).map(function(item) {
+        return { description: item.description || "Service", cost: Number(item.cost) || 0 };
+      });
+
+      // The API spec returns totalPrice (Claude prompt). Older code looked for
+      // quoteTotal; accept either so a future prompt change doesn't silently
+      // zero-out the result.
+      var quoteTotal = Number(api.totalPrice || api.quoteTotal || 0);
+      var ratio = expected.mid > 0 && quoteTotal > 0 ? quoteTotal / expected.mid : 1.0;
       var isInterstate = state.fromState && state.toState && state.fromState !== state.toState;
 
-      var redFlags = api.redFlags || [];
-      if (isInterstate && !/\b(?:USDOT|DOT\s*#)\b/i.test(state.extractedText || "")) {
+      var redFlags = (api.redFlags || []).slice();
+      if (isInterstate && !api.usdotNumber && !/\b(?:USDOT|DOT\s*#)\b/i.test(state.extractedText || "")) {
         redFlags.push("Interstate move: verify your mover has a valid USDOT number at safer.fmcsa.dot.gov");
       }
+
+      // Prefer API-extracted mover/USDOT (Claude reads logos and headers we miss)
+      // and fall back to regex on raw text.
+      var moverInfoFromApi = (api.companyName || api.usdotNumber)
+        ? { name: api.companyName || null, dotNumber: api.usdotNumber || null }
+        : extractMoverInfo(state.extractedText || "");
 
       return {
         source: "upload", quoteTotal: quoteTotal, benchmark: expected.mid, expectedRange: expected,
         ratio: ratio, verdict: verdictFromRatio(ratio), lineItems: lineItems,
         hourlyRate: api.hourlyRate || null, crewSize: api.crewSize || null,
-        estimatedHours: api.estimatedHours || null, weight: api.weight || null,
+        estimatedHours: api.estimatedHours || null,
+        weight: api.estimatedWeight || api.weight || null,
         distance: distance, moveDate: api.moveDate || null, moveType: moveType,
         homeSize: homeSize, cityMult: cityMult,
         fromCity: state.fromCity, fromState: state.fromState, toCity: state.toCity, toState: state.toState,
         isInterstate: isInterstate,
         rateFlag: api.hourlyRate ? rateFlag(api.hourlyRate, MOVING_PRICING.hourlyRatesByCrewSize[api.crewSize || 2]) : null,
-        scopeSignals: api.scopeSignals || {}, redFlags: redFlags,
+        scopeSignals: mapApiScopeToSignals(api.scopeItems || api.scopeSignals),
+        redFlags: redFlags,
         comparison: getComparisonEstimates(moveType, homeSize, cityMult, distance),
         parsed: api,
         transitDays: getTransitDays(moveType, distance),
         bindingType: detectBindingType(state.extractedText || ""),
-        moverInfo: extractMoverInfo(state.extractedText || "")
+        moverInfo: moverInfoFromApi,
+        apiSummary: api.summary || null
       };
     }
 
@@ -1758,7 +1797,7 @@
       var prices = priceMatches.map(function(p) { return parseFloat(p.replace(/[$,]/g, "")); }).filter(function(v) { return v > 0 && v < 100000; });
 
       var moveType = "local";
-      if (/long\s*distance|interstate|cross[\s-]country|out[\s-]of[\s-]state/i.test(text)) moveType = "longDistance";
+      if (/long[\s_-]?distance|interstate|cross[\s-]country|out[\s-]of[\s-]state/i.test(text)) moveType = "longDistance";
 
       var homeSize = "2br";
       if (/\bstudio\b/i.test(text)) homeSize = "studio";
@@ -2347,6 +2386,12 @@
 
       // ── Email report ──
       var emailSubject = encodeURIComponent("My Moving Quote Analysis from Woogoro");
+      var routeLine = "";
+      if (r.fromCity && r.fromState && r.toCity && r.toState) {
+        routeLine = "Route: " + r.fromCity + ", " + r.fromState + " → " + r.toCity + ", " + r.toState + "\n";
+      } else if (r.fromState) {
+        routeLine = "Origin: " + (STATE_NAMES[r.fromState] || r.fromState) + "\n";
+      }
       var emailBody = encodeURIComponent(
         "Moving Quote Analysis\n" +
         "Quote Total: " + fmt(r.quoteTotal) + "\n" +
@@ -2356,8 +2401,8 @@
         (r.distance ? "Distance: " + r.distance + " miles\n" : "") +
         (r.weight ? "Weight: " + r.weight + " lbs\n" : "") +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n" +
-        "Market Range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + "\n\n" +
+        routeLine +
+        (r.expectedRange ? "Market Range: " + fmt(r.expectedRange.low) + " - " + fmt(r.expectedRange.high) + "\n\n" : "\n") +
         "Analyzed by Woogoro - https://woogoro.com/moving-quote-analyzer.html"
       );
 

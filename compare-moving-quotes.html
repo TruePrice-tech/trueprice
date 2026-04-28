@@ -269,7 +269,24 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/moving-estimate";
     var PRICE_FIELDS = ["quoteTotal", "totalPrice", "total", "price"];
-    var ROWS = [{"label": "Mover", "field": "moverName", "type": "text"}, {"label": "USDOT #", "field": "usdotNumber", "type": "text"}, {"label": "Move Type", "field": "moveType", "type": "text"}, {"label": "Binding Type", "field": "bindingType", "type": "text"}, {"label": "Estimated Weight (lbs)", "field": "estimatedWeight", "type": "number"}, {"label": "Linehaul Charge", "field": "linehaulCharge", "type": "money"}, {"label": "Packing Charge", "field": "packingCharge", "type": "money"}, {"label": "Valuation Coverage", "field": "valuationCoverage", "type": "text"}];
+    // Field names align with /api/moving-estimate Claude prompt output. The
+    // legacy ROWS used moverName/linehaulCharge/packingCharge/valuationCoverage
+    // which the API never returns — every column rendered N/A regardless of
+    // upload. Replaced with fields the API actually populates.
+    var ROWS = [
+      { label: "Mover", field: "companyName", alt_field: "moverName", type: "text" },
+      { label: "USDOT #", field: "usdotNumber", type: "text" },
+      { label: "Move Type", field: "moveType", type: "text" },
+      { label: "Home Size", field: "homeSize", type: "text" },
+      { label: "Pickup", field: "pickupCity", type: "text" },
+      { label: "Delivery", field: "deliveryCity", type: "text" },
+      { label: "Distance (mi)", field: "distance", type: "number" },
+      { label: "Estimated Weight (lbs)", field: "estimatedWeight", type: "number" },
+      { label: "Crew Size", field: "crewSize", type: "number" },
+      { label: "Hourly Rate", field: "hourlyRate", type: "money" },
+      { label: "Estimated Hours", field: "estimatedHours", type: "number" },
+      { label: "Move Date", field: "moveDate", type: "text" },
+    ];
     var SCOPE_ITEMS = [{"key":"packing","label":"Packing service"},{"key":"materials","label":"Packing materials"},{"key":"insurance","label":"Insurance/valuation"},{"key":"stair_fee","label":"Stair fee"},{"key":"fuel","label":"Fuel charge"},{"key":"storage","label":"Storage available"},{"key":"disassembly","label":"Disassembly/reassembly"},{"key":"heavy_items","label":"Heavy item fee"},{"key":"hourly_rate","label":"Hourly rate disclosed"},{"key":"binding_estimate","label":"Binding estimate"},{"key":"timeline","label":"Delivery timeline"}];
     var IRIS = "/images/Worker%20Woogoro/Mover%20worker.png";
     var SINGLE_PAGE = "/moving-quote-analyzer.html";
@@ -378,16 +395,31 @@
           }
           return { raw: { data: api }, ocrText: _engOcrText };
         }
+        // TP_Engine already calls /api/moving-estimate when regex fails
+        // (apiEndpoint passed in). Reuse engineResult.aiData rather than
+        // firing a duplicate POST that doubles Claude budget per upload.
+        if (engineResult.aiData) {
+          return { raw: { data: engineResult.aiData }, ocrText: _engOcrText };
+        }
         return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // Always re-derive scope from OCR text using TP_VerticalScope. The
+        // moving API returns scopeItems keyed by inventoryList/usdotNumber/etc,
+        // which do NOT overlap with this page's SCOPE_ITEMS keys
+        // (packing/materials/insurance/...). If we trust api.scopeItems, every
+        // checklist row renders "? Unclear" regardless of what's in the quote.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "moving");
           if (!api.moveType && extracted.jobType && extracted.jobType.value !== "other") api.moveType = extracted.jobType.label;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (s.detected) api.scopeItems[s.key] = "included";
+            else if (s.excluded) api.scopeItems[s.key] = "excluded";
+          });
         }
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));

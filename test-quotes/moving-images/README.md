@@ -38,7 +38,6 @@ hello@woogoro.com and it will be deleted within 24 hours.
 | 05-brightside-quote.jpeg | r/moving "Have a quote from Brightside, is it safe?" | Less-known mover, scam-detection signal |
 | 06-united-vs-mayflower.jpeg | r/moving "Feedback on Quotes - United vs Mayflower" | Multi-quote comparison, two name extractions |
 | 07-mayflower-quote.jpeg | r/moving "Mayflower Quote fair?" | Mayflower mover-name extraction |
-| 08-fl-md-2-kids-3-pets.jpeg | r/moving "Moving from FL to MD with 2 kids and 3 pets" | Interstate FL->MD, family move context |
 
 ## Test runs
 
