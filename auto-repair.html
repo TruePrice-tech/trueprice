@@ -601,6 +601,36 @@ window.prefillEstimateFromQuote = function() {
     else if (r && r.shopType) prefill.shop = r.shopType;
     if (qState && qState.shopType) prefill.shop = prefill.shop || qState.shopType;
 
+    // Collect repair keys from the parsed quote so we can pre-select them in
+    // the repair picker. The API enrichment sets benchmark.repairKey on each
+    // repair line that matched a known commonRepairs entry; fall back to
+    // a description-keyword match for any line without a benchmark.
+    var repairKeys = [];
+    var lineItems = (r && r.lineItems) || (api && api.repairs) || [];
+    if (Array.isArray(lineItems) && typeof REPAIRS !== "undefined") {
+      var seen = {};
+      lineItems.forEach(function(li){
+        var k = (li.benchmark && li.benchmark.repairKey) || null;
+        if (!k) {
+          var desc = String(li.description || li.label || "").toLowerCase();
+          if (desc) {
+            for (var rk in REPAIRS) {
+              if (!REPAIRS.hasOwnProperty(rk)) continue;
+              var lbl = String(REPAIRS[rk].label || "").toLowerCase();
+              if (lbl && (desc.indexOf(lbl) !== -1 || lbl.split(/\s+/).every(function(w){return w.length > 2 && desc.indexOf(w) !== -1;}))) {
+                k = rk;
+                break;
+              }
+            }
+          }
+        }
+        if (k && !seen[k] && typeof REPAIRS !== "undefined" && REPAIRS[k]) {
+          seen[k] = true;
+          repairKeys.push(k);
+        }
+      });
+    }
+
     switchPath("estimate");
 
     // Apply after switchPath so the estimate panel is visible and form
@@ -616,6 +646,13 @@ window.prefillEstimateFromQuote = function() {
       setVal("modelInput", prefill.model);
       setVal("stateSelect", prefill.state);
       setVal("shopSelect", prefill.shop);
+      // Pre-select repairs from the parsed quote into the repair picker so
+      // the user doesn't have to re-tap each one. updateRepairChips() syncs
+      // the hidden <select id=repairSelect> the estimator uses.
+      if (repairKeys.length && typeof selectedRepairs !== "undefined" && typeof updateRepairChips === "function") {
+        repairKeys.forEach(function(k){ if (REPAIRS[k]) selectedRepairs[k] = REPAIRS[k].label; });
+        try { updateRepairChips(); } catch(e) {}
+      }
       // Scroll the form into view so the user sees what was pre-filled
       var form = document.getElementById("estimatePath");
       if (form && form.scrollIntoView) form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -957,7 +994,7 @@ function renderEstimate(est,vehicleDesc,locationDesc,shopType,opts){
   h+='<div class="ae-breakdown-item"><div class="label">Labor ('+est.laborHrsMid.toFixed(1)+' hrs @ '+fmt(est.laborRateMid)+'/hr)</div><div class="value">'+fmt(est.laborMid)+'</div></div>';
   h+='<div class="ae-breakdown-item"><div class="label">Parts ('+est.partsPref+')</div><div class="value">'+fmt(est.partsMid)+'</div></div>';
   h+='<div class="ae-breakdown-item"><div class="label">Shop Supplies (~6%)</div><div class="value">'+fmt(est.shopSupplies)+'</div></div>';
-  h+='<div class="ae-breakdown-item"><div class="label">Tax ('+(est.taxRate*100).toFixed(1)+'% on parts)</div><div class="value">'+fmt(est.taxMid)+'</div></div>';
+  h+='<div class="ae-breakdown-item"><div class="label" title="State sales-tax base rate. County and city add-ons (often +1-2 percentage points) are not applied here, so the actual tax line on your invoice may be higher.">Tax ('+(est.taxRate*100).toFixed(1)+'% on parts, state base only)</div><div class="value">'+fmt(est.taxMid)+'</div></div>';
   if(est.fees>0){
     h+='<div class="ae-breakdown-item" style="grid-column:span 2;"><div class="label">'+est.feeInfo.label+'</div><div class="value">'+fmt(est.fees)+'<div style="font-size:10px;color:#94a3b8;font-weight:400;">'+est.feeInfo.breakdown.join(" + ")+'</div></div></div>';
   }
@@ -1428,7 +1465,7 @@ document.getElementById("estimateBtn").addEventListener("click",function(){
       mh+='<tr class="selected"><td><strong>Subtotal</strong></td><td style="text-align:right">'+fmt(grandLabor)+'</td><td style="text-align:right">'+fmt(grandParts)+'</td><td style="text-align:right">'+fmt(grandFees)+'</td><td style="text-align:right;font-weight:700">'+fmt(grandLabor+grandParts+grandFees)+'</td></tr>';
     }
     mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Shop Supplies (~6% of labor)</td><td style="text-align:right">'+fmt(grandSupplies)+'</td></tr>';
-    mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;">Tax ('+(firstEst.taxRate*100).toFixed(1)+'% on parts)</td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
+    mh+='<tr><td colspan="4" style="text-align:right;color:#64748b;" title="State sales-tax base rate. County and city add-ons (often +1-2 percentage points) are not applied here, so the actual tax line on your invoice may be higher.">Tax ('+(firstEst.taxRate*100).toFixed(1)+'% on parts, state base only)</td><td style="text-align:right">'+fmt(grandTax)+'</td></tr>';
     mh+='<tr class="selected"><td colspan="4" style="text-align:right;font-weight:800;">Total</td><td style="text-align:right;font-weight:800;font-size:17px;">'+fmt(grandTotalMid)+'</td></tr>';
     mh+='</tbody></table></div>';
 
@@ -1646,6 +1683,36 @@ document.getElementById("zipInput").addEventListener("input",function(){
   if(/^\d{5}$/.test(this.value.trim())) lookupZip(this.value.trim());
 });
 
+// Mobile-friendly UX: when a user taps a disabled make/model dropdown
+// (because they haven't selected the prerequisite field yet), briefly
+// highlight the field they need to fill first instead of silently doing
+// nothing. Disabled <select> tap on iOS Safari is a known dead-feel UX.
+(function attachDropdownHints(){
+  function hint(targetEl){
+    if(!targetEl) return;
+    targetEl.scrollIntoView({behavior:"smooth", block:"center"});
+    var prevOutline = targetEl.style.outline;
+    targetEl.style.outline = "2px solid #2563eb";
+    targetEl.style.outlineOffset = "2px";
+    try { targetEl.focus({preventScroll:true}); } catch(e) { try { targetEl.focus(); } catch(e2) {} }
+    setTimeout(function(){ targetEl.style.outline = prevOutline; targetEl.style.outlineOffset = ""; }, 1400);
+  }
+  ["makeInput","modelInput"].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener("mousedown", function(ev){
+      if(!el.disabled) return;
+      ev.preventDefault();
+      hint(document.getElementById(id === "makeInput" ? "yearInput" : "makeInput"));
+    });
+    el.addEventListener("touchstart", function(ev){
+      if(!el.disabled) return;
+      ev.preventDefault();
+      hint(document.getElementById(id === "makeInput" ? "yearInput" : "makeInput"));
+    }, {passive:false});
+  });
+})();
+
 // URL params for estimate path
 var p=new URLSearchParams(window.location.search);
 if(p.get("state")) document.getElementById("stateSelect").value=p.get("state").toUpperCase();
@@ -1670,7 +1737,7 @@ var quoteAppInitialized=false;
 
 var AUTO_REPAIR_PRICING={
   laborRatesByShopType:{dealer:{low:120,mid:150,high:180},independent:{low:80,mid:105,high:130},chain:{low:90,mid:115,high:140}},
-  laborMultiplierByRegion:{south:0.92,southeast:0.95,northeast:1.15,midwest:0.97,mountain:1.02,west:1.20},
+  laborMultiplierByRegion:{south:0.92,southeast:0.95,northeast:1.15,midwest:0.97,mountain:1.02,west:1.20,_national:1.0},
   scopeItems:[
     {key:"partsItemized",label:"Parts itemized separately from labor",weight:15},
     {key:"laborRateStated",label:"Labor rate per hour stated",weight:12},
@@ -1713,7 +1780,11 @@ var US_STATES={
 
 var qState={step:"upload",stateCode:"",shopType:"independent",uploadedFile:null,extractedText:"",result:null};
 
-function getRegionFromState(sc){return STATE_REGIONS[(sc||"").toUpperCase()]||"south";}
+// When state is unknown, fall back to the national-average multiplier (1.0)
+// rather than the "south" region (0.92), which biased rates ~8% low for any
+// quote without an explicit state. The "_national" pseudo-region is defined
+// in laborMultiplierByRegion above.
+function getRegionFromState(sc){return STATE_REGIONS[(sc||"").toUpperCase()]||"_national";}
 function getRegionalLaborRate(shopType,region){
   var rates=AUTO_REPAIR_PRICING.laborRatesByShopType[shopType]||AUTO_REPAIR_PRICING.laborRatesByShopType.independent;
   var mult=AUTO_REPAIR_PRICING.laborMultiplierByRegion[region]||1.0;
@@ -2211,7 +2282,7 @@ function initQuoteApp(){
             <option value="dealer">Dealership</option>\
             <option value="chain">Chain Shop</option>\
           </select>\
-          <input type="text" id="fallbackState" placeholder="State (TX)" maxlength="2" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;width:80px;text-transform:uppercase;" />\
+          <input type="text" id="fallbackState" placeholder="State" maxlength="2" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:10px;font-size:14px;width:80px;text-transform:uppercase;" />\
         </div>\
         <button class="ar-btn-q ar-btn-primary" id="fallbackBtn">Analyze this price</button>\
         <div style="margin-top:14px;"><button class="ar-btn-q ar-btn-secondary" id="fallbackRestart">Start over</button></div>\
@@ -2466,11 +2537,55 @@ function initQuoteApp(){
       '+protectionHtml+'\
       '+scopeHtml+'\
       '+contextHtml+'\
+      <div class="ae-card ae-compare" id="quoteCompareWidget">\
+        <h3 style="margin-bottom:0.5rem;">Compare Your Quotes</h3>\
+        <p style="font-size:13px;color:var(--text-secondary,#64748b);margin:0 0 12px;">Got 2-3 other quotes for the same repair? Enter them here to see how they stack up against this one as the benchmark.</p>\
+        <div class="ae-compare-row"><div style="flex:2;"><label>Shop Name</label><input type="text" id="qcmpName1" placeholder="Shop 1" /></div><div><label>Total Quote</label><input type="number" id="qcmpQuote1" placeholder="$0" /></div></div>\
+        <div class="ae-compare-row"><div style="flex:2;"><label>Shop Name</label><input type="text" id="qcmpName2" placeholder="Shop 2" /></div><div><label>Total Quote</label><input type="number" id="qcmpQuote2" placeholder="$0" /></div></div>\
+        <div class="ae-compare-row"><div style="flex:2;"><label>Shop Name</label><input type="text" id="qcmpName3" placeholder="Shop 3" /></div><div><label>Total Quote</label><input type="number" id="qcmpQuote3" placeholder="$0" /></div></div>\
+        <button class="ae-compare-btn" id="qCompareBtn">Compare</button>\
+        <div class="ae-compare-results" id="qCompareResults"></div>\
+        <p style="margin-top:14px;font-size:13px;color:var(--text-secondary,#64748b);text-align:center;"><a href="/compare-auto-quotes.html" style="color:#2563eb;">Or use the full side-by-side compare tool &rarr;</a></p>\
+      </div>\
       <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1.5rem;">\
         <button class="ar-btn-q ar-btn-primary ar-btn-full" onclick="prefillEstimateFromQuote()">Get a Fresh Estimate for This Repair</button>\
         <a class="ar-btn-q ar-btn-secondary ar-btn-full" href="/repair-check.html" style="text-align:center;">Is This Repair Actually Needed?</a>\
       </div>\
       '+feedbackHtml;
+
+    // Wire the inline compare widget to use THIS quote's price as the
+    // benchmark, so the user can quickly see whether a competing quote is
+    // higher/lower than what their current shop is asking.
+    setTimeout(function(){
+      var cBtn = document.getElementById("qCompareBtn");
+      if (!cBtn) return;
+      cBtn.addEventListener("click", function(){
+        var benchmark = qState.result && qState.result.quoteTotal;
+        if (!(benchmark > 0)) { alert("No benchmark price detected on this quote."); return; }
+        var rows = [];
+        for (var i = 1; i <= 3; i++) {
+          var name = (document.getElementById("qcmpName"+i).value || "").trim();
+          var qv = parseFloat(document.getElementById("qcmpQuote"+i).value);
+          if (!name || isNaN(qv) || qv <= 0) continue;
+          var diff = qv - benchmark;
+          var pct = (diff / benchmark) * 100;
+          var verdict, vclass;
+          if (pct > 15) { verdict = "Higher than this quote"; vclass = "high"; }
+          else if (pct < -15) { verdict = "Better deal"; vclass = "good"; }
+          else { verdict = "Similar"; vclass = "fair"; }
+          rows.push({ name: name, qv: qv, diff: diff, pct: pct, verdict: verdict, vclass: vclass });
+        }
+        if (!rows.length) { alert("Enter at least one shop name and quote."); return; }
+        var h = '<table><thead><tr><th>Shop</th><th>Their Price</th><th>This Quote</th><th>Difference</th><th>Verdict</th></tr></thead><tbody>';
+        rows.forEach(function(r){
+          h += '<tr><td>' + r.name + '</td><td>' + fmt(r.qv) + '</td><td>' + fmt(benchmark) + '</td>';
+          h += '<td style="color:' + (r.diff > 0 ? '#dc2626' : '#16a34a') + ';">' + (r.diff > 0 ? '+' : '') + fmt(r.diff) + ' (' + (r.pct > 0 ? '+' : '') + r.pct.toFixed(0) + '%)</td>';
+          h += '<td><span class="ae-verdict ' + r.vclass + '">' + r.verdict + '</span></td></tr>';
+        });
+        h += '</tbody></table>';
+        document.getElementById("qCompareResults").innerHTML = h;
+      });
+    }, 0);
 
     window.autoRepairStartOver = function(){
       qState={step:"upload",stateCode:"",shopType:"independent",uploadedFile:null,extractedText:"",result:null};
