@@ -464,7 +464,7 @@
             // extracted labor TOTAL (e.g. "Labor: 2.5 hours $325" with no @rate).
             if (extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
             else if (extracted.laborTotal) api.laborTotal = extracted.laborTotal;
-            if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
             if (extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
             api.scopeItems = {};
             extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
@@ -488,7 +488,7 @@
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.laborTotal && extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
           else if (!api.laborTotal && extracted.laborTotal) api.laborTotal = extracted.laborTotal;
-          if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+          if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
           if (!api.warrantyLaborDays && extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
           api.scopeItems = {};
           extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });

@@ -375,7 +375,7 @@
           if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
             var extracted = TP_VerticalScope.extractFields(_engOcrText, "solar");
             if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+            if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
             api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
           }
           return { raw: { data: api }, ocrText: _engOcrText };
@@ -389,7 +389,7 @@
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "solar");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
-          if (!api.warrantyYears && extracted.warranty && extracted.warranty.parts) api.warrantyYears = extracted.warranty.parts;
+          if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
