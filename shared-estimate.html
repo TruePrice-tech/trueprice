@@ -90,10 +90,16 @@
       var state = data.stateCode || "";
       var location = (city && state) ? city + ", " + state : "";
 
-      // Determine verdict style
+      // Determine verdict style. r.verdict can be a string OR an object
+      // ({label, css, emoji}) depending on which estimator produced the
+      // result — the 16 estimate pages all use the object form, so calling
+      // .toLowerCase() directly on r.verdict would throw and leave the
+      // page showing "Estimate not found" even when the API returned 200.
       var verdictClass = "fair";
-      var verdictLabel = r.verdictLabel || r.verdict || "Estimate";
-      var vl = verdictLabel.toLowerCase();
+      var verdictLabel = r.verdictLabel
+        || (r.verdict && (typeof r.verdict === "string" ? r.verdict : r.verdict.label))
+        || "Estimate";
+      var vl = String(verdictLabel).toLowerCase();
       if (vl.indexOf("high") >= 0 || vl.indexOf("over") >= 0) verdictClass = "high";
       else if (vl.indexOf("low") >= 0 || vl.indexOf("below") >= 0) verdictClass = "low";
 
