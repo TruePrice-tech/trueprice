@@ -649,7 +649,33 @@
         var diff = priced[priced.length - 1].data.price - priced[0].data.price;
         var pct = Math.round(diff / priced[0].data.price * 100);
         if (pct > 5) {
-          var ctx = escHtml(priced[priced.length - 1].data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(priced[0].data.name) + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
+          // Frame the spread relative to scope completeness, not just price.
+          // 'X is 61% more than Y' reads like X is overpriced when X may
+          // actually be covering more scope items. When the priciest quote has
+          // materially more scope confirmed than the cheapest, lead with that.
+          var pricey = priced[priced.length - 1];
+          var cheap = priced[0];
+          var scopeDiff = (pricey.score.scopeCount || 0) - (cheap.score.scopeCount || 0);
+          var ctx;
+          if (scopeDiff >= 2) {
+            var missingFromCheap = [];
+            SCOPE_ITEMS.forEach(function(it) {
+              var pv = pricey.data.scopeItems && pricey.data.scopeItems[it.key];
+              var cv = cheap.data.scopeItems && cheap.data.scopeItems[it.key];
+              var inPricey = pv === "included" || pv === "yes" || pv === true;
+              var inCheap = cv === "included" || cv === "yes" || cv === true;
+              if (inPricey && !inCheap) missingFromCheap.push(it.label.toLowerCase());
+            });
+            var shown = missingFromCheap.slice(0, 3).join(", ");
+            var more = missingFromCheap.length > 3 ? ", and others" : "";
+            ctx = escHtml(pricey.data.name) + " covers " + scopeDiff + " more scope items ("
+              + pricey.score.scopeCount + "/" + SCOPE_ITEMS.length + " vs "
+              + cheap.score.scopeCount + "/" + SCOPE_ITEMS.length + ") for $"
+              + diff.toLocaleString() + " more. " + escHtml(cheap.data.name)
+              + " leaves out " + (shown || "items the other includes") + more + ".";
+          } else {
+            ctx = escHtml(pricey.data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(cheap.data.name) + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
+          }
           html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
         }
       }
