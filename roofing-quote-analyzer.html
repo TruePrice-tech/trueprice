@@ -49,6 +49,42 @@
   <link rel="stylesheet" href="/css/analyzer.min.css" />
   <script src="/js/result-footer.min.js" defer></script>
   <script src="/js/pro-tier.min.js?v=20260428b" defer></script>
+  <script src="/js/vertical-detect.min.js"></script>
+  <script src="/js/wrong-vertical-guard.min.js"></script>
+  <script>
+    // Roofing wrong-vertical guard: passive watcher that polls
+    // window.__TP_LAST_OCR_TEXT (set by analyzer-bundle.js after OCR
+    // completes) and triggers the hard-reject screen if a high-confidence
+    // mismatch is detected. Designed to NOT interfere with roofing's
+    // unique flow — only takes action when the guard ACTUALLY rejects;
+    // otherwise the analyzer renders normally as before.
+    (function() {
+      var fired = false;
+      var checks = 0;
+      var maxChecks = 120; // 60 seconds at 500ms cadence
+      function tick() {
+        if (fired || checks >= maxChecks) return;
+        checks++;
+        var t = window.__TP_LAST_OCR_TEXT || "";
+        if (t.length > 50 && typeof window.tpEnforceVerticalMatch === "function") {
+          var appRoot = document.getElementById("appRoot");
+          if (appRoot) {
+            if (window.tpEnforceVerticalMatch("roofing", t, appRoot)) {
+              fired = true;
+              return;
+            }
+          }
+        }
+        setTimeout(tick, 500);
+      }
+      // Start watching once page is interactive
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function() { setTimeout(tick, 1000); });
+      } else {
+        setTimeout(tick, 1000);
+      }
+    })();
+  </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Woogoro Roofing Quote Analyzer","applicationCategory":"UtilitiesApplication","applicationSubCategory":"Quote Analyzer","operatingSystem":"Web Browser","url":"https://woogoro.com/roofing-quote-analyzer.html","description":"Free analyzer for roofing quotes. Upload your quote and check the price, scope, and red flags. No email or signup required.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"}}
 </script>
