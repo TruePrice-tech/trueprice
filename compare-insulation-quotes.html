@@ -223,8 +223,11 @@
     </div>
   </footer>
   <script src="/js/tp-analytics.min.js" async></script>
-  <script src="/js/analyzer-parser.min.js" defer></script>
-  <script src="/js/analyzer-engine.min.js" defer></script>
+  <script src="/js/analyzer-core.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-parser.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-engine.min.js?v=20260429a" defer></script>
+  <script src="/js/vertical-detect.min.js?v=20260429a"></script>
+  <script src="/js/wrong-vertical-guard.min.js?v=20260429a"></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
   <script>
     window._vendorLibsLoaded = false;
@@ -372,6 +375,15 @@
       TP_Engine.analyzeQuote(file, { vertical: "insulation", apiEndpoint: "/api/insulation-estimate" }).then(function(engineResult) {
         var _engOcrText = engineResult.ocrText || "";
         var regexPrice = engineResult.price || 0;
+
+        if (_engOcrText && _engOcrText.length > 50 &&
+            typeof window.tpEnforceVerticalMatch === "function") {
+          var rootEl = document.querySelector(".cmp-card");
+          if (rootEl && window.tpEnforceVerticalMatch("insulation", _engOcrText, rootEl)) {
+            return Promise.reject(new Error("wrong_vertical_reject"));
+          }
+        }
+
         if (regexPrice > 0) {
           var api = { totalPrice: regexPrice, _source: "regex" };
           if (engineResult.contractor) api.contractor = engineResult.contractor;
@@ -430,6 +442,7 @@
         });
         updateBtn();
       }).catch(function(err) {
+        if (err && err.message === "wrong_vertical_reject") return;
         console.error("[compare-insulation] parse error:", err);
         slot.classList.remove("uploading");
         slot.innerHTML =

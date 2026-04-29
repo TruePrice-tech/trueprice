@@ -328,8 +328,11 @@
   <script src="/js/tp-analytics.min.js" async></script>
 
   <!-- Vendor libs loaded on-demand -->
-  <script src="/js/analyzer-parser.min.js" defer></script>
-  <script src="/js/analyzer-engine.min.js" defer></script>
+  <script src="/js/analyzer-core.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-parser.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-engine.min.js?v=20260429a" defer></script>
+  <script src="/js/vertical-detect.min.js?v=20260429a"></script>
+  <script src="/js/wrong-vertical-guard.min.js?v=20260429a"></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
   <script>
     window._vendorLibsLoaded = false;
@@ -483,6 +486,17 @@
     // ── Process a single file ──
     async function processFile(file) {
       var engineResult = await TP_Engine.analyzeQuote(file, { vertical: "legal", apiEndpoint: "/api/legal-fee-estimate" });
+      var _engOcrText = engineResult.ocrText || "";
+
+      // Wrong-vertical hard-reject before any analysis renders.
+      if (_engOcrText && _engOcrText.length > 50 &&
+          typeof window.tpEnforceVerticalMatch === "function") {
+        var rootEl = document.querySelector(".cmp-card");
+        if (rootEl && window.tpEnforceVerticalMatch("legal", _engOcrText, rootEl)) {
+          throw new Error("wrong_vertical_reject");
+        }
+      }
+
       var regexPrice = engineResult.price || 0;
 
       // Regex found price: skip API call
@@ -602,6 +616,7 @@
 
         updateCompareBtn();
       } catch (err) {
+        if (err && err.message === "wrong_vertical_reject") return;
         console.error("[compare-legal] Parse error:", err);
         slot.classList.remove("uploading");
         slot.innerHTML =
