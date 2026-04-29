@@ -2782,13 +2782,30 @@ function detectLocation(text) {
     "Contract",
     "Invoice",
     "Receipt",
-    "Authorized"
+    "Authorized",
+    "Submitted",
+    "Sealed",
+    "Notified",
+    "Listed",
+    "Approved",
+    "Reviewed",
+    "Effective",
+    "Determined",
+    "Subject",
+    "Based",
+    "Pursuant",
+    "Owner",
+    "Buyer",
+    "Seller",
+    "Contractor",
+    "Title",
+    "Section"
   ]);
 
   function cleanCity(value) {
     let city = String(value || "")
       .replace(/^[,\s]+|[,\s]+$/g, "")
-      .replace(/\b(customer|homeowner|property|address|claim|date|roof|material|office|proposal|estimate|page|scope|project|location|description|qty|quantity|unit|price|subtotal|payment|account|routing|information)\b/gi, "")
+      .replace(/\b(customer|homeowner|property|address|claim|date|roof|material|office|proposal|estimate|page|scope|project|location|description|qty|quantity|unit|price|subtotal|payment|account|routing|information|submitted|authorized|sealed|notified|listed|approved|reviewed|effective|determined|subject|pursuant|owner|buyer|seller|contractor)\b/gi, "")
       .replace(/[,\s]+/g, " ")
       .trim();
 
