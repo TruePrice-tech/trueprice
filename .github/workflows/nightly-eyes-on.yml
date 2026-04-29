@@ -88,8 +88,8 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           node <<'EOF'
-          const fs = require('fs');
-          const path = require('path');
+          import fs from 'node:fs';
+          import path from 'node:path';
           if (!process.env.RESEND_API_KEY) {
             console.error('RESEND_API_KEY not set -- skipping email');
             process.exit(0);
