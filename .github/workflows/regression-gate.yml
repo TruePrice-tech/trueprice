@@ -1,0 +1,169 @@
+name: Regression Gate (3-paths + uniqueness)
+
+# Runs on every push to main + PRs. Two layers of regression coverage that
+# the existing seo-gate.yml does NOT cover:
+#
+#   1) 3-PATHS-PER-VERTICAL SMOKE: pro-tier-walk.js loads 40 pages (20
+#      analyzers + 20 compares) against the live site, asserts pro-tier.js
+#      loaded, /api/pro-status responded, body class is correct, no
+#      console errors. Catches the class of bug that bit us 2026-04-29
+#      where compare pages worked yesterday and broke today.
+#
+#   2) UNIQUENESS AUDIT: audit-uniqueness-google.js scores every vertical's
+#      city pages on the 4 dimensions Google's Helpful Content System
+#      actually measures. Fails the build if any vertical lands in the
+#      THIN (<50) tier — Lane's flagships dropped from ~90 to ~55 over
+#      normal operations because nothing checked. This stops that.
+#
+# Lives outside Vercel cron; runs on GitHub Actions free tier (~3 min/run
+# x ~30 pushes/wk = 360 min/mo, well under 2000 min/mo budget).
+#
+# Together with seo-gate.yml (per-page SEO contracts), nightly-eyes-on.yml
+# (visual review), and weekly-site-audits.yml (5 audit scripts) this gives
+# four independent regression tripwires per Lane's 2026-04-29 strategy.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      skip_smoke:
+        description: 'Skip the smoke walk (use when site is known down for maintenance)'
+        required: false
+        default: 'false'
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      # ---- Smoke walk: 40 paths, free-state only (no PRO_DEV_GRANT_TOKEN needed) ----
+      - name: 3-paths smoke walk
+        id: smoke
+        if: github.event.inputs.skip_smoke != 'true'
+        continue-on-error: true
+        env:
+          PRO_WALK_BASE_URL: https://woogoro.com
+        run: |
+          # Wait a bit for Vercel to deploy this commit before walking.
+          # On push events the deploy is usually live within 60-90s.
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "Waiting 90s for Vercel deploy to propagate..."
+            sleep 90
+          fi
+          node scripts/pro-tier-walk.js 2>&1 | tee /tmp/smoke.log
+          # Parse "X/Y verticals passed."
+          PASSED=$(grep -oE '[0-9]+/[0-9]+ verticals passed' /tmp/smoke.log | head -1 | grep -oE '^[0-9]+' || echo 0)
+          TOTAL=$(grep -oE '[0-9]+/[0-9]+ verticals passed' /tmp/smoke.log | head -1 | sed 's|.*/||' | grep -oE '^[0-9]+' || echo 0)
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+
+      - name: Upload smoke screenshots
+        if: always() && github.event.inputs.skip_smoke != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-walk-${{ github.run_id }}
+          path: output/pro-tier-walk/
+          retention-days: 14
+          if-no-files-found: warn
+
+      # ---- Uniqueness audit: per-vertical composite scores ----
+      - name: Uniqueness audit
+        id: uniqueness
+        continue-on-error: true
+        run: |
+          node scripts/audit-uniqueness-google.js 2>&1 | tee /tmp/uniqueness.log
+          # The audit prints rows like:
+          #   "  Roof  | 47 | ... | 87% | GOOD"
+          # Count THIN and RISK tiers.
+          THIN_COUNT=$(grep -cE '\| (THIN|RISK)\b' /tmp/uniqueness.log || true)
+          # Also capture the worst score for the digest.
+          WORST=$(grep -oE '[0-9]+%' /tmp/uniqueness.log | grep -oE '[0-9]+' | sort -n | head -1 || echo 100)
+          echo "thin_count=$THIN_COUNT" >> $GITHUB_OUTPUT
+          echo "worst=$WORST" >> $GITHUB_OUTPUT
+
+      # ---- Email digest on any failure ----
+      - name: Email digest if anything failed
+        if: always()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SMOKE_PASSED: ${{ steps.smoke.outputs.passed }}
+          SMOKE_TOTAL: ${{ steps.smoke.outputs.total }}
+          UNIQ_THIN: ${{ steps.uniqueness.outputs.thin_count }}
+          UNIQ_WORST: ${{ steps.uniqueness.outputs.worst }}
+        run: |
+          node <<'EOF'
+          import fs from 'node:fs';
+          if (!process.env.RESEND_API_KEY) { console.log('no RESEND_API_KEY -- skip email'); process.exit(0); }
+          const smokePassed = parseInt(process.env.SMOKE_PASSED || '0', 10);
+          const smokeTotal = parseInt(process.env.SMOKE_TOTAL || '0', 10);
+          const uniqThin = parseInt(process.env.UNIQ_THIN || '0', 10);
+          const uniqWorst = parseInt(process.env.UNIQ_WORST || '100', 10);
+          const smokeFailed = smokeTotal > 0 && smokePassed < smokeTotal;
+          const uniqFailed = uniqThin > 0;
+          if (!smokeFailed && !uniqFailed) { console.log('all clean -- skip email'); process.exit(0); }
+          const today = new Date().toISOString().substring(0, 10);
+          let smokeLog = '', uniqLog = '';
+          try { smokeLog = fs.readFileSync('/tmp/smoke.log', 'utf8').slice(-8000); } catch {}
+          try { uniqLog = fs.readFileSync('/tmp/uniqueness.log', 'utf8').slice(-8000); } catch {}
+          const subj = `[Woogoro] Regression gate FAILED on ${today} (smoke ${smokePassed}/${smokeTotal}, ${uniqThin} verticals THIN/RISK)`;
+          const r = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              from: 'Woogoro Regression Gate <noreply@woogoro.com>',
+              to: ['hello@woogoro.com'],
+              subject: subj,
+              html: `<div style="font-family:sans-serif;max-width:900px;padding:20px;">
+                <h2>Regression gate &mdash; ${today}</h2>
+                <p>Trigger: ${process.env.GITHUB_EVENT_NAME}. Commit: ${process.env.GITHUB_SHA?.substring(0,7)}.</p>
+                <p><strong>Smoke walk:</strong> ${smokePassed}/${smokeTotal} verticals passed.</p>
+                <p><strong>Uniqueness:</strong> ${uniqThin} vertical(s) in THIN/RISK tier (worst score: ${uniqWorst}%).</p>
+                <h3>Smoke log (tail)</h3>
+                <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(smokeLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+                <h3>Uniqueness log (tail)</h3>
+                <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(uniqLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+                <p>Workflow: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}</p>
+              </div>`,
+            }),
+          });
+          if (!r.ok) { console.error('Resend error:', r.status, await r.text()); process.exit(1); }
+          console.log('Regression gate digest emailed.');
+          EOF
+
+      # ---- Phone alert on smoke failure (uses same ntfy topic as eyes-on) ----
+      - name: ntfy alert on smoke failure
+        if: steps.smoke.outputs.passed != steps.smoke.outputs.total && steps.smoke.outputs.total != ''
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          if [ -z "$NTFY_TOPIC" ]; then echo "no NTFY_TOPIC -- skip"; exit 0; fi
+          curl -s -d "Regression gate FAILED: smoke walk ${{ steps.smoke.outputs.passed }}/${{ steps.smoke.outputs.total }} on commit ${GITHUB_SHA:0:7}" \
+            -H "Title: Woogoro regression gate" \
+            -H "Priority: high" \
+            -H "Tags: warning" \
+            "https://ntfy.sh/$NTFY_TOPIC"
+
+      # ---- Fail the build on smoke or uniqueness regression ----
+      - name: Fail build on smoke regression
+        if: steps.smoke.outputs.passed != steps.smoke.outputs.total && steps.smoke.outputs.total != ''
+        run: |
+          echo "::error::Smoke walk failed: ${{ steps.smoke.outputs.passed }}/${{ steps.smoke.outputs.total }} verticals passed. See artifact + email."
+          exit 1
+
+      - name: Fail build on uniqueness regression
+        if: steps.uniqueness.outputs.thin_count != '0' && steps.uniqueness.outputs.thin_count != ''
+        run: |
+          echo "::error::Uniqueness audit found ${{ steps.uniqueness.outputs.thin_count }} vertical(s) in THIN/RISK tier (worst: ${{ steps.uniqueness.outputs.worst }}%). Hand-write or revert."
+          exit 1

@@ -8,6 +8,9 @@
  * Idempotent via FLAGSHIP-PLUMBING-CONTENT markers.
  */
 
+// Wrong-overwrite guard: silently no-ops writes to files marked HANDWRITTEN-PROTECTED.
+require("./_handwritten-guard.js");
+
 const fs = require("fs");
 const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
