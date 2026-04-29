@@ -24,13 +24,13 @@
 <style>
 .ar-wrap{max-width:820px;margin:0 auto;padding:32px 16px;}
 .ar-hero{text-align:center;margin-bottom:28px;}
-.ar-hero img{margin-bottom:10px;}
+.ar-hero img{margin-bottom:10px;max-height:240px;width:auto;height:auto;}
 .ar-hero h1{font-size:30px;margin-bottom:6px;}
 .ar-hero p{color:var(--text-secondary,#64748b);font-size:16px;}
 
 /* Report header (Iris-branded, shown on screen + print) */
 .tp-report-header{display:flex;align-items:center;gap:18px;padding:22px 24px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:16px;color:#fff;margin-bottom:18px;box-shadow:0 4px 14px rgba(29,78,216,0.18);}
-.tp-report-header img{background:#fff;border-radius:50%;padding:6px;flex-shrink:0;}
+.tp-report-header img{background:#fff;border-radius:50%;padding:6px;flex-shrink:0;width:64px;height:64px;object-fit:contain;}
 .tp-report-header .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.9;font-weight:700;}
 .tp-report-header .title{font-size:22px;font-weight:800;margin:2px 0;}
 .tp-report-header .sub{font-size:13px;opacity:0.92;}
@@ -1889,7 +1889,7 @@ function initQuoteApp(){
   function renderUploading(){
     appRoot.innerHTML='\
       <div style="text-align:center;padding:40px 24px;">\
-        <picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="margin-bottom:16px;"  width="800" height="800"/></picture>\
+        <picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" class="iris-bounce" style="margin-bottom:16px; max-height:200px; width:auto; height:auto;"  width="800" height="800"/></picture>\
         <h2 style="font-size:22px;margin-bottom:8px;">Analyzing your repair quote...</h2>\
         <p style="color:#64748b;margin-bottom:24px;">Don\'t sign until Iris checks it</p>\
         <div style="height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-bottom:12px;">\
@@ -2531,7 +2531,7 @@ function initQuoteApp(){
     // Assemble
     appRoot.innerHTML=insuranceBanner+'\
       <div class="ar-verdict-card '+verdictCss+'">\
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Auto%20worker.png" alt="Rex the Auto Repair Woogoro" style="height:64px; width:64px; object-fit:contain;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Auto Repair Verdict</div></div>\
         <div class="verdict-label">'+r.verdict.label+'</div>\
         <div class="verdict-price">'+priceDisplay+'</div>\
         <div class="verdict-range">'+rangeText+'</div>\
