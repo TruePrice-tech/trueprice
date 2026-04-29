@@ -1939,11 +1939,15 @@ function initQuoteApp(){
         }
         var _arCurS = _arCur ? _arCur.score : 0;
         if (_arNonCur && _arNonCur.score >= 3 && _arCurS < 2 && _arNonCur.score >= _arCurS * 3) {
+          // Body article + lowercased label, with acronym preservation.
+          var _arDetectedLabel = _arNonCur.label || "";
+          var _arBodyArticle = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_arDetectedLabel) || /^[aeiou]/i.test(_arDetectedLabel)) ? "an" : "a";
+          var _arBodyLabel = _arDetectedLabel.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
           appRoot.innerHTML = '\
             <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not an Auto Repair quote</h1></div>\
             <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
               <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
-              <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like a <strong>' + _arNonCur.label + '</strong> quote.</p>\
+              <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _arBodyArticle + ' <strong>' + _arBodyLabel + '</strong> quote.</p>\
               <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as an auto repair quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
               <a href="' + _arNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _arNonCur.label + ' instead</a>\
               <a href="javascript:void(0)" id="arHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
