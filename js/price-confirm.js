@@ -38,12 +38,34 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
   if (_vertAliases[_curVert]) _curVert = _vertAliases[_curVert];
   var verticalWarning = "";
   var _deflectTarget = null;
+  var _hardReject = null; // set when mismatch is so obvious we refuse to proceed
   // Suppress deflection warning after user has explicitly dismissed it once this session.
   // Set by the "Continue here anyway" handler below — we then re-render in manual-entry
   // mode so the user types the price for the *current* vertical instead of inheriting
   // the OCR-extracted total from the wrong-vertical quote.
   var _suppressVertWarn = (typeof window !== "undefined") && window.__TP_SUPPRESS_VERTICAL_WARN;
-  if (!_suppressVertWarn && _ocrText && _curVert && typeof detectVerticalFromText === "function") {
+  // HARD REJECT: skip the suppress-warn check. Even after a soft dismissal,
+  // a clearly-wrong-vertical document should never produce a confident verdict.
+  if (_ocrText && _curVert && typeof detectVerticalFromText === "function") {
+    var detectedHR = detectVerticalFromText(_ocrText);
+    var allScoresHR = (detectedHR && detectedHR.all) || [];
+    var nonCurTopHR = null, curEntryHR = null;
+    for (var _ihr = 0; _ihr < allScoresHR.length; _ihr++) {
+      if (!nonCurTopHR && allScoresHR[_ihr].vertical !== _curVert) nonCurTopHR = allScoresHR[_ihr];
+      if (!curEntryHR && allScoresHR[_ihr].vertical === _curVert) curEntryHR = allScoresHR[_ihr];
+    }
+    var curScoreHR = curEntryHR ? curEntryHR.score : 0;
+    // HARD REJECT criteria (must hit ALL):
+    //   - other vertical has >= 5 keyword hits (very confident)
+    //   - other vertical scores >= 5x current vertical
+    //   - current vertical has < 2 hits (basically nothing matches the page's domain)
+    // This catches obvious cases (roofing quote uploaded to plumbing) while
+    // sparing legit multi-trade quotes (kitchen remodel with plumbing line items).
+    if (nonCurTopHR && nonCurTopHR.score >= 5 && curScoreHR < 2 && nonCurTopHR.score >= curScoreHR * 5) {
+      _hardReject = nonCurTopHR;
+    }
+  }
+  if (!_suppressVertWarn && !_hardReject && _ocrText && _curVert && typeof detectVerticalFromText === "function") {
     var detected = detectVerticalFromText(_ocrText);
     var allScores = (detected && detected.all) || [];
     var nonCurTop = null, curEntry = null;
@@ -56,9 +78,6 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
     //   (a) winner is a different vertical with >=3 hits  (original rule)
     //   (b) current vertical is weak (<3) but another vertical hits >=3
     //   (c) another vertical scores >=2x current's score (and >=3 absolute)
-    // (b) + (c) catch comparison-table fixtures (e.g. roofing+gutter contracts)
-    // where the side line item lets the current vertical "win" even though the
-    // document is dominated by the other service.
     if (nonCurTop && nonCurTop.score >= 3) {
       var winnerNotCurrent = (detected.vertical && detected.vertical !== _curVert);
       var currentWeak = (curScore < 3);
@@ -76,6 +95,27 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
           <span style="margin-left:12px;font-size:13px;color:#92400e;cursor:pointer;text-decoration:underline;" id="tpIgnoreVertical">Continue here anyway</span>\
         </div>';
     }
+  }
+
+  // HARD REJECT screen: shown when the document is clearly the wrong vertical.
+  // No price displayed, no "Continue here anyway" escape hatch, no manual entry.
+  // Only paths forward: go to the correct analyzer, or upload a different file.
+  // Trust requirement (Lane 2026-04-29): never produce a confident analysis from
+  // a quote that is plainly for a different service.
+  if (_hardReject) {
+    appRoot.innerHTML = '\
+      <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;color:#991b1b;">This is not a ' + (typeof _curVert === "string" ? (_curVert.charAt(0).toUpperCase() + _curVert.slice(1)) : "matching") + ' quote</h1></div>\
+      <div class="' + cardClass + '" style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+        <img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" width="120" height="120" style="margin-bottom:12px;" />\
+        <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like a <strong>' + _hardReject.label + '</strong> quote.</p>\
+        <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a ' + _curVert + ' quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+        <a href="' + _hardReject.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _hardReject.label + ' instead</a>\
+        <a href="javascript:void(0)" id="tpHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+        <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _hardReject.score + ' ' + _hardReject.label + ' keywords vs ' + (curEntryHR ? curEntryHR.score : 0) + ' ' + _curVert + ' keywords</p>\
+      </div>';
+    var startOver = document.getElementById("tpHardRejectStartOver");
+    if (startOver) startOver.addEventListener("click", function() { window.location.reload(); });
+    return;
   }
 
   if (price && price > 0) {
