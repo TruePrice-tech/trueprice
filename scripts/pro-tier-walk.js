@@ -82,6 +82,27 @@ const VERTICALS = [
   { slug: "cmp_auto",        url: "/compare-auto-quotes.html",        hasSample: false, isCompare: true },
   { slug: "cmp_medical",     url: "/compare-medical-quotes.html",     hasSample: false, isCompare: true },
   { slug: "cmp_legal",       url: "/compare-legal-quotes.html",       hasSample: false, isCompare: true },
+  // Estimate pages (20). Smoke check: page loads, form is present, no JS errors.
+  { slug: "est_roofing",     url: "/roofing-quote-analyzer.html?mode=estimator", hasSample: false, isEstimate: true },
+  { slug: "est_hvac",        url: "/hvac-estimate.html",        hasSample: false, isEstimate: true },
+  { slug: "est_plumbing",    url: "/plumbing-estimate.html",    hasSample: false, isEstimate: true },
+  { slug: "est_electrical",  url: "/electrical-estimate.html",  hasSample: false, isEstimate: true },
+  { slug: "est_windows",     url: "/window-estimate.html",      hasSample: false, isEstimate: true },
+  { slug: "est_siding",      url: "/siding-estimate.html",      hasSample: false, isEstimate: true },
+  { slug: "est_insulation",  url: "/insulation-estimate.html",  hasSample: false, isEstimate: true },
+  { slug: "est_painting",    url: "/painting-estimate.html",    hasSample: false, isEstimate: true },
+  { slug: "est_fencing",     url: "/fencing-estimate.html",     hasSample: false, isEstimate: true },
+  { slug: "est_concrete",    url: "/concrete-estimate.html",    hasSample: false, isEstimate: true },
+  { slug: "est_landscaping", url: "/landscaping-estimate.html", hasSample: false, isEstimate: true },
+  { slug: "est_garage_door", url: "/garage-door-estimate.html", hasSample: false, isEstimate: true },
+  { slug: "est_solar",       url: "/solar-estimate.html",       hasSample: false, isEstimate: true },
+  { slug: "est_foundation",  url: "/foundation-estimate.html",  hasSample: false, isEstimate: true },
+  { slug: "est_kitchen",     url: "/kitchen-estimate.html",     hasSample: false, isEstimate: true },
+  { slug: "est_gutters",     url: "/gutters-estimate.html",     hasSample: false, isEstimate: true },
+  { slug: "est_moving",      url: "/moving-estimate.html",      hasSample: false, isEstimate: true },
+  { slug: "est_auto",        url: "/auto-estimate.html",        hasSample: false, isEstimate: true },
+  { slug: "est_medical",     url: "/medical-estimate.html",     hasSample: false, isEstimate: true },
+  { slug: "est_legal",       url: "/legal-estimate.html",       hasSample: false, isEstimate: true },
 ];
 
 function arg(name, fallback) {
