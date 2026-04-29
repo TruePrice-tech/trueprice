@@ -29,7 +29,7 @@ function detectVerticalFromText(text) {
       label: "HVAC"
     },
     auto: {
-      patterns: /\b(brake pad|rotor|transmission|alternator|oil change|spark plug|timing belt|engine repair|muffler|exhaust|catalytic|strut|cv axle|mechanic|auto repair|tire replace|wheel bearing)\b/gi,
+      patterns: /\b(brake pad|brake caliper|brake disc|brake rotor|rotor|transmission|alternator|oil change|spark plug|timing belt|serpentine belt|engine repair|muffler|exhaust|catalytic|strut|cv axle|mechanic|auto repair|tire replace|wheel bearing|wheel hub|hub assembly|control arm|ball joint|tie rod|sway bar|suspension|coil spring|leaf spring|power steering|master cylinder|slave cylinder|automotive|vehicle inspection|vin\b|chevrolet|chevy silverado|chevy equinox|equinox|ford f-150|toyota camry|honda civic|honda accord|nissan altima|nissan sentra|jeep cherokee|jeep wrangler|hyundai elantra|hyundai sonata|kia optima|subaru|volkswagen|audi a4|bmw 3 series|silverado|tacoma|tundra|mustang|corvette|altima|sentra|jetta|f150|f-150)\b/gi,
       url: "/auto-repair.html?path=quote",
       label: "Auto Repair"
     },
