@@ -410,12 +410,33 @@
       window._vendorLibsLoaded = true;
       return Promise.all([
         new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"; s.onload = r; document.head.appendChild(s); }),
-        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); })
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"; s.onload = r; document.head.appendChild(s); }),
+        // Tesseract: needed for client-side OCR on image uploads so the
+        // wrong-vertical guard can fire BEFORE we send to the API.
+        // Without this, a roofing quote uploaded as JPEG goes straight
+        // to /api/medical-bill-estimate and Claude Vision over-interprets
+        // it as a medical bill (deep walk 2026-04-29).
+        new Promise(function(r) { var s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"; s.onload = r; s.onerror = r; document.head.appendChild(s); })
       ]).then(function() {
         if (window.pdfjsLib) {
           pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
         }
       });
+    };
+
+    // Inline tesseract OCR helper (mirrors analyzer-bundle.js's pattern).
+    // Called only when extractTextFromImage isn't available globally.
+    window._mbExtractImageOcr = async function(file) {
+      if (typeof Tesseract === "undefined") return "";
+      try {
+        var url = URL.createObjectURL(file);
+        var res = await Tesseract.recognize(url, "eng");
+        URL.revokeObjectURL(url);
+        return (res && res.data && res.data.text) || "";
+      } catch (e) {
+        console.warn("medical inline OCR failed:", e && e.message);
+        return "";
+      }
     };
   </script>
 
@@ -610,7 +631,14 @@
           // uploads BEFORE spending an API call. Falls through with empty
           // text on failure — guard is best-effort, not a blocker.
           await window.loadVendorLibs();
-          try { localOcrText = await extractImageText(file); } catch (e) { localOcrText = ""; }
+          try {
+            localOcrText = await extractImageText(file);
+          } catch (e) { localOcrText = ""; }
+          // Fallback: if extractImageText returned empty (window.extractTextFromImage
+          // not available), use the inline tesseract helper.
+          if (!localOcrText && typeof window._mbExtractImageOcr === "function") {
+            localOcrText = await window._mbExtractImageOcr(file);
+          }
           var dataUrl = await fileToBase64(file);
           payload.images = [dataUrl];
         }
