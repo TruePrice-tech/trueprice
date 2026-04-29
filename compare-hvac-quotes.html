@@ -226,9 +226,12 @@
     </div>
   </footer>
   <script src="/js/tp-analytics.min.js" async></script>
-  <script src="/js/analyzer-parser.min.js" defer></script>
-  <script src="/js/analyzer-engine.min.js" defer></script>
-  <script src="/js/vertical-scope-all.min.js" defer></script>
+  <script src="/js/analyzer-core.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-parser.min.js?v=20260429a" defer></script>
+  <script src="/js/analyzer-engine.min.js?v=20260429a" defer></script>
+  <script src="/js/vertical-scope-all.min.js?v=20260429a" defer></script>
+  <script src="/js/vertical-detect.min.js?v=20260429a"></script>
+  <script src="/js/wrong-vertical-guard.min.js?v=20260429a"></script>
   <script>
     window._vendorLibsLoaded = false;
     window._vendorLibsPromise = null;
@@ -410,6 +413,16 @@
         var _engOcrText = engineResult.ocrText || "";
         var regexPrice = engineResult.price || 0;
 
+        // Wrong-vertical hard-reject: replace the upload UI with the reject
+        // screen if the file is clearly NOT an HVAC quote.
+        if (_engOcrText && _engOcrText.length > 50 &&
+            typeof window.tpEnforceVerticalMatch === "function") {
+          var rootEl = document.querySelector(".cmp-card");
+          if (rootEl && window.tpEnforceVerticalMatch("hvac", _engOcrText, rootEl)) {
+            return Promise.reject(new Error("wrong_vertical_reject"));
+          }
+        }
+
         // Regex found a price: skip API call (save cost), build result from regex + scope
         if (regexPrice > 0) {
           var api = { totalPrice: regexPrice, _source: "regex" };
@@ -496,6 +509,7 @@
         });
         updateBtn();
       }).catch(function(err) {
+        if (err && err.message === "wrong_vertical_reject") return;
         console.error("[compare-hvac] parse error:", err);
         // Fallback: try client-side parser even if API completely failed
         var fallbackPrice = 0;
