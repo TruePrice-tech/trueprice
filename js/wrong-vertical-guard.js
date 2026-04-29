@@ -47,6 +47,10 @@
   var VERTICAL_NOUN = {
     medical: "Medical bill",
     legal: "Attorney quote",
+    auto: "Auto repair quote",
+    auto_repair: "Auto repair quote",
+    "garage-door": "Garage door quote",
+    garage_door: "Garage door quote",
   };
 
   function nounFor(vertical) {
