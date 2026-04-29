@@ -170,6 +170,8 @@
   </style>
   <script src="/js/result-footer.min.js" defer></script>
   <script src="/js/pro-tier.min.js?v=20260428b" defer></script>
+  <script src="/js/vertical-detect.min.js"></script>
+  <script src="/js/wrong-vertical-guard.min.js"></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Woogoro Medical Bill Quote Analyzer","applicationCategory":"UtilitiesApplication","applicationSubCategory":"Quote Analyzer","operatingSystem":"Web Browser","url":"https://woogoro.com/medical-bill-analyzer.html","description":"Free analyzer for medical bill quotes. Upload your quote and check the price, scope, and red flags. No email or signup required.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Woogoro","url":"https://woogoro.com"}}
 </script>
@@ -597,14 +599,30 @@
         var payload = { _client: "medical-bill-analyzer" };
         var name = (file.name || "").toLowerCase();
 
+        var localOcrText = "";
         if (name.endsWith(".pdf") || (file.type && file.type.indexOf("pdf") >= 0)) {
           // PDF: extract text locally with pdfjs, send as text.
           await window.loadVendorLibs();
           payload.text = await extractPdfText(file);
+          localOcrText = payload.text || "";
         } else {
-          // Image: send as base64; API runs OCR.space / Claude vision as needed.
+          // Image: OCR locally first so we can guard against wrong-vertical
+          // uploads BEFORE spending an API call. Falls through with empty
+          // text on failure — guard is best-effort, not a blocker.
+          await window.loadVendorLibs();
+          try { localOcrText = await extractImageText(file); } catch (e) { localOcrText = ""; }
           var dataUrl = await fileToBase64(file);
           payload.images = [dataUrl];
+        }
+
+        // HARD REJECT before API call: if OCR text is clearly the wrong
+        // vertical (e.g. a roofing quote uploaded to the medical analyzer),
+        // refuse with a per-vertical screen. Trust requirement Lane 2026-04-29.
+        if (localOcrText && typeof window.tpEnforceVerticalMatch === "function") {
+          var __mbAppRoot = document.getElementById("appRoot") || document.querySelector("main") || document.body;
+          if (window.tpEnforceVerticalMatch("medical", localOcrText, __mbAppRoot)) {
+            return;
+          }
         }
 
         setProgress(45, "Checking against benchmark rates...");
