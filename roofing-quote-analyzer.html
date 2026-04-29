@@ -112,7 +112,22 @@
   </header>
 
   <main id="main" class="analyzer-wrap" style="caret-color: transparent;">
-    <div class="tp-pdf-noprint" style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span><a href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a><a href="/compare-roofing-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>
+    <div id="tpRoofingSubnav" class="tp-pdf-noprint" style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;"><span id="tpRoofingSubnavLabel" style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span><a id="tpRoofingSubnavOther" href="/roofing-quote-analyzer.html?mode=estimator" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a><a href="/compare-roofing-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a></div>
+    <script>
+      // Sub-nav copy is mode-aware: estimator vs analyzer use the same HTML
+      // page so we re-label the badge + cross-link based on ?mode=estimator.
+      (function () {
+        if (/[?&]mode=estimator\b/.test(location.search)) {
+          var label = document.getElementById("tpRoofingSubnavLabel");
+          var other = document.getElementById("tpRoofingSubnavOther");
+          if (label) label.textContent = "You are getting a free estimate.";
+          if (other) {
+            other.textContent = "Have a quote? Analyze →";
+            other.href = "/roofing-quote-analyzer.html";
+          }
+        }
+      })();
+    </script>
     <div style="text-align:center; margin:24px auto -8px; max-width:720px;">
       <picture><source srcset="/images/Worker%20Woogoro/Roofer%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Roofer%20worker.png" alt="Shingle the Roofing Woogoro" style="max-height:220px; width:auto; height:auto;" width="800" height="800"/></picture>
     </div>
