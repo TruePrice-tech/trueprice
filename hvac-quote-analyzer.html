@@ -918,6 +918,22 @@
         var brand = (typeof detectHvacBrand === "function") ? detectHvacBrand(text) : null;
         var scopeSignals = (typeof detectHvacScopeSignals === "function") ? detectHvacScopeSignals(text) : {};
 
+        // Warranty extraction via TP_VerticalScope (same source compare uses).
+        // Without this, analyze said "No Warranty Information Detected" while
+        // compare correctly extracted "1 yr" from the same fixture, because
+        // analyze relied solely on api.warrantyParts/Labor from the API
+        // result, which the regex-only path doesn't populate.
+        var _warrantyParts = null, _warrantyLabor = null;
+        try {
+          if (typeof TP_VerticalScope !== "undefined" && text) {
+            var _scopeFields = TP_VerticalScope.extractFields(text, "hvac");
+            if (_scopeFields && _scopeFields.warranty) {
+              _warrantyParts = _scopeFields.warranty.parts || null;
+              _warrantyLabor = _scopeFields.warranty.labor || null;
+            }
+          }
+        } catch (e) { /* silent — warranty enrichment is best-effort */ }
+
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
         if (location && location.stateCode && !state.address.stateCode) {
@@ -991,6 +1007,8 @@
           brand: brand,
           brandNote: brandNote,
           scopeSignals: scopeSignals,
+          warrantyParts: _warrantyParts,
+          warrantyLabor: _warrantyLabor,
           region: region,
           location: location,
           parsed: parsed
@@ -1050,6 +1068,21 @@
     function buildResultFromAPI(api) {
       var region = getRegionFromState(api.stateCode || state.address.stateCode || "TX");
       if (api.stateCode) state.address.stateCode = api.stateCode;
+
+      // Enrich warranty fields from TP_VerticalScope if API didn't supply them
+      // (keeps analyze + compare warranty detection consistent on fixtures
+      // like the coil-quote where the parts-warranty line is plain text in
+      // a sub-bullet, not a structured field).
+      try {
+        if ((!api.warrantyParts || !api.warrantyLabor) &&
+            typeof TP_VerticalScope !== "undefined" && api.ocrText) {
+          var _sf = TP_VerticalScope.extractFields(api.ocrText, "hvac");
+          if (_sf && _sf.warranty) {
+            if (!api.warrantyParts && _sf.warranty.parts) api.warrantyParts = _sf.warranty.parts;
+            if (!api.warrantyLabor && _sf.warranty.labor) api.warrantyLabor = _sf.warranty.labor;
+          }
+        }
+      } catch (e) { /* silent */ }
 
       var lineItems = (api.lineItems || []).map(function(item) {
         return {
