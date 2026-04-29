@@ -1647,6 +1647,43 @@
 
         var text = engineResult.ocrText || "";
         state.extractedText = text;
+        // Set the global IMMEDIATELY after OCR so any downstream rendering
+        // (renderPriceConfirmation, fallback paths, error paths) has the
+        // text available for hard-reject detection. The line below at
+        // ~1730 also sets it, but that runs AFTER all the parsing logic
+        // and many paths can short-circuit before reaching it. Setting
+        // here makes the wrong-vertical guard work no matter which exit
+        // path the analyzer takes.
+        try { window.__TP_LAST_OCR_TEXT = text; } catch (e) {}
+
+        // HARD REJECT immediately if the OCR text is clearly the wrong
+        // vertical. This bypasses moving's downstream parsing entirely
+        // when we know the document is for a different service.
+        if (text && typeof window.detectVerticalFromText === "function") {
+          var _movDet = window.detectVerticalFromText(text);
+          var _movAll = (_movDet && _movDet.all) || [];
+          var _movNonCur = null, _movCur = null;
+          for (var _movI = 0; _movI < _movAll.length; _movI++) {
+            if (!_movNonCur && _movAll[_movI].vertical !== "moving") _movNonCur = _movAll[_movI];
+            if (!_movCur && _movAll[_movI].vertical === "moving") _movCur = _movAll[_movI];
+          }
+          var _movCurS = _movCur ? _movCur.score : 0;
+          if (_movNonCur && _movNonCur.score >= 3 && _movCurS < 2 && _movNonCur.score >= _movCurS * 3) {
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Moving quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like a <strong>' + _movNonCur.label + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a moving quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _movNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _movNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="mvHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _movNonCur.score + ' ' + _movNonCur.label + ' keywords vs ' + _movCurS + ' moving keywords</p>\
+              </div>';
+            var _movSO = document.getElementById("mvHardRejectStartOver");
+            if (_movSO) _movSO.addEventListener("click", function(){ window.location.reload(); });
+            return;
+          }
+        }
 
         setProgress(70, "Building analysis...");
 
