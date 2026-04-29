@@ -615,9 +615,15 @@
     // result, after the existing result content. Pro users get nothing here
     // because their Pro sections appear in the printable report.
     if (cachedStatus && cachedStatus.isPro) return;
+    // GLOBAL idempotency check: if a Pro upsell exists ANYWHERE on the
+    // page, skip. The earlier per-container check was insufficient on
+    // compare pages where the observer could choose different parents
+    // (resultsStep vs resultsContent) on successive mutations and end up
+    // injecting into both. Verified 2026-04-29 deep-walk: hvac compare
+    // result page rendered TWO stacked Pro REPORT cards.
+    if (document.querySelector(".tp-pro-inline-cta")) return;
     var output = findResultContainer();
     if (!output) return;
-    if (output.querySelector(".tp-pro-inline-cta")) return;
 
     var div = document.createElement("div");
     div.className = "tp-pro-inline-cta tp-pdf-noprint";

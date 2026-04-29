@@ -104,15 +104,29 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
   // Trust requirement (Lane 2026-04-29): never produce a confident analysis from
   // a quote that is plainly for a different service.
   if (_hardReject) {
+    // Title-case multi-word verticals (garage-door -> Garage Door) and use
+    // proper article (a/an) for vowel-onset nouns. Per-vertical noun phrase
+    // overrides "X quote" to match the actual product (medical = bill,
+    // legal = attorney quote). Fixes copy findings #9, #13, #14 from human
+    // audit 2026-04-29.
+    var _hrTitleCase = function (s) {
+      return String(s || "").replace(/[-_]+/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    };
+    var _hrNouns = { medical: "Medical bill", legal: "Attorney quote" };
+    var _hrNoun = _hrNouns[_curVert] || (_hrTitleCase(_curVert) + " quote");
+    var _hrNounLc = _hrNoun.toLowerCase();
+    var _hrArticle = /^[aeiou]/i.test(_hrNoun) ? "an" : "a";
+    var _hrDetectedNoun = _hrNouns[_hardReject.vertical] || (_hrTitleCase(_hardReject.label) + " quote");
+    var _hrDetectedArticle = /^[aeiou]/i.test(_hrDetectedNoun) ? "an" : "a";
     appRoot.innerHTML = '\
-      <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;color:#991b1b;">This is not a ' + (typeof _curVert === "string" ? (_curVert.charAt(0).toUpperCase() + _curVert.slice(1)) : "matching") + ' quote</h1></div>\
+      <div class="' + heroClass + '" style="padding:24px 16px;"><h1 style="font-size:22px;color:#991b1b;">This is not ' + _hrArticle + ' ' + _hrNoun + '</h1></div>\
       <div class="' + cardClass + '" style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
         <img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" width="120" height="120" style="margin-bottom:12px;" />\
-        <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like a <strong>' + _hardReject.label + '</strong> quote.</p>\
-        <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a ' + _curVert + ' quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+        <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _hrDetectedArticle + ' <strong>' + _hrDetectedNoun.toLowerCase() + '</strong>.</p>\
+        <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as ' + _hrArticle + ' ' + _hrNounLc + ' anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
         <a href="' + _hardReject.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _hardReject.label + ' instead</a>\
         <a href="javascript:void(0)" id="tpHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
-        <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _hardReject.score + ' ' + _hardReject.label + ' keywords vs ' + (curEntryHR ? curEntryHR.score : 0) + ' ' + _curVert + ' keywords</p>\
+        <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _hardReject.score + ' ' + _hardReject.label + ' keywords vs ' + (curEntryHR ? curEntryHR.score : 0) + ' ' + _hrTitleCase(_curVert) + ' keywords</p>\
       </div>';
     var startOver = document.getElementById("tpHardRejectStartOver");
     if (startOver) startOver.addEventListener("click", function() { window.location.reload(); });
