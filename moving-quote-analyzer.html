@@ -1707,6 +1707,12 @@
 
         setProgress(90, "Almost done...");
         var _extractedTotal = result ? result.quoteTotal : 0;
+        // Set OCR text on the global BEFORE renderPriceConfirmation so the
+        // shared price-confirm hard-reject can detect wrong-vertical uploads.
+        // Moving sets the global later in the flow (line ~2195) — too late
+        // for the price-confirm step, which is why moving accepted a roofing
+        // fixture and produced a fake $16,766 verdict (deep walk 2026-04-29).
+        try { window.__TP_LAST_OCR_TEXT = state.extractedText || ""; } catch(e) {}
         renderPriceConfirmation(appRoot, _extractedTotal, "mv", function(confirmedPrice) {
           if (result && confirmedPrice !== _extractedTotal) {
             result.quoteTotal = confirmedPrice;
