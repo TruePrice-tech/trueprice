@@ -159,10 +159,15 @@
     // result-footer.js runs.
     var emailCaptureEnabled = (window.WOOGORO_EMAIL_CAPTURE !== false);
 
+    // Preserve all-caps acronym labels (HVAC) — plain .toLowerCase() turns
+    // "HVAC" into "hvac" in body copy, which reads as a typo.
+    var _labelForBody = (label && label.length >= 2 && label === label.toUpperCase())
+      ? label
+      : String(label || "").toLowerCase();
     var emailCaptureHtml = emailCaptureEnabled
       ? (''
         + '  <div class="tp-em" data-em-vertical="' + slug + '">'
-        + '    <div class="tp-em-title">Get notified if ' + label.toLowerCase() + ' prices change in <span class="tp-em-location-label">your area</span></div>'
+        + '    <div class="tp-em-title">Get notified if ' + _labelForBody + ' prices change in <span class="tp-em-location-label">your area</span></div>'
         + '    <p class="tp-em-sub">A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe.</p>'
         + '    <div class="tp-em-form">'
         + '      <div class="tp-em-row">'
@@ -193,7 +198,7 @@
     var receiptCtaHtml = receiptScanPublic
       ? (''
         + '  <a class="tp-rs" href="/beta/submit-receipt.html?vertical=' + encodeURIComponent(receiptVerticalSlug) + '" data-rs-vertical="' + slug + '">'
-        + '    <div class="tp-rs-title">Already paid? Scan your ' + label.toLowerCase() + ' receipt</div>'
+        + '    <div class="tp-rs-title">Already paid? Scan your ' + _labelForBody + ' receipt</div>'
         + '    <p class="tp-rs-sub">Mint a tiered Receipt Woogoro + your collectible vertical Woogoro. Sharpens the numbers in your area for everyone. Sign-in required (free).</p>'
         + '    <span class="tp-rs-cta">Scan a receipt &rarr;</span>'
         + '  </a>')

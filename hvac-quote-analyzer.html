@@ -1403,7 +1403,13 @@
         if (r.isServiceJob) {
           var _jt = (r.jobType || "service").toLowerCase();
           var _jtLabel = _jt === "repair" ? "Repair" : _jt === "maintenance" ? "Maintenance" : "Service";
-          rangeText = _jtLabel + " quote &mdash; install benchmarks don't apply. Typical " + _jtLabel.toLowerCase() + " calls run $150&ndash;$1,500 depending on parts and labor.";
+          // Service/repair pricing varies by component, so the previous flat
+          // $150-$1,500 cap was too narrow — major component replacements
+          // (evaporator coil, compressor, condenser fan motor) routinely run
+          // $1,500-$3,500 plus refrigerant. Widened range so a $3,810 coil
+          // job no longer reads as "way over typical."
+          rangeText = _jtLabel + " quote &mdash; install benchmarks don't apply. " +
+            _jtLabel + " pricing varies by component: refrigerant recharge ($150&ndash;$600), capacitor ($200&ndash;$400), evaporator coil ($1,500&ndash;$3,500), compressor ($2,000&ndash;$3,500). Verify the specific work before signing.";
         } else if (r.isLowConfidence) {
           rangeText = "We couldn't extract enough HVAC details (system type, SEER, tonnage) to benchmark this quote. The price was detected but we can't compare it to install averages without more context. Verify the document is a single HVAC quote (not a comparison table or general bill).";
         } else {
@@ -1461,9 +1467,12 @@
       }
       detailsHtml += '</div>';
 
-      // Scope checklist (upload only)
+      // Scope checklist (upload only). Service/repair quotes don't get the
+      // install-scope review — items like "Equipment (condenser + air handler)"
+      // and "Manual J load calculation" are install-quote concerns and produce
+      // false positives + irrelevant nudges on a coil/recharge/repair quote.
       var scopeHtml = "";
-      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0 && !r.isServiceJob) {
         scopeHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="hvac-scope">';
         HVAC_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
@@ -1593,8 +1602,12 @@
       }
 
       // ── Brand Cost-of-Ownership Comparison ──
+      // Skip on service/repair quotes — TCO comparison of premium vs value
+      // brand tiers is meaningful only when the user is choosing a NEW system,
+      // not when they're getting a coil replaced or refrigerant added to an
+      // existing one.
       var brandCompHtml = "";
-      if (r.systemType && r.systemType !== "geothermal") {
+      if (r.systemType && r.systemType !== "geothermal" && !r.isServiceJob) {
         var detectedTonnage = r.tonnage || 3;
         var detectedSeer = r.seer || 16;
         var detectedBrand = String(r.brand || "").toLowerCase();
@@ -1799,32 +1812,49 @@
         contextHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
-      // Next Steps tips
+      // Next Steps tips. Service/repair quotes get service-specific tips
+      // instead of install-focused ones (Manual J, thermostat upgrades,
+      // permits etc. don't apply to a coil replacement or recharge).
       var tipsHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      tipsHtml += '<li>Ask for a Manual J load calculation to verify proper system sizing</li>';
-      tipsHtml += '<li>Confirm warranty covers both parts AND labor (many only cover parts)</li>';
-      tipsHtml += '<li>Ask if the quote includes a new thermostat and if it\'s smart/programmable</li>';
-      tipsHtml += '<li>Check if permits and inspections are included in the price</li>';
-      if (r.verdict.css === "high") {
-        tipsHtml += '<li>Get 2-3 additional quotes from local contractors, not just national chains</li>';
-        tipsHtml += '<li>Ask about rebates: many utilities offer $300-1,500 for high-efficiency upgrades</li>';
-      }
-      if (r.verdict.css === "low") {
-        tipsHtml += '<li>Verify the brand and model are specified, not just "equivalent"</li>';
-        tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+      if (r.isServiceJob) {
+        tipsHtml += '<li>Ask for the specific part number and brand of any replacement component (e.g., evaporator coil model + manufacturer)</li>';
+        tipsHtml += '<li>Confirm whether the part comes with a manufacturer warranty and how long the labor warranty on the repair lasts</li>';
+        tipsHtml += '<li>Verify the refrigerant type matches your existing system (R-22 means used/grey-market, R-410A is current, R-454B/R-32 are newer)</li>';
+        tipsHtml += '<li>Ask the technician to diagnose the underlying cause &mdash; a leak refilled without finding the source will repeat</li>';
+        tipsHtml += '<li>Get a written quote before authorizing work; on bigger repairs ($1,500+), get a second opinion</li>';
+        tipsHtml += '<li>Check that diagnostic fees are credited toward the repair if you proceed</li>';
+      } else {
+        tipsHtml += '<li>Ask for a Manual J load calculation to verify proper system sizing</li>';
+        tipsHtml += '<li>Confirm warranty covers both parts AND labor (many only cover parts)</li>';
+        tipsHtml += '<li>Ask if the quote includes a new thermostat and if it\'s smart/programmable</li>';
+        tipsHtml += '<li>Check if permits and inspections are included in the price</li>';
+        if (r.verdict.css === "high") {
+          tipsHtml += '<li>Get 2-3 additional quotes from local contractors, not just national chains</li>';
+          tipsHtml += '<li>Ask about rebates: many utilities offer $300-1,500 for high-efficiency upgrades</li>';
+        }
+        if (r.verdict.css === "low") {
+          tipsHtml += '<li>Verify the brand and model are specified, not just "equivalent"</li>';
+          tipsHtml += '<li>Confirm labor warranty duration (industry standard is 1-2 years minimum)</li>';
+        }
       }
       tipsHtml += '</ul></div>';
 
-      // Rebate/savings tips
-      var rebateHtml = '<div class="hvac-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
-      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
-      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      rebateHtml += '<li>Federal 25C heat pump credit EXPIRED Dec 31, 2025 - no longer available for 2026 installs</li>';
-      rebateHtml += '<li>Geothermal 25D: 30% of cost with no cap, still active through 2034</li>';
-      rebateHtml += '<li>State/utility rebates: IRA HEAR up to $8,000 (income-qualified), plus state programs via <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
-      rebateHtml += '<li>Utility rebates: check with your local utility for efficiency upgrade incentives</li>';
-      rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';
-      rebateHtml += '</ul></div>';
+      // Rebate/savings tips. The federal 25C / 25D / IRA HEAR rebates apply
+      // to new installs and major efficiency upgrades, NOT to repairs. Skip
+      // entirely on service/repair quotes to avoid misleading the user into
+      // thinking they qualify.
+      var rebateHtml = "";
+      if (!r.isServiceJob) {
+        rebateHtml = '<div class="hvac-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+        rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
+        rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+        rebateHtml += '<li>Federal 25C heat pump credit EXPIRED Dec 31, 2025 - no longer available for 2026 installs</li>';
+        rebateHtml += '<li>Geothermal 25D: 30% of cost with no cap, still active through 2034</li>';
+        rebateHtml += '<li>State/utility rebates: IRA HEAR up to $8,000 (income-qualified), plus state programs via <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
+        rebateHtml += '<li>Utility rebates: check with your local utility for efficiency upgrade incentives</li>';
+        rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';
+        rebateHtml += '</ul></div>';
+      }
 
       appRoot.innerHTML = '\
         <div class="hvac-hero">\
