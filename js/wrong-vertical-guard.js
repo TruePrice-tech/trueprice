@@ -51,6 +51,7 @@
     auto_repair: "Auto repair quote",
     "garage-door": "Garage door quote",
     garage_door: "Garage door quote",
+    hvac: "HVAC quote",
   };
 
   function nounFor(vertical) {
@@ -59,12 +60,11 @@
   }
 
   function articleFor(noun) {
-    // Use "an" before vowel-sound onsets. Conservative — covers all 20
-    // verticals correctly: an Auto, an Electrical, an Insulation,
-    // an Attorney; a Roofing, a Plumbing, a Solar, a Medical, a Garage,
-    // a Concrete, a Fencing, a Foundation, a Gutters, a HVAC (silent H
-    // here is debatable but written form treats it as "a HVAC").
-    var first = (noun || "").charAt(0).toLowerCase();
+    // Acronyms read as letters with a vowel-sound onset (HVAC = "aitch-vac")
+    // need "an" even though the first letter is a consonant.
+    var s = String(noun || "");
+    if (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(s)) return "an";
+    var first = s.charAt(0).toLowerCase();
     return /[aeiou]/.test(first) ? "an" : "a";
   }
 
@@ -107,8 +107,15 @@
     var rootEl = appRootEl || document.getElementById("appRoot") || document.body;
     if (!rootEl) return false;
 
-    var verticalNoun = nounFor(currentVertical);              // "Medical bill" / "Roofing quote" / "Garage Door quote"
-    var verticalNounLc = verticalNoun.toLowerCase();          // for body copy
+    function smartLower(s) {
+      // Lowercase for body copy but preserve all-caps acronym tokens
+      // ("HVAC quote" → "HVAC quote", "Roofing quote" → "roofing quote").
+      return String(s || "").split(/\s+/).map(function (w) {
+        return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase();
+      }).join(" ");
+    }
+    var verticalNoun = nounFor(currentVertical);              // "Medical bill" / "Roofing quote" / "HVAC quote"
+    var verticalNounLc = smartLower(verticalNoun);            // for body copy, preserves HVAC caps
     var article = articleFor(verticalNoun);                   // "a" / "an"
     var detectedNoun = nounFor(nonCurTop.vertical || nonCurTop.label.toLowerCase());
     var detectedArticle = articleFor(detectedNoun);
@@ -118,7 +125,7 @@
       '</div>' +
       '<div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">' +
       '<picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>' +
-      '<p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + detectedArticle + ' <strong>' + escapeHtml(detectedNoun.toLowerCase()) + '</strong>.</p>' +
+      '<p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + detectedArticle + ' <strong>' + escapeHtml(smartLower(detectedNoun)) + '</strong>.</p>' +
       '<p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as ' + article + ' ' + escapeHtml(verticalNounLc) + ' anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>' +
       '<a href="' + escapeHtml(nonCurTop.url) + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + escapeHtml(nonCurTop.label) + ' instead</a>' +
       '<a href="javascript:void(0)" id="tpWvgStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>' +
