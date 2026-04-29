@@ -24,7 +24,15 @@ function detectVerticalFromText(text) {
       label: "Plumbing"
     },
     hvac: {
-      patterns: /\b(hvac|furnace|heat pump|air condition|seer|tonnage|duct|compressor|condenser|mini.?split|thermostat|a\/c|cooling|heating system|air handler|blower|refrigerant)\b/gi,
+      // Added 2026-04-29 (HVAC-specific terms found in coil-quote fixture):
+      //   evaporator/evaporate, 410a/r-410a/r-22/r-454b/r-32, nitrogen test, filter drier.
+      // Without these, an HVAC coil quote uploaded to a non-HVAC analyzer
+      // (e.g. garage door) scored only 1 HVAC keyword (refrigerant) — below
+      // the >=3 wrong-vertical reject threshold, so the analyzer silently
+      // accepted a $3,810 HVAC quote as a garage door quote. BLOCKER for
+      // billable paths. Each new term is HVAC-specific (no plausible match
+      // in roofing/auto/plumbing/kitchen/garage-door/etc.).
+      patterns: /\b(hvac|furnace|heat pump|air condition|seer|tonnage|duct|compressor|condenser|mini.?split|thermostat|a\/c|cooling|heating system|air handler|blower|refrigerant|evaporat(?:e|or)|r-?410a|410a|r-?22|r-?454b|r-?32|nitrogen test|filter drier)\b/gi,
       url: "/hvac-quote-analyzer.html?path=quote",
       label: "HVAC"
     },
