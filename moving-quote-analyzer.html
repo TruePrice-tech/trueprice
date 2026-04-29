@@ -140,6 +140,10 @@
     .mv-path-btn:hover { background:#fffbeb; border-color:#fcd34d; color:#b45309; }
     .mv-path-btn.active { background:#d97706; color:#fff; border-color:#d97706; box-shadow:0 0 0 4px rgba(217,119,6,0.2); }
     .mv-path-btn.dimmed { background:#f8fafc; color:#94a3b8; border-color:#e2e8f0; opacity:0.6; }
+    .mv-path-compare { background:#f8fafc; color:#475569; border:2px solid #e2e8f0; text-decoration:none; display:block; padding:22px 16px; border-radius:14px; text-align:center; flex:1; transition:all .2s; font-family:inherit; }
+    .mv-path-compare:hover { background:#fffbeb; border-color:#fcd34d; color:#b45309; }
+    .mv-path-compare h3 { margin:0 0 6px; font-size:17px; }
+    .mv-path-compare p { margin:0; font-size:13px; }
     @media (max-width:600px) {
       .mv-paths { gap:10px; }
       .mv-path-btn { padding:16px 10px; }
@@ -1067,6 +1071,10 @@
             <h3>&#128196; I Have a Quote</h3>\
             <p>Upload, snap, or paste your mover\'s quote</p>\
           </div>\
+          <a class="mv-path-compare" href="/compare-moving-quotes.html">\
+            <h3>&#9878; Compare 2-3 Quotes</h3>\
+            <p>Side by side: rate, scope, valuation, fees</p>\
+          </a>\
         </div>\
         <div id="estimatePath" class="mv-hidden" style="animation:mvFadeSlideIn 0.3s ease-out;">\
           <div class="mv-card">\
