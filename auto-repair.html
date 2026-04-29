@@ -94,6 +94,8 @@
 .ar-path-quote:hover{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;}
 .ar-path-quote.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;box-shadow:0 0 0 4px rgba(29,78,216,0.2);}
 .ar-path-quote.dimmed{background:#f8fafc;color:#94a3b8;border-color:#e2e8f0;opacity:0.6;}
+.ar-path-compare{background:#f8fafc;color:#475569;border:2px solid #e2e8f0;text-decoration:none;display:block;}
+.ar-path-compare:hover{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;}
 
 /* Shared form styles */
 .ae-form{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
@@ -278,7 +280,7 @@
 <p>Whether you're shopping around or checking a quote you already have.</p>
 </div>
 
-<!-- Two-path split -->
+<!-- Three-path split -->
 <div class="ar-paths">
 <div class="ar-path-btn ar-path-estimate" id="pathEstimateBtn" onclick="switchPath('estimate')">
 <h3>&#128270; I Need an Estimate</h3>
@@ -288,6 +290,10 @@
 <h3>&#128196; I Have a Quote</h3>
 <p>Upload your mechanic quote for AI analysis</p>
 </div>
+<a class="ar-path-btn ar-path-compare" href="/compare-auto-quotes.html">
+<h3>&#9878; Compare 2-3 Quotes</h3>
+<p>Side by side: price, parts, labor, warranty</p>
+</a>
 </div>
 
 <!-- ==================== ESTIMATE PATH ==================== -->
