@@ -152,6 +152,15 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing quote data" });
     }
 
+    // Kill-switch for the post-result quote-capture form (source: user_submitted_actual).
+    // Set WOOGORO_QUOTE_CAPTURE_ENABLED=false in Vercel env to disable just that
+    // entry point without blocking analyzer auto-POSTs, compare uploads, scrapes,
+    // or admin seeds. Returns ok:true so the frontend doesn't show an error —
+    // the user's submission is silently dropped.
+    if (body.source === "user_submitted_actual" && process.env.WOOGORO_QUOTE_CAPTURE_ENABLED === "false") {
+      return res.status(200).json({ ok: true, accepted: false, reason: "Feature temporarily disabled" });
+    }
+
     // Admin mode: bypass rate limiting, set high trust for verified seed data
     // TODO: Set CAL_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars)
     const adminKey = process.env.CAL_ADMIN_KEY;
@@ -223,6 +232,20 @@ export default async function handler(req, res) {
       partsType: body.partsType || null,
       sourceUrl: body.sourceUrl || null  // for scraped data — link back to origin
     };
+
+    // Per-vertical telemetry for the post-result quote-capture form.
+    // submits = every user_submitted_actual that passed shape/price/dup checks.
+    // accepts = subset that scored high enough to feed cal:* (computed below).
+    // Daily buckets with 90-day TTL keep Redis lean. Best-effort.
+    if (quote.source === "user_submitted_actual") {
+      try {
+        const day = new Date().toISOString().substring(0, 10);
+        const svcKey = (body.service || "roofing").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+        const sKey = `tp:qc:submits:${svcKey}:${day}`;
+        const c = await redis.incr(sKey);
+        if (c === 1) await redis.expire(sKey, 90 * 24 * 60 * 60);
+      } catch (e) { /* telemetry is best-effort */ }
+    }
 
     // Compute trust score
     let score, reasons, weight;
@@ -320,6 +343,17 @@ export default async function handler(req, res) {
 
       if (!_calIsTest) {
         try { await redis.incr("tp:total_quotes"); } catch (err) { /* counter is best-effort */ }
+      }
+
+      // Per-vertical accept counter (paired with submits counter above).
+      if (quote.source === "user_submitted_actual") {
+        try {
+          const day = new Date().toISOString().substring(0, 10);
+          const svcKey = (service || "roofing").toLowerCase().replace(/[^a-z0-9_-]/g, "_");
+          const aKey = `tp:qc:accepted:${svcKey}:${day}`;
+          const c = await redis.incr(aKey);
+          if (c === 1) await redis.expire(aKey, 90 * 24 * 60 * 60);
+        } catch (e) { /* telemetry is best-effort */ }
       }
     }
 
