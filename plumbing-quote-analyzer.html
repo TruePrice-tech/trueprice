@@ -812,7 +812,7 @@
       // HARD REJECT: don't proceed when this is clearly a different vertical's quote.
       // Trust requirement (Lane 2026-04-29): never produce a confident verdict from
       // a document plainly for a different service. Threshold matches js/price-confirm.js:
-      //   other-vertical >= 5 keyword hits AND >= 5x current AND current < 2.
+      //   other-vertical >= 3 keyword hits AND >= 3x current AND current < 2.
       var _ocr = (typeof window !== "undefined" && window.__TP_LAST_OCR_TEXT) || "";
       if (_ocr && typeof detectVerticalFromText === "function") {
         var _det = detectVerticalFromText(_ocr);
@@ -823,7 +823,7 @@
           if (!_cur && _all[_ii].vertical === "plumbing") _cur = _all[_ii];
         }
         var _curS = _cur ? _cur.score : 0;
-        if (_nonCur && _nonCur.score >= 5 && _curS < 2 && _nonCur.score >= _curS * 5) {
+        if (_nonCur && _nonCur.score >= 3 && _curS < 2 && _nonCur.score >= _curS * 3) {
           appRoot.innerHTML = '\
             <div class="plumb-hero" style="padding:24px 16px;"><h1 style="color:#991b1b;">This is not a Plumbing quote</h1></div>\
             <div class="plumb-card" style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\

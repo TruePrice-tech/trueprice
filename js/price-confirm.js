@@ -56,12 +56,13 @@ function renderPriceConfirmation(appRoot, price, cssPrefix, onConfirm, ocrText, 
     }
     var curScoreHR = curEntryHR ? curEntryHR.score : 0;
     // HARD REJECT criteria (must hit ALL):
-    //   - other vertical has >= 5 keyword hits (very confident)
-    //   - other vertical scores >= 5x current vertical
+    //   - other vertical has >= 3 keyword hits (confident enough)
+    //   - other vertical scores >= 3x current vertical
     //   - current vertical has < 2 hits (basically nothing matches the page's domain)
-    // This catches obvious cases (roofing quote uploaded to plumbing) while
-    // sparing legit multi-trade quotes (kitchen remodel with plumbing line items).
-    if (nonCurTopHR && nonCurTopHR.score >= 5 && curScoreHR < 2 && nonCurTopHR.score >= curScoreHR * 5) {
+    // This catches obvious cases (roofing quote uploaded to plumbing scored 4
+    // for roofing in real testing 2026-04-29) while sparing legit multi-trade
+    // quotes (kitchen remodel with plumbing line items has 2+ plumbing hits).
+    if (nonCurTopHR && nonCurTopHR.score >= 3 && curScoreHR < 2 && nonCurTopHR.score >= curScoreHR * 3) {
       _hardReject = nonCurTopHR;
     }
   }
