@@ -4597,7 +4597,7 @@ function buildComparisonWinnerHtml(summary) {
         `;
       }
 
-      function renderRoofSizeAccuracyPrompt(a) {
+      function renderRoofSizeAccuracyPrompt(a, opts) {
         if (!a) return "";
         const src = String(a.roofSizeSource || "").toLowerCase();
         const needsBetterSize = src === "price_based_estimate" || src === "unavailable" || src === "";
@@ -4606,6 +4606,9 @@ function buildComparisonWinnerHtml(summary) {
         if (a.roofSize && Number(a.roofSize) > 0 && src !== "price_based_estimate") return "";
         // Hard-block scenarios always show — dismiss flag only suppresses the soft yellow prompt
         // (when verdict is rendered alongside it).
+        // hardBlock=true → hide "No thanks" since dismissing leaves the user
+        // with no path to a verdict (the hard-block header still asks for size).
+        const hardBlock = !!(opts && opts.hardBlock);
 
         return `
           <div id="roofAccuracyPrompt" style="padding:20px; background:#fffbeb; border:1px solid #fcd34d; border-radius:12px; margin-bottom:16px;">
@@ -4623,7 +4626,7 @@ function buildComparisonWinnerHtml(summary) {
             </div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
               <button class="btn" onclick="submitAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">Re-check my quote</button>
-              <button class="btn secondary" onclick="dismissAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">No thanks</button>
+              ${hardBlock ? "" : '<button class="btn secondary" onclick="dismissAccuracyPrompt()" style="font-size:14px; padding:10px 18px;">No thanks</button>'}
             </div>
           </div>
         `;
@@ -9449,7 +9452,7 @@ function buildComparisonWinnerHtml(summary) {
                 </div>
                 ${_priceLine}
               </div>
-              ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }))}
+              ${renderRoofSizeAccuracyPrompt(Object.assign({}, a, { roofSizeSource: "price_based_estimate" }), { hardBlock: true })}
               ${sideBySideBtn}
               ${renderRedFlags(latestExtractedText)}
               ${renderBeforeYouSign(a)}
