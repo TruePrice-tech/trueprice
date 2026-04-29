@@ -232,6 +232,8 @@
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/analyzer-engine.min.js" defer></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
+  <script src="/js/vertical-detect.min.js"></script>
+  <script src="/js/wrong-vertical-guard.min.js"></script>
   <script>
     window._vendorLibsLoaded = false;
     window._vendorLibsPromise = null;
@@ -493,6 +495,18 @@
         var _engOcrText = engineResult.ocrText || "";
         var regexPrice = engineResult.price || 0;
 
+        // Wrong-vertical hard-reject. If any uploaded file is clearly NOT
+        // a roofing quote, replace the whole compare UI with the reject
+        // screen — the rest of the comparison would be confidently wrong.
+        if (_engOcrText && _engOcrText.length > 50 &&
+            typeof window.tpEnforceVerticalMatch === "function") {
+          var rootEl = document.querySelector(".cmp-card");
+          if (rootEl && window.tpEnforceVerticalMatch("roofing", _engOcrText, rootEl)) {
+            // Reject screen rendered. Don't continue this file's processing.
+            return Promise.reject(new Error("wrong_vertical_reject"));
+          }
+        }
+
         if (regexPrice > 0) {
           var api = { totalPrice: regexPrice, _source: "regex" };
           if (engineResult.contractor) api.contractor = engineResult.contractor;
@@ -603,6 +617,9 @@
         });
         updateBtn();
       }).catch(function(err) {
+        // Wrong-vertical reject already rendered the rejection screen;
+        // bail out cleanly without trying the parser fallback.
+        if (err && err.message === "wrong_vertical_reject") return;
         console.error("[compare-roofing] parse error:", err);
         // Fallback: try client-side parser even if API completely failed
         var fallbackPrice = 0;

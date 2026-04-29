@@ -408,10 +408,23 @@
             var _hasDollarPrefix = new RegExp("\\$\\s*" + _yearStr + "\\b").test(result.ocrText);
             if (!_hasDollarPrefix) _yearCheck = true;
           }
+          // Quality check: when the OCR is so degraded that no clean "$X"
+          // pattern survives, the parser will still produce a number by
+          // collapsing OCR-confused letters (O→0, I/l→1, etc.) into digit
+          // sequences. That number is fabricated, not extracted, and was the
+          // source of bogus low totals like $811 on heavily-corrupted scans.
+          // If neither a clean dollar marker nor a "total"-class label was
+          // recovered, refuse to set the price — let downstream UX prompt
+          // the user to type the total manually instead of confidently
+          // showing a wrong number.
+          var _hasCleanDollarNumber = /\$\s*\d{2,}/.test(result.ocrText);
+          var _hasTotalLabelWithDigits = /(?:total|grand total|amount due|contract price|estimate total|project total)[^\n]*\d{3,}/i.test(result.ocrText);
           if (_kwhCheck) {
             console.warn("[TP_Engine] Filtered kWh value from price: " + regexPrice);
           } else if (_yearCheck) {
             console.warn("[TP_Engine] Filtered model-year value from price: " + regexPrice);
+          } else if (!_hasCleanDollarNumber && !_hasTotalLabelWithDigits) {
+            console.warn("[TP_Engine] Refusing fabricated price (no clean $ or total-label found in OCR): " + regexPrice);
           } else {
             result.price = regexPrice;
             result.source = "regex";

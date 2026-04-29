@@ -878,8 +878,12 @@ function detectMaterial(text) {
   const materialLineMatch = repairedSource.match(materialLineRegex);
   const materialLine = materialLineMatch ? materialLineMatch[1].toLowerCase() : "";
 
-  // Check if metal is the actual primary install material
-  const metalIsPrimary = /\binstall\b[^.]*\bmetal\b|\bmetal\s+panel|\bstanding\s+seam\b|\bmetal\s+roof\s+install/i.test(normalized);
+  // Check if metal is the actual primary install material.
+  // Requires metal to be IMMEDIATELY followed by roof/roofing/panel/system/
+  // shingle — otherwise "Install New Edge Metal Trim" (i.e. drip edge made
+  // of metal on a shingle roof) trips the previous loose pattern and metal
+  // wins over architectural.
+  const metalIsPrimary = /\bmetal\s+(?:roof|roofing|panel|system|shingle)\b|\bstanding\s+seam\b|\bmechanically\s+seamed\b/i.test(normalized);
 
   // Check if shingle-related terms are present
   const hasShingleSignals = /\bshingles?\b|\barchitectural\b|\b3[- ]tab\b|\basphalt\b|\bcertainteed\w*\b|\bgaf\b|\btimberline\b|\bowens\s*corning\b/i.test(normalized);
