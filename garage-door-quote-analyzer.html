@@ -858,6 +858,45 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Runs BEFORE renderPriceConfirmation
+        // because the shared price-confirm helper short-circuits to onConfirm
+        // when price > 0 and confidence is "high" — bypassing the inner
+        // wrong-vertical check entirely. Caught 2026-04-29 when an HVAC
+        // coil-quote ($3,810) was silently accepted by the GD analyzer.
+        // Threshold matches site-wide convention: other-vertical >=3 keyword
+        // hits AND >=3x current AND current <2.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _gdDetected = detectVerticalFromText(text);
+          var _gdAll = (_gdDetected && _gdDetected.all) || [];
+          var _gdNonCur = null, _gdCur = null;
+          for (var _gi = 0; _gi < _gdAll.length; _gi++) {
+            var _ge = _gdAll[_gi];
+            if (!_gdNonCur && _ge.vertical !== "garage-door" && _ge.vertical !== "garage_door") _gdNonCur = _ge;
+            if (!_gdCur && (_ge.vertical === "garage-door" || _ge.vertical === "garage_door")) _gdCur = _ge;
+          }
+          var _gdCurS = _gdCur ? _gdCur.score : 0;
+          if (_gdNonCur && _gdNonCur.score >= 3 && _gdCurS < 2 && _gdNonCur.score >= _gdCurS * 3) {
+            // Body article (acronym-aware) + lowercased label (preserves all-caps tokens like HVAC).
+            var _gdLbl = _gdNonCur.label || "";
+            var _gdArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_gdLbl) || /^[aeiou]/i.test(_gdLbl)) ? "an" : "a";
+            var _gdLblLc = _gdLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Garage Door quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _gdArt + ' <strong>' + _gdLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a garage door quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _gdNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _gdNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="gdHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _gdNonCur.score + ' ' + _gdNonCur.label + ' keywords vs ' + _gdCurS + ' garage door keywords</p>\
+              </div>';
+            var _gdSO = document.getElementById("gdHardRejectStartOver");
+            if (_gdSO) _gdSO.addEventListener("click", function(){ window.location.reload(); });
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "gd", function(confirmedPrice) {
 
 
