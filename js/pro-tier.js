@@ -595,11 +595,13 @@
   // #analysisOutput; older flows use .estimator-result.
   function findResultContainer() {
     var candidates = [
-      document.getElementById("analysisOutput"),
-      document.getElementById("resultContainer"),
+      document.getElementById("analysisOutput"),    // some analyzers
+      document.getElementById("resultContainer"),   // roofing analyzer
+      document.getElementById("resultsContent"),    // all 20 compare pages
       document.querySelector(".estimator-result"),
       document.querySelector(".analyzer-result"),
       document.querySelector(".result-container"),
+      document.querySelector(".cmp-results"),       // compare-pages wrapper fallback
     ];
     for (var i = 0; i < candidates.length; i++) {
       var c = candidates[i];

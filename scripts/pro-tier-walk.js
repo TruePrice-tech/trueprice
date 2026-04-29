@@ -59,6 +59,29 @@ const VERTICALS = [
   { slug: "auto_repair",  url: "/auto-repair.html",                 hasSample: false },
   { slug: "medical",      url: "/medical-bill-analyzer.html",       hasSample: false },
   { slug: "legal",        url: "/legal-fee-analyzer.html",          hasSample: false },
+  // Compare pages (20). Same Pro tier instrumentation as analyzers; the
+  // upsell only renders after results, but the page-load smoke (script
+  // loaded, status check works, body class correct) is meaningful coverage.
+  { slug: "cmp_roofing",     url: "/compare-roofing-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_hvac",        url: "/compare-hvac-quotes.html",        hasSample: false, isCompare: true },
+  { slug: "cmp_plumbing",    url: "/compare-plumbing-quotes.html",    hasSample: false, isCompare: true },
+  { slug: "cmp_electrical",  url: "/compare-electrical-quotes.html",  hasSample: false, isCompare: true },
+  { slug: "cmp_windows",     url: "/compare-windows-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_siding",      url: "/compare-siding-quotes.html",      hasSample: false, isCompare: true },
+  { slug: "cmp_insulation",  url: "/compare-insulation-quotes.html",  hasSample: false, isCompare: true },
+  { slug: "cmp_painting",    url: "/compare-painting-quotes.html",    hasSample: false, isCompare: true },
+  { slug: "cmp_fencing",     url: "/compare-fencing-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_concrete",    url: "/compare-concrete-quotes.html",    hasSample: false, isCompare: true },
+  { slug: "cmp_landscaping", url: "/compare-landscaping-quotes.html", hasSample: false, isCompare: true },
+  { slug: "cmp_garage_door", url: "/compare-garage-door-quotes.html", hasSample: false, isCompare: true },
+  { slug: "cmp_solar",       url: "/compare-solar-quotes.html",       hasSample: false, isCompare: true },
+  { slug: "cmp_foundation",  url: "/compare-foundation-quotes.html",  hasSample: false, isCompare: true },
+  { slug: "cmp_kitchen",     url: "/compare-kitchen-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_gutters",     url: "/compare-gutters-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_moving",      url: "/compare-moving-quotes.html",      hasSample: false, isCompare: true },
+  { slug: "cmp_auto",        url: "/compare-auto-quotes.html",        hasSample: false, isCompare: true },
+  { slug: "cmp_medical",     url: "/compare-medical-quotes.html",     hasSample: false, isCompare: true },
+  { slug: "cmp_legal",       url: "/compare-legal-quotes.html",       hasSample: false, isCompare: true },
 ];
 
 function arg(name, fallback) {
