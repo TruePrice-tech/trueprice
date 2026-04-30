@@ -870,7 +870,7 @@ setProgress(90, "Almost done...");
               </div>';
             var _insSO = document.getElementById("insHardRejectStartOver");
             if (_insSO) _insSO.addEventListener("click", function(){ window.location.reload(); });
-            var _insSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            var _insSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
             for (var _is = 0; _is < _insSeoSections.length; _is++) { _insSeoSections[_is].style.display = "none"; }
             return;
           }
