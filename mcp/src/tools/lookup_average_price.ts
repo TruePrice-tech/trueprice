@@ -1,10 +1,16 @@
+import { z } from "zod";
+import { lookupCPT } from "../bridge/pricing-data.js";
+
 export const lookupAveragePriceToolName = "lookup_average_price";
 
 export const lookupAveragePriceToolDefinition = {
   name: lookupAveragePriceToolName,
   description:
     "Look up the typical Medicare and commercial price for a CPT/HCPCS code, optionally adjusted " +
-    "for state. Useful for benchmarking specific charges against fair-price ranges.",
+    "for state and facility type. Useful for benchmarking specific charges against fair-price " +
+    "ranges. Covers ~146 of the most common medical codes (office visits, ER, imaging, lab, " +
+    "common procedures). Returns base Medicare rate, state-adjusted rate, commercial estimate, " +
+    "and a fair-price range.",
   inputSchema: {
     type: "object" as const,
     properties: {
@@ -14,7 +20,8 @@ export const lookupAveragePriceToolDefinition = {
       },
       state_code: {
         type: "string",
-        description: "Two-letter US state code for geographic adjustment (optional)",
+        description:
+          "Two-letter US state code for GPCI geographic adjustment (e.g., 'CA', 'NY'). Optional.",
       },
       facility_type: {
         type: "string",
@@ -26,43 +33,47 @@ export const lookupAveragePriceToolDefinition = {
           "ambulatory_surgery_center",
           "lab",
           "imaging_center",
+          "freestanding_imaging",
+          "freestanding_lab",
           "urgent_care",
         ],
-        description: "Type of facility for facility-multiplier adjustment (optional)",
+        description:
+          "Facility type for facility-multiplier adjustment. ASC saves ~42% vs hospital outpatient. Optional.",
       },
     },
     required: ["cpt_code"],
   },
 };
 
-export interface LookupResult {
-  success: boolean;
-  cpt_code: string;
-  description?: string;
-  medicare_rate?: number;
-  commercial_estimate?: number;
-  fair_price_range?: [number, number];
-  state_applied?: string;
-  facility_applied?: string;
-  notes?: string;
-  error?: string;
-}
+const lookupInputSchema = z.object({
+  cpt_code: z.string().min(1),
+  state_code: z.string().optional(),
+  facility_type: z.string().optional(),
+});
 
-export async function runLookupAveragePrice(
-  rawInput: unknown
-): Promise<LookupResult> {
-  // Phase 1: returns interface only. Phase 2 will load
-  // data/medical-cpt-pricing.json directly (mounted from Woogoro repo or
-  // exposed via a small read-only endpoint at /api/medical-cpt-lookup).
-  // Decision pending: Lane's call on whether to expose the pricing JSON
-  // via API or bundle it into the MCP server.
-  const input = rawInput as { cpt_code?: string };
-  return {
-    success: false,
-    cpt_code: input?.cpt_code || "",
-    error:
-      "lookup_average_price is not yet implemented in Phase 1. " +
-      "Pending Lane's decision on data delivery: API endpoint vs bundled JSON. " +
-      "For now, use parse_bill which returns Medicare rates per line item.",
-  };
+export async function runLookupAveragePrice(rawInput: unknown) {
+  const parsed = lookupInputSchema.safeParse(rawInput);
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: `Invalid input: ${parsed.error.message}`,
+    };
+  }
+
+  try {
+    const result = lookupCPT(parsed.data.cpt_code.toUpperCase(), {
+      stateCode: parsed.data.state_code,
+      facilityType: parsed.data.facility_type,
+    });
+
+    return {
+      success: true,
+      ...result,
+    };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
 }

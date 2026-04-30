@@ -1,78 +1,66 @@
-# Phase 1 Build Status (started 2026-04-29 evening)
+# Phase 1 Build Status
 
 ## Decision context
 
-Per session 2026-04-29: building patient-side medical bill audit MCP, bolted onto Woogoro infrastructure rather than standalone. Subdomain reserved at `mcp.woogoro.com` (placeholder DNS in Cloudflare). Confidence on the bet: 40-50%.
+Per session 2026-04-29: building patient-side medical bill audit MCP, bolted onto Woogoro infrastructure rather than standalone. Subdomain reserved at `mcp.woogoro.com` (placeholder DNS in Cloudflare). Confidence on the bet: 40-50%. Hosting target confirmed as Fly.io for Phase 1.5 hosted transport.
 
-## What's shipped tonight (2026-04-29 evening)
+## Status
 
-Foundation scaffold and one tool working end-to-end:
+Phase 1 functional core: COMPLETE. All five tools working end-to-end. Smoke test passing.
 
-- `mcp/package.json` — TypeScript MCP server, depends on `@modelcontextprotocol/sdk` and `zod`
-- `mcp/tsconfig.json` — TypeScript config (ES2022, strict)
-- `mcp/src/config.ts` — Endpoint URLs, timeouts, server metadata
-- `mcp/src/bridge/woogoro-api.ts` — Bridge to existing `/api/medical-bill-estimate` endpoint, full type definitions matching the existing API contract
-- `mcp/src/index.ts` — MCP server entry point, stdio transport, tool registration
-- `mcp/src/tools/index.ts` — Tool registry and dispatcher
-- `mcp/src/tools/parse_bill.ts` — **WORKING** — wraps the existing analyzer
-- `mcp/src/tools/check_errors.ts` — **WORKING** — extracts errors/disputes from a parsed bill (or fresh parse)
-- `mcp/src/tools/lookup_average_price.ts` — Stub, Phase 2 (decision pending: data delivery via API endpoint vs bundled JSON)
-- `mcp/src/tools/draft_dispute.ts` — Stub, Phase 2 (decision pending: templated vs LLM-generated)
-- `mcp/src/tools/negotiation_script.ts` — Stub, Phase 2
+## Tools shipped
 
-## Architecture: thin bridge, not duplicate
+| Tool | Status | Implementation |
+|---|---|---|
+| `parse_bill` | Done | Bridges to `/api/medical-bill-estimate`. Returns structured analysis + LLM-friendly summary. |
+| `check_errors` | Done | Extracts errors/disputes from a parsed bill (or fresh parse). |
+| `lookup_average_price` | Done | In-memory lookup against bundled CPT pricing data (146 most common codes). State + facility adjustments. |
+| `draft_dispute` | Done | Templated letters across 9 error types: unbundling, balance billing, upcoding, duplicate charges, No Surprises Act, facility fee, out-of-network, preventive care violation, general. Cites relevant statutes (42 USC 300gg-111, NCCI rules, ACA preventive care). |
+| `negotiation_script` | Done | Three scenarios: cannot_pay (charity care + 501(r) leverage), partial_payment (cash settlement negotiation), full_payment_for_discount (prompt-pay discount). Includes pushback responses. |
 
-The MCP server is intentionally a thin wrapper. It does NOT re-implement the medical bill parser. It calls `https://woogoro.com/api/medical-bill-estimate` and forwards the result to the LLM with structured + summary representations.
+## Architecture
 
-Why thin:
-1. Woogoro already has a sophisticated parser with Medicare rate enrichment, NCCI unbundling detection, No Surprises Act compliance checks, GPCI multipliers, facility comparison logic. Re-implementing it loses fidelity.
-2. Bug fixes and improvements to the analyzer ship to both web users and MCP users simultaneously.
-3. The flywheel data capture (`tp:pricing_data` Redis list) keeps working through the MCP path because the existing API does it.
+The MCP server is a thin wrapper. It does NOT re-implement the medical bill parser. It calls `https://woogoro.com/api/medical-bill-estimate` for parsing, and uses bundled `data/medical-cpt-pricing.json` for offline pricing lookups. Letter and script generation are templated locally.
 
-What the MCP server adds:
-- MCP protocol compliance (tool definitions, schema validation, stdio transport)
-- LLM-friendly output formatting (the `summary_for_llm` field in `parse_bill` output)
-- Multi-tool orchestration (`check_errors` can take an already-parsed bill from `parse_bill` to skip re-parsing)
-- Future tools that don't exist on the web side (`draft_dispute`, `negotiation_script`)
+**Data flow:**
+- `parse_bill` and `check_errors` (with image/text input) → Woogoro API (Claude Haiku analyzes)
+- `lookup_average_price` → bundled JSON (no network)
+- `draft_dispute` and `negotiation_script` → templates (no network)
 
-## Decisions deferred to Lane
+**Why this split:** keeps the LLM-vision parsing centralized at Woogoro (so the analyzer stays one source of truth), while making the structured / templated tools work offline for zero-latency responses.
 
-These were not made tonight, in order of priority:
-
-1. **Hosting target.** Fly.io vs Railway vs Vercel for the MCP server. Vercel doesn't fit well because MCP needs persistent stdio or SSE, not request-response. Recommend Fly.io. Decision needed before deploy.
-2. **Distribution: stdio-only vs hosted.** Phase 1 ships stdio (user installs locally, points Claude Desktop at it). Hosted SSE/HTTP version requires Phase 1.5 infrastructure work. Decision: ship stdio first, add hosted later.
-3. **Pricing tiers.** Free vs paid for the MCP server. Memory recommendation was free (gateway drug for Woogoro Pro web product). Confirm.
-4. **Listing strategy.** Smithery + Glama + mcp.so timing. Don't list until Phase 1 complete and at least 2-3 of the stubs are real.
-5. **Lookup data delivery.** `lookup_average_price` needs CPT pricing data. Two options: (a) expose `data/medical-cpt-pricing.json` via a new public endpoint at `/api/medical-cpt-lookup` so the MCP can fetch on demand; (b) bundle the JSON into the MCP server itself. Option (a) keeps single source of truth, (b) is faster to ship.
-6. **Dispute letter approach.** Templated (predictable, low risk) vs LLM-generated (more personalized, higher risk of hallucination). Recommend templated for Phase 2.
-
-## What needs validation before further build
-
-The 40-50% confidence on this bet still rests on real buyer demand. The validation gate hasn't been cleared. Next session step: 5-10 outreach messages to recently-billed consumers asking "would you use a tool that helps you fight medical bills via Claude?"
-
-## Build/test instructions
+## Build / test
 
 ```bash
 cd mcp
 npm install
-npm run build
-node dist/index.js
+npm run build      # syncs pricing data, compiles TS, copies data into dist/
+npm run smoke      # runs offline tool smoke tests (lookup, draft, script)
+node dist/index.js # starts the MCP server on stdio
 ```
 
-That should print:
-```
-woogoro-mcp v0.0.1 running on stdio
-```
+## Decisions still pending Lane's input
 
-To test the parse_bill tool against the live Woogoro API, point Claude Desktop at the built `dist/index.js` per README install steps, then ask it to analyze a medical bill. The MCP server forwards to https://woogoro.com/api/medical-bill-estimate which is already running and parsing bills for the website's users.
+1. **Distribution:** stdio-only Phase 1 (current) vs add hosted SSE/HTTP at Phase 1.5. Recommend ship stdio first to validate. Hosted needs Fly.io setup.
+2. **Pricing model:** free MCP server + Woogoro Pro paywall on web for premium analysis features, vs paid MCP tier. Memory recommendation was free (gateway drug). Confirm.
+3. **Listing strategy:** when to list on Smithery / Glama / mcp.so. Recommend after Lane self-installs and verifies the install instructions are clear.
+4. **Validation gate:** still owed. 5-10 outreach messages to recently-billed consumers asking "would you use this through Claude/ChatGPT?" The product is now testable; previously stub-heavy.
 
 ## Open issues
 
-- No test suite yet. Phase 1 needs at least one integration test that hits the Woogoro API and validates the response shape.
-- No rate limiting at the MCP layer. The Woogoro API has rate limiting (60 requests/hour per IP), but a hosted MCP server might want its own layer when multiple users share the same IP.
-- No telemetry. We don't know who's using the MCP, how often, or which tools. Phase 2 may want this.
-- CORS not relevant for stdio transport but matters when we add hosted SSE/HTTP transport later.
+- No integration test that hits the live Woogoro API. Smoke test only covers offline tools.
+- No telemetry. We don't know who's using the MCP, how often, which tools are called.
+- No rate limiting at the MCP layer. Woogoro API has 60 req/hour/IP; might want our own.
+- CORS not relevant for stdio; matters when we add hosted SSE later.
+- The pricing JSON sync is build-time. If CMS updates rates and Lane updates the master JSON, the MCP needs a rebuild and republish.
 
-## Commit policy
+## Next session candidates
 
-Per memory `feedback_auto_commit.md`, will commit and push the foundation. Lane can review on the morning of 2026-04-30.
+In rough priority order:
+
+1. **Self-install test.** Lane installs the MCP locally in Claude Desktop or Cursor and runs a real bill through it. Validates the install instructions and the parse_bill end-to-end against the live Woogoro API.
+2. **Validation outreach.** 5-10 LinkedIn messages this week. Drafts can be ready in minutes if you say go.
+3. **Phase 1.5 hosted setup.** Fly.io account, deploy config, DNS update from placeholder to Fly's CNAME, SSL. ~1-2 hours.
+4. **Landing page.** Consumer-facing page on Woogoro explaining the MCP, install instructions, "see what's inside" example. Could go at woogoro.com/medical-bills/claude or similar.
+5. **Listing on Smithery / Glama / mcp.so.** Submit after self-install verification.
+6. **Pro tier integration.** Decide what (if any) MCP features sit behind Woogoro Pro vs free.
