@@ -127,7 +127,13 @@ export async function analyzeBill(
       };
     }
 
-    const data = (await response.json()) as ParsedBill;
+    const envelope = (await response.json()) as
+      | { success?: boolean; source?: string; data?: ParsedBill }
+      | ParsedBill;
+    const data: ParsedBill =
+      envelope && typeof envelope === "object" && "data" in envelope && envelope.data
+        ? (envelope.data as ParsedBill)
+        : (envelope as ParsedBill);
     return { ok: true, data };
   } catch (err) {
     clearTimeout(timeout);
