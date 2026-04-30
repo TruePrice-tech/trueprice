@@ -343,7 +343,7 @@
     // ── Garage Door Pricing Model ──
     var GD_PRICING = {
       basePriceByType: {
-        single_car: { label: "Single Car (8x7)", basePrice: 1150 },
+        single_car: { label: "Single Car (9x7)", basePrice: 1150 },
         double_car: { label: "Double Car (16x7)", basePrice: 1850 },
         custom_carriage: { label: "Custom/Carriage", basePrice: 3500 },
         opener_only: { label: "Opener Only", basePrice: 450 },
@@ -486,9 +486,9 @@
       if (/opener\s*only|opener\s*install|opener\s*replace/i.test(t) && !/door\s*(install|replace|new)/i.test(t)) return { value: "opener_only", label: "Opener Only" };
       if (/carriage|custom\s*door|carriage\s*style|carriage\s*house/i.test(t)) return { value: "custom_carriage", label: "Custom/Carriage" };
       if (/double\s*car|16\s*x\s*7|16x7|two\s*car|2[\s-]*car/i.test(t)) return { value: "double_car", label: "Double Car (16x7)" };
-      if (/single\s*car|8\s*x\s*7|8x7|one\s*car|1[\s-]*car|9\s*x\s*7|9x7/i.test(t)) return { value: "single_car", label: "Single Car (8x7)" };
+      if (/single\s*car|8\s*x\s*7|8x7|one\s*car|1[\s-]*car|9\s*x\s*7|9x7/i.test(t)) return { value: "single_car", label: "Single Car (9x7)" };
       // default
-      return { value: "single_car", label: "Single Car (8x7)" };
+      return { value: "single_car", label: "Single Car (9x7)" };
     }
 
     // Detect material from text
@@ -870,7 +870,7 @@
             benchmark: benchmark,
             ratio: ratio,
             verdict: verdictFromRatio(ratio),
-            serviceType: { value: "single_car", label: "Single Car (8x7)" },
+            serviceType: { value: "single_car", label: "Single Car (9x7)" },
             material: null, includesOpener: "yes",
             scopeSignals: {}, region: region, location: null, parsed: null
           };
