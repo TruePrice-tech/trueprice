@@ -25,11 +25,11 @@
 (function () {
   if (window.WoogoroPro) return;
 
-  // Pro tier UI is hidden from non-Pro users until Stripe is wired live.
-  // Granted Pro users (via /api/pro-dev-grant) still see their Pro sections
-  // in the printable report — this only suppresses the $19 upsell card so
-  // we don't dangle a button that 500s on click.
-  var PRO_TIER_ENABLED = false;
+  // Pro tier UI live as of 2026-04-30 (Stripe live env vars + webhook + live
+  // product price ID + self-service refund flow all wired and verified).
+  // Set this back to false to hide the upsell sitewide if a fast killswitch
+  // is ever needed — flag-flip + minify rebuild + redeploy.
+  var PRO_TIER_ENABLED = true;
 
   var STORAGE_KEY = "tp_pro_token";
   var STATUS_CACHE_MS = 60 * 1000;
