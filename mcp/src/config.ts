@@ -1,6 +1,7 @@
 export const config = {
   woogoroApiBase: process.env.WOOGORO_API_BASE || "https://woogoro.com",
   medicalBillEndpoint: "/api/medical-bill-estimate",
+  woogoroMcpKey: process.env.WOOGORO_MCP_KEY || "",
   requestTimeoutMs: 60_000,
   maxImageSizeBytes: 10 * 1024 * 1024,
   serverName: "woogoro-mcp",

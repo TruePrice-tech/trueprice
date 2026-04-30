@@ -97,9 +97,16 @@ export async function analyzeBill(
   const timeout = setTimeout(() => controller.abort(), config.requestTimeoutMs);
 
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (config.woogoroMcpKey) {
+      headers["x-woogoro-mcp-key"] = config.woogoroMcpKey;
+    }
+
     const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify(body),
       signal: controller.signal,
     });
