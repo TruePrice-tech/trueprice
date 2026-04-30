@@ -1758,6 +1758,15 @@
         // for the price-confirm step, which is why moving accepted a roofing
         // fixture and produced a fake $16,766 verdict (deep walk 2026-04-29).
         try { window.__TP_LAST_OCR_TEXT = state.extractedText || ""; } catch(e) {}
+        // Hide SEO sections if the shared price-confirm renders the wrong-vertical
+        // reject (detected via the tpHardRejectStartOver button id it always emits).
+        // Mirrors GD/Foundation/Kitchen/Insulation/Gutters/Auto compare SEO-hide pattern.
+        setTimeout(function() {
+          if (document.getElementById("tpHardRejectStartOver")) {
+            var _movSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            for (var _ms = 0; _ms < _movSeoSections.length; _ms++) { _movSeoSections[_ms].style.display = "none"; }
+          }
+        }, 50);
         renderPriceConfirmation(appRoot, _extractedTotal, "mv", function(confirmedPrice) {
           if (result && confirmedPrice !== _extractedTotal) {
             result.quoteTotal = confirmedPrice;
