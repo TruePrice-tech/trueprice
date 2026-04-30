@@ -882,7 +882,7 @@ setProgress(90, "Almost done...");
             var _gdArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_gdLbl) || /^[aeiou]/i.test(_gdLbl)) ? "an" : "a";
             var _gdLblLc = _gdLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
             appRoot.innerHTML = '\
-              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Garage Door quote</h1></div>\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Garage door quote</h1></div>\
               <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
                 <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
                 <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _gdArt + ' <strong>' + _gdLblLc + '</strong> quote.</p>\
