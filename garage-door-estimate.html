@@ -1107,7 +1107,21 @@
     function renderResult() {
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
-      if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"garage-door",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
+      // Auto-submit estimator-derived data point to /api/community-quote for the pricing
+      // flywheel. Schema: API's VALID_MATERIALS for garage-door is {single_car, double_car};
+      // custom_carriage/opener_only/spring_replacement aren't tracked yet, so we skip those
+      // to avoid a 400 in the console. (Bug fix 2026-04-29: previously read r.systemType
+      // — wrong key — and sent r.material as the label "Basic Steel" instead of the key,
+      // which 400'd on every estimate render.)
+      if(typeof tpCaptureCommunity==="function"){try{
+        var _svc=(r.serviceType&&r.serviceType.value)||"";
+        if(_svc==="single_car"||_svc==="double_car"){
+          var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);
+          var _a=state.address||{};
+          var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";
+          tpCaptureCommunity({service:"garage-door",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_svc,verdict:_v});
+        }
+      }catch(e){}}
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
