@@ -812,6 +812,41 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Mirrors Insulation/Electrical pattern.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _winDet = detectVerticalFromText(text);
+          var _winAll = (_winDet && _winDet.all) || [];
+          var _winNonCur = null, _winCur = null;
+          for (var _wii = 0; _wii < _winAll.length; _wii++) {
+            var _wee = _winAll[_wii];
+            // vertical-detect uses "windows" plural; this page is "window" singular
+            if (!_winNonCur && _wee.vertical !== "windows" && _wee.vertical !== "window") _winNonCur = _wee;
+            if (!_winCur && (_wee.vertical === "windows" || _wee.vertical === "window")) _winCur = _wee;
+          }
+          var _winCurS = _winCur ? _winCur.score : 0;
+          if (_winNonCur && _winNonCur.score >= 3 && _winCurS < 2 && _winNonCur.score >= _winCurS * 3) {
+            var _winLbl = _winNonCur.label || "";
+            var _winArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_winLbl) || /^[aeiou]/i.test(_winLbl)) ? "an" : "a";
+            var _winLblLc = _winLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Windows quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _winArt + ' <strong>' + _winLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a windows quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _winNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _winNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="winHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _winNonCur.score + ' ' + _winNonCur.label + ' keywords vs ' + _winCurS + ' windows keywords</p>\
+              </div>';
+            var _winSO = document.getElementById("winHardRejectStartOver");
+            if (_winSO) _winSO.addEventListener("click", function(){ window.location.reload(); });
+            var _winSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _ws = 0; _ws < _winSeo.length; _ws++) { _winSeo[_ws].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "win", function(confirmedPrice) {
 
 
