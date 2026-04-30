@@ -1,0 +1,65 @@
+name: SEO sitemap refresh + IndexNow ping
+
+# Two purposes:
+#  1. On every push to main: ping IndexNow so Bing/Yandex see fresh URLs
+#     immediately. Does NOT touch sitemaps, does NOT commit anything.
+#  2. Weekly Monday 5am UTC: rewrite sitemap-*.xml lastmods from git mtime
+#     (per-URL accurate dates so Google can prioritize recrawls correctly),
+#     commit if changed, then ping IndexNow.
+#
+# Runs only the IndexNow step on push to keep CI cheap and avoid commit
+# loops. Sitemap rewrite is idempotent on weekly cadence.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 5 * * 1'   # Monday 05:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: IndexNow ping
+        run: node scripts/indexnow-push.js
+
+  refresh-and-ping:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for git mtime per file
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rewrite sitemap lastmods from git mtime
+        run: node scripts/_seo-rewrite-sitemap-lastmod-from-git.js
+
+      - name: Commit sitemap changes (if any)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sitemap*.xml
+          if git diff --cached --quiet; then
+            echo "No sitemap changes to commit."
+          else
+            git commit -m "chore(seo): rewrite sitemap lastmods from git mtime [skip ci]"
+            git push
+          fi
+
+      - name: IndexNow ping
+        run: node scripts/indexnow-push.js
