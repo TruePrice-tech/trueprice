@@ -491,7 +491,11 @@
       // Wrong-vertical hard-reject before any analysis renders.
       if (_engOcrText && _engOcrText.length > 50 &&
           typeof window.tpEnforceVerticalMatch === "function") {
-        var rootEl = document.querySelector(".cmp-card");
+        // BUG FIX 2026-04-30: was .cmp-card (other compare pages use that
+        // class name) — compare-legal uses .cq-card so the selector returned
+        // null, the if-block was skipped, and any wrong-vertical file was
+        // silently accepted.
+        var rootEl = document.querySelector(".cq-card");
         if (rootEl && window.tpEnforceVerticalMatch("legal", _engOcrText, rootEl)) {
           // Hide SEO sections on wrong-vertical reject (mirrors GD/Foundation/Kitchen/Insulation/Gutters/Auto/Medical)
           var _legSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
