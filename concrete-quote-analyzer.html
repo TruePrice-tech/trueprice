@@ -826,6 +826,40 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Mirrors Insulation/Electrical/Solar/Windows/Painting/Siding/Fencing.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _concDet = detectVerticalFromText(text);
+          var _concAll = (_concDet && _concDet.all) || [];
+          var _concNonCur = null, _concCur = null;
+          for (var _cii = 0; _cii < _concAll.length; _cii++) {
+            var _cee = _concAll[_cii];
+            if (!_concNonCur && _cee.vertical !== "concrete") _concNonCur = _cee;
+            if (!_concCur && _cee.vertical === "concrete") _concCur = _cee;
+          }
+          var _concCurS = _concCur ? _concCur.score : 0;
+          if (_concNonCur && _concNonCur.score >= 3 && _concCurS < 2 && _concNonCur.score >= _concCurS * 3) {
+            var _concLbl = _concNonCur.label || "";
+            var _concArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_concLbl) || /^[aeiou]/i.test(_concLbl)) ? "an" : "a";
+            var _concLblLc = _concLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Concrete quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _concArt + ' <strong>' + _concLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a concrete quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _concNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _concNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="concreteHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _concNonCur.score + ' ' + _concNonCur.label + ' keywords vs ' + _concCurS + ' concrete keywords</p>\
+              </div>';
+            var _concSO = document.getElementById("concreteHardRejectStartOver");
+            if (_concSO) _concSO.addEventListener("click", function(){ window.location.reload(); });
+            var _concSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _ces = 0; _ces < _concSeo.length; _ces++) { _concSeo[_ces].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "conc", function(confirmedPrice) {
 
 
