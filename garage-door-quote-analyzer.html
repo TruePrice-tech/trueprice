@@ -893,6 +893,13 @@ setProgress(90, "Almost done...");
               </div>';
             var _gdSO = document.getElementById("gdHardRejectStartOver");
             if (_gdSO) _gdSO.addEventListener("click", function(){ window.location.reload(); });
+            // Hide the SEO content (cross-vertical strip + spec table + red flags +
+            // FAQ) below the reject card so the user isn't distracted by garage-door
+            // marketing content when they uploaded a wrong-vertical quote. The SEO
+            // sections come back when they reload via the "Upload a different file"
+            // CTA. (GD-2 fix 2026-04-29.)
+            var _gdSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            for (var _gs = 0; _gs < _gdSeoSections.length; _gs++) { _gdSeoSections[_gs].style.display = "none"; }
             return;
           }
         }
@@ -961,7 +968,7 @@ setProgress(90, "Almost done...");
             benchmark: benchmark,
             ratio: ratio,
             verdict: verdictFromRatio(ratio),
-            serviceType: { value: "single_car", label: "Single Car (8x7)" },
+            serviceType: { value: "single_car", label: "Single Car (9x7)" },
             material: null, includesOpener: "yes",
             scopeSignals: {}, region: region, location: null, parsed: null
           };
@@ -1199,7 +1206,22 @@ setProgress(90, "Almost done...");
     function renderResult() {
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
-      if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"garage-door",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
+      // Auto-submit analyzed quote to /api/community-quote for the pricing flywheel.
+      // Same fix applied as garage-door-estimate.html: r.systemType was a typo (no
+      // such key — fell through to r.material which is the GD_PRICING.materialUpgrades
+      // OBJECT, JSON-stringified to "{\"label\":\"Basic Steel\",...}" → API 400.
+      // Send r.serviceType.value (single_car|double_car). Skip flywheel for
+      // custom_carriage/opener_only/spring_replacement which aren't in the API's
+      // VALID_MATERIALS for garage-door yet.
+      if(typeof tpCaptureCommunity==="function"){try{
+        var _svc=(r.serviceType&&r.serviceType.value)||"";
+        if(_svc==="single_car"||_svc==="double_car"){
+          var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);
+          var _a=state.address||{};
+          var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";
+          tpCaptureCommunity({service:"garage-door",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_svc,verdict:_v});
+        }
+      }catch(e){}}
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
