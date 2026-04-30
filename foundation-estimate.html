@@ -1092,7 +1092,21 @@
     function renderResult() {
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
-      if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"foundation",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
+      // Auto-submit estimator-derived data to /api/community-quote. Same fix as
+      // garage-door-estimate: read r.repairType.value (not the systemType typo),
+      // map to API VALID_MATERIALS (pier, slabjacking, wall_stabilization), and
+      // send literal "estimate" verdict. Sending r.verdict.label "Estimated Cost"
+      // 400's because that string isn't in API VALID_VERDICTS.
+      if(typeof tpCaptureCommunity==="function"){try{
+        var _rt=r.repairType?(typeof r.repairType==="object"?r.repairType.value:r.repairType):"";
+        var _matMap={pier_installation:"pier",slabjacking:"slabjacking",wall_stabilization:"wall_stabilization"};
+        var _mat=_matMap[_rt]||"";
+        if(_mat){
+          var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);
+          var _a=state.address||{};
+          tpCaptureCommunity({service:"foundation",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_mat,verdict:"estimate"});
+        }
+      }catch(e){}}
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
