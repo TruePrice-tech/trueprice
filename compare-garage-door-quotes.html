@@ -382,6 +382,12 @@
             typeof window.tpEnforceVerticalMatch === "function") {
           var rootEl = document.querySelector(".cmp-card");
           if (rootEl && window.tpEnforceVerticalMatch("garage-door", _engOcrText, rootEl)) {
+            // GD-2: hide SEO sections (cross-vertical strip + spec table + FAQ)
+            // when reject screen renders, so user isn't distracted by garage-door
+            // marketing content after uploading a wrong-vertical quote. Per-vertical
+            // patch since shared wrong-vertical-guard.js doesn't do this itself yet.
+            var _gdSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            for (var _gs = 0; _gs < _gdSeoSections.length; _gs++) { _gdSeoSections[_gs].style.display = "none"; }
             return Promise.reject(new Error("wrong_vertical_reject"));
           }
         }
