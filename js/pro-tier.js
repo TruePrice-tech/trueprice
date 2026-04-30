@@ -25,6 +25,12 @@
 (function () {
   if (window.WoogoroPro) return;
 
+  // Pro tier UI is hidden from non-Pro users until Stripe is wired live.
+  // Granted Pro users (via /api/pro-dev-grant) still see their Pro sections
+  // in the printable report — this only suppresses the $19 upsell card so
+  // we don't dangle a button that 500s on click.
+  var PRO_TIER_ENABLED = false;
+
   var STORAGE_KEY = "tp_pro_token";
   var STATUS_CACHE_MS = 60 * 1000;
   var TOKEN_RE = /^[a-f0-9]{32}$/i;
@@ -542,11 +548,11 @@
     return [
       '<div class="tp-pro-upsell tp-pdf-noprint">',
       '<div class="tp-pro-upsell-header">',
-      '<div class="tp-pro-upsell-tag">PRO REPORT</div>',
+      '<div class="tp-pro-upsell-tag">NEGOTIATION KIT</div>',
       '<div class="tp-pro-upsell-price">$19 one-time</div>',
       '</div>',
       '<div class="tp-pro-upsell-body">',
-      '<p class="tp-pro-upsell-headline">Go deeper on this specific quote.</p>',
+      '<p class="tp-pro-upsell-headline">Walk into your next conversation prepared.</p>',
       '<ul class="tp-pro-upsell-list">',
       '<li>Personalized red-flag analysis with evidence from your quote</li>',
       '<li>5-10 contractor questions tailored to your missing scope items</li>',
@@ -558,8 +564,8 @@
       '</ul>',
       '<p class="tp-pro-upsell-fineprint">One-time payment. 30 days of Pro across all 20 verticals. 30-day money-back guarantee, no questions asked. The free analysis is yours either way.</p>',
       '<div class="tp-pro-upsell-actions">',
-      '<button type="button" class="tp-pro-upsell-cta" onclick="WoogoroPro.startCheckout().catch(function(e){alert(\'Checkout error: \' + e.message);});">Unlock Pro for $19</button>',
-      '<a class="tp-pro-upsell-link" href="/pro-example.html" target="_blank" rel="noopener">See an example Pro report</a>',
+      '<button type="button" class="tp-pro-upsell-cta" onclick="WoogoroPro.startCheckout().catch(function(e){alert(\'Checkout error: \' + e.message);});">Get my negotiation kit &middot; $19</button>',
+      '<a class="tp-pro-upsell-link" href="/pro-example.html" target="_blank" rel="noopener">See what&apos;s inside</a>',
       '</div>',
       '</div>',
       '</div>'
@@ -582,8 +588,10 @@
 
     if (cachedStatus && cachedStatus.isPro) {
       wrap.innerHTML = renderProSections(analysis, vertical);
-    } else {
+    } else if (PRO_TIER_ENABLED) {
       wrap.innerHTML = renderProUpsell();
+    } else {
+      return;
     }
 
     reportBody.appendChild(wrap);
@@ -615,6 +623,7 @@
     // result, after the existing result content. Pro users get nothing here
     // because their Pro sections appear in the printable report.
     if (cachedStatus && cachedStatus.isPro) return;
+    if (!PRO_TIER_ENABLED) return;
     // GLOBAL idempotency check: if a Pro upsell exists ANYWHERE on the
     // page, skip. The earlier per-container check was insufficient on
     // compare pages where the observer could choose different parents
