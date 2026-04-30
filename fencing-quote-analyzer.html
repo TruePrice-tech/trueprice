@@ -873,6 +873,40 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Mirrors Insulation/Electrical pattern.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _fenDet = detectVerticalFromText(text);
+          var _fenAll = (_fenDet && _fenDet.all) || [];
+          var _fenNonCur = null, _fenCur = null;
+          for (var _fii = 0; _fii < _fenAll.length; _fii++) {
+            var _fee = _fenAll[_fii];
+            if (!_fenNonCur && _fee.vertical !== "fencing") _fenNonCur = _fee;
+            if (!_fenCur && _fee.vertical === "fencing") _fenCur = _fee;
+          }
+          var _fenCurS = _fenCur ? _fenCur.score : 0;
+          if (_fenNonCur && _fenNonCur.score >= 3 && _fenCurS < 2 && _fenNonCur.score >= _fenCurS * 3) {
+            var _fenLbl = _fenNonCur.label || "";
+            var _fenArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_fenLbl) || /^[aeiou]/i.test(_fenLbl)) ? "an" : "a";
+            var _fenLblLc = _fenLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Fencing quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _fenArt + ' <strong>' + _fenLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a fencing quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _fenNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _fenNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="fencingHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _fenNonCur.score + ' ' + _fenNonCur.label + ' keywords vs ' + _fenCurS + ' fencing keywords</p>\
+              </div>';
+            var _fenSO = document.getElementById("fencingHardRejectStartOver");
+            if (_fenSO) _fenSO.addEventListener("click", function(){ window.location.reload(); });
+            var _fenSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _fes = 0; _fes < _fenSeo.length; _fes++) { _fenSeo[_fes].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "fence", function(confirmedPrice) {
 
 
