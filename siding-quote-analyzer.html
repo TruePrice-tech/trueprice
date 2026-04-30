@@ -844,6 +844,40 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Mirrors Insulation/Electrical/Solar/Windows/Painting.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _sideDet = detectVerticalFromText(text);
+          var _sideAll = (_sideDet && _sideDet.all) || [];
+          var _sideNonCur = null, _sideCur = null;
+          for (var _sii = 0; _sii < _sideAll.length; _sii++) {
+            var _see = _sideAll[_sii];
+            if (!_sideNonCur && _see.vertical !== "siding") _sideNonCur = _see;
+            if (!_sideCur && _see.vertical === "siding") _sideCur = _see;
+          }
+          var _sideCurS = _sideCur ? _sideCur.score : 0;
+          if (_sideNonCur && _sideNonCur.score >= 3 && _sideCurS < 2 && _sideNonCur.score >= _sideCurS * 3) {
+            var _sideLbl = _sideNonCur.label || "";
+            var _sideArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_sideLbl) || /^[aeiou]/i.test(_sideLbl)) ? "an" : "a";
+            var _sideLblLc = _sideLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Siding quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _sideArt + ' <strong>' + _sideLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a siding quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _sideNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _sideNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="sidingHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _sideNonCur.score + ' ' + _sideNonCur.label + ' keywords vs ' + _sideCurS + ' siding keywords</p>\
+              </div>';
+            var _sideSO = document.getElementById("sidingHardRejectStartOver");
+            if (_sideSO) _sideSO.addEventListener("click", function(){ window.location.reload(); });
+            var _sideSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _ses = 0; _ses < _sideSeo.length; _ses++) { _sideSeo[_ses].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "side", function(confirmedPrice) {
 
 
