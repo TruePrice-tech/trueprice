@@ -147,7 +147,7 @@
           <div id="resultsContent"></div>
         </div>
       </div>
-      <div style="margin-top:32px;">
+      <div class="tp-pdf-noprint" style="margin-top:32px;">
       <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
         <h2 style="margin:0 0 12px; font-size:20px;">How to compare landscaping quotes correctly</h2>
         <p style="line-height:1.7; color:#475569; margin:0 0 12px;">Landscaping quotes are the widest-ranging in home services because 'landscaping' means everything from a lawn install to a full hardscape. Scope must be defined in plants, square footage, and irrigation zones before you can compare.</p>
@@ -381,6 +381,8 @@
             typeof window.tpEnforceVerticalMatch === "function") {
           var rootEl = document.querySelector(".cmp-card");
           if (rootEl && window.tpEnforceVerticalMatch("landscaping", _engOcrText, rootEl)) {
+            var _landCmpSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _lcs = 0; _lcs < _landCmpSeo.length; _lcs++) { _landCmpSeo[_lcs].style.display = "none"; }
             return Promise.reject(new Error("wrong_vertical_reject"));
           }
         }
