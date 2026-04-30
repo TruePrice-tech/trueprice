@@ -147,7 +147,7 @@
           <div id="resultsContent"></div>
         </div>
       </div>
-      <div style="margin-top:32px;">
+      <div class="tp-pdf-noprint" style="margin-top:32px;">
       <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
         <h2 style="margin:0 0 12px; font-size:20px;">How to compare plumbing quotes correctly</h2>
         <p style="line-height:1.7; color:#475569; margin:0 0 12px;">Plumbing quotes vary because the scope often isn't fully diagnosed until walls are opened. One plumber may quote a spot repair while another quotes a full repipe — both valid, but very different prices. Pipe material alone (PEX vs copper vs CPVC) can swing a quote by thousands.</p>
@@ -465,6 +465,9 @@
             typeof window.tpEnforceVerticalMatch === "function") {
           var rootEl = document.querySelector(".cmp-card");
           if (rootEl && window.tpEnforceVerticalMatch("plumbing", _engOcrText, rootEl)) {
+            // Hide SEO sections on wrong-vertical reject (mirrors GD/Foundation/Kitchen/Insulation/Gutters/Auto/Medical/Legal)
+            var _plumbCmpSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _pcs = 0; _pcs < _plumbCmpSeo.length; _pcs++) { _plumbCmpSeo[_pcs].style.display = "none"; }
             return Promise.reject(new Error("wrong_vertical_reject"));
           }
         }

@@ -841,6 +841,8 @@
             </div>';
           var _so = document.getElementById("plumbHardRejectStartOver");
           if (_so) _so.addEventListener("click", function(){ window.location.reload(); });
+          var _plumbSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
+          for (var _ps = 0; _ps < _plumbSeoSections.length; _ps++) { _plumbSeoSections[_ps].style.display = "none"; }
           return;
         }
       }
