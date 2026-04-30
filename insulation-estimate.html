@@ -655,6 +655,7 @@
               <input type="text" id="addrState" placeholder="State" style="max-width:100px" />\
             </div>\
             <input type="text" id="addrZip" placeholder="ZIP code" maxlength="5" style="max-width:160px" />\
+            <p style="margin:8px 0 0;font-size:12px;color:#94a3b8;">Address is optional. Adds local pricing accuracy when provided.</p>\
             <button class="ins-btn ins-btn-primary ins-btn-full" id="btnEstimate">Get Insulation Estimate</button>\
           </div>\
         </div>';
@@ -1290,7 +1291,18 @@
     function renderResult() {
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
-      if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"insulation",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
+      // Auto-submit estimator-derived data. Map insType to API VALID_MATERIALS.
+      // Verdict literal "estimate" per VALID_VERDICTS.
+      if(typeof tpCaptureCommunity==="function"){try{
+        var _ist=r.insType?(typeof r.insType==="object"?r.insType.value:r.insType):"";
+        var _matMap={blown_in:"blown_in",spray_foam_open:"spray_foam",spray_foam_closed:"spray_foam",spray_foam:"spray_foam",batts:"batts"};
+        var _mat=_matMap[_ist]||"";
+        if(_mat){
+          var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);
+          var _a=state.address||{};
+          tpCaptureCommunity({service:"insulation",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_mat,verdict:"estimate"});
+        }
+      }catch(e){}}
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
