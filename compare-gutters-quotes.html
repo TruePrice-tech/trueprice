@@ -396,6 +396,16 @@
               if (_gutScore && /Gutters keywords/.test(_gutScore.innerText)) {
                 _gutScore.innerText = _gutScore.innerText.replace(/Gutters keywords/, "Gutter keywords");
               }
+              // Also override the body sub-paragraph "as a gutters quote anyway"
+              // (shared module renders verticalNounLc = "gutters quote" lowercase plural).
+              var _gutSubs = rootEl.querySelectorAll("p");
+              for (var _gpi = 0; _gpi < _gutSubs.length; _gpi++) {
+                var _gp = _gutSubs[_gpi];
+                if (/as an? gutters quote anyway/i.test(_gp.innerText)) {
+                  _gp.innerText = _gp.innerText.replace(/as an? gutters quote anyway/i, "as a gutter quote anyway");
+                  break;
+                }
+              }
             } catch (_) {}
             return Promise.reject(new Error("wrong_vertical_reject"));
           }
