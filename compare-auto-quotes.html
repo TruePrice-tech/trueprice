@@ -218,7 +218,7 @@
         </div>
 
       </div>
-      <div style="margin-top:32px;">
+      <div class="tp-pdf-noprint" style="margin-top:32px;">
       <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
         <h2 style="margin:0 0 12px; font-size:20px;">How to compare auto repair quotes correctly</h2>
         <p style="line-height:1.7; color:#475569; margin:0 0 12px;">Auto repair estimates vary wildly because shops use different labor rate books, charge different diagnostic fees, and use different parts tiers. A $400 estimate and an $800 estimate for the same job usually come down to OEM vs aftermarket parts and labor hours quoted.</p>
@@ -243,8 +243,8 @@
       <section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin-bottom:16px;">
         <h2 style="margin:0 0 12px; font-size:20px;">Helpful Auto Repair Guides</h2>
         <ul style="line-height:1.8; color:#475569; margin:0; padding-left:20px;">
-            <li><a href="/auto-repair.html">Auto Repair quote analyzer</a></li>
-            <li><a href="/auto-repair-cost-guide.html">Auto Repair cost guide</a></li>        </ul>
+            <li><a href="/auto-repair.html">Auto repair quote analyzer</a></li>
+            <li><a href="/auto-repair-cost-guide.html">Auto repair cost guide</a></li>        </ul>
       </section>
     </div>
     </div>
@@ -437,6 +437,9 @@
             typeof window.tpEnforceVerticalMatch === "function") {
           var rootEl = document.querySelector(".caq-card");
           if (rootEl && window.tpEnforceVerticalMatch("auto", _engOcrText, rootEl)) {
+            // Hide SEO sections on wrong-vertical reject (mirrors GD/Foundation/Kitchen/Insulation/Gutters)
+            var _autoSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            for (var _as = 0; _as < _autoSeoSections.length; _as++) { _autoSeoSections[_as].style.display = "none"; }
             return Promise.reject(new Error("wrong_vertical_reject"));
           }
         }
