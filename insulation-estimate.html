@@ -525,18 +525,16 @@
     }
 
     function calcRange(insType, sqft, regionOrMult, removalIncluded, locationKey) {
-      var typeData = INS_PRICING.basePriceByType[insType];
-      if (!typeData) typeData = INS_PRICING.basePriceByType.blown_in;
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var laborMult = cityMult || (INS_PRICING.laborMultiplierByRegion[regionOrMult] || 1.0);
-      var removalMult = removalIncluded ? INS_PRICING.removalMultiplier : 1.0;
-      var locationMult = INS_PRICING.locationMultiplier[locationKey] || 1.0;
-
-      var low = typeData.lowPerSqft * sqft * laborMult * removalMult * locationMult * INFLATION_MULT * SEASONAL_MULT;
-      var high = typeData.highPerSqft * sqft * laborMult * removalMult * locationMult * INFLATION_MULT * SEASONAL_MULT;
-
-      return { low: roundTo50(low), high: roundTo50(high) };
+      // Use the standard 0.88/1.15 band off the benchmark midpoint, NOT the raw
+      // industry per-sqft low/high. Industry range (e.g. blown-in $0.90-$2.30/sqft)
+      // is too wide for a personalized estimate — once we know the user's
+      // insulation type, sqft, location, and removal status, the ±13% band
+      // matches the rest of the site (project_estimate_range_bands.md).
+      var benchmark = calcBenchmark(insType, sqft, regionOrMult, removalIncluded, locationKey);
+      return {
+        low: roundTo50(benchmark * 0.88),
+        high: roundTo50(benchmark * 1.15)
+      };
     }
 
     function verdictFromRatio(ratio) {

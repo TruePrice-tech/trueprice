@@ -386,7 +386,7 @@
     // ── Fence Pricing Model ──
     var FENCE_PRICING = {
       basePricePerLinearFoot: {
-        chain_link: { label: "Chain Link", low: 15, high: 40, mid: 25.00 },
+        chain_link: { label: "Chain Link", low: 8, high: 25, mid: 15.00 },
         wood_privacy: { label: "Wood Privacy (PT Pine)", low: 22, high: 45, mid: 33.50 },
         cedar: { label: "Cedar Privacy", low: 30, high: 60, mid: 45.00 },
         vinyl_privacy: { label: "Vinyl / PVC Privacy", low: 35, high: 80, mid: 50.00 },
@@ -533,7 +533,7 @@
       }).catch(function() {});
       fb.innerHTML = '<div style="font-size:14px; color:#166534; padding:8px 0;">Thanks for the feedback! This helps us improve our estimates.</div>';
     };
-
+
 
     // ── Quote Parsing Helpers ──
     function detectFenceType(text) {
