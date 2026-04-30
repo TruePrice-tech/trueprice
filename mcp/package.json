@@ -1,0 +1,28 @@
+{
+  "name": "@woogoro/mcp",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Woogoro MCP server: medical bill audit + dispute help, accessible from Claude / ChatGPT / Cursor / any MCP-compatible AI assistant",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "woogoro-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
