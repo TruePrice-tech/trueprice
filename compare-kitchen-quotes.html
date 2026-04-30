@@ -383,7 +383,8 @@
           var rootEl = document.querySelector(".cmp-card");
           if (rootEl && window.tpEnforceVerticalMatch("kitchen", _engOcrText, rootEl)) {
             // Hide SEO sections on wrong-vertical reject (mirrors GD/Foundation compare fix).
-            var _kitSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            // Scope to #main so trust banner stays visible
+            var _kitSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
             for (var _ks = 0; _ks < _kitSeoSections.length; _ks++) { _kitSeoSections[_ks].style.display = "none"; }
             return Promise.reject(new Error("wrong_vertical_reject"));
           }

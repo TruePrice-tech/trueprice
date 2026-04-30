@@ -808,7 +808,10 @@ setProgress(90, "Almost done...");
             var _kitSO = document.getElementById("kitHardRejectStartOver");
             if (_kitSO) _kitSO.addEventListener("click", function(){ window.location.reload(); });
             // Hide SEO sections so user isn't distracted by kitchen marketing.
-            var _kitSeoSections = document.querySelectorAll(".tp-pdf-noprint");
+            // Scope to #main so the body-level trust banner ("Free · No email · ...")
+            // stays visible — that reassurance is especially valuable when the user
+            // just got a reject and might wonder if the site is shady.
+            var _kitSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
             for (var _ks = 0; _ks < _kitSeoSections.length; _ks++) { _kitSeoSections[_ks].style.display = "none"; }
             return;
           }
