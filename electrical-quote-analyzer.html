@@ -895,6 +895,43 @@
 setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
+
+        // Inline wrong-vertical hard-reject. Same pattern as Insulation/Plumbing/Kitchen.
+        // Runs BEFORE renderPriceConfirmation because price-confirm.js has a
+        // high-confidence short-circuit (CV-6) that bypasses wrong-vertical detection,
+        // and its hard-reject path doesn't hide SEO sections (CV-6 mitigation).
+        if (text && typeof detectVerticalFromText === "function") {
+          var _elecDet = detectVerticalFromText(text);
+          var _elecAll = (_elecDet && _elecDet.all) || [];
+          var _elecNonCur = null, _elecCur = null;
+          for (var _eei = 0; _eei < _elecAll.length; _eei++) {
+            var _eee = _elecAll[_eei];
+            if (!_elecNonCur && _eee.vertical !== "electrical") _elecNonCur = _eee;
+            if (!_elecCur && _eee.vertical === "electrical") _elecCur = _eee;
+          }
+          var _elecCurS = _elecCur ? _elecCur.score : 0;
+          if (_elecNonCur && _elecNonCur.score >= 3 && _elecCurS < 2 && _elecNonCur.score >= _elecCurS * 3) {
+            var _elecLbl = _elecNonCur.label || "";
+            var _elecArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_elecLbl) || /^[aeiou]/i.test(_elecLbl)) ? "an" : "a";
+            var _elecLblLc = _elecLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not an Electrical quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _elecArt + ' <strong>' + _elecLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as an electrical quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _elecNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _elecNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="elecHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _elecNonCur.score + ' ' + _elecNonCur.label + ' keywords vs ' + _elecCurS + ' electrical keywords</p>\
+              </div>';
+            var _elecSO = document.getElementById("elecHardRejectStartOver");
+            if (_elecSO) _elecSO.addEventListener("click", function(){ window.location.reload(); });
+            var _elecSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _es = 0; _es < _elecSeo.length; _es++) { _elecSeo[_es].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "elec", function(confirmedPrice) {
 
 
