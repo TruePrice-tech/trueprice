@@ -73,7 +73,50 @@
         meta.textContent = exp ? "Pro access expires on " + exp + "." : "";
         actions.innerHTML =
           '<a href="/" class="pro-btn">Start a new analysis</a>' +
-          '<a href="/all-cities.html" class="pro-btn pro-btn-ghost">Browse pricing guides</a>';
+          '<a href="/all-cities.html" class="pro-btn pro-btn-ghost">Browse pricing guides</a>' +
+          '<button type="button" id="proRefundBtn" style="background:transparent;border:none;color:#64748b;font-size:13px;text-decoration:underline;cursor:pointer;padding:8px 0;font-family:inherit;display:block;width:100%;margin-top:8px;">Need a refund?</button>';
+        var refundBtn = document.getElementById("proRefundBtn");
+        if (refundBtn) refundBtn.addEventListener("click", openRefundFlow);
+      }
+
+      function openRefundFlow() {
+        if (!confirm("Refund your $19 Pro purchase? Pro access will be revoked. You can re-purchase any time.")) return;
+        var token = (window.WoogoroPro && window.WoogoroPro.getToken && window.WoogoroPro.getToken()) || null;
+        if (!token) {
+          alert("We could not find your Pro token in this browser. Email hello@woogoro.com with your Stripe receipt and we will refund manually.");
+          return;
+        }
+        var btn = document.getElementById("proRefundBtn");
+        if (btn) { btn.disabled = true; btn.textContent = "Processing refund..."; }
+        fetch("/api/pro-refund", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token })
+        }).then(function (r) { return r.json(); }).then(function (data) {
+          if (data && data.ok) {
+            card.className = "pro-card pending";
+            tag.className = "pro-tag";
+            tag.textContent = "REFUNDED";
+            headline.textContent = "Refund issued.";
+            message.textContent = "Your refund will land in 5-10 business days. Pro access is being revoked now (typically within a few seconds). You can re-purchase any time.";
+            meta.textContent = "";
+            actions.innerHTML = '<a href="/" class="pro-btn pro-btn-ghost">Back to Woogoro</a>';
+            return;
+          } else {
+            var reason = data && data.reason || "unknown";
+            var msg;
+            if (reason === "already_refunded") msg = "This purchase has already been refunded.";
+            else if (reason === "already_viewed") msg = "Self-service refund is no longer available because Pro content has been viewed. Email hello@woogoro.com with your Stripe receipt and we will review case-by-case.";
+            else if (reason === "window_expired") msg = "The 7-day refund window has expired. Email hello@woogoro.com if you have a billing concern.";
+            else if (reason === "no_active_pro") msg = "We could not find an active Pro purchase for this browser. Email hello@woogoro.com with your Stripe receipt.";
+            else msg = "Refund could not be processed automatically (" + reason + "). Email hello@woogoro.com with your Stripe receipt.";
+            alert(msg);
+            if (btn) { btn.disabled = false; btn.textContent = "Need a refund?"; }
+          }
+        }).catch(function (e) {
+          alert("Refund request failed: " + (e && e.message ? e.message : "network error") + ". Email hello@woogoro.com with your Stripe receipt.");
+          if (btn) { btn.disabled = false; btn.textContent = "Need a refund?"; }
+        });
       }
 
       function showError(reason) {

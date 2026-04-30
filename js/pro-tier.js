@@ -562,7 +562,7 @@
       '<li>Warranty fine-print interpretation</li>',
       '<li>Federal, state, and utility rebate worksheet</li>',
       '</ul>',
-      '<p class="tp-pro-upsell-fineprint">One-time payment. 30 days of Pro across all 20 verticals. 30-day money-back guarantee, no questions asked. The free analysis is yours either way.</p>',
+      '<p class="tp-pro-upsell-fineprint">One-time payment. 30 days of Pro across all 20 verticals. 1-hour cooling-off refund, plus 7-day refund if you have not yet viewed any Pro section. The free analysis is yours either way. Full terms in our <a href="/terms.html#pro-reports" target="_blank" rel="noopener">refund policy</a>.</p>',
       '<div class="tp-pro-upsell-actions">',
       '<button type="button" class="tp-pro-upsell-cta" onclick="WoogoroPro.startCheckout().catch(function(e){alert(\'Checkout error: \' + e.message);});">Get my negotiation kit &middot; $19</button>',
       '<a class="tp-pro-upsell-link" href="/pro-example.html" target="_blank" rel="noopener">See what&apos;s inside</a>',
@@ -588,6 +588,10 @@
 
     if (cachedStatus && cachedStatus.isPro) {
       wrap.innerHTML = renderProSections(analysis, vertical);
+      // Fire firstview beacon: marks "Pro content was rendered into a real
+      // analyzer report" so the self-service refund window can close once
+      // value has been delivered. Idempotent server-side, fire-and-forget.
+      try { fireFirstViewBeacon(); } catch (e) {}
     } else if (PRO_TIER_ENABLED) {
       wrap.innerHTML = renderProUpsell();
     } else {
@@ -595,6 +599,32 @@
     }
 
     reportBody.appendChild(wrap);
+  }
+
+  // One-time per page-load beacon to /api/pro-firstview. Server-side is also
+  // idempotent (only sets firstViewedAt if currently null).
+  var firstViewBeaconFired = false;
+  function fireFirstViewBeacon() {
+    if (firstViewBeaconFired) return;
+    var token = getToken && getToken();
+    if (!token) return;
+    firstViewBeaconFired = true;
+    var body = JSON.stringify({ token: token });
+    try {
+      if (navigator && typeof navigator.sendBeacon === "function") {
+        var blob = new Blob([body], { type: "application/json" });
+        navigator.sendBeacon("/api/pro-firstview", blob);
+        return;
+      }
+    } catch (e) {}
+    try {
+      fetch("/api/pro-firstview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: body,
+        keepalive: true,
+      }).catch(function () {});
+    } catch (e) {}
   }
 
   // Different analyzer verticals render results into different containers.

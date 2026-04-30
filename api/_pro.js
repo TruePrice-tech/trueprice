@@ -8,10 +8,18 @@
 // "no email, no signup" promise for the paid path.
 //
 // Redis schema (all keys "tp:pro:" namespaced):
-//   tp:pro:{token}                  -> JSON { expiresAt, sessionId, purchasedAt, refunded? }
+//   tp:pro:{token}                  -> JSON { expiresAt, sessionId, purchasedAt, firstViewedAt?, refunded? }
 //                                      TTL set to expiration so expired records auto-clean.
+//                                      firstViewedAt is set the first time js/pro-tier.js renders
+//                                      Pro sections into a real analyzer report (not the success page).
+//                                      Used as the "value consumed" signal for self-service refund eligibility.
 //   tp:pro_session:{stripeSessionId} -> token  (reverse lookup for refund handling)
 //   tp:pro_event:{stripeEventId}    -> "1"   (idempotency marker, 7 day TTL)
+//
+// Self-service refund policy:
+//   - Eligible if firstViewedAt is null AND purchasedAt < 7 days ago (no Pro content viewed yet).
+//   - Eligible if purchasedAt < 1 hour ago (cooling-off, even if viewed).
+//   - Outside both windows: must email hello@woogoro.com for case-by-case review.
 //
 // Required env vars (see Vercel project settings):
 //   STRIPE_SECRET_KEY        - sk_live_... or sk_test_...
@@ -116,6 +124,42 @@ export async function revokePro({ sessionId, reason }) {
   // Keep the same TTL window as before by setting a 7-day TTL for support.
   await redis.set(PRO_KEY_PREFIX + token, JSON.stringify(updated), { ex: 7 * 24 * 3600 });
   return { revoked: true, token };
+}
+
+// Window definitions for self-service refund eligibility.
+export const COOLING_OFF_MS = 60 * 60 * 1000;             // 1 hour
+export const REFUND_WINDOW_IF_UNVIEWED_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+// Mark the first time a token has rendered Pro content into a real analyzer
+// report (the "value consumed" signal). Idempotent: only writes if firstViewedAt
+// is currently null. Returns { marked: true } on first call, { marked: false }
+// on subsequent calls.
+export async function markFirstView(token) {
+  if (!isValidProToken(token)) return { marked: false, reason: "invalid_token" };
+  const raw = await redis.get(PRO_KEY_PREFIX + token);
+  const state = parseRedisJson(raw);
+  if (!state || state.refunded) return { marked: false, reason: "no_active_pro" };
+  if (state.firstViewedAt) return { marked: false, reason: "already_viewed" };
+
+  const updated = { ...state, firstViewedAt: nowMs() };
+  const ttlSec = Math.max(60, Math.ceil((state.expiresAt - nowMs()) / 1000) + 24 * 3600);
+  await redis.set(PRO_KEY_PREFIX + token, JSON.stringify(updated), { ex: ttlSec });
+  return { marked: true };
+}
+
+// Determine whether a Pro state is eligible for self-service refund.
+// Returns { eligible: bool, reason: string }. Reasons are stable strings that
+// the UI uses to decide what to show.
+export function getRefundEligibility(state) {
+  if (!state) return { eligible: false, reason: "no_active_pro" };
+  if (state.refunded) return { eligible: false, reason: "already_refunded" };
+  const purchasedAt = Number(state.purchasedAt) || 0;
+  const ageMs = nowMs() - purchasedAt;
+  if (ageMs < 0) return { eligible: false, reason: "future_purchase" };
+  if (ageMs <= COOLING_OFF_MS) return { eligible: true, reason: "cooling_off" };
+  if (state.firstViewedAt) return { eligible: false, reason: "already_viewed" };
+  if (ageMs <= REFUND_WINDOW_IF_UNVIEWED_MS) return { eligible: true, reason: "unviewed_in_window" };
+  return { eligible: false, reason: "window_expired" };
 }
 
 // Read-only check whether a Stripe event_id has already been processed.
