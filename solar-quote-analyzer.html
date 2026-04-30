@@ -1006,6 +1006,39 @@ setProgress(90, "Almost done...");
           return;
         }
 
+        // Inline wrong-vertical hard-reject. Mirrors Insulation/Electrical/Plumbing.
+        if (text && typeof detectVerticalFromText === "function") {
+          var _solDet = detectVerticalFromText(text);
+          var _solAll = (_solDet && _solDet.all) || [];
+          var _solNonCur = null, _solCur = null;
+          for (var _sii = 0; _sii < _solAll.length; _sii++) {
+            var _see = _solAll[_sii];
+            if (!_solNonCur && _see.vertical !== "solar") _solNonCur = _see;
+            if (!_solCur && _see.vertical === "solar") _solCur = _see;
+          }
+          var _solCurS = _solCur ? _solCur.score : 0;
+          if (_solNonCur && _solNonCur.score >= 3 && _solCurS < 2 && _solNonCur.score >= _solCurS * 3) {
+            var _solLbl = _solNonCur.label || "";
+            var _solArt = (/^(HVAC|FBI|FAQ|HOA|MRI|HD|XR)\b/.test(_solLbl) || /^[aeiou]/i.test(_solLbl)) ? "an" : "a";
+            var _solLblLc = _solLbl.split(/\s+/).map(function(w){ return /^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase(); }).join(" ");
+            appRoot.innerHTML = '\
+              <div style="padding:24px 16px;text-align:center;"><h1 style="font-size:22px;color:#991b1b;">This is not a Solar quote</h1></div>\
+              <div style="text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;">\
+                <picture><source srcset="/images/Iris/Iris%20concerned.webp" type="image/webp"/><img src="/images/Iris/Iris%20concerned.png" alt="Iris is concerned" style="margin-bottom:12px;width:120px;height:120px;" width="120" height="120"/></picture>\
+                <p style="font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;">The document you uploaded looks like ' + _solArt + ' <strong>' + _solLblLc + '</strong> quote.</p>\
+                <p style="font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;">We could try to analyze it as a solar quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.</p>\
+                <a href="' + _solNonCur.url + '" style="display:inline-block;background:#dc2626;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Analyze as ' + _solNonCur.label + ' instead</a>\
+                <a href="javascript:void(0)" id="solarHardRejectStartOver" style="display:inline-block;background:#fff;color:#991b1b;padding:11px 22px;border:2px solid #fecaca;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600;margin:0 6px 10px;">Upload a different file</a>\
+                <p style="font-size:12px;color:#9ca3af;margin:14px 0 0;">Detection confidence: ' + _solNonCur.score + ' ' + _solNonCur.label + ' keywords vs ' + _solCurS + ' solar keywords</p>\
+              </div>';
+            var _solSO = document.getElementById("solarHardRejectStartOver");
+            if (_solSO) _solSO.addEventListener("click", function(){ window.location.reload(); });
+            var _solSeo = document.querySelectorAll("#main .tp-pdf-noprint");
+            for (var _ss = 0; _ss < _solSeo.length; _ss++) { _solSeo[_ss].style.display = "none"; }
+            return;
+          }
+        }
+
         renderPriceConfirmation(appRoot, quotePrice, "sol", function(confirmedPrice) {
 
 
