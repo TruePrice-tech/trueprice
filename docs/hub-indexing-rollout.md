@@ -8,7 +8,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 
 | date | hub | cities linked | hub-pair sim% | city uniq pre (NF/FS) | city uniq post (NF/FS) | commit | status |
 |---|---|---|---|---|---|---|---|
-| 2026-05-01 | foundation-repair-cost-guide | 30 | n/a (1 hub) | 86 / 90 | 86 / 90 | _pending_ | OK |
+| 2026-05-01 | foundation-repair-cost-guide | 30 | n/a (1 hub) | 86 / 90 | 86 / 90 | d7463b2913 | OK |
 
 ## Working set (18 hubs)
 
