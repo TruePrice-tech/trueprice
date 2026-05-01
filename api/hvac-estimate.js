@@ -238,9 +238,9 @@ Rules:
 - scopeItems: Mark "yes" only if clearly present in the quote
 - oversizingFlag: Set true if tonnage > 1 ton per 500 sqft of home (e.g. 4 ton for 1500 sqft home is oversized)
 - redFlags: Include if any of the following are detected:
-  * SEER rating below 15 (below 2023 federal minimum for new equipment)
-  * R-22 (Freon) refrigerant mentioned (phased out, extremely expensive)
-  * CRITICAL: R-410A refrigerant in a NEW install quote. Per EPA AIM Act, R-410A is ILLEGAL in new HVAC equipment manufactured or installed on or after Jan 1 2026. New systems must use A2L refrigerants (R-454B or R-32). Any 2026 quote spec'ing R-410A is a critical red flag - the equipment is either pre-ban inventory (acceptable with disclosure) or the contractor is out of compliance.
+  * Efficiency below current federal minimum: split AC <14.3 SEER2 in Southeast/Southwest or <13.4 SEER2 in North (effective Jan 1, 2023). SEER ratings translate roughly: 14.3 SEER2 ≈ 15 SEER, 13.4 SEER2 ≈ 14 SEER. If the quote lists only legacy SEER, note the conversion.
+  * R-22 (Freon) refrigerant mentioned (phased out for production since 2020, servicing only with reclaimed stock, extremely expensive)
+  * CRITICAL: R-410A refrigerant in a NEW install. Per EPA AIM Act Technology Transitions rule, manufacture/import of new R-410A residential AC and heat pump equipment was prohibited as of Jan 1, 2025. Installation of newly manufactured R-410A systems is restricted from Jan 1, 2026, though pre-2025-manufactured inventory is currently allowed under EPA enforcement deprioritization (and a proposed rule pending). New equipment generally uses A2L refrigerants (R-454B, R-32). If a 2026 quote specs R-410A, verify whether equipment is pre-2025 inventory disclosed as such, and that warranty/service support remains available — otherwise it's a compliance risk.
   * No Manual J load calculation mentioned for a full system install
   * Warranty is parts-only with no labor coverage
   * No permit included for a system replacement

@@ -87,8 +87,8 @@ export function auditRoofingQuote(parsed: ParsedRoofingQuote): AuditFinding[] {
       severity: "medium",
       category: "warranty_gap",
       flag: "No warranty terms specified",
-      detail: "Quote does not mention warranty length or terms. A complete roof replacement should include both a manufacturer material warranty (typically 25-50 years for architectural shingles) AND a separate workmanship warranty from the contractor (typically 1-10 years).",
-      disputeAction: "Request both warranties in writing: 'What manufacturer warranty applies to the materials, and what workmanship warranty do you provide separately?'",
+      detail: "Quote does not mention warranty length or terms. A complete roof replacement should include both a manufacturer material warranty AND a separate workmanship warranty from the contractor. Major architectural shingles (GAF Timberline, OC Duration, CertainTeed Landmark, Malarkey) carry 'limited lifetime' material warranties, but the meaningful number is the non-prorated period — typically 10 years standard, extendable to 50 years only via certified-contractor system warranties (e.g., GAF Golden Pledge). After the non-prorated window, coverage is pro-rated; transferability is limited; registration within 30-60 days is often required; labor is typically NOT covered unless an extended/system warranty is purchased.",
+      disputeAction: "Request both warranties in writing: 'What manufacturer warranty applies (standard limited lifetime, or upgraded system/extended)? What is the non-prorated period, and is labor covered? What is your separate workmanship warranty?'",
     });
   } else if (parsed.warrantyYears && parsed.warrantyYears < 10) {
     findings.push({
