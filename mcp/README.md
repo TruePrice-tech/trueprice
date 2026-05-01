@@ -8,13 +8,13 @@ Lets users ask their AI assistant to analyze medical bills, identify potential e
 
 ## Tools
 
-| Tool | Status | Description |
-|---|---|---|
-| `parse_bill` | Phase 1 (working) | Parse a medical bill from text or images. Returns structured analysis. |
-| `check_errors` | Phase 1 (working) | Identify billing errors and dispute opportunities. |
-| `lookup_average_price` | Phase 2 (stub) | Look up Medicare/commercial price for a CPT code. |
-| `draft_dispute` | Phase 2 (stub) | Draft a dispute letter for a specific error type. |
-| `negotiation_script` | Phase 2 (stub) | Generate a phone negotiation script for billing department calls. |
+| Tool | Description |
+|---|---|
+| `parse_bill` | Parse a medical bill from text or images. Returns structured analysis. |
+| `check_errors` | Identify billing errors and dispute opportunities. |
+| `lookup_average_price` | Look up Medicare/commercial price for a CPT code. |
+| `draft_dispute` | Draft a dispute letter for a specific error type. |
+| `negotiation_script` | Generate a phone negotiation script for billing department calls. |
 
 ## Install
 
@@ -97,9 +97,13 @@ To test locally against a non-production Woogoro:
 WOOGORO_API_BASE=http://localhost:3000 node dist/index.js
 ```
 
+## Hosted
+
+A hosted version runs at `https://mcp.woogoro.com/mcp` using Streamable HTTP transport. Use it without installing anything by pointing your MCP client at that URL. See [PHASE1.md](./PHASE1.md) for the deploy and DNS steps.
+
 ## Status
 
-Phase 1 in progress. Two tools working (`parse_bill`, `check_errors`), three stubs awaiting Phase 2 implementation. See [PHASE1.md](./PHASE1.md) for build status and architecture decisions.
+Phase 1 (functional core) and Phase 1.5 (hosted HTTP transport) shipped. All five tools working. See [PHASE1.md](./PHASE1.md) for build status and architecture decisions.
 
 ## Disclaimer
 

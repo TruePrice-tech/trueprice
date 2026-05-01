@@ -8,6 +8,8 @@ Per session 2026-04-29: building patient-side medical bill audit MCP, bolted ont
 
 Phase 1 functional core: COMPLETE. All five tools working end-to-end. Smoke test passing.
 
+Phase 1.5 hosted-transport code: COMPLETE locally (HTTP transport added behind `MCP_TRANSPORT=http`, Dockerfile + fly.toml landed). Deploy + DNS swap awaiting Lane's hands (see "Phase 1.5 deploy steps" below).
+
 ## Tools shipped
 
 | Tool | Status | Implementation |
@@ -37,6 +39,59 @@ npm install
 npm run build      # syncs pricing data, compiles TS, copies data into dist/
 npm run smoke      # runs offline tool smoke tests (lookup, draft, script)
 node dist/index.js # starts the MCP server on stdio
+
+# Hosted (HTTP) mode locally:
+MCP_TRANSPORT=http PORT=8080 node dist/index.js
+curl http://localhost:8080/healthz
+```
+
+## Phase 1.5 deploy steps (Fly.io + DNS)
+
+Auth posture: open endpoint, relies on Cloudflare in front and Woogoro API's existing 60/hr/IP rate limit. The MCP server holds `WOOGORO_MCP_KEY` server-side; clients never see it. Pull the deploy if abuse spikes.
+
+One-time:
+
+```bash
+# 1. Install flyctl (PowerShell on Windows):
+# iwr https://fly.io/install.ps1 -useb | iex
+
+cd mcp
+fly auth login                                      # browser flow
+fly launch --no-deploy --copy-config --name woogoro-mcp --region iad
+fly secrets set WOOGORO_MCP_KEY=<value-from-vercel-env>
+fly deploy
+fly status                                          # confirm machine is healthy
+curl https://woogoro-mcp.fly.dev/healthz            # smoke test before DNS swap
+```
+
+DNS (Cloudflare):
+
+```
+1. In Cloudflare DNS for woogoro.com, find the existing `mcp` placeholder record.
+2. Change it to: CNAME, name=mcp, target=woogoro-mcp.fly.dev, proxy=ON (orange cloud).
+3. In Fly: `fly certs add mcp.woogoro.com` (auto-provisions Let's Encrypt; takes ~1-2 min).
+4. Verify: `curl https://mcp.woogoro.com/healthz` (expect 200 + {ok:true,...}).
+```
+
+Test the hosted MCP from a client:
+
+```bash
+curl -X POST https://mcp.woogoro.com/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Claude Desktop / Cursor config for hosted:
+
+```json
+{
+  "mcpServers": {
+    "woogoro": {
+      "url": "https://mcp.woogoro.com/mcp"
+    }
+  }
+}
 ```
 
 ## Decisions still pending Lane's input
@@ -58,9 +113,9 @@ node dist/index.js # starts the MCP server on stdio
 
 In rough priority order:
 
-1. **Self-install test.** Lane installs the MCP locally in Claude Desktop or Cursor and runs a real bill through it. Validates the install instructions and the parse_bill end-to-end against the live Woogoro API.
+1. **Self-install test.** DONE 2026-04-30. Lane installed locally and ran a real bill through it end-to-end. Install instructions verified.
 2. **Validation outreach.** 5-10 LinkedIn messages this week. Drafts can be ready in minutes if you say go.
-3. **Phase 1.5 hosted setup.** Fly.io account, deploy config, DNS update from placeholder to Fly's CNAME, SSL. ~1-2 hours.
+3. **Phase 1.5 hosted setup.** Code + Dockerfile + fly.toml landed 2026-04-30. Awaiting Lane to run the deploy steps documented above.
 4. **Landing page.** Consumer-facing page on Woogoro explaining the MCP, install instructions, "see what's inside" example. Could go at woogoro.com/medical-bills/claude or similar.
-5. **Listing on Smithery / Glama / mcp.so.** Submit after self-install verification.
+5. **Listing on Smithery / Glama / mcp.so.** Submit now that self-install is verified.
 6. **Pro tier integration.** Decide what (if any) MCP features sit behind Woogoro Pro vs free.
