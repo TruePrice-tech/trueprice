@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { vertical, ocrChars, ocrConfidence, regexFoundPrice, aiCalled, aiFoundPrice, priceFound, finalSource } = req.body || {};
+    const { vertical, ocrChars, ocrConfidence, regexFoundPrice, aiCalled, aiFoundPrice, priceFound, finalSource, priceCeilingTripped } = req.body || {};
 
     if (!vertical) return res.status(400).json({ error: "missing vertical" });
 
@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       aiOk: aiFoundPrice ? 1 : 0,
       price: priceFound ? 1 : 0,
       src: finalSource || "none",
+      cap: priceCeilingTripped ? 1 : 0,
       ts: Date.now()
     };
 

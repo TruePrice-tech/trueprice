@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 
   try {
     const results = {};
-    const totals = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0 };
+    const totals = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0, capRejected: 0 };
 
     for (let d = 0; d < days; d++) {
       const date = new Date();
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       const entries = await redis.lrange(dayKey, 0, -1);
       if (!entries || entries.length === 0) continue;
 
-      const dayStats = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0, byVertical: {} };
+      const dayStats = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0, capRejected: 0, byVertical: {} };
 
       for (const raw of entries) {
         const e = typeof raw === "string" ? JSON.parse(raw) : raw;
@@ -34,20 +34,23 @@ export default async function handler(req, res) {
         if (e.regex) dayStats.regexOk++;
         if (e.aiCall) dayStats.aiCalled++;
         if (e.aiOk) dayStats.aiOk++;
+        if (e.cap) dayStats.capRejected++;
 
-        if (!dayStats.byVertical[e.v]) dayStats.byVertical[e.v] = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0 };
+        if (!dayStats.byVertical[e.v]) dayStats.byVertical[e.v] = { total: 0, priceFound: 0, regexOk: 0, aiCalled: 0, aiOk: 0, capRejected: 0 };
         const vStat = dayStats.byVertical[e.v];
         vStat.total++;
         if (e.price) vStat.priceFound++;
         if (e.regex) vStat.regexOk++;
         if (e.aiCall) vStat.aiCalled++;
         if (e.aiOk) vStat.aiOk++;
+        if (e.cap) vStat.capRejected++;
 
         totals.total++;
         if (e.price) totals.priceFound++;
         if (e.regex) totals.regexOk++;
         if (e.aiCall) totals.aiCalled++;
         if (e.aiOk) totals.aiOk++;
+        if (e.cap) totals.capRejected++;
       }
 
       results[dayStr] = dayStats;
@@ -60,6 +63,7 @@ export default async function handler(req, res) {
       regexRate: totals.total > 0 ? Math.round((totals.regexOk / totals.total) * 100) + "%" : "N/A",
       aiCallRate: totals.total > 0 ? Math.round((totals.aiCalled / totals.total) * 100) + "%" : "N/A",
       aiSuccessRate: totals.aiCalled > 0 ? Math.round((totals.aiOk / totals.aiCalled) * 100) + "%" : "N/A",
+      capRejectRate: totals.total > 0 ? Math.round((totals.capRejected / totals.total) * 1000) / 10 + "%" : "N/A",
       daily: results
     });
   } catch (e) {

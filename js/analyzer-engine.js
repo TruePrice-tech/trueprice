@@ -715,6 +715,7 @@
           aiFoundPrice: result.source === "ai",
           priceFound: !!result.price,
           finalSource: result.source || "none",
+          priceCeilingTripped: !!result.priceCeilingTripped,
           ts: new Date().toISOString()
         })
       }).catch(function() {});
