@@ -1,0 +1,38 @@
+{
+  "name": "@woogoro/mcp-roofing",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Woogoro MCP server: roofing quote audit + dispute help, accessible from Claude / Cursor / any MCP-compatible AI assistant",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "woogoro-roofing-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "sync-data": "node -e \"require('fs').copyFileSync('../data/roofing-pricing.json', 'data/roofing-pricing.json')\"",
+    "prebuild": "npm run sync-data",
+    "build": "tsc && node -e \"require('fs').cpSync('data', 'dist/data', { recursive: true })\"",
+    "start": "node dist/index.js",
+    "smoke": "npm run build && node dist/smoke.js",
+    "dev": "tsc --watch",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "worker:dev": "npm run sync-data && wrangler dev",
+    "worker:deploy": "npm run sync-data && wrangler deploy",
+    "worker:logs": "wrangler tail"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "express": "^5.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.20.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
