@@ -2845,7 +2845,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
   if (finalPrice && vertical) {
     var VERTICAL_PRICE_BOUNDS = {
       plumbing:    { min: 75,  max: 50000 },
-      hvac:        { min: 100, max: 60000 },
+      hvac:        { min: 100, max: 120000 },
       electrical:  { min: 75,  max: 50000 },
       roofing:     { min: 500, max: 250000 },
       fencing:     { min: 100, max: 100000 },
