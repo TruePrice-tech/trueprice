@@ -19,7 +19,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | roof-cost-calculator | — | — | 87 / 90 | unchanged | n/a | 🚫 HALTED |
 | 2026-05-01 | insulation-cost-guide | 30 | 16.0% (max, vs HVAC) | 87 / 87 | 87 / 87 | cd9a67fe66 | OK |
 | 2026-05-01 | landscaping-cost-guide | 30 | 16.4% (max, vs concrete) | 83 / 87 | 83 / 87 | 55af757be6 | OK |
-| 2026-05-01 | painting-cost-guide | 30 | 18.4% (max, vs insulation) | 84 / 89 | 84 / 89 | _pending_ | OK |
+| 2026-05-01 | painting-cost-guide | 30 | 18.4% (max, vs insulation) | 84 / 89 | 84 / 89 | e7846fe344 | OK |
 
 ## Working set (18 hubs)
 
