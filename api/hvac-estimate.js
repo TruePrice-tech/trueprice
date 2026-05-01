@@ -68,7 +68,7 @@ export default async function handler(req, res) {
   const allowedOrigin = "https://woogoro.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-woogoro-mcp-key");
 
   if (req.method === "OPTIONS") {
     return res.status(204).end();
@@ -78,8 +78,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  // MCP bypass: requests from Woogoro MCP servers include a shared
+  // secret in x-woogoro-mcp-key. When valid, skip the browser-shaped
+  // abuse guard and per-IP rate limit.
+  const _mcpKey = req.headers["x-woogoro-mcp-key"];
+  const _mcpKeyValid =
+    !!_mcpKey &&
+    !!process.env.WOOGORO_MCP_KEY &&
+    _mcpKey === process.env.WOOGORO_MCP_KEY;
+
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
-  if (!(await checkRateLimit(clientIp))) {
+  if (!_mcpKeyValid && !(await checkRateLimit(clientIp))) {
     return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
   }
 
@@ -88,7 +97,12 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac-v3-jobtype", imageBytes: _imageBuf });
+    let _guard;
+    if (_mcpKeyValid) {
+      _guard = { ok: true, imageHash: null, cachedResult: null };
+    } else {
+      _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac-v3-jobtype", imageBytes: _imageBuf });
+    }
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
