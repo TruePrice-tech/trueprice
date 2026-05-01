@@ -1,0 +1,48 @@
+# Hub city-link rollout — ledger
+
+Goal: 18 hub guides wired to ~30 city pages each, so 10K "Discovered, currently not indexed" pages become indexable.
+
+Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/flagship uniqueness ≥80%, hub-pair similarity <35%.
+
+## Progress
+
+| date | hub | cities linked | hub-pair sim% | city uniq pre (NF/FS) | city uniq post (NF/FS) | commit | status |
+|---|---|---|---|---|---|---|---|
+| 2026-05-01 | foundation-repair-cost-guide | 30 | n/a (1 hub) | 86 / 90 | 86 / 90 | _pending_ | OK |
+
+## Working set (18 hubs)
+
+Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
+
+| Hub | City pages | Status |
+|---|---|---|
+| auto-repair-cost-guide | 48 | ⏳ |
+| concrete-cost-guide | 740 | ⏳ |
+| electrical-cost-guide | 740 | ⏳ |
+| fencing-cost-guide | 742 | ⏳ |
+| foundation-repair-cost-guide | 740 | ✅ |
+| garage-door-cost-guide | 740 | ⏳ |
+| gutter-installation-cost-guide | 740 | ⏳ |
+| hvac-replacement-cost-guide | 740 | ⏳ |
+| insulation-cost-guide | 741 | ⏳ |
+| landscaping-cost-guide | 740 | ⏳ |
+| legal-cost-guide | 48 | ⏳ |
+| medical-cost-guide | 48 | ⏳ |
+| moving-cost-guide | 48 | ⏳ |
+| painting-cost-guide | 740 | ⏳ |
+| plumbing-cost-guide | 742 | ⏳ |
+| roof-cost-calculator | 856 | ⏳ |
+| siding-cost-guide | 740 | ⏳ |
+| window-replacement-cost-guide | 740 | ⏳ |
+
+## Excluded
+
+| Hub | Reason |
+|---|---|
+| solar-installation-cost-guide | 633/741 city pages contaminated with roofing content; blocked until cleanup |
+| kitchen-remodel-cost-guide | No city pages exist |
+| guides.html | Multi-vertical; revisit after the 18 |
+
+## Halt log
+
+(empty — no halts yet)
