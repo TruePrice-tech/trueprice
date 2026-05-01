@@ -1,5 +1,7 @@
 # Woogoro MCP Server
 
+[![smithery badge](https://smithery.ai/badge/glane0303/woogoro)](https://smithery.ai/server/glane0303/woogoro)
+
 MCP server for medical bill audit and dispute help. Bridges Claude / ChatGPT / Cursor / any MCP-compatible AI assistant to Woogoro's medical bill analysis engine.
 
 ## What it does
