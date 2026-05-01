@@ -99,11 +99,23 @@ WOOGORO_API_BASE=http://localhost:3000 node dist/index.js
 
 ## Hosted
 
-A hosted version runs at `https://mcp.woogoro.com/mcp` using Streamable HTTP transport. Use it without installing anything by pointing your MCP client at that URL. See [PHASE1.md](./PHASE1.md) for the deploy and DNS steps.
+Once deployed, the hosted MCP runs on Cloudflare Workers at `https://mcp.woogoro.com/mcp` (Streamable HTTP transport). Point any MCP client at that URL — no install needed:
+
+```json
+{
+  "mcpServers": {
+    "woogoro": {
+      "url": "https://mcp.woogoro.com/mcp"
+    }
+  }
+}
+```
+
+Deploy steps live in [PHASE1.md](./PHASE1.md).
 
 ## Status
 
-Phase 1 (functional core) and Phase 1.5 (hosted HTTP transport) shipped. All five tools working. See [PHASE1.md](./PHASE1.md) for build status and architecture decisions.
+Phase 1 (functional core) complete. Phase 1.5 hosted-transport code complete (Cloudflare Worker entry at [src/worker.ts](./src/worker.ts), wrangler config at [wrangler.toml](./wrangler.toml)); deploy + custom-domain step still owed. See [PHASE1.md](./PHASE1.md).
 
 ## Disclaimer
 

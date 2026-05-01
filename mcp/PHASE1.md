@@ -2,13 +2,17 @@
 
 ## Decision context
 
-Per session 2026-04-29: building patient-side medical bill audit MCP, bolted onto Woogoro infrastructure rather than standalone. Subdomain reserved at `mcp.woogoro.com` (placeholder DNS in Cloudflare). Confidence on the bet: 40-50%. Hosting target confirmed as Fly.io for Phase 1.5 hosted transport.
+Per session 2026-04-29: building patient-side medical bill audit MCP, bolted onto Woogoro infrastructure rather than standalone. Subdomain reserved at `mcp.woogoro.com` (placeholder DNS in Cloudflare). Confidence on the bet: 40-50%.
+
+Hosting target switched 2026-04-30 from Fly.io ($5/mo minimum) to **Cloudflare Workers ($0/mo at our scale)** per Lane's free-first preference. Fly.io implementation was reverted — see commit `c79292ccef`.
 
 ## Status
 
-Phase 1 functional core: COMPLETE. All five tools working end-to-end. Smoke test passing.
+Phase 1 functional core: COMPLETE. All five tools working end-to-end. Smoke test passing. Self-install verified 2026-04-30 (Lane installed locally, ran a real bill end-to-end against live Woogoro API).
 
-Phase 1.5 hosted-transport code: COMPLETE locally (HTTP transport added behind `MCP_TRANSPORT=http`, Dockerfile + fly.toml landed). Deploy + DNS swap awaiting Lane's hands (see "Phase 1.5 deploy steps" below).
+Phase 1.5 hosted-transport code: COMPLETE. Cloudflare Worker entry at [src/worker.ts](./src/worker.ts), config at [wrangler.toml](./wrangler.toml). Pricing-data loader refactored to use bundled JSON import (works in both Node-stdio and Workers-runtime contexts). Wrangler dry-run succeeds: 792 KiB raw / 148 KiB gzipped — well under Workers' 1 MiB free-tier script limit.
+
+Deploy + custom-domain claim: pending Lane's hands.
 
 ## Tools shipped
 
@@ -40,37 +44,36 @@ npm run build      # syncs pricing data, compiles TS, copies data into dist/
 npm run smoke      # runs offline tool smoke tests (lookup, draft, script)
 node dist/index.js # starts the MCP server on stdio
 
-# Hosted (HTTP) mode locally:
-MCP_TRANSPORT=http PORT=8080 node dist/index.js
-curl http://localhost:8080/healthz
+# Workers (hosted) build verification:
+npx wrangler deploy --dry-run --outdir=.wrangler-dryrun
 ```
 
-## Phase 1.5 deploy steps (Fly.io + DNS)
+## Phase 1.5 Workers deploy steps
 
-Auth posture: open endpoint, relies on Cloudflare in front and Woogoro API's existing 60/hr/IP rate limit. The MCP server holds `WOOGORO_MCP_KEY` server-side; clients never see it. Pull the deploy if abuse spikes.
+Auth posture: open endpoint, no per-client auth. `WOOGORO_MCP_KEY` is held server-side as a Wrangler secret; clients never see it. Cloudflare DDoS + Woogoro API's 60/hr/IP rate limit are the only floors. Pull the deploy if abuse spikes.
 
-One-time:
+One-time, when ready to ship:
 
 ```bash
-# 1. Install flyctl (PowerShell on Windows):
-# iwr https://fly.io/install.ps1 -useb | iex
-
 cd mcp
-fly auth login                                      # browser flow
-fly launch --no-deploy --copy-config --name woogoro-mcp --region iad
-fly secrets set WOOGORO_MCP_KEY=<value-from-vercel-env>
-fly deploy
-fly status                                          # confirm machine is healthy
-curl https://woogoro-mcp.fly.dev/healthz            # smoke test before DNS swap
+npx wrangler login                                       # browser flow
+npx wrangler secret put WOOGORO_MCP_KEY                  # paste the key from Vercel env
+npm run worker:deploy                                    # = wrangler deploy
+
+# Verify the *.workers.dev URL first (wrangler prints it):
+curl https://woogoro-mcp.<account>.workers.dev/healthz
 ```
 
-DNS (Cloudflare):
+Custom domain (`mcp.woogoro.com`):
 
 ```
-1. In Cloudflare DNS for woogoro.com, find the existing `mcp` placeholder record.
-2. Change it to: CNAME, name=mcp, target=woogoro-mcp.fly.dev, proxy=ON (orange cloud).
-3. In Fly: `fly certs add mcp.woogoro.com` (auto-provisions Let's Encrypt; takes ~1-2 min).
-4. Verify: `curl https://mcp.woogoro.com/healthz` (expect 200 + {ok:true,...}).
+1. wrangler.toml already declares the route. After first deploy, Cloudflare
+   will auto-create the custom domain on the Workers dashboard.
+2. If it doesn't auto-claim: dashboard -> Workers & Pages -> woogoro-mcp ->
+   Settings -> Triggers -> Custom Domains -> Add 'mcp.woogoro.com'.
+3. Cloudflare auto-provisions SSL and overrides the existing placeholder
+   CNAME on woogoro.com. No manual DNS edit needed.
+4. Verify: `curl https://mcp.woogoro.com/healthz` -> {ok:true,...}.
 ```
 
 Test the hosted MCP from a client:
@@ -94,12 +97,17 @@ Claude Desktop / Cursor config for hosted:
 }
 ```
 
+Logs / debugging:
+
+```bash
+npm run worker:logs    # = wrangler tail (live log stream)
+```
+
 ## Decisions still pending Lane's input
 
-1. **Distribution:** stdio-only Phase 1 (current) vs add hosted SSE/HTTP at Phase 1.5. Recommend ship stdio first to validate. Hosted needs Fly.io setup.
-2. **Pricing model:** free MCP server + Woogoro Pro paywall on web for premium analysis features, vs paid MCP tier. Memory recommendation was free (gateway drug). Confirm.
-3. **Listing strategy:** when to list on Smithery / Glama / mcp.so. Recommend after Lane self-installs and verifies the install instructions are clear.
-4. **Validation gate:** still owed. 5-10 outreach messages to recently-billed consumers asking "would you use this through Claude/ChatGPT?" The product is now testable; previously stub-heavy.
+1. **Pricing model:** free MCP server + Woogoro Pro paywall on web for premium analysis features, vs paid MCP tier. Memory recommendation was free (gateway drug). Confirm.
+2. **Listing strategy:** when to list on Smithery / Glama / mcp.so. Recommend after hosted deploy is up.
+3. **Validation gate:** still owed. 5-10 outreach messages to recently-billed consumers asking "would you use this through Claude/ChatGPT?" The product is now testable.
 
 ## Open issues
 
@@ -113,9 +121,9 @@ Claude Desktop / Cursor config for hosted:
 
 In rough priority order:
 
-1. **Self-install test.** DONE 2026-04-30. Lane installed locally and ran a real bill through it end-to-end. Install instructions verified.
-2. **Validation outreach.** 5-10 LinkedIn messages this week. Drafts can be ready in minutes if you say go.
-3. **Phase 1.5 hosted setup.** Code + Dockerfile + fly.toml landed 2026-04-30. Awaiting Lane to run the deploy steps documented above.
+1. **Self-install test.** DONE 2026-04-30. Install instructions verified end-to-end against live Woogoro API.
+2. **Phase 1.5 deploy.** Code complete. Lane runs `wrangler login` + `wrangler secret put WOOGORO_MCP_KEY` + `npm run worker:deploy`, then claims `mcp.woogoro.com` custom domain. ~10-15 min total.
+3. **Validation outreach.** 5-10 LinkedIn messages. Drafts can be ready in minutes.
 4. **Landing page.** Consumer-facing page on Woogoro explaining the MCP, install instructions, "see what's inside" example. Could go at woogoro.com/medical-bills/claude or similar.
-5. **Listing on Smithery / Glama / mcp.so.** Submit now that self-install is verified.
+5. **Listing on Smithery / Glama / mcp.so.** Submit after hosted deploy is verified.
 6. **Pro tier integration.** Decide what (if any) MCP features sit behind Woogoro Pro vs free.

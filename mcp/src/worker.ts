@@ -1,6 +1,5 @@
-import express from "express";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
@@ -8,6 +7,11 @@ import {
 
 import { config } from "./config.js";
 import { toolDefinitions, runTool } from "./tools/index.js";
+
+interface Env {
+  WOOGORO_API_BASE?: string;
+  WOOGORO_MCP_KEY?: string;
+}
 
 function buildServer(): Server {
   const server = new Server(
@@ -43,56 +47,59 @@ function buildServer(): Server {
   return server;
 }
 
-export async function startHttpServer(port: number): Promise<void> {
-  const app = express();
-  app.use(express.json({ limit: "12mb" }));
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    if (env.WOOGORO_API_BASE) {
+      (config as { woogoroApiBase: string }).woogoroApiBase = env.WOOGORO_API_BASE;
+    }
+    if (env.WOOGORO_MCP_KEY) {
+      (config as { woogoroMcpKey: string }).woogoroMcpKey = env.WOOGORO_MCP_KEY;
+    }
 
-  app.get("/healthz", (_req, res) => {
-    res.json({ ok: true, server: config.serverName, version: config.serverVersion });
-  });
+    const url = new URL(request.url);
 
-  app.post("/mcp", async (req, res) => {
+    if (url.pathname === "/healthz" || url.pathname === "/") {
+      return Response.json({
+        ok: true,
+        server: config.serverName,
+        version: config.serverVersion,
+        endpoint: "/mcp",
+      });
+    }
+
+    if (url.pathname !== "/mcp") {
+      return new Response("Not found", { status: 404 });
+    }
+
+    if (request.method !== "POST") {
+      return Response.json(
+        {
+          jsonrpc: "2.0",
+          error: { code: -32000, message: "Method not allowed" },
+          id: null,
+        },
+        { status: 405 }
+      );
+    }
+
     const server = buildServer();
-    const transport = new StreamableHTTPServerTransport({
+    const transport = new WebStandardStreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
-    });
-
-    res.on("close", () => {
-      transport.close();
-      server.close();
     });
 
     try {
       await server.connect(transport);
-      await transport.handleRequest(req, res, req.body);
+      return await transport.handleRequest(request);
     } catch (err) {
       console.error("MCP request error:", err);
-      if (!res.headersSent) {
-        res.status(500).json({
+      return Response.json(
+        {
           jsonrpc: "2.0",
           error: { code: -32603, message: "Internal server error" },
           id: null,
-        });
-      }
-    }
-  });
-
-  const methodNotAllowed = (_req: express.Request, res: express.Response) => {
-    res.status(405).json({
-      jsonrpc: "2.0",
-      error: { code: -32000, message: "Method not allowed" },
-      id: null,
-    });
-  };
-  app.get("/mcp", methodNotAllowed);
-  app.delete("/mcp", methodNotAllowed);
-
-  await new Promise<void>((resolve) => {
-    app.listen(port, () => {
-      console.error(
-        `${config.serverName} v${config.serverVersion} listening on http://0.0.0.0:${port}`
+        },
+        { status: 500 }
       );
-      resolve();
-    });
-  });
-}
+    }
+  },
+};

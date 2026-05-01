@@ -1,0 +1,23 @@
+name = "woogoro-mcp"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Production custom domain — claim after first deploy:
+#   wrangler deploy
+#   then in Cloudflare dashboard: Workers & Pages -> woogoro-mcp -> Settings ->
+#   Triggers -> Custom Domains -> Add 'mcp.woogoro.com'
+# Cloudflare auto-provisions SSL and updates DNS (replaces the placeholder
+# CNAME on woogoro.com). No manual DNS edit needed.
+
+[vars]
+WOOGORO_API_BASE = "https://woogoro.com"
+# WOOGORO_MCP_KEY is set via `wrangler secret put WOOGORO_MCP_KEY` (do NOT
+# put secrets in wrangler.toml — they get committed).
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "mcp.woogoro.com"
+custom_domain = true

@@ -1,6 +1,4 @@
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import pricingJson from "../../data/medical-cpt-pricing.json" with { type: "json" };
 
 export interface CPTEntry {
   description: string;
@@ -33,34 +31,8 @@ export interface PricingData {
   commonCPTCodes: Record<string, CPTEntry>;
 }
 
-let cachedData: PricingData | null = null;
-
 export function loadPricingData(): PricingData {
-  if (cachedData) return cachedData;
-
-  const here = dirname(fileURLToPath(import.meta.url));
-  const candidates = [
-    resolve(here, "../../data/medical-cpt-pricing.json"),
-    resolve(here, "../data/medical-cpt-pricing.json"),
-    resolve(here, "../../../data/medical-cpt-pricing.json"),
-  ];
-
-  let lastErr: unknown = null;
-  for (const path of candidates) {
-    try {
-      const raw = readFileSync(path, "utf-8");
-      cachedData = JSON.parse(raw) as PricingData;
-      return cachedData;
-    } catch (err) {
-      lastErr = err;
-    }
-  }
-
-  throw new Error(
-    `Could not load pricing data from any candidate path. Last error: ${
-      lastErr instanceof Error ? lastErr.message : String(lastErr)
-    }`
-  );
+  return pricingJson as unknown as PricingData;
 }
 
 export function lookupCPT(
