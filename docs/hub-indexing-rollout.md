@@ -18,6 +18,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | concrete-cost-guide | 30 | 14.3% (max, vs foundation) | 83 / 88 | 83 / 88 | e6d472fe96 | OK |
 | 2026-05-01 | roof-cost-calculator | — | — | 87 / 90 | unchanged | n/a | 🚫 HALTED |
 | 2026-05-01 | insulation-cost-guide | 30 | 16.0% (max, vs HVAC) | 87 / 87 | 87 / 87 | cd9a67fe66 | OK |
+| 2026-05-01 | landscaping-cost-guide | 30 | 16.4% (max, vs concrete) | 83 / 87 | 83 / 87 | _pending_ | OK |
 
 ## Working set (18 hubs)
 
@@ -34,7 +35,7 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 | gutter-installation-cost-guide | 740 | ✅ |
 | hvac-replacement-cost-guide | 740 | ✅ |
 | insulation-cost-guide | 741 | ✅ |
-| landscaping-cost-guide | 740 | ⏳ |
+| landscaping-cost-guide | 740 | ✅ |
 | legal-cost-guide | 48 | ⏳ |
 | medical-cost-guide | 48 | ⏳ |
 | moving-cost-guide | 48 | ⏳ |
