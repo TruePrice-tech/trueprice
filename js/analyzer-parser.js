@@ -2859,7 +2859,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       painting:    { min: 100, max: 40000 },
       siding:      { min: 200, max: 150000 },
       solar:       { min: 500, max: 300000 },
-      windows:     { min: 200, max: 60000 },
+      windows:     { min: 200, max: 120000 },
       moving:      { min: 100, max: 35000 },
       auto:        { min: 50,  max: 30000 },
       medical:     { min: 50,  max: 500000 },
