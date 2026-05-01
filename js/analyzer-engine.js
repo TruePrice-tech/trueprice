@@ -665,6 +665,27 @@
       }
     }
 
+    // Vertical-aware ceiling: rejects implausibly high prices on a per-vertical
+    // basis. Mirrors VERTICAL_PRICE_BOUNDS in analyzer-parser.js (which only
+    // fires on the analyze path) — this is the same defense for the compare
+    // engine. Opt-in per vertical; missing verticals fall through unchanged.
+    // Fires AFTER both regex and AI paths so it catches a final price from
+    // either source. Only rejects (sets to null) — never replaces a value.
+    var _verticalCeilings = {
+      kitchen: 400000
+    };
+    var _ceiling = _verticalCeilings[options.vertical];
+    if (_ceiling && result.price && result.price > _ceiling) {
+      console.warn(
+        "[TP_Engine] Dropping picked price " + result.price +
+        " — above " + options.vertical + " ceiling " + _ceiling +
+        ". Will surface manual-entry path."
+      );
+      result.price = null;
+      result.source = null;
+      result.priceCeilingTripped = true;
+    }
+
     onProgress(95, "Finalizing...");
 
     // Set confidence for price-confirm auto-skip
