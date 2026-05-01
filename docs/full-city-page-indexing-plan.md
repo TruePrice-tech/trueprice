@@ -223,12 +223,26 @@ Honest range with normal session slip: **80–100 hours** across 12–16 weeks.
 
 ---
 
-## Open questions for Lane (before kickoff)
+## Locked decisions (Lane sign-off 2026-05-01)
 
-1. **Phase A.3 mass-edit override:** confirm that geographic-driven link-widget injection on 12K city pages is acceptable, OR specify an alternative. Hand-editing 12K pages is infeasible.
-2. **Phase A.1 indexability:** ship vertical-cities pages as `index,follow` (more SEO value, requires uniqueness audit on intro prose) or `noindex,follow` (zero risk, slight SEO loss)?
-3. **Roof Option 2 from current rollout:** still want to do `roof-cost-by-material.html` city section, or skip it entirely now that Phase A.1's roof-cities page solves the orphan problem more comprehensively?
-4. **Hub rollout completion:** finish remaining 7 hubs (~3 hrs) for completeness, or stop now and pivot fully to Phase A?
+The bar for "no regression" is the existing **≥80% Google uniqueness composite on every city + flagship page.** Anything above that bar is success. Hide-from-Google posture (noindex) is unnecessary defense — the audit IS the defense.
+
+1. **Phase A.3 mass-edit:** APPROVED. Scripted geographic link-widget injection on 12K city pages. Standard ≥80% gate applies (NF + FS must remain ≥80% post-edit). 100-city pilot first; if uniqueness holds, scale to 500, audit, scale to all 12K.
+
+2. **Phase A.1 indexability:** `index,follow` on the 20 vertical-cities pages. Pre-launch test: pairwise similarity audit on the 20 directories' intro prose; if every directory's prose stays ≥80% Google-unique, ship indexable. They become 20 additional ranking surfaces.
+
+3. **Roof Option 2 + Phase A.1 roof-cities.html:** SHIP BOTH. Both pass the ≥80% bar. Redundant linking on the main vertical is a feature, not a bug. Topical-dilution concern on roof-cost-by-material.html is a SERP-position issue, not a uniqueness regression — different question, monitored via GSC, reverted only if 25%+ position drop on tracked queries within 4 weeks.
+
+4. **Hub rollout completion:** HALT now. Pivot fully to Phase A. Reason: time-allocation ROI, not safety. 7 remaining hubs × 30 city links = 210 cities of marginal benefit vs Phase A delivering 12,000+. The 11 hubs already shipped retain their residual value.
+
+## Posture summary
+
+- **Aggressive everywhere uniqueness audit gates the work.** Audit passes → ship.
+- **Index everything that passes the bar.** `noindex` is over-defense.
+- **Ship redundant linking on roof.** Main vertical, redundancy is good.
+- **Don't waste time on marginal work.** Halt rollout, focus on Phase A.
+
+The ≥80% bar is what protects against regression. Per-phase audits are commit-blocking gates.
 
 ---
 

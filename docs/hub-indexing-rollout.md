@@ -1,5 +1,10 @@
 # Hub city-link rollout — ledger
 
+**🚫 ROLLOUT HALTED 2026-05-01.** Pivoted to [Phase A full city-page indexing plan](full-city-page-indexing-plan.md) — the higher-leverage architecture for indexing all 12K city pages. The 11 hubs already shipped retain their residual value (substantial hub-page content + flagship metro PageRank). The 7 remaining hubs (auto-repair, garage-door, legal, medical, moving, window, roof-decision) are deferred indefinitely; they may be revisited if Phase A leaves indexing gaps in those verticals.
+
+For ongoing work, see [phase-a-next-session.md](phase-a-next-session.md).
+
+
 Goal: 18 hub guides wired to ~30 city pages each, so 10K "Discovered, currently not indexed" pages become indexable.
 
 Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/flagship uniqueness ≥80%, hub-pair similarity <35%.
