@@ -14,6 +14,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | electrical-cost-guide | 30 | 18.5% (max, vs plumbing) | 84 / 90 | 84 / 90 | aa41f9c8eb | OK |
 | 2026-05-01 | siding-cost-guide | 30 | 14.5% (max, vs plumbing) | 86 / 89 | 86 / 89 | c87a6e8e9f | OK |
 | 2026-05-01 | gutter-installation-cost-guide | 30 | 12.5% (max, vs siding) | 83 / 88 | 83 / 88 | fb4ac9e68a | OK |
+| 2026-05-01 | fencing-cost-guide | 30 | 17.9% (max, vs siding) | 85 / 89 | 85 / 89 | _pending_ | OK |
 
 ## Working set (18 hubs)
 
@@ -24,7 +25,7 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 | auto-repair-cost-guide | 48 | ⏳ |
 | concrete-cost-guide | 740 | ⏳ |
 | electrical-cost-guide | 740 | ✅ |
-| fencing-cost-guide | 742 | ⏳ |
+| fencing-cost-guide | 742 | ✅ |
 | foundation-repair-cost-guide | 740 | ✅ |
 | garage-door-cost-guide | 740 | ⏳ |
 | gutter-installation-cost-guide | 740 | ✅ |
