@@ -17,7 +17,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | fencing-cost-guide | 30 | 17.9% (max, vs siding) | 85 / 89 | 85 / 89 | c820a93e75 | OK |
 | 2026-05-01 | concrete-cost-guide | 30 | 14.3% (max, vs foundation) | 83 / 88 | 83 / 88 | e6d472fe96 | OK |
 | 2026-05-01 | roof-cost-calculator | — | — | 87 / 90 | unchanged | n/a | 🚫 HALTED |
-| 2026-05-01 | insulation-cost-guide | 30 | 16.0% (max, vs HVAC) | 87 / 87 | 87 / 87 | _pending_ | OK |
+| 2026-05-01 | insulation-cost-guide | 30 | 16.0% (max, vs HVAC) | 87 / 87 | 87 / 87 | cd9a67fe66 | OK |
 
 ## Working set (18 hubs)
 
