@@ -1,0 +1,14 @@
+name = "woogoro-auto-repair-mcp"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+WOOGORO_API_BASE = "https://woogoro.com"
+
+[observability]
+enabled = true
+
+[[routes]]
+pattern = "auto-repair-mcp.woogoro.com"
+custom_domain = true

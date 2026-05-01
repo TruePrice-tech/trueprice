@@ -1,0 +1,1487 @@
+{
+  "metadata": {
+    "sources": "AAA 2026, PartsTech 2025, RepairPal, BLS SOC 49-3023, Mitchell labor guides, consumer surveys",
+    "baseYear": 2026,
+    "nationalMedianLaborRate": 140,
+    "inflationRate": 0.027
+  },
+  "stateMultipliers": {
+    "AL": 0.82,
+    "AK": 1.1,
+    "AZ": 0.95,
+    "AR": 0.78,
+    "CA": 1.25,
+    "CO": 1.08,
+    "CT": 1.18,
+    "DE": 1.05,
+    "FL": 0.92,
+    "GA": 0.88,
+    "HI": 1.12,
+    "ID": 0.85,
+    "IL": 1.02,
+    "IN": 0.88,
+    "IA": 0.85,
+    "KS": 0.85,
+    "KY": 0.82,
+    "LA": 0.85,
+    "ME": 0.95,
+    "MD": 1.05,
+    "MA": 1.15,
+    "MI": 0.88,
+    "MN": 0.95,
+    "MS": 0.78,
+    "MO": 0.85,
+    "MT": 0.9,
+    "NE": 0.85,
+    "NV": 1.0,
+    "NH": 1.05,
+    "NJ": 1.12,
+    "NM": 0.88,
+    "NY": 1.18,
+    "NC": 0.88,
+    "ND": 0.85,
+    "OH": 0.88,
+    "OK": 0.8,
+    "OR": 1.02,
+    "PA": 1.0,
+    "RI": 1.05,
+    "SC": 0.85,
+    "SD": 0.82,
+    "TN": 0.85,
+    "TX": 0.9,
+    "UT": 0.92,
+    "VT": 0.95,
+    "VA": 0.95,
+    "WA": 1.12,
+    "WV": 0.78,
+    "WI": 0.9,
+    "WY": 0.88,
+    "DC": 1.2
+  },
+  "laborRatesByShopType": {
+    "dealer": {
+      "low": 130,
+      "mid": 170,
+      "high": 240,
+      "luxuryFloor": 180
+    },
+    "independent": {
+      "low": 75,
+      "mid": 105,
+      "high": 150,
+      "metroFloor": 80
+    },
+    "chain": {
+      "low": 90,
+      "mid": 120,
+      "high": 150
+    }
+  },
+  "shopTypeLabels": {
+    "dealer": "Dealership",
+    "independent": "Independent Shop",
+    "chain": "Chain (Midas, Firestone, etc.)"
+  },
+  "vehicleCategoryMultipliers": {
+    "economy": {
+      "mult": 0.85,
+      "label": "Economy (Civic, Corolla, Sentra)",
+      "examples": "Honda Civic, Toyota Corolla, Nissan Sentra, Hyundai Elantra"
+    },
+    "standard": {
+      "mult": 1.0,
+      "label": "Standard (Camry, Accord, Altima)",
+      "examples": "Toyota Camry, Honda Accord, Ford Fusion, Chevy Malibu"
+    },
+    "truck_suv": {
+      "mult": 1.15,
+      "label": "Truck / SUV",
+      "examples": "Ford F-150, Chevy Silverado, Toyota 4Runner, Jeep Wrangler"
+    },
+    "luxury": {
+      "mult": 1.35,
+      "label": "Luxury / European",
+      "examples": "BMW, Mercedes, Audi, Lexus, Volvo, Jaguar"
+    },
+    "performance": {
+      "mult": 1.5,
+      "label": "Performance / Exotic",
+      "examples": "Porsche, Corvette, AMG, M-series, RS models"
+    },
+    "ev_hybrid": {
+      "mult": 1.2,
+      "label": "Electric / Hybrid",
+      "examples": "Tesla, Prius, Bolt, Leaf, Mach-E, ID.4"
+    }
+  },
+  "diagnosticFees": {
+    "dealer": {
+      "low": 150,
+      "high": 250
+    },
+    "independent": {
+      "low": 100,
+      "high": 175
+    },
+    "chain": {
+      "low": 75,
+      "high": 150
+    },
+    "notes": "Many shops waive diagnostic fee if you proceed with the repair."
+  },
+  "commonRepairs": {
+    "brakes_front": {
+      "label": "Front Brake Pads & Rotors",
+      "category": "brakes",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.0
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          350
+        ],
+        "aftermarket": [
+          80,
+          200
+        ],
+        "reman": [
+          60,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 250,
+        "high": 650
+      },
+      "perAxle": true,
+      "urgency": "soon",
+      "notes": "Per axle. Rotors may not need replacing every time."
+    },
+    "brakes_rear": {
+      "label": "Rear Brake Pads & Rotors",
+      "category": "brakes",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.0
+      },
+      "partsRange": {
+        "oem": [
+          130,
+          300
+        ],
+        "aftermarket": [
+          70,
+          180
+        ],
+        "reman": [
+          50,
+          130
+        ]
+      },
+      "totalRange": {
+        "low": 230,
+        "high": 600
+      },
+      "perAxle": true,
+      "urgency": "soon"
+    },
+    "brakes_all_four": {
+      "label": "Complete Brake Job (All 4 Wheels)",
+      "category": "brakes",
+      "laborHours": {
+        "low": 2.0,
+        "high": 4.0
+      },
+      "partsRange": {
+        "oem": [
+          280,
+          650
+        ],
+        "aftermarket": [
+          150,
+          380
+        ],
+        "reman": [
+          110,
+          280
+        ]
+      },
+      "totalRange": {
+        "low": 450,
+        "high": 1200
+      },
+      "urgency": "soon"
+    },
+    "oil_change_conventional": {
+      "label": "Oil Change (Conventional)",
+      "category": "maintenance",
+      "laborHours": {
+        "low": 0.3,
+        "high": 0.5
+      },
+      "partsRange": {
+        "oem": [
+          25,
+          40
+        ],
+        "aftermarket": [
+          20,
+          35
+        ]
+      },
+      "totalRange": {
+        "low": 35,
+        "high": 75
+      },
+      "urgency": "maintenance"
+    },
+    "oil_change_synthetic": {
+      "label": "Oil Change (Full Synthetic)",
+      "category": "maintenance",
+      "laborHours": {
+        "low": 0.3,
+        "high": 0.5
+      },
+      "partsRange": {
+        "oem": [
+          45,
+          70
+        ],
+        "aftermarket": [
+          35,
+          60
+        ]
+      },
+      "totalRange": {
+        "low": 65,
+        "high": 125
+      },
+      "urgency": "maintenance"
+    },
+    "timing_belt": {
+      "label": "Timing Belt Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 3.0,
+        "high": 6.0
+      },
+      "partsRange": {
+        "oem": [
+          80,
+          200
+        ],
+        "aftermarket": [
+          50,
+          120
+        ]
+      },
+      "totalRange": {
+        "low": 400,
+        "high": 1300
+      },
+      "urgency": "soon",
+      "notes": "Replace at manufacturer interval (60-100K miles). Failure can destroy engine."
+    },
+    "timing_chain": {
+      "label": "Timing Chain Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 5.0,
+        "high": 10.0
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          400
+        ],
+        "aftermarket": [
+          80,
+          250
+        ]
+      },
+      "totalRange": {
+        "low": 800,
+        "high": 2500
+      },
+      "urgency": "critical"
+    },
+    "transmission_rebuild": {
+      "label": "Transmission Rebuild",
+      "category": "transmission",
+      "laborHours": {
+        "low": 8.0,
+        "high": 15.0
+      },
+      "partsRange": {
+        "oem": [
+          800,
+          2000
+        ],
+        "aftermarket": [
+          500,
+          1500
+        ],
+        "reman": [
+          400,
+          1200
+        ]
+      },
+      "totalRange": {
+        "low": 1800,
+        "high": 3500
+      },
+      "urgency": "critical"
+    },
+    "transmission_replacement": {
+      "label": "Transmission Replacement",
+      "category": "transmission",
+      "laborHours": {
+        "low": 6.0,
+        "high": 10.0
+      },
+      "partsRange": {
+        "oem": [
+          2000,
+          4000
+        ],
+        "aftermarket": [
+          1500,
+          3000
+        ],
+        "reman": [
+          1200,
+          2500
+        ]
+      },
+      "totalRange": {
+        "low": 2800,
+        "high": 6000
+      },
+      "urgency": "critical"
+    },
+    "alternator": {
+      "label": "Alternator Replacement",
+      "category": "electrical",
+      "laborHours": {
+        "low": 1.0,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          250,
+          500
+        ],
+        "aftermarket": [
+          120,
+          300
+        ],
+        "reman": [
+          80,
+          200
+        ]
+      },
+      "totalRange": {
+        "low": 350,
+        "high": 800
+      },
+      "urgency": "critical"
+    },
+    "starter_motor": {
+      "label": "Starter Motor Replacement",
+      "category": "electrical",
+      "laborHours": {
+        "low": 1.0,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          450
+        ],
+        "aftermarket": [
+          100,
+          250
+        ],
+        "reman": [
+          75,
+          200
+        ]
+      },
+      "totalRange": {
+        "low": 300,
+        "high": 700
+      },
+      "urgency": "critical"
+    },
+    "battery": {
+      "label": "Battery Replacement (12V)",
+      "category": "electrical",
+      "laborHours": {
+        "low": 0.3,
+        "high": 0.5
+      },
+      "partsRange": {
+        "oem": [
+          100,
+          200
+        ],
+        "aftermarket": [
+          80,
+          160
+        ]
+      },
+      "totalRange": {
+        "low": 120,
+        "high": 300
+      },
+      "urgency": "critical"
+    },
+    "ac_compressor": {
+      "label": "AC Compressor Replacement",
+      "category": "ac",
+      "laborHours": {
+        "low": 3.0,
+        "high": 5.0
+      },
+      "partsRange": {
+        "oem": [
+          300,
+          700
+        ],
+        "aftermarket": [
+          200,
+          500
+        ],
+        "reman": [
+          150,
+          400
+        ]
+      },
+      "totalRange": {
+        "low": 600,
+        "high": 1400
+      },
+      "urgency": "can_wait"
+    },
+    "ac_recharge": {
+      "label": "AC Recharge (R134a)",
+      "category": "ac",
+      "laborHours": {
+        "low": 0.5,
+        "high": 1.0
+      },
+      "partsRange": {
+        "oem": [
+          30,
+          60
+        ]
+      },
+      "totalRange": {
+        "low": 100,
+        "high": 250
+      },
+      "urgency": "can_wait"
+    },
+    "water_pump": {
+      "label": "Water Pump Replacement",
+      "category": "cooling",
+      "laborHours": {
+        "low": 2.0,
+        "high": 5.0
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          350
+        ],
+        "aftermarket": [
+          80,
+          200
+        ],
+        "reman": [
+          60,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 350,
+        "high": 900
+      },
+      "urgency": "critical"
+    },
+    "radiator": {
+      "label": "Radiator Replacement",
+      "category": "cooling",
+      "laborHours": {
+        "low": 2.0,
+        "high": 4.0
+      },
+      "partsRange": {
+        "oem": [
+          250,
+          500
+        ],
+        "aftermarket": [
+          120,
+          300
+        ]
+      },
+      "totalRange": {
+        "low": 400,
+        "high": 900
+      },
+      "urgency": "critical"
+    },
+    "thermostat": {
+      "label": "Thermostat Replacement",
+      "category": "cooling",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.5
+      },
+      "partsRange": {
+        "oem": [
+          30,
+          80
+        ],
+        "aftermarket": [
+          15,
+          50
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 400
+      },
+      "urgency": "soon"
+    },
+    "head_gasket": {
+      "label": "Head Gasket Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 10.0,
+        "high": 20.0
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          600
+        ],
+        "aftermarket": [
+          100,
+          350
+        ]
+      },
+      "totalRange": {
+        "low": 1500,
+        "high": 3500
+      },
+      "urgency": "critical",
+      "notes": "Major repair. Get second opinion. Compare cost vs vehicle value."
+    },
+    "catalytic_converter": {
+      "label": "Catalytic Converter",
+      "category": "exhaust",
+      "laborHours": {
+        "low": 1.0,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          800,
+          2500
+        ],
+        "aftermarket": [
+          200,
+          800
+        ]
+      },
+      "totalRange": {
+        "low": 500,
+        "high": 3000
+      },
+      "urgency": "soon",
+      "notes": "CA requires CARB-compliant. OEM much more expensive. High theft target."
+    },
+    "exhaust_muffler": {
+      "label": "Muffler Replacement",
+      "category": "exhaust",
+      "laborHours": {
+        "low": 0.5,
+        "high": 1.5
+      },
+      "partsRange": {
+        "oem": [
+          100,
+          250
+        ],
+        "aftermarket": [
+          50,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 400
+      },
+      "urgency": "can_wait"
+    },
+    "o2_sensor": {
+      "label": "Oxygen Sensor Replacement",
+      "category": "exhaust",
+      "laborHours": {
+        "low": 0.5,
+        "high": 1.5
+      },
+      "partsRange": {
+        "oem": [
+          80,
+          200
+        ],
+        "aftermarket": [
+          40,
+          120
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 400
+      },
+      "urgency": "soon"
+    },
+    "struts_front": {
+      "label": "Front Struts (Pair)",
+      "category": "suspension",
+      "laborHours": {
+        "low": 2.0,
+        "high": 4.0
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          500
+        ],
+        "aftermarket": [
+          100,
+          300
+        ]
+      },
+      "totalRange": {
+        "low": 400,
+        "high": 900
+      },
+      "urgency": "soon"
+    },
+    "struts_rear": {
+      "label": "Rear Struts/Shocks (Pair)",
+      "category": "suspension",
+      "laborHours": {
+        "low": 1.5,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          400
+        ],
+        "aftermarket": [
+          80,
+          250
+        ]
+      },
+      "totalRange": {
+        "low": 300,
+        "high": 700
+      },
+      "urgency": "soon"
+    },
+    "wheel_bearing": {
+      "label": "Wheel Bearing Replacement",
+      "category": "suspension",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.5
+      },
+      "partsRange": {
+        "oem": [
+          100,
+          250
+        ],
+        "aftermarket": [
+          60,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 250,
+        "high": 550
+      },
+      "urgency": "critical"
+    },
+    "ball_joints": {
+      "label": "Ball Joints (Pair)",
+      "category": "suspension",
+      "laborHours": {
+        "low": 1.5,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          100,
+          300
+        ],
+        "aftermarket": [
+          60,
+          180
+        ]
+      },
+      "totalRange": {
+        "low": 250,
+        "high": 600
+      },
+      "urgency": "critical"
+    },
+    "control_arms": {
+      "label": "Control Arms (Pair)",
+      "category": "suspension",
+      "laborHours": {
+        "low": 1.5,
+        "high": 3.5
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          500
+        ],
+        "aftermarket": [
+          100,
+          300
+        ]
+      },
+      "totalRange": {
+        "low": 400,
+        "high": 1200
+      },
+      "urgency": "soon"
+    },
+    "tie_rod_ends": {
+      "label": "Tie Rod Ends (Pair)",
+      "category": "steering",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.0
+      },
+      "partsRange": {
+        "oem": [
+          80,
+          200
+        ],
+        "aftermarket": [
+          40,
+          120
+        ]
+      },
+      "totalRange": {
+        "low": 200,
+        "high": 500
+      },
+      "urgency": "critical"
+    },
+    "spark_plugs": {
+      "label": "Spark Plug Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 0.5,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          40,
+          120
+        ],
+        "aftermarket": [
+          20,
+          80
+        ]
+      },
+      "totalRange": {
+        "low": 100,
+        "high": 350
+      },
+      "urgency": "maintenance",
+      "notes": "Labor varies hugely by engine. V6/V8 with coil-on-plug can be 3+ hours."
+    },
+    "ignition_coils": {
+      "label": "Ignition Coil(s) Replacement",
+      "category": "electrical",
+      "laborHours": {
+        "low": 0.5,
+        "high": 2.0
+      },
+      "partsRange": {
+        "oem": [
+          50,
+          200
+        ],
+        "aftermarket": [
+          25,
+          100
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 500
+      },
+      "urgency": "soon"
+    },
+    "clutch_replacement": {
+      "label": "Clutch Replacement",
+      "category": "drivetrain",
+      "laborHours": {
+        "low": 4.0,
+        "high": 8.0
+      },
+      "partsRange": {
+        "oem": [
+          300,
+          800
+        ],
+        "aftermarket": [
+          150,
+          500
+        ]
+      },
+      "totalRange": {
+        "low": 800,
+        "high": 2000
+      },
+      "urgency": "critical"
+    },
+    "cv_axle": {
+      "label": "CV Axle Replacement",
+      "category": "drivetrain",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.5
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          350
+        ],
+        "aftermarket": [
+          80,
+          200
+        ],
+        "reman": [
+          60,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 200,
+        "high": 500
+      },
+      "urgency": "soon"
+    },
+    "fuel_pump": {
+      "label": "Fuel Pump Replacement",
+      "category": "fuel",
+      "laborHours": {
+        "low": 2.0,
+        "high": 4.0
+      },
+      "partsRange": {
+        "oem": [
+          250,
+          600
+        ],
+        "aftermarket": [
+          150,
+          400
+        ]
+      },
+      "totalRange": {
+        "low": 400,
+        "high": 1000
+      },
+      "urgency": "critical"
+    },
+    "fuel_injector": {
+      "label": "Fuel Injector Replacement (Single)",
+      "category": "fuel",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.0
+      },
+      "partsRange": {
+        "oem": [
+          80,
+          300
+        ],
+        "aftermarket": [
+          40,
+          150
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 500
+      },
+      "urgency": "soon"
+    },
+    "serpentine_belt": {
+      "label": "Serpentine Belt Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 0.3,
+        "high": 1.0
+      },
+      "partsRange": {
+        "oem": [
+          30,
+          80
+        ],
+        "aftermarket": [
+          15,
+          50
+        ]
+      },
+      "totalRange": {
+        "low": 75,
+        "high": 200
+      },
+      "urgency": "soon"
+    },
+    "power_steering_pump": {
+      "label": "Power Steering Pump",
+      "category": "steering",
+      "laborHours": {
+        "low": 1.5,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          400
+        ],
+        "aftermarket": [
+          100,
+          250
+        ],
+        "reman": [
+          80,
+          200
+        ]
+      },
+      "totalRange": {
+        "low": 300,
+        "high": 700
+      },
+      "urgency": "soon"
+    },
+    "window_regulator": {
+      "label": "Window Regulator/Motor",
+      "category": "electrical",
+      "laborHours": {
+        "low": 1.0,
+        "high": 2.5
+      },
+      "partsRange": {
+        "oem": [
+          150,
+          350
+        ],
+        "aftermarket": [
+          60,
+          200
+        ]
+      },
+      "totalRange": {
+        "low": 250,
+        "high": 600
+      },
+      "urgency": "can_wait"
+    },
+    "headlight_assembly": {
+      "label": "Headlight Assembly",
+      "category": "electrical",
+      "laborHours": {
+        "low": 0.5,
+        "high": 1.5
+      },
+      "partsRange": {
+        "oem": [
+          200,
+          600
+        ],
+        "aftermarket": [
+          80,
+          300
+        ]
+      },
+      "totalRange": {
+        "low": 150,
+        "high": 800
+      },
+      "urgency": "critical",
+      "notes": "Luxury LED/HID assemblies can cost $800-4000 OEM."
+    },
+    "engine_replacement": {
+      "label": "Engine Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 10.0,
+        "high": 20.0
+      },
+      "partsRange": {
+        "oem": [
+          3000,
+          7000
+        ],
+        "aftermarket": [
+          1500,
+          4000
+        ],
+        "reman": [
+          2000,
+          5000
+        ]
+      },
+      "totalRange": {
+        "low": 3000,
+        "high": 8000
+      },
+      "urgency": "critical",
+      "notes": "Compare cost vs vehicle value before proceeding."
+    },
+    "ev_battery_pack": {
+      "label": "EV Battery Pack Replacement",
+      "category": "ev",
+      "laborHours": {
+        "low": 3.0,
+        "high": 8.0
+      },
+      "partsRange": {
+        "oem": [
+          7000,
+          20000
+        ],
+        "reman": [
+          3000,
+          10000
+        ]
+      },
+      "totalRange": {
+        "low": 4000,
+        "high": 25000
+      },
+      "urgency": "critical",
+      "notes": "Most EVs have 8yr/100K mile battery warranty. Check warranty first."
+    },
+    "ev_battery_module": {
+      "label": "EV Battery Module Repair",
+      "category": "ev",
+      "laborHours": {
+        "low": 2.0,
+        "high": 5.0
+      },
+      "partsRange": {
+        "reman": [
+          1500,
+          5000
+        ]
+      },
+      "totalRange": {
+        "low": 3000,
+        "high": 8000
+      },
+      "urgency": "critical",
+      "notes": "Module-level repair is 30-50% cheaper than full pack replacement."
+    },
+    "hybrid_battery": {
+      "label": "Hybrid Battery Replacement",
+      "category": "ev",
+      "laborHours": {
+        "low": 2.0,
+        "high": 4.0
+      },
+      "partsRange": {
+        "oem": [
+          2500,
+          5000
+        ],
+        "reman": [
+          1500,
+          3000
+        ]
+      },
+      "totalRange": {
+        "low": 2000,
+        "high": 6000
+      },
+      "urgency": "critical",
+      "notes": "Reman hybrid batteries from Greentec, re/cell save 30-50%."
+    },
+    "turbo_replacement": {
+      "label": "Turbocharger Replacement",
+      "category": "engine",
+      "laborHours": {
+        "low": 4.0,
+        "high": 8.0
+      },
+      "partsRange": {
+        "oem": [
+          800,
+          2500
+        ],
+        "aftermarket": [
+          400,
+          1500
+        ],
+        "reman": [
+          300,
+          1200
+        ]
+      },
+      "totalRange": {
+        "low": 1500,
+        "high": 4000
+      },
+      "urgency": "critical"
+    },
+    "dpf_cleaning": {
+      "label": "DPF Filter Cleaning/Replace (Diesel)",
+      "category": "exhaust",
+      "laborHours": {
+        "low": 1.0,
+        "high": 3.0
+      },
+      "partsRange": {
+        "oem": [
+          500,
+          2000
+        ],
+        "aftermarket": [
+          300,
+          1000
+        ]
+      },
+      "totalRange": {
+        "low": 500,
+        "high": 3000
+      },
+      "urgency": "soon"
+    }
+  },
+  "commonUpsells": [
+    {
+      "trigger": "brake_job",
+      "upsell": "brake fluid flush",
+      "typical_cost": [
+        80,
+        150
+      ],
+      "necessary": "rarely",
+      "notes": "Brake fluid should be changed every 2-3 years, but not necessarily every brake job."
+    },
+    {
+      "trigger": "brake_job",
+      "upsell": "wheel alignment",
+      "typical_cost": [
+        80,
+        120
+      ],
+      "necessary": "no",
+      "notes": "Brakes do not affect alignment. Only needed after suspension work."
+    },
+    {
+      "trigger": "oil_change",
+      "upsell": "engine flush",
+      "typical_cost": [
+        100,
+        200
+      ],
+      "necessary": "rarely",
+      "notes": "Can damage seals on high-mileage engines. Most manufacturers do not recommend."
+    },
+    {
+      "trigger": "oil_change",
+      "upsell": "fuel system cleaning",
+      "typical_cost": [
+        100,
+        200
+      ],
+      "necessary": "rarely",
+      "notes": "Modern fuel already contains detergents. Useful only if specific symptoms."
+    },
+    {
+      "trigger": "oil_change",
+      "upsell": "cabin air filter",
+      "typical_cost": [
+        40,
+        80
+      ],
+      "necessary": "sometimes",
+      "notes": "Replace every 15-20K miles. DIY cost: $10-20. Shop markup is high."
+    },
+    {
+      "trigger": "any",
+      "upsell": "transmission flush",
+      "typical_cost": [
+        150,
+        300
+      ],
+      "necessary": "sometimes",
+      "notes": "Check owner's manual. Some manufacturers say never flush, only drain-and-fill."
+    },
+    {
+      "trigger": "any",
+      "upsell": "coolant flush",
+      "typical_cost": [
+        100,
+        200
+      ],
+      "necessary": "sometimes",
+      "notes": "Every 30-60K miles per manufacturer. Not needed annually."
+    },
+    {
+      "trigger": "check_engine",
+      "upsell": "multiple sensors replaced",
+      "typical_cost": [
+        300,
+        800
+      ],
+      "necessary": "verify",
+      "notes": "One bad sensor can trigger multiple codes. Diagnose root cause first."
+    },
+    {
+      "trigger": "suspension",
+      "upsell": "replace all 4 struts when only 2 needed",
+      "typical_cost": [
+        400,
+        900
+      ],
+      "necessary": "no",
+      "notes": "Struts should be replaced in pairs (front or rear), not necessarily all 4."
+    }
+  ],
+  "partsMarkupBenchmarks": {
+    "notes": "Typical shop markup over wholesale cost. Flag if parts charges significantly exceed these ranges.",
+    "typical_markup_pct": {
+      "low": 40,
+      "mid": 65,
+      "high": 100
+    },
+    "retail_comparison": {
+      "autozone_markup_over_wholesale": 45,
+      "rockauto_markup_over_wholesale": 20,
+      "dealer_parts_counter_markup": 65
+    }
+  },
+  "repairUrgencyLevels": {
+    "critical": {
+      "label": "Safety Critical",
+      "color": "#dc2626",
+      "advice": "Do not drive until repaired. Safety risk to you and others."
+    },
+    "soon": {
+      "label": "Repair Soon",
+      "color": "#d97706",
+      "advice": "Schedule within 1-2 weeks. Continued driving may cause further damage."
+    },
+    "can_wait": {
+      "label": "Can Wait",
+      "color": "#16a34a",
+      "advice": "Not urgent. Schedule at your convenience or next service interval."
+    },
+    "maintenance": {
+      "label": "Routine Maintenance",
+      "color": "#64748b",
+      "advice": "Follow manufacturer's recommended schedule."
+    }
+  },
+  "stateConsumerProtection": {
+    "CA": {
+      "name": "California Bureau of Automotive Repair",
+      "url": "https://www.bar.ca.gov/",
+      "rules": [
+        "Written estimate required",
+        "Cannot exceed estimate without permission",
+        "Must return replaced parts on request",
+        "Shops must be BAR registered"
+      ]
+    },
+    "NY": {
+      "name": "NY DMV Vehicle Safety",
+      "url": "https://dmv.ny.gov/",
+      "rules": [
+        "Written estimate required",
+        "Shop registration required",
+        "Used car lemon law 18K mi/2yr"
+      ]
+    },
+    "FL": {
+      "name": "FL Motor Vehicle Repair Act",
+      "url": "https://www.fdacs.gov/",
+      "rules": [
+        "Written estimate required for repairs over $100",
+        "Must include detailed description and total cost",
+        "Cannot exceed estimate without consent"
+      ]
+    },
+    "NJ": {
+      "name": "NJ Consumer Affairs",
+      "url": "https://www.njconsumeraffairs.gov/",
+      "rules": [
+        "Written estimate required for repairs over $20",
+        "Final bill cannot exceed estimate by more than 10%"
+      ]
+    },
+    "IL": {
+      "name": "IL Automotive Repair Act",
+      "url": "https://www.ilga.gov/",
+      "rules": [
+        "Written estimate required",
+        "Final bill cannot exceed estimate by more than 10%"
+      ]
+    },
+    "CT": {
+      "name": "CT DMV Auto Repair",
+      "url": "https://portal.ct.gov/dmv",
+      "rules": [
+        "Written estimate required",
+        "Shops must be licensed"
+      ]
+    },
+    "WA": {
+      "name": "WA Automotive Repair Act",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=46.71",
+      "rules": [
+        "Written estimate required",
+        "Authorization before work",
+        "Parts disclosure"
+      ]
+    },
+    "MA": {
+      "name": "MA Right to Repair",
+      "url": "https://www.mass.gov/",
+      "rules": [
+        "Strongest right-to-repair law",
+        "Access to diagnostic tools and data",
+        "Written estimate required"
+      ]
+    },
+    "TX": {
+      "name": "TX TDLR",
+      "url": "https://www.tdlr.texas.gov/",
+      "rules": [
+        "Written estimate recommended",
+        "Right to return replaced parts"
+      ]
+    },
+    "PA": {
+      "name": "PA AG Consumer Protection",
+      "url": "https://www.attorneygeneral.gov/",
+      "rules": [
+        "Written estimate required",
+        "Right to old parts"
+      ]
+    }
+  },
+  "scopeCheckItems": [
+    {
+      "key": "partsItemized",
+      "label": "Parts itemized separately from labor",
+      "weight": 15
+    },
+    {
+      "key": "laborRateStated",
+      "label": "Labor rate per hour stated",
+      "weight": 12
+    },
+    {
+      "key": "laborHoursListed",
+      "label": "Labor hours listed per job",
+      "weight": 12
+    },
+    {
+      "key": "partsType",
+      "label": "OEM/aftermarket/reman parts specified",
+      "weight": 10
+    },
+    {
+      "key": "shopSupplies",
+      "label": "Shop supplies/fees disclosed",
+      "weight": 8
+    },
+    {
+      "key": "taxIncluded",
+      "label": "Tax included or noted",
+      "weight": 6
+    },
+    {
+      "key": "partsWarranty",
+      "label": "Warranty on parts stated",
+      "weight": 10
+    },
+    {
+      "key": "laborWarranty",
+      "label": "Warranty on labor stated",
+      "weight": 10
+    },
+    {
+      "key": "diagnosticFee",
+      "label": "Diagnostic fee noted",
+      "weight": 8
+    },
+    {
+      "key": "fluidDisposal",
+      "label": "Fluid/waste disposal fees noted",
+      "weight": 5
+    }
+  ],
+  "categories": {
+    "brakes": {
+      "label": "Brakes"
+    },
+    "engine": {
+      "label": "Engine"
+    },
+    "transmission": {
+      "label": "Transmission"
+    },
+    "electrical": {
+      "label": "Electrical / Starting / Charging"
+    },
+    "ac": {
+      "label": "AC / Heating"
+    },
+    "exhaust": {
+      "label": "Exhaust / Emissions"
+    },
+    "suspension": {
+      "label": "Suspension"
+    },
+    "cooling": {
+      "label": "Cooling System"
+    },
+    "fuel": {
+      "label": "Fuel System"
+    },
+    "steering": {
+      "label": "Steering"
+    },
+    "drivetrain": {
+      "label": "Drivetrain / Clutch"
+    },
+    "maintenance": {
+      "label": "Routine Maintenance"
+    },
+    "ev": {
+      "label": "Electric / Hybrid"
+    }
+  }
+}
