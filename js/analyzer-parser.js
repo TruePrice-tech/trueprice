@@ -2852,7 +2852,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       concrete:    { min: 100, max: 80000 },
       foundation:  { min: 500, max: 150000 },
       "garage-door": { min: 100, max: 15000 },
-      gutters:     { min: 100, max: 15000 },
+      gutters:     { min: 100, max: 30000 },
       insulation:  { min: 100, max: 60000 },
       kitchen:     { min: 500, max: 400000 },
       landscaping: { min: 100, max: 150000 },
