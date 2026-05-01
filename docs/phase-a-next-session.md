@@ -18,7 +18,7 @@ Locked decisions (do not re-litigate):
 ### Phase A.1 — vertical-cities directory pages (20 total)
 | # | Vertical | Page | Status | Commit |
 |---|---|---|---|---|
-| 1 | foundation | foundation-cities.html | ⏳ pilot — next | — |
+| 1 | foundation | foundation-cities.html | ✅ pilot shipped | ed7ec75c769 |
 | 2 | hvac | hvac-cities.html | ⏳ | — |
 | 3 | plumbing | plumbing-cities.html | ⏳ | — |
 | 4 | electrical | electrical-cities.html | ⏳ | — |
