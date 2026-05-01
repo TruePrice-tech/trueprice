@@ -2856,7 +2856,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       insulation:  { min: 100, max: 60000 },
       kitchen:     { min: 500, max: 400000 },
       landscaping: { min: 100, max: 150000 },
-      painting:    { min: 100, max: 40000 },
+      painting:    { min: 100, max: 60000 },
       siding:      { min: 200, max: 150000 },
       solar:       { min: 500, max: 300000 },
       windows:     { min: 200, max: 120000 },
