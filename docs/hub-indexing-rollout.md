@@ -16,6 +16,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | gutter-installation-cost-guide | 30 | 12.5% (max, vs siding) | 83 / 88 | 83 / 88 | fb4ac9e68a | OK |
 | 2026-05-01 | fencing-cost-guide | 30 | 17.9% (max, vs siding) | 85 / 89 | 85 / 89 | c820a93e75 | OK |
 | 2026-05-01 | concrete-cost-guide | 30 | 14.3% (max, vs foundation) | 83 / 88 | 83 / 88 | e6d472fe96 | OK |
+| 2026-05-01 | roof-cost-calculator | — | — | 87 / 90 | unchanged | n/a | 🚫 HALTED |
 
 ## Working set (18 hubs)
 
@@ -38,7 +39,7 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 | moving-cost-guide | 48 | ⏳ |
 | painting-cost-guide | 740 | ⏳ |
 | plumbing-cost-guide | 742 | ✅ |
-| roof-cost-calculator | 856 | ⏳ |
+| roof-cost-calculator | 856 | 🚫 |
 | siding-cost-guide | 740 | ✅ |
 | window-replacement-cost-guide | 740 | ⏳ |
 
@@ -52,4 +53,15 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 
 ## Halt log
 
-(empty — no halts yet)
+### 2026-05-01 — roof-cost-calculator.html
+- **Trigger:** "Hub has structure I haven't seen before" hard-stop rule
+- **Detail:** roof-cost-calculator.html is a single-page interactive calculator widget (~50 lines body content, no `<section>` elements, no `<main>`, custom inline CSS/JS, no FAQ, no cost-breakdown sections). Adding a 30-row city-link table would 10x the actual page content and dominate the calculator UX.
+- **Roof has no `*-cost-guide.html`-pattern hub.** Candidates examined:
+  - `roof-cost-by-state.html` (786 lines, sectioned, by-state focused)
+  - `roof-cost-by-material.html` (441 lines, sectioned, cost-guide-shaped)
+  - `roof-cost-by-house-size.html` (86 lines, single-section)
+- **Recommended next steps for Lane to decide (not auto-improvising):**
+  1. Build a proper `roof-cost-guide.html` mirroring the cost-guide template + run the rollout script on it, OR
+  2. Designate `roof-cost-by-material.html` as the roof hub for this rollout (best structural fit), OR
+  3. Skip roof entirely (the 856 city pages won't get the hub PageRank boost — separate path needed).
+- 856 roof city pages remain stuck at "Discovered, currently not indexed" until this is resolved.
