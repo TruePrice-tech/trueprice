@@ -12,7 +12,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | hvac-replacement-cost-guide | 30 | 11.2% | 84 / 89 | 84 / 89 | 6458b83cd1 | OK |
 | 2026-05-01 | plumbing-cost-guide | 30 | 13.5% (max) | 83 / 91 | 83 / 91 | 1ed22921d3 | OK |
 | 2026-05-01 | electrical-cost-guide | 30 | 18.5% (max, vs plumbing) | 84 / 90 | 84 / 90 | aa41f9c8eb | OK |
-| 2026-05-01 | siding-cost-guide | 30 | 14.5% (max, vs plumbing) | 86 / 89 | 86 / 89 | _pending_ | OK |
+| 2026-05-01 | siding-cost-guide | 30 | 14.5% (max, vs plumbing) | 86 / 89 | 86 / 89 | c87a6e8e9f | OK |
 
 ## Working set (18 hubs)
 
