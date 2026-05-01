@@ -2850,7 +2850,7 @@ function parseExtractedTextMultiStrategy(extractedText, vertical) {
       roofing:     { min: 500, max: 250000 },
       fencing:     { min: 100, max: 40000 },
       concrete:    { min: 100, max: 80000 },
-      foundation:  { min: 500, max: 60000 },
+      foundation:  { min: 500, max: 150000 },
       "garage-door": { min: 100, max: 15000 },
       gutters:     { min: 100, max: 15000 },
       insulation:  { min: 100, max: 25000 },
