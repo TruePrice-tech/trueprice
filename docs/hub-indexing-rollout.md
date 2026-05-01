@@ -11,6 +11,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | 2026-05-01 | foundation-repair-cost-guide | 30 | n/a (1 hub) | 86 / 90 | 86 / 90 | d7463b2913 | OK |
 | 2026-05-01 | hvac-replacement-cost-guide | 30 | 11.2% | 84 / 89 | 84 / 89 | 6458b83cd1 | OK |
 | 2026-05-01 | plumbing-cost-guide | 30 | 13.5% (max) | 83 / 91 | 83 / 91 | 1ed22921d3 | OK |
+| 2026-05-01 | electrical-cost-guide | 30 | 18.5% (max, vs plumbing) | 84 / 90 | 84 / 90 | _pending_ | OK |
 
 ## Working set (18 hubs)
 
@@ -20,7 +21,7 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 |---|---|---|
 | auto-repair-cost-guide | 48 | ⏳ |
 | concrete-cost-guide | 740 | ⏳ |
-| electrical-cost-guide | 740 | ⏳ |
+| electrical-cost-guide | 740 | ✅ |
 | fencing-cost-guide | 742 | ⏳ |
 | foundation-repair-cost-guide | 740 | ✅ |
 | garage-door-cost-guide | 740 | ⏳ |
