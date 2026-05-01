@@ -9,6 +9,7 @@ Rules: [hub-link-rollout-rules.md](hub-link-rollout-rules.md). Hard gates: city/
 | date | hub | cities linked | hub-pair sim% | city uniq pre (NF/FS) | city uniq post (NF/FS) | commit | status |
 |---|---|---|---|---|---|---|---|
 | 2026-05-01 | foundation-repair-cost-guide | 30 | n/a (1 hub) | 86 / 90 | 86 / 90 | d7463b2913 | OK |
+| 2026-05-01 | hvac-replacement-cost-guide | 30 | 11.2% | 84 / 89 | 84 / 89 | _pending_ | OK |
 
 ## Working set (18 hubs)
 
@@ -23,7 +24,7 @@ Done = ✅, In progress = 🟡, Pending = ⏳, Blocked = 🚫
 | foundation-repair-cost-guide | 740 | ✅ |
 | garage-door-cost-guide | 740 | ⏳ |
 | gutter-installation-cost-guide | 740 | ⏳ |
-| hvac-replacement-cost-guide | 740 | ⏳ |
+| hvac-replacement-cost-guide | 740 | ✅ |
 | insulation-cost-guide | 741 | ⏳ |
 | landscaping-cost-guide | 740 | ⏳ |
 | legal-cost-guide | 48 | ⏳ |
