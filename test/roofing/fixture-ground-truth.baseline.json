@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T16:02:29.309Z",
+  "ts": "2026-05-02T17:08:51.582Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-gaf": {
@@ -19,7 +19,7 @@
     "f2-scope-doc": {
       "displayPrice": 14800,
       "contractor": "Not detected",
-      "stateCode": "OR",
+      "stateCode": null,
       "scopeFound": [
         "tear off",
         "underlayment",
@@ -34,9 +34,7 @@
         "disposal",
         "permit"
       ],
-      "failures": [
-        "stateCode: expected null, got \"OR\""
-      ]
+      "failures": []
     },
     "f3-budget": {
       "displayPrice": 7565,
@@ -50,12 +48,11 @@
         "ventilation",
         "ridge vent",
         "starter strip",
+        "ridge cap",
         "disposal",
         "permit"
       ],
-      "failures": [
-        "scopeFound missing: \"ridge cap\" (have: tear off | underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)"
-      ]
+      "failures": []
     },
     "f4-heritage": {
       "displayPrice": 11895,
@@ -69,14 +66,13 @@
         "drip edge",
         "ventilation",
         "ridge vent",
+        "starter strip",
+        "ridge cap",
         "decking",
         "disposal",
         "permit"
       ],
-      "failures": [
-        "scopeFound missing: \"ridge cap\" (have: tear off | underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
-        "scopeFound missing: \"starter strip\" (have: tear off | underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)"
-      ]
+      "failures": []
     },
     "f5-pinnacle": {
       "displayPrice": 17500,
@@ -87,16 +83,16 @@
         "underlayment",
         "flashing",
         "ice & water shield",
+        "drip edge",
+        "ventilation",
+        "ridge vent",
         "starter strip",
         "ridge cap",
         "decking",
         "disposal",
         "permit"
       ],
-      "failures": [
-        "scopeFound missing: \"drip edge\" (have: tear off | underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
-        "scopeFound missing: \"ridge vent\" (have: tear off | underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)"
-      ]
+      "failures": []
     },
     "f6-metal-136k": {
       "displayPrice": 136375,
