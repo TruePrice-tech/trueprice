@@ -1020,6 +1020,21 @@ function detectContractor(text) {
       return false;
     }
 
+    // Reject license/credential taglines printed under contractor letterheads.
+    // "Licensed Master Electrician · Bonded" / "Licensed and Insured" /
+    // "ASE Certified · IBEW Member" / "Licensed General Contractor" are never
+    // the company name — they're the credential strip beneath the actual
+    // company name. Without this filter, OCR runs that mangle the headline
+    // line return the credential strip as the contractor (E3 deep test
+    // 2026-05-02: f4 Redding Electric messy quote returned "Licensed Master
+    // Electrician Bonded" as contractor).
+    if (
+      /^(licensed|bonded|insured|certified|registered|fully\s*licensed|licensed\s*&\s*insured|licensed\s*and\s*insured|master\s*(electrician|plumber|hvac|roofer))/i.test(normalizedForMatch) ||
+      /^(ase|ibew|necr?\s*member|nate\s*certified)/i.test(normalizedForMatch)
+    ) {
+      return false;
+    }
+
     if (/\$|,\d{3}|\.\d{2}\b/.test(name)) {
       return false;
     }

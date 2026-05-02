@@ -646,7 +646,11 @@
       var brands = [
         // Premium tier — copper bus, smart features
         { brand: "Square D QO", tier: "Premium", regex: /\bsquare\s*d\s*qo\b/i },
-        { brand: "Span Smart Panel", tier: "Premium", regex: /\bspan\s*panel|smart\s*energy\s*monitoring\s*system/i },
+        // Span requires a model-specific suffix (Smart / Drive / Home / model
+        // code) — bare "Span panel" appears as a parenthetical "(Span panel
+        // optional)" reference in panel quotes that install a different brand
+        // and should not promote Span over the actual installed panel.
+        { brand: "Span Smart Panel", tier: "Premium", regex: /\bspan\s*(smart\s*panel|drive|home|qsp)\b/i },
         { brand: "Cutler-Hammer", tier: "Premium", regex: /\bcutler[- ]?hammer\b/i },
         // Mid tier — workhorse residential brands
         { brand: "Square D Homeline", tier: "Mid", regex: /\bsquare\s*d\s*homeline\b/i },
