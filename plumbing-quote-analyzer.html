@@ -1393,6 +1393,29 @@
       function safeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
       function cleanCity(s) { return safeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
 
+      // PL-10: AI sometimes hallucinates a city by mis-OCR-ing form-field
+      // text ("Customer Name" → "Ustomer Nal Je" rendered as
+      // "Ustomer Nal Je local pricing"). Reject city values that:
+      //   - contain form-fragment substrings
+      //   - aren't 2-50 chars of mostly-letters
+      //   - don't appear verbatim in the OCR text we just parsed
+      // Rejected city falls through to regional pricing label.
+      function isReasonableCity(s, ocrText) {
+        if (!s) return false;
+        var t = String(s).trim();
+        if (t.length < 2 || t.length > 50) return false;
+        if (/\b(customer|address|invoice|account|name|date|page|phone|email|signature|estimate|total|subtotal|amount|due|tax|qty|item|description)\b/i.test(t)) return false;
+        if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        // Last-line check: city must appear (case-insensitive) in the OCR
+        // text we extracted. AI hallucinations don't survive this — they're
+        // invented from form-field labels, not lifted from quote text.
+        if (ocrText && t.length >= 3) {
+          var rx = new RegExp("\\b" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+          if (!rx.test(ocrText)) return false;
+        }
+        return true;
+      }
+
       // Build details
       var detailsHtml = '<div class="plumb-details">';
       detailsHtml += '<div class="plumb-detail"><div class="label">Service Type</div><div class="value">' + safeText(r.serviceType.label) + '</div></div>';
@@ -1410,7 +1433,8 @@
         detailsHtml += '<div class="plumb-detail"><div class="label">Brand</div><div class="value">' + safeText(r.brandNote) + '</div></div>';
       }
       var _pcity = cleanCity(state.address.city);
-      var pricingLabel = (_pcity && getCityMult(_pcity, state.address.stateCode)) ? (_pcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      var _pcityOk = isReasonableCity(_pcity, state.extractedText || "");
+      var pricingLabel = (_pcityOk && getCityMult(_pcity, state.address.stateCode)) ? (_pcity + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="plumb-detail"><div class="label">Pricing</div><div class="value">' + safeText(pricingLabel) + '</div></div>';
 
       if (r.bathrooms) {
