@@ -130,7 +130,35 @@ When halted: append entry to ## Halt log section below, post conversation messag
 
 ## Halt log
 
-(empty — no halts in Phase A yet)
+### Halt #1 — 2026-05-01 — Phase A.2 kickoff blocked on pre-existing roof state pages
+
+**What I found.** Before generating any A.2 pages I surveyed the codebase. 50 `[state]-roof-cost.html` pages already exist (alabama-roof-cost.html → wyoming-roof-cost.html). They were created 2026-03-11 in commit `acbf0396a67` ("Add material-city page generation") — long before Phase A planning. They are:
+
+- **In the sitemap** (`sitemap-roof.xml` references all 50)
+- **Linked from city pages** (the "More state guides" section at the bottom of city/state pages cross-links them)
+- **Audited** by `audit-uniqueness-google.js` (filename ends in `-roof-cost.html` so they match the roof NF pattern)
+- **Templated.** Sampled 10 of them. The "How roofing costs vary in [State]" section is **byte-identical except for the state name**: "Roofing prices in [State] can vary based on labor rates, disposal costs, permit requirements, storm exposure, material availability, and local demand. Larger metro areas may run higher than smaller cities, while coastal or storm prone markets may carry different installation requirements." No per-state data (no climate zone, no license board, no hurricane code, no hail belt notes, nothing).
+
+**Impact on roof's uniqueness baseline.** Roof NF composite = 83% (≥80% floor cleared by 3pt). The 50 templated state pages are pulling the average down. With 766 well-differentiated city pages diluting them, roof still passes — but barely.
+
+**Why this halts Phase A.2 kickoff.** The locked plan reads "**A.2 not started**" and effort estimate "~1000 new pages." Reality is **~950 new pages + 50 roof rewrites.** That's a structural deviation from the plan, hits the "new page type/vertical with structure not in plan → HALT" trigger, and forces a routing decision before any pilot can ship. The other 19 verticals have ZERO state hubs — they're clean slates.
+
+**Why I didn't quietly route around it.** Two reasons. (1) Lane's hard rule: halt-and-ask, don't improvise. (2) URL convention pre-commits us. Existing pattern is `[state]-[vertical]-cost.html` (matches `alabama-roof-cost.html`); the locked plan's example URLs (`hvac-cost-georgia.html`) suggested `[vertical]-cost-[state].html`. Different conventions across the same site = a mess. Lane needs to call this once and lock it.
+
+**Three open decisions for Lane.**
+
+1. **URL convention.** Confirm `[state-slug]-[vertical]-cost.html` (matches existing roof state pages, matches city-page convention `birmingham-al-roof-cost.html`) and override the plan's illustrative `[vertical]-cost-[state].html` example. Recommended: yes — consistency matters more than the doc's example.
+
+2. **Pilot vertical choice.** Memory `feedback_phase_a2_pilot_first.md` suggests HVAC + plumbing + legal. Two valid alternatives: (a) keep that suggestion and leave roof's existing 50 templated pages for a follow-up rewrite phase, or (b) make ROOF the pilot since rewriting its existing 50 templated pages immediately lifts roof's NF composite from 83% → ~88%+ (real measurable win) and roof has the strongest natural per-state differentiation in the whole catalog (hurricane belt FL/LA/SC, hail alley CO/NE/TX, snow load MN/WI/NY, slate vs metal vs asphalt by climate). Recommended: (b) roof pilot. Bigger immediate win, naturally most-differentiated vertical.
+
+3. **Roof rewrite-in-place vs leave-and-add.** If we make roof the pilot, do we rewrite the 50 existing pages in-place (clean) or append "real" content to them (messy, leaves templated boilerplate)? Recommended: rewrite in-place — the templated stubs add no value and would still drag composite scores even with appended content.
+
+**What's NOT halted.** This halt blocks generation. Survey + design work continues:
+- ✅ State data sources mapped (`data/state-energy-prices.json` has electricity+gas per state, `data/state-regions.json` has region grouping, `data/bls-mechanic-wages.json` has per-state wages aggregable from city data, `data/city-cost-multipliers.json` has per-city cost multipliers and BLS labor data)
+- ⏳ Per-state data dictionary build (universal fields + first vertical's specific fields) — pending Lane's pilot-vertical call
+- ⏳ Pairwise audit script for state pages — pending Lane's pilot-vertical call
+
+**Waiting for:** Lane decides (1)–(3) above. Then I build the per-state data dictionary for the chosen pilot vertical, generate 50 pages, run pairwise audit, halt-or-ship.
 
 ## Session log
 
