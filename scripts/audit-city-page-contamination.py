@@ -55,16 +55,33 @@ ROOF_TERMS = [
 ]
 
 
+DISTINCT_PATTERN_THRESHOLD = 5
+
+
 def scan_file(path: Path) -> list[tuple[str, str]]:
-    """Return list of (term, snippet) tuples for matches found."""
+    """Return list of (term, snippet) tuples for matches found.
+
+    A page is only treated as contaminated if it hits at least
+    DISTINCT_PATTERN_THRESHOLD distinct roof-term patterns. A single
+    contextual mention (e.g. "roof replacement" on a solar page where it
+    legitimately matters) does not flag — actual contamination has the
+    full vocabulary (shingles + underlayment + ridge vent + ...).
+    """
     text = path.read_text(encoding="utf-8", errors="replace")
     hits = []
+    distinct_patterns = 0
     for pat in ROOF_TERMS:
+        pat_hits = []
         for m in pat.finditer(text):
             start = max(0, m.start() - 40)
             end = min(len(text), m.end() + 40)
             snippet = re.sub(r"\s+", " ", text[start:end]).strip()
-            hits.append((m.group(0), snippet))
+            pat_hits.append((m.group(0), snippet))
+        if pat_hits:
+            distinct_patterns += 1
+            hits.extend(pat_hits)
+    if distinct_patterns < DISTINCT_PATTERN_THRESHOLD:
+        return []
     return hits
 
 
@@ -112,11 +129,12 @@ def main():
                 print(f"      term: {term!r}")
                 print(f"      ...{snippet}...")
 
+    out = ROOT / "scripts" / "city-page-contamination.txt"
     if contaminated_pages > 0:
-        out = ROOT / "scripts" / "city-page-contamination.txt"
         out.write_text("\n".join(contaminated_files), encoding="utf-8")
         print(f"\nFull list written to: {out.relative_to(ROOT)}")
         sys.exit(1)
+    out.write_text("", encoding="utf-8")
     sys.exit(0)
 
 
