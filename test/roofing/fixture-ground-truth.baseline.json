@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T14:31:03.223Z",
+  "ts": "2026-05-02T15:39:36.289Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-gaf": {
@@ -17,7 +17,7 @@
       ]
     },
     "f2-scope-doc": {
-      "displayPrice": 811,
+      "displayPrice": 14800,
       "contractor": "Not detected",
       "stateCode": "OR",
       "scopeFound": [
@@ -35,7 +35,6 @@
         "permit"
       ],
       "failures": [
-        "displayPrice: expected 14800 ±14.8, got 811",
         "stateCode: expected null, got \"OR\""
       ]
     },

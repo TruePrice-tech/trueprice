@@ -209,7 +209,14 @@ function compare(label, actual, expected) {
   if (IS_BASELINE) {
     fs.writeFileSync(BASELINE_PATH, JSON.stringify(out, null, 2));
     console.log("\nBaseline written:", BASELINE_PATH);
-  } else if (fs.existsSync(BASELINE_PATH)) {
+    console.log(`\nTotal failures: ${totalFails}`);
+    process.exit(0);
+    return;
+  }
+
+  let newFailsCount = 0;
+  let newPassesCount = 0;
+  if (fs.existsSync(BASELINE_PATH)) {
     const baseline = JSON.parse(fs.readFileSync(BASELINE_PATH, "utf8"));
     const newFails = [];
     const newPasses = [];
@@ -219,6 +226,8 @@ function compare(label, actual, expected) {
       after.forEach(f => { if (!before.includes(f)) newFails.push(`${id}: ${f}`); });
       before.forEach(f => { if (!after.includes(f)) newPasses.push(`${id}: ${f}`); });
     }
+    newFailsCount = newFails.length;
+    newPassesCount = newPasses.length;
     console.log("\n=== vs baseline ===");
     if (newPasses.length) {
       console.log("NEW PASSES (fixes landed):");
@@ -232,5 +241,15 @@ function compare(label, actual, expected) {
   }
 
   console.log(`\nTotal failures: ${totalFails}`);
-  process.exit(totalFails > 0 && !IS_BASELINE && fs.existsSync(BASELINE_PATH) ? 0 : (IS_BASELINE ? 0 : (totalFails > 0 ? 1 : 0)));
+
+  // Exit policy:
+  //   - When a baseline exists: pass only if no NEW regressions vs baseline.
+  //     Existing known-fail items don't fail CI (they're tracked in the
+  //     baseline until each Block fix lands and the baseline is refreshed).
+  //   - When no baseline exists: any failure fails CI.
+  if (fs.existsSync(BASELINE_PATH)) {
+    process.exit(newFailsCount > 0 ? 1 : 0);
+  } else {
+    process.exit(totalFails > 0 ? 1 : 0);
+  }
 })();

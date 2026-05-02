@@ -1,6 +1,6 @@
-name: Regression Gate (3-paths + uniqueness)
+name: Regression Gate (3-paths + uniqueness + fixture-truth)
 
-# Runs on every push to main + PRs. Two layers of regression coverage that
+# Runs on every push to main + PRs. Three layers of regression coverage that
 # the existing seo-gate.yml does NOT cover:
 #
 #   1) 3-PATHS-PER-VERTICAL SMOKE: pro-tier-walk.js loads 40 pages (20
@@ -14,6 +14,17 @@ name: Regression Gate (3-paths + uniqueness)
 #      actually measures. Fails the build if any vertical lands in the
 #      THIN (<50) tier — Lane's flagships dropped from ~90 to ~55 over
 #      normal operations because nothing checked. This stops that.
+#
+#   3) FIXTURE GROUND-TRUTH (per vertical): for each vertical with a
+#      hand-curated fixture set (test/<vertical>/fixture-ground-truth.test.js),
+#      uploads each fixture through the live analyzer and asserts price /
+#      contractor / state / scope match the ground truth Lane read by hand.
+#      Fails CI when a NEW failure appears vs the per-vertical baseline.
+#      Known-fails are tracked in the baseline until their fix lands and
+#      the baseline is refreshed (`node ... --baseline`).
+#      Catches the class of bug that bit us 2026-05-02 (f2 Malarkey
+#      scope-doc rendering \$811 instead of \$14,800 for weeks while
+#      mechanical "tests passed" on cleaner fixtures).
 #
 # Lives outside Vercel cron; runs on GitHub Actions free tier (~3 min/run
 # x ~30 pushes/wk = 360 min/mo, well under 2000 min/mo budget).
@@ -78,6 +89,37 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
 
+      # ---- Fixture ground-truth: per-vertical, real fixtures, hand-read truth ----
+      # Walks each vertical's fixture-ground-truth.test.js. The harness exits 0
+      # when the result matches the baseline (no NEW regressions); exits 1 when
+      # a fixture's price/contractor/scope/state regresses vs baseline. Known
+      # failures (the Block 1-4 fix queue) are tracked in the baseline JSON;
+      # once a fix lands the baseline is refreshed via `node ... --baseline`.
+      - name: Fixture ground-truth
+        id: fixture_truth
+        if: github.event.inputs.skip_smoke != 'true'
+        continue-on-error: true
+        run: |
+          # Same 90s wait already done in smoke step is sufficient — this runs
+          # against the same live site. Keep a slim local wait for safety.
+          REGRESSED=0
+          PASSED_VERTICALS=""
+          REGRESSED_VERTICALS=""
+          for harness in test/*/fixture-ground-truth.test.js; do
+            vertical=$(basename "$(dirname "$harness")")
+            echo "::group::fixture-truth $vertical"
+            if node "$harness" 2>&1 | tee -a /tmp/fixture-truth.log; then
+              PASSED_VERTICALS="$PASSED_VERTICALS $vertical"
+            else
+              REGRESSED=1
+              REGRESSED_VERTICALS="$REGRESSED_VERTICALS $vertical"
+            fi
+            echo "::endgroup::"
+          done
+          echo "regressed=$REGRESSED" >> $GITHUB_OUTPUT
+          echo "passed_verticals=$PASSED_VERTICALS" >> $GITHUB_OUTPUT
+          echo "regressed_verticals=$REGRESSED_VERTICALS" >> $GITHUB_OUTPUT
+
       # ---- Uniqueness audit: per-vertical composite scores ----
       - name: Uniqueness audit
         id: uniqueness
@@ -102,6 +144,8 @@ jobs:
           SMOKE_TOTAL: ${{ steps.smoke.outputs.total }}
           UNIQ_THIN: ${{ steps.uniqueness.outputs.thin_count }}
           UNIQ_WORST: ${{ steps.uniqueness.outputs.worst }}
+          FIXTURE_REGRESSED: ${{ steps.fixture_truth.outputs.regressed }}
+          FIXTURE_REGRESSED_VERTICALS: ${{ steps.fixture_truth.outputs.regressed_verticals }}
         run: |
           node <<'EOF'
           import fs from 'node:fs';
@@ -110,14 +154,17 @@ jobs:
           const smokeTotal = parseInt(process.env.SMOKE_TOTAL || '0', 10);
           const uniqThin = parseInt(process.env.UNIQ_THIN || '0', 10);
           const uniqWorst = parseInt(process.env.UNIQ_WORST || '100', 10);
+          const fixtureRegressed = (process.env.FIXTURE_REGRESSED || '0') === '1';
+          const fixtureRegressedVerticals = (process.env.FIXTURE_REGRESSED_VERTICALS || '').trim();
           const smokeFailed = smokeTotal > 0 && smokePassed < smokeTotal;
           const uniqFailed = uniqThin > 0;
-          if (!smokeFailed && !uniqFailed) { console.log('all clean -- skip email'); process.exit(0); }
+          if (!smokeFailed && !uniqFailed && !fixtureRegressed) { console.log('all clean -- skip email'); process.exit(0); }
           const today = new Date().toISOString().substring(0, 10);
-          let smokeLog = '', uniqLog = '';
+          let smokeLog = '', uniqLog = '', fixtureLog = '';
           try { smokeLog = fs.readFileSync('/tmp/smoke.log', 'utf8').slice(-8000); } catch {}
           try { uniqLog = fs.readFileSync('/tmp/uniqueness.log', 'utf8').slice(-8000); } catch {}
-          const subj = `[Woogoro] Regression gate FAILED on ${today} (smoke ${smokePassed}/${smokeTotal}, ${uniqThin} verticals THIN/RISK)`;
+          try { fixtureLog = fs.readFileSync('/tmp/fixture-truth.log', 'utf8').slice(-8000); } catch {}
+          const subj = `[Woogoro] Regression gate FAILED on ${today} (smoke ${smokePassed}/${smokeTotal}, ${uniqThin} THIN, fixture-truth: ${fixtureRegressed ? fixtureRegressedVerticals : 'ok'})`;
           const r = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: { 'Authorization': 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
@@ -130,8 +177,11 @@ jobs:
                 <p>Trigger: ${process.env.GITHUB_EVENT_NAME}. Commit: ${process.env.GITHUB_SHA?.substring(0,7)}.</p>
                 <p><strong>Smoke walk:</strong> ${smokePassed}/${smokeTotal} verticals passed.</p>
                 <p><strong>Uniqueness:</strong> ${uniqThin} vertical(s) in THIN/RISK tier (worst score: ${uniqWorst}%).</p>
+                <p><strong>Fixture ground-truth:</strong> ${fixtureRegressed ? 'REGRESSED on ' + fixtureRegressedVerticals : 'no new regressions'}.</p>
                 <h3>Smoke log (tail)</h3>
                 <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(smokeLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+                <h3>Fixture-truth log (tail)</h3>
+                <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(fixtureLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
                 <h3>Uniqueness log (tail)</h3>
                 <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(uniqLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
                 <p>Workflow: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}</p>
@@ -155,7 +205,20 @@ jobs:
             -H "Tags: warning" \
             "https://ntfy.sh/$NTFY_TOPIC"
 
-      # ---- Fail the build on smoke or uniqueness regression ----
+      # ---- Phone alert on fixture-truth regression ----
+      - name: ntfy alert on fixture-truth regression
+        if: steps.fixture_truth.outputs.regressed == '1'
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          if [ -z "$NTFY_TOPIC" ]; then echo "no NTFY_TOPIC -- skip"; exit 0; fi
+          curl -s -d "Fixture-truth REGRESSED:${{ steps.fixture_truth.outputs.regressed_verticals }} on ${GITHUB_SHA:0:7}" \
+            -H "Title: Woogoro fixture ground-truth" \
+            -H "Priority: high" \
+            -H "Tags: warning" \
+            "https://ntfy.sh/$NTFY_TOPIC"
+
+      # ---- Fail the build on smoke / uniqueness / fixture-truth regression ----
       - name: Fail build on smoke regression
         if: steps.smoke.outputs.passed != steps.smoke.outputs.total && steps.smoke.outputs.total != ''
         run: |
@@ -166,4 +229,10 @@ jobs:
         if: steps.uniqueness.outputs.thin_count != '0' && steps.uniqueness.outputs.thin_count != ''
         run: |
           echo "::error::Uniqueness audit found ${{ steps.uniqueness.outputs.thin_count }} vertical(s) in THIN/RISK tier (worst: ${{ steps.uniqueness.outputs.worst }}%). Hand-write or revert."
+          exit 1
+
+      - name: Fail build on fixture-truth regression
+        if: steps.fixture_truth.outputs.regressed == '1'
+        run: |
+          echo "::error::Fixture ground-truth regressed on:${{ steps.fixture_truth.outputs.regressed_verticals }}. A real fixture's price/contractor/scope drifted from the baseline. Either fix the regression or refresh the baseline if the change is intentional."
           exit 1
