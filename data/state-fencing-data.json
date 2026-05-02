@@ -1,0 +1,535 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-02",
+    "purpose": "Per-state fencing data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "USDA-NRCS frost-line maps for post-footing depth; ASCE 7-22 Risk Category II design wind tiers; Termite Probability and Climatic Tier (TPCT) zones from IRC R301.2(1) Figure; state contractor licensing boards; state HOA fencing statutes; BLS OEWS May 2024 (SOC 47-2061 Construction Laborers / 47-2031 Carpenters state means).",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "frost_line_inches": "Typical frost penetration depth required for buried post footings (inches)",
+      "dominant_material": "cedar-privacy / pine-treated / vinyl / chain-link / wrought-iron / composite (predominant residential 6ft profile)",
+      "wind_tier": "HVHZ / wind_high / wind_moderate / wind_low / none — coastal hurricane wind tier driving post spacing and concrete-set requirements",
+      "termite_risk": "very-high / high / moderate / low — TPCT zone driving in-ground wood treatment requirements",
+      "hoa_prevalence": "high / moderate / low — HOA penetration restricting fence material/color/height",
+      "license_status": "required / registration / municipal-only / none",
+      "license_board_name": "Issuing authority for residential building / fencing contractor licensing",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical permit threshold for residential fence installation",
+      "fence_installer_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2061 Construction Laborers (fence installers fall under this code) (USD)",
+      "avg_fence_install_low": "Typical low end of 150 linear-foot 6-foot cedar privacy fence with three gates (USD)",
+      "avg_fence_install_high": "Typical high end (150 linear-foot vinyl or composite privacy fence with three gates) (USD)",
+      "distinctive_law": "Single most distinctive state-specific fencing, boundary, or good-neighbor law",
+      "climate_concern": "Primary climate, soil, or pest driver of fence material selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "frost_line_inches": 8, "dominant_material": "pine-treated",
+    "wind_tier": "wind_moderate", "termite_risk": "very-high", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Alabama Home Builders Licensure Board only required for projects >$10,000",
+    "license_url": "https://www.hblb.alabama.gov/", "permit_typical": "city or county permit not typically required for residential fence under 6 feet",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Alabama Code §35-14-1 (the Alabama Boundary Fence Statute) makes adjoining landowners equally responsible for the cost of constructing and maintaining a partition fence between agricultural parcels — and unique among Southeast states, the statute extends to residential parcels with livestock or in 'free-range' counties (now uncommon but retained in 11 rural counties) where uncontained livestock damage entitles the property owner to compel half-cost contribution from the neighbor.",
+    "climate_concern": "Alabama sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone in the country alongside Florida and southern Texas) — every in-ground wood post must be CCA-treated southern yellow pine .60 or higher per Alabama Building Code amendments, and Mobile-Baldwin coastal humidity drives wood-cedar checking and warping within 5-7 years, with vinyl and composite commanding rising market share on Gulf Coast retrofits."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "frost_line_inches": 100, "dominant_material": "chain-link",
+    "wind_tier": "wind_high", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Construction Contractors Section",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx", "permit_typical": "borough building permit required for fence installation on most platted lots",
+    "fence_installer_wage_mean_hourly": 26.84, "avg_fence_install_low": 8400, "avg_fence_install_high": 19500,
+    "distinctive_law": "Alaska AS 08.18 splits Construction Contractor licensing into General Contractor with Residential Endorsement and Specialty Contractor categories — fence installation in Alaska typically falls under the Residential Endorsement, with municipalities like Anchorage and Fairbanks requiring frost-protected shallow foundation engineering documentation on every fence-post footing application due to permafrost and seasonal frost-heave on standard 36-inch concrete-set posts.",
+    "climate_concern": "Continuous and discontinuous permafrost across Interior Alaska forces fence posts to be either driven into bedrock, set on adfreeze-rated piles, or installed with frost-protected shallow foundations — the Lower-48 default of concrete-set 36-inch deep posts shears every winter as the active layer thaws and re-freezes — and Bering Sea and Gulf of Alaska coastal salt-spray corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated or stainless mesh on shoreline residential installations."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "frost_line_inches": 6, "dominant_material": "vinyl",
+    "wind_tier": "wind_low", "termite_risk": "very-high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license C-30 (Fence)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county permit typical for residential fence over 6 feet; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Arizona Registrar of Contractors issues a C-30 Fence specialty classification distinct from the B General Building or C-3 Carpentry credentials — making Arizona one of the few states with a dedicated fencing-specialty contractor license that requires separate examination on Arizona-specific soil-anchorage methods, HOA architectural review compliance, and view-fence masonry design for hillside subdivisions.",
+    "climate_concern": "Arizona sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone alongside Florida and Alabama) — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher per Arizona Building Code, but the dominant residential material has shifted to vinyl since the 2000s due to the combination of termite pressure, sustained 110°F+ summer heat that bleaches and checks cedar within 3-5 years, and HOA architectural review that favors uniform vinyl over weathered cedar."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "frost_line_inches": 18, "dominant_material": "pine-treated",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "low",
+    "license_status": "required", "license_board_name": "Arkansas Contractors Licensing Board (residential >$2,000)",
+    "license_url": "https://www.arkansas.gov/clb/", "permit_typical": "city or county permit not typically required for residential fence under 6 feet",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11200,
+    "distinctive_law": "Arkansas Code §2-39-101 (the Arkansas Animal & Crop Damage Statute) is one of the older 'fence in' livestock statutes in the country — making fence-in-out responsibility a county-level designation, with most Arkansas counties operating under 'fence in' rules that require livestock owners to fence their animals onto their own property, but a handful of rural Ozark and Ouachita counties retain 'free range' designation where the burden falls on neighbors to fence livestock off their own residential parcels.",
+    "climate_concern": "Arkansas sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure across the Mississippi Delta and Coastal Plain — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher, and Boston Mountains and Ozark elevation freeze-thaw cycling drives concrete-set post heave on shallow installations, with deeper 30-inch+ footings now standard on northern Arkansas residential installs."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "frost_line_inches": 12, "dominant_material": "wood",
+    "wind_tier": "wind_low", "termite_risk": "high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — C-13 (Fencing)",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "city or county permit typical for residential fence over 6 feet; CAL FIRE WUI screening required in mapped fire-hazard zones",
+    "fence_installer_wage_mean_hourly": 26.42, "avg_fence_install_low": 6800, "avg_fence_install_high": 17500,
+    "distinctive_law": "California Civil Code §841 (the 'Good Neighbor Fence Act' as amended 2014) requires adjoining landowners to share equally in the cost of constructing and maintaining a boundary fence — with mandatory 30-day written notice including project description, total cost estimate, proposed materials, and proposed cost-sharing arrangement, and a rebuttable presumption that fence work yields equal benefit to both landowners that places the burden on a non-paying neighbor to prove unequal benefit before a court.",
+    "climate_concern": "California Building Code Chapter 7A WUI overlay mandates ignition-resistant fencing within 5 feet of any structure in CAL FIRE-mapped State Responsibility Area Fire Hazard Severity Zones — eliminating cedar lap, redwood, and untreated wood fence within the defensible-space radius, and forcing metal, masonry, or fire-resistant composite for the first 5 feet abutting any habitable structure across Sonoma, Napa, El Dorado, Riverside, and San Bernardino county WUI overlays."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "frost_line_inches": 36, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Denver, Colorado Springs, Aurora issue municipal credentials",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development", "permit_typical": "city or county permit typical for residential fence over 6 feet; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 5200, "avg_fence_install_high": 13800,
+    "distinctive_law": "Colorado Revised Statutes §35-46-101 (the Colorado Fence Law) is one of the strictest 'fence out' livestock statutes in the country — making cattle and sheep producers explicitly NOT liable for damage caused by their livestock on neighboring property unless that property is enclosed by a 'lawful fence' as specifically defined (4-strand barbed wire, 48 inches high, posts not more than 20 feet apart) — placing the burden on residential and crop-farming landowners to fence livestock off their own land in 'open range' counties.",
+    "climate_concern": "Colorado's 36-inch frost line drives mandatory deep-set concrete-anchored posts on every Front Range residential fence installation — Front Range diurnal swings of 50°F+ between January nights and noon also drive cedar checking and cupping within 3-5 years, with stained cedar privacy retaining dominant suburban share over vinyl due to HOA preference and Western aesthetics."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "frost_line_inches": 42, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "town zoning permit typical for residential fence over 6 feet; setback restrictions vary by town",
+    "fence_installer_wage_mean_hourly": 24.42, "avg_fence_install_low": 5800, "avg_fence_install_high": 14500,
+    "distinctive_law": "Connecticut General Statutes §47-43 (the Spite Fence Statute) is one of the oldest 'spite fence' laws in the country — making any fence over 6 feet tall built primarily to annoy or injure a neighboring property owner subject to civil action for damages and mandatory removal, with the courts looking at the fence-builder's documented motive (testimony, social-media posts, prior boundary disputes) rather than the fence's physical characteristics alone.",
+    "climate_concern": "Connecticut's 42-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Long Island Sound coastal salt-haze deposition from Greenwich to New London corrodes standard galvanized hardware on chain-link and ornamental aluminum within 5-7 years, mandating stainless or aluminum components on shoreline retrofits within 1 mile of tidewater."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "frost_line_inches": 24, "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Delaware Division of Revenue — Business License (fencing contractor)",
+    "license_url": "https://revenue.delaware.gov/services/Business_Tax/", "permit_typical": "county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 5200, "avg_fence_install_high": 13500,
+    "distinctive_law": "Delaware is one of the few East Coast states with no specialty fencing contractor licensing — every fencing contractor operates under a Delaware Division of Revenue Business License only, with no examination, bond, or board oversight, and Delaware Code Title 25 §1306 (the Delaware Spite Fence Statute) makes any fence over 8 feet built primarily to annoy a neighbor subject to civil action for nuisance abatement.",
+    "climate_concern": "Delaware Bay and Atlantic coastal salt-haze deposition across Sussex County corrodes standard galvanized hardware on chain-link and ornamental aluminum within 5-7 years, mandating stainless or aluminum components on shoreline retrofits — and Sussex County beach-area HOAs commonly restrict fence height and materials to preserve view corridors and aesthetic uniformity, driving vinyl dominance over wood on Rehoboth, Bethany, and Fenwick installations."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "frost_line_inches": 0, "dominant_material": "vinyl",
+    "wind_tier": "HVHZ", "termite_risk": "very-high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Florida Department of Business & Professional Regulation — Construction Industry Licensing Board (Specialty Structure or Building Contractor)",
+    "license_url": "https://www2.myfloridalicense.com/construction-industry/", "permit_typical": "city or county building permit required for fence installation; HVHZ Product Approval verification mandatory in Miami-Dade and Broward; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 17.84, "avg_fence_install_low": 5400, "avg_fence_install_high": 14200,
+    "distinctive_law": "Florida Statute §163.3164(7) and the Statewide HOA Disclosure Act make Florida the most HOA-regulated state in the country — with over 50% of Florida residential subdivisions enforcing architectural review controls including specific approved fencing materials (typically only vinyl or aluminum picket), maximum heights, and color palettes, and the Marketable Record Title Act limiting HOA enforcement to 30 years unless re-recorded — making HOA approval a pre-construction step on every Florida residential fence install in master-planned communities.",
+    "climate_concern": "Florida HVHZ wind-borne debris exposure in Miami-Dade and Broward forces 6-foot post-spacing maximum and concrete-sleeve installation on every residential fence under FBC §1714 — plus Termite Probability and Climatic Tier 1 (the highest TPCT zone) drives near-universal vinyl, aluminum, or composite material selection over wood, and coastal salt-haze deposition mandates stainless mounting hardware on every shoreline installation within 1 mile of tidewater."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "frost_line_inches": 5, "dominant_material": "pine-treated",
+    "wind_tier": "wind_moderate", "termite_risk": "very-high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Georgia State Licensing Board for Residential and General Contractors",
+    "license_url": "https://sos.ga.gov/page/state-licensing-board-residential-general-contractors", "permit_typical": "city or county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Georgia OCGA §44-9-2 (the Georgia Boundary Fence Statute) makes adjoining landowners equally responsible for the cost of constructing and maintaining a partition fence — and unique among Southeast states, Georgia retains 'fence-in' livestock counties where livestock owners must contain their animals, alongside a small number of 'fence-out' counties (mostly in north Georgia mountain regions) where the burden falls on residential property owners to fence livestock off their own land.",
+    "climate_concern": "Georgia sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone alongside Florida and Alabama) — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher, and Atlanta-area red Piedmont clay seasonal swelling and shrinking shears post-footing concrete annually, with deeper 30-inch+ footings and gravel-bedded post bases standard on metro Atlanta retrofits."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "frost_line_inches": 0, "dominant_material": "chain-link",
+    "wind_tier": "wind_high", "termite_risk": "very-high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Hawaii Contractors License Board (B General Building or C-49 Fence specialty)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "county building permit required for fence installation on most platted lots; coastal-zone setback restrictions",
+    "fence_installer_wage_mean_hourly": 25.84, "avg_fence_install_low": 7200, "avg_fence_install_high": 17500,
+    "distinctive_law": "Hawaii Contractors License Board issues a C-49 Fence specialty classification distinct from the B General Building credential — and unique to Hawaii, every contractor must additionally pass an island-specific examination on trade-wind wind loading, volcanic vog corrosion mitigation, and Coastal Zone Management Area boundary-fence setback requirements, with Maui and Hawaii County imposing additional WUI-overlay fencing restrictions in lava-flow recovery zones.",
+    "climate_concern": "Hawaii sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone) and additionally faces Formosan subterranean termite pressure that destroys untreated wood fence within 2-3 years on Oahu and Maui — and trade-wind salt-haze deposition on every windward shoreline corrodes standard galvanized chain-link mesh within 3-5 years, mandating PVC-coated or stainless mesh on shoreline residential installations."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "frost_line_inches": 30, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_low", "termite_risk": "low", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Idaho Contractors Board (registration only, no exam)",
+    "license_url": "https://dopl.idaho.gov/contractors/", "permit_typical": "state or city permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Idaho Code §35-101 (the Idaho Open Range Statute) designates the entire state as 'open range' under default law — making cattle and sheep producers explicitly NOT liable for damage caused by their livestock on neighboring property unless that property is enclosed by a 'legal fence' as specifically defined (3-strand barbed wire, 36 inches high, posts not more than 20 feet apart, gates) — placing the burden on residential and crop-farming landowners to fence livestock off their own land statewide.",
+    "climate_concern": "Idaho's 30-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Snake River Plain volcanic-pumice soils provide poor concrete-anchorage cohesion, requiring belled-out post-footing diameters and gravel-bedded post bases on most Boise, Twin Falls, and Idaho Falls installations to prevent post heave and rotation in expansive volcanic-ash subgrades."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "4A-5A", "frost_line_inches": 42, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Chicago and Cook County issue local credentials",
+    "license_url": "https://www.chicago.gov/city/en/depts/bldgs.html", "permit_typical": "Chicago zoning permit required for residential fence over 6 feet; suburban Cook County issues independently",
+    "fence_installer_wage_mean_hourly": 25.42, "avg_fence_install_low": 5400, "avg_fence_install_high": 13800,
+    "distinctive_law": "Illinois 765 ILCS 130 (the Illinois Boundary Fence Act) requires adjoining landowners to share equally in the cost of constructing and maintaining a partition fence between agricultural parcels — but Chicago Municipal Code §17-13-0905 layers a separate set of urban fencing rules with maximum 5-foot rear/side fence heights, mandatory 4-foot front-yard maximum, and prohibition of barbed-wire and razor-wire on any residential parcel within City of Chicago limits, creating a dual rural/urban fencing-law regime unique among Midwest states.",
+    "climate_concern": "Illinois's 42-inch frost line in Chicago and 36-inch downstate drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Chicago and Cook County clay-loam soils with seasonal saturation pinhole-corrode buried galvanized chain-link within 25-30 years, with PVC-coated or vinyl-clad chain-link increasingly common on rewires."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "frost_line_inches": 32, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Indianapolis, Fort Wayne, Evansville issue local credentials",
+    "license_url": "https://www.indy.gov/agency/department-of-business-neighborhood-services", "permit_typical": "city permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Indiana Code §32-26-3 (the Indiana Partition Fence Act) is one of the most detailed boundary-fence statutes in the country — making adjoining landowners equally responsible for half the cost of constructing and maintaining a 'sufficient' partition fence (defined by precise dimensions: 4 feet 6 inches high, posts not more than 12 feet apart for woven-wire, with specific board, rail, or wire materials) — and authorizing township trustees to act as binding arbitrators when neighbors cannot agree.",
+    "climate_concern": "Indiana's 32-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and the Wabash and White River valley flood-elevation overlay drives below-grade post-footing flood-protection on every full envelope retrofit in FEMA-mapped Tippecanoe and Vanderburgh county properties, with concrete-encased steel or treated wood posts replacing standard wood-post installations on flood-prone parcels."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "frost_line_inches": 42, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Iowa Workforce Development — Construction Contractor Registration",
+    "license_url": "https://www.iowaworkforcedevelopment.gov/contractor-registration", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Iowa Code Chapter 359A (the Iowa Partition Fence Statute) makes adjoining landowners equally responsible for constructing and maintaining a 'lawful fence' along boundaries between agricultural parcels — defined as a fence sufficient to turn livestock — and unique to Iowa, county fence viewers (a court-appointed three-person panel) hold binding authority to arbitrate fence disputes, determine cost-sharing, and order specific construction methods when adjoining landowners cannot agree.",
+    "climate_concern": "Iowa's 42-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and the August 2020 derecho event with 140-mph straight-line winds across central Iowa drove engineered post-bracing and concrete-set requirements on Cedar Rapids, Marshalltown, and Des Moines retrofits, with reinforced post spacing now standard on tornado-corridor properties."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Wichita, Overland Park, Topeka issue local credentials",
+    "license_url": "https://www.wichita.gov/Inspection/", "permit_typical": "city permit typical for residential fence over 6 feet in incorporated municipalities",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11000,
+    "distinctive_law": "Kansas Statutes §29-301 (the Kansas Boundary Fence Statute) divides the state into 'fence-in' and 'fence-out' counties on a county-by-county basis under K.S.A. §47-122 (the Stray Livestock Act) — most eastern Kansas counties operate under 'fence-in' rules where livestock owners must contain their animals, while western Kansas counties retain 'fence-out' designation where the burden falls on residential property owners to fence livestock off their own parcels, and Sedgwick County (Wichita) uniquely operates a hybrid system within municipal vs unincorporated boundaries.",
+    "climate_concern": "Kansas sits at the heart of the central U.S. tornado corridor with annual EF2-EF5 exposure across the entire state — Wichita and Topeka residential retrofit specs increasingly default to chain-link or short-span engineered wood with concrete-set posts spaced under 6 feet to survive recurring derecho-driven downbursts, and the 30-inch frost line drives mandatory deep-set concrete-anchored posts on every installation."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "frost_line_inches": 18, "dominant_material": "pine-treated",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "low",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Louisville, Lexington, Bowling Green issue local credentials",
+    "license_url": "https://louisvilleky.gov/government/codes-regulations", "permit_typical": "city or county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11000,
+    "distinctive_law": "Kentucky Revised Statutes §256.020 (the Kentucky Partition Fence Statute) is one of the older 'fence-in' livestock statutes in the country — making livestock owners responsible for containing their animals, with the burden of partition-fence cost-sharing falling on the parties who specifically benefit from the fence — and Kentucky retains historically distinctive black 4-board horse-farm fencing as the cultural and aesthetic standard across Lexington and the Bluegrass region, driving a substantial premium ornamental wood fencing market unique among Mid-South states.",
+    "climate_concern": "Kentucky's 18-inch frost line drives moderate-depth concrete-anchored posts on most residential fence installations — and Bluegrass karst limestone outcrops in Fayette, Bourbon, and Scott counties create unpredictable post-footing depth requirements (sometimes hitting limestone bedrock at 8 inches, other times finding loose karst-fill at 36+ inches), with augered or hydraulically-driven posts often necessary on horse-farm properties."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "frost_line_inches": 4, "dominant_material": "pine-treated",
+    "wind_tier": "wind_high", "termite_risk": "very-high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors — Residential Building Contractor",
+    "license_url": "https://lslbc.louisiana.gov/", "permit_typical": "parish permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 17.84, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Louisiana Civil Code Article 685 (the Louisiana Civil Code Boundary Fence Article) is the only U.S. state fencing law derived from French Napoleonic Code rather than English common law — making adjoining landowners 'jointly liable for the expense of erecting' a boundary wall or fence under the parties' shared interest, with parish-level Justice of the Peace courts holding binding jurisdiction over partition-fence disputes that elsewhere would be county-court matters.",
+    "climate_concern": "Louisiana sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone) and additionally faces Formosan subterranean termite pressure across New Orleans and the Mississippi Delta that destroys untreated wood fence within 2-3 years — every in-ground post requires CCA-treated southern yellow pine .60 or composite, and post-Katrina BFE elevation rules drive concrete-encased steel or treated wood posts on every flood-prone parcel."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "none", "license_board_name": "No statewide fencing contractor license — municipal building department oversight only",
+    "license_url": "https://www.maine.gov/dps/fmo/building-codes", "permit_typical": "municipal permit required where adopted; many small towns have no inspection program",
+    "fence_installer_wage_mean_hourly": 20.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Maine Revised Statutes Title 30-A §3651 (the Maine Partition Fence Statute) is one of the older U.S. boundary-fence statutes, dating to colonial Massachusetts code adoption — making adjoining landowners equally responsible for the cost of constructing and maintaining a 'sufficient' partition fence, with town selectmen serving as binding arbitrators when neighbors cannot agree, and a dollar-amount cap on repairs that one neighbor can compel without prior agreement.",
+    "climate_concern": "Maine's 60-inch frost line in Aroostook County (the deepest in the contiguous U.S.) drives mandatory 6-foot+ post-hole depths and concrete-anchored installations on every northern Maine residential fence — and Down East and Mid-Coast Atlantic salt-haze deposition corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated or stainless mesh on shoreline retrofits within 1 mile of tidewater."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Maryland Home Improvement Commission (MHIC)",
+    "license_url": "https://www.dllr.state.md.us/license/mhic/", "permit_typical": "county permit typical for residential fence over 6 feet; HOA approval required in most Montgomery, Howard, and Anne Arundel master-planned communities",
+    "fence_installer_wage_mean_hourly": 20.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Maryland Home Improvement Commission (MHIC) requires every contractor performing residential exterior work above $1,000 to hold an MHIC license — and unique to Maryland, the MHIC administers a Guaranty Fund that compensates homeowners up to $30,000 per project for licensed-contractor abandonment or negligence, funded by MHIC license fees, with claims reviewed by an Administrative Law Judge under MHIC §8-405.",
+    "climate_concern": "Maryland sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure across the Coastal Plain — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher per Maryland Building Code, driving rising vinyl and aluminum market share over wood — and Chesapeake Bay coastal salt-haze deposition mandates stainless mounting on shoreline retrofits within 1 mile of tidewater."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "frost_line_inches": 48, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Massachusetts Office of Consumer Affairs — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.mass.gov/orgs/division-of-occupational-licensure", "permit_typical": "town zoning permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 24.42, "avg_fence_install_low": 5800, "avg_fence_install_high": 14500,
+    "distinctive_law": "Massachusetts General Laws Chapter 49 §21 (the Massachusetts Spite Fence Statute) is one of the most cited 'spite fence' laws in the country — making any fence over 6 feet tall built primarily to annoy or injure a neighboring property owner an actionable nuisance under M.G.L. c. 49 §21, with Rideout v. Knox (1888) Massachusetts Supreme Judicial Court ruling establishing the doctrine that absolute property rights end where they injure neighbors maliciously rather than for reasonable enjoyment.",
+    "climate_concern": "Massachusetts's 48-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and Cape Cod, North Shore, and South Shore Atlantic salt-haze deposition corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated or stainless mesh on shoreline retrofits within 1 mile of tidewater."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "frost_line_inches": 42, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs — Residential Builder License",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/residential-builders", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Michigan Public Act 299 of 1980 (Occupational Code Article 24) requires every Residential Builder and Residential Maintenance & Alteration Contractor to hold a Michigan LARA-issued license for any residential project exceeding $600 — making Michigan one of the lowest-threshold mandatory-licensing states for fencing work — and the Michigan Compiled Laws §43.51 (Partition Fence Act) requires adjoining landowners to share equally in the cost of constructing and maintaining a partition fence in unincorporated townships under 'fence-in' livestock-containment rules.",
+    "climate_concern": "Michigan's 42-inch state-average frost line reaches 60+ inches in the Upper Peninsula's Houghton and Marquette counties — driving mandatory 4-to-6-foot post-hole depths and concrete-anchored installations on northern residential installs — and Lake Michigan and Lake Superior shoreline winter freeze-thaw cycling on chain-link mesh drives PVC-coated and vinyl-clad alternatives over standard galvanized."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "frost_line_inches": 48, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor & Industry — Residential Building Contractor",
+    "license_url": "https://www.dli.mn.gov/business/contractor-information", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 22.42, "avg_fence_install_low": 5200, "avg_fence_install_high": 13500,
+    "distinctive_law": "Minnesota Statutes §326B.802 requires every Residential Building Contractor and Residential Remodeler to hold a Department of Labor & Industry license — and Minnesota Statutes §344 (the Partition Fence Act) makes adjoining landowners equally responsible for constructing and maintaining a 'lawful fence' along agricultural-parcel boundaries — with county fence viewers (a court-appointed three-person panel) holding binding authority to arbitrate disputes and order specific construction methods when neighbors cannot agree.",
+    "climate_concern": "Minnesota's 48-to-60-inch frost line in International Falls and the Iron Range (the deepest ground frost in the contiguous U.S.) drives mandatory 4-to-6-foot post-hole depths and concrete-anchored installations on every northern residential fence — and Twin Cities and Duluth metros' aggressive winter de-icing brine corrodes standard galvanized chain-link mesh within 12-15 years, with PVC-coated alternatives now standard on suburban installs."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "frost_line_inches": 6, "dominant_material": "pine-treated",
+    "wind_tier": "wind_high", "termite_risk": "very-high", "hoa_prevalence": "low",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors (residential >$50,000)",
+    "license_url": "https://msboc.us/", "permit_typical": "city permit typical for residential fence over 6 feet in incorporated municipalities",
+    "fence_installer_wage_mean_hourly": 16.84, "avg_fence_install_low": 4000, "avg_fence_install_high": 10500,
+    "distinctive_law": "Mississippi State Board of Contractors requires the Residential Builder license only on residential projects with total contract value above $50,000 — meaning the overwhelming majority of single-family fence installations proceed under municipal credentials only, with no state oversight in unincorporated counties without chartered inspection programs, and Mississippi Code §69-13 (the Mississippi Boundary Fence Statute) places fence-in livestock responsibility on owners with neighbor cost-sharing for partition fences.",
+    "climate_concern": "Mississippi sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone) with annual subterranean and Formosan termite pressure across the Mississippi Delta and Gulf Coast — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher, driving rising vinyl and composite market share over wood — and post-Katrina BFE elevation rules drive concrete-encased steel or treated wood posts on every Hancock, Harrison, and Jackson county Gulf Coast retrofit."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "frost_line_inches": 24, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Kansas City, St. Louis, Springfield issue local credentials",
+    "license_url": "https://www.kcmo.gov/city-hall/departments/city-planning-development", "permit_typical": "city permit typical for residential fence over 6 feet in incorporated municipalities",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Missouri Revised Statutes §272 (the Missouri Boundary Fence Statute) divides the state into 'fence-in' and 'fence-out' counties on a county-by-county basis — most central and eastern Missouri counties operate under 'fence-in' rules where livestock owners must contain their animals under §272.030, while certain western Missouri counties (notably Bates, Cass, and Vernon) retain 'fence-out' designation under §272.210 where the burden falls on residential property owners to fence livestock off their own land.",
+    "climate_concern": "Missouri's 24-to-30-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and the Missouri and Mississippi river-valley flood-elevation overlays drive concrete-encased steel or treated wood posts on every St. Louis County, Jefferson County, and Boone County riverfront retrofit, with seasonal flood-driven post heave a regular failure mode on standard wood-post installations."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B-7", "frost_line_inches": 36, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "registration", "license_board_name": "Montana Department of Labor and Industry — Independent Contractor Exemption Certificate or Registered Contractor",
+    "license_url": "https://erd.dli.mt.gov/work-comp-claims/contractor-registration/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Montana Code Annotated §70-16-202 (the Montana Open Range Statute) designates the entire state as 'open range' under default law — making cattle and sheep producers explicitly NOT liable for damage caused by their livestock on neighboring property unless that property is enclosed by a 'legal fence' as specifically defined in §81-4-101 (4-strand barbed wire, 4 feet 4 inches high, posts not more than 16.5 feet apart) — placing the burden on residential and crop-farming landowners to fence livestock off their own land statewide.",
+    "climate_concern": "Montana's 36-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Big Sky Country chinook winds reaching 80-100 mph annually across Sheridan, Casper, and Laramie equivalent foothill ranges drive engineered post-bracing and concrete-set requirements on east-facing exposed installations, with reinforced post spacing now standard on chinook-corridor properties."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "frost_line_inches": 36, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Nebraska Department of Labor — Contractor Registration (over $5,000)",
+    "license_url": "https://dol.nebraska.gov/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11200,
+    "distinctive_law": "Nebraska Revised Statute §34-101 (the Nebraska Partition Fence Statute) is one of the most prescriptive boundary-fence statutes in the country — making adjoining landowners equally responsible for the cost of constructing and maintaining a 'sufficient' partition fence (defined by precise dimensions: 4 feet 6 inches high with at least 4 horizontal wires, posts not more than 16 feet apart) — and authorizing county fence viewers to act as binding arbitrators when neighbors cannot agree on cost-sharing or construction method.",
+    "climate_concern": "Nebraska's 36-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and central Plains tornado and derecho exposure with annual EF1-EF3 events across the entire state drives engineered post-bracing and concrete-set requirements on Omaha, Lincoln, and Grand Island retrofits, with reinforced post spacing now standard on tornado-corridor properties."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "frost_line_inches": 18, "dominant_material": "vinyl",
+    "wind_tier": "wind_low", "termite_risk": "high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — C-15 (Fencing) classification",
+    "license_url": "https://nscb.nv.gov/", "permit_typical": "city or county permit typical for residential fence over 6 feet; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 20.42, "avg_fence_install_low": 5000, "avg_fence_install_high": 12800,
+    "distinctive_law": "Nevada State Contractors Board issues a C-15 Fencing specialty classification under NRS Chapter 624 — making Nevada one of the few states with a dedicated fencing-specialty contractor license that requires separate examination on Nevada-specific HOA architectural review compliance, view-fence masonry design for Las Vegas-area master-planned communities, and CC&R disclosure obligations on every residential fence install.",
+    "climate_concern": "Nevada's HOA penetration is among the highest in the country — over 60% of Las Vegas and Henderson residential subdivisions enforce architectural review controls including specific approved fencing materials (typically only vinyl or stuccoed CMU), maximum heights, and color palettes — and Mojave Desert sustained 110°F+ summer heat plus termite pressure drive vinyl dominance over wood, with Las Vegas-area fence retrofits now exceeding 70% vinyl share."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "frost_line_inches": 48, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "none", "license_board_name": "No statewide fencing contractor license — municipal building department oversight only",
+    "license_url": "https://www.nh.gov/safety/divisions/firesafety/bldg-safety-licensing/", "permit_typical": "municipal permit required where adopted; many small towns have no inspection program",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "New Hampshire has no statewide residential contractor licensing for fencing or general remodeling — RSA 359-G (Home Improvement Contractor Act) requires written contracts above $5,000 with mandatory disclosures and a 3-day right of cancellation but imposes no skills credential — and RSA 473 (the Spite Fence Statute) makes any fence over 5 feet built primarily to annoy a neighbor an actionable nuisance with damages and removal as available remedies.",
+    "climate_concern": "New Hampshire's 48-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and White Mountain elevation winter ambients across Coos and Grafton counties drive cedar checking and cupping within 3-5 years, with stained cedar privacy retaining dominant share over vinyl due to North Country aesthetic preference and forested-property setting."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "frost_line_inches": 36, "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "New Jersey Division of Consumer Affairs — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.njconsumeraffairs.gov/hic/", "permit_typical": "municipal zoning permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 22.42, "avg_fence_install_low": 5200, "avg_fence_install_high": 13500,
+    "distinctive_law": "New Jersey N.J.S.A. §56:8-136 requires every contractor performing residential exterior work above $500 to register as a Home Improvement Contractor (HIC) with the Division of Consumer Affairs — and unique to New Jersey, the HIC registration mandates $500,000 of liability insurance on file, a written contract with specific 18-point disclosures, and prohibits any payment over 33% of contract value before substantial completion.",
+    "climate_concern": "New Jersey sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure across the Coastal Plain — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher per New Jersey Building Code, driving rising vinyl and aluminum market share over wood — and New Jersey Shore Atlantic salt-haze deposition mandates stainless mounting on shoreline retrofits within 1 mile of tidewater."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "3B-4B-5B", "frost_line_inches": 18, "dominant_material": "wrought-iron",
+    "wind_tier": "wind_low", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — GB-2 (General Building) or GS-3 (Fencing/Wrought Iron) specialty",
+    "license_url": "https://www.rld.nm.gov/construction/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4600, "avg_fence_install_high": 12000,
+    "distinctive_law": "New Mexico Construction Industries Division issues a GS-3 Fencing specialty classification distinct from the GB-2 General Building or GB-98 Residential credentials — and unique to New Mexico, the CID enforces traditional adobe wall construction requirements on Santa Fe and Taos historic-district overlays alongside modern fencing standards, with the Pueblo Adobe Building Code allowing earthen-mortar boundary walls in excess of standard 6-foot fencing height limits in HPD-protected districts.",
+    "climate_concern": "New Mexico's high-desert climate drives wrought-iron and ornamental aluminum dominance over wood in HOA-managed Albuquerque, Santa Fe, and Las Cruces communities — and gypsum-rich Permian Basin soils in Roswell and Hobbs provide poor concrete-anchorage cohesion, requiring belled-out post-footing diameters and gravel-bedded post bases on most southeastern New Mexico installations to prevent post heave in expansive evaporite subgrades."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "frost_line_inches": 42, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — NYC, Westchester, Nassau, Suffolk issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.nyc.gov/site/dca/businesses/license-checklist-home-improvement-contractor.page", "permit_typical": "municipal zoning permit typical for residential fence over 6 feet; NYC requires DOB filing for fencing >7 feet",
+    "fence_installer_wage_mean_hourly": 30.42, "avg_fence_install_low": 6200, "avg_fence_install_high": 16000,
+    "distinctive_law": "New York City requires every Home Improvement Contractor to hold a Department of Consumer and Worker Protection (DCWP) HIC license under NYC Administrative Code §20-386 — and unique to NYC, the HIC license mandates a $20,000 surety bond, written contracts in the consumer's language of preference (English, Spanish, Chinese, Russian, Korean, Haitian Creole, French), 5-day right of cancellation, and DCWP Trust Fund coverage for licensed-contractor breach claims.",
+    "climate_concern": "New York's 42-inch state-average frost line reaches 60+ inches in Adirondack and Tug Hill regions — driving mandatory 4-to-6-foot post-hole depths and concrete-anchored installations on every northern residential install — and NYC and Long Island coastal salt-haze deposition corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated mesh on shoreline retrofits."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "frost_line_inches": 12, "dominant_material": "pine-treated",
+    "wind_tier": "wind_high", "termite_risk": "high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "North Carolina Licensing Board for General Contractors (residential >$30,000)",
+    "license_url": "https://www.nclbgc.org/", "permit_typical": "city or county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "North Carolina General Statutes §87-1 requires the General Contractor license on any residential project with total contract value above $30,000 — and the Licensing Board issues Limited (under $750k single-family), Intermediate ($750k-$1.5M), and Unlimited (any size) classifications with separate Building, Highway, Public Utilities, and Specialty endorsements, with fence-only work above the threshold falling under the Building or RH Specialty Residential endorsement.",
+    "climate_concern": "North Carolina's coastal Outer Banks and Pamlico Sound salt-haze deposition corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated mesh on shoreline retrofits — and the eastern Coastal Plain sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure that drives CCA-treated southern yellow pine .60 in-ground post requirements per North Carolina Building Code."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "required", "license_board_name": "North Dakota Secretary of State — Contractor License (over $4,000)",
+    "license_url": "https://sos.nd.gov/business/business-services/contractors", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 20.42, "avg_fence_install_low": 4600, "avg_fence_install_high": 11800,
+    "distinctive_law": "North Dakota Century Code Chapter 43-07 (Contractors) requires every contractor performing residential or commercial work above $4,000 to hold a license issued by the Secretary of State — making North Dakota one of the lowest-threshold mandatory-licensing states for fencing work — and N.D.C.C. §47-26 (the Partition Fence Act) requires adjoining landowners to share equally in the cost of constructing and maintaining a partition fence in unincorporated counties, with binding arbitration through county fence viewers.",
+    "climate_concern": "North Dakota's 60-inch frost line in the Red River Valley (the deepest in the contiguous U.S.) drives mandatory 6-foot post-hole depths and concrete-anchored installations on every residential fence — and sustained -30°F to -50°F readings across Williston, Minot, and Grand Forks drive vinyl panel brittleness on south-facing fence runs, with chain-link and engineered wood retaining dominant market share over composite alternatives."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "frost_line_inches": 32, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Cleveland, Columbus, Cincinnati issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/BuildingHousing", "permit_typical": "city or county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Ohio has no statewide residential contractor licensing for fencing, siding, roofing, or general remodeling — Ohio Construction Industry Licensing Board regulates HVAC, electrical, plumbing, hydronics, and refrigeration statewide but exempts envelope and structural work — and Ohio Revised Code §971 (the Partition Fence Act, last substantively amended 2008) authorizes township trustees to act as binding arbitrators in fence-cost disputes between adjoining unincorporated property owners.",
+    "climate_concern": "Ohio's 32-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Lake Erie shoreline counties from Lucas to Ashtabula face lake-effect winter freeze-thaw cycling that drives concrete-set post heave on shallow installations, with deeper 36-inch+ footings and gravel-bedded post bases standard on northern Ohio installs."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "frost_line_inches": 18, "dominant_material": "chain-link",
+    "wind_tier": "wind_high", "termite_risk": "high", "hoa_prevalence": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide fencing license — Oklahoma City, Tulsa, Norman issue local credentials",
+    "license_url": "https://www.okc.gov/departments/development-services", "permit_typical": "city permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11000,
+    "distinctive_law": "Oklahoma Statute Title 60 §69 (the Oklahoma Partition Fence Statute) makes adjoining landowners equally responsible for the cost of constructing and maintaining a partition fence between agricultural parcels — and Oklahoma's 'fence-out' livestock designation under Title 4 §94 places the burden on residential property owners to fence livestock off their own land in unincorporated areas, while Oklahoma City and Tulsa municipal codes layer urban fencing rules with maximum 6-foot rear/side and 4-foot front-yard heights.",
+    "climate_concern": "Oklahoma sits at the heart of Tornado Alley with annual EF2-EF5 exposure across the entire state — Oklahoma City and Tulsa retrofit specs increasingly default to chain-link or short-span engineered wood with concrete-set posts spaced under 6 feet to survive recurring derecho-driven downbursts, and the 18-inch frost line drives moderate-depth concrete-anchored posts on every residential install."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B-6B", "frost_line_inches": 18, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board (CCB) — Residential General Contractor",
+    "license_url": "https://www.oregon.gov/ccb/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 22.84, "avg_fence_install_low": 5200, "avg_fence_install_high": 13500,
+    "distinctive_law": "Oregon Construction Contractors Board (CCB) requires every contractor performing residential exterior work above $1,000 to hold a CCB license — and Oregon Revised Statutes §96.030 (the Oregon Boundary Fence Statute) makes adjoining landowners equally responsible for the cost of constructing and maintaining a boundary fence — with Oregon's heritage of cedar fence dominance reflecting western red cedar's natural availability and rot-resistance in the Pacific Northwest's wet climate.",
+    "climate_concern": "Pacific Northwest sustained winter rainfall (90+ inches/year on the Olympic Peninsula coast) drives wood fence rot within 8-12 years on standard pressure-treated lumber, with western red cedar's natural rot resistance retaining dominant residential market share — and Cascade WUI overlay across Chelan, Okanogan, and Yakima counties drives Class A ignition-resistant fencing within 5 feet of structures since the 2014 Carlton Complex and 2015 Okanogan Complex wildfires."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "frost_line_inches": 36, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Pennsylvania Office of Attorney General — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.attorneygeneral.gov/protect-pennsylvanians/homeimprovementconsumerprotectionact/", "permit_typical": "municipal zoning permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Pennsylvania Home Improvement Consumer Protection Act (HICPA, 73 P.S. §517) requires every contractor performing residential exterior work above $5,000 per year to register with the Office of Attorney General — and unique to Pennsylvania, the HICPA registration carries no skills examination but mandates a written contract with 16-point disclosures, prohibits any payment over 33% of contract value before substantial completion, and creates a private right of action for treble damages on HICPA violations.",
+    "climate_concern": "Pennsylvania's 36-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Allegheny Plateau and Pocono region winter ambients reaching -15°F drive vinyl panel brittleness, with cedar privacy and engineered wood retaining significant share over composite alternatives in the rural western and northeastern counties."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "frost_line_inches": 42, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Rhode Island Contractors' Registration & Licensing Board",
+    "license_url": "https://crb.ri.gov/", "permit_typical": "municipal zoning permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 22.42, "avg_fence_install_low": 5000, "avg_fence_install_high": 13000,
+    "distinctive_law": "Rhode Island General Laws §5-65 requires every contractor performing residential exterior work to register with the Contractors' Registration & Licensing Board — and unique to Rhode Island, the CRLB registration mandates a $5,000 surety bond, $500,000 of liability insurance, and a 7-day right of cancellation on residential contracts, with the Board administering a Recovery Fund that compensates homeowners up to $7,500 per project for licensed-contractor breach.",
+    "climate_concern": "Rhode Island's 42-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and Narragansett Bay coastal salt-haze deposition across Newport, Bristol, and Washington counties corrodes standard galvanized chain-link mesh within 5-7 years, mandating PVC-coated or stainless mesh on shoreline retrofits within 1 mile of tidewater."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "frost_line_inches": 8, "dominant_material": "pine-treated",
+    "wind_tier": "wind_high", "termite_risk": "very-high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "South Carolina Department of Labor, Licensing and Regulation — Residential Builders Commission (Specialty Contractor SP-RBE)",
+    "license_url": "https://llr.sc.gov/resb/", "permit_typical": "city or county permit typical for residential fence over 6 feet; Beaufort/Charleston enforce coastal wind code",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "South Carolina SC Code §40-59 requires every Residential Builder and Residential Specialty Contractor to hold a Residential Builders Commission credential — and unique to South Carolina, the Specialty Contractor SP-RBE (Roofing/Siding/Exterior) classification authorizes envelope and fence work distinct from the full Residential Builder license, with the Commission requiring a $10,000 surety bond and 8-hour pre-license building science continuing education on Lowcountry coastal wind-design and termite-resistance topics.",
+    "climate_concern": "South Carolina sits inside Termite Probability and Climatic Tier 1 (the highest TPCT zone alongside Florida and Alabama) with annual subterranean and Formosan termite pressure across the Lowcountry — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher, and Charleston, Hilton Head, and Myrtle Beach Atlantic salt-haze deposition mandates stainless mounting on shoreline retrofits within 1 mile of tidewater."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "frost_line_inches": 48, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "none", "license_board_name": "No statewide fencing contractor license — municipal building department oversight only",
+    "license_url": "https://dlr.sd.gov/buildings/default.aspx", "permit_typical": "municipal permit required where adopted; rural counties may have no inspection program",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11200,
+    "distinctive_law": "South Dakota has no statewide residential contractor licensing for fencing, siding, roofing, plumbing, or electrical — making South Dakota one of the most lightly regulated construction-licensing states in the country — and South Dakota Codified Laws §43-23 (the South Dakota Partition Fence Statute) makes adjoining landowners equally responsible for the cost of partition fences between agricultural parcels, with binding arbitration through county fence viewers.",
+    "climate_concern": "South Dakota's 48-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and Black Hills granite outcrops in Lawrence and Pennington counties create unpredictable post-footing depth requirements (sometimes hitting bedrock at 6 inches, other times finding loose talus at 36+ inches), with augered or hydraulically-driven posts often necessary on western South Dakota installations."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "frost_line_inches": 12, "dominant_material": "pine-treated",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors (residential >$25,000)",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 18.42, "avg_fence_install_low": 4400, "avg_fence_install_high": 11500,
+    "distinctive_law": "Tennessee Board for Licensing Contractors requires the Contractor license (BC, BC-A, BC-B classifications) on any residential project with total contract value above $25,000 — and unique to Tennessee, the Home Improvement license is a separately tested credential required for residential remodeling work between $3,000 and $25,000, with the Tennessee Department of Commerce & Insurance enforcing dual credentialing on contractors operating across both thresholds.",
+    "climate_concern": "Tennessee sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure across the entire state — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher per Tennessee Building Code, and the Tennessee River and Cumberland River valley flood-elevation overlays drive concrete-encased steel or treated wood posts on every Memphis, Nashville, and Knoxville riverfront retrofit."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-3A-3B-4B", "frost_line_inches": 10, "dominant_material": "pine-treated",
+    "wind_tier": "wind_high", "termite_risk": "very-high", "hoa_prevalence": "high",
+    "license_status": "none", "license_board_name": "No statewide fencing contractor license — municipal building department oversight only",
+    "license_url": "https://www.tdlr.texas.gov/", "permit_typical": "city or municipal permit typical for residential fence over 6 feet; Texas Windstorm Insurance Association (TWIA) rules apply on Tier 1 coastal counties",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11500,
+    "distinctive_law": "Texas Property Code §202.018 (the Texas HOA Fencing Statute, 2021) preempts HOA architectural review controls that prohibit storm-resistant fencing materials — making Texas the only state where homeowners in HOA-governed subdivisions can install impact-rated metal or storm-resistant composite fencing notwithstanding HOA color or material restrictions, in response to post-Harvey hurricane-driven fence loss in Houston-area master-planned communities, with the law allowing reasonable HOA height and setback rules but prohibiting outright material bans.",
+    "climate_concern": "Texas spans hurricane-exposed Gulf Coast (Tier 1 TWIA counties), Tornado Alley central plains, and arid Trans-Pecos west — Houston, Galveston, and Corpus Christi retrofits face high-wind engineered post-spacing under 6 feet with concrete-set requirements, while Oklahoma-border North Texas and Panhandle properties face annual EF1-EF3 hail with reinforced post-bracing now standard on Lubbock, Amarillo, and Wichita Falls retrofits — and Texas Hill Country and South Texas sit inside Termite Probability and Climatic Tier 1."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "3B-5B-6B", "frost_line_inches": 30, "dominant_material": "vinyl",
+    "wind_tier": "wind_low", "termite_risk": "moderate", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Utah Department of Commerce — Division of Occupational and Professional Licensing (B100 General Building or S210 Fencing specialty)",
+    "license_url": "https://dopl.utah.gov/contractor/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4600, "avg_fence_install_high": 12000,
+    "distinctive_law": "Utah DOPL issues an S210 Fencing specialty contractor classification distinct from the B100 General Building license — and unique to Utah, the DOPL administers a Construction Trades Recovery Fund that compensates homeowners up to $40,000 per project for licensed-contractor breach, funded by per-license fees, with claims reviewed by the Division of Occupational and Professional Licensing under Utah Code §38-11-201.",
+    "climate_concern": "Utah's 30-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and Wasatch Front HOA penetration across Salt Lake, Davis, and Utah counties is among the highest in the West, with most master-planned communities enforcing architectural review controls that favor uniform vinyl over weathered cedar, driving rising vinyl market share over wood on suburban retrofits."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "frost_line_inches": 48, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "registration", "license_board_name": "Vermont Office of Professional Regulation — Residential Contractor Registration",
+    "license_url": "https://sos.vermont.gov/residential-contractors/", "permit_typical": "municipal permit required where adopted; many small towns have no inspection program",
+    "fence_installer_wage_mean_hourly": 20.42, "avg_fence_install_low": 4600, "avg_fence_install_high": 12000,
+    "distinctive_law": "Vermont 26 V.S.A. Chapter 109 (effective 2021) requires every residential contractor to register with the Office of Professional Regulation if performing more than $10,000 of work per year on Vermont property — making Vermont one of the most recently established residential contractor registries in the country — and Vermont Statutes Title 24 §3801 (the Partition Fence Statute) makes adjoining landowners equally responsible for partition fences with town selectmen as binding arbitrators in unincorporated towns.",
+    "climate_concern": "Vermont's 48-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and Green Mountain elevation winter ambients across Caledonia, Essex, and Orleans counties drive vinyl panel brittleness on south-facing fence runs, with cedar privacy and engineered wood retaining dominant share over composite alternatives in the rural Northeast Kingdom."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "frost_line_inches": 24, "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "high",
+    "license_status": "required", "license_board_name": "Virginia Department of Professional and Occupational Regulation — Board for Contractors (Class A/B/C residential)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors", "permit_typical": "city or county permit typical for residential fence over 6 feet; HOA approval required in most master-planned communities",
+    "fence_installer_wage_mean_hourly": 19.42, "avg_fence_install_low": 4600, "avg_fence_install_high": 12000,
+    "distinctive_law": "Virginia DPOR issues Class A (any project size), Class B ($10,000-$120,000), and Class C (under $10,000) as three contracting tiers — and unique to Virginia, the Board for Contractors issues separately tested specialty designations (HIC Home Improvement, BLD Building, RBC Residential Building) within each class, with fence work falling under either RBC Residential Building or HIC Home Improvement depending on project scope.",
+    "climate_concern": "Virginia sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure across the Coastal Plain — every in-ground wood post requires CCA-treated southern yellow pine .60 or higher per Virginia Building Code, driving rising vinyl and aluminum market share over wood — and Northern Virginia HOA penetration across Fairfax, Loudoun, and Prince William counties drives architectural review controls favoring uniform vinyl over weathered cedar."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "frost_line_inches": 18, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "moderate",
+    "license_status": "registration", "license_board_name": "Washington State Department of Labor & Industries — Contractor Registration",
+    "license_url": "https://lni.wa.gov/licensing-permits/contractors/", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 23.42, "avg_fence_install_low": 5400, "avg_fence_install_high": 14000,
+    "distinctive_law": "Washington L&I requires every contractor performing residential or commercial work to register as a General Contractor or Specialty Contractor under RCW 18.27 — and Washington's heritage of western red cedar fence dominance reflects regional cedar availability and rot-resistance, with RCW 16.60 (the Washington Boundary Fence Statute) making adjoining landowners equally responsible for cost of partition fences in unincorporated areas under county fence-viewer arbitration.",
+    "climate_concern": "Pacific Northwest sustained winter rainfall (90+ inches/year on the Olympic Peninsula coast, 38 inches/year Puget Sound average) drives wood fence rot within 8-12 years on standard pressure-treated lumber — western red cedar's natural rot resistance retains dominant residential market share — and Cascade WUI overlay across Chelan, Okanogan, and Yakima counties drives Class A ignition-resistant fencing within 5 feet of structures since the 2014 Carlton Complex wildfires."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "frost_line_inches": 24, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "moderate", "hoa_prevalence": "low",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Contractor Licensing Board (residential >$2,500)",
+    "license_url": "https://labor.wv.gov/Wage-Hour/Pages/Contractor-Licensing.aspx", "permit_typical": "city or county permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 17.42, "avg_fence_install_low": 4200, "avg_fence_install_high": 11000,
+    "distinctive_law": "West Virginia Code §21-11 requires every contractor performing residential or commercial work above $2,500 to hold a Contractor License issued by the Division of Labor's Contractor Licensing Board — making West Virginia one of the lowest-threshold mandatory-licensing states for fencing work, with separate Residential, Commercial, Subcontractor, Roofing, and Specialty classifications and a mandatory $10,000 surety bond on every license tier.",
+    "climate_concern": "West Virginia's Allegheny Plateau and coal-country reclaimed mine subsidence creates unpredictable ground settlement that disrupts post-footing concrete annually on properties built over abandoned mine works — and Allegheny Plateau winter ice storms drive vinyl panel brittleness on exposed installations, with chain-link and engineered wood retaining dominant share over composite alternatives across rural Wyoming and McDowell county properties."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "5A-6A-7", "frost_line_inches": 48, "dominant_material": "chain-link",
+    "wind_tier": "wind_moderate", "termite_risk": "low", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety and Professional Services — Dwelling Contractor (DC) and Dwelling Contractor Qualifier (DCQ)",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/DwellingContractor/Default.aspx", "permit_typical": "state or municipal permit typical for residential fence over 6 feet",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Wisconsin Statutes §101.654 requires every contractor performing residential exterior work on one- or two-family dwellings to hold both a Dwelling Contractor (DC) certification (the contracting business entity credential) AND a Dwelling Contractor Qualifier (DCQ) certification (the personal credential held by the responsible individual) — and unique to Wisconsin, the DCQ requires 12 hours of pre-certification continuing education and 12 hours per renewal cycle on Wisconsin energy-code, building-code, and consumer-protection topics.",
+    "climate_concern": "Wisconsin's 48-inch frost line drives mandatory 4-foot+ post-hole depths and concrete-anchored installations on every residential fence — and Lake Michigan and Lake Superior shoreline winter freeze-thaw cycling on chain-link mesh drives PVC-coated and vinyl-clad alternatives over standard galvanized, with sustained sub-zero northern Wisconsin winters across Vilas, Iron, and Bayfield counties driving vinyl panel brittleness on south-facing fence runs."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "5B-6B-7", "frost_line_inches": 42, "dominant_material": "cedar-privacy",
+    "wind_tier": "wind_high", "termite_risk": "low", "hoa_prevalence": "low",
+    "license_status": "none", "license_board_name": "No statewide fencing contractor license — municipal building department oversight only",
+    "license_url": "https://wyomingworkforce.org/", "permit_typical": "municipal permit required where adopted; many counties have no inspection program",
+    "fence_installer_wage_mean_hourly": 21.42, "avg_fence_install_low": 4800, "avg_fence_install_high": 12500,
+    "distinctive_law": "Wyoming has no statewide residential contractor licensing for fencing, siding, roofing, plumbing, or electrical — and Wyoming Statutes §11-28-101 (the Wyoming Open Range Statute) designates the entire state as 'open range' under default law, making cattle and sheep producers explicitly NOT liable for damage caused by their livestock on neighboring property unless that property is enclosed by a 'legal fence' as specifically defined (4-strand barbed wire, 4 feet 4 inches high, posts not more than 16.5 feet apart) — placing the burden on residential and crop-farming landowners to fence livestock off their own land statewide.",
+    "climate_concern": "Wyoming's 42-inch frost line drives mandatory deep-set concrete-anchored posts on every residential fence installation — and high-plains chinook winds reaching 80-100 mph annually across Sheridan, Casper, and Laramie drive engineered post-bracing and concrete-set requirements on east-facing exposed installations, with reinforced post spacing and engineered cedar retaining dominant share over vinyl on chinook-corridor properties."
+  },
+  "DC": {
+    "name": "District of Columbia", "slug": "district-of-columbia", "abbr": "DC",
+    "iecc_zone": "4A", "frost_line_inches": 24, "dominant_material": "wrought-iron",
+    "wind_tier": "wind_moderate", "termite_risk": "high", "hoa_prevalence": "moderate",
+    "license_status": "required", "license_board_name": "DC Department of Buildings — Home Improvement Contractor (HIC) license",
+    "license_url": "https://dob.dc.gov/", "permit_typical": "DC zoning permit typical for residential fence over 6 feet; HPRB approval required in historic districts",
+    "fence_installer_wage_mean_hourly": 24.42, "avg_fence_install_low": 5400, "avg_fence_install_high": 14000,
+    "distinctive_law": "DC requires every contractor performing residential exterior work above $300 to hold a DC Home Improvement Contractor (HIC) license under DC Municipal Regulations Title 16 §800 — and unique to DC, HPRB-protected historic districts (Georgetown, Capitol Hill, Dupont Circle) require DC Historic Preservation Office sign-off on visible fence alterations, with traditional wrought-iron and cast-iron picket retaining dominant share over modern materials in the Federal-period and Victorian streetscapes.",
+    "climate_concern": "DC's Federal-period and Victorian row-house streetscapes drive wrought-iron and cast-iron picket dominance over wood fencing in Georgetown, Capitol Hill, and Dupont Circle HPRB-protected historic districts — and the DC Coastal Plain sits inside Termite Probability and Climatic Tier 2 with annual subterranean termite pressure that drives CCA-treated southern yellow pine .60 in-ground post requirements per DC Building Code on rear-yard wood fence installations."
+  }
+}
