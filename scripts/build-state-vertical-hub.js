@@ -265,6 +265,46 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  concrete: {
+    fileSuffix: "-concrete-cost.html",
+    cityFileSuffix: "-concrete-cost.html",
+    pageTitle: (s) => `Concrete Driveway Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average 600 sq ft 4-inch concrete driveway pour in ${s.name} runs ${money(s.avg_driveway_low)}–${money(s.avg_driveway_high)}. Per-state frost depth, freeze-thaw, expansive soil, seismic, and de-icer drivers explained.`,
+    h1: (s) => `Concrete Driveway Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/concrete-cities.html",
+    citiesDirLabel: "Concrete cities",
+    costGuideHref: "/concrete-cost-guide.html",
+    quoteAnalyzerHref: "/concrete-quote-analyzer.html",
+    estimatorHref: "/concrete-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Concrete estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "concrete driveway",
+    verticalLabelCap: "Concrete Driveway",
+    pricingMetricLabel: "600 sq ft 4-inch concrete driveway pour",
+    wageField: "cement_mason_wage_mean_hourly",
+    wageLabel: "BLS cement mason wage",
+    wageSourceLabel: "BLS OEWS cement mason & concrete finisher mean",
+    sitemapFile: "sitemap-concrete.xml",
+    introHero: (s, vConf) => {
+      const ftLabel = {
+        "F0": "no freeze-thaw exposure (ACI F0)",
+        "F1": "moderate freeze-thaw exposure (ACI F1)",
+        "F2": "severe freeze-thaw exposure (ACI F2)",
+        "F3": "most severe freeze-thaw exposure (ACI F3)",
+      };
+      const ft = ftLabel[s.freeze_thaw_exposure] || s.freeze_thaw_exposure;
+      return `Concrete driveway pours in ${s.name} typically run ${money(s.avg_driveway_low)}–${money(s.avg_driveway_high)} for a ${vConf.pricingMetricLabel} at ${s.typical_psi} psi compressive strength. Buried footings must clear the ${s.frost_line_inches}-inch design frost line, and the state sits in ${ft}. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_driveway_low",
+    avgFieldHigh: "avg_driveway_high",
+    climateFactsHTML: (s) => climateAndCodeFactsConcreteHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate, soil & seismic drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   insulation: {
     fileSuffix: "-insulation-cost.html",
     cityFileSuffix: "-insulation-cost.html",
@@ -720,6 +760,57 @@ function climateAndCodeFactsGutterHTML(state) {
     `<li><strong>Ice-dam risk tier:</strong> ${escapeHtml(iceLabel[state.ice_dam_risk] || state.ice_dam_risk)}</li>`,
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(tierLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
     `<li><strong>Tree-canopy density:</strong> ${escapeHtml(canopyLabel[state.tree_canopy_density] || state.tree_canopy_density)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsConcreteHTML(state) {
+  const ftLabel = {
+    "F0": "F0 — no freeze-thaw exposure, no air-entrainment required",
+    "F1": "F1 — moderate freeze-thaw, 4.5-6% air-entrainment recommended",
+    "F2": "F2 — severe freeze-thaw + de-icer exposure, 5-7% air-entrainment required",
+    "F3": "F3 — most severe freeze-thaw + heavy de-icer use, 6-8% air-entrainment + 0.40 max w/c required",
+  };
+  const expansiveLabel = {
+    "very-high": "Very high — bentonitic clay subsoil drives post-tension foundation requirement",
+    "high": "High — expansive clay subsoil requires geotechnical investigation + reinforced footings",
+    "moderate": "Moderate — periodic clay shrink-swell, standard footing reinforcement adequate",
+    "low": "Low — sandy or stable subsoil, standard slab-on-grade design",
+    "none": "None — non-expansive subsoil",
+  };
+  const sulfateLabel = {
+    "S0": "S0 — no sulfate exposure, Type I/II cement adequate",
+    "S1": "S1 — moderate sulfate exposure, ASTM C150 Type II cement required",
+    "S2": "S2 — severe sulfate exposure, ASTM C150 Type II/V cement required",
+    "S3": "S3 — very severe sulfate exposure, ASTM C150 Type V cement required + low w/c",
+  };
+  const sdcLabel = {
+    "A": "SDC A — no seismic design considerations",
+    "B": "SDC B — minor seismic risk, standard tie-down requirements",
+    "C": "SDC C — moderate seismic risk, continuous-rebar-tie footings required",
+    "D0": "SDC D0 — high seismic risk, full ASCE 7-22 detailing requirements",
+    "D1": "SDC D1 — high seismic risk + Special Inspector continuous observation required",
+    "D2": "SDC D2 — highest seismic risk, full ASCE 7-22 + Special Inspector + post-tension foundation typical",
+    "E": "SDC E — extreme seismic, near-fault design required",
+    "F": "SDC F — extreme seismic, special structural design required",
+  };
+  const saltLabel = {
+    "very-high": "Very high — heavy de-icer use drives 0.40 max w/c + epoxy-coated rebar",
+    "high": "High — winter de-icing salt drives air-entrainment + corrosion-protected rebar",
+    "moderate": "Moderate — periodic de-icer use",
+    "low": "Low — minimal winter de-icer use",
+    "none": "None — no winter de-icer exposure",
+  };
+  const items = [
+    `<li><strong>Frost-line trench depth:</strong> ${state.frost_line_inches}-inch design minimum for buried footings</li>`,
+    `<li><strong>Freeze-thaw exposure (ACI 201.2R):</strong> ${escapeHtml(ftLabel[state.freeze_thaw_exposure] || state.freeze_thaw_exposure)}</li>`,
+    `<li><strong>Typical residential mix:</strong> ${state.typical_psi} psi compressive strength</li>`,
+    `<li><strong>Expansive soil risk:</strong> ${escapeHtml(expansiveLabel[state.expansive_soil_risk] || state.expansive_soil_risk)}</li>`,
+    `<li><strong>Sulfate exposure (ACI 318):</strong> ${escapeHtml(sulfateLabel[state.sulfate_exposure_class] || state.sulfate_exposure_class)}</li>`,
+    `<li><strong>Seismic design category (ASCE 7-22):</strong> ${escapeHtml(sdcLabel[state.seismic_design_category] || state.seismic_design_category)}</li>`,
+    `<li><strong>Winter de-icer salt exposure:</strong> ${escapeHtml(saltLabel[state.salt_de_icer_exposure] || state.salt_de_icer_exposure)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
