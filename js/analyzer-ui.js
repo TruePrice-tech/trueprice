@@ -4467,6 +4467,21 @@ function buildComparisonWinnerHtml(summary) {
           { key: "designer", label: "Designer / Luxury", brands: "GAF Grand Canyon, OC Berkshire" },
           { key: "metal", label: "Standing Seam Metal", brands: "Drexel, Berridge, McElroy" }
         ];
+        // Pick exactly ONE current tier. Old logic used substring includes()
+        // and split("_")[0], which matched both "architectural" and
+        // "architectural_premium" for material="architectural" — rendering
+        // two YOURS pills (E23, 2026-05-02).
+        const currentTierKey = (function pickCurrentTier(materialStr, materialLabel) {
+          const m = String(materialStr || "").toLowerCase();
+          const lbl = String(materialLabel || "").toLowerCase();
+          const hay = m + " " + lbl;
+          if (/\bmetal\b|standing\s*seam/.test(hay)) return "metal";
+          if (/\b3[\s-]?tab\b|\basphalt\s*shingle\b/.test(hay)) return "asphalt";
+          if (/\bdesigner\b|grand\s*canyon|berkshire/.test(hay)) return "designer";
+          if (/\bpremium\s*(?:architectural|shingle)|\barchitectural\s*premium\b|malarkey\s*vista|\bas\s*ii\b/.test(hay)) return "architectural_premium";
+          if (/\barchitectural\b|landmark|hdz|duration|oakridge|timberline/.test(hay)) return "architectural";
+          return null;
+        })(a.material, a.materialLabel);
         let html = `<section style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:24px; margin:16px 0;">
           <h2 style="margin:0 0 6px; font-size:18px; color:#0f172a;">Same roof, different materials</h2>
           <p style="margin:0 0 14px; font-size:13px; color:#64748b;">${safeFormatNumber(rs)} sq ft roof. Prices include standard tear-off, underlayment, and accessories.</p>
@@ -4476,7 +4491,7 @@ function buildComparisonWinnerHtml(summary) {
           const mid = Math.round(ppf * rs / 50) * 50;
           const low = Math.round(mid * 0.88 / 50) * 50;
           const high = Math.round(mid * 1.15 / 50) * 50;
-          const isCurrent = (a.material || "").includes(t.key.split("_")[0]);
+          const isCurrent = currentTierKey === t.key;
           const bg = isCurrent ? "#eff6ff" : "#f8fafc";
           const border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
           html += `<div style="background:${bg}; border:${border}; border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
@@ -10062,15 +10077,33 @@ function buildComparisonWinnerHtml(summary) {
         return;
       }
 
-      // Require home size — can't estimate roof cost without knowing the size
-      const _homeSizeVal = Number(document.getElementById("estHomeSize")?.value || 0);
+      // Require home size — can't estimate roof cost without knowing the size.
+      // E1: OSM pre-fill is async and the user can click Build before the
+      // value lands in the input. Fall back to journeyState.osmHomeSize
+      // (populated by /api/property-lookup when address resolves) so the
+      // race doesn't surface as "Please enter your home's square footage"
+      // when we already know the answer.
+      const _hsInput = document.getElementById("estHomeSize");
+      let _homeSizeVal = Number(_hsInput?.value || 0);
+      if ((!_homeSizeVal || _homeSizeVal < 400) && journeyState.osmHomeSize >= 400) {
+        _homeSizeVal = Math.round(Number(journeyState.osmHomeSize));
+        if (_hsInput && !_hsInput.value) {
+          _hsInput.value = String(_homeSizeVal);
+          const _hint = document.getElementById("estHomeSizeHint");
+          if (_hint) {
+            _hint.textContent = "✓ Pre-filled from your address — edit if not accurate";
+            _hint.style.color = "#16a34a";
+          }
+        }
+      }
       if (!_homeSizeVal || _homeSizeVal < 400) {
         const errEl = document.getElementById("estError");
         if (errEl) {
           errEl.style.display = "block";
-          errEl.textContent = "Please enter your home's square footage. We need this to estimate your roof size.";
+          errEl.textContent = journeyState.propertyLookupAttempted
+            ? "We couldn't measure your home from satellite. Please enter your home's square footage to continue."
+            : "Please enter your home's square footage. We need this to estimate your roof size.";
         }
-        const _hsInput = document.getElementById("estHomeSize");
         if (_hsInput) { _hsInput.style.borderColor = "#f59e0b"; _hsInput.focus(); }
         return;
       }
@@ -10455,12 +10488,27 @@ function buildComparisonWinnerHtml(summary) {
           <!-- Material tier comparison -->
           ${(function() {
             if (!r.estimatedRoofSize) return "";
+            // E7: hide the whole-roof replacement cross-sell on repair scope.
+            // Showing "Architectural \$16,700 / Designer \$26,200" right under
+            // a \$5,800 repair midpoint reads as a quote inflation pitch and
+            // confuses the homeowner about what the result actually means.
+            if (r.workType === "repair") return "";
             var tiers = [
               { key: "asphalt", label: "3-Tab Budget", psq: 330, brands: "IKO, TAMKO, Atlas" },
               { key: "architectural", label: "Architectural", psq: 525, brands: "GAF HDZ, OC Duration, CertainTeed" },
               { key: "designer", label: "Designer / Luxury", psq: 825, brands: "GAF Grand Canyon, OC Berkshire" },
               { key: "metal", label: "Standing Seam Metal", psq: 1300, brands: "Drexel, Berridge, McElroy" }
             ];
+            // Single-pick tier resolver — mirrors the analyze path's
+            // pickCurrentTier (E23 fix). Uses both material code and brand
+            // hints so e.g. "architectural shingles" / "metal roofing" /
+            // "tile" resolve to one tier with no overlap.
+            var hay = (String(r.material || "") + " " + String(r.materialLabel || "")).toLowerCase();
+            var currentTierKey = null;
+            if (/\bmetal\b|standing\s*seam/.test(hay)) currentTierKey = "metal";
+            else if (/\b3[\s-]?tab\b|\basphalt\s*shingle\b/.test(hay)) currentTierKey = "asphalt";
+            else if (/\bdesigner\b|grand\s*canyon|berkshire/.test(hay)) currentTierKey = "designer";
+            else if (/\barchitectural\b|landmark|hdz|duration|oakridge|timberline/.test(hay)) currentTierKey = "architectural";
             var squares = r.estimatedRoofSize / 100;
             var html = '<div style="padding:24px; background:#fff; border:1px solid #e5e7eb; border-radius:18px; margin-bottom:20px;">';
             html += '<h3 style="margin:0 0 14px; font-size:18px; color:#0f172a;">Same roof, different materials</h3>';
@@ -10469,7 +10517,7 @@ function buildComparisonWinnerHtml(summary) {
               var mid = Math.round(t.psq * squares * (r.laborMult || 1.0) / 50) * 50;
               var low = Math.round(mid * 0.85 / 50) * 50;
               var high = Math.round(mid * 1.15 / 50) * 50;
-              var isCurrent = (r.material || "").includes(t.key);
+              var isCurrent = currentTierKey === t.key;
               var bg = isCurrent ? "#eff6ff" : "#f8fafc";
               var border = isCurrent ? "2px solid #2563eb" : "1px solid #e2e8f0";
               html += '<div style="background:' + bg + '; border:' + border + '; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">';
