@@ -923,6 +923,7 @@
         var tonnage = (typeof detectTonnage === "function") ? detectTonnage(text) : null;
         var afue = (typeof detectAfueRating === "function") ? detectAfueRating(text) : null;
         var brand = (typeof detectHvacBrand === "function") ? detectHvacBrand(text) : null;
+        var refrigerantType = (typeof detectRefrigerant === "function") ? detectRefrigerant(text) : null;
         var scopeSignals = (typeof detectHvacScopeSignals === "function") ? detectHvacScopeSignals(text) : {};
 
         // Warranty extraction via TP_VerticalScope (same source compare uses).
@@ -1013,6 +1014,7 @@
           tonnage: tonnage,
           brand: brand,
           brandNote: brandNote,
+          refrigerantType: refrigerantType,
           scopeSignals: scopeSignals,
           warrantyParts: _warrantyParts,
           warrantyLabor: _warrantyLabor,

@@ -14,9 +14,13 @@ const HVAC_BRAND_PATTERNS = [
   { brand: "Trane", tier: "premium", pattern: /\btrane\b/i },
   { brand: "Lennox", tier: "premium", pattern: /\blennox\b/i },
   { brand: "Daikin", tier: "premium", pattern: /\bdaikin\b/i },
+  { brand: "Mitsubishi", tier: "premium", pattern: /\bmitsubishi(?:\s+electric)?\b/i },
+  { brand: "Fujitsu", tier: "premium", pattern: /\bfujitsu(?:\s+general)?\b/i },
+  { brand: "LG", tier: "mid", pattern: /\bLG\b/ },
   { brand: "Rheem", tier: "mid", pattern: /\brheem\b/i },
   { brand: "Ruud", tier: "mid", pattern: /\bruud\b/i },
   { brand: "York", tier: "mid", pattern: /\byork\b/i },
+  { brand: "Bryant", tier: "mid", pattern: /\bbryant\b/i },
   { brand: "American Standard", tier: "mid", pattern: /\bamerican standard\b/i },
   { brand: "Amana", tier: "mid", pattern: /\bamana\b/i },
   { brand: "Goodman", tier: "value", pattern: /\bgoodman\b/i },
@@ -170,6 +174,43 @@ function detectHvacBrand(text) {
   return null;
 }
 
+// Detect refrigerant type. R-22 is the trust-critical one — it was phased out
+// in 2020 and recharging an R-22 system runs $500-$2,000 in refrigerant alone.
+// R-410A is the legacy modern standard; R-454B and R-32 are the post-2025
+// next-gen lower-GWP refrigerants. Surfacing the type lets the verdict copy
+// flag the R-22 phaseout cost AND the impending R-410A phasedown.
+function detectRefrigerant(text) {
+  const normalized = String(text || "");
+  // Order matters: more specific (R-410A, R-454B) before plain "R-22" so a
+  // doc mentioning both an old R-22 system and a new R-410A install picks
+  // the new refrigerant. The first explicit refrigerant token wins.
+  const patterns = [
+    { label: "R-454B", pattern: /\bR[\s\-]?454B\b/i },
+    { label: "R-32", pattern: /\bR[\s\-]?32\b/i },
+    { label: "R-410A", pattern: /\bR[\s\-]?410[\s\-]?A?\b|\b410a\b/i },
+    { label: "R-22", pattern: /\bR[\s\-]?22\b|\bfreon\b/i },
+  ];
+  // Scan in original order — but pick the lowest-index match in the text so
+  // a system that says "Replacing old R-22 with new R-410A" returns R-410A
+  // (the new refrigerant) not R-22 (the legacy one).
+  let best = null;
+  patterns.forEach(p => {
+    p.pattern.lastIndex = 0;
+    const m = normalized.match(p.pattern);
+    if (m) {
+      const idx = normalized.indexOf(m[0]);
+      // Prefer R-22 only when it's the ONLY refrigerant in the doc — that's
+      // the "still on R-22" trust flag. Otherwise pick the modern one.
+      if (!best || (best.label === "R-22" && p.label !== "R-22")) {
+        best = { label: p.label, idx };
+      } else if (p.label !== "R-22" && idx < best.idx) {
+        best = { label: p.label, idx };
+      }
+    }
+  });
+  return best ? best.label : null;
+}
+
 function detectHvacScopeSignals(text) {
   const normalized = String(text || "").toLowerCase();
   const results = {};
@@ -207,6 +248,7 @@ if (typeof window !== "undefined") {
   window.detectTonnage = detectTonnage;
   window.detectAfueRating = detectAfueRating;
   window.detectHvacBrand = detectHvacBrand;
+  window.detectRefrigerant = detectRefrigerant;
   window.detectHvacScopeSignals = detectHvacScopeSignals;
   window.HVAC_SYSTEM_PATTERNS = HVAC_SYSTEM_PATTERNS;
   window.HVAC_BRAND_PATTERNS = HVAC_BRAND_PATTERNS;
