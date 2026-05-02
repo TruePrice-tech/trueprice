@@ -160,6 +160,59 @@ When halted: append entry to ## Halt log section below, post conversation messag
 
 **Waiting for:** Lane decides (1)–(3) above. Then I build the per-state data dictionary for the chosen pilot vertical, generate 50 pages, run pairwise audit, halt-or-ship.
 
+### Halt #2 — 2026-05-01 — Roof pilot generated; pairwise FAILS at 63% (gate: ≤25%)
+
+**Lane decisions (post-halt-#1):** approved all three. URL = `[state-slug]-[vertical]-cost.html`. Pilot = roof. Roof = rewrite-in-place.
+
+**What shipped (infrastructure only — no HTML changes committed):**
+- [`data/state-roof-data.json`](../data/state-roof-data.json) — 51 entries (50 states + DC), 17 fields each. All 51 `distinctive_law` strings unique. All 51 `climate_concern` strings unique. Real per-state data: IECC 2021 climate zones, ASCE 7-22 wind tier, NOAA SPC hail tier, ASCE snow load psf, dominant residential roof material, license status + board name + URL, permit norms, BLS OEWS May 2024 roofer mean wage, typical replacement low/high cost range, distinctive state law (e.g., FL §489.147 anti-AOB + 25% Rule, CO SB 38 + HB18-1342 hail deductible, TX Insurance Code §707, KS §44-153 first-in-nation roofer registration, NY GBL §771, MA Chapter 142A Guaranty Fund), and a state-specific climate driver paragraph.
+- [`scripts/build-state-vertical-hub.js`](../scripts/build-state-vertical-hub.js) — generator. Reads state data dict + enumerates city pages from filesystem. Emits one HTML per state with hero intro, climate/code-drivers section, licensing/permits section, "How costs vary" prose (climate_concern + distinctive_law), state-specific city cards, "More state guides" cross-links. Currently configured for roof; extensible to other verticals via VERTICAL_CONFIG.
+- [`scripts/audit-state-hub-uniqueness.js`](../scripts/audit-state-hub-uniqueness.js) — pairwise Jaccard similarity audit on the 50 state hubs. Strips header/footer/scripts/styles/More-state-guides/tools-block; tokenizes `<main>` content; subtracts state name + state abbr from tokens; computes pairwise Jaccard on word sets ≥3 chars after stop-word filter. Hard gate at 25%, warn at 20%.
+
+**What was generated and reverted (NOT committed):**
+- 50 `[state]-roof-cost.html` pages overwriting the 2026-03-11 templated stubs.
+- Pages had real per-state content (each "How roof replacement costs vary in [State]" section was genuinely unique — sampled FL/TX/CO confirmed).
+- Reverted via `git checkout HEAD -- *-roof-cost.html` after audit fail.
+
+**Audit results:**
+- **Pairwise (Jaccard, the locked Lane-≤25% gate):** **MAX 63.4%, all 1,225 pairs above 25%**. Top failures: NH↔WY 63.4%, ID↔MT 62.7%, NH↔VT 62.2%, ME↔NH 60.9%, AK↔ME 60.2%. Geographic clustering is real — neighboring/similar states share more vocabulary even with unique distinctive_law and climate_concern.
+- **Google composite (audit-uniqueness-google.js, the ≥80% NF/FS hard floor):** **NF 83% / FS 89%** — unchanged from baseline (the templated stubs were already passing this audit because the 744 roof city pages dominate the average). New rich pages neither helped nor hurt the Google composite — the 50 hubs are 6% of the 816 NF roof pages, too few to move sentence-template ratio.
+
+**Why the two audits disagree.** The Google audit is sentence-level template detection across 816 pages (a sentence is "boilerplate" only if it appears on 50%+ of pages). The 50 state hubs share shared scaffolding sentences with each other but those don't hit 50% of all roof pages. Pairwise Jaccard on just the 50 hubs catches the shared vocabulary directly. **Both signals are real — they measure different things.**
+
+**Why pairwise is so high even with rich data.** A state-vertical hub page is structurally homogeneous by topic. Even with maximally state-specific content in the differentiator paragraphs (~150 words/page), the page also includes:
+- Summary cards with shared labels (State / Cities Covered / Typical 2,000 sq ft asphalt re-roof / BLS roofer wage)
+- Climate-fact bullet labels (IECC climate zone / Hurricane wind tier / Hail risk tier / Ground snow load / Dominant material)
+- License-fact bullet labels (License status / License board / Permit)
+- CTA box ("Got a quote? Check if it's fair...")
+- Topic vocabulary that's irreducibly shared: roof, shingle, asphalt, install, wind, hail, snow, ice, replacement, contractor, license, permit, code, state, county, hurricane, design, mph, psf
+
+If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expected pairwise = ~70%. The 63% measured is slightly better than that ceiling, but well above the ≤25% gate.
+
+**Two paths Lane can pick from. Both are reasonable; they have very different cost profiles.**
+
+**Path A: Rebuild the prose to be 3-4x longer per state, less templated.**
+- Replace fact-list bullets with hand-written state-specific paragraphs.
+- Add per-state "Common questions" hand-written FAQ (3-5 Q&A per state, each state-specific — e.g., FL: NOA approval / 25% Rule mechanics, CO: hail deductible disclosure mechanics, TX: assignment-of-benefits restrictions).
+- Diversify section H2s by state (not "[State] climate & code drivers" but "Hurricane wind requirements in Florida" / "Hail-belt insurance rules in Colorado").
+- Lift unique-prose ratio from ~30% to ~70% per page.
+- **Cost: ~6-8 hours of careful state-specific writing for the roof pilot, then 5 hours/vertical × 19 verticals to scale = 100-120 hours total.**
+- **Result: should hit ≤25% pairwise. Composite ≥80% retained.**
+
+**Path B: Treat ≥80% Google composite as the only blocking gate; downgrade pairwise to a warning.**
+- Rationale: Google's actual algorithm (Helpful Content System) detects boilerplate at sentence-level across the corpus, not Jaccard token overlap on a subset. The Google audit passes (83%). The pairwise number flags a property of the page TYPE (state-vertical hubs share topic vocabulary) more than a real ranking risk.
+- Adjust the audit-state-hub-uniqueness.js to log pairwise but exit 0 if Google composite holds ≥80%; ship the roof rewrite as-is.
+- **Cost: ~30 minutes — re-generate, re-run Google audit, ship.**
+- **Result: roof pilot ships immediately. We carry the risk that pairwise is high — Google may or may not penalize. Roof's existing 50 templated pages have ~95%+ pairwise today and weren't penalized either, so historical evidence says Google probably tolerates this page type at high pairwise.**
+
+**Path A+B: middle ground.** Generate now (Path B) to ship the immediate Google-composite win and put real per-state data in front of users, then schedule a Phase A.2-deep follow-up (Path A) to upgrade the pages to ≤25% pairwise once we have GSC data showing whether high pairwise actually hurts.
+
+**Recommended: Path A+B.** Ship the rewrite now (it's strictly better than the existing templated stubs even if it doesn't hit Lane's tightest gate), then queue the deep rewrite for Phase A.2 v2 once we see whether Google penalizes the page TYPE in production.
+
+**What's NOT halted.** Infrastructure committed: data dict, generator, audit. Halt blocks shipping HTML changes only.
+
+**Waiting for:** Lane picks A / B / A+B.
+
 ## Session log
 
 ### Session 1 — 2026-05-01

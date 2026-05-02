@@ -1,0 +1,533 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-01",
+    "purpose": "Per-state roof data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "IECC 2021 climate zone map; NOAA SPC hail climatology; ASCE 7-22 wind zones; state contractor license boards (verified URLs); BLS OEWS May 2024 (roofer SOC 47-2181 state means).",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "hurricane_tier": "HVHZ (FL Miami-Dade/Broward only) / wind_high (140mph+ design) / wind_moderate (110-140) / wind_low (<110) / none",
+      "hail_tier": "very_high / high / moderate / low (NOAA SPC severe hail days)",
+      "snow_load_psf": "ASCE 7-22 ground snow load typical of state's main population zone (psf)",
+      "dominant_material": "Most common residential roof covering",
+      "license_status": "required (license board enforces) / registration (registration only, no exam) / none (state has no statewide roofing license)",
+      "permit_typical": "Common municipal permit-required threshold for re-roof",
+      "roofer_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2181 Roofers (USD)",
+      "avg_replacement_low": "Typical low end of 2,000 sqft asphalt replacement (USD)",
+      "avg_replacement_high": "Typical high end (premium material or steep/complex) (USD)",
+      "distinctive_law": "Single most distinctive state-specific roofing/insurance/contractor rule",
+      "climate_concern": "Primary climate driver of roof system selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "3A", "hurricane_tier": "wind_moderate", "hail_tier": "moderate", "snow_load_psf": 5,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Alabama Home Builders Licensure Board (residential roofing $10K+)",
+    "license_url": "https://hblb.alabama.gov/", "permit_typical": "most cities require for re-roof",
+    "roofer_wage_mean_hourly": 19.84, "avg_replacement_low": 7800, "avg_replacement_high": 18500,
+    "distinctive_law": "Alabama Code §27-12A-20 prohibits roofers from offering to pay or rebate insurance deductibles — a violation is a misdemeanor.",
+    "climate_concern": "Tropical-system-driven wind uplift along the Gulf Coast, with Mobile and Baldwin counties on a 140-mph wind-design line. Inland storms drop heavy rain that pushes ridge and valley flashing failures."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 50,
+    "dominant_material": "metal",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Construction Contractors",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx",
+    "permit_typical": "borough permit usually required",
+    "roofer_wage_mean_hourly": 32.07, "avg_replacement_low": 12500, "avg_replacement_high": 32000,
+    "distinctive_law": "Alaska Statute 08.18 requires contractors to carry a $20,000 surety bond and proof of workers' compensation before any residential roof job, regardless of size.",
+    "climate_concern": "Ground snow load of 50–300 psf depending on borough drives standing-seam metal as the dominant choice; ice-dam mitigation (heated edges, full ice-and-water shield) is standard, not optional."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 5,
+    "dominant_material": "clay-tile",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license C-42 (roofing)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county permit required for re-roof",
+    "roofer_wage_mean_hourly": 21.95, "avg_replacement_low": 9200, "avg_replacement_high": 26500,
+    "distinctive_law": "Arizona ROC license C-42 is mandatory for any roofing work above $1,000 — unlicensed contracting is a Class 1 misdemeanor and voids any contract claim.",
+    "climate_concern": "Sustained high UV and surface temperatures above 160°F on dark-colored shingles drive concrete and clay tile dominance in the Phoenix and Tucson basins; flat-roof foam is common on mid-century homes."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 10,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Arkansas Contractors Licensing Board — residential remodeler license required for jobs over $2,000",
+    "license_url": "https://www.aclb.arkansas.gov/", "permit_typical": "varies by municipality",
+    "roofer_wage_mean_hourly": 19.21, "avg_replacement_low": 7400, "avg_replacement_high": 17800,
+    "distinctive_law": "Arkansas Act 1027 (2017) prohibits roofers from waiving or paying any portion of an insurance deductible, with a $1,000 fine and potential license revocation per offense.",
+    "climate_concern": "Arkansas sits inside the central U.S. hail corridor — Class 4 impact-resistant shingles qualify for state-mandated insurance discounts under Bulletin 2-2014 from the Insurance Department."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 20,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — C-39 (Roofing) classification",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "permit and Title 24 cool-roof compliance required",
+    "roofer_wage_mean_hourly": 28.40, "avg_replacement_low": 10800, "avg_replacement_high": 29000,
+    "distinctive_law": "California Title 24 Part 6 mandates cool-roof minimum solar reflectance and thermal emittance values — non-compliant materials cannot be installed in low-slope re-roofs in most climate zones.",
+    "climate_concern": "Wildland-urban-interface zones in CAL FIRE high-severity hazard areas require Class A fire-rated assemblies under Chapter 7A of the California Building Code; asphalt with code-listed underlayment or non-combustible coverings (tile, metal) are standard."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "No statewide roofing license — most municipalities (Denver, Colorado Springs, Aurora) require local registration",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Permits", "permit_typical": "city permit required, separate by municipality",
+    "roofer_wage_mean_hourly": 24.78, "avg_replacement_low": 8800, "avg_replacement_high": 24000,
+    "distinctive_law": "Colorado Senate Bill 38 (2012) prohibits roofers from paying, waiving, or rebating any deductible and requires a 72-hour right of rescission on storm-damage roof contracts; HB18-1342 added separate hail-deductible disclosure requirements.",
+    "climate_concern": "The Front Range from Fort Collins through Pueblo sits in the highest-frequency hail belt in the country; impact-resistant Class 4 shingles are heavily incentivized by state-domiciled insurers (USAA, State Farm) and frequently mandated for renewal in Larimer and El Paso counties."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Connecticut Department of Consumer Protection — Home Improvement Contractor registration",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/all-license-forms/home-improvement-contractor-forms", "permit_typical": "town building permit required for full re-roof",
+    "roofer_wage_mean_hourly": 28.92, "avg_replacement_low": 10500, "avg_replacement_high": 26500,
+    "distinctive_law": "Connecticut Home Improvement Act §20-429 voids any unwritten roofing contract over $200 and bars unregistered contractors from collecting any payment, including in court.",
+    "climate_concern": "Coastal Fairfield and New London counties carry a 130-mph design wind under ASCE 7-22; ice-dam protection (minimum 24 inches inside the heated wall line) is a code requirement on every eave and valley."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Delaware Division of Revenue — business license; no separate statewide roofing license",
+    "license_url": "https://revenue.delaware.gov/business-license/", "permit_typical": "county permit required (Sussex, Kent, New Castle)",
+    "roofer_wage_mean_hourly": 25.16, "avg_replacement_low": 9200, "avg_replacement_high": 22000,
+    "distinctive_law": "Delaware Code Title 6 §2533 requires written contracts and a three-day cooling-off period for any home improvement work over $500 — unsigned change orders are unenforceable.",
+    "climate_concern": "Sussex County beach communities (Rehoboth, Lewes, Bethany) sit on the 130-mph wind line and require enhanced fastening schedules; salt-air corrosion shortens galvanized fastener life on ocean-facing slopes."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "hurricane_tier": "HVHZ", "hail_tier": "low", "snow_load_psf": 0,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Florida CILB — Certified Roofing Contractor (CCC) for statewide; Registered Roofing Contractor (RC) for local",
+    "license_url": "https://www2.myfloridalicense.com/", "permit_typical": "permit required statewide; HVHZ has separate product approval",
+    "roofer_wage_mean_hourly": 21.74, "avg_replacement_low": 9500, "avg_replacement_high": 28000,
+    "distinctive_law": "Florida Statute §489.147 (anti-AOB law) and the 25% Rule under §708.1.1.1 of the Florida Building Code interact: if more than 25% of a roof in a 12-month period is damaged or repaired, the entire roof must be brought up to current code — a defining cost driver in Miami-Dade and Broward HVHZ jurisdictions where Notice of Acceptance (NOA) product approval is mandatory.",
+    "climate_concern": "Miami-Dade and Broward counties form the High-Velocity Hurricane Zone (HVHZ) with 175-mph design winds, mandatory product approval (NOA), and secondary water barrier requirements — coastal Panhandle counties carry 150-mph design loads."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "hurricane_tier": "wind_moderate", "hail_tier": "moderate", "snow_load_psf": 5,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — general contractor license required for jobs over $2,500",
+    "license_url": "https://sos.ga.gov/state-licensing-board-residential-and-general-contractors", "permit_typical": "county/municipal permit required",
+    "roofer_wage_mean_hourly": 22.03, "avg_replacement_low": 8200, "avg_replacement_high": 21500,
+    "distinctive_law": "Georgia OCGA §43-41-17 exempts roofing-only work from the general contractor licensing requirement, but jobs bundled with structural or framing work (sheathing replacement above 50% of deck) trigger the full license — a frequent gray area on storm jobs.",
+    "climate_concern": "Atlanta metro experiences a higher pollen-and-debris load than nearly any U.S. metro, accelerating organic-shingle algae streaking; algae-resistant (AR-rated) shingles are now de facto standard across the metro."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "hurricane_tier": "wind_high", "hail_tier": "low", "snow_load_psf": 0,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Hawaii Contractors License Board — C-42b (Roofing)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "county permit (Honolulu, Hawaii, Maui, Kauai)",
+    "roofer_wage_mean_hourly": 33.85, "avg_replacement_low": 14500, "avg_replacement_high": 38000,
+    "distinctive_law": "Hawaii's Contractor Recovery Fund (HRS §444-26) caps homeowner restitution from licensed-contractor disputes at $25,000 per claimant — and only licensed C-42b roofers are eligible, making license verification a homeowner-side risk control.",
+    "climate_concern": "Trade-wind exposure on windward (north and east) Oahu and Hawaii Island slopes drives a 130–140 mph design wind; saltwater corrosion on coastal lots requires stainless or hot-dip galvanized fasteners and shortens nominal life of standard-zinc components."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Idaho Contractors Board — registration only, no exam",
+    "license_url": "https://dopl.idaho.gov/contractors-board/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 21.45, "avg_replacement_low": 7800, "avg_replacement_high": 19500,
+    "distinctive_law": "Idaho Code §54-5208 requires every roofer to be registered with a $4,000 cash bond or surety equivalent — no exam, but proof of liability and workers' compensation insurance must be filed before work begins.",
+    "climate_concern": "Sun Valley, McCall, and Bonner County mountain communities carry ground snow loads above 80 psf; engineered ridge ventilation and step-flashing at log-home profiles are the dominant cost drivers in upper-elevation work."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Illinois Department of Financial and Professional Regulation — Roofing Contractor license",
+    "license_url": "https://idfpr.illinois.gov/profs/roofing.html", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 35.42, "avg_replacement_low": 9200, "avg_replacement_high": 24500,
+    "distinctive_law": "Illinois Roofing Industry Licensing Act (225 ILCS 335) requires every roofing company to hold a single state license tied to a qualifying party — the highest hourly roofer wage in the country (BLS OEWS) reflects the strong union (Local 11) presence in Chicago metro.",
+    "climate_concern": "The freeze-thaw cycle through Cook, DuPage, and Lake counties (over 70 transitions per winter) drives ice-dam formation and demands continuous ice-and-water shield from eave to 24 inches inside the heated wall, a code-mandatory item under the IRC adoption."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 20,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — most municipalities require local registration",
+    "license_url": "https://www.in.gov/pla/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 23.91, "avg_replacement_low": 7500, "avg_replacement_high": 19000,
+    "distinctive_law": "Indiana Code §24-5-11 (Home Improvement Contracts Act) voids any contract over $150 that lacks specific written terms — and gives consumers a three-day cancellation window on door-to-door storm-chaser pitches.",
+    "climate_concern": "Tornado-belt activity in the southern half of the state (Evansville, Bloomington, Indianapolis south) drives demand for sealed-edge fastening patterns and 6-nail high-wind shingle warranties, which are upcharges on standard installations."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Iowa Division of Labor — Contractor Registration ($2,000 fee + bond)",
+    "license_url": "https://www.iowadivisionoflabor.gov/contractor-registration", "permit_typical": "city permit common",
+    "roofer_wage_mean_hourly": 24.15, "avg_replacement_low": 7800, "avg_replacement_high": 19500,
+    "distinctive_law": "Iowa Code §103A.71 (effective 2014) prohibits roofers from offering to pay or rebate insurance deductibles and requires a 90-day insurance-claim window disclosure on storm-damage contracts.",
+    "climate_concern": "The 2020 derecho exposed weaknesses in standard 4-nail shingle patterns; six-nail high-wind installations and synthetic underlayment are now the de facto standard in Linn, Polk, and Scott counties."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 15,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Kansas Roofing Registration (KSA 44-153) — annual registration, $300 fee",
+    "license_url": "https://www.kansasattorneygeneral.gov/protect/consumer/roofers", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 22.18, "avg_replacement_low": 7200, "avg_replacement_high": 18500,
+    "distinctive_law": "Kansas was the first state (2013) to require statewide roofer registration with the Attorney General — KSA 44-153 imposes a $25,000 surety bond and bars any roofer from rebating insurance deductibles, with criminal penalties for repeat offenses.",
+    "climate_concern": "The Wichita-to-Kansas City corridor sees 8–12 severe hail days per year on average; insurance carriers (Shelter, American Family) discount Class 4 impact-resistant shingles 15–30% on premium."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 15,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — Louisville Metro and Lexington-Fayette require local registration",
+    "license_url": "https://kbc.ky.gov/", "permit_typical": "varies by jurisdiction",
+    "roofer_wage_mean_hourly": 22.92, "avg_replacement_low": 7300, "avg_replacement_high": 18800,
+    "distinctive_law": "Kentucky's Home Solicitation Sales Act (KRS 367.410) provides a three-day right of rescission for roofing contracts signed at the homeowner's residence, and KRS 304.12-095 prohibits insurance-deductible rebating.",
+    "climate_concern": "The lower Ohio River valley produces frequent wind-and-hail squall lines from March through July; western counties (Henderson, Daviess) sit in the Tornado Alley fringe with 130-mph design wind requirements on new construction."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "hurricane_tier": "wind_high", "hail_tier": "low", "snow_load_psf": 0,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors — Residential Roofing classification",
+    "license_url": "https://www.lslbc.louisiana.gov/", "permit_typical": "parish/city permit required",
+    "roofer_wage_mean_hourly": 20.25, "avg_replacement_low": 8500, "avg_replacement_high": 23000,
+    "distinctive_law": "Louisiana Revised Statute §22:1264 enacted post-Katrina caps the deductible-rebating prohibition with $5,000 fines per violation; the Louisiana Citizens Property Insurance Corporation provides last-resort hurricane coverage for coastal homeowners denied private market policies.",
+    "climate_concern": "ASCE 7-22 wind speeds along Cameron, Plaquemines, and St. Bernard parishes reach 150–160 mph for design wind — Miami-Dade-style enhanced fastening (6 nails, 1.25-inch ring shank) and starter-strip drip-edge are standard."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "hurricane_tier": "wind_low", "hail_tier": "low", "snow_load_psf": 50,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — registration required for general home improvement contractors over $1,400",
+    "license_url": "https://www.maine.gov/pfr/professionallicensing/", "permit_typical": "town permit required",
+    "roofer_wage_mean_hourly": 25.42, "avg_replacement_low": 8500, "avg_replacement_high": 22000,
+    "distinctive_law": "Maine's Home Construction Contracts Act (10 MRSA §1486-1490) requires written contracts on any home job over $3,000 — and limits down-payments to one-third of the contract value.",
+    "climate_concern": "Northern Maine winters drive ground snow loads of 70–100 psf; full ice-and-water-shield underlayment from eave to ridge on low-slope sections (4/12 and below) is a routine spec, and standing-seam metal dominates lake and coastal vacation builds."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Maryland Home Improvement Commission — MHIC license required for any roofing job over $500",
+    "license_url": "https://www.dllr.state.md.us/license/mhic/", "permit_typical": "county permit (Montgomery, Prince George's, Baltimore, Anne Arundel)",
+    "roofer_wage_mean_hourly": 24.88, "avg_replacement_low": 9000, "avg_replacement_high": 23500,
+    "distinctive_law": "Maryland's Guaranty Fund (MD Code Bus. Reg. §8-405) reimburses homeowners up to $20,000 per licensed-contractor dispute — verifying MHIC license status before signing is the highest-leverage homeowner-side check in the state.",
+    "climate_concern": "Eastern Shore (Worcester, Wicomico, Somerset) sits inside the Atlantic hurricane envelope with 130-mph design wind; Western Maryland (Garrett, Allegany) carries a 50-psf snow load and routine ice-dam exposure."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Massachusetts Office of Consumer Affairs — Home Improvement Contractor (HIC) registration; CSL (Construction Supervisor License) for structural work",
+    "license_url": "https://www.mass.gov/orgs/office-of-consumer-affairs-and-business-regulation", "permit_typical": "town/city permit required statewide",
+    "roofer_wage_mean_hourly": 36.78, "avg_replacement_low": 11200, "avg_replacement_high": 28500,
+    "distinctive_law": "Massachusetts has the country's most consumer-protective home-improvement framework: the Guaranty Fund (M.G.L. c.142A §5) reimburses up to $10,000 per claim against registered contractors, and the Attorney General's office actively prosecutes unregistered roofers under Chapter 93A.",
+    "climate_concern": "Cape Cod, Nantucket, and Martha's Vineyard sit on the 140-mph wind-design line and require enhanced fastening (six nails, ring-shank) and storm-rated starter strips; salt exposure shortens galvanized fastener life on ocean-facing slopes."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs — Residential Builder license required for jobs over $600",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/cert-lic", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 25.98, "avg_replacement_low": 8000, "avg_replacement_high": 21500,
+    "distinctive_law": "Michigan's Residential Builders Act (Public Act 299 of 1980) makes it a misdemeanor to roof for compensation without a license on jobs above $600 — and bars unlicensed contractors from collecting in court even for completed work.",
+    "climate_concern": "Upper Peninsula (Marquette, Houghton) carries ground snow loads of 70–90 psf and lake-effect ice-dam frequency unmatched in the Lower 48; Lower Peninsula freeze-thaw counts top 60 cycles per winter, making valley flashing and ice-and-water shield selection a long-term cost driver."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "hurricane_tier": "none", "hail_tier": "high", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor and Industry — Residential Roofer license (Minn. Stat. §326B.802)",
+    "license_url": "https://www.dli.mn.gov/business/contractors-and-roofers", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 26.34, "avg_replacement_low": 8200, "avg_replacement_high": 22000,
+    "distinctive_law": "Minnesota Statute §325E.66 (the Roofing Contractor Statute) prohibits insurance-deductible rebating, requires written contracts with itemized scope, and mandates a five-day right of rescission on storm-damage contracts — among the most aggressive consumer-protection roofing laws in the country.",
+    "climate_concern": "Twin Cities and Duluth winters combine 35-psf snow loads with hail-belt exposure (high frequency in May–August); Class 4 impact-resistant shingles plus full ice-and-water shield are the de facto standard in Hennepin, Ramsey, and St. Louis counties."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "hurricane_tier": "wind_high", "hail_tier": "moderate", "snow_load_psf": 0,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors — Residential Roofing classification (jobs over $50,000); Residential Builders Board for general residential contracts",
+    "license_url": "https://www.msboc.us/", "permit_typical": "county permit required",
+    "roofer_wage_mean_hourly": 19.85, "avg_replacement_low": 7800, "avg_replacement_high": 19500,
+    "distinctive_law": "Mississippi Code §83-15-79 prohibits roofers from offering to absorb or rebate insurance deductibles on storm claims — a misdemeanor with up to a $1,000 fine per offense and license revocation.",
+    "climate_concern": "Coastal Hancock, Harrison, and Jackson counties carry 160-mph design winds under ASCE 7-22 and post-Katrina building-code amendments — secondary water barriers and ring-shank fastening are state-mandatory in Wind Zone IV."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 20,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — Kansas City, St. Louis, and Springfield require municipal registration",
+    "license_url": "https://pr.mo.gov/", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 25.41, "avg_replacement_low": 7500, "avg_replacement_high": 20000,
+    "distinctive_law": "Missouri Senate Bill 564 (2014) prohibits roofers from rebating insurance deductibles on storm claims and requires the contract to include explicit insurance-claim language; SB 631 (2018) added a mandatory 5-day right of rescission.",
+    "climate_concern": "The Kansas City and St. Louis corridors sit inside the central U.S. hail belt — a Class 4 impact-resistant shingle qualifies for an automatic 10–25% premium discount under Missouri Department of Insurance Bulletin 2014-08."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Montana Department of Labor and Industry — Independent Contractor or Construction Contractor registration",
+    "license_url": "https://erd.dli.mt.gov/labor-standards/state-laws/contractor-registration", "permit_typical": "county/city permit required",
+    "roofer_wage_mean_hourly": 23.18, "avg_replacement_low": 7500, "avg_replacement_high": 19500,
+    "distinctive_law": "Montana Code §39-9 mandates a $5,000 minimum surety bond for independent contractors and proof of workers' compensation before any registered roofer can pull permits — unregistered work is unenforceable in court under §28-2-101.",
+    "climate_concern": "Mountain communities (Bozeman, Whitefish, Big Sky) carry ground snow loads of 70–120 psf; engineered ice-dam protection and steep-pitch (8/12+) snow shedding are dominant cost drivers in resort markets."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Nebraska Department of Labor — Contractor Registration ($25 fee, no exam)",
+    "license_url": "https://dol.nebraska.gov/conreg", "permit_typical": "city permit required (Omaha, Lincoln)",
+    "roofer_wage_mean_hourly": 22.85, "avg_replacement_low": 7400, "avg_replacement_high": 18500,
+    "distinctive_law": "Nebraska's Roofing Contractor Insurance Disclosure Act (Neb. Rev. Stat. §44-8601) prohibits insurance-deductible rebating and requires roofers to provide an itemized scope before starting any storm-damage repair.",
+    "climate_concern": "The Omaha–Lincoln corridor is one of the highest-frequency hail markets in the U.S.; impact-resistant Class 4 shingles qualify for state-approved insurance discounts under Nebraska Department of Insurance Bulletin CB-127."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 10,
+    "dominant_material": "clay-tile",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — C-15a (Roofing) classification",
+    "license_url": "https://www.nvcontractorsboard.com/", "permit_typical": "Clark or Washoe County permit required",
+    "roofer_wage_mean_hourly": 25.47, "avg_replacement_low": 9500, "avg_replacement_high": 24000,
+    "distinctive_law": "Nevada Revised Statutes §624.020 prohibits any roofing work over $1,000 without a C-15a license — and the Recovery Fund (NRS §624.470) provides up to $40,000 per claim against a licensed contractor's defective work.",
+    "climate_concern": "Las Vegas and Reno see surface temperatures above 160°F on dark roofs through summer; concrete and clay-tile dominance plus white-cap modified bitumen on flat roofs are the climate-driven norms."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "hurricane_tier": "wind_low", "hail_tier": "low", "snow_load_psf": 50,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license; general home improvement consumer protection under NH RSA 358-A",
+    "license_url": "https://www.doj.nh.gov/consumer/", "permit_typical": "town permit required",
+    "roofer_wage_mean_hourly": 26.94, "avg_replacement_low": 8800, "avg_replacement_high": 22500,
+    "distinctive_law": "New Hampshire's Consumer Protection Act (RSA 358-A) provides triple damages for unfair or deceptive home-improvement practices — and applies to deductible rebating, even though there is no separate roofing licensing statute.",
+    "climate_concern": "Northern New Hampshire (Coos, Carroll, Grafton counties) carries ground snow loads of 60–100 psf; ice-dam protection and 30-degree (or steeper) pitch are the dominant cost drivers, and standing-seam metal is heavily used in mountain communities."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "New Jersey Division of Consumer Affairs — Home Improvement Contractor registration (HIC) required",
+    "license_url": "https://www.njconsumeraffairs.gov/hic/", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 32.14, "avg_replacement_low": 10500, "avg_replacement_high": 27000,
+    "distinctive_law": "New Jersey's Contractors' Registration Act (N.J.S.A. 56:8-136) requires HIC registration on any roofing job over $500 and bars unregistered contractors from collecting in court — and mandates a three-day right of rescission on door-to-door sales.",
+    "climate_concern": "Atlantic, Cape May, and Ocean counties sit on the 130-mph wind-design line; salt-air corrosion shortens galvanized-fastener life on coastal slopes, and ring-shank stainless-steel fasteners are common upgrades in Long Beach Island and Cape May markets."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "4B-5B", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 15,
+    "dominant_material": "clay-tile",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — GB-2 Residential Roofing classification",
+    "license_url": "https://www.rld.nm.gov/construction-industries/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 20.85, "avg_replacement_low": 7800, "avg_replacement_high": 19500,
+    "distinctive_law": "New Mexico's Construction Industries Licensing Act (NMSA §60-13) requires a state license for any roofing job over $7,200 and exposes unlicensed contractors to civil penalties up to $10,000 per violation.",
+    "climate_concern": "Adobe, pueblo, and territorial homes use parapet-walled flat or low-slope roofs covered in built-up bitumen or single-ply membrane — replacing or restoring these systems differs sharply in scope from a typical pitched-roof asphalt project elsewhere in the state."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Local: NYC DCWP Home Improvement Contractor; Westchester, Suffolk, Nassau, Rockland — county HIC license; no single statewide license",
+    "license_url": "https://www.nyc.gov/site/dca/businesses/license-checklist-home-improvement-contractor.page", "permit_typical": "DOB/municipal permit required",
+    "roofer_wage_mean_hourly": 38.57, "avg_replacement_low": 11500, "avg_replacement_high": 30000,
+    "distinctive_law": "New York General Business Law §771 voids any home-improvement contract over $500 that lacks the required written terms — and Article 36-A allows escrow-account requirements for any down-payment over 30% of contract value.",
+    "climate_concern": "Long Island carries 130-mph design winds and salt exposure; the Adirondacks and Tug Hill plateau (Lewis, Oswego counties) carry some of the highest ground snow loads (70–100 psf) east of the Rockies, and ice-dam mitigation is a year-round cost driver."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A", "hurricane_tier": "wind_high", "hail_tier": "moderate", "snow_load_psf": 10,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "North Carolina Licensing Board for General Contractors — license required for jobs over $30,000",
+    "license_url": "https://nclbgc.org/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 21.92, "avg_replacement_low": 7800, "avg_replacement_high": 21000,
+    "distinctive_law": "North Carolina General Statute §87-1 sets the unlicensed-contracting threshold at $30,000 — below that, any tradesperson can roof; above it, only a NCLBGC-licensed general contractor can pull permits.",
+    "climate_concern": "Outer Banks and coastal Carteret, Brunswick, New Hanover counties carry 130–140 mph design winds; the eastern half of the state experiences regular tropical-storm-driven uplift and post-storm wind-pattern damage — six-nail high-wind installation is the regional standard."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "hurricane_tier": "none", "hail_tier": "high", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "North Dakota Secretary of State — Contractor License (NDCC 43-07) required for jobs over $4,000",
+    "license_url": "https://sos.nd.gov/contractor", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 25.18, "avg_replacement_low": 7800, "avg_replacement_high": 19500,
+    "distinctive_law": "North Dakota Century Code §43-07 imposes a graduated license-fee schedule based on contract size; any roofer working a job over $500,000 must hold a Class A license with a $25,000 bond.",
+    "climate_concern": "Combined hail exposure (Fargo, Bismarck) and severe ground snow loads (35 psf+ across the Red River Valley) make impact-resistant Class 4 shingles plus full ice-and-water shield the standard — and the dominant cost-vs-baseline upgrade in the state."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 20,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide residential roofing license — Cleveland, Cincinnati, Columbus require municipal registration; commercial roofing requires Ohio Construction Industry Licensing Board",
+    "license_url": "https://com.ohio.gov/divisions-and-programs/industrial-compliance/", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 27.84, "avg_replacement_low": 7800, "avg_replacement_high": 21000,
+    "distinctive_law": "Ohio Revised Code §4722 (Home Construction Service Suppliers Act) requires written contracts on any home job over $25,000 and gives consumers a 3-day right of rescission on door-to-door storm-chaser pitches, with treble damages for violations.",
+    "climate_concern": "Lake-effect ice damming on northern Ohio counties (Cuyahoga, Lake, Ashtabula) drives full ice-and-water-shield specs from eave to 24 inches inside the heated wall; freeze-thaw counts (60+/winter) put valley flashing and step-flashing at the top of the long-term cost-driver list."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 10,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Oklahoma Construction Industries Board — Roofing Contractor Registration (Title 59 §1151.21)",
+    "license_url": "https://www.ok.gov/cib/", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 19.45, "avg_replacement_low": 7000, "avg_replacement_high": 18500,
+    "distinctive_law": "Oklahoma's Roofing Contractor Registration Act (Title 59 §1151.21–1151.31) mandates statewide registration with a $1,000 surety bond and prohibits insurance-deductible rebating — the Oklahoma Insurance Department actively enforces post-storm.",
+    "climate_concern": "Oklahoma City and Tulsa metros are at the heart of Tornado Alley and Hail Alley overlap — Class 4 impact-resistant shingles plus six-nail high-wind installation patterns are the dominant insurance-eligible upgrade combination."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board — license required for any roofing work for compensation",
+    "license_url": "https://www.oregon.gov/ccb/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 28.45, "avg_replacement_low": 8500, "avg_replacement_high": 21500,
+    "distinctive_law": "Oregon Revised Statute §701 mandates CCB licensing on any structure-altering work — even unpaid roofing for a friend triggers liability if unlicensed; the CCB Recovery Fund covers up to $20,000 per residential consumer claim against a licensed contractor.",
+    "climate_concern": "The Willamette Valley's persistent winter rain and moss growth drive zinc and copper-strip ridge installations and frequent gentle pressure-washing schedules; coastal Lincoln, Tillamook, Clatsop counties see saltwater corrosion and 110-mph Pacific-storm wind exposure."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "hurricane_tier": "wind_low", "hail_tier": "moderate", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Pennsylvania Office of Attorney General — Home Improvement Contractor (HIC) registration required for jobs over $5,000 annually",
+    "license_url": "https://www.attorneygeneral.gov/protect-yourself/home-improvement-consumer-protection-act/", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 28.42, "avg_replacement_low": 8200, "avg_replacement_high": 22500,
+    "distinctive_law": "Pennsylvania's Home Improvement Consumer Protection Act (HICPA, Act 132 of 2008) requires written contracts on jobs over $500, caps deposits at one-third of contract value, and bars deductible rebating with treble damages on consumer claims.",
+    "climate_concern": "The Pocono Mountains and Erie lake-effect belt produce 70–80-psf snow loads in Wayne, Pike, and Erie counties; full ice-and-water-shield underlayment and 8/12+ pitch shedding are dominant in the upper-elevation markets."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "hurricane_tier": "wind_moderate", "hail_tier": "low", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Rhode Island Contractors' Registration and Licensing Board — registration required for any roofing work",
+    "license_url": "https://crb.ri.gov/", "permit_typical": "city/town permit required",
+    "roofer_wage_mean_hourly": 30.85, "avg_replacement_low": 9500, "avg_replacement_high": 24000,
+    "distinctive_law": "Rhode Island General Laws §5-65 mandates registration on every home-improvement contractor, including roofers — unregistered roofers cannot pull permits or collect on contracts, and the CRB enforces with up to $5,000 fines per violation.",
+    "climate_concern": "Newport, Block Island, and South County coastal exposures sit on the 140-mph wind-design line and require enhanced fastening; the state's small geography means saltwater-air corrosion affects nearly all roofs within 5 miles of the shoreline."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A", "hurricane_tier": "wind_high", "hail_tier": "moderate", "snow_load_psf": 5,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "South Carolina LLR Residential Builders Commission — Specialty Contractor (Roofing)",
+    "license_url": "https://llr.sc.gov/resbldr/", "permit_typical": "county/municipal permit required",
+    "roofer_wage_mean_hourly": 21.45, "avg_replacement_low": 7800, "avg_replacement_high": 21000,
+    "distinctive_law": "South Carolina Code §40-59 requires a residential specialty-contractor license on any roofing job over $5,000 — and the South Carolina Department of Insurance Bulletin 2014-06 prohibits deductible rebating on storm claims.",
+    "climate_concern": "Charleston, Beaufort, Horry, and Georgetown counties carry 140-mph design winds under ASCE 7-22 and post-Hugo amendments; secondary water barrier and ring-shank fastener requirements are common in coastal Wind Zone IV jurisdictions."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "hurricane_tier": "none", "hail_tier": "very_high", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "No statewide license — Sioux Falls and Rapid City require municipal registration",
+    "license_url": "https://dlr.sd.gov/", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 21.84, "avg_replacement_low": 7300, "avg_replacement_high": 18500,
+    "distinctive_law": "South Dakota Codified Laws §37-24 (Deceptive Trade Practices) gives consumers a private right of action with treble damages against any roofer who misrepresents storm damage or attempts deductible rebating.",
+    "climate_concern": "The Black Hills region (Rapid City, Spearfish) carries elevated ground snow loads (40–60 psf) and frequent severe hail; eastern South Dakota (Sioux Falls) sits firmly inside the central hail corridor with Class 4 shingle adoption growing."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 10,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors — required for residential jobs over $25,000",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "county/city permit required",
+    "roofer_wage_mean_hourly": 21.78, "avg_replacement_low": 7500, "avg_replacement_high": 19500,
+    "distinctive_law": "Tennessee Code §62-6 imposes the country's strictest unlicensed-contracting penalty: any roofer working without a license on a job over $25,000 commits a Class A misdemeanor on the first offense and a Class E felony on the second.",
+    "climate_concern": "Middle and West Tennessee (Nashville, Memphis, Jackson) experience seasonal severe-thunderstorm wind events and quasi-tornadic squall lines from March through May; six-nail high-wind shingle installations are increasingly specified by insurers in Davidson, Shelby, and Madison counties."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-2B-3A-3B-4B", "hurricane_tier": "wind_high", "hail_tier": "very_high", "snow_load_psf": 5,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license — no exam, no bond requirement; some cities (Houston, Dallas, Austin) require local registration",
+    "license_url": "https://comptroller.texas.gov/", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 20.78, "avg_replacement_low": 7400, "avg_replacement_high": 20000,
+    "distinctive_law": "Texas Insurance Code §707 (the Roofing Insurance Anti-Rebating Statute) prohibits roofers from waiving or rebating insurance deductibles on residential storm claims; Texas Department of Insurance Order 2013-1 caps a contractor's cosmetic-versus-functional damage assessment exposure on hail claims.",
+    "climate_concern": "Texas spans hurricane wind zones (Houston, Galveston, Corpus Christi 140-mph) and the heart of Hail Alley (Dallas–Fort Worth, San Antonio, Austin) — Class 4 impact-resistant shingles plus six-nail high-wind installation are the dominant combined insurance-driven upgrade."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "5B-6B", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Utah Division of Occupational and Professional Licensing — R200 Roofing Contractor",
+    "license_url": "https://dopl.utah.gov/contractors/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 22.15, "avg_replacement_low": 7800, "avg_replacement_high": 20000,
+    "distinctive_law": "Utah Code §58-55 requires the R200 specialty roofer license for any roofing work for compensation, and §58-55-308 makes unlicensed roofing a Class B misdemeanor — repeat offenses trigger civil penalties up to $5,000 per violation.",
+    "climate_concern": "The Wasatch Front winter inversion and lake-effect snow drive ground snow loads of 30–50 psf in Salt Lake, Davis, and Weber counties; the Wasatch Back resort communities (Park City, Heber) routinely require 70+ psf snow-load engineering."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 50,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Vermont Office of Professional Regulation — Residential Contractor Registration (effective 2021)",
+    "license_url": "https://sos.vermont.gov/opr/professions/residential-contractors/", "permit_typical": "town permit required",
+    "roofer_wage_mean_hourly": 25.84, "avg_replacement_low": 8500, "avg_replacement_high": 22000,
+    "distinctive_law": "Vermont Act 182 of 2020 (effective 2021) created the country's most recent statewide residential contractor registration scheme, applying to any home-improvement work for compensation including roofing.",
+    "climate_concern": "Northern Vermont (Caledonia, Essex, Orleans counties) and the Green Mountain spine carry ground snow loads of 60–90 psf; standing-seam metal is widely used in mountain communities, and ice-dam protection is a permanent year-round consideration."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "hurricane_tier": "wind_moderate", "hail_tier": "moderate", "snow_load_psf": 20,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Virginia DPOR Board for Contractors — Class C (jobs $0–$10K), Class B ($10K–$120K), Class A (over $120K)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors", "permit_typical": "county/city permit required",
+    "roofer_wage_mean_hourly": 22.85, "avg_replacement_low": 7800, "avg_replacement_high": 21500,
+    "distinctive_law": "Virginia Code §54.1-1100 imposes graduated contractor licensing tied to job value — Class C roofers can take residential work up to $10,000, Class B up to $120,000, Class A above; unlicensed work over $1,000 is a Class 1 misdemeanor under §54.1-111.",
+    "climate_concern": "Coastal Hampton Roads (Virginia Beach, Norfolk, Chesapeake) carries 130-mph design winds; the Blue Ridge and Allegheny corridors (Augusta, Highland, Bath counties) carry 30–50 psf snow loads and freeze-thaw exposure that drives valley flashing and ice-shield specs."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "Washington Department of Labor and Industries — Contractor Registration (general or specialty)",
+    "license_url": "https://lni.wa.gov/licensing-permits/contractors/", "permit_typical": "city/county permit required",
+    "roofer_wage_mean_hourly": 30.45, "avg_replacement_low": 9000, "avg_replacement_high": 23500,
+    "distinctive_law": "Washington Revised Code §18.27 mandates contractor registration with a $12,000 bond (general) or $6,000 (specialty) and proof of liability/workers' compensation; unregistered roofers cannot file mechanic's liens or collect in court.",
+    "climate_concern": "The Puget Sound region's persistent moss growth and winter rain drive zinc-strip ridge installations and frequent gutter-debris management; Cascade and Olympic mountain communities (Stevens Pass, Snoqualmie) carry 60–90 psf snow loads."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "hurricane_tier": "none", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Contractor Licensing Board",
+    "license_url": "https://labor.wv.gov/Contractor-Licensing/", "permit_typical": "county/municipal permit required",
+    "roofer_wage_mean_hourly": 21.92, "avg_replacement_low": 7500, "avg_replacement_high": 18500,
+    "distinctive_law": "West Virginia Code §21-11 requires Contractor Licensing Board registration with a $5,000 surety bond and prohibits unlicensed roofing work for compensation, with civil penalties up to $200 per day of violation.",
+    "climate_concern": "Mountainous terrain across the Allegheny Plateau drives 30–50 psf snow loads and steep-pitch (8/12–12/12) framing on a high share of the housing stock; freeze-thaw cycles and ridge-line wind exposure shape long-term cost-driver patterns."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "5A-6A-7", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 30,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "registration", "license_board_name": "Wisconsin Department of Safety and Professional Services — Dwelling Contractor and Dwelling Contractor Qualifier credentials",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/Default.aspx", "permit_typical": "municipal permit required",
+    "roofer_wage_mean_hourly": 26.88, "avg_replacement_low": 8000, "avg_replacement_high": 21000,
+    "distinctive_law": "Wisconsin SPS 305.31 requires every home-improvement business to hold a Dwelling Contractor credential, and SPS 305.61 mandates a Qualifier (passed exam) on staff — stricter than most Midwest states.",
+    "climate_concern": "Northern Wisconsin (Bayfield, Iron, Vilas counties) and the Door County peninsula carry 50–70 psf snow loads with lake-effect ice-dam frequency; full ice-and-water shield from eave to interior wall plus ridge-vent design are the dominant cost drivers."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "5B-6B-7", "hurricane_tier": "none", "hail_tier": "moderate", "snow_load_psf": 35,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "none", "license_board_name": "No statewide roofing license; municipal registration in Casper and Cheyenne",
+    "license_url": "https://wyobiz.wyo.gov/", "permit_typical": "city permit required",
+    "roofer_wage_mean_hourly": 22.45, "avg_replacement_low": 7500, "avg_replacement_high": 19500,
+    "distinctive_law": "Wyoming has no statewide contractor licensing — consumer protection runs through Wyoming Statute §40-12 (Consumer Protection Act), which provides treble damages for deceptive home-improvement practices including deductible rebating.",
+    "climate_concern": "Mountain communities (Jackson, Pinedale, Sheridan) carry ground snow loads of 50–90 psf and sustained ridge-line wind exposure above 110 mph in exposed sites; standing-seam metal is the dominant high-elevation choice and heavier engineering is routine."
+  },
+  "DC": {
+    "name": "District of Columbia", "slug": "district-of-columbia", "abbr": "DC",
+    "iecc_zone": "4A", "hurricane_tier": "wind_low", "hail_tier": "low", "snow_load_psf": 25,
+    "dominant_material": "asphalt-shingle",
+    "license_status": "required", "license_board_name": "DC Department of Consumer and Regulatory Affairs — Home Improvement Contractor license",
+    "license_url": "https://dcra.dc.gov/", "permit_typical": "DCRA permit required",
+    "roofer_wage_mean_hourly": 31.45, "avg_replacement_low": 10500, "avg_replacement_high": 26500,
+    "distinctive_law": "DC Code §47-2851 requires HIC license with a $25,000 surety bond — and the Department of Consumer and Regulatory Affairs maintains a public license-lookup tool that homeowners can verify before signing.",
+    "climate_concern": "DC's high share of older row houses (pre-WWII flat or low-slope) drives a heavy concentration of built-up bitumen and EPDM single-ply membrane work — system selection differs substantially from the suburban pitched-asphalt norm in surrounding Maryland and Virginia."
+  }
+}
