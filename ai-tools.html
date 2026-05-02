@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="google-site-verification" content="oV5ZHpm-OqxhT3CV6qg-V0YaMpcNFEkwEFHtQN88T0w" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Woogoro MCPs for Claude, Cursor &amp; ChatGPT | Audit Bills and Quotes from Your AI Assistant</title>
+  <meta
+    name="description"
+    content="Install free Woogoro MCPs in Claude Desktop, Cursor, or any MCP-compatible AI assistant. Audit medical bills, roofing, HVAC, and auto repair quotes from chat. No API key, no signup."
+  />
+  <link rel="canonical" href="https://woogoro.com/ai-tools.html" />
+  <link rel="alternate" hreflang="en-US" href="https://woogoro.com/ai-tools.html" />
+  <link rel="alternate" hreflang="x-default" href="https://woogoro.com/ai-tools.html" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Woogoro MCPs for Claude, Cursor &amp; ChatGPT" />
+  <meta property="og:description" content="Audit medical bills, roofing, HVAC, and auto repair quotes directly from your AI assistant. Free MCP servers, no API key." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://woogoro.com/ai-tools.html" />
+  <meta property="og:site_name" content="Woogoro" />
+  <meta property="og:image" content="https://woogoro.com/images/woogoro-social.png" />
+  <meta property="og:image:alt" content="Woogoro MCPs for Claude, Cursor and ChatGPT" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Woogoro MCPs for Claude, Cursor &amp; ChatGPT" />
+  <meta name="twitter:description" content="Audit medical bills, roofing, HVAC, and auto repair quotes directly from your AI assistant. Free MCPs, no API key." />
+  <meta name="twitter:image" content="https://woogoro.com/images/woogoro-social.png" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://woogoro.com/"},{"@type":"ListItem","position":2,"name":"AI Tools","item":"https://woogoro.com/ai-tools.html"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ItemList","name":"Woogoro MCP Servers","description":"Free MCP servers that let Claude, Cursor, and other MCP-compatible AI assistants audit medical bills, roofing quotes, HVAC quotes, and auto repair quotes.","itemListElement":[
+    {"@type":"SoftwareApplication","position":1,"name":"Woogoro Medical Bill Analyzer MCP","applicationCategory":"UtilityApplication","operatingSystem":"Web","url":"https://mcp.woogoro.com/mcp","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Audit medical bills, draft disputes, and negotiate balances via Claude/Cursor. Compares 146 CPT codes to state-adjusted Medicare rates. Cites 42 USC 300gg-111 (No Surprises Act) and NCCI bundling rules."},
+    {"@type":"SoftwareApplication","position":2,"name":"Woogoro Roofing Quote Analyzer MCP","applicationCategory":"UtilityApplication","operatingSystem":"Web","url":"https://roofing-mcp.woogoro.com/mcp","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Audit roofing contractor quotes, draft pushback letters, and negotiate via Claude/Cursor. State-adjusted pricing from 50+ flywheel-calibrated comps. Catches missing decking, ridge vent, underlayment, drip edge, and ice-and-water shield."},
+    {"@type":"SoftwareApplication","position":3,"name":"Woogoro HVAC Quote Analyzer MCP","applicationCategory":"UtilityApplication","operatingSystem":"Web","url":"https://hvac-mcp.woogoro.com/mcp","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Audit HVAC quotes for sizing, refrigerant, efficiency, and upsells via Claude/Cursor. Validates AHRI matched systems, R-410A vs R-454B refrigerants, and SEER2 ratings."},
+    {"@type":"SoftwareApplication","position":4,"name":"Woogoro Auto Repair Quote Analyzer MCP","applicationCategory":"UtilityApplication","operatingSystem":"Web","url":"https://auto-repair-mcp.woogoro.com/mcp","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Audit auto repair quotes, catch upsells, draft warranty disputes via Claude/Cursor. Cites Magnuson-Moss Warranty Act (15 USC 2301-2312) and NHTSA recall coverage (49 USC 30120(g)(1))."}
+  ]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","name":"How to install a Woogoro MCP in Claude Desktop","description":"Add a hosted Woogoro MCP server to Claude Desktop in three steps.","totalTime":"PT1M","step":[
+    {"@type":"HowToStep","position":1,"name":"Open Claude Desktop config","text":"Open the Claude Desktop config file. On Windows: %APPDATA%\\Claude\\claude_desktop_config.json. On macOS: ~/Library/Application Support/Claude/claude_desktop_config.json."},
+    {"@type":"HowToStep","position":2,"name":"Add the MCP server","text":"Add the Woogoro MCP server to the mcpServers object using the hosted URL (e.g. https://mcp.woogoro.com/mcp for medical)."},
+    {"@type":"HowToStep","position":3,"name":"Restart Claude Desktop","text":"Restart Claude Desktop. The Woogoro tools will appear in the tool picker."}
+  ]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"What is an MCP?","acceptedAnswer":{"@type":"Answer","text":"MCP stands for Model Context Protocol, an open standard published by Anthropic in late 2024 that lets AI assistants like Claude and Cursor call external tools. A Woogoro MCP is a tool the assistant can use to audit a bill or contractor quote you paste into the chat."}},
+    {"@type":"Question","name":"Is the Woogoro MCP free?","acceptedAnswer":{"@type":"Answer","text":"Yes. All four Woogoro MCP servers are hosted on Cloudflare Workers and free for end users. No API key. No signup. Same flywheel-calibrated pricing data the woogoro.com analyzer pages use."}},
+    {"@type":"Question","name":"Which AI assistants are supported?","acceptedAnswer":{"@type":"Answer","text":"Any MCP-compatible client. Confirmed working in Claude Desktop, Cursor, and Cline. ChatGPT support via third-party MCP bridges is in early access. Smithery has a one-click installer for Cursor."}},
+    {"@type":"Question","name":"What can I do with a Woogoro MCP?","acceptedAnswer":{"@type":"Answer","text":"Five tools per server: parse a quote or bill, check for billing errors, look up fair price for any line item, draft a dispute or pushback letter, and generate a phone-negotiation script with pushback responses. Paste your bill or quote into chat, ask the assistant to audit it, and the tools fire automatically."}},
+    {"@type":"Question","name":"Does Woogoro see my bill or quote?","acceptedAnswer":{"@type":"Answer","text":"Yes, transiently. The MCP server forwards the document to Woogoro's analyzer API for processing, the same way the woogoro.com pages do. Anonymized aggregate data (line items, codes, state) is captured to improve pricing benchmarks. No patient names, addresses, account numbers, or document images are retained."}}
+  ]}
+  </script>
+
+  <style>
+    :root{--brand:#4f46e5;--brand-dark:#1e1b4b;--text:#111827;--text-secondary:#475569;--bg:#fff;--bg-soft:#f8fafc;--border:#e2e8f0;--mcp-soft:#eef2ff;--mcp-soft-2:#f0f9ff;}
+    *,*::before,*::after{box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;margin:0;color:var(--text);background:var(--bg);line-height:1.65}
+    a{color:var(--brand);text-decoration:none}
+    p{margin:0 0 16px}
+    .skip-link{position:absolute;left:-9999px;top:0}
+
+    .ai-hero{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#1e1b4b 100%);color:#fff;padding:72px 24px 56px;text-align:center;position:relative;overflow:hidden}
+    .ai-hero::before{content:'';position:absolute;top:-30%;right:-20%;width:60%;height:160%;background:radial-gradient(circle at 50% 50%,rgba(99,102,241,0.18) 0%,transparent 60%);pointer-events:none}
+    .ai-hero__inner{max-width:780px;margin:0 auto;position:relative;z-index:1}
+    .ai-hero__eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#c7d2fe;background:rgba(255,255,255,0.08);padding:6px 14px;border-radius:999px;border:1px solid rgba(199,210,254,0.25);margin-bottom:18px}
+    .ai-hero h1{font-size:42px;font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin:0 0 16px;text-shadow:0 2px 24px rgba(0,0,0,0.25)}
+    .ai-hero p{font-size:18px;color:rgba(255,255,255,0.85);max-width:640px;margin:0 auto 28px;line-height:1.55}
+    .ai-hero__chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+    .ai-hero__chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(255,255,255,0.08);border:1px solid rgba(199,210,254,0.2);border-radius:999px;font-size:13px;color:#e0e7ff}
+
+    .ai-section{padding:56px 24px;border-bottom:1px solid var(--border)}
+    .ai-section--soft{background:var(--bg-soft)}
+    .ai-section__inner{max-width:980px;margin:0 auto}
+    .ai-section h2{font-size:30px;font-weight:800;letter-spacing:-0.01em;margin:0 0 14px;color:var(--brand-dark)}
+    .ai-section h3{font-size:22px;font-weight:700;margin:24px 0 8px;color:var(--brand-dark)}
+    .ai-section p, .ai-section li{color:var(--text-secondary);font-size:16px;line-height:1.7}
+
+    .ai-explainer{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+    .ai-explainer__card{padding:22px 20px;background:#fff;border:1px solid var(--border);border-radius:12px}
+    .ai-explainer__card .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--mcp-soft);color:var(--brand);font-weight:800;margin-bottom:10px}
+    .ai-explainer__card h3{margin:0 0 6px;font-size:17px;color:var(--text)}
+    .ai-explainer__card p{margin:0;font-size:14px;color:var(--text-secondary);line-height:1.55}
+
+    .ai-mcp-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:8px}
+    .ai-mcp{padding:28px;background:#fff;border:1px solid var(--border);border-radius:14px;scroll-margin-top:80px}
+    .ai-mcp__head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:14px}
+    .ai-mcp__title{margin:0;font-size:22px;font-weight:800;color:var(--brand-dark)}
+    .ai-mcp__endpoint{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:var(--brand);background:var(--mcp-soft);padding:4px 10px;border-radius:6px;border:1px solid #c7d2fe}
+    .ai-mcp__pitch{font-size:15px;color:var(--text-secondary);margin:0 0 12px;line-height:1.65}
+    .ai-mcp__features{margin:8px 0 16px;padding-left:18px;font-size:14px}
+    .ai-mcp__features li{margin-bottom:4px}
+    .ai-mcp__buttons{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 14px}
+    .ai-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;border:none;transition:transform 0.15s, box-shadow 0.15s}
+    .ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(79,70,229,0.18)}
+    .ai-btn--primary{background:var(--brand);color:#fff}
+    .ai-btn--secondary{background:#fff;color:var(--brand);border:1px solid #c7d2fe}
+    .ai-btn--ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
+    .ai-mcp__details summary{cursor:pointer;color:var(--brand);font-size:14px;font-weight:600;padding:6px 0;user-select:none}
+    .ai-mcp__details pre{background:#1e1b4b;color:#e0e7ff;padding:14px 16px;border-radius:8px;font-size:13px;line-height:1.5;overflow-x:auto;margin:8px 0}
+    .ai-mcp__details code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .ai-mcp__hint{font-size:13px;color:#64748b;margin:8px 0}
+    .ai-mcp__hint code{background:#f1f5f9;padding:1px 6px;border-radius:4px;border:1px solid var(--border);font-size:12px;color:var(--brand)}
+
+    .ai-install{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+    .ai-install__card{background:#fff;padding:22px;border-radius:12px;border:1px solid var(--border)}
+    .ai-install__card h3{margin-top:0;font-size:17px;color:var(--brand-dark)}
+    .ai-install__card pre{background:#1e1b4b;color:#e0e7ff;padding:14px 16px;border-radius:8px;font-size:13px;line-height:1.5;overflow-x:auto;margin:8px 0}
+
+    .ai-faq details{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:8px}
+    .ai-faq summary{cursor:pointer;font-weight:700;font-size:16px;color:var(--text)}
+    .ai-faq .ans{padding-top:10px;color:var(--text-secondary);font-size:15px;line-height:1.7}
+
+    .ai-disclosure{font-size:12px;color:#94a3b8;text-align:center;padding:20px 24px;background:var(--bg-soft);border-top:1px solid var(--border)}
+    .ai-disclosure code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#64748b}
+
+    @media (max-width:760px){
+      .ai-hero h1{font-size:32px}
+      .ai-hero p{font-size:16px}
+      .ai-section{padding:40px 20px}
+      .ai-section h2{font-size:24px}
+      .ai-explainer{grid-template-columns:1fr}
+      .ai-install{grid-template-columns:1fr}
+      .ai-mcp{padding:20px}
+      .ai-mcp__title{font-size:19px}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="site-header"><div class="container"><a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a><nav><a href="/guides.html">Guides</a>
+  <a href="/methodology.html">Methodology</a></nav></div></header>
+
+  <main id="main">
+
+    <section class="ai-hero">
+      <div class="ai-hero__inner">
+        <span class="ai-hero__eyebrow">Free MCP servers &middot; No API key</span>
+        <h1>Audit bills and quotes from inside Claude, Cursor, or your AI assistant</h1>
+        <p>Install a Woogoro MCP and your AI assistant becomes a quote auditor. Paste a medical bill, roofing quote, HVAC estimate, or auto repair invoice into chat &mdash; the assistant uses Woogoro's tools to flag billing errors, compare to fair-price benchmarks, and draft a pushback letter you can send.</p>
+        <div class="ai-hero__chips">
+          <span class="ai-hero__chip">Claude Desktop</span>
+          <span class="ai-hero__chip">Cursor</span>
+          <span class="ai-hero__chip">Cline</span>
+          <span class="ai-hero__chip">Smithery</span>
+          <span class="ai-hero__chip">$0 / month</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section">
+      <div class="ai-section__inner">
+        <h2>How a Woogoro MCP works</h2>
+        <p>MCP (Model Context Protocol) is an open standard from Anthropic that lets AI assistants call external tools. Woogoro publishes one MCP server per vertical, hosted free on Cloudflare Workers. Your assistant uses these tools the same way it uses web search.</p>
+        <div class="ai-explainer">
+          <div class="ai-explainer__card">
+            <div class="num">1</div>
+            <h3>Install once</h3>
+            <p>Add the Woogoro MCP to Claude Desktop, Cursor, or any MCP-compatible client. Smithery has a one-click installer for Cursor; Claude Desktop is a JSON config paste. 30 seconds.</p>
+          </div>
+          <div class="ai-explainer__card">
+            <div class="num">2</div>
+            <h3>Paste a bill or quote</h3>
+            <p>In your assistant, paste the bill or quote (PDF, photo, or text) and ask it to audit it. The assistant auto-detects the right Woogoro tool and forwards the document.</p>
+          </div>
+          <div class="ai-explainer__card">
+            <div class="num">3</div>
+            <h3>Get the audit + dispute kit</h3>
+            <p>Fair-price benchmark, error flags, dispute letter, and phone-negotiation script &mdash; all in one chat conversation, with citations to the relevant statutes and codes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section ai-section--soft">
+      <div class="ai-section__inner">
+        <h2>Available MCPs</h2>
+        <p>All four servers are live, hosted at $0/mo, and listed on the major MCP directories. Each exposes the same five tools: <code>parse</code>, <code>check_errors</code>, <code>lookup_average_price</code>, <code>draft_dispute</code>, <code>negotiation_script</code>.</p>
+
+        <div class="ai-mcp-grid">
+
+          <article class="ai-mcp" id="medical">
+            <div class="ai-mcp__head">
+              <h3 class="ai-mcp__title">Medical Bill Analyzer</h3>
+              <code class="ai-mcp__endpoint">mcp.woogoro.com/mcp</code>
+            </div>
+            <p class="ai-mcp__pitch">Audit hospital bills, EOBs, and medical statements. Compares 146 CPT/HCPCS codes to state-adjusted Medicare benchmarks and flags surprise billing under federal law.</p>
+            <ul class="ai-mcp__features">
+              <li>Catches NCCI unbundling violations, upcoding, duplicate charges, balance billing</li>
+              <li>Flags No Surprises Act violations (42 USC 300gg-111)</li>
+              <li>Drafts dispute letters across 9 error categories with statute citations</li>
+              <li>Companion to <a href="/medical-bill-analyzer.html">woogoro.com/medical-bill-analyzer</a></li>
+            </ul>
+            <div class="ai-mcp__buttons">
+              <a class="ai-btn ai-btn--primary" href="https://smithery.ai/?q=woogoro+medical" target="_blank" rel="noopener">View on Smithery</a>
+              <a class="ai-btn ai-btn--secondary" href="https://mcp.so/?q=woogoro" target="_blank" rel="noopener">View on mcp.so</a>
+              <a class="ai-btn ai-btn--ghost" href="/medical-bill-analyzer.html">Use the web version</a>
+            </div>
+            <details class="ai-mcp__details">
+              <summary>Manual install (Claude Desktop config)</summary>
+              <p class="ai-mcp__hint">Add to <code>%APPDATA%\Claude\claude_desktop_config.json</code> on Windows or <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on Mac, then restart Claude Desktop.</p>
+<pre><code>{
+  "mcpServers": {
+    "woogoro-medical": {
+      "url": "https://mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+              <p class="ai-mcp__hint">Try: <em>"Use the woogoro-medical MCP to audit this ER bill: [paste]"</em></p>
+            </details>
+          </article>
+
+          <article class="ai-mcp" id="roofing">
+            <div class="ai-mcp__head">
+              <h3 class="ai-mcp__title">Roofing Quote Analyzer</h3>
+              <code class="ai-mcp__endpoint">roofing-mcp.woogoro.com/mcp</code>
+            </div>
+            <p class="ai-mcp__pitch">Audit roofing contractor quotes against state-adjusted pricing from 50+ flywheel-calibrated comps. Catches the missing-scope items contractors leave out of the headline price.</p>
+            <ul class="ai-mcp__features">
+              <li>Flags missing decking, ridge vent, underlayment, drip edge, ice-and-water shield</li>
+              <li>Validates shingle warranty terms and tear-off scope</li>
+              <li>Drafts pushback questions and contract-language disputes</li>
+              <li>Companion to <a href="/roofing-quote-analyzer.html">woogoro.com/roofing-quote-analyzer</a></li>
+            </ul>
+            <div class="ai-mcp__buttons">
+              <a class="ai-btn ai-btn--primary" href="https://smithery.ai/?q=woogoro+roofing" target="_blank" rel="noopener">View on Smithery</a>
+              <a class="ai-btn ai-btn--secondary" href="https://mcp.so/?q=woogoro" target="_blank" rel="noopener">View on mcp.so</a>
+              <a class="ai-btn ai-btn--ghost" href="/roofing-quote-analyzer.html">Use the web version</a>
+            </div>
+            <details class="ai-mcp__details">
+              <summary>Manual install (Claude Desktop config)</summary>
+              <p class="ai-mcp__hint">Add to your Claude Desktop config and restart Claude Desktop.</p>
+<pre><code>{
+  "mcpServers": {
+    "woogoro-roofing": {
+      "url": "https://roofing-mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+              <p class="ai-mcp__hint">Try: <em>"Use the woogoro-roofing MCP to audit this quote: [paste]"</em></p>
+            </details>
+          </article>
+
+          <article class="ai-mcp" id="hvac">
+            <div class="ai-mcp__head">
+              <h3 class="ai-mcp__title">HVAC Quote Analyzer</h3>
+              <code class="ai-mcp__endpoint">hvac-mcp.woogoro.com/mcp</code>
+            </div>
+            <p class="ai-mcp__pitch">Audit HVAC quotes for sizing, refrigerant, efficiency, and upsells. Validates AHRI matched systems, catches refrigerant overcharge, and flags unnecessary system replacements.</p>
+            <ul class="ai-mcp__features">
+              <li>Validates AHRI matched indoor + outdoor units</li>
+              <li>Checks SEER2 ratings against 2023+ federal minimums</li>
+              <li>Flags R-454B vs R-410A pricing discrepancies post 2025 phase-out</li>
+              <li>Companion to <a href="/hvac-quote-analyzer.html">woogoro.com/hvac-quote-analyzer</a></li>
+            </ul>
+            <div class="ai-mcp__buttons">
+              <a class="ai-btn ai-btn--primary" href="https://smithery.ai/?q=woogoro+hvac" target="_blank" rel="noopener">View on Smithery</a>
+              <a class="ai-btn ai-btn--secondary" href="https://mcp.so/?q=woogoro" target="_blank" rel="noopener">View on mcp.so</a>
+              <a class="ai-btn ai-btn--ghost" href="/hvac-quote-analyzer.html">Use the web version</a>
+            </div>
+            <details class="ai-mcp__details">
+              <summary>Manual install (Claude Desktop config)</summary>
+              <p class="ai-mcp__hint">Add to your Claude Desktop config and restart Claude Desktop.</p>
+<pre><code>{
+  "mcpServers": {
+    "woogoro-hvac": {
+      "url": "https://hvac-mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+              <p class="ai-mcp__hint">Try: <em>"Use the woogoro-hvac MCP to audit this quote: [paste]"</em></p>
+            </details>
+          </article>
+
+          <article class="ai-mcp" id="auto-repair">
+            <div class="ai-mcp__head">
+              <h3 class="ai-mcp__title">Auto Repair Quote Analyzer</h3>
+              <code class="ai-mcp__endpoint">auto-repair-mcp.woogoro.com/mcp</code>
+            </div>
+            <p class="ai-mcp__pitch">Audit shop estimates against MOTOR labor guide standards and typical parts markup. Catches warranty-covered work being billed and recall-eligible parts.</p>
+            <ul class="ai-mcp__features">
+              <li>Cites Magnuson-Moss Warranty Act (15 USC &sect;&sect; 2301-2312)</li>
+              <li>Checks NHTSA recall coverage (49 USC &sect; 30120(g)(1) &mdash; 15-year free remedy limit)</li>
+              <li>Flags parts markup over 40% and labor hours exceeding flat-rate guides</li>
+              <li>Companion to <a href="/auto-repair.html">woogoro.com/auto-repair</a></li>
+            </ul>
+            <div class="ai-mcp__buttons">
+              <a class="ai-btn ai-btn--primary" href="https://smithery.ai/?q=woogoro+auto" target="_blank" rel="noopener">View on Smithery</a>
+              <a class="ai-btn ai-btn--secondary" href="https://mcp.so/?q=woogoro" target="_blank" rel="noopener">View on mcp.so</a>
+              <a class="ai-btn ai-btn--ghost" href="/auto-repair.html">Use the web version</a>
+            </div>
+            <details class="ai-mcp__details">
+              <summary>Manual install (Claude Desktop config)</summary>
+              <p class="ai-mcp__hint">Add to your Claude Desktop config and restart Claude Desktop.</p>
+<pre><code>{
+  "mcpServers": {
+    "woogoro-auto-repair": {
+      "url": "https://auto-repair-mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+              <p class="ai-mcp__hint">Try: <em>"Use the woogoro-auto-repair MCP to audit this quote: [paste]"</em></p>
+            </details>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section">
+      <div class="ai-section__inner">
+        <h2>Install methods</h2>
+        <p>Three ways to install, depending on which assistant you use. Hosted (recommended) requires nothing on your machine; stdio runs the server locally for power users who want to read or modify the source.</p>
+
+        <div class="ai-install">
+          <div class="ai-install__card">
+            <h3>Claude Desktop &mdash; hosted (recommended)</h3>
+            <p>Open the config file at <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Windows) or <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS). Add the server you want, save, and restart Claude Desktop.</p>
+<pre><code>{
+  "mcpServers": {
+    "woogoro-medical": { "url": "https://mcp.woogoro.com/mcp" },
+    "woogoro-roofing": { "url": "https://roofing-mcp.woogoro.com/mcp" },
+    "woogoro-hvac":    { "url": "https://hvac-mcp.woogoro.com/mcp" },
+    "woogoro-auto-repair": { "url": "https://auto-repair-mcp.woogoro.com/mcp" }
+  }
+}</code></pre>
+          </div>
+
+          <div class="ai-install__card">
+            <h3>Cursor &mdash; one click via Smithery</h3>
+            <p>Smithery offers a one-click installer for Cursor and other MCP-compatible IDEs. Search for "woogoro" on Smithery and click Install on the server you want.</p>
+            <p style="margin-top:12px;"><a class="ai-btn ai-btn--primary" href="https://smithery.ai/?q=woogoro" target="_blank" rel="noopener">Search Smithery</a></p>
+            <p class="ai-mcp__hint" style="margin-top:18px;">Cursor uses <code>~/.cursor/mcp.json</code> and supports the same JSON format as Claude Desktop above.</p>
+          </div>
+
+          <div class="ai-install__card">
+            <h3>Local stdio (power users)</h3>
+            <p>Clone the source, build, and run locally over stdio. Lets you read or modify the server. Source for all four MCPs is in the <a href="https://github.com/TruePrice-tech/trueprice" target="_blank" rel="noopener">trueprice repo</a> under <code>mcp/</code>, <code>mcp-roofing/</code>, <code>mcp-hvac/</code>, and <code>mcp-auto-repair/</code>.</p>
+<pre><code>git clone https://github.com/TruePrice-tech/trueprice
+cd trueprice/mcp
+npm install &amp;&amp; npm run build
+# Then point your client at:
+node /abs/path/to/trueprice/mcp/dist/index.js</code></pre>
+          </div>
+
+          <div class="ai-install__card">
+            <h3>Verify it works</h3>
+            <p>After install, open a fresh chat and try one of these prompts. Your assistant will say it's calling the Woogoro tool and show the structured result.</p>
+            <ul>
+              <li><em>"Use the woogoro-medical MCP to audit this hospital bill: [paste]"</em></li>
+              <li><em>"Audit this roofing quote with the woogoro-roofing MCP: [paste]"</em></li>
+              <li><em>"What's a fair price for CPT 99213 in California using the woogoro-medical MCP?"</em></li>
+              <li><em>"Draft a Magnuson-Moss dispute letter for this auto repair issue using woogoro-auto-repair."</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-section ai-section--soft">
+      <div class="ai-section__inner ai-faq">
+        <h2>Frequently asked questions</h2>
+
+        <details>
+          <summary>What is an MCP?</summary>
+          <div class="ans">MCP stands for <strong>Model Context Protocol</strong>, an open standard published by Anthropic that lets AI assistants call external tools. A Woogoro MCP is a tool the assistant can use to audit a bill or contractor quote you paste into the chat. Same idea as a browser plugin, but for AI assistants.</div>
+        </details>
+        <details>
+          <summary>Is the Woogoro MCP really free?</summary>
+          <div class="ans">Yes. All four Woogoro MCP servers run on Cloudflare Workers and are free for end users. No API key. No signup. They wrap the same Woogoro analyzer APIs that power the web tools at woogoro.com, hosted at $0/mo.</div>
+        </details>
+        <details>
+          <summary>Which AI assistants are supported?</summary>
+          <div class="ans">Any MCP-compatible client. Confirmed working in <strong>Claude Desktop</strong>, <strong>Cursor</strong>, and <strong>Cline</strong>. Smithery has a one-click installer for Cursor. ChatGPT support depends on third-party MCP bridges and is in early access.</div>
+        </details>
+        <details>
+          <summary>What are the five tools?</summary>
+          <div class="ans">Each Woogoro MCP exposes the same five tools: (1) <code>parse</code> the quote or bill into structured line items, (2) <code>check_errors</code> for vertical-specific red flags, (3) <code>lookup_average_price</code> for any line item with state adjustment, (4) <code>draft_dispute</code> for a formal pushback letter with statute citations, and (5) <code>negotiation_script</code> for a phone call with pushback responses.</div>
+        </details>
+        <details>
+          <summary>Does Woogoro see my bill or quote?</summary>
+          <div class="ans">Yes, transiently. The MCP server forwards the document to Woogoro's analyzer API for processing &mdash; the same way the web pages at woogoro.com do. Anonymized aggregate data (line items, codes, state) is captured to improve pricing benchmarks. No patient names, addresses, account numbers, or document images are retained.</div>
+        </details>
+        <details>
+          <summary>Why MCPs and not just a website?</summary>
+          <div class="ans">If you already work in Claude Desktop or Cursor, switching to a browser tab to check a bill breaks the flow. With the MCP installed, you stay in your assistant: paste, ask, get the audit and dispute letter, and copy the letter directly. The assistant can also chain Woogoro tools with web search, calendar, or email tools you have installed.</div>
+        </details>
+        <details>
+          <summary>What about the other 16 verticals?</summary>
+          <div class="ans">In planning. Woogoro covers 20 verticals total on the web; the four MCPs above are the first wave. We're watching directory installs and user feedback before onboarding the remaining 16. If there's a vertical you'd want as an MCP, <a href="mailto:hello@woogoro.com">hello@woogoro.com</a>.</div>
+        </details>
+        <details>
+          <summary>Is the source code open?</summary>
+          <div class="ans">Yes. All four servers are MIT-licensed and live in the public <a href="https://github.com/TruePrice-tech/trueprice" target="_blank" rel="noopener">trueprice repo</a> under <code>mcp/</code>, <code>mcp-roofing/</code>, <code>mcp-hvac/</code>, and <code>mcp-auto-repair/</code>. Pricing data is bundled JSON; auditing rules are TypeScript.</div>
+        </details>
+
+      </div>
+    </section>
+
+    <div class="ai-disclosure">
+      Woogoro MCPs forward documents to <code>*.woogoro.com</code> APIs for analysis. They are not affiliated with Anthropic, Cursor, or Smithery beyond using their open MCP standard and directories. Use as a benchmark, not a guarantee. Not legal, medical, or financial advice.
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="tp-footer-links">
+        <div class="tp-footer-col">
+          <h4>Get a Price</h4>
+          <a href="/get-an-estimate.html">Get an estimate</a>
+          <a href="/analyze-my-quote.html">Analyze a quote</a>
+          <a href="/compare-quotes-picker.html">Compare quotes</a>
+          <a href="/roofing-quote-analyzer.html?mode=estimator">Roof estimate</a>
+        </div>
+        <div class="tp-footer-col">
+          <h4>Browse</h4>
+          <a href="/all-cities.html">All cities</a>
+          <a href="/guides.html">Cost guides</a>
+          <a href="/find-contractors.html">Find contractors</a>
+          <a href="/medical-cost-lookup.html">Medical cost lookup</a>
+          <a href="/ai-tools.html">AI assistant tools</a>
+        </div>
+        <div class="tp-footer-col">
+          <h4>Top Trades</h4>
+          <a href="/roofing-quote-analyzer.html">Roofing</a>
+          <a href="/hvac-quote-analyzer.html">HVAC</a>
+          <a href="/plumbing-quote-analyzer.html">Plumbing</a>
+          <a href="/electrical-quote-analyzer.html">Electrical</a>
+          <a href="/solar-quote-analyzer.html">Solar</a>
+          <a href="/auto-repair.html">Auto repair</a>
+        </div>
+        <div class="tp-footer-col">
+          <h4>About</h4>
+          <a href="/about.html">About Woogoro</a>
+          <a href="/methodology.html">Methodology</a>
+          <a href="/accessibility.html">Accessibility</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+        </div>
+      </div>
+
+      <p>Woogoro helps consumers check medical bills, contractor quotes, and mechanic quotes for fairness. <a href="/privacy.html" style="color:inherit;">Privacy</a></p>
+      <p style="font-size:12px;color:#94a3b8;margin-top:16px;">Operated by <strong>Woogoro LLC</strong>, a South Carolina limited liability company &middot; 17064 Laurelmont Court, Fort Mill, SC 29707</p>
+    </div>
+  </footer>
+
+</body>
+</html>

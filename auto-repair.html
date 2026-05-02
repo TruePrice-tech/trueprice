@@ -389,6 +389,58 @@
 </div>
 </div>
 
+<!-- WG-MCP-CTA-V1 -->
+<section class="wg-mcp-cta tp-pdf-noprint" aria-labelledby="wg-mcp-cta-heading">
+  <div class="wg-mcp-cta__inner">
+    <span class="wg-mcp-cta__eyebrow">For Claude, Cursor &amp; ChatGPT users</span>
+    <h2 id="wg-mcp-cta-heading">Run this in your AI assistant</h2>
+    <p>If you already use Claude Desktop, Cursor, or another MCP-compatible assistant, install the Woogoro Auto Repair MCP. Your assistant becomes a quote auditor: paste the shop estimate into chat, get the same flywheel-calibrated price check this page produces &mdash; plus warranty-dispute templates and a phone-negotiation script, all in one conversation.</p>
+    <ul class="wg-mcp-cta__features">
+      <li><strong>5 tools:</strong> parse quote, check errors, look up fair price, draft warranty dispute, generate phone script</li>
+      <li><strong>Compares</strong> labor hours to MOTOR flat-rate guide and parts to typical 25&ndash;40% markup</li>
+      <li><strong>Cites</strong> Magnuson-Moss Warranty Act (15 USC &sect;&sect; 2301-2312) and NHTSA recall coverage (49 USC &sect; 30120(g)(1))</li>
+      <li><strong>Free.</strong> No API key. No account. Hosted at $0/mo.</li>
+    </ul>
+    <div class="wg-mcp-cta__buttons">
+      <a class="wg-mcp-cta__btn wg-mcp-cta__btn--primary" href="/ai-tools.html#auto-repair">Install in 30 seconds</a>
+      <a class="wg-mcp-cta__btn wg-mcp-cta__btn--secondary" href="/ai-tools.html">All 4 Woogoro MCPs</a>
+    </div>
+    <details class="wg-mcp-cta__details">
+      <summary>Or paste this into Claude Desktop config</summary>
+      <p class="wg-mcp-cta__hint">Add to <code>%APPDATA%\Claude\claude_desktop_config.json</code> on Windows or <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on Mac, then restart Claude Desktop.</p>
+      <pre><code>{
+  "mcpServers": {
+    "woogoro-auto-repair": {
+      "url": "https://auto-repair-mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+      <p class="wg-mcp-cta__hint">Then in Claude: <em>"Use the woogoro-auto-repair MCP to audit this quote: [paste]"</em></p>
+    </details>
+  </div>
+</section>
+<style>
+.wg-mcp-cta { padding:48px 16px; background:linear-gradient(135deg,#f0f9ff 0%,#eef2ff 100%); border-top:1px solid #e0e7ff; border-bottom:1px solid #e0e7ff; margin-top:32px; }
+.wg-mcp-cta__inner { max-width:760px; margin:0 auto; }
+.wg-mcp-cta__eyebrow { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#4f46e5; background:#fff; padding:4px 10px; border-radius:999px; border:1px solid #e0e7ff; margin-bottom:12px; }
+.wg-mcp-cta h2 { font-size:24px; margin:0 0 12px; color:#1e1b4b; }
+.wg-mcp-cta p { color:#475569; line-height:1.65; margin:0 0 16px; }
+.wg-mcp-cta__features { color:#475569; line-height:1.8; margin:0 0 20px; padding-left:20px; }
+.wg-mcp-cta__features li { margin-bottom:6px; }
+.wg-mcp-cta__buttons { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+.wg-mcp-cta__btn { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:transform 0.15s, box-shadow 0.15s; border:none; }
+.wg-mcp-cta__btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,0.18); }
+.wg-mcp-cta__btn--primary { background:#4f46e5; color:#fff; }
+.wg-mcp-cta__btn--secondary { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+.wg-mcp-cta__details { margin-top:4px; }
+.wg-mcp-cta__details summary { cursor:pointer; color:#4f46e5; font-size:14px; font-weight:600; padding:6px 0; user-select:none; }
+.wg-mcp-cta__details pre { background:#1e1b4b; color:#e0e7ff; padding:14px 16px; border-radius:8px; font-size:13px; line-height:1.5; overflow-x:auto; margin:8px 0; }
+.wg-mcp-cta__details code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.wg-mcp-cta__hint { font-size:13px; color:#64748b; margin:8px 0; }
+.wg-mcp-cta__hint code { background:#fff; padding:1px 6px; border-radius:4px; border:1px solid #e0e7ff; font-size:12px; color:#4f46e5; }
+@media (max-width:520px) { .wg-mcp-cta h2 { font-size:20px; } .wg-mcp-cta__btn { width:100%; justify-content:center; } }
+</style>
+
 <div style="padding:12px;background:#f8fafc;border-radius:10px;font-size:11px;color:var(--text-muted,#6b7280);text-align:center;margin-top:24px;">
 Estimates reflect metro-area average labor rates and industry-typical parts ranges. Actual shop quotes vary based on vehicle condition, specific parts, and local pricing. Use as a benchmark, not a guarantee. Not professional automotive advice.
 </div>
@@ -409,6 +461,7 @@ Estimates reflect metro-area average labor rates and industry-typical parts rang
     <a href="/guides.html">Cost guides</a>
     <a href="/find-contractors.html">Find contractors</a>
     <a href="/medical-cost-lookup.html">Medical cost lookup</a>
+    <a href="/ai-tools.html">AI assistant tools</a>
   </div>
   <div class="tp-footer-col">
     <h4>Top Trades</h4>

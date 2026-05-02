@@ -228,6 +228,59 @@
       <a href="/moving-quote-analyzer.html" style="padding:6px 14px; background:#fffbeb; border:1px solid #fcd34d; border-radius:999px; font-size:13px; color:#d97706; text-decoration:none; font-weight:600;">Moving</a>
     </div>
   </section>
+
+  <!-- WG-MCP-CTA-V1 -->
+  <section class="wg-mcp-cta tp-pdf-noprint" aria-labelledby="wg-mcp-cta-heading">
+    <div class="wg-mcp-cta__inner">
+      <span class="wg-mcp-cta__eyebrow">For Claude, Cursor &amp; ChatGPT users</span>
+      <h2 id="wg-mcp-cta-heading">Run this in your AI assistant</h2>
+      <p>If you already use Claude Desktop, Cursor, or another MCP-compatible assistant, install the Woogoro Medical Bill MCP. Your assistant becomes a bill auditor: paste the bill into chat, get the same flywheel-calibrated price check this page produces &mdash; plus a dispute letter and a phone-negotiation script, all in one conversation.</p>
+      <ul class="wg-mcp-cta__features">
+        <li><strong>5 tools:</strong> parse bill, check errors, look up fair price, draft dispute letter, generate phone script</li>
+        <li><strong>Compares</strong> to 146 Medicare codes (state-adjusted) + flags No Surprises Act violations</li>
+        <li><strong>Cites</strong> 42 USC 300gg-111, NCCI bundling rules, ACA preventive-care framework</li>
+        <li><strong>Free.</strong> No API key. No account. Hosted at $0/mo.</li>
+      </ul>
+      <div class="wg-mcp-cta__buttons">
+        <a class="wg-mcp-cta__btn wg-mcp-cta__btn--primary" href="/ai-tools.html#medical">Install in 30 seconds</a>
+        <a class="wg-mcp-cta__btn wg-mcp-cta__btn--secondary" href="/ai-tools.html">All 4 Woogoro MCPs</a>
+      </div>
+      <details class="wg-mcp-cta__details">
+        <summary>Or paste this into Claude Desktop config</summary>
+        <p class="wg-mcp-cta__hint">Add to <code>%APPDATA%\Claude\claude_desktop_config.json</code> on Windows or <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on Mac, then restart Claude Desktop.</p>
+        <pre><code>{
+  "mcpServers": {
+    "woogoro-medical": {
+      "url": "https://mcp.woogoro.com/mcp"
+    }
+  }
+}</code></pre>
+        <p class="wg-mcp-cta__hint">Then in Claude: <em>"Use the woogoro-medical MCP to audit this bill: [paste]"</em></p>
+      </details>
+    </div>
+  </section>
+  <style>
+    .wg-mcp-cta { padding:48px 16px; background:linear-gradient(135deg,#f0f9ff 0%,#eef2ff 100%); border-top:1px solid #e0e7ff; border-bottom:1px solid #e0e7ff; }
+    .wg-mcp-cta__inner { max-width:760px; margin:0 auto; }
+    .wg-mcp-cta__eyebrow { display:inline-block; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:#4f46e5; background:#fff; padding:4px 10px; border-radius:999px; border:1px solid #e0e7ff; margin-bottom:12px; }
+    .wg-mcp-cta h2 { font-size:24px; margin:0 0 12px; color:#1e1b4b; }
+    .wg-mcp-cta p { color:#475569; line-height:1.65; margin:0 0 16px; }
+    .wg-mcp-cta__features { color:#475569; line-height:1.8; margin:0 0 20px; padding-left:20px; }
+    .wg-mcp-cta__features li { margin-bottom:6px; }
+    .wg-mcp-cta__buttons { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    .wg-mcp-cta__btn { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:transform 0.15s, box-shadow 0.15s; border:none; }
+    .wg-mcp-cta__btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,0.18); }
+    .wg-mcp-cta__btn--primary { background:#4f46e5; color:#fff; }
+    .wg-mcp-cta__btn--secondary { background:#fff; color:#4f46e5; border:1px solid #c7d2fe; }
+    .wg-mcp-cta__details { margin-top:4px; }
+    .wg-mcp-cta__details summary { cursor:pointer; color:#4f46e5; font-size:14px; font-weight:600; padding:6px 0; user-select:none; }
+    .wg-mcp-cta__details pre { background:#1e1b4b; color:#e0e7ff; padding:14px 16px; border-radius:8px; font-size:13px; line-height:1.5; overflow-x:auto; margin:8px 0; }
+    .wg-mcp-cta__details code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .wg-mcp-cta__hint { font-size:13px; color:#64748b; margin:8px 0; }
+    .wg-mcp-cta__hint code { background:#fff; padding:1px 6px; border-radius:4px; border:1px solid #e0e7ff; font-size:12px; color:#4f46e5; }
+    @media (max-width:520px) { .wg-mcp-cta h2 { font-size:20px; } .wg-mcp-cta__btn { width:100%; justify-content:center; } }
+  </style>
+
   <!-- TP-ANALYZER-SEO-V1 -->
   <section class="tp-pdf-noprint" style="padding:48px 0; border-top:1px solid var(--border, #e2e8f0); background:#f8fafc;">
     <div class="container" style="max-width:960px;">
@@ -371,6 +424,7 @@
     <a href="/guides.html">Cost guides</a>
     <a href="/find-contractors.html">Find contractors</a>
     <a href="/medical-cost-lookup.html">Medical cost lookup</a>
+    <a href="/ai-tools.html">AI assistant tools</a>
   </div>
   <div class="tp-footer-col">
     <h4>Top Trades</h4>
