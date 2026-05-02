@@ -1,11 +1,13 @@
 {
-  "ts": "2026-05-02T23:20:56.400Z",
+  "ts": "2026-05-02T23:56:48.678Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-redding-panel-low": {
       "verdictPrice": 1660,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "REDDING ELECTRIC",
+        "brand": "Square D Homeline (Mid tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
@@ -18,23 +20,22 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "REDDING ELECTRIC",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /redding\\s*electric/, got null",
-        "brand: expected match /square\\s*d/, got \"\""
-      ]
+      "failures": []
     },
     "f2-spartan-panel-mid": {
       "verdictPrice": 3425,
       "details": {
-        "service type": "Outlet/Switch Replacement",
+        "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "SPARTAN ELECTRIC SERVICES",
+        "brand": "Eaton (Mid tier)",
         "amperage": "200A",
         "circuits": "8",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $300 -- 1042% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Market benchmark: $3,450 -- 1% below average",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -42,18 +43,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "SPARTAN ELECTRIC SERVICES",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /spartan\\s*electric/, got null",
-        "serviceType: expected match /panel/, got \"Outlet/Switch Replacement\"",
-        "brand: expected match /eaton/, got \"\""
-      ]
+      "failures": []
     },
     "f3-meridian-panel-ev": {
       "verdictPrice": 8798,
       "details": {
         "service type": "EV Charger Installation",
+        "contractor": "MERIDIAN POWER SOLUTIONS",
+        "brand": "Square D QO (Premium tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
@@ -66,17 +65,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "MERIDIAN POWER SOLUTIONS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /meridian\\s*power/, got null",
-        "brand: expected match /square\\s*d/, got \"\""
-      ]
+      "failures": []
     },
     "f4-redding-panel-messy": {
       "verdictPrice": 1660,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "Not detected",
+        "brand": "Square D Homeline (Mid tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
@@ -89,23 +87,24 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /redding\\s*electric/, got null",
-        "brand: expected match /square\\s*d/, got \"\""
+        "contractor: expected match /redding\\s*electric/, got \"Not detected\""
       ]
     },
     "f5-spartan-panel-messy": {
       "verdictPrice": 3425,
       "details": {
-        "service type": "Outlet/Switch Replacement",
+        "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "SPARTAN ELECTRIC SERVICES",
+        "brand": "Eaton (Mid tier)",
         "amperage": "200A",
         "circuits": "8",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $300 -- 1042% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Market benchmark: $3,450 -- 1% below average",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -113,18 +112,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "SPARTAN ELECTRIC SERVICES",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /spartan\\s*electric/, got null",
-        "serviceType: expected match /panel/, got \"Outlet/Switch Replacement\"",
-        "brand: expected match /eaton/, got \"\""
-      ]
+      "failures": []
     },
     "f6-meridian-panel-messy": {
       "verdictPrice": 8798,
       "details": {
         "service type": "EV Charger Installation",
+        "contractor": "MERIDIAN POWER SOLUTIONS",
+        "brand": "Square D (Mid tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
@@ -137,17 +134,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "MERIDIAN POWER SOLUTIONS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /meridian\\s*power/, got null",
-        "brand: expected match /square\\s*d/, got \"\""
-      ]
+      "failures": []
     },
     "f7-service-form-9432": {
       "verdictPrice": 9432,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "11 Check main electrical system.",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $3,450 -- 173% above average",
@@ -159,7 +154,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "11 Check main electrical system.",
       "stateCode": null,
       "failures": []
     },
@@ -167,6 +162,8 @@
       "verdictPrice": 3488,
       "details": {
         "service type": "Recessed Lighting Install",
+        "contractor": "Not detected",
+        "brand": "Halo (Mid tier)",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $1,750 -- 99% above average",
@@ -178,7 +175,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -186,6 +183,8 @@
       "verdictPrice": 1703,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
+        "contractor": "Not detected",
+        "brand": "Eaton (Mid tier)",
         "amperage": "230A",
         "pricing": "South regional pricing"
       },
@@ -198,7 +197,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     }
