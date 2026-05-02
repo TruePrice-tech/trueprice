@@ -233,7 +233,7 @@ function compare(label, actual, expected) {
   }
 
   if (expected.contractorRegex) {
-    const contractor = actual.parseQuote?.data?.contractor || actual.parseQuote?.data?.contractorName || null;
+    const contractor = actual.display.details["contractor"] || actual.parseQuote?.data?.contractor || actual.parseQuote?.data?.contractorName || null;
     if (!contractor || !expected.contractorRegex.test(contractor)) {
       failures.push(`contractor: expected match /${expected.contractorRegex.source}/, got ${JSON.stringify(contractor)}`);
     }
@@ -336,7 +336,7 @@ function compare(label, actual, expected) {
           hasManualBtn: actual.preConfirm?.hasManualBtn,
           hasHardReject: actual.preConfirm?.hasHardReject,
         },
-        contractor: actual.parseQuote?.data?.contractor || actual.parseQuote?.data?.contractorName || null,
+        contractor: actual.display.details["contractor"] || actual.parseQuote?.data?.contractor || null,
         stateCode: actual.parseQuote?.data?.stateCode || null,
         failures,
       };
