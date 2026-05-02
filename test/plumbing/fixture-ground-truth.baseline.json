@@ -1,12 +1,13 @@
 {
-  "ts": "2026-05-02T22:24:39.821Z",
+  "ts": "2026-05-02T22:48:15.342Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-budget-tank-low": {
       "verdictPrice": 1380,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tank_50_gas",
+        "contractor": "BUDGET PLUMBING SERVICES",
+        "details": "50-Gal Gas Tank",
         "brand": "Rheem (mid tier)",
         "pricing": "West regional pricing"
       },
@@ -19,19 +20,18 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "BUDGET PLUMBING SERVICES",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /budget\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f2-westside-tank-mid": {
       "verdictPrice": 2553,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tank_50_gas",
+        "contractor": "WESTSIDE PLUMBING & DRAIN",
+        "details": "50-Gal Gas Tank",
         "brand": "Bradford White (mid tier)",
-        "pricing": "- Los Angeles local pricing"
+        "pricing": "West regional pricing"
       },
       "rangeText": "Market benchmark: $2,550 — 0% below average",
       "verdictLabel": "FAIR PRICE",
@@ -42,17 +42,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "WESTSIDE PLUMBING & DRAIN",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /westside\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f3-premier-tankless-high": {
       "verdictPrice": 7571,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tankless_gas",
+        "contractor": "PREMIER HOME PLUMBING SOLUTIONS",
+        "details": "Tankless Gas",
         "brand": "Rinnai (premium tier)",
         "pricing": "West regional pricing"
       },
@@ -65,17 +64,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PREMIER HOME PLUMBING SOLUTIONS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /premier\\s*home\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f4-budget-tank-messy": {
       "verdictPrice": 1380,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tank_50_gas",
+        "contractor": "BUDGET PLUMBING SERVICES",
+        "details": "50-Gal Gas Tank",
         "brand": "Rheem (mid tier)",
         "pricing": "West regional pricing"
       },
@@ -88,17 +86,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "BUDGET PLUMBING SERVICES",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /budget\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f5-westside-tank-messy": {
       "verdictPrice": 2553,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tank_50_gas",
+        "contractor": "WESTSIDE PLUMBING & DRAIN",
+        "details": "50-Gal Gas Tank",
         "brand": "Bradford White (mid tier)",
         "pricing": "South regional pricing"
       },
@@ -111,17 +108,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "WESTSIDE PLUMBING & DRAIN",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /westside\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f6-premier-tankless-messy": {
       "verdictPrice": 7571,
       "details": {
         "service type": "Water Heater Replacement",
-        "details": "tankless_gas",
+        "contractor": "PREMIER HOME PLUMBING SOLUTIONS",
+        "details": "Tankless Gas",
         "brand": "Rinnai (premium tier)",
         "pricing": "West regional pricing"
       },
@@ -134,20 +130,19 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PREMIER HOME PLUMBING SOLUTIONS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /premier\\s*home\\s*plumbing/, got null"
-      ]
+      "failures": []
     },
     "f7-roto-rooter-redacted": {
-      "verdictPrice": 903,
+      "verdictPrice": 893,
       "details": {
         "service type": "Drain Cleaning",
-        "details": "simple_clog",
+        "contractor": "ROOTER Roto-Rooter Services",
+        "details": "Simple Clog",
         "pricing": "Southeast regional pricing"
       },
-      "rangeText": "Market benchmark: $225 — 301% above average",
+      "rangeText": "Market benchmark: $225 — 297% above average",
       "verdictLabel": "OVERPRICED",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -156,21 +151,21 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "Roto-Rooter Services Company",
+      "contractor": "ROOTER Roto-Rooter Services",
       "stateCode": "IN",
-      "failures": [
-        "stateCode: expected null, got \"IN\""
-      ]
+      "failures": []
     },
     "f8-indirect-wh-page1": {
       "verdictPrice": 6950,
       "details": {
-        "service type": "Water Heater Tank",
+        "service type": "Water Heater Replacement",
+        "contractor": "Not detected",
+        "details": "Indirect",
         "brand": "Bradford White (mid tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $2,625 — 165% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Market benchmark: $7,225 — 4% below average",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -178,11 +173,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
-      "failures": [
-        "subType: expected match /indirect/, got \"\""
-      ]
+      "failures": []
     }
   }
 }
