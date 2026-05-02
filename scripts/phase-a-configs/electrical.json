@@ -1,0 +1,19 @@
+{
+  "vertical": "electrical",
+  "gateVertical": "electrical",
+  "fileSuffix": "-electrical-cost.html",
+  "outputFile": "electrical-cities.html",
+  "displayNoun": "electrical work",
+  "shortNoun": "electrical",
+  "hubUrl": "/electrical-cost-guide.html",
+  "hubLabel": "Electrical Cost Guide",
+  "analyzerUrl": "/electrical-quote-analyzer.html",
+  "analyzerLabel": "Analyze an electrical quote",
+  "pageTitle": "All cities with electrical work cost data | Woogoro",
+  "metaDescription": "Electrical work cost data by city and state. Panel amperage, EV-charger demand, and NEC code-year adoption move the per-circuit total more than labor rate alone.",
+  "ogTitle": "Electrical work cost by city | Woogoro",
+  "ogDescription": "Electrical pricing by city. Panel demand, EV-charger circuits, and rolling NEC adoption shift per-circuit numbers.",
+  "schemaName": "Electrical work cost by city",
+  "schemaDescription": "Directory of U.S. cities with 2026 electrical work cost data, organized by state, including dominant panel size and code-year context per metro.",
+  "intro": "<p>Electrical work pricing moves with three slow forces &mdash; panel amperage demand (200A is the new floor; 100A is a grandfathered nightmare on many older homes), EV-charging circuit density, and the rolling 2020/2023 NEC adoption of AFCI/GFCI on previously-exempt circuits. A panel upgrade in a 1960s San Diego tract sits around 70% of the same job in a 1920s Boston three-decker because the meter location, service-drop length, and inspection backlog are categorically different. Code-adoption lag also matters: counties still on 2017 NEC don't yet require dual-function AFCI/GFCI breakers on bedroom outlets, which knocks $30&ndash;50 per circuit off the bill. Per-city pages list the local utility, dominant panel size in the housing stock, NEC code year in force, and inspection lead-time you can plan against.</p>"
+}
