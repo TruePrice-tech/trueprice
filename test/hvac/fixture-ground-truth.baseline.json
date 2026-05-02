@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T18:08:59.884Z",
+  "ts": "2026-05-02T18:16:18.861Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-clean-invoice": {
@@ -7,6 +7,7 @@
       "details": {
         "system type": "Central Air Conditioning",
         "refrigerant": "R-22",
+        "contractor": "Not detected",
         "pricing": "South regional pricing"
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
@@ -17,7 +18,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -27,6 +28,7 @@
         "system type": "Central Air Conditioning",
         "refrigerant": "R-410A",
         "parts warranty": "1 yr",
+        "contractor": "Not detected",
         "pricing": "South regional pricing"
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
@@ -37,7 +39,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -50,6 +52,7 @@
         "brand": "Goodman (value tier)",
         "parts warranty": "10 yr",
         "labor warranty": "1 yr",
+        "contractor": "ARCTIC AIR HVAC",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $4,750 — 27% below average",
@@ -60,11 +63,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "ARCTIC AIR HVAC",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /arctic\\s*air/, got null"
-      ]
+      "failures": []
     },
     "f4-precision-mid": {
       "verdictPrice": 6620,
@@ -75,6 +76,7 @@
         "brand": "Carrier (premium tier)",
         "parts warranty": "10 yr",
         "labor warranty": "2 yr",
+        "contractor": "PRECISION CLIMATE SOLUTIONS",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $5,400 — 23% above average",
@@ -85,11 +87,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PRECISION CLIMATE SOLUTIONS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /precision\\s*climate/, got null"
-      ]
+      "failures": []
     },
     "f5-elite-high": {
       "verdictPrice": 13457,
@@ -100,6 +100,7 @@
         "brand": "Trane (premium tier)",
         "parts warranty": "12 yr",
         "labor warranty": "5 yr",
+        "contractor": "Premium HVAC - Trane Comfort Specialist",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $8,650 — 56% above average",
@@ -110,16 +111,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Premium HVAC - Trane Comfort Specialist",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /elite\\s*comfort/, got null"
+        "contractor: expected match /elite\\s*comfort/, got \"Premium HVAC - Trane Comfort Specialist\""
       ]
     },
     "f6-mini-split": {
       "verdictPrice": 7944,
       "details": {
         "system type": "Central Air Conditioning",
+        "contractor": "Type Repair",
         "pricing": "South regional pricing"
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
@@ -130,7 +132,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Type Repair",
       "stateCode": null,
       "failures": []
     },
@@ -140,6 +142,7 @@
         "system type": "Central Air Conditioning",
         "brand": "Mitsubishi (premium tier)",
         "labor warranty": "1 yr",
+        "contractor": "Not detected",
         "pricing": "South regional pricing"
       },
       "rangeText": "We couldn't extract enough HVAC details (system type, SEER, tonnage) to benchmark this quote. The price was detected but we can't compare it to install averages without more context. Verify the docume",
@@ -150,7 +153,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     }
