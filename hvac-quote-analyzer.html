@@ -705,7 +705,14 @@
       var s = String(text || "").toLowerCase();
       if (!s) return null;
       var serviceRe = /\brecharge\b|\brefrigerant added\b|\bcapacitor\b|\bcontactor\b|\btune.?up\b|\bmaintenance call\b|\bcleaning\b|\bleak (?:repair|search|detection|test)\b|\bdiagnostic\b|\bservice call\b|\bbreaker replac|\brecover refrigerant\b|\bnitrogen test\b|\bsoap bubbles?\b|\bevaporator coil\b|\bblower motor\b|\bcompressor (?:replac|repair)|\bcoil (?:replac|repair|leak)|\bpressure test\b|\badd \d.*(?:r-?410a|r-?22|refrigerant)/;
-      var installRe = /\bnew (?:system|condenser|air handler|furnace|heat pump|hvac)\b|\bsystem (?:install|replacement)\b|\bcomplete install\b|\bfull (?:install|replacement)\b|\breplace\s+(?:system|unit|condenser|furnace|ac\b|heat pump)|\bnew (?:ac|a\/c) (?:install|system|unit)\b|\binstall (?:new |a )?(?:ac|a\/c|condenser|air handler|furnace|heat pump)\b/;
+      // Install signals: verb-form (install/replace), header form (HVAC
+      // PROPOSAL / INSTALLATION QUOTE), and noun-pair form (Condenser
+      // Replacement / AC System Upgrade). The noun-pair pattern is what
+      // unblocks f4/f5 from harness baseline 2026-05-02 — both real install
+      // quotes ($6,620 Carrier 16 SEER2 + $13,457 Trane 22 SEER2) lead with
+      // "3-Ton AC Condenser Replacement" / "Premium 3-Ton AC System Upgrade"
+      // and contain "evaporator coil" in scope, which alone tripped serviceRe.
+      var installRe = /\bnew (?:system|condenser|air handler|furnace|heat pump|hvac)\b|\bsystem (?:install|replacement|upgrade)\b|\bcomplete install\b|\bfull (?:install|replacement)\b|\breplace\s+(?:system|unit|condenser|furnace|ac\b|heat pump)|\bnew (?:ac|a\/c) (?:install|system|unit)\b|\binstall (?:new |a )?(?:ac|a\/c|condenser|air handler|furnace|heat pump)\b|\b(?:installation|install)\s+(?:estimate|quote|proposal)\b|\bhvac proposal\b|\b(?:condenser|hvac|a\/?c)\s+replacement\b|\b(?:ac|a\/?c|hvac|system)\s+(?:system\s+)?upgrade\b/;
       if (serviceRe.test(s) && !installRe.test(s)) return "service";
       return null;
     }

@@ -115,11 +115,26 @@ function detectHvacSystemType(text) {
 
 function detectSeerRating(text) {
   const normalized = String(text || "");
-  const seerMatch = normalized.match(/\b(\d{2}(?:\.\d)?)\s*(?:SEER|seer)\b/);
-  if (seerMatch) return Number(seerMatch[1]);
-
+  // SEER2 (modern 2023+ rating) takes priority over plain SEER. The system
+  // spec on a modern quote is "22 SEER2" or "16 SEER2"; "14 SEER baseline"
+  // tends to appear in energy-savings footnotes. f5 baseline 2026-05-02 was
+  // returning 14 (from "vs 14 SEER baseline" footnote) instead of 22 (the
+  // actual system spec) because pattern 1 ran first and the SEER2 pattern
+  // never got a chance.
   const seer2Match = normalized.match(/\b(\d{2}(?:\.\d)?)\s*(?:SEER2|seer2)\b/);
   if (seer2Match) return Number(seer2Match[1]);
+
+  // Plain SEER fallback for older quotes. Skip clearly comparative tokens like
+  // "vs 14 SEER baseline" / "14 SEER baseline" / "compared to 14 SEER" so a
+  // footnote doesn't override the headline rating when both exist.
+  const seerMatches = Array.from(normalized.matchAll(/\b(\d{2}(?:\.\d)?)\s*(?:SEER|seer)\b/g));
+  for (var i = 0; i < seerMatches.length; i++) {
+    var m = seerMatches[i];
+    var tail = normalized.slice(m.index + m[0].length, m.index + m[0].length + 40).toLowerCase();
+    var head = normalized.slice(Math.max(0, m.index - 40), m.index).toLowerCase();
+    var compar = /^\s*(?:baseline|comparison|compared|industry|minimum|standard|legacy)/.test(tail) || /\bvs\b|\bversus\b|compared to|baseline|minimum|legacy|previous|industry/.test(head);
+    if (!compar) return Number(m[1]);
+  }
 
   return null;
 }
