@@ -599,6 +599,46 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  moving: {
+    fileSuffix: "-moving-cost.html",
+    cityFileSuffix: "-moving-cost.html",
+    pageTitle: (s) => `Moving Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average local 2-bedroom 50-mile household-goods move in ${s.name} runs ${money(s.avg_local_move_low)}–${money(s.avg_local_move_high)} (movers + truck + supplies). Per-state intrastate regulator, tariff filing, FVP-vs-RVP valuation, and license drivers explained.`,
+    h1: (s) => `Moving Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/moving-cities.html",
+    citiesDirLabel: "Moving cities",
+    costGuideHref: "/moving-cost-guide.html",
+    quoteAnalyzerHref: "/moving-quote-analyzer.html",
+    estimatorHref: "/moving-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Moving estimate",
+    estimatorLinkSubtitle: "Get a flat-fee or hourly mover cost",
+    verticalLabel: "household-goods moving",
+    verticalLabelCap: "Moving",
+    pricingMetricLabel: "local 2-bedroom 50-mile household-goods move",
+    wageField: "mover_wage_mean_hourly",
+    wageLabel: "BLS Laborers and Movers wage",
+    wageSourceLabel: "BLS OEWS Laborers and Freight, Stock, and Material Movers (SOC 53-7062) state mean",
+    sitemapFile: "sitemap.xml",
+    introHero: (s, vConf) => {
+      const regLabel = {
+        "high-state-puc-regulation": "high state intrastate regulation",
+        "moderate-state-tariff-regulation": "moderate state intrastate regulation",
+        "limited-state-regulation": "limited state intrastate regulation",
+        "fully-deregulated": "fully-deregulated intrastate household-goods regime",
+      };
+      const reg = regLabel[s.regulation_intensity] || s.regulation_intensity.replace(/-/g, " ");
+      return `Hiring movers in ${s.name} for a ${vConf.pricingMetricLabel} typically runs ${money(s.avg_local_move_low)}–${money(s.avg_local_move_high)}, with ${reg} under the ${s.intrastate_regulator_name}. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_local_move_low",
+    avgFieldHigh: "avg_local_move_high",
+    climateFactsHTML: (s) => climateAndCodeFactsMovingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} intrastate regulator, tariff & valuation drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} mover licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   medical: {
     fileSuffix: "-medical-cost.html",
     cityFileSuffix: "-medical-cost.html",
@@ -1456,6 +1496,64 @@ function climateAndCodeFactsFoundationHTML(state) {
     `<li><strong>Sulfate exposure (ACI 318):</strong> ${escapeHtml(sulfateLabel[state.sulfate_exposure_class] || state.sulfate_exposure_class)}</li>`,
     `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
     `<li><strong>EPA radon zone:</strong> ${escapeHtml(radonLabel[state.radon_zone] || String(state.radon_zone))}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsMovingHTML(state) {
+  const regulatorLabel = {
+    "puc": "Public Utility Commission (PUC) regulation",
+    "psc": "Public Service Commission (PSC) regulation",
+    "dot": "state Department of Transportation regulation",
+    "dps": "state Department of Public Safety regulation",
+    "dmv": "state Department of Motor Vehicles regulation",
+    "fdacs": "state Department of Agriculture and Consumer Services regulation",
+    "icc": "state Commerce Commission regulation",
+    "ncuc": "Utilities Commission regulation",
+    "dpu": "state Department of Public Utilities regulation",
+    "dpuc": "state Division of Public Utilities and Carriers regulation",
+    "corporation-commission": "state Corporation Commission regulation",
+    "consumer-affairs": "state Division of Consumer Affairs regulation",
+    "transportation-authority": "stand-alone state Transportation Authority regulation",
+    "txdmv": "Texas DMV Motor Carrier Division regulation",
+    "dor": "state Department of Revenue Motor Carrier Services regulation",
+    "utc": "Utilities and Transportation Commission regulation",
+    "dfhv": "Department of For-Hire Vehicles regulation",
+  };
+  const tariffLabel = {
+    "mandatory-state-tariff": "Mandatory state tariff filing — published rate schedules required for all carriers",
+    "voluntary-blanket": "Voluntary blanket tariff filing — carriers may file or charge market rates",
+    "deregulated": "Fully deregulated — no state tariff filing requirement (federal MC + USDOT only)",
+    "federal-fmcsa-preemption-only": "Federal FMCSA preemption — no state tariff regime",
+  };
+  const valuationLabel = {
+    "state-released-and-full-value-required": "State requires Released-Value-vs-Full-Value Protection election disclosure on every estimate",
+    "released-value-only": "Federal Carmack Released Value ($0.60/lb) default, no state full-value mandate",
+    "federal-fmcsa-rule-only": "Federal FMCSA Carmack Amendment Released Value rule applies (no state supplement)",
+    "state-supplements-federal": "State supplements federal Carmack Amendment with additional disclosure requirements",
+  };
+  const licenseLabel = {
+    "yes-state-puc-license": "Yes — state PUC / PSC Certificate of Public Convenience and Necessity (CPCN) required",
+    "yes-state-permit": "Yes — state intrastate operating authority permit required",
+    "yes-state-tariff-filing": "Yes — state tariff filing required",
+    "no-state-license": "No state intrastate license — federal FMCSA MC + USDOT number sufficient",
+  };
+  const intensityLabel = {
+    "high-state-puc-regulation": "High — comprehensive state PUC / PSC regulation with mandatory tariff and consumer protection",
+    "moderate-state-tariff-regulation": "Moderate — state operating authority + voluntary tariff filing regime",
+    "limited-state-regulation": "Limited — minimal state intrastate regulation focused on safety compliance",
+    "fully-deregulated": "Fully deregulated — no state intrastate carrier permit or tariff requirement",
+  };
+  const items = [
+    `<li><strong>Intrastate regulator type:</strong> ${escapeHtml(regulatorLabel[state.intrastate_regulator] || state.intrastate_regulator)}</li>`,
+    `<li><strong>State regulator name:</strong> ${escapeHtml(state.intrastate_regulator_name)}</li>`,
+    `<li><strong>Tariff filing requirement:</strong> ${escapeHtml(tariffLabel[state.tariff_filing_required] || state.tariff_filing_required)}</li>`,
+    `<li><strong>Valuation disclosure (FVP vs RVP):</strong> ${escapeHtml(valuationLabel[state.valuation_disclosure] || state.valuation_disclosure)}</li>`,
+    `<li><strong>Intrastate license requirement:</strong> ${escapeHtml(licenseLabel[state.intrastate_license_required] || state.intrastate_license_required)}</li>`,
+    `<li><strong>Overall regulation intensity:</strong> ${escapeHtml(intensityLabel[state.regulation_intensity] || state.regulation_intensity)}</li>`,
+    `<li><strong>Typical mover hourly labor rate (BLS SOC 53-7062 mean):</strong> $${state.mover_wage_mean_hourly.toFixed(2)}/hr</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
