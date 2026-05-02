@@ -1,0 +1,536 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-01",
+    "purpose": "Per-state gutter data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "NOAA NCEI 30-year (1991-2020) state precipitation normals; ASCE 7-22 ground snow load maps; NOAA Vaisala lightning data; FEMA NFIP flood maps; state contractor licensing boards; BLS OEWS May 2024 (SOC 47-2181 Roofers + 47-2031 Carpenters state means).",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "annual_rainfall_inches": "NOAA NCEI 30-year state-average annual precipitation (rain + snow water equivalent), inches",
+      "dominant_gutter_material": "aluminum-k-style-5in / aluminum-k-style-6in / copper / galvanized-steel (predominant residential profile)",
+      "snow_load_psf": "ASCE 7-22 typical state ground snow load (psf, residential design)",
+      "ice_dam_risk": "high / moderate / low / none — sustained sub-freezing winter exposure driving ice-dam formation",
+      "hurricane_tier": "HVHZ / wind_high / wind_moderate / wind_low / none — coastal hurricane wind tier",
+      "tree_canopy_density": "high / moderate / low — mature deciduous canopy that drives gutter-guard demand",
+      "license_status": "required / registration / municipal-only / none",
+      "license_board_name": "Issuing authority for residential building / gutter contractor licensing",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical permit threshold for residential gutter installation",
+      "gutter_installer_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2181 Roofers (gutter installers fall under this code) (USD)",
+      "avg_gutter_install_low": "Typical low end of whole-house seamless aluminum K-style with downspouts (USD)",
+      "avg_gutter_install_high": "Typical high end (whole-house copper half-round with downspouts and gutter guards) (USD)",
+      "distinctive_law": "Single most distinctive state-specific gutter, drainage, or stormwater rule",
+      "climate_concern": "Primary rainfall, snow, or drainage driver of gutter selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "annual_rainfall_inches": 56, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 5, "ice_dam_risk": "none", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Alabama Home Builders Licensure Board (Roofing Specialty)",
+    "license_url": "https://www.hblb.alabama.gov/", "permit_typical": "city or county building permit typical for full gutter system replacement on new construction",
+    "gutter_installer_wage_mean_hourly": 19.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Alabama is the only state with a Stormwater Management Authority (SMA) per Alabama Code §11-89C — county-level SMAs administer NPDES Phase II stormwater rules and require larger residential gutter and downspout systems to discharge into approved infiltration trenches or rain gardens rather than directly to streets in MS4-mapped Birmingham, Jefferson, and Shelby county properties.",
+    "climate_concern": "Alabama's annual 56-inch rainfall concentrated in spring thunderstorm cells and summer Gulf-driven downbursts pushes 6-inch oversized K-style as standard residential profile over the 5-inch national norm — and Mobile-Baldwin coastal humidity drives algae growth on aluminum K-style within 3-5 years, with copper and aluminum-with-anti-algae coating commanding premium share on Gulf Coast retrofits."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "annual_rainfall_inches": 22, "dominant_gutter_material": "galvanized-steel",
+    "snow_load_psf": 50, "ice_dam_risk": "high", "hurricane_tier": "wind_high", "tree_canopy_density": "moderate",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Construction Contractors Section",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx", "permit_typical": "borough building permit required for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 28.84, "avg_gutter_install_low": 2400, "avg_gutter_install_high": 7800,
+    "distinctive_law": "Alaska AS 08.18 splits Construction Contractor licensing into General Contractor with Residential Endorsement and Specialty Contractor categories — gutter installation in Alaska typically falls under the Residential Endorsement, with municipalities like Anchorage and Fairbanks requiring additional ice-dam mitigation documentation under Title 23 Mechanical Code amendments on every new gutter system installation.",
+    "climate_concern": "Southeast Alaska coastal panhandle from Ketchikan to Juneau receives 200+ inches/year of precipitation while Interior Alaska remains semi-arid at 11 inches/year — gutter sizing varies dramatically by region, with coastal homes requiring 6-inch K-style and triple-downspout schedules while Fairbanks and the Yukon-Kuskokwim Delta default to 5-inch profiles, and ice damming on every coastal home drives heat-cable retrofit budgets averaging $800-1,200 per home."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "annual_rainfall_inches": 13, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 5, "ice_dam_risk": "none", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license B (general residential)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county building permit not typically required for gutter-only installation",
+    "gutter_installer_wage_mean_hourly": 19.84, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "Arizona is one of the only states where many residential properties have no gutters at all — the arid 13-inch annual rainfall and low foundation runoff risk make gutter installation optional, with homebuilders typically delivering Phoenix and Tucson new construction without gutters and homeowners installing them retrofit only where roof runoff causes documented foundation, walkway, or landscaping damage during the July-September monsoon season.",
+    "climate_concern": "Arizona's 13-inch annual rainfall is the second-lowest in the U.S. after Nevada, but 50% of that volume falls during the July-September North American Monsoon in concentrated cells that overwhelm undersized gutters — Phoenix and Tucson properties without gutters routinely experience monsoon-driven foundation undermining and stucco staining, driving retrofit demand on south- and west-facing eaves that bear the highest monsoon flow."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "annual_rainfall_inches": 50, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 10, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Arkansas Contractors Licensing Board (residential >$2,000)",
+    "license_url": "https://www.arkansas.gov/clb/", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 18.94, "avg_gutter_install_low": 950, "avg_gutter_install_high": 3500,
+    "distinctive_law": "Arkansas Contractors Licensing Board requires the Residential Remodeler license on any residential project above $2,000 — making Arkansas one of the lowest-threshold states for gutter-installation contractor licensing, with the Board requiring a $5,000 minimum surety bond and financial-responsibility net worth disclosure on every gutter contractor license renewal under Ark. Code §17-25.",
+    "climate_concern": "Arkansas's 50-inch annual rainfall concentrated in spring tornado-driven downbursts and summer thunderstorm cells overwhelms undersized 5-inch K-style profiles on Ozark and Ouachita mountain homes — and the high tree canopy density across the entire state drives gutter-guard retrofit demand within 2-3 years of original installation, with leaf and pine-needle accumulation requiring 2-3 cleanings per year on unguarded systems."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "annual_rainfall_inches": 22, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 10, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — B (General Building) or C-43 (Sheet Metal) for gutter work",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "city building permit not typically required for gutter-only installation; CAL FIRE WUI screening required in mapped fire-hazard zones",
+    "gutter_installer_wage_mean_hourly": 27.42, "avg_gutter_install_low": 1400, "avg_gutter_install_high": 5400,
+    "distinctive_law": "California Building Code Chapter 7A §706A.4 requires WUI-mapped properties to install ember-resistant metal gutter screens or filled-mesh gutter guards as a condition of certificate of occupancy in CAL FIRE-mapped State Responsibility Area — eliminating open-top K-style installations on every Sonoma, Napa, El Dorado, San Bernardino, and Riverside county WUI overlay property and driving aftermarket gutter-guard retrofit on every existing WUI home.",
+    "climate_concern": "California's 22-inch state-average annual rainfall masks dramatic regional variation from Crescent City's 65 inches/year to Death Valley's 2 inches/year — coastal Northern California requires 6-inch K-style and triple-downspout schedules while inland Central Valley and Southern California default to 5-inch — and CAL FIRE Tier 3 WUI overlay across the Sierra foothills, North Coast, and Santa Monica Mountains has driven ember-resistant gutter guard retrofit on tens of thousands of homes since the 2017-2020 fire seasons."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "annual_rainfall_inches": 17, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Denver, Colorado Springs, Aurora issue municipal credentials",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development", "permit_typical": "city building permit not typically required for gutter-only installation",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "Colorado HB 16-1005 (Rain Barrel Bill) is the most restrictive residential rainwater harvesting law in the country — Colorado homeowners are limited to two 55-gallon rain barrels per single-family residence, capturing only roof-runoff water for outdoor irrigation use, with the strict cap reflecting Colorado's prior-appropriation water rights doctrine that treats roof runoff as belonging to downstream water rights holders.",
+    "climate_concern": "Colorado's 17-inch state-average annual rainfall masks dramatic Front Range vs Western Slope variation, with Denver and Colorado Springs receiving 14-16 inches/year primarily as summer thunderstorm bursts that drive monsoon-style downspout overflow on undersized 5-inch K-style — and Front Range hailstones with 2-inch+ diameter routinely bend aluminum K-style profiles, driving Class 4 impact-rated gutter material adoption on Denver and Colorado Springs hail-prone ZIP codes."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "annual_rainfall_inches": 50, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "town building permit not typically required for gutter-only installation",
+    "gutter_installer_wage_mean_hourly": 27.42, "avg_gutter_install_low": 1400, "avg_gutter_install_high": 5200,
+    "distinctive_law": "Connecticut General Statutes §20-419 creates the Home Improvement Contractor (HIC) registration that every contractor performing residential exterior work above $200 must hold — making Connecticut the lowest-threshold mandatory-registration state for gutter installation, with the DCP Guaranty Fund compensating homeowners up to $25,000 per project for HIC-contractor abandonment or breach.",
+    "climate_concern": "Connecticut's 50-inch annual rainfall concentrated in nor'easter rainfall bursts plus high mature-deciduous tree canopy drives gutter-guard retrofit demand on every long-tenure suburban home — and ice-dam formation on north-facing eaves during sustained sub-freezing winter weather drives heat-cable retrofit budgets averaging $600-1,000 per home, with proactive ice-shield underlayment now standard on roofing-and-gutter combo projects."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "annual_rainfall_inches": 46, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 20, "ice_dam_risk": "moderate", "hurricane_tier": "wind_moderate", "tree_canopy_density": "moderate",
+    "license_status": "registration", "license_board_name": "Delaware Division of Revenue — Business License (gutter contractor)",
+    "license_url": "https://revenue.delaware.gov/services/Business_Tax/", "permit_typical": "county building permit not typically required for gutter-only installation",
+    "gutter_installer_wage_mean_hourly": 24.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "Delaware is one of the few East Coast states with no specialty gutter or roofing contractor licensing — every gutter contractor operates under a Delaware Division of Revenue Business License only, with no examination, bond, or board oversight, leaving Sussex County coastal property owners to rely on contractor BBB ratings and Delaware Consumer Protection Unit complaint history rather than a state credential check.",
+    "climate_concern": "Delaware Bay and Atlantic coastal nor'easter rainfall combined with high tree canopy density across the I-95 corridor drives gutter-guard retrofit demand and 6-inch K-style upsizing on long-eave coastal homes — and Sussex County beach-side properties face sand entrainment in unguarded gutters during nor'easter wind events, driving aftermarket guard retrofit on shoreline residences."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "annual_rainfall_inches": 54, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 0, "ice_dam_risk": "none", "hurricane_tier": "HVHZ", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Florida Department of Business & Professional Regulation — Construction Industry Licensing Board (Certified Roofing Contractor or Building Contractor)",
+    "license_url": "https://www2.myfloridalicense.com/construction-industry/", "permit_typical": "city or county building permit required for gutter installation on new construction; HVHZ permit and Product Approval verification mandatory in Miami-Dade and Broward",
+    "gutter_installer_wage_mean_hourly": 19.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "Florida Building Code §1714 requires every gutter component installed in Miami-Dade and Broward HVHZ counties to carry a Florida Product Approval (FL #) with Notice of Acceptance (NOA) testing for wind pressures up to 175 mph — eliminating the standard hidden-hanger fastener schedules used elsewhere in the country and forcing strap-mount or bracket-mount profiles with stainless-steel hardware on every HVHZ residential gutter installation.",
+    "climate_concern": "Florida's 54-inch annual rainfall concentrated in hurricane-driven downbursts and afternoon thunderstorm cells pushes 6-inch oversized K-style as standard residential profile over the 5-inch national norm — and HVHZ wind-borne debris in Miami-Dade and Broward forces strap-mounted gutter installation under FBC §1714 NOA requirements, with stainless-steel mounting hardware mandatory on every HVHZ installation regardless of inland Florida defaults."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "annual_rainfall_inches": 50, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 5, "ice_dam_risk": "low", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Georgia State Licensing Board for Residential and General Contractors",
+    "license_url": "https://sos.ga.gov/page/state-licensing-board-residential-general-contractors", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 19.84, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Georgia State Licensing Board for Residential and General Contractors issues Residential Light Commercial Contractor and Residential Basic Contractor as two separately tested credentials for gutter and exterior work — and unique to Georgia, the Board requires Continuing Education in stormwater management for any contractor working in metro Atlanta DEKALB and Cobb county MS4 jurisdictions, where larger residential gutter systems must discharge into approved infiltration features rather than directly to streets.",
+    "climate_concern": "Georgia's 50-inch annual rainfall concentrated in spring thunderstorm cells and summer tropical-driven downbursts pushes 6-inch oversized K-style as standard residential profile — and Atlanta-area mature pine and oak canopy drives heavy needle and leaf accumulation that requires 3-4 unguarded gutter cleanings per year, with gutter-guard retrofit demand near-universal on long-tenure suburban properties."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "annual_rainfall_inches": 64, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 0, "ice_dam_risk": "none", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Hawaii Contractors License Board (B General Building or C-49 specialty)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "county building permit required for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 28.92, "avg_gutter_install_low": 2200, "avg_gutter_install_high": 7800,
+    "distinctive_law": "Hawaii County Code Chapter 23 (Hawaii County) requires every new residential building to harvest roof runoff into a catchment cistern of minimum 5,000-gallon capacity — making Hawaii the only U.S. jurisdiction where gutter systems are part of a regulated potable-water-supply infrastructure rather than purely a foundation-protection measure, with Big Island homes routinely served entirely by rainwater catchment without a municipal supply.",
+    "climate_concern": "Hawaii's 64-inch state-average annual rainfall masks dramatic windward vs leeward variation — windward Hilo receives 130 inches/year while leeward Kawaihae receives 9 inches/year — driving radical gutter-sizing variation by elevation and aspect, and trade-wind-driven salt-haze on every windward shoreline corrodes standard galvanized hardware within 3-5 years, mandating 316 stainless mounting and copper or stainless gutter material on shoreline retrofits."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "annual_rainfall_inches": 19, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "registration", "license_board_name": "Idaho Contractors Board (registration only, no exam)",
+    "license_url": "https://dopl.idaho.gov/contractors/", "permit_typical": "state or city building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4400,
+    "distinctive_law": "Idaho Contractors Board issues a registration credential with no examination requirement — every gutter contractor must register with the Board, post a financial-responsibility statement, and disclose criminal history, but Idaho has no skills-based competency testing for gutter or general residential contracting, leaving construction-quality verification to municipal inspectors and homeowner contract review.",
+    "climate_concern": "Idaho mountain elevations from McCall to Sun Valley face heavy snow-load and ice-dam exposure with sustained sub-freezing winter weather — heavier-gauge aluminum K-style and steel-bracket spacing under 24 inches dominate mountain residential installations, and heat-cable retrofit budgets averaging $700-1,100 per home are standard on north-facing mountain eaves to prevent ice-dam-driven roof leaks."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 39, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Chicago and Cook County issue local credentials",
+    "license_url": "https://www.chicago.gov/city/en/depts/bldgs.html", "permit_typical": "Chicago building permit not typically required for gutter-only installation; suburban Cook County issues independently",
+    "gutter_installer_wage_mean_hourly": 32.42, "avg_gutter_install_low": 1500, "avg_gutter_install_high": 5800,
+    "distinctive_law": "Illinois 415 ILCS 5/22.18b (Roof Drainage Act) is the only state law specifically requiring residential gutter discharge to be directed away from neighboring property and storm sewers when those storm sewers are at-capacity — making Illinois homeowners subject to civil action by neighbors and municipalities for roof runoff that contributes to flooding on adjacent parcels, with Chicago and Cook County enforcing the rule through stormwater management ordinances.",
+    "climate_concern": "Illinois's 39-inch annual rainfall concentrated in spring and summer thunderstorm cells overwhelms undersized 5-inch K-style on Chicago-area suburbs with mature oak and elm canopy — and Lake Michigan lake-effect winter snow-load on north-facing Cook and Lake County eaves drives gutter-bracket spacing under 24 inches and ice-cable retrofit budgets averaging $500-900 per home."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 42, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 20, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Indianapolis, Fort Wayne, Evansville issue local credentials",
+    "license_url": "https://www.indy.gov/agency/department-of-business-neighborhood-services", "permit_typical": "city building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3900,
+    "distinctive_law": "Indiana operates under 675 IAC 14 (Indiana Residential Code) based on a substantially modified 2003 IRC — making Indiana one of the most lagging code-cycle states for gutter-installation requirements, with stormwater-management discharge rules that became standard elsewhere in 2015 still not enforced statewide, and only municipalities like Indianapolis, Carmel, and Bloomington that have independently adopted current codes apply modern stormwater standards.",
+    "climate_concern": "Indiana's 42-inch annual rainfall concentrated in spring tornado-driven and summer derecho-driven downbursts overwhelms undersized 5-inch K-style profiles on Indianapolis and Fort Wayne suburbs — and the Wabash and White River valley flood-elevation overlay drives below-grade downspout-discharge re-routing on every full envelope re-side in FEMA-mapped Tippecanoe and Vanderburgh county properties."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "annual_rainfall_inches": 35, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "registration", "license_board_name": "Iowa Workforce Development — Construction Contractor Registration",
+    "license_url": "https://www.iowaworkforcedevelopment.gov/contractor-registration", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Iowa Code §91C.5 requires every construction contractor doing more than $2,000 of work per year on Iowa property to register with Iowa Workforce Development — making Iowa one of the lowest-threshold registration states for gutter installation, with the registration carrying no examination but mandatory workers' compensation insurance disclosure and unemployment insurance compliance verification on every renewal.",
+    "climate_concern": "Iowa's 35-inch annual rainfall combined with the August 2020 derecho event with 140-mph straight-line winds across central Iowa drove Class 4 impact-rated gutter-bracket adoption on Cedar Rapids, Marshalltown, and Des Moines retrofits — and Lake-effect adjacent winter snow-load on northern Iowa eaves drives gutter-bracket spacing under 24 inches and ice-cable retrofit budgets on north-facing eaves."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 29, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 15, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Wichita, Overland Park, Topeka issue local credentials",
+    "license_url": "https://www.wichita.gov/Inspection/", "permit_typical": "city building permit typical for gutter installation on new construction in incorporated municipalities",
+    "gutter_installer_wage_mean_hourly": 20.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "Kansas remains one of fewer than ten states with no statewide residential contractor licensing for gutter installation — every credential is municipal, with Wichita, Kansas City Kansas, Overland Park, and Topeka each running independent registration programs that don't reciprocate, and rural unincorporated counties may have no inspection program at all.",
+    "climate_concern": "Kansas sits at the heart of the central U.S. hail corridor with the second-highest annual hail-claim frequency in the country after Colorado — Wichita and Topeka retrofit specs increasingly default to Class 4 impact-rated steel or heavy-gauge aluminum K-style, and Kansas insurers offer 15-25% homeowners premium discounts on UL 2218 Class 4 gutter installations with documented hail-survival history."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "annual_rainfall_inches": 49, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 15, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Louisville, Lexington, Bowling Green issue local credentials",
+    "license_url": "https://louisvilleky.gov/government/codes-regulations", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 20.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "Kentucky has no statewide residential contractor licensing for gutter, siding, or general remodeling work — KRS 198B regulates HVAC, plumbing, and electrical statewide but exempts envelope and structural work — and Louisville Metro and Lexington-Fayette Urban County each issue independent contractor registrations that don't reciprocate, with rural unincorporated counties typically having no inspection program at all.",
+    "climate_concern": "Kentucky's 49-inch annual rainfall combined with high tree canopy density across the Bluegrass and Western Coal Field regions drives near-universal gutter-guard retrofit demand on long-tenure suburban properties — and the eastern Appalachian humidity drives algae growth on aluminum K-style within 3-5 years, with anti-algae coating commanding premium share on Pikeville and Hazard installations."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "annual_rainfall_inches": 60, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 0, "ice_dam_risk": "none", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors — Residential Building Contractor",
+    "license_url": "https://lslbc.louisiana.gov/", "permit_typical": "parish building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 19.94, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "Louisiana State Uniform Construction Code adopts 2015 IRC with hurricane wind-design overlays on every Gulf Coast parish — and unique to Louisiana, post-Katrina and post-Ida disaster-recovery work drove the LSLBC to require Hurricane Hardware certification (impact-rated bracket spacing and stainless components) on every gutter installation in Orleans, Jefferson, St. Bernard, and Plaquemines parishes, with FEMA reimbursement for hurricane-resistant gutter upgrades through the FMA program.",
+    "climate_concern": "Louisiana's 60-inch annual rainfall is the highest in the contiguous United States outside of Hawaii — concentrated in summer tropical-driven and hurricane-season downbursts that overwhelm 5-inch K-style and force 6-inch oversized profiles on every coastal parish — and post-Katrina BFE elevation rules drive below-grade downspout-discharge re-routing on every full envelope re-side in flood-prone parishes."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "annual_rainfall_inches": 47, "dominant_gutter_material": "galvanized-steel",
+    "snow_load_psf": 60, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "none", "license_board_name": "No statewide gutter contractor license — municipal building department oversight only",
+    "license_url": "https://www.maine.gov/dps/fmo/building-codes", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "Maine has no statewide residential contractor licensing for gutter, siding, or general remodeling — Maine Title 32 §1521 (Home Construction Contracts Act) requires written contracts above $3,000 with mandatory disclosures but imposes no skills credential, leaving construction-quality verification to municipal inspectors where adopted (about 40% of Maine towns) and contract review elsewhere.",
+    "climate_concern": "Maine's 60 psf ground snow load — the highest in the lower 48 — combined with ice-dam formation on every north-facing eave drives heavier-gauge steel gutter profiles, bracket spacing under 18 inches, and heat-cable retrofit on virtually every long-tenure home — with Aroostook and Piscataquis county properties routinely seeing 5-foot snow-pack depths that overload undersized aluminum profiles."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 44, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Maryland Home Improvement Commission (MHIC)",
+    "license_url": "https://www.dllr.state.md.us/license/mhic/", "permit_typical": "county building permit typical for gutter installation on new construction; Baltimore City separate inspection",
+    "gutter_installer_wage_mean_hourly": 23.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "Maryland Home Improvement Commission (MHIC) requires every contractor performing residential exterior work above $1,000 to hold an MHIC license — and unique to Maryland, the MHIC administers a Guaranty Fund that compensates homeowners up to $30,000 per project for licensed-contractor abandonment or negligence, funded by MHIC license fees, with claims reviewed by an Administrative Law Judge under MHIC §8-405.",
+    "climate_concern": "Maryland's 44-inch annual rainfall combined with high mature-deciduous tree canopy across Montgomery, Prince George's, and Baltimore counties drives near-universal gutter-guard retrofit demand on long-tenure suburban properties — and the Chesapeake Bay coastal flood-elevation overlay drives below-grade downspout-discharge re-routing on every Anne Arundel and St. Mary's county tidewater retrofit."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "annual_rainfall_inches": 49, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 45, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Massachusetts Office of Consumer Affairs — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.mass.gov/orgs/division-of-occupational-licensure", "permit_typical": "town building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 27.84, "avg_gutter_install_low": 1400, "avg_gutter_install_high": 5300,
+    "distinctive_law": "Massachusetts requires every contractor performing residential exterior work above $1,000 to hold a Home Improvement Contractor (HIC) registration — and unique to Massachusetts, the Office of Consumer Affairs administers a Guaranty Fund that compensates homeowners up to $10,000 per project for HIC-contractor abandonment or breach, with mandatory written contracts including 11-point disclosures and a 3-day right of cancellation under M.G.L. Chapter 142A.",
+    "climate_concern": "Massachusetts's 45 psf ground snow load combined with heavy nor'easter-driven ice-dam formation on north-facing eaves drives near-universal heat-cable retrofit on long-tenure Cambridge, Worcester, and Springfield homes — and Cape Cod and South Shore Atlantic salt-haze deposition corrodes standard galvanized hardware within 5-7 years, mandating stainless mounting on shoreline retrofits."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "annual_rainfall_inches": 33, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 35, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs — Residential Builder License",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/residential-builders", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Michigan Public Act 299 of 1980 (Occupational Code Article 24) requires every Residential Builder and Residential Maintenance & Alteration Contractor to hold a Michigan LARA-issued license for any residential project exceeding $600 — and unique to Michigan, the Maintenance & Alteration credential is restricted to four scope categories (Carpentry, Concrete, Excavation, Insulation) with siding and gutter work falling under Carpentry, requiring per-scope examination at credential issuance.",
+    "climate_concern": "Michigan's 35 psf state-average snow load reaches 60+ psf in the Upper Peninsula's Houghton and Marquette counties — driving heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on U.P. residential installations — and Lake Michigan and Lake Superior lake-effect winter snow drives ice-dam exposure on every north-facing eave with heat-cable retrofit budgets averaging $700-1,100 per home."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "annual_rainfall_inches": 28, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 50, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor & Industry — Residential Building Contractor",
+    "license_url": "https://www.dli.mn.gov/business/contractor-information", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 26.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "Minnesota Statutes §326B.802 requires every Residential Building Contractor and Residential Remodeler to hold a Department of Labor & Industry license — and unique to Minnesota, the DLI administers a Recovery Fund that compensates homeowners up to $75,000 per project (the highest in the country) for licensed-contractor breach or fraud, with the Fund funded by per-license fees and disbursed through Department of Commerce administrative review.",
+    "climate_concern": "Minnesota's 50 psf ground snow load combined with International Falls and Iron Range sustained sub-zero winter weather drives heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on northern residential installations — and ice-dam formation on every north-facing eave drives near-universal heat-cable retrofit with budgets averaging $700-1,200 per home in the Twin Cities and Duluth metros."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "annual_rainfall_inches": 56, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 5, "ice_dam_risk": "low", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors (residential >$50,000)",
+    "license_url": "https://msboc.us/", "permit_typical": "city building permit typical for gutter installation on new construction in incorporated municipalities",
+    "gutter_installer_wage_mean_hourly": 18.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3900,
+    "distinctive_law": "Mississippi State Board of Contractors requires the Residential Builder license only on residential projects with total contract value above $50,000 — meaning the overwhelming majority of single-family gutter installations proceed under municipal credentials only, with no state oversight in unincorporated counties without chartered inspection programs, and small-project gutter work is effectively unregulated statewide.",
+    "climate_concern": "Mississippi's 56-inch annual rainfall concentrated in summer tropical-driven and hurricane-season downbursts pushes 6-inch oversized K-style as standard residential profile — and post-Katrina BFE elevation rules drive below-grade downspout-discharge re-routing on every Hancock, Harrison, and Jackson county Gulf Coast retrofit, with stainless mounting hardware mandatory within 1 mile of the coastline."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 42, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 20, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter contractor license — Kansas City, St. Louis, Springfield issue local credentials",
+    "license_url": "https://www.kcmo.gov/city-hall/departments/city-planning-development", "permit_typical": "city building permit typical for gutter installation on new construction in incorporated municipalities",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Missouri remains one of fewer than ten states with no statewide residential contractor licensing for gutter installation — Kansas City and St. Louis run independent registration programs with no reciprocity, and rural Boone, Cole, and Greene counties may issue homeowner-only permits with no contractor verification, with unincorporated areas frequently having no inspection program at all.",
+    "climate_concern": "Missouri's 42-inch annual rainfall combined with the Missouri and Mississippi river-valley flood-elevation overlays drives below-grade downspout-discharge re-routing on every St. Louis County, Jefferson County, and Boone County riverfront retrofit — and seasonal tornado-driven derecho events overwhelm undersized 5-inch K-style profiles on Kansas City and Springfield suburbs."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B-7", "annual_rainfall_inches": 16, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "registration", "license_board_name": "Montana Department of Labor and Industry — Independent Contractor Exemption Certificate or Registered Contractor",
+    "license_url": "https://erd.dli.mt.gov/work-comp-claims/contractor-registration/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Montana Title 39 Chapter 9 requires every contractor with employees to register as a Construction Contractor with the Department of Labor and Industry, but Independent Contractors (sole proprietors with no employees) instead hold an Independent Contractor Exemption Certificate (ICEC) — making Montana one of the only states with two parallel credentialing pathways for residential gutter work, neither requiring skills examination.",
+    "climate_concern": "Montana's 16-inch state-average annual rainfall masks dramatic eastern-prairie vs western-mountain variation — Glacier and Flathead county mountain elevations receive 30+ inches/year primarily as snow that drives 30+ psf snow-load and ice-dam exposure — while eastern prairie counties from Glasgow to Miles City receive under 13 inches/year and routinely defer gutter installation entirely on lower-eave-projection homes."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "annual_rainfall_inches": 28, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 20, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "registration", "license_board_name": "Nebraska Department of Labor — Contractor Registration (over $5,000)",
+    "license_url": "https://dol.nebraska.gov/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3900,
+    "distinctive_law": "Nebraska Revised Statute §48-2101 (Contractor Registration Act) requires every contractor performing more than $5,000 of work per year on Nebraska property to register with the Department of Labor — making Nebraska one of the lowest-threshold registration states for gutter installation, with the registration carrying no examination but mandatory workers' compensation insurance disclosure on every renewal.",
+    "climate_concern": "Nebraska's 28-inch state-average annual rainfall masks dramatic east-west variation — Omaha and Lincoln receive 30+ inches/year with high tornado-driven downburst exposure that overwhelms undersized 5-inch K-style — while Panhandle counties from Scottsbluff to Chadron receive under 16 inches/year and routinely defer gutter installation on smaller residential structures."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "annual_rainfall_inches": 10, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 10, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — B (General Building) classification",
+    "license_url": "https://nscb.nv.gov/", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 23.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Nevada State Contractors Board issues a B General Building credential under NRS Chapter 624 that includes gutter installation authority — and unique to Nevada, the Board administers a Recovery Fund that compensates homeowners up to $35,000 per project for licensed-contractor breach, funded by per-license fees, with the highest single-project recovery limit on the West Coast.",
+    "climate_concern": "Nevada's 10-inch annual rainfall is the lowest in the U.S. — Las Vegas receives 4 inches/year and Reno 7 inches/year — making gutter installation optional on the majority of residential properties, with retrofit demand driven primarily by July-September monsoon-driven flash flooding that overwhelms unguttered eaves and undermines foundations and walkways on west-facing slopes."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "annual_rainfall_inches": 47, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 50, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "none", "license_board_name": "No statewide gutter contractor license — municipal building department oversight only",
+    "license_url": "https://www.nh.gov/safety/divisions/firesafety/bldg-safety-licensing/", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "gutter_installer_wage_mean_hourly": 24.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "New Hampshire has no statewide residential contractor licensing for gutter installation — RSA 359-G (Home Improvement Contractor Act) requires written contracts above $5,000 with mandatory disclosures and a 3-day right of cancellation but imposes no skills credential, leaving construction-quality verification to municipal inspectors where adopted (about half of New Hampshire towns).",
+    "climate_concern": "New Hampshire's 50 psf ground snow load combined with White Mountain elevation winter snow drives heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on Coos and Grafton county residential installations — and ice-dam formation on every north-facing eave drives near-universal heat-cable retrofit with budgets averaging $700-1,200 per home in the Lakes Region and North Country."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 47, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "moderate", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "registration", "license_board_name": "New Jersey Division of Consumer Affairs — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.njconsumeraffairs.gov/hic/", "permit_typical": "municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 26.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "New Jersey N.J.S.A. §56:8-136 requires every contractor performing residential exterior work above $500 to register as a Home Improvement Contractor (HIC) with the Division of Consumer Affairs — and unique to New Jersey, the HIC registration mandates $500,000 of liability insurance on file, a written contract with specific 18-point disclosures, and prohibits any payment over 33% of contract value before substantial completion.",
+    "climate_concern": "New Jersey's 47-inch annual rainfall combined with high mature-deciduous tree canopy across Bergen, Essex, and Morris counties drives near-universal gutter-guard retrofit demand on long-tenure suburban properties — and post-Sandy BFE elevation rules drive below-grade downspout-discharge re-routing on every Cape May, Atlantic, and Ocean county shoreline retrofit."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "3B-4B-5B", "annual_rainfall_inches": 14, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 15, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — GB-2 (General Building)",
+    "license_url": "https://www.rld.nm.gov/construction/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 19.84, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "New Mexico Construction Industries Division issues GB-98 (Residential), GB-2 (General Building), and ES-3 (Roofing & Cladding) as separately tested classifications — and New Mexico is one of the few states where adobe and pueblo-style mud-plaster construction has its own residential code overlay, with the CID enforcing traditional canale (carved wooden roof drain) profiles in Santa Fe and Taos historic-district overlays alongside modern aluminum K-style systems.",
+    "climate_concern": "New Mexico's 14-inch annual rainfall is concentrated in the July-September North American Monsoon with intense afternoon thunderstorm cells that overwhelm unguttered residential eaves — Albuquerque, Santa Fe, and Las Cruces retrofit demand is driven by monsoon-driven foundation undermining and stucco staining on south- and west-facing eaves that bear the highest monsoon flow."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "annual_rainfall_inches": 41, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 40, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter license — NYC, Westchester, Nassau, Suffolk issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.nyc.gov/site/dca/businesses/license-checklist-home-improvement-contractor.page", "permit_typical": "municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 32.42, "avg_gutter_install_low": 1500, "avg_gutter_install_high": 5800,
+    "distinctive_law": "New York City requires every Home Improvement Contractor to hold a Department of Consumer and Worker Protection (DCWP) HIC license under NYC Administrative Code §20-386 — and unique to NYC, the HIC license mandates a $20,000 surety bond, written contracts in the consumer's language of preference (English, Spanish, Chinese, Russian, Korean, Haitian Creole, French), and 5-day right of cancellation, with the DCWP administering a Trust Fund for licensed-contractor breach claims.",
+    "climate_concern": "New York's 40 psf state-average ground snow load reaches 70+ psf in the Tug Hill Plateau and Adirondack regions — driving heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on northern residential installations — and Long Island and NYC coastal salt-haze deposition corrodes standard galvanized hardware within 5-7 years, mandating stainless mounting on shoreline retrofits."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "annual_rainfall_inches": 49, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 15, "ice_dam_risk": "low", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "North Carolina Licensing Board for General Contractors (residential >$30,000)",
+    "license_url": "https://www.nclbgc.org/", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 20.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "North Carolina General Statutes §87-1 requires the General Contractor license on any residential project with total contract value above $30,000 — and the Licensing Board issues Limited (under $750k single-family), Intermediate ($750k-$1.5M), and Unlimited (any size) classifications with separate Building, Highway, Public Utilities, and Specialty endorsements, with gutter-only work above the threshold falling under the Building or RH Specialty Residential endorsement.",
+    "climate_concern": "North Carolina's 49-inch annual rainfall combined with high mature-deciduous tree canopy across the Piedmont drives near-universal gutter-guard retrofit demand on long-tenure suburban properties — and the Outer Banks and Pamlico Sound coastal salt-haze deposition corrodes standard galvanized hardware within 5-7 years, mandating stainless mounting on shoreline retrofits within 1 mile of the coastline."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "annual_rainfall_inches": 18, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 35, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "required", "license_board_name": "North Dakota Secretary of State — Contractor License (over $4,000)",
+    "license_url": "https://sos.nd.gov/business/business-services/contractors", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "North Dakota Century Code Chapter 43-07 (Contractors) requires every contractor performing residential or commercial work above $4,000 to hold a license issued by the Secretary of State — making North Dakota one of the lowest-threshold mandatory-licensing states for gutter installation, with separate Class A (any project size), Class B (under $700k), and Class C (under $300k) classifications based on bond amount on file.",
+    "climate_concern": "North Dakota's 35 psf ground snow load combined with sustained -30°F to -50°F readings across Williston, Minot, and Grand Forks drives heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on residential installations — and Red River Valley spring snowmelt flood-elevation overlays drive below-grade downspout-discharge re-routing on every full envelope re-side in Fargo and Grand Forks."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 39, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter license — Cleveland, Columbus, Cincinnati issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/BuildingHousing", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 22.84, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Ohio has no statewide residential contractor licensing for gutter, siding, or general remodeling — Ohio Construction Industry Licensing Board regulates HVAC, electrical, plumbing, hydronics, and refrigeration statewide but exempts envelope and structural work — and Cleveland, Columbus, and Cincinnati each issue independent Home Improvement Contractor registrations that don't reciprocate, with rural unincorporated counties typically having no inspection program.",
+    "climate_concern": "Ohio's 39-inch annual rainfall combined with Lake Erie lake-effect winter snow on northern eaves drives ice-dam exposure on every Lucas, Cuyahoga, Lake, and Ashtabula county residential property — heat-cable retrofit budgets averaging $600-1,000 per home are standard on north-facing eaves, and high mature-deciduous canopy across the Western Reserve and Miami Valley drives gutter-guard retrofit demand."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "annual_rainfall_inches": 36, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 10, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide gutter license — Oklahoma City, Tulsa, Norman issue local credentials",
+    "license_url": "https://www.okc.gov/departments/development-services", "permit_typical": "city building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 19.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "Oklahoma Statute Title 59 §1850 (Roofing Contractor Registration Act) requires all residential roofing contractors to register with the Construction Industries Board, but gutter-only contractors and general remodelers face no statewide registration requirement — Oklahoma City and Tulsa each issue independent Home Improvement Contractor credentials, with rural counties typically requiring no contractor verification.",
+    "climate_concern": "Oklahoma sits at the heart of Tornado Alley with annual EF2-EF5 exposure across the entire state — Oklahoma City and Tulsa retrofit specs increasingly default to Class 4 impact-rated steel or heavy-gauge aluminum K-style with reinforced bracket schedules — and 36-inch annual rainfall concentrated in spring tornado-driven and summer derecho-driven downbursts overwhelms undersized 5-inch K-style profiles on suburban eaves."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B-6B", "annual_rainfall_inches": 31, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 20, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board (CCB) — Residential General Contractor",
+    "license_url": "https://www.oregon.gov/ccb/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 24.84, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 4900,
+    "distinctive_law": "Oregon Construction Contractors Board (CCB) requires every contractor performing residential exterior work above $1,000 to hold a CCB license — and unique to Oregon, the CCB administers a Residential Bond pool that compensates homeowners up to $20,000 per project for licensed-contractor breach, with mandatory continuing education on Oregon-specific Reach Code energy amendments and stormwater-management requirements on every renewal.",
+    "climate_concern": "Oregon's 31-inch state-average annual rainfall masks dramatic east-west variation — coastal Tillamook, Lincoln, and Coos counties receive 90+ inches/year primarily as winter Pacific frontal rainfall driving 6-inch oversized K-style as standard residential profile, while eastern Oregon counties from Burns to Ontario receive under 12 inches/year with 5-inch K-style adequate for low-volume runoff."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "annual_rainfall_inches": 42, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "registration", "license_board_name": "Pennsylvania Office of Attorney General — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.attorneygeneral.gov/protect-pennsylvanians/homeimprovementconsumerprotectionact/", "permit_typical": "municipal building permit typical for gutter installation on new construction; Philadelphia and Pittsburgh separate inspection programs",
+    "gutter_installer_wage_mean_hourly": 23.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4500,
+    "distinctive_law": "Pennsylvania Home Improvement Consumer Protection Act (HICPA, 73 P.S. §517) requires every contractor performing residential exterior work above $5,000 per year to register with the Office of Attorney General — and unique to Pennsylvania, the HICPA registration carries no skills examination but mandates a written contract with 16-point disclosures, prohibits any payment over 33% of contract value before substantial completion, and creates a private right of action for treble damages on HICPA violations.",
+    "climate_concern": "Pennsylvania's 42-inch annual rainfall combined with Allegheny Plateau winter snow-load and Pocono ice-dam exposure on north-facing eaves drives near-universal heat-cable retrofit on long-tenure homes — and high mature-deciduous canopy across the Susquehanna and Delaware River valleys drives gutter-guard retrofit demand on Philadelphia, Lancaster, and Scranton suburbs within 2-3 years of original installation."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "annual_rainfall_inches": 47, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "registration", "license_board_name": "Rhode Island Contractors' Registration & Licensing Board",
+    "license_url": "https://crb.ri.gov/", "permit_typical": "municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 24.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 4900,
+    "distinctive_law": "Rhode Island General Laws §5-65 requires every contractor performing residential exterior work to register with the Contractors' Registration & Licensing Board — and unique to Rhode Island, the CRLB registration mandates a $5,000 surety bond, $500,000 of liability insurance, and a 7-day right of cancellation on residential contracts, with the Board administering a Recovery Fund that compensates homeowners up to $7,500 per project for licensed-contractor breach.",
+    "climate_concern": "Rhode Island's 47-inch annual rainfall combined with Narragansett Bay coastal nor'easter exposure drives heavy gutter-guard retrofit demand on Newport, Bristol, and Washington county properties — and ice-dam formation on every north-facing eave during sustained sub-freezing winter weather drives heat-cable retrofit budgets averaging $700-1,100 per home, with proactive ice-shield underlayment now standard on roofing-and-gutter combo projects."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "annual_rainfall_inches": 49, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 5, "ice_dam_risk": "low", "hurricane_tier": "wind_high", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "South Carolina Department of Labor, Licensing and Regulation — Residential Builders Commission (Specialty Contractor SP-RBE)",
+    "license_url": "https://llr.sc.gov/resb/", "permit_typical": "city or county building permit typical for gutter installation on new construction; Beaufort/Charleston enforce coastal wind code",
+    "gutter_installer_wage_mean_hourly": 19.84, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "South Carolina SC Code §40-59 requires every Residential Builder and Residential Specialty Contractor to hold a Residential Builders Commission credential — and unique to South Carolina, the Specialty Contractor SP-RBE (Roofing/Siding/Exterior) classification authorizes envelope and gutter work distinct from the full Residential Builder license, with the Commission requiring a $10,000 surety bond and 8-hour pre-license building science continuing education.",
+    "climate_concern": "South Carolina's 49-inch annual rainfall concentrated in summer thunderstorm cells and tropical-driven downbursts pushes 6-inch oversized K-style as standard residential profile — and Charleston, Hilton Head, and Myrtle Beach Atlantic salt-haze deposition corrodes standard galvanized hardware within 5-7 years, mandating stainless mounting on shoreline retrofits within 1 mile of the coastline."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "annual_rainfall_inches": 21, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "none", "license_board_name": "No statewide gutter contractor license — municipal building department oversight only",
+    "license_url": "https://dlr.sd.gov/buildings/default.aspx", "permit_typical": "municipal building permit required where adopted; rural counties may have no inspection program",
+    "gutter_installer_wage_mean_hourly": 19.84, "avg_gutter_install_low": 950, "avg_gutter_install_high": 3700,
+    "distinctive_law": "South Dakota has no statewide residential contractor licensing for gutter, siding, roofing, plumbing, or electrical — making South Dakota one of the most lightly regulated construction-licensing states in the country, with municipalities like Sioux Falls, Rapid City, and Aberdeen issuing independent contractor registrations that don't reciprocate and rural counties typically having no inspection program at all.",
+    "climate_concern": "South Dakota's 21-inch state-average annual rainfall masks dramatic Black Hills vs eastern-prairie variation — Black Hills receive 25+ inches/year primarily as snow that drives 30+ psf snow-load and ice-dam exposure on Rapid City and Spearfish residential installations — and Black Hills hailstorms with 3-inch+ stones drive Class 4 impact-rated gutter-bracket adoption on Pennington and Lawrence county retrofits."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "annual_rainfall_inches": 53, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 10, "ice_dam_risk": "low", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors (residential >$25,000)",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 20.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4100,
+    "distinctive_law": "Tennessee Board for Licensing Contractors requires the Contractor license (BC, BC-A, BC-B classifications) on any residential project with total contract value above $25,000 — and unique to Tennessee, the Home Improvement license is a separately tested credential required for residential remodeling work between $3,000 and $25,000, with the Tennessee Department of Commerce & Insurance enforcing dual credentialing on contractors operating across both thresholds.",
+    "climate_concern": "Tennessee's 53-inch annual rainfall concentrated in spring tornado-driven and summer thunderstorm-driven downbursts pushes 6-inch oversized K-style as standard residential profile — and high mature-deciduous canopy across the Tennessee Valley drives gutter-guard retrofit demand on long-tenure Nashville, Knoxville, and Chattanooga suburbs within 2-3 years of original installation."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-3A-3B-4B", "annual_rainfall_inches": 28, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 5, "ice_dam_risk": "none", "hurricane_tier": "wind_high", "tree_canopy_density": "moderate",
+    "license_status": "none", "license_board_name": "No statewide gutter contractor license — municipal building department oversight only",
+    "license_url": "https://www.tdlr.texas.gov/", "permit_typical": "city or municipal building permit typical for gutter installation on new construction; Texas Windstorm Insurance Association (TWIA) inspection on Tier 1 coastal counties",
+    "gutter_installer_wage_mean_hourly": 19.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Texas has no statewide residential contractor licensing for gutter installation — making Texas one of the most lightly regulated construction-licensing states in the country — but Texas Insurance Code Chapter 2210 (Texas Windstorm Insurance Association) requires WPI-8 certificate of inspection on every roofing or envelope project including gutter installation in 14 Tier 1 coastal counties from Cameron to Jefferson, without which residential properties cannot obtain TWIA windstorm coverage.",
+    "climate_concern": "Texas's 28-inch state-average annual rainfall masks dramatic east-west variation — Houston receives 50+ inches/year requiring 6-inch oversized K-style on Gulf Coast residential properties, while El Paso and the Trans-Pecos receive under 10 inches/year and routinely defer gutter installation entirely — and Houston, Galveston, and Corpus Christi hurricane wind exposure drives stainless mounting hardware on every Tier 1 coastal retrofit."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "3B-5B-6B", "annual_rainfall_inches": 14, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "moderate",
+    "license_status": "required", "license_board_name": "Utah Department of Commerce — Division of Occupational and Professional Licensing (B100 General Building or S350 Siding specialty)",
+    "license_url": "https://dopl.utah.gov/contractor/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Utah DOPL issues an S350 Siding specialty contractor classification that includes gutter work distinct from the B100 General Building license — and unique to Utah, the DOPL administers a Construction Trades Recovery Fund that compensates homeowners up to $40,000 per project for licensed-contractor breach, funded by per-license fees, with claims reviewed by the Division of Occupational and Professional Licensing under Utah Code §38-11-201.",
+    "climate_concern": "Utah's 14-inch state-average annual rainfall masks dramatic Wasatch Front vs eastern-Utah variation — Wasatch Front and Great Salt Lake counties receive 18-25 inches/year primarily as winter snow that drives 30+ psf snow-load and ice-dam exposure — while eastern Utah and the Uintah Basin receive under 10 inches/year and routinely defer gutter installation on smaller residential structures."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "annual_rainfall_inches": 43, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 50, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "registration", "license_board_name": "Vermont Office of Professional Regulation — Residential Contractor Registration",
+    "license_url": "https://sos.vermont.gov/residential-contractors/", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Vermont 26 V.S.A. Chapter 109 (effective 2021) requires every residential contractor to register with the Office of Professional Regulation if performing more than $10,000 of work per year on Vermont property — making Vermont one of the most recently established residential contractor registries in the country, with mandatory written contracts, $250,000 of liability insurance, and 3-day right of cancellation provisions.",
+    "climate_concern": "Vermont's 50 psf ground snow load combined with Green Mountain elevation winter snow drives heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on Caledonia, Essex, and Orleans county residential installations — and ice-dam formation on every north-facing eave drives near-universal heat-cable retrofit with budgets averaging $700-1,100 per home, with proactive ice-shield underlayment now standard."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 44, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Virginia Department of Professional and Occupational Regulation — Board for Contractors (Class A/B/C residential)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 21.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Virginia DPOR issues Class A (any project size), Class B ($10,000-$120,000), and Class C (under $10,000) as three contracting tiers — and unique to Virginia, the Board for Contractors issues separately tested specialty designations (HIC Home Improvement, BLD Building, RBC Residential Building) within each class, with gutter work falling under either RBC Residential Building or HIC Home Improvement depending on project scope.",
+    "climate_concern": "Virginia's 44-inch annual rainfall combined with high mature-deciduous tree canopy across Northern Virginia, Richmond, and Hampton Roads drives near-universal gutter-guard retrofit demand on long-tenure suburban properties — and Chesapeake Bay coastal salt-haze deposition corrodes standard galvanized hardware within 5-7 years, mandating stainless mounting on shoreline retrofits."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "annual_rainfall_inches": 38, "dominant_gutter_material": "aluminum-k-style-6in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "registration", "license_board_name": "Washington State Department of Labor & Industries — Contractor Registration",
+    "license_url": "https://lni.wa.gov/licensing-permits/contractors/", "permit_typical": "state or municipal building permit typical for gutter installation on new construction; Washington State Energy Code stormwater verification",
+    "gutter_installer_wage_mean_hourly": 26.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "Washington L&I requires every contractor performing residential or commercial work to register as a General Contractor or Specialty Contractor under RCW 18.27 — and unique to Washington, the Specialty Contractor registration is restricted to specific scope categories (Roofing, Plumbing, HVAC, Electrical) but not gutter, meaning Washington gutter contractors register under the General Contractor classification with a $12,000 surety bond and $250,000 liability insurance.",
+    "climate_concern": "Washington's 38-inch state-average annual rainfall masks dramatic west-east variation — Olympic Peninsula and western Cascades receive 100+ inches/year primarily as winter Pacific frontal rainfall driving 6-inch oversized K-style as standard residential profile, while eastern Washington from Spokane to Walla Walla receives under 18 inches/year with 5-inch K-style adequate for low-volume runoff."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "annual_rainfall_inches": 45, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Contractor Licensing Board (residential >$2,500)",
+    "license_url": "https://labor.wv.gov/Wage-Hour/Pages/Contractor-Licensing.aspx", "permit_typical": "city or county building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 19.42, "avg_gutter_install_low": 1000, "avg_gutter_install_high": 3800,
+    "distinctive_law": "West Virginia Code §21-11 requires every contractor performing residential or commercial work above $2,500 to hold a Contractor License issued by the Division of Labor's Contractor Licensing Board — making West Virginia one of the lowest-threshold mandatory-licensing states for gutter installation, with separate Residential, Commercial, Subcontractor, Roofing, and Specialty classifications and a mandatory $10,000 surety bond on every license tier.",
+    "climate_concern": "West Virginia's 45-inch annual rainfall combined with Allegheny Plateau elevation snow-load and dense mature canopy across the Monongahela and Allegheny National Forests drives near-universal gutter-guard retrofit demand on long-tenure homes — and reclaimed mine subsidence creates unpredictable ground settlement that disrupts downspout-discharge infiltration trenches on properties built over abandoned mine works."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "5A-6A-7", "annual_rainfall_inches": 33, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 35, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety and Professional Services — Dwelling Contractor (DC) and Dwelling Contractor Qualifier (DCQ)",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/DwellingContractor/Default.aspx", "permit_typical": "state or municipal building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 23.42, "avg_gutter_install_low": 1200, "avg_gutter_install_high": 4400,
+    "distinctive_law": "Wisconsin Statutes §101.654 requires every contractor performing residential exterior work on one- or two-family dwellings to hold both a Dwelling Contractor (DC) certification (the contracting business entity credential) AND a Dwelling Contractor Qualifier (DCQ) certification (the personal credential held by the responsible individual) — and unique to Wisconsin, the DCQ requires 12 hours of pre-certification continuing education and 12 hours per renewal cycle on Wisconsin energy-code, building-code, and consumer-protection topics.",
+    "climate_concern": "Wisconsin's 35 psf ground snow load combined with Lake Michigan and Lake Superior lake-effect winter snow drives heavier-gauge aluminum K-style and steel-bracket spacing under 18 inches on Vilas, Iron, and Bayfield county residential installations — and ice-dam formation on every north-facing eave drives near-universal heat-cable retrofit with budgets averaging $700-1,200 per home in the Northwoods."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "5B-6B-7", "annual_rainfall_inches": 14, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 30, "ice_dam_risk": "high", "hurricane_tier": "none", "tree_canopy_density": "low",
+    "license_status": "none", "license_board_name": "No statewide gutter contractor license — municipal building department oversight only",
+    "license_url": "https://wyomingworkforce.org/", "permit_typical": "municipal building permit required where adopted; many counties have no inspection program",
+    "gutter_installer_wage_mean_hourly": 22.42, "avg_gutter_install_low": 1100, "avg_gutter_install_high": 4200,
+    "distinctive_law": "Wyoming has no statewide residential contractor licensing for gutter, siding, roofing, plumbing, or electrical — making Wyoming one of the most lightly regulated construction-licensing states in the country alongside South Dakota, with municipalities like Cheyenne, Casper, and Jackson issuing independent contractor registrations that don't reciprocate and rural counties typically having no inspection program at all.",
+    "climate_concern": "Wyoming's 14-inch state-average annual rainfall masks dramatic Yellowstone-area mountain vs eastern-prairie variation — Teton, Park, and Sublette counties receive 30+ inches/year primarily as snow that drives 30+ psf snow-load and ice-dam exposure on mountain residential installations — while eastern Wyoming counties from Newcastle to Torrington receive under 14 inches/year and routinely defer gutter installation on smaller residential structures."
+  },
+  "DC": {
+    "name": "District of Columbia", "slug": "district-of-columbia", "abbr": "DC",
+    "iecc_zone": "4A", "annual_rainfall_inches": 41, "dominant_gutter_material": "aluminum-k-style-5in",
+    "snow_load_psf": 25, "ice_dam_risk": "moderate", "hurricane_tier": "wind_moderate", "tree_canopy_density": "high",
+    "license_status": "required", "license_board_name": "DC Department of Buildings — Home Improvement Contractor (HIC) license",
+    "license_url": "https://dob.dc.gov/", "permit_typical": "DC building permit typical for gutter installation on new construction",
+    "gutter_installer_wage_mean_hourly": 27.42, "avg_gutter_install_low": 1300, "avg_gutter_install_high": 5000,
+    "distinctive_law": "DC requires every contractor performing residential exterior work above $300 to hold a DC Home Improvement Contractor (HIC) license under DC Municipal Regulations Title 16 §800 — and unique to DC, the HIC license requires a $10,000 surety bond, $50,000 of liability insurance, and DC Department of Buildings filing for any envelope work on Federal-period or Victorian housing stock in HPRB-protected historic districts.",
+    "climate_concern": "DC's 41-inch annual rainfall combined with the District's mature-deciduous canopy in Rock Creek Park, Cleveland Park, and Capitol Hill drives near-universal gutter-guard retrofit demand on long-tenure row-house properties — and HPRB-protected historic districts (Georgetown, Capitol Hill, Dupont Circle) require DC Historic Preservation Office sign-off on visible gutter alterations including profile changes from the original copper or steel half-round."
+  }
+}
