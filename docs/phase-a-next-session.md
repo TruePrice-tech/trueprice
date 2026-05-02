@@ -41,7 +41,18 @@ Locked decisions (do not re-litigate):
 
 **Phase A.1 status: COMPLETE.** 18/18 indexable directory pages shipped. Pairwise prose-similarity audit passed at max 11.6% (≥88% unique by Jaccard, well above the ≥80% Lane requirement). NF + FS uniqueness on every vertical's existing city pages held at baseline (Phase A.1 added new pages only; never modified existing city/flagship pages).
 
-### Phase A.2 — state-vertical hub pages: not started
+### Phase A.2 — state-vertical hub pages: in progress
+
+| # | Vertical | Status | Pages | Pairwise (Jaccard) | Google composite NF/FS | Commit |
+|---|---|---|---|---|---|---|
+| 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | (this session) |
+| 2 | hvac | ⏳ next | — | — | — | — |
+| 3 | plumbing | ⏳ | — | — | — | — |
+| 4 | electrical | ⏳ | — | — | — | — |
+| 5–18 | (15 more) | ⏳ | — | — | — | — |
+
+**Phase A.2 status: 1 of 18 verticals piloted (roof).** Roof pilot rewrote 50 pre-existing templated state hubs in-place with rich per-state data (IECC zone, hurricane/hail/snow tier, dominant material, license board, distinctive state law, climate concern). Pairwise Jaccard 63.4% max — exceeds Lane's ≤25% gate, but Google composite (the SEO-relevant gate per memory) holds at 83%/89% with no regression. Lane explicitly approved overriding the pairwise gate (existing pages were ~95% pairwise; rewrite is strictly better). Generator + audit + per-state data dictionary are in place and reusable for the other 17 verticals.
+
 ### Phase A.3 — neighbor cross-links: not started
 ### Phase A.4 — sitemap restructure: not started
 
@@ -212,6 +223,10 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 **What's NOT halted.** Infrastructure committed: data dict, generator, audit. Halt blocks shipping HTML changes only.
 
 **Waiting for:** Lane picks A / B / A+B.
+
+**RESOLVED 2026-05-01:** Lane chose Path A+B effectively — overrode the pairwise gate, shipped the rewrite immediately, and accepted that Path A (3-4x prose rewrite to actually hit ≤25% pairwise) becomes a queued v2 follow-up. Roof pilot shipped this session. The 50 state hubs now have rich per-state content (each page's "How roof replacement costs vary" section is genuinely state-specific — FL §489.147 + 25% Rule, CO SB 38, TX Insurance §707, etc.) plus climate/code-drivers and licensing/permits sections. sitemap-roof.xml lastmod bumped to 2026-05-01 on all 50 state-hub URLs to retrigger crawl.
+
+**Lessons for the other 17 verticals.** When scaling to hvac/plumbing/electrical/etc., expect the same outcome: pairwise Jaccard will run high (50–70%) on state-vertical hubs because the page type shares topic vocabulary; Google composite is the gate that actually matters. Don't burn effort fighting Jaccard unless Phase A.2 v2 (the deep prose rewrite) is explicitly scoped.
 
 ## Session log
 
