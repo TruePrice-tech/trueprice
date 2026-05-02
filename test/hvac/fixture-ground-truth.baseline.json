@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T17:49:25.771Z",
+  "ts": "2026-05-02T17:59:00.391Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-clean-invoice": {
@@ -77,8 +77,8 @@
         "labor warranty": "2 yr",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
-      "isServiceJobCopy": true,
+      "rangeText": "Market benchmark: $5,400 — 23% above average",
+      "isServiceJobCopy": false,
       "isLowConfidenceCopy": false,
       "preConfirm": {
         "hasConfirmBtn": true,
@@ -88,23 +88,22 @@
       "contractor": null,
       "stateCode": null,
       "failures": [
-        "contractor: expected match /precision\\s*climate/, got null",
-        "isServiceJob: expected false, got true (range: \"Service quote — install benchmarks don't apply. Service pricing varies by compon\")"
+        "contractor: expected match /precision\\s*climate/, got null"
       ]
     },
     "f5-elite-high": {
       "verdictPrice": 13457,
       "details": {
         "system type": "Central Air Conditioning",
-        "seer rating": "14 SEER",
+        "seer rating": "22 SEER",
         "system size": "3 Ton",
         "brand": "Trane (premium tier)",
         "parts warranty": "12 yr",
         "labor warranty": "5 yr",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
-      "isServiceJobCopy": true,
+      "rangeText": "Market benchmark: $8,650 — 56% above average",
+      "isServiceJobCopy": false,
       "isLowConfidenceCopy": false,
       "preConfirm": {
         "hasConfirmBtn": true,
@@ -114,9 +113,7 @@
       "contractor": null,
       "stateCode": null,
       "failures": [
-        "contractor: expected match /elite\\s*comfort/, got null",
-        "seer: expected 22, got \"14 SEER\"",
-        "isServiceJob: expected false, got true (range: \"Service quote — install benchmarks don't apply. Service pricing varies by compon\")"
+        "contractor: expected match /elite\\s*comfort/, got null"
       ]
     },
     "f6-mini-split": {
