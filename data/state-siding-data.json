@@ -1,0 +1,535 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-01",
+    "purpose": "Per-state siding data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "International Residential Code adoption per state with WUI overlays; CAL FIRE WUI maps and Chapter 7A; Florida Building Code Product Approval (HVHZ); ASCE 7-22 Risk Category II design wind tiers; NOAA SPC hail tier; BLS OEWS May 2024 (SOC 47-2031 Carpenters state means); state contractor licensing boards.",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "dominant_material": "vinyl / fiber-cement / brick-veneer / stucco / wood / engineered-wood",
+      "wind_tier": "HVHZ / wind_high / wind_moderate / wind_low / none",
+      "wui_fire_requirement": "required-statewide / regional / none",
+      "salt_corrosion_zone": "high-coastal / moderate-coastal / low / none",
+      "hail_tier": "very_high / high / moderate / low",
+      "license_status": "required / registration / municipal-only / none",
+      "license_board_name": "Issuing authority for residential building / siding contractor licensing",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical permit threshold for residential re-side or full envelope work",
+      "siding_installer_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2031 Carpenters (siding installers fall under this code) (USD)",
+      "avg_reside_low": "Typical low end of 1,500 sq ft single-story full re-side (USD)",
+      "avg_reside_high": "Typical high end (1,500 sq ft fiber-cement + WRB + trim) (USD)",
+      "distinctive_law": "Single most distinctive state-specific siding code, license, or fire-zone rule",
+      "climate_concern": "Primary climate or moisture driver of cladding selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Alabama Home Builders Licensure Board",
+    "license_url": "https://www.hblb.alabama.gov/", "permit_typical": "city or county building permit required for full re-side and structural sheathing work",
+    "siding_installer_wage_mean_hourly": 22.42, "avg_reside_low": 8800, "avg_reside_high": 24500,
+    "distinctive_law": "Alabama Home Builders Licensure Board issues both a Residential Builder credential (required for any residential project over $10,000) and a Roofing Specialty credential — siding work falls under the general Residential Builder authority with no separate cladding credential required, but the HBLB enforces the Alabama Trade Practices Act for warranty disclosures and 3-day right of recission on cladding contracts above $25,000.",
+    "climate_concern": "Mobile-Baldwin coastal humidity and Gulf-front salt-spray push fiber-cement and brick veneer over vinyl in the southern third of the state — vinyl panels under sustained 95°F+ summer attic ambients buckle on south-facing elevations within 7-10 years, and inland Tornado Alley intrusion across central Alabama drives Class 4 impact-rated cladding selection on Tuscaloosa and Birmingham retrofit specs."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "dominant_material": "wood",
+    "wind_tier": "wind_high", "wui_fire_requirement": "regional", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Construction Contractors Section",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx", "permit_typical": "borough building permit required for re-side and any envelope alteration",
+    "siding_installer_wage_mean_hourly": 31.84, "avg_reside_low": 17500, "avg_reside_high": 42000,
+    "distinctive_law": "Alaska AS 08.18 splits Construction Contractor licensing into General Contractor with Residential Endorsement (any construction including siding), Specialty Contractor (single trade categories), and Handyman exemption (under $10,000 single-project) — and unique to Alaska, contractors must additionally register with the Department of Labor and post a $25,000 surety bond for residential work statewide.",
+    "climate_concern": "Wind-driven rain across Southeast Alaska from Ketchikan to Juneau drives WRB and rainscreen-gap requirements on every coastal re-side, with stainless fasteners mandatory for shoreline cedar and fiber-cement to survive 200+ inches/year of rainfall — and Interior Alaska sustained sub-zero ambients drive vinyl panel brittleness, with cedar lap and shake retaining dominant residential market share over composite alternatives."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "dominant_material": "stucco",
+    "wind_tier": "wind_low", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license B (general residential) or B-3 (siding specialty)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county building permit required for full re-side and stucco work",
+    "siding_installer_wage_mean_hourly": 22.94, "avg_reside_low": 9800, "avg_reside_high": 26500,
+    "distinctive_law": "Arizona Registrar of Contractors issues a B-3 Stucco specialty classification distinct from the B General Residential or KB-1 Mobile Home licenses — Arizona stucco contractors typically hold both the B-3 and a CR-37 Plumbing classification because stucco lath and scratch-coat work routinely intersects with embedded copper supply lines, and Phoenix-area code requires three-coat hard-coat stucco on all new residential exteriors with synthetic acrylic finish coats permitted only on retrofits.",
+    "climate_concern": "Phoenix and Tucson summer surface temperatures on dark exterior cladding reach 165°F+, driving stucco's continued dominance over vinyl (which buckles and warps under sustained heat) and fiber-cement (which expands/contracts at higher rates than stucco's mineral substrate) — and Sonoran monsoon haboob silica-dust deposition pits and abrades cedar and engineered-wood cladding within 8-12 years on west-facing elevations."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "high",
+    "license_status": "required", "license_board_name": "Arkansas Contractors Licensing Board (residential >$2,000)",
+    "license_url": "https://www.arkansas.gov/clb/", "permit_typical": "city or county building permit required for full re-side; no inspection in unincorporated areas",
+    "siding_installer_wage_mean_hourly": 21.18, "avg_reside_low": 8200, "avg_reside_high": 23000,
+    "distinctive_law": "Arkansas Contractors Licensing Board requires the Residential Remodeler license (or Residential Builder for new construction) on any residential project above $2,000 — making Arkansas one of the lowest-threshold states in the country, with the Board enforcing a $5,000 minimum surety bond, financial-responsibility net worth disclosure, and a separate Home Improvement Specialty Contractor classification for siding-only and roofing-only work.",
+    "climate_concern": "Arkansas sits at the western edge of the central U.S. hail corridor with annual EF1-EF3 hail events across the entire state — Class 4 impact-rated vinyl, fiber-cement, and brick veneer dominate Little Rock and Fayetteville retrofit specs, with insurers offering 15-25% homeowners premium discounts on UL 2218 Class 4 cladding installations."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "dominant_material": "stucco",
+    "wind_tier": "wind_low", "wui_fire_requirement": "required-statewide", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — B (General Building) or C-35 (Lathing & Plastering) for stucco / C-61 D-3 for siding",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "city building permit required; CAL FIRE WUI map verification mandatory in mapped fire-hazard zones",
+    "siding_installer_wage_mean_hourly": 32.72, "avg_reside_low": 14500, "avg_reside_high": 36500,
+    "distinctive_law": "California Building Code Chapter 7A makes ignition-resistant cladding mandatory on every new and re-sided home in CAL FIRE-mapped State Responsibility Area Wildland-Urban Interface zones — eliminating wood lap, wood shake, and untreated cedar from the WUI overlay, and forcing fiber-cement, stucco, brick veneer, or stone veneer on the cladding side, with WUI-rated soffit vents and ember-resistant attic ventilation on the assembly side.",
+    "climate_concern": "Pacific salt-haze deposition from Monterey to San Diego corrodes galvanized fasteners on coastal re-sides within 5-7 years, mandating Type 304 or Type 316 stainless on all shoreline fiber-cement, cedar, and stucco lath installations — and CAL FIRE Tier 3 WUI overlay across the Sierra foothills, North Coast, and Santa Monica Mountains has expanded fiber-cement plank dominance over vinyl by an order of magnitude on Sonoma, Napa, and El Dorado county retrofits since the 2017-2020 fire seasons."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "very_high",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Denver, Colorado Springs, Aurora issue municipal credentials",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development", "permit_typical": "city or county building permit required for full re-side; mountain WUI counties enforce Class A cladding",
+    "siding_installer_wage_mean_hourly": 25.42, "avg_reside_low": 10500, "avg_reside_high": 28500,
+    "distinctive_law": "Colorado HB 12-1183 created the WUI Code Council to recommend statewide WUI standards, with adoption deferred to local jurisdictions — Boulder County, Larimer County, Jefferson County, and the City of Boulder have since adopted Class A ignition-resistant cladding requirements on all new construction and re-sides in mapped fire-hazard areas, while Colorado SB 13-058 permits county building departments to require enhanced wildfire-mitigation inspections as a precondition to certificate of occupancy.",
+    "climate_concern": "Colorado sits at the heart of the central U.S. hail alley with the highest annual hail-claim frequency in the country — Denver, Colorado Springs, and Pueblo retrofit specs default to Class 4 impact-rated fiber-cement or LP SmartSide-style engineered wood, and insurers offer 20-25% homeowners premium discounts on UL 2218 Class 4 cladding plus 5-year coverage for hail-driven re-sides on properties with documented impact-rated installs."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "town building permit required for full re-side and structural sheathing replacement",
+    "siding_installer_wage_mean_hourly": 32.18, "avg_reside_low": 12500, "avg_reside_high": 32000,
+    "distinctive_law": "Connecticut General Statutes §20-419 creates the Home Improvement Contractor (HIC) registration that every contractor performing residential exterior work above $200 must hold — with a Guaranty Fund administered by the Department of Consumer Protection that compensates homeowners up to $25,000 per project for HIC-contractor abandonment or breach, funded by HIC registration fees rather than general appropriations.",
+    "climate_concern": "Long Island Sound coastal salt-haze deposition from Greenwich to New London corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal fiber-cement and cedar — and aging post-WWII Hartford, Bridgeport, and New Haven housing stock with cedar lap and asbestos-cement shingle reaching end-of-life forces complete envelope re-side scope including WRB upgrade and rainscreen retrofit on most pre-1960 homes."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "registration", "license_board_name": "Delaware Division of Revenue — Business License (siding contractor)",
+    "license_url": "https://revenue.delaware.gov/services/Business_Tax/", "permit_typical": "county building permit required for full re-side and envelope sheathing work",
+    "siding_installer_wage_mean_hourly": 28.42, "avg_reside_low": 10200, "avg_reside_high": 27500,
+    "distinctive_law": "Delaware is one of the few East Coast states with no specialty siding contractor licensing — every siding contractor operates under a Delaware Division of Revenue Business License only, with no examination, bond, or board oversight, leaving Sussex County coastal property owners to rely on contractor BBB ratings and Delaware Consumer Protection Unit complaint history rather than a state credential check.",
+    "climate_concern": "Sussex County Atlantic salt-haze deposition across Rehoboth Beach, Bethany Beach, and Fenwick Island corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal fiber-cement and cedar — and Delaware Bay flood-elevation exposure on Kent and Sussex county tidewater properties forces below-grade rim-joist and band-board re-flashing on every full envelope re-side."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "dominant_material": "stucco",
+    "wind_tier": "HVHZ", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Florida Department of Business & Professional Regulation — Construction Industry Licensing Board (Certified or Registered Building Contractor)",
+    "license_url": "https://www2.myfloridalicense.com/construction-industry/", "permit_typical": "city or county building permit required; Florida Product Approval (FL #) verification on all cladding components in HVHZ counties",
+    "siding_installer_wage_mean_hourly": 21.84, "avg_reside_low": 11500, "avg_reside_high": 31000,
+    "distinctive_law": "Florida Building Code §1714 requires every cladding component — siding panels, trim, fasteners, weather-resistant barrier — to carry a Florida Product Approval (FL #) on Miami-Dade and Broward HVHZ projects, with Notice of Acceptance (NOA) testing for wind pressures up to 175 mph and missile-impact resistance, eliminating the standard fiber-cement and cedar fastener schedules used elsewhere in the country.",
+    "climate_concern": "Florida HVHZ wind-borne debris exposure in Miami-Dade and Broward forces Notice of Acceptance fastener schedules on every cladding component — and Atlantic salt-haze on the Treasure Coast and Gulf salt-haze on Tampa Bay, Sarasota, and Naples corrodes galvanized fasteners on coastal re-sides within 3-5 years, mandating stainless on all shoreline stucco lath, fiber-cement, and brick veneer wall ties within 1 mile of the coastline."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Georgia State Licensing Board for Residential and General Contractors",
+    "license_url": "https://sos.ga.gov/page/state-licensing-board-residential-general-contractors", "permit_typical": "city or county building permit required for full re-side and structural sheathing work",
+    "siding_installer_wage_mean_hourly": 22.92, "avg_reside_low": 9200, "avg_reside_high": 25500,
+    "distinctive_law": "Georgia State Licensing Board for Residential and General Contractors issues Residential Light Commercial Contractor and Residential Basic Contractor as two separately tested credentials — Residential Basic is restricted to single-family detached up to four stories with no pre-engineered structural systems, while Light Commercial extends to multi-family up to four units, with siding work falling under both as no separate cladding-only credential exists in Georgia.",
+    "climate_concern": "Atlanta-area red Piedmont clay seasonal swelling and shrinking shears stucco substrate cracks on slab-on-grade construction, driving fiber-cement plank dominance over hard-coat stucco — and South Georgia coastal Savannah and Brunswick salt-haze deposition mandates stainless fasteners on shoreline cedar and fiber-cement to survive within 1 mile of tidewater."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "regional", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Hawaii Department of Commerce & Consumer Affairs — Contractors License Board (B General Building or C-12 Drywall/C-49 Siding specialty)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "county building permit required for full re-side and envelope sheathing work",
+    "siding_installer_wage_mean_hourly": 32.18, "avg_reside_low": 18500, "avg_reside_high": 45000,
+    "distinctive_law": "Hawaii Contractors License Board issues a C-49 Cladding/Siding specialty license distinct from the B General Building credential — and unique to Hawaii, every contractor must additionally pass an island-specific examination on trade-wind wind loading, volcanic vog corrosion mitigation, and tsunami inundation zone construction requirements, with Maui and Hawaii County imposing additional WUI-overlay cladding restrictions in lava-flow recovery zones.",
+    "climate_concern": "Trade-wind-driven salt-haze deposition on every windward shoreline corrodes galvanized fasteners and standard vinyl panel UV stabilizers within 3-5 years, mandating 316 stainless fasteners and Hawaii-specific vinyl with enhanced UV inhibitor packages — and Big Island volcanic vog (sulfur dioxide) accelerates galvanic corrosion of cladding components within 5-7 years on Kona-side downwind zones, with the 2018 Lower Puna eruption driving permanent material substitution from cedar shake to fiber-cement on Hawaii County rebuilds."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_low", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "registration", "license_board_name": "Idaho Contractors Board (registration only, no exam)",
+    "license_url": "https://dopl.idaho.gov/contractors/", "permit_typical": "state or city building permit required for full re-side; mountain WUI counties enforce Class A cladding",
+    "siding_installer_wage_mean_hourly": 23.84, "avg_reside_low": 9800, "avg_reside_high": 26000,
+    "distinctive_law": "Idaho Contractors Board issues a registration credential with no examination requirement — every residential contractor must register with the Board, post a financial-responsibility statement, and disclose criminal history, but Idaho has no skills-based competency testing for siding or general residential contracting, leaving construction-quality verification to municipal inspectors and homeowner contract review.",
+    "climate_concern": "Idaho mountain WUI overlay across Boise, Custer, Valley, and Blaine counties has driven Class A ignition-resistant cladding requirements on every new construction and re-side in mapped fire-hazard zones since the 2015-2017 wildfire seasons — fiber-cement plank dominance over cedar lap on Sun Valley, McCall, and Coeur d'Alene retrofits, with vinyl prohibited above 5,000 feet elevation in WUI-mapped subdivisions."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "4A-5A", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Chicago and Cook County issue local credentials",
+    "license_url": "https://www.chicago.gov/city/en/depts/bldgs.html", "permit_typical": "Chicago building permit required for full re-side; suburban Cook County and downstate municipalities issue independently",
+    "siding_installer_wage_mean_hourly": 38.42, "avg_reside_low": 13500, "avg_reside_high": 34000,
+    "distinctive_law": "Chicago Building Code §13-152 requires masonry construction (brick veneer, concrete masonry unit, stone) on every exterior wall up to four stories within City of Chicago limits — eliminating vinyl, fiber-cement, and cedar lap as legal exterior cladding in the City proper, and forcing brick-veneer dominance on Chicago single-family and two-flat housing stock that has no parallel in any other major U.S. city.",
+    "climate_concern": "Chicago and Cook County freeze-thaw cycling on brick-veneer wall ties drives spalling and mortar-joint repointing on most pre-1960 housing stock — and Lake Michigan lake-effect winter storm exposure on the eastern Cook and Lake County shoreline drives wind-driven rain penetration through brick veneer cavities, requiring through-wall flashing upgrades on every Chicago-area envelope retrofit."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Indianapolis, Fort Wayne, Evansville issue local credentials",
+    "license_url": "https://www.indy.gov/agency/department-of-business-neighborhood-services", "permit_typical": "city building permit required for full re-side in incorporated municipalities",
+    "siding_installer_wage_mean_hourly": 24.18, "avg_reside_low": 8800, "avg_reside_high": 24500,
+    "distinctive_law": "Indiana operates under 675 IAC 14 (Indiana Residential Code) based on a substantially modified 2003 IRC — making Indiana one of the most lagging code-cycle states in the country, with WRB and rainscreen-gap requirements that became standard elsewhere in 2015 still not enforced statewide, and only municipalities like Indianapolis, Carmel, and Bloomington that have independently adopted current codes apply modern envelope standards.",
+    "climate_concern": "Indiana sits at the eastern edge of the central U.S. hail and tornado corridor with annual EF1-EF3 exposure across the entire state — Indianapolis and Fort Wayne retrofit specs increasingly default to Class 4 impact-rated vinyl or fiber-cement, and the Wabash River valley flood-elevation overlay drives below-grade rim-joist re-flashing on every full envelope re-side in FEMA-mapped Tippecanoe and Vanderburgh county properties."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "high",
+    "license_status": "registration", "license_board_name": "Iowa Workforce Development — Construction Contractor Registration",
+    "license_url": "https://www.iowaworkforcedevelopment.gov/contractor-registration", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 25.84, "avg_reside_low": 9200, "avg_reside_high": 25000,
+    "distinctive_law": "Iowa Code §91C.5 requires every construction contractor doing more than $2,000 of work per year on Iowa property to register with Iowa Workforce Development — making Iowa one of the lowest-threshold registration states in the country, with the registration carrying no examination but mandatory workers' compensation insurance disclosure and unemployment insurance compliance verification on every renewal.",
+    "climate_concern": "Iowa sits inside the central U.S. hail corridor with annual EF1-EF3 events across the entire state — and the August 2020 derecho event with 140-mph straight-line winds across central Iowa drove Class 4 impact-rated and high-wind-rated cladding adoption on Cedar Rapids, Marshalltown, and Des Moines retrofits, with Iowa insurers now offering 15-25% homeowners premium discounts on UL 2218 Class 4 cladding installations."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "very_high",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Wichita, Overland Park, Topeka issue local credentials",
+    "license_url": "https://www.wichita.gov/Inspection/", "permit_typical": "city building permit required in incorporated municipalities; rural counties may have no inspection program",
+    "siding_installer_wage_mean_hourly": 23.62, "avg_reside_low": 8800, "avg_reside_high": 24500,
+    "distinctive_law": "Kansas remains one of fewer than ten states with no statewide residential contractor licensing — every credential is municipal, with Wichita, Kansas City Kansas, Overland Park, and Topeka each running independent registration programs — and rural unincorporated counties may have no inspection program at all, meaning a homeowner re-side in unincorporated Sumner County faces no envelope-compliance verification.",
+    "climate_concern": "Kansas sits at the heart of the central U.S. hail corridor with the second-highest annual hail-claim frequency in the country after Colorado — Wichita, Topeka, and Lawrence retrofit specs default to Class 4 impact-rated vinyl, fiber-cement, or LP SmartSide-style engineered wood, and Kansas insurers offer 20-25% homeowners premium discounts on UL 2218 Class 4 cladding installations with documented hail-survival history."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Louisville, Lexington, Bowling Green issue local credentials",
+    "license_url": "https://louisvilleky.gov/government/codes-regulations", "permit_typical": "city or county building permit required for full re-side and envelope sheathing work",
+    "siding_installer_wage_mean_hourly": 22.84, "avg_reside_low": 8500, "avg_reside_high": 23500,
+    "distinctive_law": "Kentucky has no statewide residential contractor licensing for siding, roofing, or general remodeling work — KRS 198B regulates HVAC, plumbing, and electrical statewide but exempts envelope and structural work — and Louisville Metro and Lexington-Fayette Urban County each issue independent contractor registrations that don't reciprocate, with rural unincorporated counties typically having no inspection program at all.",
+    "climate_concern": "Eastern Kentucky's Appalachian humidity and wind-driven rain on Pine Mountain and Cumberland Plateau elevations drive WRB and rainscreen-gap requirements on every coastal re-side, with cedar lap and shake retaining significant residential market share in the historic Bluegrass districts of Lexington — and western Kentucky tornado alley exposure across Paducah and Bowling Green forces Class 4 impact-rated cladding selection on retrofit specs."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors — Residential Building Contractor",
+    "license_url": "https://lslbc.louisiana.gov/", "permit_typical": "parish building permit required; LSUCC hurricane wind-design overlay on Gulf Coast parishes",
+    "siding_installer_wage_mean_hourly": 22.94, "avg_reside_low": 9800, "avg_reside_high": 26500,
+    "distinctive_law": "Louisiana State Uniform Construction Code adopts 2015 IRC with hurricane wind-design overlays on every Gulf Coast parish — and unique to Louisiana, post-Katrina and post-Ida disaster-recovery work drove the LSLBC to require Hurricane Hardware certification (impact-rated cladding fasteners and stainless components) on every re-side in Orleans, Jefferson, St. Bernard, and Plaquemines parishes, with FEMA reimbursement for hurricane-resistant cladding upgrades through the FMA program.",
+    "climate_concern": "Louisiana Gulf Coast parishes sit inside the highest hurricane-frequency zone in the United States outside of South Florida — fiber-cement plank dominance over cedar and vinyl on coastal re-sides because fiber-cement carries Miami-Dade NOA approvals for high-velocity wind zones, and post-Katrina BFE elevation rules drive below-grade rim-joist and band-board re-flashing on every full envelope re-side in flood-prone parishes."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "dominant_material": "wood",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "none", "license_board_name": "No statewide siding contractor license — municipal building department oversight only",
+    "license_url": "https://www.maine.gov/dps/fmo/building-codes", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "siding_installer_wage_mean_hourly": 24.72, "avg_reside_low": 9500, "avg_reside_high": 25500,
+    "distinctive_law": "Maine has no statewide residential contractor licensing for siding, roofing, or general remodeling — Maine Title 32 §1521 (Home Construction Contracts Act) requires written contracts above $3,000 with mandatory disclosures but imposes no skills credential, leaving construction-quality verification to municipal inspectors where adopted (about 40% of Maine towns) and contract review elsewhere.",
+    "climate_concern": "Maine's coastal salt-haze on the Down East and Mid-Coast corridors corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal cedar and fiber-cement — and the Maine cedar-shake heritage (Boothbay, Camden, Bar Harbor Victorian housing stock) drives sustained cedar-lap dominance over fiber-cement and vinyl on shore-front retrofits despite higher maintenance burden."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Maryland Home Improvement Commission (MHIC)",
+    "license_url": "https://www.dllr.state.md.us/license/mhic/", "permit_typical": "county building permit required for full re-side; Baltimore City separate inspection",
+    "siding_installer_wage_mean_hourly": 26.84, "avg_reside_low": 10500, "avg_reside_high": 28000,
+    "distinctive_law": "Maryland Home Improvement Commission (MHIC) requires every contractor performing residential exterior work above $1,000 to hold an MHIC license — and unique to Maryland, the MHIC administers a Guaranty Fund that compensates homeowners up to $30,000 per project for licensed-contractor abandonment or negligence, funded by MHIC license fees, with claims reviewed by an Administrative Law Judge under MHIC §8-405.",
+    "climate_concern": "Chesapeake Bay coastal salt-haze deposition across Anne Arundel, St. Mary's, and Eastern Shore counties corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal fiber-cement and cedar — and aging Baltimore row-house formstone-and-brick housing stock drives specialty restoration scope on full envelope re-sides in historic-district overlays."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Massachusetts Office of Consumer Affairs and Business Regulation — Home Improvement Contractor (HIC) registration + Construction Supervisor License (CSL)",
+    "license_url": "https://www.mass.gov/orgs/division-of-occupational-licensure", "permit_typical": "town building permit required; CSL holder must sign off on structural work",
+    "siding_installer_wage_mean_hourly": 31.84, "avg_reside_low": 12500, "avg_reside_high": 32500,
+    "distinctive_law": "Massachusetts requires both a Home Improvement Contractor (HIC) registration AND a Construction Supervisor License (CSL) — the HIC registration is for the contracting business entity while the CSL is the personal credential for the individual responsible for code compliance, with both required on every residential re-side and the CSL holder personally liable for envelope code violations under 780 CMR R107.",
+    "climate_concern": "Cape Cod, North Shore, and South Shore Atlantic salt-haze deposition corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal cedar lap, fiber-cement, and brick-veneer wall ties — and aging Boston, Cambridge, and Worcester triple-decker housing stock with cedar lap, asbestos-cement shingle, and original 1900s vinyl reaching end-of-life forces complete envelope re-side scope including WRB upgrade and rainscreen retrofit."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "low", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs — Residential Builder License",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/residential-builders", "permit_typical": "state or municipal building permit required for full re-side and envelope sheathing work",
+    "siding_installer_wage_mean_hourly": 24.18, "avg_reside_low": 9200, "avg_reside_high": 25000,
+    "distinctive_law": "Michigan Public Act 299 of 1980 (Occupational Code Article 24) requires every Residential Builder and Residential Maintenance & Alteration Contractor to hold a Michigan LARA-issued license for any residential project exceeding $600 — and unique to Michigan, the Maintenance & Alteration credential is restricted to four specific scope categories (Carpentry, Concrete, Excavation, Insulation) chosen at examination, with each scope listed individually on the contractor's license card and verified by the building department on every permit application.",
+    "climate_concern": "Lake Michigan, Lake Superior, and Lake Huron shoreline salt-haze deposition (from winter de-icing brine entrainment) plus freshwater wind-driven rain corrode galvanized fasteners on shoreline re-sides — and Upper Peninsula sustained sub-zero ambients across Houghton, Marquette, and Sault Ste. Marie drive vinyl panel brittleness, with cedar lap and engineered wood retaining significant market share over composite alternatives in the U.P."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "very_high",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor & Industry — Residential Building Contractor",
+    "license_url": "https://www.dli.mn.gov/business/contractor-information", "permit_typical": "state or municipal building permit required for full re-side and structural sheathing work",
+    "siding_installer_wage_mean_hourly": 30.42, "avg_reside_low": 10800, "avg_reside_high": 28500,
+    "distinctive_law": "Minnesota Statutes §326B.802 requires every Residential Building Contractor and Residential Remodeler to hold a Department of Labor & Industry license — and unique to Minnesota, the DLI administers a Recovery Fund that compensates homeowners up to $75,000 per project (the highest in the country) for licensed-contractor breach or fraud, funded by per-license fees and disbursed through Department of Commerce administrative review.",
+    "climate_concern": "Minnesota sits inside the second-highest annual hail-claim frequency region in the country after Colorado — Minneapolis, St. Paul, and Rochester retrofit specs increasingly default to Class 4 impact-rated fiber-cement or LP SmartSide-style engineered wood, and Twin Cities insurers offer 20-25% homeowners premium discounts on UL 2218 Class 4 cladding installations with documented hail-survival history."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors (residential >$50,000)",
+    "license_url": "https://msboc.us/", "permit_typical": "city building permit required in incorporated municipalities; rural counties may have no inspection program",
+    "siding_installer_wage_mean_hourly": 20.42, "avg_reside_low": 8200, "avg_reside_high": 22500,
+    "distinctive_law": "Mississippi State Board of Contractors requires the Residential Builder license only on residential projects with total contract value above $50,000 — meaning the overwhelming majority of single-family re-sides proceed under municipal credentials only, with no state oversight in unincorporated counties without chartered inspection programs, and small-project siding work (under $50k) is effectively unregulated statewide.",
+    "climate_concern": "Mississippi Gulf Coast salt-haze deposition on Hancock, Harrison, and Jackson county shorelines corrodes galvanized fasteners on coastal re-sides within 5-7 years, mandating stainless on all shoreline cedar and fiber-cement — and post-Katrina BFE elevation rules drive below-grade rim-joist re-flashing on every full envelope re-side in flood-prone Gulf Coast parcels."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Kansas City, St. Louis, Springfield issue local credentials",
+    "license_url": "https://www.kcmo.gov/city-hall/departments/city-planning-development", "permit_typical": "city building permit required in incorporated municipalities; rural counties may have no inspection program",
+    "siding_installer_wage_mean_hourly": 25.42, "avg_reside_low": 9200, "avg_reside_high": 25000,
+    "distinctive_law": "Missouri remains one of fewer than ten states with no statewide residential contractor licensing — Kansas City and St. Louis run independent registration programs with no reciprocity, and rural Boone, Cole, and Greene counties may issue homeowner-only permits with no contractor verification, with unincorporated areas frequently having no inspection program at all.",
+    "climate_concern": "Missouri sits inside the central U.S. hail and tornado corridor with annual EF1-EF3 exposure across the entire state — Kansas City, St. Louis, and Springfield retrofit specs default to Class 4 impact-rated vinyl or fiber-cement, and the Missouri River and Mississippi River flood-elevation overlays drive below-grade rim-joist re-flashing on every full envelope re-side in FEMA-mapped riverfront parcels."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B-7", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "registration", "license_board_name": "Montana Department of Labor and Industry — Independent Contractor Exemption Certificate or Registered Contractor",
+    "license_url": "https://erd.dli.mt.gov/work-comp-claims/contractor-registration/", "permit_typical": "state or municipal building permit required for full re-side; mountain WUI counties enforce Class A cladding",
+    "siding_installer_wage_mean_hourly": 23.94, "avg_reside_low": 9500, "avg_reside_high": 25500,
+    "distinctive_law": "Montana Title 39 Chapter 9 requires every contractor with employees to register as a Construction Contractor with the Department of Labor and Industry, but Independent Contractors (sole proprietors with no employees) instead hold an Independent Contractor Exemption Certificate (ICEC) — making Montana one of the only states with two parallel credentialing pathways for residential siding work, neither requiring skills examination.",
+    "climate_concern": "Montana mountain WUI overlay across Park, Madison, Gallatin, and Flathead counties has driven Class A ignition-resistant cladding requirements on every new construction and re-side in mapped fire-hazard zones since the 2017-2020 wildfire seasons — fiber-cement plank dominance over cedar and vinyl on Bozeman, Kalispell, and Whitefish retrofits, with WUI-rated soffit vents and ember-resistant attic ventilation now standard envelope scope."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "very_high",
+    "license_status": "registration", "license_board_name": "Nebraska Department of Labor — Contractor Registration (over $5,000)",
+    "license_url": "https://dol.nebraska.gov/", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 24.84, "avg_reside_low": 9000, "avg_reside_high": 24500,
+    "distinctive_law": "Nebraska Revised Statute §48-2101 (Contractor Registration Act) requires every contractor performing more than $5,000 of work per year on Nebraska property to register with the Department of Labor — making Nebraska one of the lowest-threshold registration states, with the registration carrying no examination but mandatory workers' compensation insurance disclosure, unemployment insurance compliance, and use-tax registration verification on every renewal.",
+    "climate_concern": "Nebraska sits inside the central U.S. hail corridor with annual EF1-EF3 events across the entire state — Omaha, Lincoln, and Grand Island retrofit specs default to Class 4 impact-rated vinyl or fiber-cement, and Nebraska insurers offer 15-25% homeowners premium discounts on UL 2218 Class 4 cladding installations with documented hail-survival history."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "dominant_material": "stucco",
+    "wind_tier": "wind_low", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — B (General Building) or C-13 (Wet Walls/Stucco) classification",
+    "license_url": "https://nscb.nv.gov/", "permit_typical": "city or county building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 27.42, "avg_reside_low": 10500, "avg_reside_high": 28000,
+    "distinctive_law": "Nevada State Contractors Board issues a C-13 Wet Walls/Stucco specialty classification distinct from the C-3 Carpentry or B General Building credentials — Nevada stucco contractors typically also hold a C-31A Drywall classification because three-coat hard-coat stucco scratch-coat work routinely intersects with interior gypsum installation, and Las Vegas-area code requires three-coat hard-coat stucco on all new residential exteriors with synthetic acrylic finish coats permitted only on retrofits.",
+    "climate_concern": "Las Vegas Valley summer surface temperatures on dark exterior cladding reach 165°F+, driving stucco's continued dominance over vinyl (which buckles under sustained heat) and fiber-cement (which expands/contracts at higher rates than stucco's mineral substrate) — and Reno-Sparks WUI overlay across Washoe County has driven Class A ignition-resistant cladding adoption on Truckee Meadows retrofits since the 2017-2020 wildfire seasons."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "low",
+    "license_status": "none", "license_board_name": "No statewide siding contractor license — municipal building department oversight only",
+    "license_url": "https://www.nh.gov/safety/divisions/firesafety/bldg-safety-licensing/", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "siding_installer_wage_mean_hourly": 26.92, "avg_reside_low": 9500, "avg_reside_high": 26000,
+    "distinctive_law": "New Hampshire has no statewide residential contractor licensing for siding, roofing, or general remodeling — RSA 359-G (Home Improvement Contractor Act) requires written contracts above $5,000 with mandatory disclosures and a 3-day right of cancellation but imposes no skills credential, leaving construction-quality verification to municipal inspectors where adopted.",
+    "climate_concern": "New Hampshire seacoast salt-haze deposition across Rockingham County (Hampton, Rye, Portsmouth) corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal cedar and fiber-cement — and White Mountain elevation winter ambients across Coos and Grafton counties drive vinyl panel brittleness, with cedar lap and engineered wood retaining significant market share over composite alternatives above 1,500 feet elevation."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "registration", "license_board_name": "New Jersey Division of Consumer Affairs — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.njconsumeraffairs.gov/hic/", "permit_typical": "municipal building permit required for full re-side; UCC subcode official inspection",
+    "siding_installer_wage_mean_hourly": 29.84, "avg_reside_low": 11000, "avg_reside_high": 29500,
+    "distinctive_law": "New Jersey N.J.S.A. §56:8-136 requires every contractor performing residential exterior work above $500 to register as a Home Improvement Contractor (HIC) with the Division of Consumer Affairs — and unique to New Jersey, the HIC registration mandates $500,000 of liability insurance on file, a written contract with specific 18-point disclosures, and prohibits any payment over 33% of contract value before substantial completion.",
+    "climate_concern": "New Jersey Shore Atlantic salt-haze deposition from Cape May to Sandy Hook corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal fiber-cement and cedar — and post-Sandy BFE elevation rules drive below-grade rim-joist and band-board re-flashing on every full envelope re-side in flood-prone Cape May, Atlantic, and Ocean county properties."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "3B-4B-5B", "dominant_material": "stucco",
+    "wind_tier": "wind_low", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — GB-2 (General Building) or GB-98 (Residential)",
+    "license_url": "https://www.rld.nm.gov/construction/", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 22.84, "avg_reside_low": 9000, "avg_reside_high": 24500,
+    "distinctive_law": "New Mexico Construction Industries Division issues GB-98 (Residential), GB-2 (General Building), and ES-3 (Roofing & Cladding) as separately tested classifications — and New Mexico is one of the few states where adobe and pueblo-style mud-plaster construction has its own residential code overlay, with the CID enforcing traditional hand-applied earthen plaster requirements on Santa Fe and Taos historic-district overlays alongside modern three-coat stucco standards.",
+    "climate_concern": "High-desert solar irradiance across the Albuquerque-to-Las Cruces corridor at 5,000-7,000 feet elevation drives stucco's dominance over vinyl (which UV-degrades faster at altitude) and cedar (which checks and cups under intense solar exposure) — and northern New Mexico WUI overlay across Santa Fe, Los Alamos, and Sandoval counties has driven Class A ignition-resistant cladding adoption since the 2011 Las Conchas and 2022 Hermits Peak fires."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — NYC, Westchester, Nassau, Suffolk issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.nyc.gov/site/dca/businesses/license-checklist-home-improvement-contractor.page", "permit_typical": "municipal building permit required; NYC requires DOB filing for envelope work",
+    "siding_installer_wage_mean_hourly": 36.84, "avg_reside_low": 13500, "avg_reside_high": 35000,
+    "distinctive_law": "New York City requires every Home Improvement Contractor to hold a Department of Consumer and Worker Protection (DCWP) HIC license under NYC Administrative Code §20-386 — and unique to NYC, the HIC license mandates a $20,000 surety bond, written contracts in the consumer's language of preference (English, Spanish, Chinese, Russian, Korean, Haitian Creole, French), and 5-day right of cancellation, with the DCWP administering a Trust Fund for licensed-contractor breach claims.",
+    "climate_concern": "NYC and Long Island Atlantic and Sound salt-haze deposition corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal vinyl, cedar, and fiber-cement — and post-Sandy BFE elevation rules drive below-grade rim-joist re-flashing on every full envelope re-side in flood-prone Brooklyn, Queens, Nassau, and Suffolk waterfront properties."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "North Carolina Licensing Board for General Contractors (residential >$30,000)",
+    "license_url": "https://www.nclbgc.org/", "permit_typical": "city or county building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 23.84, "avg_reside_low": 9000, "avg_reside_high": 25000,
+    "distinctive_law": "North Carolina General Statutes §87-1 requires the General Contractor license on any residential project with total contract value above $30,000 — and the Licensing Board issues Limited (under $750k single-family), Intermediate ($750k-$1.5M), and Unlimited (any size) classifications with separate Building, Highway, Public Utilities, and Specialty endorsements, with siding-only work above the threshold falling under the Building or RH Specialty Residential endorsement.",
+    "climate_concern": "Outer Banks and Pamlico Sound coastal salt-haze deposition corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal vinyl, fiber-cement, and cedar — and the eastern Coastal Plain hurricane wind exposure across Wilmington, New Bern, and the Outer Banks drives Notice of Acceptance fastener schedules and impact-rated cladding selection on coastal retrofits."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "high",
+    "license_status": "required", "license_board_name": "North Dakota Secretary of State — Contractor License (over $4,000)",
+    "license_url": "https://sos.nd.gov/business/business-services/contractors", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 26.92, "avg_reside_low": 9500, "avg_reside_high": 26000,
+    "distinctive_law": "North Dakota Century Code Chapter 43-07 (Contractors) requires every contractor performing residential or commercial work above $4,000 to hold a license issued by the Secretary of State — making North Dakota one of the lowest-threshold mandatory-licensing states, with separate Class A (any project size), Class B (under $700k), and Class C (under $300k) classifications based on bond amount on file.",
+    "climate_concern": "Northern Plains winter ambients across Fargo, Bismarck, and Grand Forks sustain -30°F to -50°F readings that drive vinyl panel brittleness and fastener failure on south-facing elevations — and the August 2020 Bowman County tornado outbreak plus annual derecho exposure drive Class 4 impact-rated and high-wind-rated cladding adoption on Red River Valley retrofits."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Cleveland, Columbus, Cincinnati issue local Home Improvement Contractor credentials",
+    "license_url": "https://www.cleveland-oh.gov/CityofCleveland/Home/Government/CityAgencies/BuildingHousing", "permit_typical": "city or county building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 26.84, "avg_reside_low": 9500, "avg_reside_high": 26000,
+    "distinctive_law": "Ohio has no statewide residential contractor licensing for siding, roofing, or general remodeling — Ohio Construction Industry Licensing Board regulates HVAC, electrical, plumbing, hydronics, and refrigeration statewide but exempts envelope and structural work — and Cleveland, Columbus, and Cincinnati each issue independent Home Improvement Contractor registrations that don't reciprocate, with rural unincorporated counties typically having no inspection program.",
+    "climate_concern": "Lake Erie shoreline counties from Lucas to Ashtabula face lake-effect winter freeze-thaw cycling that drives wood-cladding rot and rainscreen-gap requirements on every coastal re-side — and the Ohio River industrial corridor's high humidity and coal-fired plant downwind sulfate deposition shorten outdoor cladding galvanic fastener life on Cincinnati and Steubenville-area properties."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "very_high",
+    "license_status": "municipal-only", "license_board_name": "No statewide siding license — Oklahoma City, Tulsa, Norman issue local credentials",
+    "license_url": "https://www.okc.gov/departments/development-services", "permit_typical": "city building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 22.42, "avg_reside_low": 8500, "avg_reside_high": 23500,
+    "distinctive_law": "Oklahoma Statute Title 59 §1850 (Roofing Contractor Registration Act) requires all residential roofing contractors to register with the Construction Industries Board, but siding contractors and general remodelers face no statewide registration requirement — Oklahoma City and Tulsa each issue independent Home Improvement Contractor credentials, with rural counties typically requiring no contractor verification.",
+    "climate_concern": "Oklahoma sits at the heart of Tornado Alley with annual EF2-EF5 exposure across the entire state, and Oklahoma City and Tulsa retrofit specs increasingly default to brick-veneer for its inherent wind and impact resistance — Class 4 impact-rated vinyl, fiber-cement, and engineered wood are alternatives, with insurers offering 20-25% homeowners premium discounts on UL 2218 Class 4 cladding installations with documented hail-survival history."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B-6B", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "regional", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board (CCB) — Residential General Contractor",
+    "license_url": "https://www.oregon.gov/ccb/", "permit_typical": "state or municipal building permit required for full re-side; Oregon WUI cladding standards on coastal and forested counties",
+    "siding_installer_wage_mean_hourly": 28.92, "avg_reside_low": 11000, "avg_reside_high": 29000,
+    "distinctive_law": "Oregon Construction Contractors Board (CCB) requires every contractor performing residential exterior work above $1,000 to hold a CCB license — and unique to Oregon, the CCB administers a Residential Bond pool that compensates homeowners up to $20,000 per project for licensed-contractor breach, with mandatory continuing education on Oregon-specific energy code (Reach Code) and WUI cladding amendments on every renewal.",
+    "climate_concern": "Pacific Northwest coastal salt-haze plus Olympic Peninsula sustained rainfall (Tillamook 90+ inches/year) corrode galvanized fasteners on shoreline re-sides within 7-10 years, mandating stainless on all coastal cedar and fiber-cement — and the 2020 Labor Day Oregon wildfire complex drove Class A ignition-resistant cladding adoption on Marion, Lane, and Jackson county WUI retrofits, with fiber-cement plank dominating cedar lap on rebuilds."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "low", "hail_tier": "moderate",
+    "license_status": "registration", "license_board_name": "Pennsylvania Office of Attorney General — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.attorneygeneral.gov/protect-pennsylvanians/homeimprovementconsumerprotectionact/", "permit_typical": "municipal building permit required for full re-side; Philadelphia and Pittsburgh separate inspection programs",
+    "siding_installer_wage_mean_hourly": 27.84, "avg_reside_low": 10000, "avg_reside_high": 27500,
+    "distinctive_law": "Pennsylvania Home Improvement Consumer Protection Act (HICPA, 73 P.S. §517) requires every contractor performing residential exterior work above $5,000 per year to register with the Office of Attorney General — and unique to Pennsylvania, the HICPA registration carries no skills examination but mandates a written contract with 16-point disclosures, prohibits any payment over 33% of contract value before substantial completion, and creates a private right of action for treble damages on HICPA violations.",
+    "climate_concern": "Pennsylvania's Allegheny Plateau and Pocono regions face winter ambients reaching -15°F that drive vinyl panel brittleness on north-facing elevations — and aging post-WWII Philadelphia, Pittsburgh, and Scranton row-house and Victorian housing stock with formstone, asbestos-cement shingle, and original 1900s vinyl reaching end-of-life forces complete envelope re-side scope including WRB upgrade and rainscreen retrofit on most pre-1960 homes."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "registration", "license_board_name": "Rhode Island Contractors' Registration & Licensing Board",
+    "license_url": "https://crb.ri.gov/", "permit_typical": "municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 28.82, "avg_reside_low": 10500, "avg_reside_high": 28000,
+    "distinctive_law": "Rhode Island General Laws §5-65 requires every contractor performing residential exterior work to register with the Contractors' Registration & Licensing Board — and unique to Rhode Island, the CRLB registration mandates a $5,000 surety bond, $500,000 of liability insurance, and a 7-day right of cancellation on residential contracts, with the Board administering a Recovery Fund that compensates homeowners up to $7,500 per project for licensed-contractor breach.",
+    "climate_concern": "Narragansett Bay coastal salt-haze deposition across Newport, Bristol, and Washington counties corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal cedar and fiber-cement — and aging Providence, Pawtucket, and Newport triple-decker and Federal-period housing stock with cedar shingle, asbestos-cement, and original vinyl reaching end-of-life forces complete envelope re-side scope on most pre-1950 homes."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "South Carolina Department of Labor, Licensing and Regulation — Residential Builders Commission (Specialty Contractor SP-RBE for siding)",
+    "license_url": "https://llr.sc.gov/resb/", "permit_typical": "city or county building permit required for full re-side; Beaufort/Charleston enforce coastal wind code",
+    "siding_installer_wage_mean_hourly": 22.94, "avg_reside_low": 9200, "avg_reside_high": 25500,
+    "distinctive_law": "South Carolina SC Code §40-59 requires every Residential Builder and Residential Specialty Contractor to hold a Residential Builders Commission credential — and unique to South Carolina, the Specialty Contractor SP-RBE (Roofing/Siding/Exterior) classification authorizes envelope-only work distinct from the full Residential Builder license, with the Commission requiring a $10,000 surety bond and 8-hour pre-license building science continuing education.",
+    "climate_concern": "Charleston, Hilton Head, and Myrtle Beach Atlantic salt-haze deposition corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal fiber-cement and cedar — and the Lowcountry hurricane wind exposure across Beaufort, Charleston, and Horry counties drives Notice of Acceptance fastener schedules and impact-rated cladding selection on coastal retrofits."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "high",
+    "license_status": "none", "license_board_name": "No statewide siding contractor license — municipal building department oversight only",
+    "license_url": "https://dlr.sd.gov/buildings/default.aspx", "permit_typical": "municipal building permit required where adopted; rural counties may have no inspection program",
+    "siding_installer_wage_mean_hourly": 22.42, "avg_reside_low": 8500, "avg_reside_high": 23500,
+    "distinctive_law": "South Dakota has no statewide residential contractor licensing for siding, roofing, general remodeling, plumbing, or electrical — making South Dakota one of the most lightly regulated construction-licensing states in the country, with municipalities like Sioux Falls, Rapid City, and Aberdeen issuing independent contractor registrations that don't reciprocate and rural counties typically having no inspection program at all.",
+    "climate_concern": "Northern Plains winter ambients across Pierre, Aberdeen, and Rapid City sustain -30°F readings that drive vinyl panel brittleness on south-facing elevations — and Black Hills hailstorms with 3-inch+ stones drive Class 4 impact-rated cladding adoption on Rapid City and Spearfish retrofits, with insurers offering homeowners premium discounts on UL 2218 Class 4 cladding installations."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors (residential >$25,000)",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 23.42, "avg_reside_low": 9000, "avg_reside_high": 25000,
+    "distinctive_law": "Tennessee Board for Licensing Contractors requires the Contractor license (BC, BC-A, BC-B classifications) on any residential project with total contract value above $25,000 — and unique to Tennessee, the Home Improvement license is a separately tested credential required for residential remodeling work between $3,000 and $25,000, with the Tennessee Department of Commerce & Insurance enforcing dual credentialing on contractors operating across both thresholds.",
+    "climate_concern": "Tennessee Valley Authority service territory across the eastern and central state faces high cloud-to-ground lightning flash density and seasonal tornado outbreaks — Memphis, Nashville, Knoxville, and Chattanooga retrofit specs increasingly default to brick-veneer or impact-rated fiber-cement — and the Mississippi River bottomland in Memphis exposes thousands of single-family parcels to FEMA-mapped flood elevation, forcing rim-joist re-flashing on full envelope re-sides."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-3A-3B-4B", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_high", "wui_fire_requirement": "none", "salt_corrosion_zone": "high-coastal", "hail_tier": "very_high",
+    "license_status": "none", "license_board_name": "No statewide siding contractor license — municipal building department oversight only",
+    "license_url": "https://www.tdlr.texas.gov/", "permit_typical": "city or municipal building permit required for full re-side; Texas Windstorm Insurance Association (TWIA) inspection on Tier 1 coastal counties",
+    "siding_installer_wage_mean_hourly": 21.84, "avg_reside_low": 9500, "avg_reside_high": 26000,
+    "distinctive_law": "Texas has no statewide residential contractor licensing for siding, roofing, or general remodeling — making Texas one of the most lightly regulated construction-licensing states in the country — but Texas Insurance Code Chapter 2210 (Texas Windstorm Insurance Association) requires WPI-8 certificate of inspection on every roofing or envelope project in 14 Tier 1 coastal counties from Cameron to Jefferson, without which residential properties cannot obtain TWIA windstorm coverage.",
+    "climate_concern": "Texas spans hurricane-exposed Gulf Coast, Tornado Alley central plains, and arid Trans-Pecos west — Houston, Galveston, and Corpus Christi retrofits face Notice of Acceptance fastener schedules and stainless component requirements, while Oklahoma-border North Texas and Panhandle properties face annual EF1-EF3 hail with Class 4 impact-rated cladding now standard on Lubbock, Amarillo, and Wichita Falls retrofits."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "3B-5B-6B", "dominant_material": "stucco",
+    "wind_tier": "wind_low", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Utah Department of Commerce — Division of Occupational and Professional Licensing (B100 General Building or S350 Siding specialty)",
+    "license_url": "https://dopl.utah.gov/contractor/", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 23.84, "avg_reside_low": 9500, "avg_reside_high": 25500,
+    "distinctive_law": "Utah DOPL issues an S350 Siding specialty contractor classification distinct from the B100 General Building license — and unique to Utah, the DOPL administers a Construction Trades Recovery Fund that compensates homeowners up to $40,000 per project for licensed-contractor breach, funded by per-license fees, with claims reviewed by the Division of Occupational and Professional Licensing under Utah Code §38-11-201.",
+    "climate_concern": "Wasatch Front high-altitude summer solar irradiance across Salt Lake, Davis, and Utah counties drives stucco's continued dominance over vinyl (which UV-degrades faster at altitude) and cedar — and northern Utah WUI overlay across Summit, Wasatch, and Cache counties has driven Class A ignition-resistant cladding adoption on Park City, Heber, and Logan retrofits since the 2018-2020 wildfire seasons."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "dominant_material": "wood",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "low",
+    "license_status": "registration", "license_board_name": "Vermont Office of Professional Regulation — Residential Contractor Registration",
+    "license_url": "https://sos.vermont.gov/residential-contractors/", "permit_typical": "municipal building permit required where adopted; many small towns have no inspection program",
+    "siding_installer_wage_mean_hourly": 25.42, "avg_reside_low": 9200, "avg_reside_high": 25000,
+    "distinctive_law": "Vermont 26 V.S.A. Chapter 109 (effective 2021) requires every residential contractor to register with the Office of Professional Regulation if performing more than $10,000 of work per year on Vermont property — making Vermont one of the most recently established residential contractor registries in the country, with mandatory written contracts, $250,000 of liability insurance, and 3-day right of cancellation provisions.",
+    "climate_concern": "Green Mountain elevation winter ambients across Caledonia, Essex, and Orleans counties sustain -25°F readings that drive vinyl panel brittleness on south-facing elevations — and Vermont's heritage of cedar lap, board-and-batten, and shake cladding (Federal-period and Greek Revival housing stock in Middlebury, Burlington, and Brattleboro) drives sustained wood-cladding dominance over fiber-cement and vinyl on historic-district overlays."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "moderate-coastal", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Virginia Department of Professional and Occupational Regulation — Board for Contractors (Class A/B/C residential)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors", "permit_typical": "city or county building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 24.84, "avg_reside_low": 9200, "avg_reside_high": 25500,
+    "distinctive_law": "Virginia DPOR issues Class A (any project size), Class B ($10,000-$120,000), and Class C (under $10,000) as three contracting tiers — and unique to Virginia, the Board for Contractors issues separately tested specialty designations (HIC Home Improvement, BLD Building, RBC Residential Building) within each class, with siding work falling under either RBC Residential Building or HIC Home Improvement depending on project scope.",
+    "climate_concern": "Chesapeake Bay coastal salt-haze deposition across Hampton Roads, Virginia Beach, and the Eastern Shore corrodes galvanized fasteners on shoreline re-sides within 5-7 years, mandating stainless on all coastal vinyl, fiber-cement, and cedar — and Blue Ridge winter ice storms on the western Virginia counties drive wood-cladding rot and rainscreen-gap requirements on every full envelope re-side."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "dominant_material": "fiber-cement",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "regional", "salt_corrosion_zone": "high-coastal", "hail_tier": "low",
+    "license_status": "registration", "license_board_name": "Washington State Department of Labor & Industries — Contractor Registration",
+    "license_url": "https://lni.wa.gov/licensing-permits/contractors/", "permit_typical": "state or municipal building permit required for full re-side; Washington State Energy Code envelope verification",
+    "siding_installer_wage_mean_hourly": 30.42, "avg_reside_low": 12000, "avg_reside_high": 30500,
+    "distinctive_law": "Washington L&I requires every contractor performing residential or commercial work to register as a General Contractor or Specialty Contractor under RCW 18.27 — and unique to Washington, the Specialty Contractor registration is restricted to specific scope categories (Roofing, Plumbing, HVAC, Electrical) but not siding, meaning Washington siding contractors register under the General Contractor classification with a $12,000 surety bond and $250,000 liability insurance.",
+    "climate_concern": "Puget Sound and Pacific coast salt-haze plus Olympic Peninsula sustained rainfall (Forks 100+ inches/year) corrode galvanized fasteners on shoreline re-sides within 7-10 years, mandating stainless on all coastal cedar and fiber-cement — and Cascade WUI overlay across Chelan, Okanogan, and Yakima counties drove Class A ignition-resistant cladding adoption after the 2014 Carlton Complex and 2015 Okanogan Complex wildfires."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Contractor Licensing Board (residential >$2,500)",
+    "license_url": "https://labor.wv.gov/Wage-Hour/Pages/Contractor-Licensing.aspx", "permit_typical": "city or county building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 22.42, "avg_reside_low": 8500, "avg_reside_high": 23500,
+    "distinctive_law": "West Virginia Code §21-11 requires every contractor performing residential or commercial work above $2,500 to hold a Contractor License issued by the Division of Labor's Contractor Licensing Board — making West Virginia one of the lowest-threshold mandatory-licensing states, with separate Residential, Commercial, Subcontractor, Roofing, and Specialty classifications and a mandatory $10,000 surety bond on every license tier.",
+    "climate_concern": "Appalachian coal-country reclaimed mine subsidence creates unpredictable ground settlement that shears below-grade rim-joist flashing annually on properties built over abandoned mine works — and Allegheny Plateau winter ice storms across Hampshire, Hardy, and Pendleton counties drive wood-cladding rot and rainscreen-gap requirements on every full envelope re-side."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "5A-6A-7", "dominant_material": "vinyl",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "low", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety and Professional Services — Dwelling Contractor (DC) and Dwelling Contractor Qualifier (DCQ)",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/DwellingContractor/Default.aspx", "permit_typical": "state or municipal building permit required for full re-side",
+    "siding_installer_wage_mean_hourly": 26.42, "avg_reside_low": 9500, "avg_reside_high": 25500,
+    "distinctive_law": "Wisconsin Statutes §101.654 requires every contractor performing residential exterior work on one- or two-family dwellings to hold both a Dwelling Contractor (DC) certification (the contracting business entity credential) AND a Dwelling Contractor Qualifier (DCQ) certification (the personal credential held by the responsible individual) — and unique to Wisconsin, the DCQ requires 12 hours of pre-certification continuing education and 12 hours per renewal cycle on Wisconsin energy-code, building-code, and consumer-protection topics.",
+    "climate_concern": "Northern Wisconsin winter ambients across Vilas, Iron, and Bayfield counties sustain -30°F to -40°F readings that drive vinyl panel brittleness on south-facing elevations — and Lake Michigan and Lake Superior lake-effect freeze-thaw cycling drive wood-cladding rot and rainscreen-gap requirements on every coastal re-side, with cedar lap and engineered wood retaining significant market share over composite alternatives in the Northwoods."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "5B-6B-7", "dominant_material": "wood",
+    "wind_tier": "wind_high", "wui_fire_requirement": "regional", "salt_corrosion_zone": "none", "hail_tier": "moderate",
+    "license_status": "none", "license_board_name": "No statewide siding contractor license — municipal building department oversight only",
+    "license_url": "https://wyomingworkforce.org/", "permit_typical": "municipal building permit required where adopted; many counties have no inspection program",
+    "siding_installer_wage_mean_hourly": 24.42, "avg_reside_low": 9200, "avg_reside_high": 25000,
+    "distinctive_law": "Wyoming has no statewide residential contractor licensing for siding, roofing, general remodeling, plumbing, or electrical — making Wyoming one of the most lightly regulated construction-licensing states in the country alongside South Dakota, with municipalities like Cheyenne, Casper, and Jackson issuing independent contractor registrations that don't reciprocate and rural counties typically having no inspection program at all.",
+    "climate_concern": "Wyoming high-plains chinook winds reaching 80-100 mph annually across Sheridan, Casper, and Laramie drive cedar and engineered wood as dominant cladding choices over vinyl (which buckles under wind-borne particle abrasion) — and Yellowstone-area WUI overlay across Park, Teton, and Lincoln counties drove Class A ignition-resistant cladding adoption on Jackson and Cody retrofits since the 2016-2020 wildfire seasons."
+  },
+  "DC": {
+    "name": "District of Columbia", "slug": "district-of-columbia", "abbr": "DC",
+    "iecc_zone": "4A", "dominant_material": "brick-veneer",
+    "wind_tier": "wind_moderate", "wui_fire_requirement": "none", "salt_corrosion_zone": "low", "hail_tier": "moderate",
+    "license_status": "required", "license_board_name": "DC Department of Buildings — Home Improvement Contractor (HIC) license",
+    "license_url": "https://dob.dc.gov/", "permit_typical": "DC building permit required for full re-side and envelope sheathing work",
+    "siding_installer_wage_mean_hourly": 32.42, "avg_reside_low": 11500, "avg_reside_high": 30000,
+    "distinctive_law": "DC requires every contractor performing residential exterior work above $300 to hold a DC Home Improvement Contractor (HIC) license under DC Municipal Regulations Title 16 §800 — and unique to DC, the HIC license requires a $10,000 surety bond, $50,000 of liability insurance, and DC Department of Buildings filing for any envelope work on Federal-period or Victorian housing stock in HPRB-protected historic districts.",
+    "climate_concern": "DC's Federal-period and Victorian brick-veneer row-house housing stock drives masonry restoration scope on most pre-1940 envelope retrofits, with through-wall flashing upgrades and lime-mortar repointing replacing standard vinyl-replacement scope — and HPRB-protected historic districts (Georgetown, Capitol Hill, Dupont Circle) require DC Historic Preservation Office sign-off on any visible cladding alteration."
+  }
+}
