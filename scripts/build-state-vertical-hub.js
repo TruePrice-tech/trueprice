@@ -149,6 +149,164 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  electrical: {
+    fileSuffix: "-electrical-cost.html",
+    cityFileSuffix: "-electrical-cost.html",
+    pageTitle: (s) => `Electrical & Panel Upgrade Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average 200A panel upgrade cost in ${s.name} runs ${money(s.avg_panel_upgrade_low)}–${money(s.avg_panel_upgrade_high)}. Per-state NEC adoption, license tier, AFCI/GFCI, and lightning/freeze drivers explained.`,
+    h1: (s) => `Electrical & Panel Upgrade Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/electrical-cities.html",
+    citiesDirLabel: "Electrical cities",
+    costGuideHref: "/electrical-cost-guide.html",
+    quoteAnalyzerHref: "/electrical-quote-analyzer.html",
+    estimatorHref: "/electrical-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Electrical estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "electrical and panel upgrade",
+    verticalLabelCap: "Electrical & Panel Upgrade",
+    pricingMetricLabel: "200A service panel upgrade",
+    wageField: "electrician_wage_mean_hourly",
+    wageLabel: "BLS electrician wage",
+    wageSourceLabel: "BLS OEWS electrician mean",
+    sitemapFile: "sitemap-electrical.xml",
+    introHero: (s, vConf) => {
+      const codeYearLabel = `the ${s.nec_code_year} NEC`;
+      return `Panel upgrades and rewires in ${s.name} typically run ${money(s.avg_panel_upgrade_low)}–${money(s.avg_panel_upgrade_high)} for a ${vConf.pricingMetricLabel}, with ${codeYearLabel} as the adopted enforcement basis. Service entrance design assumes a ${s.service_size_typical} minimum on new residential construction. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_panel_upgrade_low",
+    avgFieldHigh: "avg_panel_upgrade_high",
+    climateFactsHTML: (s) => climateAndCodeFactsElectricalHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} code & environmental drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
+  siding: {
+    fileSuffix: "-siding-cost.html",
+    cityFileSuffix: "-siding-cost.html",
+    pageTitle: (s) => `Siding Replacement Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average full-house re-side cost in ${s.name} runs ${money(s.avg_reside_low)}–${money(s.avg_reside_high)} for a 1,500 sq ft single-story home. Per-state climate, WUI, hurricane, and salt-air drivers explained.`,
+    h1: (s) => `Siding Replacement Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/siding-cities.html",
+    citiesDirLabel: "Siding cities",
+    costGuideHref: "/siding-cost-guide.html",
+    quoteAnalyzerHref: "/siding-quote-analyzer.html",
+    estimatorHref: "/siding-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Siding estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "siding replacement",
+    verticalLabelCap: "Siding Replacement",
+    pricingMetricLabel: "1,500 sq ft single-story full re-side",
+    wageField: "siding_installer_wage_mean_hourly",
+    wageLabel: "BLS carpenter wage",
+    wageSourceLabel: "BLS OEWS carpenter (siding installers) mean",
+    sitemapFile: "sitemap-siding.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "vinyl": "vinyl panel",
+        "fiber-cement": "fiber-cement plank (Hardie or LP SmartSide-style)",
+        "brick-veneer": "brick veneer over wood frame",
+        "stucco": "three-coat hard-coat stucco",
+        "wood": "cedar lap or shake wood",
+        "engineered-wood": "engineered wood lap (LP SmartSide-style)",
+      };
+      const mat = matLabel[s.dominant_material] || s.dominant_material.replace(/-/g, " ");
+      return `Re-siding a 1,500 sq ft home in ${s.name} typically runs ${money(s.avg_reside_low)}–${money(s.avg_reside_high)}, with ${mat} the dominant residential cladding choice. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_reside_low",
+    avgFieldHigh: "avg_reside_high",
+    climateFactsHTML: (s) => climateAndCodeFactsSidingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate & cladding drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
+  gutter: {
+    fileSuffix: "-gutter-cost.html",
+    cityFileSuffix: "-gutter-cost.html",
+    pageTitle: (s) => `Gutter Installation Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average whole-house gutter and downspout installation in ${s.name} runs ${money(s.avg_gutter_install_low)}–${money(s.avg_gutter_install_high)}. Per-state rainfall, ice-dam, hurricane, and tree-canopy drivers explained.`,
+    h1: (s) => `Gutter Installation Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/gutter-cities.html",
+    citiesDirLabel: "Gutter cities",
+    costGuideHref: "/gutter-installation-cost-guide.html",
+    quoteAnalyzerHref: "/gutters-quote-analyzer.html",
+    estimatorHref: "/gutters-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Gutter estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "gutter installation",
+    verticalLabelCap: "Gutter Installation",
+    pricingMetricLabel: "whole-house seamless aluminum K-style with downspouts",
+    wageField: "gutter_installer_wage_mean_hourly",
+    wageLabel: "BLS roofer wage",
+    wageSourceLabel: "BLS OEWS roofer (gutter installers) mean",
+    sitemapFile: "sitemap-gutters.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "aluminum-k-style-5in": "5-inch K-style seamless aluminum",
+        "aluminum-k-style-6in": "6-inch oversized K-style seamless aluminum",
+        "copper": "16 oz half-round copper",
+        "galvanized-steel": "G90 galvanized steel",
+      };
+      const mat = matLabel[s.dominant_gutter_material] || s.dominant_gutter_material.replace(/-/g, " ");
+      return `Whole-house gutter installation in ${s.name} typically runs ${money(s.avg_gutter_install_low)}–${money(s.avg_gutter_install_high)}, with ${mat} the dominant residential profile and roughly ${s.annual_rainfall_inches} inches of annual precipitation driving sizing. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_gutter_install_low",
+    avgFieldHigh: "avg_gutter_install_high",
+    climateFactsHTML: (s) => climateAndCodeFactsGutterHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} rainfall & drainage drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
+  fencing: {
+    fileSuffix: "-fence-cost.html",
+    cityFileSuffix: "-fence-cost.html",
+    pageTitle: (s) => `Fence Installation Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average 150 linear-foot 6-ft privacy fence in ${s.name} runs ${money(s.avg_fence_install_low)}–${money(s.avg_fence_install_high)}. Per-state frost-line, HOA, termite, hurricane, and good-neighbor law drivers explained.`,
+    h1: (s) => `Fence Installation Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/fencing-cities.html",
+    citiesDirLabel: "Fencing cities",
+    costGuideHref: "/fencing-cost-guide.html",
+    quoteAnalyzerHref: "/fencing-quote-analyzer.html",
+    estimatorHref: "/fencing-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Fence estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "fence installation",
+    verticalLabelCap: "Fence Installation",
+    pricingMetricLabel: "150 linear-foot 6-foot cedar privacy fence with three gates",
+    wageField: "fence_installer_wage_mean_hourly",
+    wageLabel: "BLS construction-laborer wage",
+    wageSourceLabel: "BLS OEWS construction-laborer (fence installers) mean",
+    sitemapFile: "sitemap-fence.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "cedar-privacy": "6-foot western red cedar privacy",
+        "pine-treated": "6-foot pressure-treated southern yellow pine",
+        "vinyl": "6-foot vinyl panel",
+        "chain-link": "4-to-6-foot galvanized chain-link",
+        "wrought-iron": "5-foot ornamental aluminum or wrought-iron",
+        "composite": "6-foot composite plastic-wood-blend",
+      };
+      const mat = matLabel[s.dominant_material] || s.dominant_material.replace(/-/g, " ");
+      return `Installing 150 linear feet of fencing in ${s.name} typically runs ${money(s.avg_fence_install_low)}–${money(s.avg_fence_install_high)}, with ${mat} the dominant residential choice. Concrete-set posts must clear the ${s.frost_line_inches}-inch design frost line. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_fence_install_low",
+    avgFieldHigh: "avg_fence_install_high",
+    climateFactsHTML: (s) => climateAndCodeFactsFencingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate & post-design drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing, HOA & boundary law`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
 };
 
 function money(n) {
@@ -331,6 +489,151 @@ function climateAndCodeFactsRoofHTML(state) {
     `<li><strong>Hail risk tier:</strong> ${escapeHtml(hailLabel[state.hail_tier] || state.hail_tier)}</li>`,
     `<li><strong>Ground snow load:</strong> ${escapeHtml(snowLabel(state.snow_load_psf))}</li>`,
     `<li><strong>Dominant residential roof material:</strong> ${escapeHtml(state.dominant_material.replace(/-/g, " "))}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsElectricalHTML(state) {
+  const codeYearLabel = {
+    "2017": "2017 NEC — older adoption cycle, local amendments common",
+    "2020": "2020 NEC — dwelling unit AFCI on most 120V branch circuits, GFCI expanded",
+    "2023": "2023 NEC — current cycle with expanded GFCI on dwelling outdoor and 250V circuits, EV charging requirements",
+  };
+  const lightningLabel = {
+    "very-high": "Very high — central Florida and Gulf Coast lightning corridor (10+ flashes/sq mi/yr)",
+    "high": "High — Southeast and lower Plains lightning belt",
+    "moderate": "Moderate — typical interior continental flash density",
+    "low": "Low — Pacific coastal and high desert minimal flash density",
+  };
+  const conduitLabel = {
+    "deep": "30-inch+ design depth — buried service conduit must clear hard frost line",
+    "moderate": "18-to-24-inch design depth on buried service conduit",
+    "shallow": "12-to-18-inch design depth on buried service conduit",
+  };
+  const items = [
+    `<li><strong>Adopted code basis:</strong> ${escapeHtml(codeYearLabel[state.nec_code_year] || state.nec_code_year)}</li>`,
+    `<li><strong>State amendments:</strong> ${escapeHtml(state.nec_amendment_summary)}</li>`,
+    `<li><strong>Service entrance minimum:</strong> ${escapeHtml(state.service_size_typical)} for new residential construction</li>`,
+    `<li><strong>Lightning flash density:</strong> ${escapeHtml(lightningLabel[state.lightning_tier] || state.lightning_tier)}</li>`,
+    `<li><strong>Buried-conduit frost depth:</strong> ${escapeHtml(conduitLabel[state.conduit_depth_class] || state.conduit_depth_class)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsSidingHTML(state) {
+  const matLabel = {
+    "vinyl": "Vinyl panel — dominant low-budget retrofit choice in non-WUI, non-coastal corridors",
+    "fiber-cement": "Fiber-cement plank — dominant in WUI fire-zone and high-humidity Sun Belt",
+    "brick-veneer": "Brick veneer — dominant in tornado-alley and historic-district overlays",
+    "stucco": "Three-coat hard-coat stucco — dominant in arid and Mediterranean Sun Belt",
+    "wood": "Cedar lap or shake — dominant in Pacific Northwest and historic Northeast",
+    "engineered-wood": "Engineered wood lap — dominant in Sun Belt subdivision new-build retrofits",
+  };
+  const windLabel = {
+    "HVHZ": "High-Velocity Hurricane Zone (HVHZ) — Miami-Dade and Broward fastener-test approval mandatory",
+    "wind_high": "High wind exposure — 140 mph+ design wind on coastal counties",
+    "wind_moderate": "Moderate wind exposure — 110–140 mph design wind on coastal counties",
+    "wind_low": "Low wind exposure — sub-110 mph design wind",
+    "none": "No hurricane wind-design exposure",
+  };
+  const wuiLabel = {
+    "required-statewide": "Statewide ignition-resistant cladding required in WUI overlay",
+    "regional": "Regional WUI overlay — ignition-resistant cladding required in mapped fire-hazard zones",
+    "none": "No statewide WUI cladding mandate",
+  };
+  const saltLabel = {
+    "high-coastal": "High-corrosion coastal — stainless or hot-dipped galvanized fasteners required within 3,000 ft of saltwater",
+    "moderate-coastal": "Moderate-corrosion coastal — stainless fasteners recommended on bayfront and tidal exposures",
+    "low": "Low salt-air corrosion — standard galvanized fasteners adequate",
+    "none": "No salt-air corrosion exposure (interior continental)",
+  };
+  const items = [
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>Dominant residential cladding:</strong> ${escapeHtml(matLabel[state.dominant_material] || state.dominant_material)}</li>`,
+    `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
+    `<li><strong>Wildland-urban interface (WUI) cladding rule:</strong> ${escapeHtml(wuiLabel[state.wui_fire_requirement] || state.wui_fire_requirement)}</li>`,
+    `<li><strong>Salt-air corrosion zone:</strong> ${escapeHtml(saltLabel[state.salt_corrosion_zone] || state.salt_corrosion_zone)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsGutterHTML(state) {
+  const matLabel = {
+    "aluminum-k-style-5in": "5-inch K-style seamless aluminum — dominant low-rainfall retrofit profile",
+    "aluminum-k-style-6in": "6-inch oversized K-style seamless aluminum — dominant in high-rainfall and steep-pitch corridors",
+    "copper": "16 oz half-round copper — dominant in historic-district overlays and high-end coastal",
+    "galvanized-steel": "G90 galvanized steel — dominant in high-snow-load and ice-dam corridors",
+  };
+  const iceLabel = {
+    "high": "High — sustained sub-freezing winter requires ice-and-water shield + heat-cable retrofit budget",
+    "moderate": "Moderate — periodic ice-dam events on north-facing eaves",
+    "low": "Low — occasional freeze events, minimal ice-dam history",
+    "none": "No ice-dam exposure",
+  };
+  const canopyLabel = {
+    "high": "High — mature deciduous canopy drives gutter-guard demand and 2x annual cleaning frequency",
+    "moderate": "Moderate — mixed canopy, gutter guards optional",
+    "low": "Low — sparse canopy, standard open gutters adequate",
+  };
+  const tierLabel = {
+    HVHZ: "HVHZ — Miami-Dade NOA strap-mount required",
+    wind_high: "High — 140 mph+ design wind on coastal counties",
+    wind_moderate: "Moderate — 110–140 mph design wind",
+    wind_low: "Low — sub-110 mph design wind",
+    none: "None",
+  };
+  const items = [
+    `<li><strong>Annual rainfall:</strong> ${state.annual_rainfall_inches} inches/yr — drives K-style sizing and downspout count</li>`,
+    `<li><strong>Dominant residential gutter profile:</strong> ${escapeHtml(matLabel[state.dominant_gutter_material] || state.dominant_gutter_material)}</li>`,
+    `<li><strong>Ground snow load:</strong> ${state.snow_load_psf} psf — drives gutter bracket spacing and ice-shield requirements</li>`,
+    `<li><strong>Ice-dam risk tier:</strong> ${escapeHtml(iceLabel[state.ice_dam_risk] || state.ice_dam_risk)}</li>`,
+    `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(tierLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
+    `<li><strong>Tree-canopy density:</strong> ${escapeHtml(canopyLabel[state.tree_canopy_density] || state.tree_canopy_density)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsFencingHTML(state) {
+  const matLabel = {
+    "cedar-privacy": "Western red cedar privacy — dominant in moderate-climate suburban subdivisions",
+    "pine-treated": "Pressure-treated southern yellow pine — dominant low-budget Sun Belt and Plains",
+    "vinyl": "Vinyl panel — dominant in HOA-heavy Sun Belt and termite-risk corridors",
+    "chain-link": "Galvanized chain-link — dominant in rural and utility-yard applications",
+    "wrought-iron": "Ornamental aluminum or wrought-iron — dominant in HOA front-yard and historic-district overlays",
+    "composite": "Composite plastic-wood-blend — dominant in coastal salt-spray and high-termite Sun Belt",
+  };
+  const windLabel = {
+    HVHZ: "HVHZ — Miami-Dade engineered post-spacing and concrete-set required",
+    wind_high: "High — 140 mph+ design wind drives 8-foot post spacing max and concrete sleeves",
+    wind_moderate: "Moderate — 110–140 mph design wind drives 8-foot post spacing",
+    wind_low: "Low — sub-110 mph design wind, standard 8-foot post spacing",
+    none: "No hurricane wind-design exposure",
+  };
+  const termiteLabel = {
+    "very-high": "Very high — TPCT zone 1, all in-ground wood requires PT southern yellow pine .60 CCA or alternative",
+    "high": "High — TPCT zone 2, PT post requirement",
+    "moderate": "Moderate — periodic termite pressure",
+    "low": "Low — minimal termite pressure",
+  };
+  const hoaLabel = {
+    "high": "High — large planned-community HOA penetration restricts material/color/height",
+    "moderate": "Moderate — suburban HOA prevalence on newer subdivisions",
+    "low": "Low — limited HOA fencing restrictions outside metro subdivisions",
+  };
+  const items = [
+    `<li><strong>Frost-line trench depth:</strong> ${state.frost_line_inches}-inch design minimum for post footings</li>`,
+    `<li><strong>Dominant residential fence material:</strong> ${escapeHtml(matLabel[state.dominant_material] || state.dominant_material)}</li>`,
+    `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
+    `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
+    `<li><strong>HOA fencing-rule prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}

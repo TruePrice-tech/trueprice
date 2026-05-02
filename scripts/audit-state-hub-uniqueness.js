@@ -67,6 +67,26 @@ const VERTICAL_CONFIG = {
     statePrefixOnly: true,
     skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-plumbing-cost\.html$/,
   },
+  electrical: {
+    fileSuffix: "-electrical-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-electrical-cost\.html$/,
+  },
+  siding: {
+    fileSuffix: "-siding-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-siding-cost\.html$/,
+  },
+  gutter: {
+    fileSuffix: "-gutter-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-gutter-cost\.html$/,
+  },
+  fencing: {
+    fileSuffix: "-fence-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-fence-cost\.html$/,
+  },
 };
 
 function loadStateData(vertical) {
