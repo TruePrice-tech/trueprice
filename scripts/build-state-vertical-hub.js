@@ -430,6 +430,48 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  foundation: {
+    fileSuffix: "-foundation-cost.html",
+    cityFileSuffix: "-foundation-cost.html",
+    pageTitle: (s) => `Foundation Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average full-house 2,000 sq ft new-construction foundation pour in ${s.name} runs ${money(s.avg_foundation_low)}–${money(s.avg_foundation_high)}. Per-state frost depth, expansive soil, seismic, hurricane tie-down, and radon-zone drivers explained.`,
+    h1: (s) => `Foundation Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/foundation-cities.html",
+    citiesDirLabel: "Foundation cities",
+    costGuideHref: "/foundation-cost-guide.html",
+    quoteAnalyzerHref: "/foundation-quote-analyzer.html",
+    estimatorHref: "/foundation-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Foundation estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "foundation pour",
+    verticalLabelCap: "Foundation",
+    pricingMetricLabel: "full-house 2,000 sq ft new-construction foundation pour",
+    wageField: "construction_laborer_wage_mean_hourly",
+    wageLabel: "BLS construction-laborer wage",
+    wageSourceLabel: "BLS OEWS construction-laborer (foundation work) mean",
+    sitemapFile: "sitemap-foundation.xml",
+    introHero: (s, vConf) => {
+      const typeLabel = {
+        "basement": "full basement pour",
+        "slab-on-grade": "slab-on-grade",
+        "crawl-space": "crawl-space stem-wall",
+        "pier-and-beam": "pier-and-beam pile-supported",
+        "pile-supported": "driven-pile pile-supported",
+        "mixed-basement-slab": "mixed basement-and-slab",
+      };
+      const type = typeLabel[s.dominant_foundation_type] || s.dominant_foundation_type.replace(/-/g, " ");
+      return `New-construction foundation pours in ${s.name} typically run ${money(s.avg_foundation_low)}–${money(s.avg_foundation_high)} for a ${vConf.pricingMetricLabel}, with ${type} as the dominant residential foundation type. Buried footings must clear the ${s.frost_line_inches}-inch design frost line. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_foundation_low",
+    avgFieldHigh: "avg_foundation_high",
+    climateFactsHTML: (s) => climateAndCodeFactsFoundationHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate, soil, seismic & hydrologic drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   fencing: {
     fileSuffix: "-fence-cost.html",
     cityFileSuffix: "-fence-cost.html",
@@ -992,6 +1034,73 @@ function climateAndCodeFactsFencingHTML(state) {
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
     `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
     `<li><strong>HOA fencing-rule prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsFoundationHTML(state) {
+  const typeLabel = {
+    "basement": "Full basement — dominant in Upper Midwest, Northeast, and Mid-Atlantic on freeze-thaw + radon-zone-1 sites",
+    "slab-on-grade": "Slab-on-grade — dominant in Sun Belt and Southeast on warm climates with shallow frost line",
+    "crawl-space": "Crawl-space stem-wall — dominant in Southeast humid corridor and termite-pressure zones",
+    "pier-and-beam": "Pier-and-beam pile-supported — dominant in Lowcountry coastal and Mississippi alluvium",
+    "pile-supported": "Driven-pile or drilled-shaft — dominant in permafrost (AK), HVHZ coastal (FL), and high water table",
+    "mixed-basement-slab": "Mixed basement-and-slab — varies by lot grading and water table",
+  };
+  const expansiveLabel = {
+    "very-high": "Very high — bentonitic or Black Prairie clay subsoil drives caisson-pier or post-tension foundation requirement",
+    "high": "High — expansive clay subsoil requires geotechnical investigation + reinforced footings",
+    "moderate": "Moderate — periodic clay shrink-swell, standard footing reinforcement adequate",
+    "low": "Low — sandy or stable subsoil, standard slab-on-grade design",
+    "none": "None — non-expansive subsoil",
+  };
+  const sdcLabel = {
+    "A": "SDC A — no seismic design considerations",
+    "B": "SDC B — minor seismic risk, standard tie-down requirements",
+    "C": "SDC C — moderate seismic risk, continuous-rebar-tie footings required",
+    "D0": "SDC D0 — high seismic risk, full ASCE 7-22 detailing required",
+    "D1": "SDC D1 — high seismic risk + Special Inspector continuous observation required",
+    "D2": "SDC D2 — highest seismic risk, full ASCE 7-22 + Special Inspector + post-tension foundation typical",
+    "E": "SDC E — extreme seismic, near-fault design required",
+    "F": "SDC F — extreme seismic, special structural design required",
+  };
+  const hurricaneLabel = {
+    HVHZ: "HVHZ — Miami-Dade NOA-rated foundation tie-down at 175 mph design wind",
+    wind_high: "High — 140 mph+ design wind drives continuous load-path tie-down from foundation to roof",
+    wind_moderate: "Moderate — 110-140 mph design wind, standard tie-down",
+    wind_low: "Low — sub-110 mph design wind, minimal tie-down detailing",
+    none: "No hurricane wind-design exposure",
+  };
+  const waterLabel = {
+    "very-high": "Very high — water within 5 ft of grade, sump-pump + waterproofing membrane required on every basement",
+    "high": "High — periodic water table within footing depth, sump-pump rough-in standard",
+    "moderate": "Moderate — water table below frost line in most lots",
+    "low": "Low — deep water table, no sump-pump rough-in required",
+    "very-low": "Very low — arid, no water-table exposure on residential lots",
+  };
+  const sulfateLabel = {
+    "S0": "S0 — no sulfate exposure, Type I/II cement adequate",
+    "S1": "S1 — moderate sulfate exposure, ASTM C150 Type II cement required",
+    "S2": "S2 — severe sulfate exposure, ASTM C150 Type II/V cement required",
+    "S3": "S3 — very severe sulfate exposure, ASTM C150 Type V cement required + low w/c",
+  };
+  const radonLabel = {
+    1: "Zone 1 (highest) — passive sub-slab depressurization rough-in required on every basement and slab pour",
+    2: "Zone 2 (moderate) — sub-slab depressurization rough-in recommended",
+    3: "Zone 3 (lowest) — no statewide rough-in requirement",
+  };
+  const items = [
+    `<li><strong>Frost-line trench depth:</strong> ${state.frost_line_inches}-inch design minimum for buried footings</li>`,
+    `<li><strong>Dominant residential foundation type:</strong> ${escapeHtml(typeLabel[state.dominant_foundation_type] || state.dominant_foundation_type)}</li>`,
+    `<li><strong>Expansive soil risk:</strong> ${escapeHtml(expansiveLabel[state.expansive_soil_risk] || state.expansive_soil_risk)}</li>`,
+    `<li><strong>Seismic design category (ASCE 7-22):</strong> ${escapeHtml(sdcLabel[state.seismic_design_category] || state.seismic_design_category)}</li>`,
+    `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(hurricaneLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
+    `<li><strong>Water table risk:</strong> ${escapeHtml(waterLabel[state.water_table_risk] || state.water_table_risk)}</li>`,
+    `<li><strong>Sulfate exposure (ACI 318):</strong> ${escapeHtml(sulfateLabel[state.sulfate_exposure_class] || state.sulfate_exposure_class)}</li>`,
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>EPA radon zone:</strong> ${escapeHtml(radonLabel[state.radon_zone] || String(state.radon_zone))}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
