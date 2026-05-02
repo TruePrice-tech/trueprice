@@ -1787,7 +1787,15 @@ const SCOPE_DEFINITIONS = {
 function normalizeScopeText(text) {
   return String(text || "")
     .toLowerCase()
-    // OCR artifact repairs
+    // OCR artifact repairs — common Tesseract confusion fixes seen across the
+    // roofing fixture set (Budget/Heritage/Pinnacle/GAF):
+    //   "ridge"  → "ndge"  (the letters "ri" collapse, "r" reads as "n")
+    //   "drip"   → "dnp"   (same collapse on "ri")
+    .replace(/\bndge\s*cap\b/g, "ridge cap")
+    .replace(/\bndge\s*vent(?:ing)?\b/g, "ridge vent")
+    .replace(/\bndge\b/g, "ridge")
+    .replace(/\bdnp\s*edge\b/g, "drip edge")
+    .replace(/\bdnp\b(?=\s+(?:edge|metal))/g, "drip")
     .replace(/\broo\s*f?\s*ng\b/g, "roofing")
     .replace(/\bashi?ng\b/g, "ashing")
     .replace(/\b[ffi]+ashing\b/g, "flashing")
@@ -1802,6 +1810,11 @@ function normalizeScopeText(text) {
     .replace(/\baluminum\s+drip\b/g, "drip edge")
     .replace(/\bice\s*(?:&|and)\s*water\b/g, "ice and water")
     .replace(/\bstarter[\s-]*strip\b/g, "starter strip")
+    // Quotes regularly list "starter" alone at the end of a line item
+    // ("ridge cap, starter $415"). In roofing scope context that always
+    // means starter strip / starter course. Negative-lookahead avoids
+    // matching unrelated nouns ("starter home", "starter pack", etc.).
+    .replace(/\bstarter\b(?!\s+(?:home|kit|pack|set|unit|cable|pull|fluid|motor|relay))/g, "starter strip")
     .replace(/\bridge[\s-]*cap\b/g, "ridge cap")
     .replace(/\bhip\s*(?:and|&|\/)\s*ridge\b/g, "ridge cap")
     .replace(/\btear[\s-]*off\b/g, "tear off")

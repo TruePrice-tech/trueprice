@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T15:39:36.289Z",
+  "ts": "2026-05-02T16:02:29.309Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-gaf": {
@@ -43,6 +43,7 @@
       "contractor": "BUDGET ROOFING CO",
       "stateCode": null,
       "scopeFound": [
+        "tear off",
         "underlayment",
         "flashing",
         "drip edge",
@@ -53,8 +54,7 @@
         "permit"
       ],
       "failures": [
-        "scopeFound missing: \"tear off\" (have: underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)",
-        "scopeFound missing: \"ridge cap\" (have: underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)"
+        "scopeFound missing: \"ridge cap\" (have: tear off | underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)"
       ]
     },
     "f4-heritage": {
@@ -62,6 +62,7 @@
       "contractor": "HERITAGE ROOFING & EXTERIORS",
       "stateCode": null,
       "scopeFound": [
+        "tear off",
         "underlayment",
         "flashing",
         "ice & water shield",
@@ -73,9 +74,8 @@
         "permit"
       ],
       "failures": [
-        "scopeFound missing: \"tear off\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
-        "scopeFound missing: \"ridge cap\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
-        "scopeFound missing: \"starter strip\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)"
+        "scopeFound missing: \"ridge cap\" (have: tear off | underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
+        "scopeFound missing: \"starter strip\" (have: tear off | underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)"
       ]
     },
     "f5-pinnacle": {
@@ -83,6 +83,7 @@
       "contractor": "PINNACLE PREMIUM ROOFING",
       "stateCode": null,
       "scopeFound": [
+        "tear off",
         "underlayment",
         "flashing",
         "ice & water shield",
@@ -93,9 +94,8 @@
         "permit"
       ],
       "failures": [
-        "scopeFound missing: \"tear off\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
-        "scopeFound missing: \"drip edge\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
-        "scopeFound missing: \"ridge vent\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)"
+        "scopeFound missing: \"drip edge\" (have: tear off | underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
+        "scopeFound missing: \"ridge vent\" (have: tear off | underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)"
       ]
     },
     "f6-metal-136k": {

@@ -214,6 +214,17 @@ function compare(label, actual, expected) {
     return;
   }
 
+  // Reduce a failure message to its SUBJECT — the thing that's wrong — so
+  // diffs ignore noise like the changing "have: ..." list when an unrelated
+  // scope item flips from missing to found.
+  function failureSubject(msg) {
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode):/);
+    if (m1) return m1[1];
+    const m2 = msg.match(/^scopeFound missing:\s*"([^"]+)"/);
+    if (m2) return `scopeFound:${m2[1].toLowerCase()}`;
+    return msg.split("(")[0].trim();
+  }
+
   let newFailsCount = 0;
   let newPassesCount = 0;
   if (fs.existsSync(BASELINE_PATH)) {
@@ -221,23 +232,30 @@ function compare(label, actual, expected) {
     const newFails = [];
     const newPasses = [];
     for (const id of Object.keys(out.results)) {
-      const before = baseline.results[id]?.failures || [];
-      const after = out.results[id]?.failures || [];
-      after.forEach(f => { if (!before.includes(f)) newFails.push(`${id}: ${f}`); });
-      before.forEach(f => { if (!after.includes(f)) newPasses.push(`${id}: ${f}`); });
+      const before = (baseline.results[id]?.failures || []).map(failureSubject);
+      const after = (out.results[id]?.failures || []).map(failureSubject);
+      const beforeSet = new Set(before);
+      const afterSet = new Set(after);
+      after.forEach(s => { if (!beforeSet.has(s)) newFails.push(`${id}: ${s}`); });
+      before.forEach(s => { if (!afterSet.has(s)) newPasses.push(`${id}: ${s}`); });
     }
-    newFailsCount = newFails.length;
-    newPassesCount = newPasses.length;
+    // De-dupe in case a single fixture produces multiple failures with the
+    // same subject after subject-reduction.
+    const uniq = arr => Array.from(new Set(arr));
+    const uniqNewFails = uniq(newFails);
+    const uniqNewPasses = uniq(newPasses);
+    newFailsCount = uniqNewFails.length;
+    newPassesCount = uniqNewPasses.length;
     console.log("\n=== vs baseline ===");
-    if (newPasses.length) {
+    if (uniqNewPasses.length) {
       console.log("NEW PASSES (fixes landed):");
-      newPasses.forEach(p => console.log("  + " + p));
+      uniqNewPasses.forEach(p => console.log("  + " + p));
     }
-    if (newFails.length) {
+    if (uniqNewFails.length) {
       console.log("NEW FAILURES (regressions):");
-      newFails.forEach(f => console.log("  - " + f));
+      uniqNewFails.forEach(f => console.log("  - " + f));
     }
-    if (!newPasses.length && !newFails.length) console.log("No deltas vs baseline.");
+    if (!uniqNewPasses.length && !uniqNewFails.length) console.log("No deltas vs baseline.");
   }
 
   console.log(`\nTotal failures: ${totalFails}`);
