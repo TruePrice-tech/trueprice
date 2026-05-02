@@ -74,7 +74,21 @@ Locked decisions (do not re-litigate):
 
 **Naming gotcha for fencing:** the build-state-vertical-hub.js VERTICAL_CONFIG key is `fencing` (matches `data/state-fencing-data.json` and `fencing-cities.html`), but the city file suffix is `-fence-cost.html` (matches the existing 742 city pages). Audit script `audit-uniqueness-google.js` reads files by suffix and groups them under the vertical key it derives from the filename, which is `fence`. So: precommit and Google audit must be invoked as `fence`; build/state-hub audit invoked as `fencing`. The handoff doc lists this row as "fencing" to match the plan's vertical naming.
 
-### Phase A.3 — neighbor cross-links: not started
+### Phase A.3 — neighbor cross-links: PILOT SHIPPED (hvac, 98 pages)
+
+| # | Vertical | Status | Pages | Path | Audit (NF/FS pre→post) | Commit |
+|---|---|---|---|---|---|---|
+| 1 | hvac | ✅ pilot shipped (alpha-state → haversine swap) | 98 of 100 | A: replace `<ul>` inside existing widget | 90%/89% → **90%/89%** (zero drop) | 78fb1db98b5 |
+
+**Path locked for the rest of A.3 trade verticals (15 remaining):** Path A — replace the `<ul>` content inside the existing `<section class="tp-city-nav">` widget's "More <Vertical> Pricing" column with 5-8 haversine ≤75mi neighbors (fallback 150mi for sparse states). Keep section shell, h3, and "Other Services" column untouched. Idempotent.
+
+**Awaiting Lane greenlight to scale.** Per locked plan: pilot → 500 → 12K. Pilot passed (zero NF/FS drop on 98 modified pages); next step is scale to 500 (effectively all of hvac's covered cities) → re-audit → scale to remaining 15 trade verticals.
+
+**Open follow-ups before full A.3 rollout:**
+1. **Coverage gap.** 73 cities still lack centroids after CSV backfill (4 of 77 found). Need Census Gazetteer file or SimpleMaps free tier to cover suburbs like Hoover AL, Bloomington MN, Coral Springs FL.
+2. **Single-city-state pages.** Anchorage AK, Burlington VT, etc. have no "More <Vertical> Pricing" column to swap (their widget is "Other Services" only). ~10-15 cities total nationally; need ADD strategy if in scope.
+3. **Service verticals (auto-repair / medical / legal / moving).** Path A doesn't apply — they have no same-vertical column. Separate strategy required (add new column?). 47-58 base city pages each.
+
 ### Phase A.4 — sitemap restructure: not started
 
 ## Per-session workflow (follow exactly)
