@@ -1,0 +1,526 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-01",
+    "purpose": "Per-state plumbing data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "Adopted plumbing code (UPC vs IPC vs state-specific) per IAPMO/ICC adoption tables; state plumbing license boards (verified URLs); BLS OEWS May 2024 (SOC 47-2152 Plumbers/Pipefitters/Steamfitters state means); USDA-NRCS frost-line depth maps; USGS water-hardness national survey; EPA Lead and Copper Rule Revisions (LCRR) state inventories.",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine) — drives freeze risk on supply lines",
+      "frost_line_inches": "Typical frost penetration depth required for buried water service line (inches)",
+      "code_basis": "uniform-plumbing-code (UPC) / international-plumbing-code (IPC) / state-specific",
+      "water_hardness_tier": "soft / moderate / hard / very-hard (USGS 2010 national survey aggregate)",
+      "dominant_supply_material": "copper / pex / cpvc / galvanized-mixed (predominant retrofit choice)",
+      "lead_service_line_risk": "high / moderate / low (EPA LCRR 2024 state inventory)",
+      "license_status": "required (state-issued license + exam) / registration (state registration only) / municipal-only (no statewide license)",
+      "license_board_name": "Issuing authority for plumbing contractor licensing in this state",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical municipal permit threshold for residential plumbing repipe or water-heater replacement",
+      "plumber_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2152 Plumbers, Pipefitters, and Steamfitters (USD)",
+      "avg_repipe_low": "Typical low end of whole-house 2-bath PEX repipe (USD)",
+      "avg_repipe_high": "Typical high end (copper repipe + drain replacement + permit) (USD)",
+      "distinctive_law": "Single most distinctive state-specific plumbing code, license, or water-quality rule",
+      "climate_concern": "Primary climate or geological driver of plumbing system selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "frost_line_inches": 8, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Alabama Plumbers and Gas Fitters Examining Board",
+    "license_url": "https://plumbersgasfitters.alabama.gov/", "permit_typical": "city plumbing permit required for repipe and water-heater swap",
+    "plumber_wage_mean_hourly": 25.85, "avg_repipe_low": 4400, "avg_repipe_high": 11200,
+    "distinctive_law": "Alabama Code §34-37-1 splits plumbers and gas-fitters into two separately credentialed trades — a Master Plumber license does not authorize gas-line work, and the Plumbers and Gas Fitters Board issues each as a distinct exam under §34-37-7, with disciplinary jurisdiction held entirely by the board rather than the Home Builders Licensure Board.",
+    "climate_concern": "Mobile-Baldwin coastal slab-on-grade homes see chloride-driven copper pinhole leaks within 8-12 years of installation as humid soil and shallow water tables corrode embedded supply lines, pushing whole-house PEX repipes years earlier than inland Alabama or the Tennessee Valley."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "frost_line_inches": 100, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Alaska Department of Labor — Mechanical Inspection Section (plumber certificate of fitness)",
+    "license_url": "https://labor.alaska.gov/lss/mechspl.htm", "permit_typical": "borough plumbing permit usually required for any new construction or service-line work",
+    "plumber_wage_mean_hourly": 36.52, "avg_repipe_low": 9800, "avg_repipe_high": 23500,
+    "distinctive_law": "Alaska Statute 18.62.075 requires every plumbing apprentice and journeyman to hold a state-issued Certificate of Fitness — a document distinct from the master-plumber registration used in the Lower 48 — and contractors operating in Anchorage, Fairbanks, or the Mat-Su Borough must additionally maintain frost-protected shallow foundation expertise documented under the borough mechanical code.",
+    "climate_concern": "Continuous and discontinuous permafrost across the Interior forces frost-protected shallow service lines, on-lot water cisterns, and Arctic-pipe (utilidor) distribution in unsewered villages — the Lower-48 default of trenching service to 36 inches is rejected by Fairbanks code in favor of insulated above-grade or heat-traced runs."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "frost_line_inches": 6, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license C-37 (Plumbing) or CR-37 (residential)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county plumbing permit required for repipe, gas line, or water-service replacement",
+    "plumber_wage_mean_hourly": 28.46, "avg_repipe_low": 5200, "avg_repipe_high": 12800,
+    "distinctive_law": "Arizona is one of three states with a Type 1 General Permit for residential greywater systems under A.A.C. R18-9-711 — homeowners may legally divert up to 400 gallons/day of laundry, shower, and bathroom-sink water for landscape irrigation without an individual permit, provided distribution depth, signage, and 9-condition setbacks are met.",
+    "climate_concern": "Phoenix and Tucson groundwater runs 17-25 grains-per-gallon of dissolved calcium-magnesium carbonate, scaling tankless water heater heat exchangers and ruining unconditioned-attic storage tanks within 3-5 years; whole-house softeners or scale-control devices are now standard on Sun-Belt repipes, and unconditioned attic supply runs require thicker insulation against summer attic temperatures over 150°F."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "frost_line_inches": 18, "code_basis": "international-plumbing-code", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Arkansas Department of Health — Plumbing & Natural Gas Section",
+    "license_url": "https://healthy.arkansas.gov/programs-services/topics/plumbing-natural-gas-section", "permit_typical": "ADH plumbing permit issued by state inspector outside chartered cities",
+    "plumber_wage_mean_hourly": 24.30, "avg_repipe_low": 4200, "avg_repipe_high": 10600,
+    "distinctive_law": "Arkansas places plumbing licensure under the state Department of Health rather than a contractor licensing board — Ark. Code §17-38-101 makes plumbing a public-health regulated trade, and the ADH Plumbing & Natural Gas Section directly inspects and permits residential work in any unincorporated area or municipality without a chartered inspection program.",
+    "climate_concern": "The Ozark Plateau's karst terrain in Newton, Searcy, and Stone counties drains surface water into limestone fissures within hours, leaving homes on point-of-entry well systems vulnerable to fecal-coliform contamination after every heavy rain — UV disinfection, sediment filtration, and annual NSF/ANSI 61 well-cap inspection are core to any Ozark plumbing scope."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "frost_line_inches": 12, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — C-36 (Plumbing)",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "city plumbing permit required; CALGreen and Title 24 efficiency verification on new fixtures",
+    "plumber_wage_mean_hourly": 36.21, "avg_repipe_low": 7400, "avg_repipe_high": 18800,
+    "distinctive_law": "California Health & Safety Code §116875 (AB 1953, effective 2010) is the original lead-free fixture law that pre-dated and shaped the federal Reduction of Lead in Drinking Water Act — every plumbing fitting sold in California for potable water must contain ≤0.25% lead by weighted average, and CSLB C-36 contractors who install non-compliant inventory face license suspension.",
+    "climate_concern": "Hayward, San Andreas, and Newport-Inglewood fault zones impose seismic plumbing requirements unmatched outside the Pacific Rim — automatic gas shutoff valves on the meter, flexible braided supply connectors, strapped 50-gallon water heaters with two strap zones (top third + bottom third), and PEX-A retrofits favored over rigid copper for liquefaction-prone Bay-Delta and Los Angeles Basin soils."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "frost_line_inches": 36, "code_basis": "international-plumbing-code", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Colorado Department of Regulatory Agencies — State Plumbing Board (Master/Journeyman/Residential tiers)",
+    "license_url": "https://dpo.colorado.gov/Plumbing", "permit_typical": "municipal plumbing permit required; rural counties route through state inspector",
+    "plumber_wage_mean_hourly": 31.34, "avg_repipe_low": 5900, "avg_repipe_high": 14200,
+    "distinctive_law": "Colorado SB 13-183 (2013) made Colorado the first Mountain West state to legalize residential graywater reuse, and CDPHE Regulation 86 lets local governments opt in to permit Type-1 systems for irrigation and toilet flushing — Denver, Castle Rock, Pitkin County, and Aurora have all activated graywater programs that are otherwise prohibited statewide without local opt-in.",
+    "climate_concern": "Front Range diurnal temperature swings of 50°F+ between January nights and noon stress unprotected supply lines in unconditioned crawlspaces — and high-altitude evaporation rates plus arid dewpoints under 30°F leave winter humidity so low that gypsum-loaded drywall cracks around pipe penetrations, requiring foam-sleeve isolation around every supply stub-out above 6,000 ft."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "frost_line_inches": 42, "code_basis": "international-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — P-1 (Unlimited) / P-7 (Limited Sub) / P-8 (Limited Apprentice) plumbing tiers",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "town plumbing permit required for repipe, water-heater swap, or service-line replacement",
+    "plumber_wage_mean_hourly": 36.30, "avg_repipe_low": 7800, "avg_repipe_high": 18500,
+    "distinctive_law": "Connecticut Public Act 22-58 directs the Department of Public Health to maintain a Lead Service Line Replacement (LSLR) Inventory accessible to homeowners by address, with disclosure obligations on water suppliers and a state-funded grant program for low-income LSLR — a more aggressive stance than the federal LCRR baseline.",
+    "climate_concern": "Aging post-WWII Hartford, Bridgeport, and New Haven housing stock sits on cast-iron drain stacks reaching end-of-life with hub-and-spigot joint failures dropping water into wood framing — and brackish Long Island Sound coastal floodplain corrodes galvanized service lines on Greenwich-to-New London shoreline properties faster than inland New England copper systems."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "frost_line_inches": 24, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Delaware Board of Plumbing, Heating, Ventilation, Air Conditioning & Refrigeration",
+    "license_url": "https://dpr.delaware.gov/boards/plumbers/", "permit_typical": "county plumbing permit required for new fixtures and service-line work",
+    "plumber_wage_mean_hourly": 30.42, "avg_repipe_low": 5400, "avg_repipe_high": 13400,
+    "distinctive_law": "Delaware uniquely combines plumbing, HVAC, and refrigeration into a single regulatory board under 24 Del. C. §1801 — a Master Plumber credential is issued by the same body that licenses HVAC and refrigeration mechanics, simplifying multi-trade contracting but requiring scope-specific endorsements rather than a single trade license.",
+    "climate_concern": "Sussex County tidal floodplain and Indian River Bay coastal shelf expose service-line risers to brackish-water corrosion and wave-action sump pump failures during nor'easter overwash, while inland New Castle County PVC sewer laterals settle along expansive Christiana clay in 30-50-year-old subdivisions, generating belly-trap blockages that pipe-bursting trenchless repair has become the regional standard for."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "frost_line_inches": 0, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "cpvc", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Florida Construction Industry Licensing Board — Certified Plumbing Contractor (CFC) or Registered (RF)",
+    "license_url": "https://www2.myfloridalicense.com/", "permit_typical": "county plumbing permit required; FBC septic-to-sewer mandatory in BMAP areas",
+    "plumber_wage_mean_hourly": 27.13, "avg_repipe_low": 5200, "avg_repipe_high": 12800,
+    "distinctive_law": "Florida House Bill 1379 (2023) accelerates the septic-to-sewer mandate inside designated Basin Management Action Plan watersheds — the Indian River Lagoon, Wakulla Springs, and Silver Springs basins — requiring conventional septic systems be connected to municipal sewer or upgraded to nitrogen-removal Advanced Wastewater Treatment when one becomes available, with disclosure on the 1031 form at sale.",
+    "climate_concern": "Hurricane storm surge causes municipal sewer-system surcharge that backflows through residential floor drains, washing-machine standpipes, and basement bathrooms — Florida code now requires sewer backwater valves on any low-lying fixture below the next upstream manhole rim, and SFR conversion from 1970s-era saltwater-intruded private wells to municipal supply has become a separate Pinellas-Hernando-Citrus retrofit category."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "frost_line_inches": 12, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Georgia State Construction Industry Licensing Board — Master Plumber Class I (residential) / Class II (unrestricted)",
+    "license_url": "https://sos.ga.gov/board/construction-industry-licensing-board", "permit_typical": "city or county plumbing permit required for repipe and gas line",
+    "plumber_wage_mean_hourly": 25.91, "avg_repipe_low": 4600, "avg_repipe_high": 11600,
+    "distinctive_law": "Georgia O.C.G.A. §43-14-8 splits Master Plumber credentials into Class I (residential up to 4 stories, 10,000 sq ft) and Class II (unrestricted commercial and industrial) — a stricter scope-by-tier than the typical single-tier Master Plumber states, with separate exams, separate experience requirements, and separate continuing-education obligations.",
+    "climate_concern": "North Georgia red Piedmont clay swells when wet and shrinks when dry, shifting buried sewer laterals enough over a decade to crack PVC joints and create root-intrusion entry points at coupling failures — and Atlanta-area metro hard-water staining accelerates fixture replacement cycles, with whole-house softeners now an upsell on most repipe scopes."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "frost_line_inches": 0, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Hawaii Department of Commerce and Consumer Affairs — Board of Plumbing (PM master / PJ journey)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/plumbing/", "permit_typical": "county plumbing permit required; solar water heater pre-approval required on new SFH",
+    "plumber_wage_mean_hourly": 39.84, "avg_repipe_low": 8400, "avg_repipe_high": 19500,
+    "distinctive_law": "Hawaii Act 204 (2008), codified at HRS §196-6.5, prohibits the issuance of any building permit for a new single-family dwelling without a solar water heating system — the only state in the union to mandate solar water heating on new residential construction, with narrow variance pathways through the DBEDT for shaded lots or alternative high-efficiency systems.",
+    "climate_concern": "Big Island lava-tube basements on Mauna Loa and Kilauea flanks prevent conventional below-slab DWV routing and force above-slab cleanout-rich layouts, while saltwater-influenced coastal aquifers on Oahu's Ewa plain and Kauai's south shore drive PEX-A specification over copper and require dielectric unions on every transition to prevent galvanic-couple corrosion in mixed-metal systems."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "frost_line_inches": 36, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Idaho Division of Building Safety — Plumbing Program (Journeyman / Contractor)",
+    "license_url": "https://dbs.idaho.gov/programs/plumbing/", "permit_typical": "DBS plumbing permit required statewide outside delegated cities",
+    "plumber_wage_mean_hourly": 27.65, "avg_repipe_low": 4900, "avg_repipe_high": 12200,
+    "distinctive_law": "Idaho Code §54-2606 routes all residential plumbing inspections through the state Division of Building Safety unless a city has been formally delegated permitting authority — making DBS plumbing inspectors the de-facto code official across most of rural Idaho rather than a county building department, a centralized model unusual in the Mountain West.",
+    "climate_concern": "Idaho Panhandle and Sawtooth-region geothermal hot-spring supply lines mineral-foul standard copper supply within 5 years where source temperatures exceed 110°F, and Sun Valley snow-load roofs combined with deep frost-line crawlspaces require continuous heat-tape on exposed riser stubs — Boise valley by contrast leans hard-water scale-control as its dominant retrofit driver."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "5A", "frost_line_inches": 42, "code_basis": "state-specific",
+    "water_hardness_tier": "hard",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Illinois Department of Public Health — Division of Environmental Health (Plumbing License Section)",
+    "license_url": "https://dph.illinois.gov/topics-services/environmental-health-protection/plumbing.html", "permit_typical": "city plumbing permit required; LSL inventory disclosure on transactions in service area",
+    "plumber_wage_mean_hourly": 41.80, "avg_repipe_low": 7600, "avg_repipe_high": 19200,
+    "distinctive_law": "Illinois Public Act 102-0613 (Lead Service Line Replacement Notification Act) is the most aggressive state LSLR mandate in the nation — every community water supply must inventory all service lines, provide annual customer notice, and replace 100% of identified lead service lines on a fixed timeline (Chicago: 50 years; midsize utilities: 17 years; small: faster), with replacement costs paid by the utility rather than the property owner.",
+    "climate_concern": "Chicago's 1900-1986 housing stock contains an estimated 412,000 lead service lines — the largest concentration in any U.S. city — and the 42-inch frost-line in Cook and DuPage counties means partial LSL replacement during winter water-main breaks creates short-term lead-spike exposure that EPA explicitly warns against, pushing emergency-replacement protocols into spring-summer scheduling windows."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "frost_line_inches": 32, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Indiana Plumbing Commission (Professional Licensing Agency) — Journey Plumber / Plumbing Contractor",
+    "license_url": "https://www.in.gov/pla/licensing-boards-and-committees/plumbing/", "permit_typical": "city or county plumbing permit required for repipe and water-heater installation",
+    "plumber_wage_mean_hourly": 30.79, "avg_repipe_low": 5100, "avg_repipe_high": 12900,
+    "distinctive_law": "Indiana Code §25-28.5-1-9 makes the Plumbing Contractor license dependent on first holding a Journey Plumber credential plus four years of post-license experience — a layered-credential pathway stricter than most Midwestern states, with the Plumbing Commission separately empowered under §25-28.5-1-19 to deny reciprocity from any state lacking equivalent journey-license requirements.",
+    "climate_concern": "Indiana's limestone and dolomite aquifer system delivers groundwater with calcium-magnesium hardness frequently exceeding 20 grains-per-gallon across central and southern counties, scaling water-heater elements and reducing tankless heat-exchanger life — and Gary, Hammond, and East Chicago's pre-1986 lead service line corridor mirrors the broader Lake Michigan industrial-belt LSL exposure."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "frost_line_inches": 48, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Iowa Plumbing & Mechanical Systems Board",
+    "license_url": "https://idph.iowa.gov/pmsb", "permit_typical": "state plumbing permit through municipal building department",
+    "plumber_wage_mean_hourly": 28.43, "avg_repipe_low": 4800, "avg_repipe_high": 12100,
+    "distinctive_law": "Iowa Code Chapter 105 created the Plumbing & Mechanical Systems Board as a unified body regulating plumbers, HVACR mechanics, hydronics installers, and refrigeration techs under one license-issuing authority — and unusually places the board under the Iowa Department of Public Health, treating drinking-water connections as a public-health matter rather than a construction-trade matter.",
+    "climate_concern": "Iowa private-well systems serving roughly 230,000 rural homes pull from glacial-drift aquifers contaminated with nitrate from row-crop fertilizer runoff at concentrations frequently above 10 mg/L EPA limits — point-of-entry reverse-osmosis and nitrate-selective ion-exchange systems are core to any Iowa rural plumbing scope, and 48-inch frost-line trenching adds excavation cost on every service-line replacement."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "frost_line_inches": 36, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide plumbing license — Wichita, Topeka, Kansas City KS, Lawrence, Overland Park each issue separate Master/Journey credentials",
+    "license_url": "https://www.kdhe.ks.gov/", "permit_typical": "municipal plumbing permit required; rural counties variable",
+    "plumber_wage_mean_hourly": 27.18, "avg_repipe_low": 4500, "avg_repipe_high": 11400,
+    "distinctive_law": "Kansas has no statewide plumbing licensing law — under the Kansas State Plumbing Code framework adopted by KDHE, each municipality independently licenses Master and Journeyman plumbers, runs its own exam and renewal cycle, and reciprocity between Wichita, Topeka, Lawrence, Overland Park, and Kansas City KS exists only via individual inter-city agreements rather than state law.",
+    "climate_concern": "Tornado Alley counties from Reno through Sedgwick experience EF-3+ tornadoes that snap residential gas-meter risers and shear service-line connections at the foundation — Kansas code allows but does not require excess-flow gas valves and seismic-grade flexible water connectors, which contractors increasingly add proactively after the 2007 Greensburg and 2012 Harveyville EF-5 events."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "frost_line_inches": 24, "code_basis": "state-specific", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Kentucky Department of Housing, Buildings & Construction — Division of Plumbing (Master / Journeyman)",
+    "license_url": "https://dhbc.ky.gov/Pages/Plumbing.aspx", "permit_typical": "DHBC plumbing permit issued by state inspector statewide",
+    "plumber_wage_mean_hourly": 27.65, "avg_repipe_low": 4500, "avg_repipe_high": 11500,
+    "distinctive_law": "Kentucky operates under its own Kentucky State Plumbing Code (815 KAR 20:001) rather than adopting either the IPC or UPC verbatim — making it one of only a handful of states with a fully home-grown plumbing code, with Division-of-Plumbing inspectors enforcing state-amended provisions on backflow prevention, indirect-waste receptors, and trap-arm sizing that diverge from both ICC and IAPMO models.",
+    "climate_concern": "The Pennyrile karst region across western and central Kentucky from Mammoth Cave through Hart County drains rainfall into limestone fissures within hours, contaminating private wells with surface-derived bacteria and surfactants — UV disinfection and karst-specific wellhead protection setbacks are the regional standard, and Louisville's Ohio River floodplain adds backwater-valve requirements on every fixture below crown-of-street elevation."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "frost_line_inches": 6, "code_basis": "state-specific", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "cpvc", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Louisiana State Plumbing Board (Master Plumber / Journeyman / Apprentice)",
+    "license_url": "https://www.lsbp.com/", "permit_typical": "parish or city plumbing permit required for repipe and water-heater work",
+    "plumber_wage_mean_hourly": 26.84, "avg_repipe_low": 4400, "avg_repipe_high": 11200,
+    "distinctive_law": "Louisiana operates under the Louisiana State Plumbing Code (LAC Title 51, Part XIV) administered by the Louisiana State Plumbing Board — a state-specific code rather than IPC or UPC adoption, with Civil Code interactions unique to Louisiana's Napoleonic legal heritage that make the Master Plumber's seal a public-safety credential carrying personal liability beyond the typical common-law tort exposure of other states.",
+    "climate_concern": "South Louisiana parishes from Plaquemines through Cameron sit at or below sea level with water tables 2-4 feet below grade, requiring residential lift-station sewer pumps on virtually every new build, and hurricane storm-surge backflow through fixture drains has driven near-universal adoption of automatic backwater valves on coastal-parish homes — a regional standard well beyond the parish code minimum."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Maine Plumbers' Examining Board (Master / Journeyman / Apprentice / Trainee)",
+    "license_url": "https://www.maine.gov/pfr/professionallicensing/professions/plumbers/index.html", "permit_typical": "town plumbing permit required; subsurface wastewater disposal permit through DEP",
+    "plumber_wage_mean_hourly": 27.95, "avg_repipe_low": 5200, "avg_repipe_high": 13400,
+    "distinctive_law": "Maine 32 M.R.S. §3401 created the Plumbers' Examining Board as one of the oldest standalone plumbing-only licensure bodies in New England, and the state's Subsurface Wastewater Disposal Rules (10-144 CMR Chapter 241) require a state-licensed Site Evaluator — a separate credential not used in most states — to design and certify every private septic system before any plumbing rough-in inspection.",
+    "climate_concern": "Maine's 60+ inch frost line is the deepest in the lower 48 along the Aroostook County border, forcing service-line trenches deeper than basement footings in Bangor, Presque Isle, and the North Woods — and the state's roughly 130,000 properties on private wells frequently pull from arsenic-bearing bedrock fractures requiring point-of-entry treatment that drives every new well install above $7,000 before any fixture work begins."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Maryland State Board of Plumbing (Master Plumber / Journeyman / Apprentice)",
+    "license_url": "https://www.dllr.state.md.us/license/plumb/", "permit_typical": "county plumbing permit required; Bay Restoration Fund septic upgrades in Critical Area",
+    "plumber_wage_mean_hourly": 32.34, "avg_repipe_low": 5800, "avg_repipe_high": 14400,
+    "distinctive_law": "Maryland's Bay Restoration Fund Act (Md. Code Env. §9-1605.2) imposes a flush-tax on every sewer and septic customer that funds Best Available Technology nitrogen-removal septic upgrades for Chesapeake Bay Critical Area properties — homeowners within 1,000 feet of tidal waters must install BAT-certified systems on replacement, with the BRF subsidizing roughly half the $13,000-$22,000 cost.",
+    "climate_concern": "Baltimore's 1900-1940 lead service line corridor served the city's row-house stock until 1969, leaving an estimated 11,000 confirmed and 35,000 suspected lead service lines that DPW is replacing under a court-supervised consent decree — and Eastern Shore brackish-water-table corrosion plus Western Maryland Appalachian acid-mine-drainage water create three distinctly different in-state water-treatment regimes per repipe scope."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "frost_line_inches": 48, "code_basis": "state-specific", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Massachusetts Board of State Examiners of Plumbers and Gas Fitters (Master / Journeyman)",
+    "license_url": "https://www.mass.gov/orgs/board-of-state-examiners-of-plumbers-and-gas-fitters", "permit_typical": "city plumbing permit required; Title 5 septic inspection on transfer in unsewered areas",
+    "plumber_wage_mean_hourly": 38.80, "avg_repipe_low": 7600, "avg_repipe_high": 18800,
+    "distinctive_law": "Massachusetts 248 CMR 10.00 (the Uniform State Plumbing Code) is the strictest residential plumbing code in the nation — historically banning saddle valves, requiring Type-L copper for all above-ground supply, mandating air gap on ice-maker connections, prohibiting flexible PEX-AL-PEX in many concealed locations, and requiring a Master Plumber's signature on any permit pulled — provisions kept under continuous state Board oversight rather than ICC or IAPMO model adoption.",
+    "climate_concern": "Massachusetts inherits the densest pre-1900 housing stock in the nation outside lower Manhattan, with Boston, Worcester, Lawrence, Lowell, Springfield, and Brockton all built atop original lead service line corridors — DEP's accelerated LSLR program targets full replacement by 2040, and Title 5 septic upgrades on Cape Cod and the Islands force $15,000-$30,000 nitrogen-removing innovative-alternative systems on every property transfer in nitrogen-sensitive watersheds."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "frost_line_inches": 42, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs (LARA) — Plumbing Board (Master / Journey)",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/plum-board", "permit_typical": "city or LARA plumbing permit required; LSL replacement programs in Flint, Detroit, Benton Harbor",
+    "plumber_wage_mean_hourly": 32.85, "avg_repipe_low": 5600, "avg_repipe_high": 14000,
+    "distinctive_law": "Michigan's Lead and Copper Rule revisions (Public Act 273 of 2018) impose the most aggressive LSL replacement timeline in the nation — every community water supply must replace all lead service lines within 20 years (by 2041) regardless of cost or homeowner participation, and partial LSL replacements (utility side only) are explicitly prohibited as a public-health matter following the Flint experience.",
+    "climate_concern": "Flint, Detroit, Benton Harbor, and Hamtramck operate under enforceable LSL replacement timelines stemming from the 2014-2019 Flint water crisis; LARA-licensed plumbers are required to use LSL-compliant fittings and conduct post-replacement flushing protocols, and Upper Peninsula properties on glacial-aquifer wells face naturally occurring iron and manganese loads exceeding 1 ppm secondary MCLs throughout the Keweenaw and Marquette ranges."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "code_basis": "state-specific", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor and Industry — Plumbing Board (Master / Journeyworker / Restricted)",
+    "license_url": "https://www.dli.mn.gov/business/contractors/plumbing-license-and-registration", "permit_typical": "municipal plumbing permit required; Class V well disclosure on rural transactions",
+    "plumber_wage_mean_hourly": 35.96, "avg_repipe_low": 6200, "avg_repipe_high": 15400,
+    "distinctive_law": "Minnesota Rules Chapter 4715 (the Minnesota Plumbing Code) is a state-specific code maintained by the DLI Plumbing Board with deviations from both IPC and UPC — including unique cross-connection control schedules, mandatory air-gap fittings on every ice-maker and dishwasher, and Master Plumber bond requirements at $25,000 per company that exceed every neighboring state.",
+    "climate_concern": "Northern Minnesota frost penetration regularly exceeds 60 inches in International Falls, Bemidji, and Duluth, requiring service lines below 78-inch trench depths in some municipalities — and Iron Range groundwater iron-manganese loads above 2 ppm stain fixtures within months without point-of-entry oxidation-filtration, while metro Twin Cities calcium-carbonate hardness above 18 gpg drives whole-house softener installation on virtually every retrofit."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "frost_line_inches": 8, "code_basis": "international-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "cpvc", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors — Residential Plumbing classification",
+    "license_url": "https://www.msboc.us/", "permit_typical": "municipal plumbing permit; rural counties variable; on-site wastewater through MS State Dept of Health",
+    "plumber_wage_mean_hourly": 23.18, "avg_repipe_low": 4100, "avg_repipe_high": 10400,
+    "distinctive_law": "Mississippi places residential plumbing licensure under the State Board of Contractors via Miss. Code §73-59 — the same body that licenses general residential builders — rather than a standalone plumbing board, and on-site wastewater systems are separately permitted by the MS State Department of Health Division of On-Site Wastewater under a parallel inspector network.",
+    "climate_concern": "The Mississippi River floodplain and Yazoo Delta lowlands maintain water tables within 3 feet of grade for much of the year, requiring elevated septic mound systems on virtually every Delta-county lot and forcing residential lift-station sewer ejector pumps on basement-level fixtures — and Gulf Coast Hancock-Harrison-Jackson hurricane storm-surge zones drive backwater-valve adoption across coastal residential transitions."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "code_basis": "international-plumbing-code", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "municipal-only", "license_board_name": "No statewide plumbing license — Kansas City, St. Louis, Springfield, Columbia each license Master/Journey separately",
+    "license_url": "https://health.mo.gov/safety/onsite/", "permit_typical": "municipal plumbing permit required; on-site wastewater through Mo Dept of Health & Senior Services in unincorporated areas",
+    "plumber_wage_mean_hourly": 30.45, "avg_repipe_low": 4900, "avg_repipe_high": 12400,
+    "distinctive_law": "Missouri has no statewide plumbing licensing statute — RSMo 327 covers architects and engineers but explicitly omits plumbers, leaving Kansas City, St. Louis, Springfield, Columbia, Independence, and Jefferson City to operate independent Master Plumber boards with no formal reciprocity, and the Missouri Department of Health & Senior Services regulates only the on-site wastewater portion of residential plumbing rather than supply-side work.",
+    "climate_concern": "The Ozark Plateau across southern Missouri from Springfield through Branson and into the Mark Twain National Forest sits atop karst limestone with sinkhole and losing-stream behavior — private wells require deeper casing depths to clear surface-derived bacteria, and historical Old Lead Belt mining in St. Francois County leaves residual soil-lead contamination affecting service-line replacement excavation protocols."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B-7", "frost_line_inches": 48, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Montana Department of Labor & Industry — Board of Plumbers (Master / Journeyman)",
+    "license_url": "https://boards.bsd.dli.mt.gov/plumbers", "permit_typical": "DLI or municipal plumbing permit required; private water/sewer through DEQ",
+    "plumber_wage_mean_hourly": 28.18, "avg_repipe_low": 4900, "avg_repipe_high": 12500,
+    "distinctive_law": "Montana 37-69 MCA created a Board of Plumbers under DLI but routes individual well-and-septic system permits to the Department of Environmental Quality under a Subdivision and Sanitation Act framework — making any new private water-supply or wastewater system a two-agency permit, with DEQ Subdivision Review required before the local health department issues the operating permit.",
+    "climate_concern": "Montana's combination of 48-inch design frost line plus high-elevation diurnal swings drops crawlspace temperatures below 32°F overnight even when daytime highs reach 50°F, freezing exposed riser stubs that survive insulated-pipe Lower 48 conditions — and propane water heaters dominate rural residential supply where natural gas does not extend, requiring 100-gallon outdoor LP storage on most ranch properties."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A-6A", "frost_line_inches": 42, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Nebraska Department of Health and Human Services — State Plumbing Examining Board",
+    "license_url": "https://dhhs.ne.gov/Licensure/Plumbing.aspx", "permit_typical": "municipal plumbing permit; on-site wastewater through NDEE",
+    "plumber_wage_mean_hourly": 27.08, "avg_repipe_low": 4500, "avg_repipe_high": 11400,
+    "distinctive_law": "Nebraska Revised Statute §71-5301 placed the State Plumbing Examining Board under the Department of Health and Human Services rather than a contractor-licensing agency, and LB 22-103 (2017) created the first statewide Master Plumber and Journeyman Plumber credentials — making Nebraska one of the most recently licensed states in the Plains region, with reciprocity still being negotiated with neighboring Iowa, South Dakota, and Wyoming.",
+    "climate_concern": "The Ogallala Aquifer underlying western and central Nebraska delivers groundwater with calcium-magnesium hardness routinely exceeding 25 grains-per-gallon plus elevated nitrate from row-crop fertilizer infiltration above 10 mg/L EPA primary MCLs across the Platte Valley — point-of-entry reverse-osmosis or anion-exchange nitrate removal is core to rural well-system plumbing scopes, and 42-inch frost-line trenching applies statewide."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "frost_line_inches": 18, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — license C-1 (Plumbing & Heating)",
+    "license_url": "https://www.nscb.nv.gov/", "permit_typical": "Clark County or Washoe County plumbing permit required for repipe and gas",
+    "plumber_wage_mean_hourly": 32.10, "avg_repipe_low": 5500, "avg_repipe_high": 13400,
+    "distinctive_law": "Nevada combines plumbing and heating into a single C-1 contractor classification under NRS Chapter 624 — distinct from the C-21 Refrigeration & Air Conditioning classification — and the Nevada State Contractors Board sets a $1,000 'small jobs' threshold below which an NSCB Class C-1 licensee is not required, but above which is a misdemeanor under NRS 624.305.",
+    "climate_concern": "The Las Vegas Valley draws roughly 90% of municipal supply from Lake Mead via the Colorado River system, and decades of evapotranspiration cycling have driven calcium-carbonate hardness above 17 grains-per-gallon — water heaters fail at half the national-average lifespan without scale-control devices, and Southern Nevada Water Authority's tiered conservation rates make residential greywater and rainwater capture a fast-growing retrofit category despite arid conditions."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "frost_line_inches": 48, "code_basis": "international-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "New Hampshire Mechanical Licensing Board (Plumbers' Section) — Master / Journeyman",
+    "license_url": "https://www.oplc.nh.gov/mechanical-licensing-board", "permit_typical": "town plumbing permit required for repipe; subsurface system permit through DES",
+    "plumber_wage_mean_hourly": 30.14, "avg_repipe_low": 5400, "avg_repipe_high": 13800,
+    "distinctive_law": "New Hampshire RSA 153:27-a created the Mechanical Licensing Board as a unified body for plumbers, gas fitters, and refrigeration techs — and the Department of Environmental Services separately holds permitting authority over every subsurface wastewater disposal system under Env-Wq 1000, with a state-licensed Designer credential required to lay out any septic system before plumbing rough-in begins.",
+    "climate_concern": "New Hampshire's bedrock-fracture aquifer system delivers naturally occurring arsenic, radon, and uranium concentrations exceeding EPA primary MCLs in roughly 20% of private wells across the Lakes Region and White Mountains — point-of-entry treatment with adsorptive media or reverse-osmosis is core to any well-served retrofit, and 48-inch frost depth in the North Country forces below-basement service-line trenching."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "New Jersey Board of Examiners of Master Plumbers (Master Plumber license under NJSA 45:14C)",
+    "license_url": "https://www.njconsumeraffairs.gov/plu/Pages/default.aspx", "permit_typical": "municipal plumbing permit required; LSL replacement on real-estate transactions per S250",
+    "plumber_wage_mean_hourly": 41.20, "avg_repipe_low": 7400, "avg_repipe_high": 18400,
+    "distinctive_law": "New Jersey S250 (2021) created a 10-year mandate for every public water system to inventory and replace 100% of lead service lines by 2031 — funded through a combination of utility ratepayer recovery and state low-interest loans, with property-owner refusal subject to court-ordered replacement, the most aggressive forced-replacement provision in any state LSLR program.",
+    "climate_concern": "Newark, Jersey City, Paterson, and Trenton inherit dense pre-1920 lead-service-line corridors driving the S250 mandate, while the Pine Barrens Cohansey aquifer in southern Burlington-Atlantic-Cumberland counties delivers naturally acidic groundwater (pH 4.5-5.5) that aggressively corrodes copper supply lines and dissolves lead from any remaining solder joints faster than any other regional water chemistry in the Mid-Atlantic."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "4B-5B", "frost_line_inches": 24, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — license MM-2 (Plumbing) or MM-98 (Plumbing/Mechanical)",
+    "license_url": "https://www.rld.nm.gov/construction-industries/", "permit_typical": "CID plumbing permit required statewide; Albuquerque/Santa Fe variable",
+    "plumber_wage_mean_hourly": 25.40, "avg_repipe_low": 4400, "avg_repipe_high": 11200,
+    "distinctive_law": "New Mexico Statute §60-13 places plumbing licensure under the Construction Industries Division of the Regulation & Licensing Department, and NMSA 60-13-3 makes the MM-2 and MM-98 endorsements explicitly differ in scope from neighboring Arizona's K-37 and Texas's M-class — with greywater systems separately legalized under §74-1-9 and the Greywater Act allowing up to 250 gallons/day with no permit when 11 conditions are met.",
+    "climate_concern": "New Mexico's high-desert evapotranspiration and the Rio Grande Valley's alkaline soils combine to deliver supply water with dissolved-solid loads frequently exceeding 800 mg/L plus calcium-magnesium hardness above 20 gpg from the Roswell-Artesia basin through Bernalillo County — evaporative-cooler bleed-off contributes to indoor humidity in summer and creates supplemental water demand that drives greywater-reuse adoption faster than most arid Western states."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "frost_line_inches": 48, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide plumbing license — NYC Department of Buildings (Master Plumber), plus 60+ municipal boards across NY",
+    "license_url": "https://www1.nyc.gov/site/buildings/industry/plumber-licensing.page", "permit_typical": "NYC DOB plumbing permit; upstate municipal plumbing permit; LSL inventory under SAPA",
+    "plumber_wage_mean_hourly": 41.85, "avg_repipe_low": 7600, "avg_repipe_high": 18800,
+    "distinctive_law": "New York Local Law 64 of 2018 (NYC Administrative Code §17-194.1) requires the Department of Environmental Protection to maintain a publicly searchable lead service line inventory for the entire five-borough water system and provide free LSL replacement for income-qualified residential customers — a city-funded program more aggressive than the federal LCRR baseline, distinct from the state-level Department of Health LSLR oversight applied to upstate utilities.",
+    "climate_concern": "New York City's 1900-1961 housing stock holds an estimated 100,000+ lead service lines under DEP active replacement, and the Adirondack and Catskill regions' fractured-bedrock private-well systems pull from naturally acidic surface-influenced sources requiring neutralization filters to prevent copper-pipe pinhole leaks — with upstate frost lines reaching 48 inches across the North Country forcing winter-permit moratoriums on service-line replacement projects."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "frost_line_inches": 12, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "North Carolina State Board of Examiners of Plumbing, Heating & Fire Sprinkler Contractors (P-I / P-II Plumbing)",
+    "license_url": "https://www.nclicensing.org/", "permit_typical": "city or county plumbing permit; well/septic through county environmental health",
+    "plumber_wage_mean_hourly": 25.53, "avg_repipe_low": 4500, "avg_repipe_high": 11400,
+    "distinctive_law": "North Carolina General Statute §87-21 places plumbing, heating, and fire sprinkler contractors under a single Board of Examiners — the only state with this three-trade combined board structure — and creates a P-I (Restricted, residential under $30,000 per project) versus P-II (Unrestricted) plumbing classification that is a stricter scope cap than most Southeastern states' single-tier licenses.",
+    "climate_concern": "Western North Carolina's Blue Ridge frost line reaches 18-24 inches in Avery, Mitchell, and Watauga counties versus 6-12 inches on the Outer Banks and Cape Fear coastal plain — generating two distinct trench-depth standards within one state — and Lumberton, New Bern, and Wilmington hurricane storm-surge events have driven coastal-county adoption of backwater valves and elevated water-heater platforms after Hurricanes Matthew (2016) and Florence (2018)."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "North Dakota State Plumbing Board (Master Plumber / Journeyman Plumber / Apprentice)",
+    "license_url": "https://www.ndplumbingboard.com/", "permit_typical": "municipal plumbing permit; rural counties through state inspector",
+    "plumber_wage_mean_hourly": 30.85, "avg_repipe_low": 5200, "avg_repipe_high": 13200,
+    "distinctive_law": "North Dakota Century Code §43-18 created the State Plumbing Board with statewide Master and Journeyman Plumber licensure plus a unique provision under §43-18-09 requiring every plumbing contractor to maintain a $25,000 surety bond — and the Bakken oil-patch buildout in Williams, McKenzie, and Mountrail counties added an industrial-water-haul plumbing category that overlapped with state oil-and-gas regulation on rural well-system installations.",
+    "climate_concern": "North Dakota's continental climate produces design frost depths of 60+ inches across virtually the entire state, requiring service-line trenches below the depth of typical basement footings, and Williston-region Bakken-formation groundwater with elevated total-dissolved-solids and chlorides above 1,500 mg/L damages standard fixtures and water-heater anode rods within months without softening and reverse-osmosis pretreatment."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "frost_line_inches": 32, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide residential plumbing license — Cleveland, Cincinnati, Columbus, Toledo, Akron each license Master/Journey",
+    "license_url": "https://com.ohio.gov/divisions-and-programs/industrial-compliance/about/contact", "permit_typical": "municipal plumbing permit required; Ohio Construction Industry Licensing Board covers commercial only",
+    "plumber_wage_mean_hourly": 30.87, "avg_repipe_low": 4900, "avg_repipe_high": 12500,
+    "distinctive_law": "Ohio Revised Code Chapter 4740 created the Ohio Construction Industry Licensing Board (OCILB) for commercial plumbing contractors above the $25,000 threshold but explicitly excluded residential single-family work — leaving Cleveland, Cincinnati, Columbus, Toledo, Akron, Dayton, and dozens of smaller municipalities to license residential Master and Journey Plumbers independently with no formal reciprocity between cities.",
+    "climate_concern": "Cleveland's pre-1920 lead service line corridor parallels the Pittsburgh-Detroit Rust Belt LSL cluster, and Toledo's Lake Erie water supply has weathered repeated harmful algal blooms from Maumee River agricultural runoff that disrupted the 2014 'Toledo Water Crisis' — driving residential point-of-use cyanotoxin filtration retrofits across Lucas County, while Cincinnati's Ohio River source remains affected by upstream industrial discharge requiring carbon-filter polishing."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "frost_line_inches": 18, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Oklahoma Construction Industries Board — Plumbing Division (Plumbing Contractor / Journeyman / Apprentice)",
+    "license_url": "https://www.ok.gov/cib/Plumbing/", "permit_typical": "city or CIB plumbing permit required; on-site sewage through Oklahoma DEQ",
+    "plumber_wage_mean_hourly": 24.18, "avg_repipe_low": 4300, "avg_repipe_high": 10800,
+    "distinctive_law": "Oklahoma 59 O.S. §1001 places plumbing licensure under the Construction Industries Board with combined oversight of plumbing, mechanical, electrical, and inspector trades — a four-trade unified-board structure unusual outside the Plains states — and CIB enforces a $50,000 contractor-bond requirement that is among the largest residential-trade bonds in the lower Plains.",
+    "climate_concern": "Tornado Alley counties from Tillman through Tulsa carry annual EF-3+ tornado risk that snaps residential gas-meter risers and shears water-service connections at the foundation slab — Oklahoma residential plumbing increasingly specifies excess-flow gas valves and seismic-grade flexible water connectors after the 2013 Moore EF-5, and Arbuckle-Simpson aquifer hardness across south-central counties exceeds 25 grains-per-gallon."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B-6B", "frost_line_inches": 18, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Oregon Building Codes Division — Plumbing Program (PJ Journeyman / PWS / PB plumbing-business license)",
+    "license_url": "https://www.oregon.gov/bcd/licensing/Pages/plumbing.aspx", "permit_typical": "BCD plumbing permit required statewide; on-site sewage through DEQ",
+    "plumber_wage_mean_hourly": 38.45, "avg_repipe_low": 6400, "avg_repipe_high": 15800,
+    "distinctive_law": "Oregon ORS 693 places plumbing licensure under the Building Codes Division with separately credentialed Journeyman Plumber (PJ), Plumbing Business (PB), and Water-Treatment Installer (PWS) licenses — a finer scope-tier structure than most Pacific states — and Oregon was the first state to allow legalized residential greywater under DEQ Tier 1, 2, and 3 reuse permits dating to 2011 well before California or Texas.",
+    "climate_concern": "Oregon sits within the Cascadia Subduction Zone where a magnitude 9 megathrust event is forecast within the next 50 years with 30% probability, driving Portland, Salem, and Eugene to require seismic gas-shutoff valves, double-strap water-heater anchorage, and PEX-A retrofits over rigid copper in liquefaction-prone Willamette Valley alluvium — and coastal storm-driven sewer surcharge has driven Tillamook and Lincoln counties to adopt residential backwater-valve mandates."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "frost_line_inches": 36, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "municipal-only", "license_board_name": "No statewide residential plumbing license — Philadelphia, Pittsburgh, Allentown, Erie each issue Master Plumber separately",
+    "license_url": "https://www.dli.pa.gov/Individuals/Labor-Management-Relations/llc/uniform-construction-code/Pages/default.aspx", "permit_typical": "municipal plumbing permit through UCC-administering municipality",
+    "plumber_wage_mean_hourly": 32.42, "avg_repipe_low": 5400, "avg_repipe_high": 13800,
+    "distinctive_law": "Pennsylvania has no statewide plumbing license — the Uniform Construction Code (Act 45 of 1999) adopts the IPC by reference but leaves Master Plumber licensure to home-rule municipalities, with Philadelphia (PHL Department of Licenses and Inspections), Pittsburgh (Permits, Licenses & Inspections Department), Allentown, Erie, Reading, Scranton, and dozens of smaller cities each running independent boards with no automatic reciprocity.",
+    "climate_concern": "Anthracite-coal mine drainage across Schuylkill, Carbon, Luzerne, and Lackawanna counties acidifies surface and shallow groundwater to pH 3-4 with high iron and aluminum content, requiring neutralization-filtration on every retrofit, while Philadelphia and Pittsburgh inherit dense pre-1900 lead-service-line corridors driving aggressive PWSA and PWD replacement programs that exceed even the federal LCRR baseline."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "frost_line_inches": 36, "code_basis": "international-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Rhode Island Department of Labor and Training — Division of Professional Regulation (Master Plumber / Journeyperson / Apprentice)",
+    "license_url": "https://dlt.ri.gov/individuals/professional-regulation", "permit_typical": "city plumbing permit required; OWTS through RIDEM in unsewered areas",
+    "plumber_wage_mean_hourly": 35.40, "avg_repipe_low": 6800, "avg_repipe_high": 17000,
+    "distinctive_law": "Rhode Island General Laws §5-20-1 places plumbing licensure under the Department of Labor and Training rather than a contractor-licensing agency, and the RIDEM Onsite Wastewater Treatment Systems Rules under 250-RICR-150-10 require every replacement OWTS in nitrogen-sensitive watersheds (Narragansett Bay tributaries, the South County salt ponds) to use Advanced Treatment denitrification — a state-specific upgrade mandate beyond federal baseline.",
+    "climate_concern": "Providence, Pawtucket, and Central Falls inherit one of the densest pre-1900 lead-service-line concentrations in New England relative to population, and Newport-Westerly south-shore brackish water tables corrode buried galvanized service lines on 50-100 year-old shoreline housing — Providence Water has accelerated full-side LSL replacement through its dedicated Lead Pipe Replacement Program funded jointly by ratepayers and the state."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "frost_line_inches": 12, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "South Carolina Department of Labor, Licensing & Regulation — Contractor's Licensing Board (Mechanical/Plumbing)",
+    "license_url": "https://llr.sc.gov/clb/", "permit_typical": "county plumbing permit; OSWP through SC DHEC in unsewered areas",
+    "plumber_wage_mean_hourly": 26.13, "avg_repipe_low": 4500, "avg_repipe_high": 11600,
+    "distinctive_law": "South Carolina Code §40-11-260 routes residential plumbing of $5,000+ through the Contractor's Licensing Board's Mechanical/Plumbing classification, and the SC Department of Health and Environmental Control separately permits every on-site wastewater system under 61-56 with a Master Septic Tank Contractor credential — a two-credential pathway for any rural residential build with both supply-side and septic scope.",
+    "climate_concern": "Lowcountry parishes from Charleston through Beaufort and Hilton Head sit on tidal-influenced sandy aquifers with chloride intrusion in coastal wells, requiring point-of-entry corrosion control and dielectric unions at every metal-to-metal supply transition — and the carbonate-aquifer hard water across the Midlands and Pee Dee delivers calcium-magnesium loads above 12 grains-per-gallon driving softener installation on Columbia-area new construction."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "frost_line_inches": 60, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "South Dakota Plumbing Commission (Plumbing Contractor / Plumber / Restricted)",
+    "license_url": "https://dlr.sd.gov/plumbing/default.aspx", "permit_typical": "municipal or state plumbing permit required; on-site wastewater through Department of Agriculture & Natural Resources",
+    "plumber_wage_mean_hourly": 26.10, "avg_repipe_low": 4400, "avg_repipe_high": 11200,
+    "distinctive_law": "South Dakota Codified Laws §36-25 created the Plumbing Commission with authority over both Master Plumber and Underground Sewer & Water Installer credentials — the latter being a separate license unique to South Dakota covering only buried water-service and sewer-lateral work outside the building envelope, allowing excavation contractors to install service lines without holding a full plumbing license.",
+    "climate_concern": "South Dakota's Missouri River corridor and the Black Hills region see frost lines reaching 60 inches forcing service trench depths below most basement footings, and rural Madison-Lake County aquifer wells deliver groundwater with calcium-magnesium hardness above 25 grains-per-gallon plus elevated nitrate from row-crop fertilizer — point-of-entry softening and nitrate ion-exchange are core to any rural well-served plumbing scope."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "frost_line_inches": 18, "code_basis": "international-plumbing-code", "water_hardness_tier": "hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors — CMC-A (Plumbing) or LMC (Limited Mechanical Contractor)",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "city or county plumbing permit; rural OSSF through Department of Environment & Conservation",
+    "plumber_wage_mean_hourly": 25.62, "avg_repipe_low": 4500, "avg_repipe_high": 11500,
+    "distinctive_law": "Tennessee Code §62-6-102 sets the Board for Licensing Contractors threshold at $25,000 per project for residential work — significantly above the $5,000-$10,000 thresholds in most Southeastern states — meaning small-scope plumbing repairs and individual fixture replacements typically fall outside state licensing entirely and rely on county-level Limited Licensed Plumber credentials issued through TDCI.",
+    "climate_concern": "Tennessee's Cumberland Plateau and the karst limestone of Middle Tennessee from Nashville through Murfreesboro and Lewisburg sit atop sinkhole-prone bedrock that drains surface contamination into private wells within hours, and Smoky Mountain east Tennessee crawlspaces drop to design frost-line depths of 18-24 inches forcing exposed-riser heat-tape on every retrofit above 2,000 ft elevation."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-2B-3A-3B-4B", "frost_line_inches": 12, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Texas State Board of Plumbing Examiners (RMP / Master / Journeyman / Tradesman)",
+    "license_url": "https://www.tsbpe.texas.gov/", "permit_typical": "city plumbing permit required; on-site sewage through TCEQ in unincorporated areas",
+    "plumber_wage_mean_hourly": 28.04, "avg_repipe_low": 4800, "avg_repipe_high": 12400,
+    "distinctive_law": "The Texas State Board of Plumbing Examiners (TSBPE) is the oldest standalone state plumbing board in the United States — established in 1947 — and uniquely operates a four-tier credential system: Tradesman Plumber-Limited (TX-only entry credential), Journeyman, Master, and Responsible Master Plumber, with each company required to designate one RMP whose license number appears on every permit — a chain-of-responsibility model not used elsewhere.",
+    "climate_concern": "Winter Storm Uri (February 2021) collapsed Texas residential plumbing across the Plains, ERCOT-grid, and Gulf-coast climate zones simultaneously when sustained sub-freezing temperatures penetrated uninsulated attic supply lines, generating an estimated 1.7-million-plus burst-pipe insurance claims — TX SB 1281 and SB 3 mandate winterization disclosure and have driven near-universal adoption of attic-pipe insulation and freeze-protection valves on Texas single-family retrofits."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "3B-5B-6B", "frost_line_inches": 30, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "required", "license_board_name": "Utah Division of Occupational and Professional Licensing — Plumber Apprentice / Journeyman / Master / Plumbing Contractor",
+    "license_url": "https://dopl.utah.gov/plumber/", "permit_typical": "municipal plumbing permit required; on-site wastewater through DEQ in unincorporated areas",
+    "plumber_wage_mean_hourly": 27.18, "avg_repipe_low": 4700, "avg_repipe_high": 12000,
+    "distinctive_law": "Utah Code §58-55 places plumbing under the Division of Occupational and Professional Licensing with a four-tier credential ladder, and unlike most Mountain West states Utah requires every Master Plumber to additionally hold a Plumbing Contractor (E-100, S-211, or S-212) license through DOPL before contracting — a doubled-credential requirement adding roughly $200 to annual renewal cost per practitioner.",
+    "climate_concern": "The Wasatch Front sits over a major active fault zone with seismic provisions in Salt Lake City and Provo requiring strapped water heaters with two strap zones, automatic gas shutoff valves, and flexible braided supply connectors — and Great Salt Lake basin alkaline groundwater delivers calcium-carbonate hardness above 22 grains-per-gallon plus elevated total-dissolved-solids that scale tankless water heaters within 5 years without softening pretreatment."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "frost_line_inches": 60, "code_basis": "international-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "copper", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Vermont Department of Public Safety — Division of Fire Safety (Plumbers' Licensing Board: Master / Journeyman / Apprentice / Specialty)",
+    "license_url": "https://firesafety.vermont.gov/electrical-licensing-and-inspections/plumbers-licensing", "permit_typical": "DPS plumbing permit required statewide outside delegated municipalities",
+    "plumber_wage_mean_hourly": 28.20, "avg_repipe_low": 5100, "avg_repipe_high": 13200,
+    "distinctive_law": "Vermont 26 V.S.A. Chapter 37 places the Plumbers' Licensing Board under the Department of Public Safety's Division of Fire Safety — a public-safety regulatory home unique among the New England states — and the Wastewater System and Potable Water Supply Permit Rule requires a state-licensed Designer (Class A or B) credential to design every well and septic system, separate from the Master Plumber credential.",
+    "climate_concern": "Vermont's Green Mountain bedrock-fracture aquifer system delivers groundwater with naturally occurring arsenic, uranium, and radon at levels exceeding EPA primary MCLs in roughly 22% of private wells across Bennington, Windham, and Orleans counties — point-of-entry treatment with adsorptive media or reverse-osmosis is standard, and 60-inch design frost depth in the Northeast Kingdom forces below-basement service-line trench depths."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "frost_line_inches": 24, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Virginia Department of Professional and Occupational Regulation — Tradesman license (Plumber: Journeyman / Master)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Tradesmen", "permit_typical": "county or city plumbing permit; OSDS through Virginia Department of Health",
+    "plumber_wage_mean_hourly": 28.45, "avg_repipe_low": 4900, "avg_repipe_high": 12400,
+    "distinctive_law": "Virginia Code §54.1-1129 places plumbing licensure under the Tradesman category at the Department of Professional and Occupational Regulation, and the Chesapeake Bay Preservation Act (Va. Code §62.1-44.15:67) imposes Resource Protection Area setbacks within 100 feet of tidal shorelines that restrict septic system placement statewide and force Best Available Technology nitrogen-removal upgrades on Tidewater coastal-plain replacement systems.",
+    "climate_concern": "Tidewater Virginia from Norfolk through Virginia Beach and the Eastern Shore sits within the Chesapeake Bay watershed where rising sea levels and tidal subsidence have moved the saltwater-freshwater boundary inland into former freshwater wells, requiring well retirement and conversion to municipal supply — and Richmond and Petersburg's pre-1920 lead-service-line corridor parallels the broader Mid-Atlantic LSL exposure under DPU replacement programs."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "frost_line_inches": 18, "code_basis": "uniform-plumbing-code", "water_hardness_tier": "soft",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "Washington Department of Labor & Industries — Plumber Certifications (PL01 Plumber / PL02 Specialty / PT01 Trainee)",
+    "license_url": "https://lni.wa.gov/licensing-permits/electrical/plumbers/", "permit_typical": "L&I or municipal plumbing permit; on-site sewage through county health departments",
+    "plumber_wage_mean_hourly": 38.07, "avg_repipe_low": 6800, "avg_repipe_high": 16800,
+    "distinctive_law": "Washington RCW 18.106 created a unified Plumber Certification system administered by the Department of Labor & Industries — issuing PL01 (Journey-Level Plumber) and PL02 (Specialty Plumber: water heater, residential service) credentials that explicitly differ in scope under WAC 296-400A, with PL02 capped at residential service work below specific job-value thresholds and not authorized for new construction repipe scopes.",
+    "climate_concern": "Western Washington from Olympia through Bellingham sits within the Cascadia Subduction Zone where a magnitude 9 megathrust event is projected with 30% probability over the next 50 years — Seattle, Tacoma, and Bremerton building codes require seismic gas-shutoff valves, double-strap water-heater anchorage, and PEX-A retrofits over rigid copper in the liquefaction-prone Puget Sound alluvial zone, with Eastside Bellevue-Redmond increasingly adopting voluntary seismic upgrades."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "frost_line_inches": 30, "code_basis": "international-plumbing-code", "water_hardness_tier": "moderate",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "moderate",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Plumber Licensure (PL-01 through PL-05 tiers)",
+    "license_url": "https://labor.wv.gov/Licensing/Plumbing/", "permit_typical": "municipal or county plumbing permit; on-site sewage through WV Bureau for Public Health",
+    "plumber_wage_mean_hourly": 28.05, "avg_repipe_low": 4400, "avg_repipe_high": 11400,
+    "distinctive_law": "West Virginia Code §21-14 created a five-tier plumbing-licensure ladder under the Division of Labor — PL-01 Apprentice through PL-05 Master Plumber with Plumbers in Charge of Work — finer-grained than most Eastern states' three-tier structure, and the WV Bureau for Public Health separately permits every on-site sewage system under 64CSR9 regulating septic, mound, and aerobic-treatment systems statewide.",
+    "climate_concern": "Acid mine drainage from abandoned coal mines across southern West Virginia and the Tygart Valley delivers surface and shallow-aquifer water at pH 3-4 with high iron, aluminum, and sulfate content — neutralization-filtration is core to any AMD-affected residential plumbing scope, and high-elevation Allegheny ridge counties with 30+ inch frost depths force exposed-riser heat-tape on every crawlspace retrofit above 2,500 ft elevation."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "6A-7", "frost_line_inches": 60, "code_basis": "state-specific", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "high",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety and Professional Services — Plumbing Section (Master Plumber / Journeyman Plumber / Master Plumber-Restricted Service)",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/Plumber/Default.aspx", "permit_typical": "DSPS plumbing permit through municipal or rural inspector; private sewage through DSPS POWTS",
+    "plumber_wage_mean_hourly": 35.75, "avg_repipe_low": 5800, "avg_repipe_high": 14600,
+    "distinctive_law": "Wisconsin operates under SPS 382 through 384 (the Wisconsin Plumbing Code) — a state-specific code maintained by DSPS rather than IPC or UPC adoption — and Act 137 of 2017 created a unique Master Plumber-Restricted Service credential limited to fixture-replacement and water-heater work, plus the only state-administered Private Onsite Wastewater Treatment System (POWTS) regulatory program operating directly out of the same plumbing-licensing agency.",
+    "climate_concern": "Milwaukee's pre-1962 lead service line corridor served roughly 70,000 connections under accelerated MWW replacement, and Madison and Green Bay both inherit dense pre-1920 LSL clusters as well — DSPS prohibits partial replacement statewide as a public-health matter, and 60-inch frost-line depth across northern Wisconsin from Eau Claire through Marinette forces below-basement service-line trenching on every winter-permitted job."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "5B-6B-7", "frost_line_inches": 48, "code_basis": "international-plumbing-code", "water_hardness_tier": "very-hard",
+    "dominant_supply_material": "pex", "lead_service_line_risk": "low",
+    "license_status": "municipal-only", "license_board_name": "No statewide plumbing license — Cheyenne, Casper, Laramie, Gillette, Rock Springs each issue Master/Journey credentials separately",
+    "license_url": "https://wyomingworkforce.org/", "permit_typical": "municipal plumbing permit required; rural counties variable; on-site wastewater through DEQ",
+    "plumber_wage_mean_hourly": 30.82, "avg_repipe_low": 4900, "avg_repipe_high": 12500,
+    "distinctive_law": "Wyoming has no statewide plumbing license — under W.S. §35-2-303 each city or town adopts and enforces its own plumbing code, with Cheyenne, Casper, Laramie, Gillette, Rock Springs, and Sheridan each running independent Master and Journeyman boards — and the Wyoming Department of Environmental Quality separately permits every small wastewater system above 2,000 gpd through its Water Quality Division as a public-health matter.",
+    "climate_concern": "Wyoming's high-elevation continental climate produces design frost-line depths of 48-60 inches across most of the state, and the Powder River Basin's coal-bed-methane production zones in Campbell and Johnson counties combined with high-sulfate groundwater across the Bighorn Basin force point-of-entry softening, sulfate-reduction, and corrosion-control treatment on virtually every rural well-served residential plumbing scope above 5,000 ft."
+  }
+}

@@ -47,11 +47,11 @@ Locked decisions (do not re-litigate):
 |---|---|---|---|---|---|---|
 | 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | bcda9957d6e (handoff) |
 | 2 | hvac | ✅ shipped (greenfield) | 50 | 62.4% max (Path A+B; gate informational) | **84% → 90%** / 89% (+6pt NF lift) | 0831ec8ab06 |
-| 3 | plumbing | ⏳ next | — | — | — | — |
-| 4 | electrical | ⏳ | — | — | — | — |
+| 3 | plumbing | ✅ shipped (greenfield) | 50 | 65.5% max (Path A+B; gate informational) | **83% → 91%** / 91% (+8pt NF lift) | (this commit) |
+| 4 | electrical | ⏳ next | — | — | — | — |
 | 5–18 | (14 more) | ⏳ | — | — | — | — |
 
-**Phase A.2 status: 2 of 18 verticals shipped (roof + hvac).** HVAC was a clean greenfield ship — no pre-existing state hubs to rewrite, just 50 new pages added on top of the 740 city pages. Per-state data dict (`data/state-hvac-data.json`) carries IECC zone, climate split (HDD/CDD), dominant heating fuel, dominant cooling system, license board + URL + permit, BLS HVAC mechanic mean wage (SOC 49-9021 May 2024), 3-ton replacement cost range, plus 50 unique distinctive_law strings (state HVAC license / refrigerant / utility-rebate quirks) and 50 unique climate_concern strings (state-specific HVAC load drivers). Google composite jumped NF 84%→90% (+6pt) — the largest single-vertical lift seen so far. Pairwise hits 62.4% on neighbor pairs (MT↔WY, KS↔NE) as expected per Halt #2 resolution; Path A+B accepts this as a property of the page TYPE.
+**Phase A.2 status: 3 of 18 verticals shipped (roof + hvac + plumbing).** Plumbing was a clean greenfield ship — no pre-existing state hubs to rewrite, just 50 new pages added on top of the 742 city pages. Per-state data dict (`data/state-plumbing-data.json`) carries IECC zone, frost-line trench depth (8 inches AL/FL → 100 inches AK), code basis (UPC vs IPC vs state-specific), water hardness tier, dominant supply material (copper/PEX/CPVC), lead-service-line risk tier, license board + URL + permit, BLS plumber mean wage (SOC 47-2152 May 2024), whole-house repipe cost range, plus 50 unique distinctive_law strings (state plumbing code / license-tier / LSL-replacement / greywater quirks — e.g., MA 248 CMR 10, IL Public Act 102-0613 LSLR, TX TSBPE four-tier RMP, AZ A.A.C. R18-9-711 greywater, HI Act 204 solar-water-heating mandate) and 50 unique climate_concern strings (freeze risk, karst, Cascadia seismic, hurricane storm surge, hard-water scale, AMD, etc.). Google composite jumped NF 83%→91% (+8pt) — now the largest single-vertical lift in Phase A.2 (HVAC was +6pt). Pairwise hits 65.5% on neighbor pairs (NH↔VT, ME↔NH, ND↔SD, KS↔OK) as expected per Halt #2 resolution; Path A+B accepts this as a property of the page TYPE. HVAC was previously the +6pt lift; HVAC retained.
 
 ### Phase A.3 — neighbor cross-links: not started
 ### Phase A.4 — sitemap restructure: not started
@@ -258,6 +258,18 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 - Sanity-checked roof composite: still 83%/89% (unchanged — generator changes were additive, no roof regen).
 - Updated `sitemap-hvac.xml` with 50 new state hub URLs at lastmod 2026-05-01 (total now 791 URLs).
 - Pacing: 1 vertical (50 pages) = 1 unit per the rules. 1 of max 4 used.
+
+### Session 4 — 2026-05-01 — Phase A.2 plumbing vertical (clean greenfield ship)
+- Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with plumbing (wage field, repipe-cost field via new `avgFieldLow`/`avgFieldHigh` keys, intro hero builder, climateAndCodeFactsPlumbingHTML helper). Generalized `summaryCardsHTML` to honor `avgFieldLow`/`avgFieldHigh` (defaults to roof/hvac field names). Generalized `licenseAndPermitHTML` status labels for "municipal-only" + "none" → "No statewide trade license" (was "No statewide roofing license"; minor wording swap regenerates 17 roof + hvac pages with no Google-composite impact).
+- Extended `scripts/audit-state-hub-uniqueness.js` VERTICAL_CONFIG with plumbing (skipCityPattern + fileSuffix).
+- Built `data/state-plumbing-data.json` — 50 state entries, 18 fields each, sources documented in `_meta`. All 50 distinctive_law strings unique, all 50 climate_concern strings unique. Verified by hash count.
+- Generated 50 `[state]-plumbing-cost.html` pages (greenfield — no pre-existing state hubs to rewrite).
+- Spot-checked Texas + Alabama: TX page renders Winter Storm Uri 1.7M-claim driver, TSBPE four-tier RMP credential, 89 city links; AL page renders Mobile-Baldwin chloride pinhole-leak driver, $34.85 BLS plumber wage, 40 cities — all per spec.
+- Google audit: Plumbing NF **83% → 91% (+8pt)**, FS held at 91%. **Now the largest single-vertical lift in Phase A.2** (beats HVAC's +6pt).
+- Pairwise: max 65.5% (NH↔VT, ME↔NH, ND↔SD). Same pattern as roof + HVAC per Halt #2 resolution; informational only under Path A+B.
+- Sanity-checked roof + hvac composites: roof 83%/89% unchanged, hvac 90%/89% unchanged. The label-wording regen had zero composite impact.
+- Updated `sitemap-plumbing.xml` with 50 new state hub URLs at lastmod 2026-05-01 (total now 793 URLs).
+- Pacing: 1 vertical (50 pages) = 1 unit per the rules. 1 of max 4 used. **Phase A.2 progress: 3 of 18 (roof + hvac + plumbing).**
 
 ## Pacing rules
 

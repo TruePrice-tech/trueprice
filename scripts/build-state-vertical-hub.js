@@ -103,6 +103,52 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  plumbing: {
+    fileSuffix: "-plumbing-cost.html",
+    cityFileSuffix: "-plumbing-cost.html",
+    pageTitle: (s) => `Plumbing & Repipe Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average whole-house repipe cost in ${s.name} runs ${money(s.avg_repipe_low)}–${money(s.avg_repipe_high)} for a typical 2-bath home. Per-state plumbing code, license tier, water-quality, and freeze drivers explained.`,
+    h1: (s) => `Plumbing & Repipe Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/plumbing-cities.html",
+    citiesDirLabel: "Plumbing cities",
+    costGuideHref: "/plumbing-replacement-cost-guide.html",
+    quoteAnalyzerHref: "/plumbing-quote-analyzer.html",
+    estimatorHref: "/plumbing-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Plumbing estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "plumbing and repipe",
+    verticalLabelCap: "Plumbing & Repipe",
+    pricingMetricLabel: "whole-house 2-bath PEX repipe",
+    wageField: "plumber_wage_mean_hourly",
+    wageLabel: "BLS plumber wage",
+    wageSourceLabel: "BLS OEWS plumber mean",
+    sitemapFile: "sitemap-plumbing.xml",
+    introHero: (s, vConf) => {
+      const codeLabel = {
+        "uniform-plumbing-code": "the Uniform Plumbing Code (UPC)",
+        "international-plumbing-code": "the International Plumbing Code (IPC)",
+        "state-specific": "a state-specific plumbing code",
+      };
+      const supplyLabel = {
+        "copper": "Type-L copper",
+        "pex": "PEX-A or PEX-B cross-linked polyethylene",
+        "cpvc": "CPVC chlorinated PVC",
+        "galvanized-mixed": "mixed copper-and-galvanized retrofits",
+      };
+      const code = codeLabel[s.code_basis] || s.code_basis.replace(/-/g, " ");
+      const supply = supplyLabel[s.dominant_supply_material] || s.dominant_supply_material.replace(/-/g, " ");
+      return `Plumbing repipe in ${s.name} typically runs ${money(s.avg_repipe_low)}–${money(s.avg_repipe_high)} for a ${vConf.pricingMetricLabel}, with ${supply} the dominant retrofit choice and ${code} as the adopted enforcement basis. Buried service-line trench depth must clear the ${s.frost_line_inches}-inch design frost line. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_repipe_low",
+    avgFieldHigh: "avg_repipe_high",
+    climateFactsHTML: (s) => climateAndCodeFactsPlumbingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} water-quality & freeze drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
 };
 
 function money(n) {
@@ -166,7 +212,9 @@ function enumerateCityPagesByState(cityFileSuffix) {
 }
 
 function summaryCardsHTML(state, cityCount, vConf) {
-  const range = `${money(state.avg_replacement_low)} – ${money(state.avg_replacement_high)}`;
+  const lowField = vConf.avgFieldLow || "avg_replacement_low";
+  const highField = vConf.avgFieldHigh || "avg_replacement_high";
+  const range = `${money(state[lowField])} – ${money(state[highField])}`;
   const wageVal = state[vConf.wageField];
   const wage = `$${Number(wageVal).toFixed(2)}/hr`;
   return `      <div class="summary-grid">
@@ -219,6 +267,42 @@ function climateAndCodeFactsHvacHTML(state) {
       </ul>`;
 }
 
+function climateAndCodeFactsPlumbingHTML(state) {
+  const codeLabel = {
+    "uniform-plumbing-code": "Uniform Plumbing Code (UPC) — IAPMO model adopted statewide",
+    "international-plumbing-code": "International Plumbing Code (IPC) — ICC model adopted statewide",
+    "state-specific": "State-specific plumbing code (deviates from both UPC and IPC)",
+  };
+  const supplyLabel = {
+    "copper": "Type-L copper — dominant on retrofits in high-soft-water and pre-1990 housing stock",
+    "pex": "PEX-A or PEX-B cross-linked polyethylene — dominant on whole-house repipes since 2005",
+    "cpvc": "CPVC chlorinated PVC — dominant retrofit choice in slab-on-grade Sun-Belt construction",
+    "galvanized-mixed": "Mixed copper-and-galvanized — common in incomplete pre-1980 retrofits, prone to galvanic corrosion",
+  };
+  const hardnessLabel = {
+    "soft": "Soft (under 3.5 grains/gallon) — minimal scaling, no softener required",
+    "moderate": "Moderate (3.5–7 grains/gallon) — periodic appliance descaling recommended",
+    "hard": "Hard (7–10.5 grains/gallon) — softener cost-effective on tankless and water-heater retrofits",
+    "very-hard": "Very hard (10.5+ grains/gallon) — whole-house softener standard on most repipes",
+  };
+  const lslLabel = {
+    "high": "High — pre-1986 lead service line corridor under active LCRR replacement",
+    "moderate": "Moderate — partial pre-1986 service line inventory under utility review",
+    "low": "Low — minimal pre-1986 lead service line installations",
+  };
+  const items = [
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)} — drives freeze-protection scope on supply lines</li>`,
+    `<li><strong>Frost-line trench depth:</strong> ${state.frost_line_inches}-inch design minimum for buried water service</li>`,
+    `<li><strong>Water hardness profile:</strong> ${escapeHtml(hardnessLabel[state.water_hardness_tier] || state.water_hardness_tier)}</li>`,
+    `<li><strong>Dominant retrofit supply material:</strong> ${escapeHtml(supplyLabel[state.dominant_supply_material] || state.dominant_supply_material)}</li>`,
+    `<li><strong>Adopted plumbing code basis:</strong> ${escapeHtml(codeLabel[state.code_basis] || state.code_basis)}</li>`,
+    `<li><strong>Lead service line risk tier:</strong> ${escapeHtml(lslLabel[state.lead_service_line_risk] || state.lead_service_line_risk)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
 function climateAndCodeFactsRoofHTML(state) {
   const tierLabel = {
     HVHZ: "High-Velocity Hurricane Zone (HVHZ) — Miami-Dade and Broward counties under 175-mph design wind",
@@ -257,7 +341,8 @@ function licenseAndPermitHTML(state) {
   const statusLabel = {
     required: "Statewide license required",
     registration: "Statewide registration required (no exam)",
-    none: "No statewide roofing license",
+    none: "No statewide trade license",
+    "municipal-only": "No statewide license — municipal credentials only",
   };
   return `      <ul class="state-fact-list">
         <li><strong>License status:</strong> ${escapeHtml(statusLabel[state.license_status] || state.license_status)}</li>
