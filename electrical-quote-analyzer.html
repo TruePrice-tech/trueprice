@@ -626,10 +626,46 @@
       // would otherwise capture "halo dimmer" line items and label a
       // 25-can recessed install as "Outlet/Switch Replacement".
       if (/\b(recessed|can\s*light|pot\s*light|halo|wafer\s*light|6[- ]?pack\s*recess|6[- ]?inch\s*can|trim\s*kit)/i.test(t)) return { value: "recessed_lights", label: "Recessed Lighting Install", _matched: true };
+      // Panel upgrade matched BEFORE outlet/switch. Otherwise a "200 Amp Service
+      // Upgrade" quote with an "AFCI/GFCI breakers (8 circuits)" line item would
+      // hit the gfci|afci word in the outlet branch and confidently mislabel a
+      // $3,425 panel upgrade as "Outlet/Switch Replacement" benchmarked vs $250.
+      // Trust-critical (E1, deep test 2026-05-02).
+      if (/\b(panel|200\s*amp|100\s*amp|400\s*amp|breaker\s*box|electrical\s*panel|service\s*panel|main\s*panel|service\s*upgrade|load\s*center|amp\s*service)/i.test(t)) return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: true };
       if (/\b(circuit\s*add|new\s*circuit|add\s*circuit|dedicated\s*circuit|sub\s*panel)/i.test(t)) return { value: "circuit_addition", label: "Circuit Addition", _matched: true };
       if (/\b(outlet|switch|receptacle|gfci|afci|dimmer|plug)/i.test(t)) return { value: "outlet_switch", label: "Outlet/Switch Replacement", _matched: true };
-      if (/\b(panel|200\s*amp|100\s*amp|breaker\s*box|electrical\s*panel|service\s*upgrade|load\s*center)/i.test(t)) return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: true };
       return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: false };
+    }
+
+    // Detects panel manufacturer / brand from quote text. Mirrors plumbing
+    // detectPlumbingBrand pattern. Tier label drives brand-tier copy in
+    // verdict (Premium / Mid / Value), so wrong tier biases the verdict.
+    function detectElecBrand(text) {
+      if (!text) return null;
+      var t = String(text);
+      var brands = [
+        // Premium tier — copper bus, smart features
+        { brand: "Square D QO", tier: "Premium", regex: /\bsquare\s*d\s*qo\b/i },
+        { brand: "Span Smart Panel", tier: "Premium", regex: /\bspan\s*panel|smart\s*energy\s*monitoring\s*system/i },
+        { brand: "Cutler-Hammer", tier: "Premium", regex: /\bcutler[- ]?hammer\b/i },
+        // Mid tier — workhorse residential brands
+        { brand: "Square D Homeline", tier: "Mid", regex: /\bsquare\s*d\s*homeline\b/i },
+        { brand: "Square D", tier: "Mid", regex: /\bsquare\s*d\b/i },
+        { brand: "Eaton", tier: "Mid", regex: /\b(eaton(\s*br)?|eaton\s*ch)\b/i },
+        { brand: "Siemens", tier: "Mid", regex: /\bsiemens\b/i },
+        { brand: "GE", tier: "Mid", regex: /\b(general\s*electric|ge\s*panel|ge\s*load\s*center)\b/i },
+        // Trim / device brands (informational only — surfaces if no panel brand)
+        { brand: "Leviton", tier: "Mid", regex: /\bleviton\b/i },
+        { brand: "Lutron", tier: "Premium", regex: /\blutron\b/i },
+        { brand: "Halo", tier: "Mid", regex: /\bhalo\s*(recessed|can|trim)\b/i },
+        // Value tier — older / replacement-target brands
+        { brand: "Zinsco", tier: "Value", regex: /\bzinsco\b/i },
+        { brand: "Federal Pacific", tier: "Value", regex: /\bfederal\s*pacific|\bfpe\b/i }
+      ];
+      for (var i = 0; i < brands.length; i++) {
+        if (brands[i].regex.test(t)) return { brand: brands[i].brand, tier: brands[i].tier };
+      }
+      return null;
     }
 
     function detectAmperage(text) {
@@ -881,6 +917,7 @@
         var amperage = detectAmperage(text);
         var circuitCount = detectCircuitCount(text);
         var scopeSignals = detectElecScopeSignals(text);
+        var brand = detectElecBrand(text);
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
@@ -958,6 +995,13 @@ setProgress(90, "Almost done...");
 
         setProgress(100, "Done!");
 
+        // Contractor + brand surfaced in details grid for parity with roofing
+        // / HVAC / auto-repair / plumbing. engineResult.contractor comes from
+        // regex detectContractor in analyzer-parser.js; falls back to AI.
+        var _contractor = (engineResult && engineResult.contractor) ||
+                          (engineResult && engineResult.aiData && (engineResult.aiData.contractor || engineResult.aiData.contractorName)) ||
+                          null;
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -969,6 +1013,8 @@ setProgress(90, "Almost done...");
           amperage: amperage,
           circuitCount: circuitCount,
           scopeSignals: scopeSignals,
+          brand: brand,
+          contractor: _contractor,
           region: region,
           location: location,
           parsed: parsed
@@ -1275,10 +1321,27 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
+      // Inline XSS-strip helper. OCR-extracted contractor/brand strings can
+      // carry stray markup if a quote PDF embeds odd characters. Mirrors
+      // safeText() in plumbing/roofing analyzers — we don't have a shared
+      // helper available here.
+      var _esc = function (s) {
+        return String(s == null ? "" : s).replace(/[<>"']/g, function (c) {
+          return ({ "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+        });
+      };
+
       // Build details
       var detailsHtml = '<div class="elec-details">';
-      detailsHtml += '<div class="elec-detail"><div class="label">Service Type</div><div class="value">' + r.serviceType.label + '</div></div>';
+      detailsHtml += '<div class="elec-detail"><div class="label">Service Type</div><div class="value">' + _esc(r.serviceType.label) + '</div></div>';
 
+      if (r.contractor) {
+        detailsHtml += '<div class="elec-detail"><div class="label">Contractor</div><div class="value">' + _esc(r.contractor) + '</div></div>';
+      }
+      if (r.brand && r.brand.brand) {
+        var brandNote = r.brand.brand + (r.brand.tier ? " (" + r.brand.tier + " tier)" : "");
+        detailsHtml += '<div class="elec-detail"><div class="label">Brand</div><div class="value">' + _esc(brandNote) + '</div></div>';
+      }
       if (r.amperage) {
         detailsHtml += '<div class="elec-detail"><div class="label">Amperage</div><div class="value">' + r.amperage + 'A</div></div>';
       }
