@@ -13,7 +13,7 @@ Locked decisions (do not re-litigate):
 3. **Roof Option 2 + roof-cities.html:** ship both
 4. **Hub rollout:** HALTED (pivot to Phase A)
 
-## Current state (updated 2026-05-02)
+## Current state (updated 2026-05-02 — session 6)
 
 ### Phase A.1 — vertical-cities directory pages (20 total)
 | # | Vertical | Page | Status | Commit |
@@ -52,9 +52,13 @@ Locked decisions (do not re-litigate):
 | 5 | siding | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 91% / 89% (≥80% floor cleared with margin) | 4fd88e3342c |
 | 6 | gutter | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 89% / 88% (≥80% floor cleared with margin) | 919d6989f70 |
 | 7 | fencing | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 88% / 89% (≥80% floor cleared with margin) | c3fc5d3cad0 |
-| 8–18 | (11 more) | ⏳ | — | — | — | — |
+| 8 | painting | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 89% / 89% (≥80% floor cleared with margin) | a84cfb5f952 |
+| 9 | landscaping | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 88% / 87% (≥80% floor cleared with margin) | 79177132910 |
+| 10 | insulation | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 92% / 87% (≥80% floor cleared with margin) | 951c591af72 |
+| 11 | concrete | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 92% / 88% (≥80% floor cleared with margin) | 057de800334 |
+| 12–18 | (7 more: garage-door, window, foundation, auto-repair, legal, medical, moving) | ⏳ | — | — | — | — |
 
-**Phase A.2 status: 7 of 18 verticals shipped (roof + hvac + plumbing + electrical + siding + gutter + fencing).** All four shipped this session were clean greenfield ships — no pre-existing state hubs to rewrite. Per-state data dicts now total 4 × 50 = 200 hand-curated state entries with unique distinctive_law and climate_concern strings each, anchored in BLS OEWS May 2024 wages, USDA-NRCS frost lines, NOAA precipitation/lightning data, ASCE 7-22 wind/snow tiers, and state contractor licensing boards verified by URL.
+**Phase A.2 status: 11 of 18 verticals shipped (roof + hvac + plumbing + electrical + siding + gutter + fencing + painting + landscaping + insulation + concrete).** Session 6 added 4 more clean greenfield ships — no pre-existing state hubs to rewrite for any of the 4. Per-state data dicts now total 11 × 50 = 550+ hand-curated state entries with unique distinctive_law and climate_concern strings each, anchored in BLS OEWS May 2024 wages, USDA-NRCS frost lines, NOAA precipitation/lightning data, ASCE 7-22 wind/snow tiers, EPA RRP / SCAQMD / OTC VOC tiers, ACI 318 / ACI 332 / ACI 201.2R concrete classifications, IECC 2021 prescriptive R-value mandatory minimums, IRA HOMES + HEER program implementation status, USDA hardiness zones, and state contractor licensing boards verified by URL.
 
 **Per-vertical lifts this session (compared to baseline before adding 50 state hubs):**
 - electrical: NF/FS landed at **92% / 90%** with 50 new hubs added (740 city pages → 790 total)
@@ -279,6 +283,20 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 - Updated 4 sitemaps with 50 new state hub URLs each at lastmod 2026-05-01 (electrical + siding) or 2026-05-02 (gutter + fencing): sitemap-electrical.xml, sitemap-siding.xml, sitemap-gutters.xml, sitemap-fence.xml. Total +200 URLs across the four sitemaps.
 - Pacing: 4 verticals × 50 pages = 4 units (max per session). Session hit pacing cap exactly. **Phase A.2 progress: 7 of 18 (roof + hvac + plumbing + electrical + siding + gutter + fencing).**
 - Discovered fencing naming gotcha — see new note in Phase A.2 status table above. Shipped commits: electrical 5371c3f5dd6, siding 4fd88e3342c, gutter 919d6989f70, fencing c3fc5d3cad0.
+
+### Session 6 — 2026-05-02 — Phase A.2 painting + landscaping + insulation + concrete (4 verticals, 200 state hubs, clean greenfield ships)
+- Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with painting, landscaping, insulation, and concrete — each with vertical-specific intro hero builder, climate-facts builder, BLS wage field, sitemap target, and avg-cost field-name overrides. Added 4 new climate-facts HTML helpers (climateAndCodeFactsPaintingHTML, ...LandscapingHTML, ...InsulationHTML, ...ConcreteHTML) sized to each vertical's distinctive data axes.
+- Extended `scripts/audit-state-hub-uniqueness.js` VERTICAL_CONFIG with all 4 verticals (skipCityPattern + fileSuffix).
+- Built 4 per-state data dicts: `data/state-painting-data.json`, `data/state-landscaping-data.json`, `data/state-insulation-data.json`, `data/state-concrete-data.json`. Each has 50 state entries + 1 DC entry, 17-18 fields each, sources documented in `_meta`. All 200+ distinctive_law and 200+ climate_concern strings hand-curated unique within their vertical.
+- Generated 200 `[state]-[vertical]-cost.html` pages across the 4 verticals (50 per vertical), all greenfield (no pre-existing state hubs to rewrite for any of these 4).
+- Google composite passes on all 4 ≥80% floor: painting NF 89% / FS 89%, landscaping NF 88% / FS 87%, insulation NF 92% / FS 87%, concrete NF 92% / FS 88%. Pairwise per Halt #2 Path A+B is informational only — same neighbor-cluster pattern as roof/hvac/plumbing.
+- Updated 4 sitemaps with 50 new state hub URLs each at lastmod 2026-05-02: sitemap-painting.xml, sitemap-landscaping.xml, sitemap-insulation.xml, sitemap-concrete.xml. Total +200 URLs across the four sitemaps (each sitemap 741 → 791 URLs).
+- Pacing: 4 verticals × 50 pages = 4 units (max per session). Session hit pacing cap exactly. **Phase A.2 progress: 11 of 18.** Shipped commits: painting a84cfb5f952, landscaping 79177132910, insulation 951c591af72, concrete 057de800334.
+- Per-vertical data sources expanded beyond pilot baseline: painting drew on EPA RRP, CARB SCAQMD Rule 1113, OTC Phase II, HUD lead disclosure, BLS SOC 47-2141; landscaping drew on USDA Plant Hardiness Zones 2023, EPA WaterSense, state forestry WUI rules, BLS SOC 37-3011; insulation drew on IECC 2021 Table R402.1.3, BCAP energy code tracker, IRA HOMES + HEER state implementation status, BLS SOC 47-2131; concrete drew on ACI 318-19 + ACI 332 + ACI 201.2R, USDA-NRCS frost depth maps, ASCE 7-22 SDC, expansive soil disclosures (TX, CO, OK), BLS SOC 47-2051.
+- Naming verification at session start: confirmed painting/landscaping/insulation/concrete all align cleanly across data dict name, build VERTICAL_CONFIG key, file suffix on existing city pages (-painting-cost.html / -landscaping-cost.html / -insulation-cost.html / -concrete-cost.html), and audit-uniqueness-google.js key. No fencing-style naming gotchas required.
+
+**Remaining 7 verticals for Phase A.2 (suggest order: foundation, garage-door, window for home-services first; then auto-repair, legal, medical, moving):**
+- foundation, garage-door (hyphenated suffix), window (vs windows — confirm before starting), auto-repair (hyphenated), legal, medical, moving
 
 ### Session 4 — 2026-05-01 — Phase A.2 plumbing vertical (clean greenfield ship)
 - Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with plumbing (wage field, repipe-cost field via new `avgFieldLow`/`avgFieldHigh` keys, intro hero builder, climateAndCodeFactsPlumbingHTML helper). Generalized `summaryCardsHTML` to honor `avgFieldLow`/`avgFieldHigh` (defaults to roof/hvac field names). Generalized `licenseAndPermitHTML` status labels for "municipal-only" + "none" → "No statewide trade license" (was "No statewide roofing license"; minor wording swap regenerates 17 roof + hvac pages with no Google-composite impact).
