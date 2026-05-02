@@ -17,12 +17,14 @@ const PRICE_RANGES = {
   architectural: { minPerSqft: 3.5,  maxPerSqft: 15 },
   metal:         { minPerSqft: 7,    maxPerSqft: 25 },
   tile:          { minPerSqft: 10,   maxPerSqft: 35 },
+  cedar:         { minPerSqft: 7,    maxPerSqft: 18 },
+  flat:          { minPerSqft: 4,    maxPerSqft: 12 },  // TPO / EPDM / modified-bit
   // Non-roofing services: use generous ranges
   default:       { minPerSqft: 0,    maxPerSqft: 0 }  // skip sqft check for non-roofing
 };
 
 const VALID_MATERIALS = new Set([
-  "asphalt", "architectural", "metal", "tile",
+  "asphalt", "architectural", "metal", "tile", "cedar", "flat",
   "central_ac", "heat_pump", "furnace", "mini_split", "full_system",
   "water_heater", "repipe", "sewer_line", "drain_cleaning",
   "panel_upgrade", "rewire", "ev_charger",
