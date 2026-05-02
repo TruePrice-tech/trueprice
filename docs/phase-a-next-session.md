@@ -19,25 +19,27 @@ Locked decisions (do not re-litigate):
 | # | Vertical | Page | Status | Commit |
 |---|---|---|---|---|
 | 1 | foundation | foundation-cities.html | ✅ pilot shipped | ed7ec75c769 |
-| 2 | hvac | hvac-cities.html | ⏳ | — |
-| 3 | plumbing | plumbing-cities.html | ⏳ | — |
-| 4 | electrical | electrical-cities.html | ⏳ | — |
-| 5 | siding | siding-cities.html | ⏳ | — |
-| 6 | gutter | gutter-cities.html | ⏳ | — |
-| 7 | fencing | fencing-cities.html | ⏳ | — |
-| 8 | concrete | concrete-cities.html | ⏳ | — |
-| 9 | roof | roof-cities.html | ⏳ (highest priority — solves 120-orphan problem) | — |
-| 10 | insulation | insulation-cities.html | ⏳ | — |
-| 11 | landscaping | landscaping-cities.html | ⏳ | — |
-| 12 | painting | painting-cities.html | ⏳ | — |
-| 13 | garage-door | garage-door-cities.html | ⏳ | — |
-| 14 | window | window-cities.html | ⏳ | — |
-| 15 | auto-repair | auto-repair-cities.html | ⏳ | — |
-| 16 | legal | legal-cities.html | ⏳ | — |
-| 17 | medical | medical-cities.html | ⏳ | — |
-| 18 | moving | moving-cities.html | ⏳ | — |
+| 2 | hvac | hvac-cities.html | ✅ shipped | 17e88d6fd4c |
+| 3 | plumbing | plumbing-cities.html | ✅ shipped | 6ec44986ef7 |
+| 4 | electrical | electrical-cities.html | ✅ shipped | 1137b18b016 |
+| 5 | siding | siding-cities.html | ✅ shipped | e232faf42a0 |
+| 6 | gutter | gutter-cities.html | ✅ shipped | b0d63a11129 |
+| 7 | fencing | fencing-cities.html | ✅ shipped | 83aee9047e2 |
+| 8 | concrete | concrete-cities.html | ✅ shipped | 6061de2d375 |
+| 9 | roof | roof-cities.html | ✅ shipped (solved 120-orphan problem; 791 entries) | bcda9957d6e |
+| 10 | insulation | insulation-cities.html | ✅ shipped | 21e6ce9664b |
+| 11 | landscaping | landscaping-cities.html | ✅ shipped | 4d42d9308fa |
+| 12 | painting | painting-cities.html | ✅ shipped | 6e9a166865d |
+| 13 | garage-door | garage-door-cities.html | ✅ shipped | 734a7d28c65 |
+| 14 | window | window-cities.html | ✅ shipped | 29baebd57f4 |
+| 15 | auto-repair | auto-repair-cities.html | ✅ shipped (48 cities) | 9b58f035d51 |
+| 16 | legal | legal-cities.html | ✅ shipped (48 cities) | 0c163e13b48 |
+| 17 | medical | medical-cities.html | ✅ shipped (48 cities) | 431cf68236a |
+| 18 | moving | moving-cities.html | ✅ shipped (48 cities) | 406c85f484d |
 | 19 | kitchen | kitchen-cities.html | 🚫 (no city pages) | — |
 | 20 | solar | solar-cities.html | 🚫 (contamination cleanup blocker) | — |
+
+**Phase A.1 status: COMPLETE.** 18/18 indexable directory pages shipped. Pairwise prose-similarity audit passed at max 11.6% (≥88% unique by Jaccard, well above the ≥80% Lane requirement). NF + FS uniqueness on every vertical's existing city pages held at baseline (Phase A.1 added new pages only; never modified existing city/flagship pages).
 
 ### Phase A.2 — state-vertical hub pages: not started
 ### Phase A.3 — neighbor cross-links: not started
@@ -137,6 +139,17 @@ When halted: append entry to ## Halt log section below, post conversation messag
 - Built `scripts/precommit-phase-a.sh` gate-enforcement script
 - Shipped pilot: foundation-cities.html
 - Status: pilot ship-and-audit complete. Pattern works. Hand off to next session.
+
+### Session 2 — 2026-05-01
+- Built generic `scripts/build-vertical-cities.js` (city + neighborhood-of-metro detection, state-name/material/concept exclusion)
+- Built `scripts/phase-a-ship.sh` driver (generate → gate → commit per vertical)
+- Patched `scripts/precommit-phase-a.sh` (replaced grep pipes with awk so empty results don't trip `set -e -o pipefail`; gate 4 now validates untracked HTML)
+- Hand-wrote 17 vertical-specific intros (each leans on a real cost driver: pitch/tear-off, SEER2/refrigerant, repipe material, NEC code, etc.)
+- Shipped 17 of 18 remaining: hvac, plumbing, electrical, siding, gutter, fencing, concrete, roof (791 entries — solved the 120-orphan problem on the main vertical), insulation, landscaping, painting, garage-door, window, auto-repair, legal, medical, moving
+- Built `scripts/audit-vertical-cities-uniqueness.js` (pairwise Jaccard on directory intros)
+- Pairwise audit: max 11.6% similarity across 153 pairs (≥88% unique). Lane's ≥80% hard floor cleared with margin.
+- Per-vertical pre-commit gate: NF + FS uniqueness ≥80% on every existing city/flagship page (none touched by Phase A.1; floor preserved by construction).
+- **Phase A.1 COMPLETE.** Ready for Phase A.2 (state-vertical hubs) when scheduled.
 
 ## Pacing rules
 
