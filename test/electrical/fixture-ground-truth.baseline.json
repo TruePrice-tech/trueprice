@@ -1,0 +1,206 @@
+{
+  "ts": "2026-05-02T23:20:56.400Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-redding-panel-low": {
+      "verdictPrice": 1660,
+      "details": {
+        "service type": "Panel Upgrade (100A to 200A)",
+        "amperage": "200A",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $3,450 -- 52% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /redding\\s*electric/, got null",
+        "brand: expected match /square\\s*d/, got \"\""
+      ]
+    },
+    "f2-spartan-panel-mid": {
+      "verdictPrice": 3425,
+      "details": {
+        "service type": "Outlet/Switch Replacement",
+        "amperage": "200A",
+        "circuits": "8",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $300 -- 1042% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /spartan\\s*electric/, got null",
+        "serviceType: expected match /panel/, got \"Outlet/Switch Replacement\"",
+        "brand: expected match /eaton/, got \"\""
+      ]
+    },
+    "f3-meridian-panel-ev": {
+      "verdictPrice": 8798,
+      "details": {
+        "service type": "EV Charger Installation",
+        "amperage": "200A",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,150 -- 309% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /meridian\\s*power/, got null",
+        "brand: expected match /square\\s*d/, got \"\""
+      ]
+    },
+    "f4-redding-panel-messy": {
+      "verdictPrice": 1660,
+      "details": {
+        "service type": "Panel Upgrade (100A to 200A)",
+        "amperage": "200A",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $3,450 -- 52% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /redding\\s*electric/, got null",
+        "brand: expected match /square\\s*d/, got \"\""
+      ]
+    },
+    "f5-spartan-panel-messy": {
+      "verdictPrice": 3425,
+      "details": {
+        "service type": "Outlet/Switch Replacement",
+        "amperage": "200A",
+        "circuits": "8",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $300 -- 1042% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /spartan\\s*electric/, got null",
+        "serviceType: expected match /panel/, got \"Outlet/Switch Replacement\"",
+        "brand: expected match /eaton/, got \"\""
+      ]
+    },
+    "f6-meridian-panel-messy": {
+      "verdictPrice": 8798,
+      "details": {
+        "service type": "EV Charger Installation",
+        "amperage": "200A",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,150 -- 309% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /meridian\\s*power/, got null",
+        "brand: expected match /square\\s*d/, got \"\""
+      ]
+    },
+    "f7-service-form-9432": {
+      "verdictPrice": 9432,
+      "details": {
+        "service type": "Panel Upgrade (100A to 200A)",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $3,450 -- 173% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f8-recessed-lights-3487": {
+      "verdictPrice": 3488,
+      "details": {
+        "service type": "Recessed Lighting Install",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $1,750 -- 99% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f9-handwritten-side-job": {
+      "verdictPrice": 1703,
+      "details": {
+        "service type": "Panel Upgrade (100A to 200A)",
+        "amperage": "230A",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $3,450 -- 51% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    }
+  }
+}
