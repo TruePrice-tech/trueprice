@@ -1,0 +1,19 @@
+{
+  "vertical": "medical",
+  "gateVertical": "medical",
+  "fileSuffix": "-medical-cost.html",
+  "outputFile": "medical-cities.html",
+  "displayNoun": "medical procedure",
+  "shortNoun": "medical",
+  "hubUrl": "/medical-cost-guide.html",
+  "hubLabel": "Medical Cost Guide",
+  "analyzerUrl": "/medical-bill-analyzer.html",
+  "analyzerLabel": "Analyze a medical bill",
+  "pageTitle": "All cities with medical procedure cost data | Woogoro",
+  "metaDescription": "Medical procedure cost data by city. Same CPT can quote 2-4x range across metros depending on facility tier, payer mix, and state transparency rules.",
+  "ogTitle": "Medical procedure cost by city | Woogoro",
+  "ogDescription": "Medical procedure pricing by city. CPT-level price variance, ASC vs hospital, and state transparency rules across metros.",
+  "schemaName": "Medical procedure cost by city",
+  "schemaDescription": "Directory of U.S. cities with 2026 medical procedure cost data, organized by state, including facility-tier and transparency-rule context per metro.",
+  "intro": "<p>Hospital and outpatient procedure pricing is dominated by chargemaster opacity and payer-mix dynamics that vary city by city. Same CPT/MS-DRG can quote at a 2&ndash;4x range across metros: an outpatient knee MRI is $400&ndash;$1,400 negotiated cash, $200&ndash;$2,800 charged. State-mandated price transparency rules (Colorado, Texas, Florida, NY) have moved actual paid numbers downward in the last 18 months, but compliance is uneven. Free-standing imaging centers and ambulatory surgery centers (ASCs) typically post 40&ndash;65% lower than hospital outpatient departments for the same code. Network status &mdash; whether a facility is in-network for the major regional payers (BCBS, Aetna, UHC) &mdash; is the bigger swing variable. Per-metro pages cover dominant facility tier, state transparency-rule status, and the ASC-vs-hospital outpatient pricing gap most commonly hit on knee, MRI, and colonoscopy codes.</p>"
+}
