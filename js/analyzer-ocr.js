@@ -719,8 +719,14 @@ async function extractTextFromUploadedFile(file) {
       // Map engine result to the shape compare pages expect
       const parsed = engineResult.parsed || {};
 
-      // Merge engine-level fields into parsed
-      if (engineResult.price && !parsed.price) {
+      // Merge engine-level fields into parsed.
+      // engineResult.price is the *post-defenses* final price (regex defenses
+      // refused fabricated values, AI fallback fired, override regexes ran).
+      // parsed.price is the *raw* regex parser output, which may include the
+      // very fragments engine.price was just chosen specifically to reject.
+      // Always prefer engineResult.price when it disagrees — that's the
+      // canonical answer.
+      if (engineResult.price) {
         parsed.price = String(engineResult.price);
         parsed.finalBestPrice = engineResult.price;
       }
