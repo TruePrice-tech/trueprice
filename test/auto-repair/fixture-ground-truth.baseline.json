@@ -1,0 +1,185 @@
+{
+  "ts": "2026-05-02T19:11:52.173Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-honest-wrench-low": {
+      "verdictPrice": 328,
+      "details": {
+        "shop type": "Dealership",
+        "region": "Southeast",
+        "labor total": "$1",
+        "market labor rate (dealership)": "$114 - $171/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /honest\\s*wrench/, got null",
+        "shopType: expected match /independent/, got \"Dealership\""
+      ]
+    },
+    "f2-precision-mid": {
+      "verdictPrice": 2450,
+      "details": {
+        "shop type": "Dealership",
+        "region": "Southeast",
+        "labor total": "$2",
+        "market labor rate (dealership)": "$114 - $171/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "displayPrice: expected 633 ±10, got 2450",
+        "contractor: expected match /precision\\s*auto\\s*care/, got null",
+        "shopType: expected match /independent/, got \"Dealership\""
+      ]
+    },
+    "f3-park-avenue-dealer": {
+      "verdictPrice": 1032,
+      "details": {
+        "shop type": "Dealership",
+        "region": "Southeast",
+        "labor total": "$2",
+        "parts type": "OEM",
+        "market labor rate (dealership)": "$114 - $171/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /park\\s*avenue/, got null"
+      ]
+    },
+    "f4-jeep-insurance": {
+      "verdictPrice": 732,
+      "details": {
+        "shop type": "Independent Shop",
+        "region": "_national",
+        "labor rate": "$55/hr",
+        "labor hours": "4.4 hrs",
+        "parts total": "$324",
+        "labor total": "$242",
+        "market labor rate (independent shop)": "$80 - $130/hr"
+      },
+      "rangeText": "Right at the market average for _national",
+      "isInsuranceBanner": true,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f5-audi-recommendations": {
+      "verdictPrice": 5557,
+      "details": {
+        "shop type": "Independent Shop",
+        "region": "_national",
+        "market labor rate (independent shop)": "$80 - $130/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": true,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /audi/, got null"
+      ]
+    },
+    "f6-equinox-quote": {
+      "verdictPrice": 586,
+      "details": {
+        "shop type": "Dealership",
+        "region": "_national",
+        "parts total": "$386",
+        "labor total": "$161",
+        "market labor rate (dealership)": "$120 - $180/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f7-honda-fuel-injector": {
+      "verdictPrice": 2055,
+      "details": {
+        "shop type": "Independent Shop",
+        "region": "_national",
+        "labor hours": "1.5 hrs",
+        "market labor rate (independent shop)": "$80 - $130/hr"
+      },
+      "rangeText": "Right at the market average for _national",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f8-bmw-x3": {
+      "verdictPrice": 2431,
+      "details": {
+        "shop type": "Dealership",
+        "region": "Southeast",
+        "parts total": "$1,229",
+        "parts type": "OEM",
+        "market labor rate (dealership)": "$114 - $171/hr"
+      },
+      "rangeText": "",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /precision\\s*auto\\s*care/, got null",
+        "shopType: expected match /independent/, got \"Dealership\""
+      ]
+    }
+  }
+}

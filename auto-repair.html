@@ -1870,7 +1870,9 @@ function laborRateFlag(detected,regional){
   if(ratio<0.80)return{label:"Below market",css:"low"};
   return{label:"Market rate",css:"fair"};
 }
-function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):"";}
+// "_national" is the pseudo-region for un-stated quotes — never show the
+// underscore key to users; render as "National" instead.
+function capitalize(s){if(!s) return "";var k=String(s).replace(/^_+/,"");if(k==="national") return "National";return k.charAt(0).toUpperCase()+k.slice(1);}
 
 // Feedback
 window.submitFeedback=function(response){
@@ -2190,9 +2192,22 @@ function initQuoteApp(){
     if(/\bOEM\b/i.test(text)) partsType="OEM";
     else if(/\baftermarket\b/i.test(text)) partsType="Aftermarket";
     else if(/\breman(?:ufactured)?\b/i.test(text)) partsType="Remanufactured";
+    // Shop-type detection. Explicit indie / chain signals win first; dealer
+    // requires a strong dealership signal — "Dealership Repair Order",
+    // "Authorized X Service", "Factory Trained / Warranty", "Dealer Estimate"
+    // — NOT just a brand name (every brake quote mentions the customer's
+    // make/model). Earlier heuristic mis-classified f1 Honest Wrench (indie,
+    // 2018 Honda Civic), f2 Precision (indie), f8 Precision (indie BMW
+    // specialist) all as "dealer" because the vehicle was a Honda or BMW.
     var shopType=qState.shopType||"independent";
-    if(/\b(?:dealer(?:ship)?|toyota|honda|ford|chevy|chevrolet|bmw|mercedes|audi|nissan|hyundai|kia)\b/i.test(text)) shopType="dealer";
-    else if(/\b(?:midas|firestone|jiffy|pep\s*boys|valvoline|meineke|maaco|aamco|goodyear)\b/i.test(text)) shopType="chain";
+    var _ti=text||"";
+    if(/\b(?:independent\s+specialist|family[-\s]*owned|ase\s+certified|independently[-\s]*owned|locally[-\s]*owned)\b/i.test(_ti)) {
+      shopType="independent";
+    } else if(/\b(?:midas|firestone|jiffy\s*lube|pep\s*boys|valvoline|meineke|maaco|aamco|goodyear|monro|big\s*o\s+tires|christian\s+brothers|just\s*tires|discount\s*tire)\b/i.test(_ti)) {
+      shopType="chain";
+    } else if(/\b(?:dealership(?:\s+repair\s+order)?|dealer\s+estimate(?:\s+total)?|authorized\s+(?:[a-z]+\s+)?service|factory[-\s]*trained|factory\s+(?:warranty|service)|stealership|certified\s+pre[-\s]*owned|\b(?:toyota|honda|ford|chevrolet|bmw|mercedes|audi|nissan|hyundai|kia|subaru|mazda|jeep|chrysler|dodge|ram|gmc|cadillac|lexus|acura|infiniti|volvo|porsche|land\s*rover|mini|fiat)\s+(?:dealer|service|of\s+\w+))\b/i.test(_ti)) {
+      shopType="dealer";
+    }
     var stateMatch=text.match(/\b([A-Z]{2})\s+\d{5}\b/);
     if(stateMatch&&STATE_REGIONS[stateMatch[1]]) qState.stateCode=stateMatch[1];
     var region=getRegionFromState(qState.stateCode);
@@ -2209,7 +2224,11 @@ function initQuoteApp(){
     var lineItems=[];
     var seenDescriptions={};
     var SECTION_HEADERS=/^\s*(?:additional\s+service\s+recommendations|recommended\s+services|services|estimate\s+totals?|invoice\s+totals?|repair\s+totals?|total(?:\s+cost)?|subtotal|grand\s+total|amount\s+due|balance\s+due|estimate\s+of\s+record|category\s+(?:basis|rate|cost)|description\s+(?:qty|amount)|customer\s+information|vehicle\s+information|warranty\s+information|please\s+make.*payable|thank\s+you|payment\s+(?:options?|due))\s*\$?[\s\d.,%]*$/i;
-    var STOPWORDS=/(?:warranty|signature|page\s*\d|invoice\s*#|customer|address|phone|email|date|estimate\s+date|claim\s+number|deductible|policy|adjuster|pearlcoat|envelope|docusign|account|routing|tax\s+rate)/i;
+    // STOPWORDS: descriptions matching this regex (after price-strip) are
+    // dropped from line items. Address-shaped lines bled into the breakdown
+    // table — added street/blvd/drive/etc and 5-digit ZIPs so "1925 East 7th
+    // Street - Charlotte, NC 28204" doesn't get parsed as "$28,204.00".
+    var STOPWORDS=/(?:warranty|signature|page\s*\d|invoice\s*#|customer|address|\bstreet\b|\bave(?:nue)?\b|\bblvd\b|\bboulevard\b|\bdrive\b|\bdr\b\.?|\broad\b|\brd\b\.?|\bhighway\b|\bhwy\b|\blane\b|\bcourt\b|\bcir(?:cle)?\b|\bsuite\b|\bunit\b|\b\d{5}(?:-\d{4})?\b|phone|email|date|estimate\s+date|claim\s+number|deductible|policy|adjuster|pearlcoat|envelope|docusign|account|routing|tax\s+rate)/i;
     // Preserve blank lines as separators so we can distinguish:
     //   "PERFORM ALL WHEEL DRIVE $299.99\nFRONT AND REAR ALIGNMENT\n\nALTERNATOR..."
     //   vs.
@@ -2241,7 +2260,10 @@ function initQuoteApp(){
         if(!isFinite(v)||v<10||v>=100000) continue;
         // Skip lines that are clearly rates / percentages / hours / years.
         var ctx=stripped.slice(Math.max(0,moneyMatches[m].index-12),(moneyMatches[m].index||0)+raw.length+12).toLowerCase();
-        if(/\/\s*hr|\bper\s*hour|\bhrs?\b|%|year|\bzip|\bphone|\bfax/.test(ctx)) continue;
+        // Skip rates / percentages / hours / years / warranty mileage. The
+        // warranty + mile/month additions catch "12 month / 12,000 mile
+        // warranty" lines that were being parsed as "$12,000.00" line items.
+        if(/\/\s*hr|\bper\s*hour|\bhrs?\b|%|year|\bzip|\bphone|\bfax|warranty|\bmiles?\b|\bmonths?\b/.test(ctx)) continue;
         if(Number.isInteger(v)&&v>=1990&&v<=2035) continue;
         lastMoney={raw:raw,value:v,index:moneyMatches[m].index||0};
         break;
@@ -2282,7 +2304,12 @@ function initQuoteApp(){
     // sometimes returns the Subtotal when both Subtotal and Total appear on
     // the same quote (Jeep insurance fixture), under-reporting by ~$50-100.
     var quoteTotal=0;
-    var _labelMatch=text.match(/(?:grand\s+total|total\s+due|total\s+cost\s+of\s+repairs|amount\s+due|balance\s+due)\s*:?\s*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+    // Adds "total estimate" / "estimate total" / "dealer estimate total" /
+    // "estimate of repairs" / "your total" — common on indie + dealer brake
+    // estimates. Without these, OCR-corrupted line items can win the
+    // max-price fallback (see f2 fixture: "Shop supplies $24.50" → OCR
+    // "$2,450.00" beat the legitimate "TOTAL ESTIMATE $633.00").
+    var _labelMatch=text.match(/(?:grand\s+total|total\s+due|total\s+cost\s+of\s+repairs|amount\s+due|balance\s+due|total\s+estimate|estimate\s+total|dealer\s+estimate\s+total|estimate\s+of\s+repairs|your\s+total)\s*:?\s*\$?\s*([\d,]+(?:\.\d{2})?)/i);
     if(_labelMatch){
       var _labeled=parseFloat(_labelMatch[1].replace(/,/g,""));
       if(_labeled>0&&_labeled<100000) quoteTotal=_labeled;
@@ -2297,7 +2324,18 @@ function initQuoteApp(){
     var partsTotal=null;var laborTotal=null;
     var partsTotalMatch=text.match(/(?:parts?\s*(?:total)?|total\s*parts)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
     if(partsTotalMatch) partsTotal=parseFloat(partsTotalMatch[1].replace(/,/g,""));
-    var laborTotalMatch=text.match(/(?:labor\s*(?:total)?|total\s*labor)[:\s]*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+    // Prefer label-anchored "Labor Total" / "Total Labor" / "Subtotal Labor"
+    // first. The plain-"Labor" fallback was capturing hours instead of dollars
+    // ("Labor: 1.5 hours @ $95/hr  $142.50" → captured 1.5). Require a $ sign
+    // and minimum plausible labor amount when there's no "total" keyword.
+    var laborTotalMatch=text.match(/(?:labor\s+total|total\s+labor|subtotal\s+labor[^\n]*)\s*:?\s*\$?\s*([\d,]+(?:\.\d{2})?)/i);
+    if(!laborTotalMatch){
+      var laborLooseMatch=text.match(/labor[^\n]*\$\s*([\d,]+(?:\.\d{2})?)\s*$/im);
+      if(laborLooseMatch){
+        var _v=parseFloat(laborLooseMatch[1].replace(/,/g,""));
+        if(_v>=30&&_v<10000) laborTotalMatch=laborLooseMatch;
+      }
+    }
     if(laborTotalMatch) laborTotal=parseFloat(laborTotalMatch[1].replace(/,/g,""));
     var scopeSignals={};
     scopeSignals.partsItemized={status:lineItems.length>1?"included":"unclear"};
