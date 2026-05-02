@@ -2027,6 +2027,12 @@ function initQuoteApp(){
         result=buildResultFromAPI(apiResult);
       }
       else{result=buildResultFromLocal(text);}
+      // Surface contractor from the shared engine (which calls detectContractor
+      // inside analyzer-parser.js). HVAC + roofing already show this; auto-
+      // repair was dropping it on the floor — verdicts had no shop name.
+      if(result){
+        result.contractor=(engineResult&&engineResult.contractor)||(apiResult&&(apiResult.contractor||apiResult.contractorName))||result.contractor||null;
+      }
       setProgress(90,"Almost done...");
       var _extractedTotal=result?result.quoteTotal:0;
       renderPriceConfirmation(appRoot, _extractedTotal, "ar", function(confirmedPrice){
@@ -2506,6 +2512,10 @@ function initQuoteApp(){
 
     // Details grid
     var detailsHtml='<div class="ar-details">';
+    if(r.contractor){
+      var _safeContractor=String(r.contractor).replace(/[<>]/g,"");
+      detailsHtml+='<div class="ar-detail"><div class="label">Contractor</div><div class="value">'+_safeContractor+'</div></div>';
+    }
     detailsHtml+='<div class="ar-detail"><div class="label">Shop Type</div><div class="value">'+(shopLabels[r.shopType]||r.shopType)+'</div></div>';
     detailsHtml+='<div class="ar-detail"><div class="label">Region</div><div class="value">'+capitalize(r.region)+'</div></div>';
     if(r.laborRate){var flagHtml="";if(r.laborFlag) flagHtml='<span class="ar-labor-flag '+r.laborFlag.css+'">'+r.laborFlag.label+'</span>';detailsHtml+='<div class="ar-detail"><div class="label">Labor Rate</div><div class="value">$'+r.laborRate+'/hr'+flagHtml+'</div></div>';}
