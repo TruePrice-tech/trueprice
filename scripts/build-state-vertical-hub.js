@@ -599,6 +599,46 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  medical: {
+    fileSuffix: "-medical-cost.html",
+    cityFileSuffix: "-medical-cost.html",
+    pageTitle: (s) => `Hospital & Medical Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average uninsured moderate-acuity Level-3 ER visit in ${s.name} runs ${money(s.avg_er_visit_low)}–${money(s.avg_er_visit_high)}. Per-state surprise billing protections, CON laws, Medicaid expansion, malpractice cap, and price-transparency drivers explained.`,
+    h1: (s) => `Hospital & Medical Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/medical-cities.html",
+    citiesDirLabel: "Medical cities",
+    costGuideHref: "/medical-cost-guide.html",
+    quoteAnalyzerHref: "/medical-bill-analyzer.html",
+    estimatorHref: "/medical-bill-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Medical bill check",
+    estimatorLinkSubtitle: "Iris analyzes any hospital or doctor bill",
+    verticalLabel: "medical care",
+    verticalLabelCap: "Medical Care",
+    pricingMetricLabel: "uninsured moderate-acuity Level-3 ER visit",
+    wageField: "rn_wage_mean_hourly",
+    wageLabel: "BLS Registered Nurse wage",
+    wageSourceLabel: "BLS OEWS Registered Nurses (SOC 29-1141) state mean",
+    sitemapFile: "sitemap.xml",
+    introHero: (s, vConf) => {
+      const expLabel = {
+        "expanded": "ACA Medicaid expanded",
+        "not-expanded": "ACA Medicaid NOT expanded (coverage gap exists)",
+        "expanded-recent": "ACA Medicaid recently expanded",
+        "partial-waiver": "partial Medicaid waiver expansion",
+      };
+      const exp = expLabel[s.medicaid_expansion_status] || s.medicaid_expansion_status;
+      return `Hospital costs in ${s.name} typically run ${money(s.avg_er_visit_low)}–${money(s.avg_er_visit_high)} for an ${vConf.pricingMetricLabel}, with ${exp}. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_er_visit_low",
+    avgFieldHigh: "avg_er_visit_high",
+    climateFactsHTML: (s) => climateAndCodeFactsMedicalHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} payer mix, regulation & malpractice drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} medical board & physician licensing`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   legal: {
     fileSuffix: "-legal-cost.html",
     cityFileSuffix: "-legal-cost.html",
@@ -1416,6 +1456,56 @@ function climateAndCodeFactsFoundationHTML(state) {
     `<li><strong>Sulfate exposure (ACI 318):</strong> ${escapeHtml(sulfateLabel[state.sulfate_exposure_class] || state.sulfate_exposure_class)}</li>`,
     `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
     `<li><strong>EPA radon zone:</strong> ${escapeHtml(radonLabel[state.radon_zone] || String(state.radon_zone))}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsMedicalHTML(state) {
+  const surpriseLabel = {
+    "robust-state-statute": "Robust state statute — state-level surprise billing protection beyond federal No Surprises Act",
+    "moderate-state-statute": "Moderate state statute — partial state-level surprise billing protection alongside federal NSA",
+    "federal-no-surprises-only": "Federal No Surprises Act only — no state-level supplement beyond NSA",
+  };
+  const conLabel = {
+    "extensive-con": "Extensive Certificate of Need — broad CON program covering hospitals, ASCs, imaging, and surgical capacity",
+    "moderate-con": "Moderate Certificate of Need — CON limited to hospitals or selected facility categories",
+    "limited-con": "Limited Certificate of Need — CON only for nursing homes / hospices / long-term-care",
+    "no-con-law": "No Certificate of Need program",
+    "repealed-con": "Repealed Certificate of Need — partial or full CON repeal in recent years",
+  };
+  const expansionLabel = {
+    "expanded": "ACA Medicaid expanded — coverage to 138% federal poverty level",
+    "not-expanded": "ACA Medicaid NOT expanded — 100-138% FPL coverage gap exists",
+    "expanded-recent": "ACA Medicaid recently expanded (2020-2024 voter or legislative initiative)",
+    "partial-waiver": "Partial Medicaid waiver — coverage to 100% FPL but not full ACA expansion",
+  };
+  const capLabel = {
+    "no-cap": "No enforceable malpractice non-economic damages cap",
+    "hard-cap": "Hard statutory non-economic damages cap",
+    "pcf-tiered-cap": "Patient's Compensation Fund (PCF) tiered cap structure",
+    "cap-struck-down": "Cap struck down by state Supreme Court",
+    "cap-reformed-rising": "Cap reformed and rising annually under recent legislation",
+  };
+  const transparencyLabel = {
+    "robust-state-mandate": "Robust state mandate — state-level price transparency beyond federal CMS Hospital Price Transparency Rule",
+    "moderate-state-mandate": "Moderate state mandate — selective state price transparency requirements alongside federal CMS rule",
+    "federal-cms-rule-only": "Federal CMS Hospital Price Transparency Rule (45 CFR Part 180) only — no state-level supplement",
+  };
+  const planLabel = {
+    "BCBS-dominant": "BCBS-dominant — single Blue Cross Blue Shield carrier holds 50%+ commercial market share",
+    "kaiser-dominant": "Kaiser-dominant — Kaiser Permanente integrated-delivery system holds dominant market share",
+    "multi-plan-competitive": "Multi-plan competitive — no single insurer holds dominant market share",
+    "regional-system-dominant": "Regional-system dominant — vertically-integrated regional health system shapes market",
+  };
+  const items = [
+    `<li><strong>Surprise billing protection:</strong> ${escapeHtml(surpriseLabel[state.surprise_billing_protection] || state.surprise_billing_protection)}</li>`,
+    `<li><strong>Certificate of Need (CON) status:</strong> ${escapeHtml(conLabel[state.con_law_status] || state.con_law_status)}</li>`,
+    `<li><strong>Medicaid expansion status:</strong> ${escapeHtml(expansionLabel[state.medicaid_expansion_status] || state.medicaid_expansion_status)}</li>`,
+    `<li><strong>Malpractice non-economic damages cap:</strong> ${escapeHtml(capLabel[state.med_mal_cap_status] || state.med_mal_cap_status)} — ${escapeHtml(state.med_mal_cap_amount)}</li>`,
+    `<li><strong>Hospital price transparency mandate:</strong> ${escapeHtml(transparencyLabel[state.price_transparency_mandate] || state.price_transparency_mandate)}</li>`,
+    `<li><strong>Dominant health insurance market structure:</strong> ${escapeHtml(planLabel[state.dominant_health_plan_market] || state.dominant_health_plan_market)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
