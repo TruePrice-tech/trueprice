@@ -1,11 +1,12 @@
 {
-  "ts": "2026-05-02T17:59:00.391Z",
+  "ts": "2026-05-02T18:08:59.884Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-clean-invoice": {
       "verdictPrice": 610,
       "details": {
         "system type": "Central Air Conditioning",
+        "refrigerant": "R-22",
         "pricing": "South regional pricing"
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
@@ -18,14 +19,13 @@
       },
       "contractor": null,
       "stateCode": null,
-      "failures": [
-        "refrigerant: expected to contain R-22, got \"\""
-      ]
+      "failures": []
     },
     "f2-coil-quote": {
       "verdictPrice": 3810,
       "details": {
         "system type": "Central Air Conditioning",
+        "refrigerant": "R-410A",
         "parts warranty": "1 yr",
         "pricing": "South regional pricing"
       },
@@ -132,15 +132,13 @@
       },
       "contractor": null,
       "stateCode": null,
-      "failures": [
-        "brand: expected match /mitsubishi/, got \"\""
-      ]
+      "failures": []
     },
     "f7-heat-pump-table": {
       "verdictPrice": 30150,
       "details": {
         "system type": "Central Air Conditioning",
-        "brand": "Goodman (value tier)",
+        "brand": "Mitsubishi (premium tier)",
         "labor warranty": "1 yr",
         "pricing": "South regional pricing"
       },

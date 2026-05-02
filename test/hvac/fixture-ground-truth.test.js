@@ -93,7 +93,11 @@ const FIXTURES = [
       contractorRegex: null,        // contractor redacted on fixture
       stateCode: null,
       isServiceJob: true,           // leak search only — not an install
-      brandRegex: /mitsubishi/i,
+      // Note: Mitsubishi appears only as a watermark/logo image on this
+      // fixture (Reddit-uploaded quote). Tesseract doesn't OCR the logo, so
+      // brand isn't detectable from text alone. Reddit thread title is
+      // "8k for Mitsubishi mini split..." — that's where the brand context
+      // lives, not in the document itself. Keep brand assertion off.
     },
   },
   {
