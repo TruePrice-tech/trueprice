@@ -944,6 +944,20 @@
         if (lowConfidence && !aiFired) {
           serviceType = null;
         }
+        // PL-5: chain service-call invoices (Roto-Rooter, Mr. Rooter, Ben
+        // Franklin) are pre-printed multi-category forms. The OCR text often
+        // contains "DRAIN" as a category label printed on the form, which
+        // false-matches `drain_cleaning`. Without specific drain-cleaning
+        // signals (hydro-jet, main-line, camera-inspect) the verdict is
+        // unreliable — better to surface "Needs Review" than confidently
+        // bench-mark a Roto-Rooter handwritten ticket as a $200 simple clog
+        // ("OVERPRICED 351% above $200" was the f7 trust failure).
+        var SERVICE_CALL_LETTERHEADS = /\broto[\s-]?rooter\b|\bmr\.?\s*rooter\b|\bbenjamin\s*franklin\s*plumbing\b|\bone\s*hour\s*(plumbing|heating)\b|\bservice\s*experts\b/i;
+        if (serviceType && (serviceType.value === "drain_cleaning" || serviceType.value === "uncategorized") &&
+            SERVICE_CALL_LETTERHEADS.test(text) &&
+            !/hydro\s*jet|jetting|main\s*line|camera\s*inspect/i.test(text)) {
+          serviceType = null;
+        }
         var uncategorized = !serviceType;
         if (uncategorized) {
           serviceType = { value: "uncategorized", label: "Plumbing Service" };
@@ -976,10 +990,22 @@
           else subType = "short_under_20ft";
         }
 
-        // Location from engine result
-        if (engineResult.stateCode && !state.address.stateCode) {
-          state.address.stateCode = engineResult.stateCode;
-          if (engineResult.city) state.address.city = engineResult.city;
+        // Location from engine result. PL-2 fix: prefer AI's stateCode/city
+        // over regex-extracted ones — the regex parser hallucinates 2-letter
+        // state codes from random OCR fragments ("GArage" → "GA",
+        // "NC pages" → "NC"). On f7-roto-rooter the regex extracted "NC" but
+        // the actual fixture is Indianapolis IN; AI correctly returned "IN".
+        // Engine's guard `if (aiData.stateCode && !result.stateCode)` favored
+        // the wrong regex value over AI. Override here for plumbing — same
+        // class of bug likely affects other verticals but lifting to engine
+        // is a separate cross-vertical fix.
+        var _aiState = engineResult.aiData && engineResult.aiData.stateCode;
+        var _aiCity = engineResult.aiData && engineResult.aiData.city;
+        var _engState = _aiState || engineResult.stateCode;
+        var _engCity = _aiCity || engineResult.city;
+        if (_engState && !state.address.stateCode) {
+          state.address.stateCode = _engState;
+          if (_engCity) state.address.city = _engCity;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
@@ -1519,13 +1545,27 @@
       tipsHtml += '</ul></div>';
 
       // Rebate/savings tips
-      var rebateHtml = '<div class="plumb-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
-      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>';
-      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      rebateHtml += '<li>Bundle multiple plumbing jobs together for volume discounts</li>';
-      rebateHtml += '<li>Ask about PEX instead of copper for repipes (30-40% cheaper, faster install)</li>';
-      rebateHtml += '<li>Schedule non-emergency work during weekdays for standard rates</li>';
-      rebateHtml += '</ul></div>';
+      // PL-9: tips are context-aware now. Bundle tip only relevant on
+      // multi-job quotes (>$3,000 typical threshold for combined work).
+      // PEX-vs-copper tip only relevant on repipe service. Weekday-rate tip
+      // only relevant when the quote shows after-hours / emergency surcharge
+      // signals (otherwise it's redundant).
+      var _rebateTips = [];
+      if (r.quotePrice > 3000 || (r.serviceType && /repipe|sewer|bathroom/i.test(r.serviceType.value || ""))) {
+        _rebateTips.push("Bundle multiple plumbing jobs together for volume discounts");
+      }
+      if (r.serviceType && r.serviceType.value === "repipe") {
+        _rebateTips.push("Ask about PEX instead of copper for repipes (30-40% cheaper, faster install)");
+      }
+      _rebateTips.push("Schedule non-emergency work during weekdays for standard rates");
+      var rebateHtml = '';
+      if (_rebateTips.length) {
+        rebateHtml = '<div class="plumb-card" style="background:#eff6ff;border:1px solid #bfdbfe;">' +
+                     '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Ways to Save</h3>' +
+                     '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+        _rebateTips.forEach(function(t) { rebateHtml += '<li>' + t + '</li>'; });
+        rebateHtml += '</ul></div>';
+      }
 
       // Feedback prompt
       var feedbackHtml = '\
