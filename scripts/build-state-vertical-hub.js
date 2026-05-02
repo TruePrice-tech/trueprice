@@ -430,6 +430,49 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  window: {
+    fileSuffix: "-window-cost.html",
+    cityFileSuffix: "-window-cost.html",
+    pageTitle: (s) => `Window Replacement Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average 10-window 1500 sq ft single-story full-house residential window replacement in ${s.name} runs ${money(s.avg_window_low)}–${money(s.avg_window_high)}. Per-state ENERGY STAR climate zone, U-factor, hurricane impact-rated, historic-district, and license drivers explained.`,
+    h1: (s) => `Window Replacement Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/window-cities.html",
+    citiesDirLabel: "Window cities",
+    costGuideHref: "/window-replacement-cost-guide.html",
+    quoteAnalyzerHref: "/window-quote-analyzer.html",
+    estimatorHref: "/window-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Window estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "window replacement",
+    verticalLabelCap: "Window Replacement",
+    pricingMetricLabel: "10-window 1,500 sq ft single-story full-house window replacement",
+    wageField: "carpenter_window_installer_wage_mean_hourly",
+    wageLabel: "BLS carpenter wage",
+    wageSourceLabel: "BLS OEWS carpenter (window installers) mean",
+    sitemapFile: "sitemap-window.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "vinyl": "vinyl-frame double-hung",
+        "wood": "wood-frame double-hung",
+        "aluminum-clad-wood": "aluminum-clad wood-frame",
+        "fiberglass": "pultruded fiberglass-frame",
+        "composite-pultruded": "composite-pultruded frame",
+        "aluminum": "aluminum-frame",
+      };
+      const mat = matLabel[s.dominant_frame_material] || s.dominant_frame_material.replace(/-/g, " ");
+      const shgcText = s.max_shgc === "no-limit" ? "no SHGC limit" : `SHGC ≤ ${s.max_shgc}`;
+      return `Window replacements in ${s.name} typically run ${money(s.avg_window_low)}–${money(s.avg_window_high)} for a ${vConf.pricingMetricLabel}, with ${mat} the dominant residential choice and ENERGY STAR ${s.energy_star_climate_zone} climate-zone glazing requirements (U-factor ≤ ${s.max_u_factor}, ${shgcText}). ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_window_low",
+    avgFieldHigh: "avg_window_high",
+    climateFactsHTML: (s) => climateAndCodeFactsWindowHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate, wind & energy-code drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing, lead-safe & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   "garage-door": {
     fileSuffix: "-garage-door-cost.html",
     cityFileSuffix: "-garage-door-cost.html",
@@ -1076,6 +1119,54 @@ function climateAndCodeFactsFencingHTML(state) {
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
     `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
     `<li><strong>HOA fencing-rule prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsWindowHTML(state) {
+  const zoneLabel = {
+    "Northern": "Northern — coldest climates, U-factor priority (U ≤ 0.27 in coldest tier)",
+    "North-Central": "North-Central — heating-dominant, balanced U-factor and SHGC (U ≤ 0.32, SHGC ≤ 0.40)",
+    "South-Central": "South-Central — mixed climate, balanced U-factor and lower SHGC (U ≤ 0.32, SHGC ≤ 0.40)",
+    "Southern": "Southern — cooling-dominant, low SHGC priority (U ≤ 0.40, SHGC ≤ 0.25)",
+  };
+  const matLabel = {
+    "vinyl": "Vinyl frame — dominant in most climates, lowest cost-per-window",
+    "wood": "Wood frame — dominant in historic-preservation overlays and luxury subdivisions",
+    "aluminum-clad-wood": "Aluminum-clad wood — dominant in coastal salt-spray and Pacific NW corridors",
+    "fiberglass": "Pultruded fiberglass — dominant in extreme cold and HVHZ Florida coastal exposure",
+    "composite-pultruded": "Composite pultruded frame — premium specialty, gaining share in luxury cold-climate",
+    "aluminum": "Aluminum frame — dominant in commercial-style retrofits, declining in residential",
+  };
+  const impactLabel = {
+    "yes-statewide": "Statewide ASTM E1996 large-missile impact-rated requirement",
+    "yes-coastal-counties": "Mandatory ASTM E1996 large-missile impact-rated in coastal counties only",
+    "no-mandate": "No statewide impact-rated requirement",
+  };
+  const histLabel = {
+    "very-high": "Very high — extensive historic-preservation overlays + mandatory profile/glazing-pattern review",
+    "high": "High — multiple state-mapped historic districts with mandatory review",
+    "moderate": "Moderate — selected metro historic districts with review",
+    "low": "Low — limited historic-preservation review outside specific neighborhoods",
+  };
+  const leadLabel = {
+    "very-high": "Very high — 60%+ pre-1978 housing share, mandatory EPA RRP lead-safe certification on every replacement",
+    "high": "High — 40-60% pre-1978 housing share, EPA RRP required on most replacements",
+    "moderate": "Moderate — 20-40% pre-1978 housing share, EPA RRP required on selected replacements",
+    "low": "Low — sub-20% pre-1978 housing share, RRP rarely triggered",
+  };
+  const items = [
+    `<li><strong>ENERGY STAR climate zone:</strong> ${escapeHtml(zoneLabel[state.energy_star_climate_zone] || state.energy_star_climate_zone)}</li>`,
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>Maximum U-factor:</strong> ${state.max_u_factor} (IECC 2021 + state amendments)</li>`,
+    `<li><strong>Maximum SHGC:</strong> ${state.max_shgc === "no-limit" ? "No limit (cold climate)" : escapeHtml(String(state.max_shgc))}</li>`,
+    `<li><strong>ASCE 7-22 design wind speed:</strong> ${state.design_wind_speed_mph} mph (Risk Category II)</li>`,
+    `<li><strong>Hurricane impact-rated requirement:</strong> ${escapeHtml(impactLabel[state.hurricane_impact_rated_required] || state.hurricane_impact_rated_required)}</li>`,
+    `<li><strong>Dominant residential frame material:</strong> ${escapeHtml(matLabel[state.dominant_frame_material] || state.dominant_frame_material)}</li>`,
+    `<li><strong>Historic-preservation overlay prevalence:</strong> ${escapeHtml(histLabel[state.historic_overlay_prevalence] || state.historic_overlay_prevalence)}</li>`,
+    `<li><strong>EPA RRP lead-safe trigger (pre-1978 housing share):</strong> ${escapeHtml(leadLabel[state.lead_safe_rrp_pre_1978_housing_share] || state.lead_safe_rrp_pre_1978_housing_share)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}

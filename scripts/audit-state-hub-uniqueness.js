@@ -117,6 +117,11 @@ const VERTICAL_CONFIG = {
     statePrefixOnly: true,
     skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-garage-door-cost\.html$/,
   },
+  window: {
+    fileSuffix: "-window-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-window-cost\.html$/,
+  },
 };
 
 function loadStateData(vertical) {
