@@ -53,7 +53,33 @@ export interface ParsedHvacQuote {
   redFlags?: string[];
   summary?: string;
   confidence?: "high" | "medium" | "low";
-  pricingContext?: Record<string, unknown>;
+  pricingContext?: HvacPricingContext;
+  calibration?: CalibrationData | null;
+}
+
+export interface HvacPricingContext {
+  state?: string;
+  stateMultiplier?: number;
+  systemType?: string;
+  systemLabel?: string;
+  jobType?: string;
+  isServiceJob?: boolean;
+  expectedRange?: { low?: number | null; high?: number | null } | Record<string, unknown> | null;
+  brandTier?: Record<string, unknown> | null;
+  taxCredit?: unknown;
+  seasonalMultiplier?: number;
+  source?: string;
+  modelRange?: { low?: number | null; high?: number | null } | null;
+  calibrationApplied?: boolean;
+  [k: string]: unknown;
+}
+
+export interface CalibrationData {
+  avgPrice?: number | null;
+  quotes?: number | null;
+  lastUpdated?: number | null;
+  source?: string;
+  confidence?: "high" | "medium" | "low" | "low_data" | "model_only";
 }
 
 export interface AnalyzeQuoteOptions {
