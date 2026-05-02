@@ -46,7 +46,7 @@ Locked decisions (do not re-litigate):
 | # | Vertical | Status | Pages | Pairwise (Jaccard) | Google composite NF/FS | Commit |
 |---|---|---|---|---|---|---|
 | 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | bcda9957d6e (handoff) |
-| 2 | hvac | ✅ shipped (greenfield) | 50 | 62.4% max (Path A+B; gate informational) | **84% → 90%** / 89% (+6pt NF lift) | (this session) |
+| 2 | hvac | ✅ shipped (greenfield) | 50 | 62.4% max (Path A+B; gate informational) | **84% → 90%** / 89% (+6pt NF lift) | 0831ec8ab06 |
 | 3 | plumbing | ⏳ next | — | — | — | — |
 | 4 | electrical | ⏳ | — | — | — | — |
 | 5–18 | (14 more) | ⏳ | — | — | — | — |
