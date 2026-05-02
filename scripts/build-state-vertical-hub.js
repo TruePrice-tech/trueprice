@@ -599,6 +599,45 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  legal: {
+    fileSuffix: "-legal-cost.html",
+    cityFileSuffix: "-legal-cost.html",
+    pageTitle: (s) => `Lawyer & Legal Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average uncontested no-fault divorce filing in ${s.name} runs ${money(s.avg_divorce_low)}–${money(s.avg_divorce_high)} (attorney + court fees). Per-state bar admission, UPL enforcement, divorce grounds, and personal-injury statute drivers explained.`,
+    h1: (s) => `Lawyer & Legal Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/legal-cities.html",
+    citiesDirLabel: "Legal cities",
+    costGuideHref: "/legal-cost-guide.html",
+    quoteAnalyzerHref: "/legal-quote-analyzer.html",
+    estimatorHref: "/legal-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Legal estimate",
+    estimatorLinkSubtitle: "Get a flat-fee or hourly attorney cost",
+    verticalLabel: "legal services",
+    verticalLabelCap: "Legal Services",
+    pricingMetricLabel: "uncontested no-fault divorce filing (attorney + court fees)",
+    wageField: "attorney_wage_mean_hourly",
+    wageLabel: "BLS attorney wage",
+    wageSourceLabel: "BLS OEWS lawyers (SOC 23-1011) state mean",
+    sitemapFile: "sitemap.xml",
+    introHero: (s, vConf) => {
+      const barLabel = {
+        "ube-adopter": `UBE adopter at a ${s.ube_score_required} minimum score`,
+        "non-ube": "non-UBE jurisdiction with a state-specific bar exam",
+        "diploma-privilege": "the only diploma-privilege jurisdiction in the U.S.",
+      };
+      const bar = barLabel[s.bar_admission_status] || s.bar_admission_status;
+      return `Hiring an attorney in ${s.name} for an uncontested no-fault divorce typically runs ${money(s.avg_divorce_low)}–${money(s.avg_divorce_high)} including ${vConf.pricingMetricLabel.replace("uncontested no-fault divorce filing ", "")}, with the state bar's ${bar}. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_divorce_low",
+    avgFieldHigh: "avg_divorce_high",
+    climateFactsHTML: (s) => climateAndCodeFactsLegalHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} bar admission, divorce & tort drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} bar admission & UPL`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   fencing: {
     fileSuffix: "-fence-cost.html",
     cityFileSuffix: "-fence-cost.html",
@@ -1377,6 +1416,48 @@ function climateAndCodeFactsFoundationHTML(state) {
     `<li><strong>Sulfate exposure (ACI 318):</strong> ${escapeHtml(sulfateLabel[state.sulfate_exposure_class] || state.sulfate_exposure_class)}</li>`,
     `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
     `<li><strong>EPA radon zone:</strong> ${escapeHtml(radonLabel[state.radon_zone] || String(state.radon_zone))}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsLegalHTML(state) {
+  const barLabel = {
+    "ube-adopter": `Uniform Bar Examination (UBE) adopter — ${state.ube_score_required} minimum score`,
+    "non-ube": "Non-UBE jurisdiction — state-specific bar exam with state-tested essays",
+    "diploma-privilege": `Diploma Privilege jurisdiction — Wisconsin law school graduates admitted without bar exam (UBE ${state.ube_score_required} for non-WI grads)`,
+  };
+  const orgLabel = {
+    "integrated-mandatory": "Integrated mandatory bar — membership compulsory for active practice",
+    "voluntary": "Voluntary bar association — admission by state supreme court / board of law examiners",
+  };
+  const uplLabel = {
+    "very-aggressive": "Very aggressive — active disciplinary docket and broad state-bar UPL standing committee enforcement",
+    "aggressive": "Aggressive — formal UPL committee referrals and cease-and-desist enforcement",
+    "moderate": "Moderate — standard state-bar UPL enforcement",
+    "limited": "Limited — minimal state-bar UPL enforcement",
+    "abs-reform": "Reform jurisdiction — non-attorney ownership / Alternative Business Structures authorized",
+  };
+  const groundsLabel = {
+    "no-fault-only": "No-fault only — single statutory ground (typically irretrievable breakdown / irreconcilable differences)",
+    "no-fault-or-fault": "No-fault or fault — petitioner may choose between no-fault and enumerated fault grounds",
+    "no-fault-with-separation-required": "No-fault with mandatory separation period before filing",
+    "covenant-option": "Covenant marriage option available — alternative legal status with stricter divorce requirements",
+  };
+  const aidLabel = {
+    "robust": "Robust — strong combined LSC + state IOLTA + filing-fee-surcharge funding base",
+    "moderate": "Moderate — typical LSC + state IOLTA funding tier",
+    "limited": "Limited — modest funding base relative to unmet civil legal need",
+  };
+  const items = [
+    `<li><strong>Bar admission pathway:</strong> ${escapeHtml(barLabel[state.bar_admission_status] || state.bar_admission_status)}</li>`,
+    `<li><strong>Bar organization type:</strong> ${escapeHtml(orgLabel[state.bar_organization_type] || state.bar_organization_type)}</li>`,
+    `<li><strong>UPL enforcement intensity:</strong> ${escapeHtml(uplLabel[state.upl_enforcement_intensity] || state.upl_enforcement_intensity)}</li>`,
+    `<li><strong>Divorce grounds available:</strong> ${escapeHtml(groundsLabel[state.divorce_grounds_dominant] || state.divorce_grounds_dominant)}</li>`,
+    `<li><strong>Divorce residency requirement:</strong> ${state.divorce_residency_days === 0 ? "No statutory minimum (bona fide residency at filing)" : `${state.divorce_residency_days} days`}</li>`,
+    `<li><strong>Personal injury statute of limitations:</strong> ${state.personal_injury_sol_years} year${state.personal_injury_sol_years === 1 ? "" : "s"}</li>`,
+    `<li><strong>Civil legal aid funding tier:</strong> ${escapeHtml(aidLabel[state.legal_aid_funding_tier] || state.legal_aid_funding_tier)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
