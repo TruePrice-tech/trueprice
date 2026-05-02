@@ -124,7 +124,8 @@ function processVertical(v) {
     return;
   }
   // Count modified files
-  const status = execSync(`git status -s "*-${v}-cost.html" 2>/dev/null || true`, { encoding: 'utf8' });
+  // Use grep instead of glob arg — Windows cmd doesn't expand *-X-cost.html in `git status` args.
+  const status = execSync(`git status -s | grep -- "-${v}-cost.html$" || true`, { encoding: 'utf8' });
   const modified = status.split('\n').filter(l => l.startsWith(' M ') || l.startsWith('M ')).length;
   if (modified === 0) {
     console.log(`(no file changes for ${v} — likely all already injected; skipping commit)`);
