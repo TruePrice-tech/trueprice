@@ -1,0 +1,526 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-01",
+    "purpose": "Per-state HVAC data dictionary for Phase A.2 state-vertical hub pages",
+    "sources": "IECC 2021 climate zone map; NOAA NCEI normals (HDD/CDD); state HVAC license boards (verified URLs); BLS OEWS May 2024 (SOC 49-9021 HVAC mechanic state means); state utility commission heat-pump rebate programs.",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "climate_split": "cooling_dominant / heating_dominant / balanced",
+      "hdd_annual": "Annual heating degree days (base 65F) typical for state's main population zone",
+      "cdd_annual": "Annual cooling degree days (base 65F) typical for state's main population zone",
+      "dominant_heating_fuel": "natural-gas / electricity-heat-pump / electric-resistance / fuel-oil / propane",
+      "dominant_cooling_system": "central-ac / heat-pump / mini-split / window-only",
+      "license_status": "required (state-issued license + exam) / registration (state registration only) / none (statewide; municipal may apply)",
+      "license_board_name": "Issuing authority for HVAC contractor licensing in this state",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical municipal permit threshold for residential HVAC replacement",
+      "hvac_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 49-9021 HVAC Mechanics & Installers (USD)",
+      "avg_replacement_low": "Typical low end of 3-ton AC + 80%+ AFUE furnace complete replacement (USD)",
+      "avg_replacement_high": "Typical high end (variable-speed inverter + ductwork modifications) (USD)",
+      "distinctive_law": "Single most distinctive state-specific HVAC, refrigerant, or licensing rule",
+      "climate_concern": "Primary climate driver of HVAC system selection in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "climate_split": "cooling_dominant", "hdd_annual": 2700, "cdd_annual": 2200,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Alabama Board of Heating, Air Conditioning, & Refrigeration Contractors (HACR)",
+    "license_url": "https://hacr.alabama.gov/", "permit_typical": "most cities require for full system replacement",
+    "hvac_wage_mean_hourly": 23.94, "avg_replacement_low": 7100, "avg_replacement_high": 16800,
+    "distinctive_law": "Alabama Code §34-31A-3 requires a separate HACR license for any HVAC work over $750 — and the HACR Board (not the Home Builders Licensure Board) issues residential certifications, with EPA Section 608 refrigerant certification stacked on top for any system containing controlled refrigerant.",
+    "climate_concern": "Gulf Coast counties carry dewpoints above 75°F from May through October, pushing latent dehumidification load to over half of total cooling load — right-sized 16-SEER2 variable-speed inverter systems outperform oversized fixed-speed AC that short-cycles and leaves humidity behind."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "climate_split": "heating_dominant", "hdd_annual": 10800, "cdd_annual": 30,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "window-only",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Mechanical Administrator (refrigerant) certification",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx",
+    "permit_typical": "borough mechanical permit usually required",
+    "hvac_wage_mean_hourly": 36.18, "avg_replacement_low": 13500, "avg_replacement_high": 31000,
+    "distinctive_law": "Alaska Statute 18.62 requires every firm doing HVAC or refrigeration work to retain at least one Mechanical Administrator certified by the state — a unique credential not used in any other state — on top of EPA 608 refrigerant certification.",
+    "climate_concern": "Fairbanks design temperatures routinely hit -40°F where conventional heat pumps shut down on outdoor lockout; oil-fired Toyotomi-style monitor heaters and direct-vent oil furnaces dominate, with cold-climate inverter heat pumps only viable in Anchorage and Juneau microclimates."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "climate_split": "cooling_dominant", "hdd_annual": 1800, "cdd_annual": 4400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license K-39 (Air Conditioning, Refrigeration, Evaporative Cooling)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "city or county mechanical permit required for replacement",
+    "hvac_wage_mean_hourly": 26.41, "avg_replacement_low": 8400, "avg_replacement_high": 19500,
+    "distinctive_law": "Arizona ROC license K-39 is mandatory for any cooling, refrigeration, or evaporative cooling work above $1,000, and a separate dual K-39/K-39R classification is needed for residential vs commercial — unlicensed contracting is a Class 1 misdemeanor and voids any contract claim under A.R.S. §32-1153.",
+    "climate_concern": "Phoenix and Tucson see 110+ design dry-bulb temperatures with negligible humidity, so condensers must be oversized for desert-rated capacity (AHRI ratings derate sharply above 95°F outdoor) and inverter-driven variable-speed compressors run nearly continuous in July-August."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "climate_split": "balanced", "hdd_annual": 3600, "cdd_annual": 2000,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Arkansas HVACR Licensing Board — separate Class A (unlimited) and Class B (residential ≤25-ton) tiers",
+    "license_url": "https://www.aclb.arkansas.gov/", "permit_typical": "varies by municipality, Little Rock + NWA require",
+    "hvac_wage_mean_hourly": 22.74, "avg_replacement_low": 6900, "avg_replacement_high": 15800,
+    "distinctive_law": "Arkansas HVACR Licensing Board enforces a uniquely two-tier system under Ark. Code §17-33: Class A allows unlimited tonnage and commercial work, while Class B caps installers at 25-ton residential systems and 1.5 million BTU heating — a stricter scope split than most neighboring states.",
+    "climate_concern": "Northwest Arkansas hail-belt frequency rivals Oklahoma — annual severe-hail probability above 4% in Benton/Washington counties means condenser hail guards or impact-rated cabinets are commonly written into homeowner insurance roof+HVAC bundles."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "climate_split": "cooling_dominant", "hdd_annual": 2300, "cdd_annual": 1400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — C-20 (Warm-Air Heating, Ventilating & Air-Conditioning)",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "permit + Title 24 HERS verification required",
+    "hvac_wage_mean_hourly": 33.07, "avg_replacement_low": 11400, "avg_replacement_high": 26800,
+    "distinctive_law": "California SB 1206 (2018) caps refrigerant Global Warming Potential at 750 for new stationary AC systems by 2025 — phasing out R-410A faster than the federal AIM Act timeline — and Title 24 Part 6 mandates HERS-rater field verification of duct leakage and refrigerant charge on every change-out.",
+    "climate_concern": "California's eight climate zones span coastal 3C (Bay Area, near-zero cooling load) through inland 3B Central Valley (Fresno-Bakersfield, 4,500+ CDD) — Title 24 prescriptively allows different equipment minimums by zone, and wildland-urban-interface filtration (MERV 13+) is now standard on retrofits in CAL FIRE high-severity zones."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "climate_split": "heating_dominant", "hdd_annual": 5600, "cdd_annual": 800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "registration", "license_board_name": "No statewide HVAC license — Denver, Colorado Springs, Boulder, Aurora require local registration with separate journeyperson exams",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Permits", "permit_typical": "city mechanical permit required separately by municipality",
+    "hvac_wage_mean_hourly": 30.06, "avg_replacement_low": 9300, "avg_replacement_high": 21000,
+    "distinctive_law": "Colorado Senate Bill 22-051 created a state income tax credit of up to $1,500 for residential heat pump installation — stackable with Xcel Energy and Black Hills Energy utility rebates and the federal IRA HEEHRA, making CO one of the most aggressively HP-incentivized states in the Mountain West.",
+    "climate_concern": "Front Range elevation (5,000-7,500 ft) imposes a 6-8% combustion derate per 1,000 feet on every gas furnace — high-altitude orifice kits are required, and evaporative coolers (swamp coolers) remain widely installed in Denver-metro single-family homes where summer dewpoints rarely exceed 50°F."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "climate_split": "heating_dominant", "hdd_annual": 5950, "cdd_annual": 700,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — S-1 (Unlimited) / S-2 (Limited) Heating, Piping & Cooling license",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "town mechanical permit required for system replacement",
+    "hvac_wage_mean_hourly": 35.84, "avg_replacement_low": 11200, "avg_replacement_high": 24500,
+    "distinctive_law": "Connecticut Public Act 11-80 created the Energize Connecticut alliance and the Connecticut Green Bank, which underwrite zero-interest residential heat pump financing and rebates of $750–$15,000 per installation through Eversource and UI — the country's first state Green Bank model.",
+    "climate_concern": "Aging fuel-oil installed base (over 40% of homes still heat with oil — highest rate after Maine) combined with 130-mph coastal wind design loads in Fairfield and New London counties drives Energize CT's heat-pump retrofit push as oil deliveries become harder to source on hurricane-impacted shoreline."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "climate_split": "balanced", "hdd_annual": 4500, "cdd_annual": 1300,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Delaware Board of Plumbing, Heating, Ventilation, Air Conditioning & Refrigeration — Master/Journeyperson HVACR tiers",
+    "license_url": "https://dpr.delaware.gov/boards/plumbing/", "permit_typical": "county permit required (Sussex, Kent, New Castle)",
+    "hvac_wage_mean_hourly": 29.71, "avg_replacement_low": 9100, "avg_replacement_high": 20500,
+    "distinctive_law": "Delaware Code Title 24 §1804 combines plumbing and HVACR oversight under a single Board, requiring a Master HVACR license to pull permits and a Journeyperson HVACR for installation work — and uniquely requires four years of journeyperson experience plus a separate exam before applying for Master status.",
+    "climate_concern": "Sussex County beach communities sit on the 130-mph wind line where condenser tie-down to a poured pad with hurricane-rated brackets is standard, while the propane-and-oil heating mix in Kent County drives ongoing fuel-switching to heat pumps via Delaware Sustainable Energy Utility (DESEU) Energize Delaware HP rebates."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "climate_split": "cooling_dominant", "hdd_annual": 600, "cdd_annual": 4100,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Florida CILB — Class A Mechanical Contractor (unlimited) / Class B (≤25-ton, ≤500k BTU) per F.S. 489",
+    "license_url": "https://www2.myfloridalicense.com/", "permit_typical": "permit required statewide; HVHZ counties require NOA on equipment",
+    "hvac_wage_mean_hourly": 24.96, "avg_replacement_low": 8200, "avg_replacement_high": 19800,
+    "distinctive_law": "Florida Energy Conservation Code Section R403 mandates a minimum duct R-6 plus pressure-tested duct leakage of 4 cfm per 100 sq ft of conditioned floor area on every change-out, and Miami-Dade and Broward HVHZ jurisdictions require a Notice of Acceptance (NOA) on every air handler and condenser installed.",
+    "climate_concern": "Year-round cooling-dominant load with dewpoints above 75°F daily May through October pushes latent dehumidification capacity ahead of sensible — heat pumps with variable-speed inverter compressors and ECM blowers are the dominant equipment, and HVHZ wind-load brackets anchor every condenser pad in Miami-Dade and Broward."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "climate_split": "cooling_dominant", "hdd_annual": 2700, "cdd_annual": 2400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Georgia Construction Industry Licensing Board — Conditioned Air Class I (unrestricted) / Class II (≤175,000 BTU)",
+    "license_url": "https://sos.ga.gov/state-licensing-board-residential-and-general-contractors", "permit_typical": "county/municipal permit required",
+    "hvac_wage_mean_hourly": 25.38, "avg_replacement_low": 7600, "avg_replacement_high": 17800,
+    "distinctive_law": "O.C.G.A. §43-14 splits Georgia's HVAC license into Class I (Conditioned Air Contractor, unrestricted) and Class II (capped at 175,000 BTU heating and 25-ton cooling) — Class II is one of the lowest-tier residential-only licenses among Southeast states and bars the holder from any commercial or industrial work.",
+    "climate_concern": "Atlanta-metro red clay soil expansion and contraction cracks unbonded condenser pads within 5-7 years; setting the outdoor unit on a poured concrete pad with isolation mat is the regional retrofit standard, and the long humid cooling season (April through October) makes ECM variable-speed blowers a high-ROI upgrade."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "climate_split": "cooling_dominant", "hdd_annual": 0, "cdd_annual": 3700,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "mini-split",
+    "license_status": "required", "license_board_name": "Hawaii Contractors License Board — C-52 (Ventilating and Air Conditioning) classification",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "county building department permit required",
+    "hvac_wage_mean_hourly": 32.14, "avg_replacement_low": 12300, "avg_replacement_high": 26500,
+    "distinctive_law": "Hawaii Revised Statutes §444-9 issues a C-52 specialty contractor license uniquely scoped to ventilating, air-conditioning, and dehumidification — and requires every applicant to pass a separate trade exam plus four years of supervised journey-level experience under another C-52 holder.",
+    "climate_concern": "Salt-laden trade-wind exposure on every Hawaiian coast shortens conventional aluminum-fin coil life to under five years; sea-coast units with epoxy-coated coils, stainless screws, and corrosion-resistant copper risers are the standard upgrade, and ductless mini-splits dominate retrofits over central air."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "climate_split": "heating_dominant", "hdd_annual": 6200, "cdd_annual": 700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Idaho Division of Building Safety — HVAC Contractor + Journeyperson exams under IDAPA 07.03",
+    "license_url": "https://dbs.idaho.gov/divisions/building/", "permit_typical": "state mechanical permit required statewide",
+    "hvac_wage_mean_hourly": 25.19, "avg_replacement_low": 8500, "avg_replacement_high": 19200,
+    "distinctive_law": "Idaho IDAPA 07.03.12 requires every HVAC firm to retain a state-licensed HVAC Contractor and pull state-issued mechanical permits — a uniquely centralized model in the Mountain West where Idaho's Division of Building Safety enforces statewide rather than delegating to municipalities.",
+    "climate_concern": "Sun Valley, McCall, and Coeur d'Alene sit at elevations above 6,000 feet where combustion-equipment derate exceeds 12% — high-altitude orifice kits are mandatory, and ductless mini-splits dominate retrofits in older Boise and Idaho Falls homes built without supply ductwork."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "4A-5A", "climate_split": "heating_dominant", "hdd_annual": 6300, "cdd_annual": 1100,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "registration", "license_board_name": "Illinois — no statewide HVAC license; Chicago, Cook County, Naperville require municipal HVAC contractor registration with separate exams",
+    "license_url": "https://www.chicago.gov/city/en/depts/bldgs/provdrs/hvac.html", "permit_typical": "city or county mechanical permit required",
+    "hvac_wage_mean_hourly": 33.21, "avg_replacement_low": 8800, "avg_replacement_high": 20000,
+    "distinctive_law": "Illinois Public Act 102-0662 (Climate and Equitable Jobs Act, 2021) targets 100% carbon-free electricity by 2050 and directs ComEd, Ameren, and Nicor Gas to fund residential heat pump rebates of $1,000–$1,500 per ton plus low-income equity adders — the most aggressive utility HP push in the Midwest.",
+    "climate_concern": "Chicago's pre-1940 building stock often retains gravity-warm-air or steam radiator distribution where ducted heat pumps are infeasible without major retrofit; hybrid solutions (high-efficiency boiler + ductless heat pumps) dominate North Side and Lakefront retrofits, while suburban cookie-cutter ranches do straight gas-furnace + AC change-outs."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "climate_split": "heating_dominant", "hdd_annual": 5500, "cdd_annual": 1300,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Indiana — no statewide HVAC license; Indianapolis (Marion County), Fort Wayne, and Evansville require local plumbing/HVAC certification with municipal exams",
+    "license_url": "https://www.indy.gov/agency/department-of-business-and-neighborhood-services", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 28.43, "avg_replacement_low": 7900, "avg_replacement_high": 18000,
+    "distinctive_law": "Indiana has no statewide HVAC contractor license — installer credentialing falls entirely to municipal building departments, with Indianapolis requiring a separate plumbing/HVAC class certificate and bond, while smaller counties accept any registered general contractor for mechanical work over $1,000.",
+    "climate_concern": "Indiana's coal-region utility rate structure (NIPSCO, Duke, Vectren, AES Indiana) keeps natural gas heat at 30-40% of the operating cost of electric resistance heat, which makes pure heat-pump retrofits a slow sell — dual-fuel systems (HP + gas backup at a 25-35°F balance point) are the regional sweet spot."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "climate_split": "heating_dominant", "hdd_annual": 6500, "cdd_annual": 1100,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Iowa Plumbing & Mechanical Systems Board — Master/Journeyperson Mechanical license under IAC 641-310",
+    "license_url": "https://idph.iowa.gov/pmsb", "permit_typical": "state-issued mechanical permit required statewide",
+    "hvac_wage_mean_hourly": 27.84, "avg_replacement_low": 8200, "avg_replacement_high": 18400,
+    "distinctive_law": "Iowa Administrative Code 641-310 issues four separate Mechanical credentials — Master Mechanical, Journeyperson Mechanical, Master HVAC-Refrigeration, and Journeyperson HVAC-Refrigeration — with the HVAC-Refrigeration tracks specifically excluding hydronic boiler work, a scope split unique to Iowa.",
+    "climate_concern": "Iowa winter design temperatures of -20°F push 95%+ AFUE condensing gas furnaces over heat pumps for primary heat, and tornado-prone Mississippi River valley counties (Pottawattamie, Polk) impose IBC anchoring requirements on outdoor condensing units — strap-and-bolt to a poured pad with dual lag points."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "climate_split": "balanced", "hdd_annual": 4900, "cdd_annual": 1700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Kansas — no statewide HVAC license; Wichita, Overland Park, Topeka, KCK enforce separate municipal HVAC class registrations",
+    "license_url": "https://www.wichita.gov/MetroDevelopment/Pages/PermitsLicenses.aspx", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 26.34, "avg_replacement_low": 7700, "avg_replacement_high": 17500,
+    "distinctive_law": "Kansas leaves all HVAC licensing to municipalities — Wichita's Municipal Code §3.50 requires a separately-tested Class I or Class II mechanical contractor license per Sedgwick County, while Johnson County (Overland Park, Olathe) accepts MARC reciprocity from any Kansas City metro municipality with similar passing standards.",
+    "climate_concern": "Kansas Tornado Alley counties impose IBC outdoor-unit anchoring with hurricane straps to a poured concrete pad; sharp seasonal swings between -10°F winter design and 105°F summer design make dual-fuel (HP + gas) systems the regional sweet spot, with Westar and Evergy utility rebates favoring 16+ SEER2 equipment."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "climate_split": "balanced", "hdd_annual": 4500, "cdd_annual": 1800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Kentucky Department of Housing, Buildings & Construction — HVAC Master/Journeyman Mechanic license",
+    "license_url": "https://dhbc.ky.gov/Pages/HVAC.aspx", "permit_typical": "state-issued or local permit required for replacement",
+    "hvac_wage_mean_hourly": 25.18, "avg_replacement_low": 7400, "avg_replacement_high": 16900,
+    "distinctive_law": "Kentucky KRS 198B.650 establishes a tiered HVAC Master Contractor / Master Mechanic / Journeyman Mechanic licensure with a uniquely strict 4,000-hour journey requirement before sitting for the Master exam — among the longest journeyperson hour requirements in the Southeast.",
+    "climate_concern": "Karst topography across central Kentucky (Mammoth Cave region, Bowling Green, Bardstown) makes ground-source geothermal heat pumps unusually viable due to the shallow constant-temperature aquifer — closed-loop horizontal trenches and shallow vertical bores have payback periods 3-5 years shorter than the national average."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "climate_split": "cooling_dominant", "hdd_annual": 1700, "cdd_annual": 3000,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors (LSLBC) — Mechanical (HVAC) Specialty for jobs over $10,000",
+    "license_url": "https://lslbc.louisiana.gov/", "permit_typical": "parish or municipal permit required",
+    "hvac_wage_mean_hourly": 24.96, "avg_replacement_low": 7500, "avg_replacement_high": 17500,
+    "distinctive_law": "Louisiana's $10,000 threshold for the LSLBC Mechanical Specialty license is one of the highest residential thresholds in the country — below it, a registered Home Improvement Contractor with EPA 608 certification can do replacement work, but above it the LSLBC license, $10K bond, and exam are mandatory.",
+    "climate_concern": "Gulf Coast dewpoints exceed 78°F from May through September, putting latent dehumidification load above sensible cooling on most design days — undersized blowers cause persistent indoor humidity above 60% even with the AC running, so right-sizing tonnage to actual Manual J load (not square footage rules of thumb) is the regional practice."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "climate_split": "heating_dominant", "hdd_annual": 7400, "cdd_annual": 300,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "mini-split",
+    "license_status": "required", "license_board_name": "Maine Oil & Solid Fuel Board (combustion) + Plumbing & Mechanical Examiners (HVAC/refrigerant)",
+    "license_url": "https://www.maine.gov/pfr/professionallicensing/professions/oil-solid-fuel-board", "permit_typical": "town code office mechanical permit required",
+    "hvac_wage_mean_hourly": 28.17, "avg_replacement_low": 9800, "avg_replacement_high": 22000,
+    "distinctive_law": "Maine uniquely splits HVAC licensing across two boards — the Oil & Solid Fuel Board licenses combustion-equipment installers (oil furnaces, biomass) while the Plumbing & Mechanical Examiners regulate refrigerant work — and Efficiency Maine's heat-pump rebate of $2,400 per ton at 100% AMI is among the most generous in the country.",
+    "climate_concern": "Over 60% of Maine homes still heat with fuel oil — the highest oil-heat penetration in the U.S. — and Efficiency Maine's HP push has driven cold-climate ductless mini-splits onto more than 130,000 homes since 2014, displacing oil deliveries in coastal York and Cumberland counties faster than upstate Aroostook."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A", "climate_split": "balanced", "hdd_annual": 4700, "cdd_annual": 1400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Maryland State Board of HVACR Contractors (DLLR) — Master / Limited / Journeyman / Apprentice tiers",
+    "license_url": "https://www.dllr.state.md.us/license/hvacr/", "permit_typical": "county mechanical permit required",
+    "hvac_wage_mean_hourly": 30.28, "avg_replacement_low": 8800, "avg_replacement_high": 19800,
+    "distinctive_law": "Maryland's State Board of HVACR Contractors under Business Regulation Article §9A enforces a four-tier system (Master, Limited, Journeyman, Apprentice) with a Master HVACR contractor needed to pull every commercial or residential mechanical permit — and EmPOWER Maryland funnels Pepco, BGE, and SMECO HP rebates of up to $7,500 through a single application portal.",
+    "climate_concern": "Chesapeake Bay watershed's high water table makes vertical-bore ground-source heat pumps unusually cost-effective (drilling cost is roughly half the New England average), and EmPOWER Maryland incentives explicitly stack with the federal IRA 25C tax credit for geothermal — payback periods regularly fall under 7 years on Eastern Shore single-family homes."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A", "climate_split": "heating_dominant", "hdd_annual": 6200, "cdd_annual": 800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Massachusetts Board of State Examiners of Plumbers and Gas Fitters + Refrigeration Tech (527 CMR 12.00)",
+    "license_url": "https://www.mass.gov/orgs/board-of-state-examiners-of-plumbers-and-gas-fitters", "permit_typical": "town building department permit required",
+    "hvac_wage_mean_hourly": 35.94, "avg_replacement_low": 11400, "avg_replacement_high": 24800,
+    "distinctive_law": "527 CMR 12.00 requires a Massachusetts Refrigeration Technician License (Type 1 through 7 by tonnage and refrigerant class) for any work involving refrigerant — a credential separate from the federal EPA 608 — and Mass Save's Whole-Home Air-Source Heat Pump program covers up to 75% of an installation cost up to $10,000 per dwelling.",
+    "climate_concern": "Coastal Cape Cod and Berkshire County have radically different design loads (5,800 HDD coastal vs 7,500 HDD inland), and the Stretch Energy Code adopted in 280+ municipalities raised the prescriptive efficiency bar past base IECC — air-sealing and HRV/ERV ventilation are baked into Mass Save HEAT loan financing for HP retrofits."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A", "climate_split": "heating_dominant", "hdd_annual": 6700, "cdd_annual": 800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Michigan LARA — Mechanical Contractor license under Public Act 192 of 1984 with eight specialty designations",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/skilled-trades/mech", "permit_typical": "state-issued mechanical permit required",
+    "hvac_wage_mean_hourly": 30.18, "avg_replacement_low": 8400, "avg_replacement_high": 18800,
+    "distinctive_law": "Michigan's Mechanical Contractor Act (Public Act 192 of 1984) splits the trade into eight specialty designations — HVAC Equipment, Hydronic Heating, Refrigeration, Boilers, Limited Heating Service, Specialty Heating, LP Distribution, and Solid Fuel — each requiring its own exam and 6,000 hours of journey-level experience.",
+    "climate_concern": "Lake-effect snow off Lake Michigan and Lake Superior (Marquette, Traverse City, Holland) drives ground-snow loads past 50 psf where condensers need to be elevated on stands above expected snow line, and the Upper Peninsula's 8,500+ HDD pushes propane backup for any cold-climate heat pump installation."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "climate_split": "heating_dominant", "hdd_annual": 7700, "cdd_annual": 700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Minnesota DLI — Master/Journeyman Plumber required for refrigerant lines per Minn. Stat. 326B.46",
+    "license_url": "https://www.dli.mn.gov/business/licensing-and-permits", "permit_typical": "city or state mechanical permit required",
+    "hvac_wage_mean_hourly": 32.27, "avg_replacement_low": 9200, "avg_replacement_high": 21000,
+    "distinctive_law": "Minnesota Statute 326B.46 uniquely requires only a state-licensed Master or Journeyman Plumber to make and braze refrigerant connections — a scope quirk that means HVAC firms in MN must either employ a licensed plumber on staff or sub the line-set work, distinct from every other state's refrigerant licensing approach.",
+    "climate_concern": "Twin Cities winter design temperatures of -25°F push heat pumps past their useful lockout point on roughly 30-40 nights per year — dual-fuel systems (cold-climate HP + 95% AFUE gas furnace at a 5°F balance point) are the dominant retrofit pattern, and CenterPoint Energy's Conservation Improvement Program funds rebates of $750-$2,000 per ton."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "climate_split": "cooling_dominant", "hdd_annual": 2300, "cdd_annual": 2700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "registration", "license_board_name": "Mississippi State Board of Contractors — Commercial Mechanical license over $50,000; residential largely municipal",
+    "license_url": "https://msboc.us/", "permit_typical": "city or county mechanical permit required",
+    "hvac_wage_mean_hourly": 22.41, "avg_replacement_low": 6900, "avg_replacement_high": 15500,
+    "distinctive_law": "Mississippi Code §31-3-15 sets one of the highest commercial mechanical licensing thresholds in the country at $50,000 — below that level, a registered general contractor with EPA 608 cert can install residential HVAC, while jobs above require a state-licensed Mechanical Contractor with $50K bond and exam.",
+    "climate_concern": "Mississippi Delta and Gulf Coast humidity (dewpoints over 75°F from May through October) makes oversized AC the dominant install error — short-cycling units fail to dehumidify, leaving indoor RH above 60% with chronic mold risk; Manual-J load calcs that override square-footage rules of thumb are essential for any new construction."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "climate_split": "balanced", "hdd_annual": 5000, "cdd_annual": 1700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Missouri — no statewide HVAC license; St. Louis County, Kansas City, Springfield enforce municipal mechanical contractor exams",
+    "license_url": "https://www.stlouis-mo.gov/government/departments/public-safety/building/", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 26.92, "avg_replacement_low": 7800, "avg_replacement_high": 17900,
+    "distinctive_law": "Missouri has no statewide HVAC contractor license — credentialing is fully delegated to municipalities, and St. Louis County's separate Mechanical Examiners Board issues a Master Mechanical Contractor license that's reciprocal with Jackson County (Kansas City) but not with St. Louis City, creating a uniquely fragmented metro-by-metro licensure landscape.",
+    "climate_concern": "Tornado-belt counties (Greene, Christian, Boone, Jackson) impose IBC anchoring on outdoor condensers (strap-and-bolt to a poured pad), and the Missouri River valley humidity drives variable-speed ECM blowers — Ameren MO and Spire utility rebates favor 95%+ AFUE gas furnaces over straight heat pumps."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B", "climate_split": "heating_dominant", "hdd_annual": 7800, "cdd_annual": 400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Montana — no statewide HVAC license; Bozeman, Missoula, Billings require municipal mechanical certification",
+    "license_url": "https://erd.dli.mt.gov/", "permit_typical": "city mechanical permit required",
+    "hvac_wage_mean_hourly": 27.18, "avg_replacement_low": 8400, "avg_replacement_high": 19200,
+    "distinctive_law": "Montana has no statewide HVAC contractor license, but Montana Department of Labor & Industry registers any contractor doing work over $2,500 — a uniquely low threshold that pulls residential HVAC change-out into the registered-contractor framework even in unlicensed municipalities.",
+    "climate_concern": "Continental Divide microclimates (Bozeman 4,800 ft, Missoula 3,200 ft, Billings 3,100 ft) drive 8-12% combustion derate on furnaces, and -25°F winter design temps in Eastern Plains valleys (Glasgow, Miles City) make natural gas or LP furnaces the only viable primary heat — heat pumps need cold-climate inverter compressors and propane backup."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "climate_split": "balanced", "hdd_annual": 5800, "cdd_annual": 1500,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Nebraska — no statewide HVAC license; Omaha, Lincoln, Bellevue require municipal mechanical contractor exams",
+    "license_url": "https://omaha.permitlink.com/", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 26.43, "avg_replacement_low": 7900, "avg_replacement_high": 18000,
+    "distinctive_law": "Nebraska's State Electrical Division licenses HVAC controls and electrical interlocks, but mechanical/refrigerant work itself is left to cities — Omaha's Class A Mechanical Contractor exam covers system design, while Lincoln tests the journey-level mechanic separately, requiring HVAC firms to maintain dual-municipality credentials in the Omaha metro.",
+    "climate_concern": "Nebraska's place inside Tornado Alley (Sarpy, Douglas, Lancaster counties) drives IBC outdoor-unit anchoring with hurricane straps to a poured concrete pad, and the Sandhills' continental climate pushes -10°F winter design with 100°F summer design — dual-fuel HP/gas systems balance the swing better than either alone."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-5B", "climate_split": "cooling_dominant", "hdd_annual": 2400, "cdd_annual": 3300,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — C-21 (Refrigeration & Air Conditioning) classification",
+    "license_url": "https://nscb.nv.gov/", "permit_typical": "Clark County or Washoe County mechanical permit required",
+    "hvac_wage_mean_hourly": 30.04, "avg_replacement_low": 9000, "avg_replacement_high": 20800,
+    "distinctive_law": "Nevada's State Contractors Board issues C-21 (Refrigeration and Air Conditioning) as a mandatory specialty classification under NRS 624 — required for any HVAC installation regardless of dollar value — with a $50,000 bond minimum and a separate trade exam administered through PSI Examination Services.",
+    "climate_concern": "Las Vegas summer dry-bulb temps regularly exceed 110°F where condenser AHRI ratings derate sharply (lose 15-20% capacity) — variable-speed inverter compressors with oversized condenser coils run nearly continuous from June through September, while Reno's 4,500 ft elevation imposes 6% combustion derate on every gas furnace."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "climate_split": "heating_dominant", "hdd_annual": 6900, "cdd_annual": 500,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "mini-split",
+    "license_status": "registration", "license_board_name": "New Hampshire — no statewide HVAC license; municipal permit + EPA 608 cert required",
+    "license_url": "https://www.oplc.nh.gov/", "permit_typical": "town code office permit required",
+    "hvac_wage_mean_hourly": 27.84, "avg_replacement_low": 9700, "avg_replacement_high": 21500,
+    "distinctive_law": "New Hampshire issues no statewide HVAC contractor license (one of only a handful of states with no licensure floor), relying instead on EPA Section 608 refrigerant certification at the federal level — meaning the homeowner's primary protection against unlicensed work is the town code officer's permit-and-inspection process, not a state board.",
+    "climate_concern": "Over 50% of New Hampshire homes still heat with fuel oil — second-highest in the country after Maine — and NHSaves' Home Energy Assistance program rebates cold-climate heat pumps at $1,500-$2,500 per ton; the White Mountains region's 8,500+ HDD pushes any HP retrofit toward dual-fuel with propane or oil backup."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "climate_split": "balanced", "hdd_annual": 5000, "cdd_annual": 1300,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "New Jersey HVACR Master Contractor Act of 2008 (P.L. 2007 c.211) — Master HVACR Contractor required per firm",
+    "license_url": "https://www.njconsumeraffairs.gov/hvac/", "permit_typical": "municipal UCC mechanical permit required",
+    "hvac_wage_mean_hourly": 33.94, "avg_replacement_low": 10000, "avg_replacement_high": 22500,
+    "distinctive_law": "New Jersey's HVACR Master Contractor Act of 2008 (P.L. 2007 c.211) requires every HVAC firm to retain a state-licensed Master HVACR Contractor on staff who has passed a separate trade exam and met five-year journey-level requirements — a corporate-license model unique among Mid-Atlantic states.",
+    "climate_concern": "New Jersey Clean Energy Program HP rebates of $1,000-$2,000 per ton (with low-income equity adders) target the dense aging-boiler stock in Hudson, Essex, and Passaic urban cores where row-house construction makes ducted retrofits costly — ductless mini-splits and air-to-water heat pumps tied into existing radiant systems are the regional retrofit pattern."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "3B-4B-5B", "climate_split": "balanced", "hdd_annual": 4400, "cdd_annual": 1300,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "New Mexico Construction Industries Division — MM98 Mechanical Contractor classification",
+    "license_url": "https://www.rld.nm.gov/cid/", "permit_typical": "state mechanical permit required",
+    "hvac_wage_mean_hourly": 23.27, "avg_replacement_low": 7400, "avg_replacement_high": 17400,
+    "distinctive_law": "New Mexico Construction Industries Division enforces a uniquely centralized mechanical license — the MM98 classification — that covers HVAC, refrigeration, and ventilating in a single state-issued credential pulled directly from CID rather than from any municipal authority, with a uniform $1.50 per $1,000 of contract permit fee schedule statewide.",
+    "climate_concern": "Albuquerque and Santa Fe (5,300 and 7,200 ft elevation) sit in the dry high desert where evaporative coolers (\"swamp boxes\") still serve over 30% of single-family homes during the dry pre-monsoon May-June window — but monsoon humidity in July-August forces a refrigeration-grade backup, driving hybrid evap+AC dual-source designs unique to the region."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "climate_split": "heating_dominant", "hdd_annual": 5800, "cdd_annual": 1100,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "registration", "license_board_name": "New York — no statewide HVAC license; NYC DOB Master Plumber, Nassau/Suffolk/Westchester separate; NYS Clean Heat program HP rebates",
+    "license_url": "https://www1.nyc.gov/site/buildings/index.page", "permit_typical": "city or county mechanical permit required",
+    "hvac_wage_mean_hourly": 35.74, "avg_replacement_low": 10500, "avg_replacement_high": 23500,
+    "distinctive_law": "New York City Local Law 154 of 2021 prohibits combustion appliances (including gas furnaces and boilers) in new buildings under seven stories effective 2025-12-31 and in all new construction by 2027 — accelerating heat pump adoption faster than any utility rebate program could, while NYS Clean Heat funds Con Edison and National Grid HP rebates of $1,500-$3,000 across the state.",
+    "climate_concern": "Adirondack and Catskill regions hit 7,500+ HDD with -20°F design temps where cold-climate inverter HPs need supplemental electric resistance or oil backup, while NYC's pre-war steam-radiator stock is the largest combustion-heating retrofit market in the country — air-to-water HPs tied into existing radiator distribution are the technical workaround Con Edison and NYSERDA are aggressively financing."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "climate_split": "balanced", "hdd_annual": 3300, "cdd_annual": 1900,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "NC State Board of Examiners of Plumbing, Heating & Fire Sprinkler Contractors — H1 (unrestricted) / H2 (≤15 ton) / H3 (residential dwelling)",
+    "license_url": "https://nclicensing.org/", "permit_typical": "county mechanical permit required",
+    "hvac_wage_mean_hourly": 24.84, "avg_replacement_low": 7300, "avg_replacement_high": 16800,
+    "distinctive_law": "North Carolina General Statutes §87-21 establishes a uniquely tiered HVAC license — H1 (unrestricted), H2 (capped at 15 ton residential and light commercial), and H3 (single-family dwellings only) — and explicitly excludes heat-pump-only work under 5 tons from H3 supervision, allowing limited installer-only credentials.",
+    "climate_concern": "North Carolina's three-region climate split — Outer Banks coast (3A, salt-corrosion coil failures), Piedmont 3A/4A (Charlotte-Raleigh, balanced HP-dominant load), Blue Ridge mountains (5A, 5,500+ HDD) — drives different equipment selection per region; Duke Energy Smart $aver rebates favor 16+ SEER2 variable-speed heat pumps statewide."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "climate_split": "heating_dominant", "hdd_annual": 8800, "cdd_annual": 700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "North Dakota — no statewide HVAC license; Fargo, Bismarck, Grand Forks require municipal mechanical contractor registration",
+    "license_url": "https://fargond.gov/inspections/", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 28.11, "avg_replacement_low": 8400, "avg_replacement_high": 18800,
+    "distinctive_law": "North Dakota leaves all HVAC contractor licensing to municipalities and relies on the federal EPA 608 program for refrigerant cert — but the State Plumbing Board enforces a separate Plumber license for any work involving water-cooled condensers or hydronic equipment, creating a unique gap between unlicensed forced-air work and licensed water-side work.",
+    "climate_concern": "Fargo and Grand Forks design temperatures of -25°F push 95%+ AFUE condensing gas furnaces past heat pumps as primary heat — central AC penetration sits below 65% of single-family homes statewide, the lowest in the lower 48, and many older homes still rely on window units for the brief cooling season."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "climate_split": "heating_dominant", "hdd_annual": 5800, "cdd_annual": 1000,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Ohio Construction Industry Licensing Board (OCILB) — HVAC Contractor license required for commercial work",
+    "license_url": "https://www.com.ohio.gov/divisions/dico/ocilb", "permit_typical": "state-issued mechanical permit (commercial) or local (residential)",
+    "hvac_wage_mean_hourly": 28.27, "avg_replacement_low": 7900, "avg_replacement_high": 18200,
+    "distinctive_law": "Ohio Construction Industry Licensing Board's HVAC license is uniquely scoped to commercial work only — residential HVAC contractors operate under municipal authority — meaning Cincinnati, Cleveland, Columbus each test their own residential mechanical contractor exams, and a state HVAC license does not authorize residential change-out work without the city add-on.",
+    "climate_concern": "Lake Erie lake-effect snow corridor (Cleveland through Erie PA) drives 50+ psf ground snow loads where outdoor condensers must sit on stands above expected snow line; Columbia Gas, Duke Energy, and AEP Ohio rebate structures have historically favored 95%+ AFUE gas furnaces over heat pumps, slowing electrification adoption relative to neighboring Indiana and Pennsylvania."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "climate_split": "balanced", "hdd_annual": 3500, "cdd_annual": 2200,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Oklahoma Construction Industries Board (CIB) — HVACR Mechanical Contractor license",
+    "license_url": "https://oklahoma.gov/cib/contractors-licensure-information/mechanical.html", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 24.44, "avg_replacement_low": 7100, "avg_replacement_high": 16400,
+    "distinctive_law": "Oklahoma CIB requires statewide HVACR Mechanical Contractor licensure under O.S. Title 59 §1850 with a tiered Journeyman/Contractor structure — and uniquely requires every contractor to carry a $5,000 surety bond plus general liability before any work over $1,000, regardless of whether the project is residential or commercial.",
+    "climate_concern": "Oklahoma sits in the heart of the Tornado Alley severe-hail belt — annual probability of 2-inch+ hail in Oklahoma City and Tulsa exceeds 6% — and condenser hail guards (perforated metal cages or impact-rated cabinets) are commonly bundled into homeowner's insurance roof+HVAC replacement claims after spring-storm season."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B", "climate_split": "heating_dominant", "hdd_annual": 4400, "cdd_annual": 600,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board + Building Codes Division — Mechanical Contractor (Limited Energy or Full)",
+    "license_url": "https://www.oregon.gov/ccb/Pages/index.aspx", "permit_typical": "state Mechanical permit required statewide",
+    "hvac_wage_mean_hourly": 31.89, "avg_replacement_low": 9800, "avg_replacement_high": 22000,
+    "distinctive_law": "Oregon CCB licenses Mechanical Contractors under ORS 701, and the Energy Trust of Oregon provides one of the most generous heat pump incentive programs in the country — up to $5,000 instant rebate on a single ducted HP installation plus $750-$1,500 on replacing electric resistance heat — funded through Public Purpose Charges on every utility bill.",
+    "climate_concern": "Western Oregon's marine 4C climate (Portland, Salem, Eugene) makes heat pumps the runaway dominant retrofit — design temps rarely fall below 25°F so HPs operate near 100% of run hours — while Bend and Medford east of the Cascades hit 6,500 HDD and need cold-climate inverter HPs with electric strip backup, creating a sharp west-east technology split."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "climate_split": "heating_dominant", "hdd_annual": 5700, "cdd_annual": 1100,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "registration", "license_board_name": "Pennsylvania Home Improvement Consumer Protection Act (HICPA) registration; municipal HVAC license in Philadelphia, Pittsburgh, Allegheny County",
+    "license_url": "https://www.attorneygeneral.gov/protect-yourself/bcpc/", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 30.04, "avg_replacement_low": 8500, "avg_replacement_high": 19500,
+    "distinctive_law": "Pennsylvania has no statewide HVAC contractor license — instead, the Home Improvement Consumer Protection Act (HICPA, 2009) requires all contractors doing work over $5,000 to register with the Attorney General's Office and post a $50K bond — but Philadelphia's Code §A-602 mandates a separate City HVAC Contractor license tested through L&I, and Pittsburgh's BIRT requires its own mechanical credential.",
+    "climate_concern": "Eastern Pennsylvania (Philadelphia, Lehigh Valley, Pocono) retains a sizable fuel-oil installed base — over 20% of homes — while Western PA (Pittsburgh, Erie) is overwhelmingly natural gas via Marcellus Shale supply; PUC Act 129 EE programs through PECO, PPL, and Duquesne Light fund $400-$1,200 HP rebates that target the oil-dependent eastern half disproportionately."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "climate_split": "heating_dominant", "hdd_annual": 5800, "cdd_annual": 800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Rhode Island Department of Labor & Training — Pipefitter / Refrigeration / Mechanical contractor license tiers",
+    "license_url": "https://dlt.ri.gov/licensingexamining-services/licensing-and-investigative-services", "permit_typical": "town mechanical permit required",
+    "hvac_wage_mean_hourly": 32.27, "avg_replacement_low": 10100, "avg_replacement_high": 22500,
+    "distinctive_law": "Rhode Island uniquely separates HVAC trade licensing into Pipefitter (PFI/PFII), Refrigeration/AC Contractor, and Master Mechanic credentials under RIGL 28-27 — meaning a contractor handling both gas-piping connections and refrigerant work needs at minimum two state credentials, and Rhode Island Energy (formerly National Grid RI) HP rebates of up to $10,000 are the most generous in New England relative to state size.",
+    "climate_concern": "Newport County and Block Island salt-air corrosion (sea-coast units with epoxy-coated coils are the regional standard), combined with Aquidneck Island's 130-mph coastal wind design, drives both equipment selection and condenser anchoring — and the RhodeMap RI plan funds shoreline HP retrofits as part of climate adaptation funding."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "climate_split": "cooling_dominant", "hdd_annual": 2400, "cdd_annual": 2400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "South Carolina LLR — Residential Specialty (HVAC) license over $5,000; Mechanical Contractor for commercial",
+    "license_url": "https://llr.sc.gov/mech/", "permit_typical": "city or county mechanical permit required",
+    "hvac_wage_mean_hourly": 24.51, "avg_replacement_low": 7500, "avg_replacement_high": 17000,
+    "distinctive_law": "South Carolina LLR sets a $5,000 residential threshold under SC Code §40-11-410 below which a Residential Specialty (HVAC) license is needed — one of the lowest residential HVAC dollar thresholds in the Southeast — and over $5,000 in commercial work requires the full Mechanical Contractor license and exam.",
+    "climate_concern": "South Carolina Lowcountry (Charleston, Beaufort, Hilton Head) carries heavy salt-air exposure that requires sea-coast units with epoxy-coated coils and stainless-steel cabinet hardware on every coastal install, while Upstate humid subtropical loads (Greenville, Spartanburg) demand variable-speed inverter HPs to manage the 8-month cooling season's high latent fraction."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "climate_split": "heating_dominant", "hdd_annual": 7300, "cdd_annual": 900,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "South Dakota — no statewide HVAC license; Sioux Falls, Rapid City, Aberdeen require municipal mechanical contractor registration",
+    "license_url": "https://www.siouxfalls.gov/government/departments/planning-development-services/building-services", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 24.43, "avg_replacement_low": 7600, "avg_replacement_high": 17500,
+    "distinctive_law": "South Dakota has no statewide HVAC contractor license — the State Plumbing Commission only licenses water-side and refrigerant-piping work — meaning forced-air-only HVAC work falls entirely under municipal jurisdiction; Sioux Falls and Rapid City accept reciprocity for North Dakota and Minnesota mechanical contractor licenses but not for each other.",
+    "climate_concern": "Sioux Falls and Aberdeen winter design of -25°F push 95%+ AFUE gas furnaces past heat pumps as primary heat, and the Black Hills' 4,500 ft elevation imposes a 5-6% combustion derate — propane backup is standard on any cold-climate HP retrofit in Lawrence and Pennington counties west of the Missouri River."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "climate_split": "balanced", "hdd_annual": 3300, "cdd_annual": 2100,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors — HVAC contractor designation; jobs over $25,000 require state license",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "county mechanical permit required",
+    "hvac_wage_mean_hourly": 25.07, "avg_replacement_low": 7400, "avg_replacement_high": 16900,
+    "distinctive_law": "Tennessee's Board for Licensing Contractors sets a $25,000 threshold under T.C.A. §62-6-103 — among the highest residential-trigger thresholds in the Southeast — below which a contractor with HVAC scope listed on a Home Improvement registration can do change-outs, while above $25K the BC-A license, $50K bond, and full exam are required.",
+    "climate_concern": "Tennessee Valley Authority (TVA) EnergyRight rebates of $250-$1,000 per ton make heat pumps unusually attractive in TVA service territory (most of Middle Tennessee, East Tennessee, and parts of West) — combined with already-mild winter design temps of 15-20°F, HP penetration in TN is among the highest in the South outside of Florida."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "2A-3A-3B-4B", "climate_split": "cooling_dominant", "hdd_annual": 1900, "cdd_annual": 2900,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Texas Department of Licensing & Regulation (TDLR) — Air Conditioning & Refrigeration Contractor (Class A unlimited / Class B ≤25 ton)",
+    "license_url": "https://www.tdlr.texas.gov/acr/acr.htm", "permit_typical": "city mechanical permit required",
+    "hvac_wage_mean_hourly": 26.41, "avg_replacement_low": 7400, "avg_replacement_high": 17200,
+    "distinctive_law": "Texas TDLR Class A and Class B Air Conditioning & Refrigeration licenses are mandated under Texas Occupations Code Chapter 1302 with strict scope limits — Class B caps at 25-ton single-system tonnage and 1.5 million BTU heating, prohibiting commercial work — and post-Winter-Storm-Uri (2021), TDLR added a new Endorsement A pathway recognizing emergency dual-fuel design experience.",
+    "climate_concern": "The February 2021 Uri freeze event (and 2022 December storm) exposed widespread heat-pump-only systems lacking emergency backup heat strips — Texas now sees aggressive dual-fuel HP + electric resistance backup or HP + gas furnace adoption statewide; Gulf Coast latent load remains the bigger annual driver, with Houston and Corpus Christi dewpoints over 75°F May-October."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "5B-6B", "climate_split": "heating_dominant", "hdd_annual": 5600, "cdd_annual": 1100,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Utah DOPL — E-200 General Mechanical Contractor license",
+    "license_url": "https://dopl.utah.gov/contractor/", "permit_typical": "city or county mechanical permit required",
+    "hvac_wage_mean_hourly": 28.43, "avg_replacement_low": 8600, "avg_replacement_high": 19500,
+    "distinctive_law": "Utah DOPL issues an E-200 General Mechanical Contractor classification under Utah Code §58-55 covering HVAC, refrigeration, plumbing, and process piping in a single broad license — a more bundled scope than most western states — with a separate E-201 (Boiler Installation) for hydronic-only work.",
+    "climate_concern": "Wasatch Front winter inversions trap PM2.5 in Salt Lake and Utah valleys for weeks in December-January, making MERV 13+ filtration and HEPA in-line filters more common upgrades than elsewhere; high-altitude (4,500-7,000 ft) combustion derate on furnaces ranges from 6-12%, and Rocky Mountain Power Wattsmart HP rebates favor variable-speed inverter equipment."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "climate_split": "heating_dominant", "hdd_annual": 7800, "cdd_annual": 400,
+    "dominant_heating_fuel": "fuel-oil", "dominant_cooling_system": "mini-split",
+    "license_status": "required", "license_board_name": "Vermont Plumber's Examining Board (refrigerant) + Office of Professional Regulation",
+    "license_url": "https://sos.vermont.gov/opr/", "permit_typical": "town code office permit required",
+    "hvac_wage_mean_hourly": 27.93, "avg_replacement_low": 9700, "avg_replacement_high": 21800,
+    "distinctive_law": "Vermont's Plumber's Examining Board uniquely licenses Refrigeration Technicians for any refrigerant work under 26 V.S.A. §2191 — and Efficiency Vermont's HP incentive of up to $4,000 per home for cold-climate ductless or ducted heat pumps drives the highest per-capita HP installation rate among the lower 48 states.",
+    "climate_concern": "Vermont's 7,500+ HDD across most population zones combined with one of the highest fuel-oil dependencies in the country (over 40% of homes) makes it the leading state for cold-climate HP retrofits per capita; the Champlain Valley's milder microclimate sees ducted central HPs while the Northeast Kingdom retains oil and propane backup on every HP install."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "climate_split": "balanced", "hdd_annual": 4000, "cdd_annual": 1700,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Virginia DPOR — HVAC Class A (unlimited) / Class B (≤$120K project) / Class C (≤$10K project)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors/", "permit_typical": "county mechanical permit required",
+    "hvac_wage_mean_hourly": 27.71, "avg_replacement_low": 8200, "avg_replacement_high": 18800,
+    "distinctive_law": "Virginia DPOR sets uniquely tiered project-value caps for HVAC contractor licensing under Va. Code §54.1-1100 — Class C limited to $10,000 single project, Class B to $120,000 single project, Class A unlimited — and the Virginia Clean Economy Act of 2020 directs Dominion and Appalachian Power to fund residential HP rebates as part of mandated energy efficiency programs.",
+    "climate_concern": "Virginia's three-region climate (coastal Tidewater 4A, Piedmont 4A, mountain 5A) drives different equipment selection by region — Norfolk and Virginia Beach on the 130-mph coastal wind line need anchored condensers and corrosion-resistant coils, while Southwest Virginia mountain valleys hit 5,500 HDD where dual-fuel HPs are the regional standard."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "climate_split": "heating_dominant", "hdd_annual": 4900, "cdd_annual": 400,
+    "dominant_heating_fuel": "electricity-heat-pump", "dominant_cooling_system": "heat-pump",
+    "license_status": "required", "license_board_name": "Washington L&I — Electrical Specialty 06A (HVAC/Refrigeration) + General Contractor registration",
+    "license_url": "https://www.lni.wa.gov/licensing-permits/electrical/", "permit_typical": "L&I or local mechanical permit required",
+    "hvac_wage_mean_hourly": 35.24, "avg_replacement_low": 10400, "avg_replacement_high": 22800,
+    "distinctive_law": "Washington's State Building Code Council adopted code amendments effective 2024-07 (originally HB 1390 with subsequent revisions) that prescriptively favor heat pumps in new residential construction by setting compliance paths that exclude resistance-only and fossil-fuel-only systems from the energy-credit pathway — and the WA HB 1050 phase-down of high-GWP refrigerants moves WA past the federal AIM Act timeline.",
+    "climate_concern": "Western Washington's marine 4C climate (Seattle, Tacoma, Olympia) makes heat pumps the dominant retrofit choice — winter design temps rarely below 25°F give HPs near-100% run hours — but Cascades-east continental valleys (Spokane, Yakima, Wenatchee) hit 6,500 HDD and 95°F+ summers, requiring cold-climate HPs with electric resistance backup and oversized condenser coils for the dry-bulb summer load."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "climate_split": "heating_dominant", "hdd_annual": 5400, "cdd_annual": 1000,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — HVAC Technician/Contractor license under WV Code §29-3D",
+    "license_url": "https://labor.wv.gov/contractor/Pages/default.aspx", "permit_typical": "county or municipal permit required",
+    "hvac_wage_mean_hourly": 25.06, "avg_replacement_low": 7500, "avg_replacement_high": 17000,
+    "distinctive_law": "West Virginia Code §29-3D requires HVAC Technicians and Contractors to be licensed by the WV Division of Labor — uniquely housed under Labor rather than a Construction Industry Board — with separate continuing-education requirements and mandatory EPA 608 stacked credentials renewed every two years.",
+    "climate_concern": "Appalachian coal-region housing stock retains a sizable share of electric resistance heating (over 20% of homes, second-highest among lower 48 after parts of the Carolinas) where heat pump retrofits show the steepest energy-cost paybacks — Appalachian Power and Mon Power utility rebates target this electric-resistance-to-HP conversion pathway specifically."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "5A-6A-7", "climate_split": "heating_dominant", "hdd_annual": 7300, "cdd_annual": 800,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety & Professional Services — HVAC credential under SPS 305",
+    "license_url": "https://dsps.wi.gov/Pages/Industry-Services/Construction/HVAC.aspx", "permit_typical": "state HVAC permit required statewide",
+    "hvac_wage_mean_hourly": 30.18, "avg_replacement_low": 8400, "avg_replacement_high": 19000,
+    "distinctive_law": "Wisconsin Administrative Code SPS 305 issues HVAC credential tiers (Master, Journey, and Apprentice) under the state Department of Safety & Professional Services — a uniquely combined Plumbing/HVAC regulatory body — and Focus on Energy provides cash incentives of $400-$1,200 per ton for heat-pump installations through every WE Energies, Alliant, and Madison Gas & Electric customer.",
+    "climate_concern": "Milwaukee, Madison, and Green Bay's pre-1940 housing stock includes large numbers of gravity-warm-air furnaces with massive ductwork still in service — full heat-pump retrofits often require complete duct redesign for the smaller-tonnage HP airflow patterns, while rural Northern WI's 8,500+ HDD pushes propane or natural-gas backup on every cold-climate HP install."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "6B-7B", "climate_split": "heating_dominant", "hdd_annual": 8200, "cdd_annual": 400,
+    "dominant_heating_fuel": "natural-gas", "dominant_cooling_system": "central-ac",
+    "license_status": "none", "license_board_name": "Wyoming — no statewide HVAC license; Cheyenne, Casper, Laramie, Jackson require municipal mechanical contractor registration",
+    "license_url": "https://www.cheyennecity.org/Your-Government/Departments/Planning-Development/Building-Permits", "permit_typical": "municipal mechanical permit required",
+    "hvac_wage_mean_hourly": 27.92, "avg_replacement_low": 8400, "avg_replacement_high": 18800,
+    "distinctive_law": "Wyoming has no statewide HVAC contractor license — the Department of Workforce Services does not credential mechanical work — and municipal models vary widely: Cheyenne requires a separately-tested Master Mechanical exam, while Jackson and Casper accept any registered general contractor for mechanical work, creating one of the loosest licensure environments in the Mountain West.",
+    "climate_concern": "Cheyenne (6,000 ft), Casper (5,150 ft), and Jackson (6,200 ft) sit at high elevation where combustion-equipment derate exceeds 10% and -20°F winter design temps make natural-gas or LP furnaces the only practical primary heat — heat pumps remain niche and require cold-climate inverter compressors paired with significant electric resistance or fossil-fuel backup."
+  }
+}

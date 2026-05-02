@@ -45,13 +45,13 @@ Locked decisions (do not re-litigate):
 
 | # | Vertical | Status | Pages | Pairwise (Jaccard) | Google composite NF/FS | Commit |
 |---|---|---|---|---|---|---|
-| 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | (this session) |
-| 2 | hvac | ⏳ next | — | — | — | — |
-| 3 | plumbing | ⏳ | — | — | — | — |
+| 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | bcda9957d6e (handoff) |
+| 2 | hvac | ✅ shipped (greenfield) | 50 | 62.4% max (Path A+B; gate informational) | **84% → 90%** / 89% (+6pt NF lift) | (this session) |
+| 3 | plumbing | ⏳ next | — | — | — | — |
 | 4 | electrical | ⏳ | — | — | — | — |
-| 5–18 | (15 more) | ⏳ | — | — | — | — |
+| 5–18 | (14 more) | ⏳ | — | — | — | — |
 
-**Phase A.2 status: 1 of 18 verticals piloted (roof).** Roof pilot rewrote 50 pre-existing templated state hubs in-place with rich per-state data (IECC zone, hurricane/hail/snow tier, dominant material, license board, distinctive state law, climate concern). Pairwise Jaccard 63.4% max — exceeds Lane's ≤25% gate, but Google composite (the SEO-relevant gate per memory) holds at 83%/89% with no regression. Lane explicitly approved overriding the pairwise gate (existing pages were ~95% pairwise; rewrite is strictly better). Generator + audit + per-state data dictionary are in place and reusable for the other 17 verticals.
+**Phase A.2 status: 2 of 18 verticals shipped (roof + hvac).** HVAC was a clean greenfield ship — no pre-existing state hubs to rewrite, just 50 new pages added on top of the 740 city pages. Per-state data dict (`data/state-hvac-data.json`) carries IECC zone, climate split (HDD/CDD), dominant heating fuel, dominant cooling system, license board + URL + permit, BLS HVAC mechanic mean wage (SOC 49-9021 May 2024), 3-ton replacement cost range, plus 50 unique distinctive_law strings (state HVAC license / refrigerant / utility-rebate quirks) and 50 unique climate_concern strings (state-specific HVAC load drivers). Google composite jumped NF 84%→90% (+6pt) — the largest single-vertical lift seen so far. Pairwise hits 62.4% on neighbor pairs (MT↔WY, KS↔NE) as expected per Halt #2 resolution; Path A+B accepts this as a property of the page TYPE.
 
 ### Phase A.3 — neighbor cross-links: not started
 ### Phase A.4 — sitemap restructure: not started
@@ -246,6 +246,18 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 - Pairwise audit: max 11.6% similarity across 153 pairs (≥88% unique). Lane's ≥80% hard floor cleared with margin.
 - Per-vertical pre-commit gate: NF + FS uniqueness ≥80% on every existing city/flagship page (none touched by Phase A.1; floor preserved by construction).
 - **Phase A.1 COMPLETE.** Ready for Phase A.2 (state-vertical hubs) when scheduled.
+
+### Session 3 — 2026-05-01 — Phase A.2 hvac vertical (clean greenfield ship)
+- Refactored `scripts/build-state-vertical-hub.js` to be vertical-aware: VERTICAL_CONFIG now holds wage field + label, intro hero builder, climate-facts builder, and breadcrumb/footer/tools-block link labels per vertical. Roof config preserved unchanged; hvac config added.
+- Extended `scripts/audit-state-hub-uniqueness.js` VERTICAL_CONFIG with hvac (skipCityPattern + fileSuffix).
+- Built `data/state-hvac-data.json` — 50 state entries, 16 fields each, sources documented in `_meta`. All 50 distinctive_law strings unique, all 50 climate_concern strings unique. Verified by hash count.
+- Generated 50 `[state]-hvac-cost.html` pages (greenfield — no pre-existing state hubs to rewrite, unlike roof).
+- Spot-checked Florida page: HVHZ NOA mention, FL Energy Code R403 duct rule, 8,200-19,800 cost range, BLS HVAC wage $24.96/hr, 40 city links — all rendered correctly.
+- Google audit: HVAC NF **84% → 90% (+6pt)**, FS held at 89%. Largest single-vertical lift in Phase A.2 so far. Both well above ≥80% floor.
+- Pairwise: max 62.4% (MT↔WY, KS↔NE, etc.). Same pattern as roof per Halt #2 resolution; informational only under Path A+B.
+- Sanity-checked roof composite: still 83%/89% (unchanged — generator changes were additive, no roof regen).
+- Updated `sitemap-hvac.xml` with 50 new state hub URLs at lastmod 2026-05-01 (total now 791 URLs).
+- Pacing: 1 vertical (50 pages) = 1 unit per the rules. 1 of max 4 used.
 
 ## Pacing rules
 

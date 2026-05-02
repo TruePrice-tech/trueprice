@@ -43,13 +43,65 @@ const VERTICAL_CONFIG = {
     breadcrumbHubLabel: "All Cities",
     breadcrumbHubHref: "/all-cities.html",
     citiesDirHref: "/roof-cities.html",
+    citiesDirLabel: "Roof cities",
     costGuideHref: "/roofing-replacement-cost-guide.html",
     quoteAnalyzerHref: "/roofing-quote-analyzer.html",
     estimatorHref: "/roofing-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Roof estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
     verticalLabel: "roof replacement",
     verticalLabelCap: "Roof Replacement",
     pricingMetricLabel: "2,000 sq ft asphalt re-roof",
+    wageField: "roofer_wage_mean_hourly",
+    wageLabel: "BLS roofer wage",
+    wageSourceLabel: "BLS OEWS roofer mean",
     sitemapFile: "sitemap-roof.xml",
+    introHero: (s, vConf) =>
+      `Roof replacement in ${s.name} typically runs ${money(s.avg_replacement_low)}–${money(s.avg_replacement_high)} for a ${vConf.pricingMetricLabel}, with ${s.dominant_material.replace(/-/g, " ")} as the dominant residential covering. ${s.climate_concern}`,
+    climateFactsHTML: (s) => climateAndCodeFactsRoofHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate & code drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
+  hvac: {
+    fileSuffix: "-hvac-cost.html",
+    cityFileSuffix: "-hvac-cost.html",
+    pageTitle: (s) => `HVAC Replacement Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average HVAC replacement cost in ${s.name} runs ${money(s.avg_replacement_low)}–${money(s.avg_replacement_high)} for a complete 3-ton system. Per-state climate, license, refrigerant, and rebate drivers explained.`,
+    h1: (s) => `HVAC Replacement Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/hvac-cities.html",
+    citiesDirLabel: "HVAC cities",
+    costGuideHref: "/hvac-replacement-cost-guide.html",
+    quoteAnalyzerHref: "/hvac-quote-analyzer.html",
+    estimatorHref: "/hvac-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "HVAC estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "HVAC replacement",
+    verticalLabelCap: "HVAC Replacement",
+    pricingMetricLabel: "complete 3-ton system replacement",
+    wageField: "hvac_wage_mean_hourly",
+    wageLabel: "BLS HVAC mechanic wage",
+    wageSourceLabel: "BLS OEWS HVAC mechanic mean",
+    sitemapFile: "sitemap-hvac.xml",
+    introHero: (s, vConf) => {
+      const fuelLabel = {
+        "natural-gas": "natural-gas furnaces with central AC",
+        "electricity-heat-pump": "electric heat pumps",
+        "electric-resistance": "electric-resistance heat",
+        "fuel-oil": "fuel-oil furnaces or boilers",
+        "propane": "propane furnaces",
+      };
+      const fuel = fuelLabel[s.dominant_heating_fuel] || s.dominant_heating_fuel.replace(/-/g, " ");
+      return `HVAC replacement in ${s.name} typically runs ${money(s.avg_replacement_low)}–${money(s.avg_replacement_high)} for a ${vConf.pricingMetricLabel}, with ${fuel} as the dominant heating choice and roughly ${s.hdd_annual.toLocaleString()} heating degree days against ${s.cdd_annual.toLocaleString()} cooling degree days driving the seasonal load mix. ${s.climate_concern}`;
+    },
+    climateFactsHTML: (s) => climateAndCodeFactsHvacHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate & load drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
 };
 
@@ -115,7 +167,8 @@ function enumerateCityPagesByState(cityFileSuffix) {
 
 function summaryCardsHTML(state, cityCount, vConf) {
   const range = `${money(state.avg_replacement_low)} – ${money(state.avg_replacement_high)}`;
-  const wage = `$${state.roofer_wage_mean_hourly.toFixed(2)}/hr`;
+  const wageVal = state[vConf.wageField];
+  const wage = `$${Number(wageVal).toFixed(2)}/hr`;
   return `      <div class="summary-grid">
         <div class="summary-card">
           <strong>State</strong>
@@ -130,13 +183,43 @@ function summaryCardsHTML(state, cityCount, vConf) {
           <span>${range}</span>
         </div>
         <div class="summary-card">
-          <strong>BLS roofer wage</strong>
+          <strong>${escapeHtml(vConf.wageLabel)}</strong>
           <span>${wage}</span>
         </div>
       </div>`;
 }
 
-function climateAndCodeFactsHTML(state) {
+function climateAndCodeFactsHvacHTML(state) {
+  const fuelLabel = {
+    "natural-gas": "Natural gas — piped utility supply through state pipeline network",
+    "electricity-heat-pump": "Electricity (heat pump) — air-source HPs as primary heat",
+    "electric-resistance": "Electric resistance — baseboard or strip heat",
+    "fuel-oil": "Fuel oil — delivered #2 heating oil, common in older Northeast housing",
+    "propane": "Propane — delivered LP gas, common in rural areas without pipeline service",
+  };
+  const coolingLabel = {
+    "central-ac": "Central air conditioning paired with separate heating equipment",
+    "heat-pump": "Air-source heat pump providing both heating and cooling",
+    "mini-split": "Ductless mini-split heat pumps as primary HVAC",
+    "window-only": "Window or portable units — central cooling not standard",
+  };
+  const splitLabel = {
+    cooling_dominant: "Cooling-dominant — annual cooling load exceeds heating load",
+    heating_dominant: "Heating-dominant — annual heating load exceeds cooling load",
+    balanced: "Balanced — heating and cooling loads roughly equal",
+  };
+  const items = [
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>Annual load split:</strong> ${escapeHtml(splitLabel[state.climate_split] || state.climate_split)} (${state.hdd_annual.toLocaleString()} HDD / ${state.cdd_annual.toLocaleString()} CDD)</li>`,
+    `<li><strong>Dominant heating fuel:</strong> ${escapeHtml(fuelLabel[state.dominant_heating_fuel] || state.dominant_heating_fuel)}</li>`,
+    `<li><strong>Dominant cooling system:</strong> ${escapeHtml(coolingLabel[state.dominant_cooling_system] || state.dominant_cooling_system)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsRoofHTML(state) {
   const tierLabel = {
     HVHZ: "High-Velocity Hurricane Zone (HVHZ) — Miami-Dade and Broward counties under 175-mph design wind",
     wind_high: "High wind exposure — 140 mph+ design wind on coastal counties",
@@ -200,14 +283,14 @@ ${cards}
       </div>`;
 }
 
-function moreStatesHTML(currentSlug, allStates) {
+function moreStatesHTML(currentSlug, allStates, vConf) {
   const others = Object.entries(allStates)
     .filter(([k]) => !k.startsWith("_"))
     .map(([_, v]) => v)
     .filter((s) => s.slug !== currentSlug)
     .sort((a, b) => a.name.localeCompare(b.name));
   const links = others
-    .map((s) => `        <li><a href="/${s.slug}-roof-cost.html">${escapeHtml(s.name)}</a></li>`)
+    .map((s) => `        <li><a href="/${s.slug}${vConf.fileSuffix}">${escapeHtml(s.name)}</a></li>`)
     .join("\n");
   return `      <div class="related-links">
         <ul>
@@ -221,7 +304,7 @@ function buildPage(stateAbbr, allStates, cityIndex, vConf) {
   const cities = cityIndex[stateAbbr] || [];
   const cityCount = cities.length;
 
-  const introHero = `Roof replacement in ${state.name} typically runs ${money(state.avg_replacement_low)}–${money(state.avg_replacement_high)} for a ${vConf.pricingMetricLabel}, with ${state.dominant_material.replace(/-/g, " ")} as the dominant residential covering. ${state.climate_concern}`;
+  const introHero = vConf.introHero(state, vConf);
 
   const costsVarySection = `<p>${state.climate_concern}</p>
       <p><strong>State-specific code or insurance rule:</strong> ${state.distinctive_law}</p>`;
@@ -280,7 +363,7 @@ function buildPage(stateAbbr, allStates, cityIndex, vConf) {
     <div class="container">
       <div class="breadcrumbs">
         <a href="/">Home</a> &rsaquo;
-        <a href="${escapeHtml(vConf.citiesDirHref)}">Roof cities</a> &rsaquo;
+        <a href="${escapeHtml(vConf.citiesDirHref)}">${escapeHtml(vConf.citiesDirLabel)}</a> &rsaquo;
         <span>${escapeHtml(state.name)}</span>
       </div>
 
@@ -296,18 +379,18 @@ ${summaryCardsHTML(state, cityCount, vConf)}
 
     <div class="state-section-grid">
       <section class="section">
-        <h2>${escapeHtml(state.name)} climate &amp; code drivers</h2>
-${climateAndCodeFactsHTML(state)}
+        <h2>${escapeHtml(vConf.climateSectionHeading(state.name))}</h2>
+${vConf.climateFactsHTML(state)}
       </section>
 
       <section class="section">
-        <h2>${escapeHtml(state.name)} licensing &amp; permits</h2>
+        <h2>${escapeHtml(vConf.licensingSectionHeading(state.name))}</h2>
 ${licenseAndPermitHTML(state)}
       </section>
     </div>
 
     <section class="section">
-      <h2>How ${vConf.verticalLabel} costs vary in ${escapeHtml(state.name)}</h2>
+      <h2>${escapeHtml(vConf.costsVarySectionHeading(state.name, vConf))}</h2>
       ${costsVarySection}
     </section>
 
@@ -325,11 +408,11 @@ ${cityCardsHTML(cities, vConf)}
 
     <section class="section">
       <h2>More state guides</h2>
-${moreStatesHTML(state.slug, allStates)}
+${moreStatesHTML(state.slug, allStates, vConf)}
     </section>
 
     <p class="footer-note">
-      Pricing ranges reflect ${escapeHtml(state.name)} market labor (BLS OEWS roofer mean ${"$" + state.roofer_wage_mean_hourly.toFixed(2)}/hr) and Woogoro regional cost modeling.
+      Pricing ranges reflect ${escapeHtml(state.name)} market labor (${escapeHtml(vConf.wageSourceLabel)} ${"$" + Number(state[vConf.wageField]).toFixed(2)}/hr) and Woogoro regional cost modeling.
       For the most localized estimate, see your nearest city page above.
     </p>
   <!-- TP-INTERNAL-TOOLS-BLOCK -->
@@ -339,7 +422,7 @@ ${moreStatesHTML(state.slug, allStates)}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
     <a href="/auto-repair.html" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">Auto repair pricing &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">98 repairs, BLS-backed labor rates</div></a>
     <a href="/find-contractors.html" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">Find contractors &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">Vetted local pros</div></a>
-    <a href="${escapeHtml(vConf.estimatorHref)}" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">Roof estimate &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">Enter your address, get a price</div></a>
+    <a href="${escapeHtml(vConf.estimatorHref)}" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">${escapeHtml(vConf.estimatorLinkLabel)} &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">${escapeHtml(vConf.estimatorLinkSubtitle)}</div></a>
     <a href="/analyze-my-quote.html" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;text-decoration:none;color:#1e293b;font-weight:600;font-size:14px;">Analyze a quote &rarr;<div style="font-weight:400;color:#64748b;font-size:12px;margin-top:2px;">Iris checks every line item</div></a>
   </div>
 </section>
@@ -354,7 +437,7 @@ ${moreStatesHTML(state.slug, allStates)}
     <a href="/get-an-estimate.html">Get an estimate</a>
     <a href="/analyze-my-quote.html">Analyze a quote</a>
     <a href="/compare-quotes-picker.html">Compare quotes</a>
-    <a href="${escapeHtml(vConf.estimatorHref)}">Roof estimate</a>
+    <a href="${escapeHtml(vConf.estimatorHref)}">${escapeHtml(vConf.estimatorLinkLabel)}</a>
   </div>
   <div class="tp-footer-col">
     <h4>Service types</h4>
