@@ -84,10 +84,23 @@ fi
 echo ""
 echo "Gate 3/4: Git status sanity check"
 echo "------------------------------------------------------------"
-MODIFIED_NON_HTML=$(git status -s | grep -v "^??" | grep -v "\.html$" | grep -v "\.md$" | grep -v "scripts/city-page-contamination\.txt" | wc -l)
+MODIFIED_NON_HTML=$(git status -s | awk '
+  /^\?\?/ {next}
+  /\.html$/ {next}
+  /\.md$/ {next}
+  /scripts\/city-page-contamination\.txt/ {next}
+  {n++}
+  END {print n+0}
+')
 if [ "$MODIFIED_NON_HTML" -gt 0 ]; then
   echo "⚠️  WARNING: non-HTML/non-MD files modified:"
-  git status -s | grep -v "^??" | grep -v "\.html$" | grep -v "\.md$" | grep -v "scripts/city-page-contamination\.txt"
+  git status -s | awk '
+    /^\?\?/ {next}
+    /\.html$/ {next}
+    /\.md$/ {next}
+    /scripts\/city-page-contamination\.txt/ {next}
+    {print}
+  '
   echo ""
   echo "This may be intentional but verify before committing."
 fi
@@ -97,9 +110,9 @@ echo "✅ PASS (or warning logged above)"
 echo ""
 echo "Gate 4/4: JSON-LD validation on modified HTML files"
 echo "------------------------------------------------------------"
-MODIFIED_HTML=$(git status -s | grep -E "^\s?M " | grep "\.html$" | awk '{print $NF}')
+MODIFIED_HTML=$(git status -s | awk '/\.html$/ {print $NF}')
 if [ -z "$MODIFIED_HTML" ]; then
-  echo "(no modified HTML files to validate)"
+  echo "(no modified or new HTML files to validate)"
 else
   for f in $MODIFIED_HTML; do
     echo "  Validating $f..."
