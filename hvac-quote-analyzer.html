@@ -920,6 +920,7 @@
         // Use HVAC parser for system-specific detection
         var systemType = (typeof detectHvacSystemType === "function") ? detectHvacSystemType(text) : { value: "central_ac", label: "Central Air Conditioning" };
         var seer = (typeof detectSeerRating === "function") ? detectSeerRating(text) : null;
+        var seerStandard = (typeof detectSeerStandard === "function") ? detectSeerStandard(text) : null;
         var tonnage = (typeof detectTonnage === "function") ? detectTonnage(text) : null;
         var afue = (typeof detectAfueRating === "function") ? detectAfueRating(text) : null;
         var brand = (typeof detectHvacBrand === "function") ? detectHvacBrand(text) : null;
@@ -1011,6 +1012,7 @@
           jobType: _jobType,
           systemType: systemType,
           seer: seer,
+          seerStandard: seerStandard,
           afue: afue,
           tonnage: tonnage,
           brand: brand,
@@ -1473,7 +1475,8 @@
       detailsHtml += '<div class="hvac-detail"><div class="label">System Type</div><div class="value">' + r.systemType.label + '</div></div>';
 
       if (r.seer) {
-        detailsHtml += '<div class="hvac-detail"><div class="label">SEER Rating</div><div class="value">' + r.seer + ' SEER</div></div>';
+        var seerSuffix = r.seerStandard === "SEER2" ? " SEER2" : " SEER";
+        detailsHtml += '<div class="hvac-detail"><div class="label">SEER Rating</div><div class="value">' + r.seer + seerSuffix + '</div></div>';
       }
       if (r.afue) {
         detailsHtml += '<div class="hvac-detail"><div class="label">AFUE Rating</div><div class="value">' + r.afue + '% AFUE</div></div>';

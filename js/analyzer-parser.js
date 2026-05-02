@@ -1047,7 +1047,7 @@ function detectContractor(text) {
     const wordCount = name.split(/\s+/).filter(Boolean).length;
     if (wordCount > 8) return false;
 
-    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|services|solutions|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
+    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|services|solutions|systems|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
   }
 
   const labeledPatterns = [

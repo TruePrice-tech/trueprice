@@ -780,14 +780,38 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. Walk 2026-05-02 finding EST-1: prior code defaulted
+        // an unknown/empty state to "TX" silently, so an empty-form submit
+        // produced a "Texas" estimate for a user who never typed anything.
+        // Now we require the user to give us at least a state OR a 5-digit
+        // ZIP before advancing — otherwise we surface a non-modal validation
+        // hint and stop, keeping them on the address step.
         var upper = rawState.toUpperCase();
+        var resolvedState = null;
         if (STATE_REGIONS[upper]) {
-          state.address.stateCode = upper;
-        } else {
-          var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          resolvedState = upper;
+        } else if (US_STATES[rawState.toLowerCase()]) {
+          resolvedState = US_STATES[rawState.toLowerCase()];
         }
+
+        var zipValid = /^\d{5}$/.test(state.address.zip);
+        if (!resolvedState && !zipValid) {
+          var hint = document.getElementById("estAddrHint");
+          if (!hint) {
+            hint = document.createElement("div");
+            hint.id = "estAddrHint";
+            hint.style.cssText = "margin-top:10px;padding:10px 14px;background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;color:#92400e;font-size:14px;";
+            hint.textContent = "Add your state or ZIP so we can use local pricing.";
+            var btn = document.getElementById("btnEstimate");
+            if (btn && btn.parentNode) btn.parentNode.insertBefore(hint, btn.nextSibling);
+          }
+          return;
+        }
+        // Clear any prior validation hint on success.
+        var existingHint = document.getElementById("estAddrHint");
+        if (existingHint && existingHint.parentNode) existingHint.parentNode.removeChild(existingHint);
+
+        state.address.stateCode = resolvedState || ""; // ZIP-only path will geocode later
 
         fetchCityMult(state.address.city, state.address.stateCode);
 

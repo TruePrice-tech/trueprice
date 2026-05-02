@@ -143,6 +143,17 @@ function detectSeerRating(text) {
   return null;
 }
 
+// Companion to detectSeerRating — returns whether the rating Lane is using
+// for the result is a SEER2 reading (modern 2023+) or plain SEER. Drives the
+// label suffix in renderResult so a "16 SEER2" quote reads "16 SEER2", not
+// "16 SEER" (which would suggest the unit is rated under the old standard).
+function detectSeerStandard(text) {
+  const normalized = String(text || "");
+  if (/\b\d{2}(?:\.\d)?\s*(?:SEER2|seer2)\b/.test(normalized)) return "SEER2";
+  if (/\b\d{2}(?:\.\d)?\s*(?:SEER|seer)\b/.test(normalized)) return "SEER";
+  return null;
+}
+
 function detectTonnage(text) {
   const normalized = String(text || "");
 
@@ -245,6 +256,7 @@ function detectHvacScopeSignals(text) {
 if (typeof window !== "undefined") {
   window.detectHvacSystemType = detectHvacSystemType;
   window.detectSeerRating = detectSeerRating;
+  window.detectSeerStandard = detectSeerStandard;
   window.detectTonnage = detectTonnage;
   window.detectAfueRating = detectAfueRating;
   window.detectHvacBrand = detectHvacBrand;
