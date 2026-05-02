@@ -430,6 +430,48 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  "garage-door": {
+    fileSuffix: "-garage-door-cost.html",
+    cityFileSuffix: "-garage-door-cost.html",
+    pageTitle: (s) => `Garage Door Replacement Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average 16x7 single-bay or 18x7 double-bay garage door installation in ${s.name} runs ${money(s.avg_install_low)}–${money(s.avg_install_high)}. Per-state hurricane wind rating, R-value, HOA, and license drivers explained.`,
+    h1: (s) => `Garage Door Replacement Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/garage-door-cities.html",
+    citiesDirLabel: "Garage door cities",
+    costGuideHref: "/garage-door-cost-guide.html",
+    quoteAnalyzerHref: "/garage-door-quote-analyzer.html",
+    estimatorHref: "/garage-door-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Garage door estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "garage door installation",
+    verticalLabelCap: "Garage Door Installation",
+    pricingMetricLabel: "16x7 single-bay or 18x7 double-bay steel-insulated garage door + opener replacement",
+    wageField: "garage_door_installer_wage_mean_hourly",
+    wageLabel: "BLS garage-door installer wage",
+    wageSourceLabel: "BLS OEWS home-appliance-repairer / carpenter (garage-door installers) blend",
+    sitemapFile: "sitemap-garage-door.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "steel-insulated": "steel-insulated panel",
+        "aluminum-glass": "aluminum-glass full-view",
+        "wood-composite": "wood-composite carriage-house",
+        "wood-solid": "solid-wood carriage-house",
+        "fiberglass": "fiberglass panel",
+        "vinyl": "vinyl panel",
+      };
+      const mat = matLabel[s.dominant_door_material] || s.dominant_door_material.replace(/-/g, " ");
+      return `Garage door replacements in ${s.name} typically run ${money(s.avg_install_low)}–${money(s.avg_install_high)} for a ${vConf.pricingMetricLabel}, with ${mat} the dominant residential choice and ${s.design_wind_speed_mph} mph ASCE 7-22 design wind speed driving DASMA wind-pressure rating selection. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_install_low",
+    avgFieldHigh: "avg_install_high",
+    climateFactsHTML: (s) => climateAndCodeFactsGarageDoorHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate, wind & HOA drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   foundation: {
     fileSuffix: "-foundation-cost.html",
     cityFileSuffix: "-foundation-cost.html",
@@ -1034,6 +1076,63 @@ function climateAndCodeFactsFencingHTML(state) {
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
     `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
     `<li><strong>HOA fencing-rule prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsGarageDoorHTML(state) {
+  const matLabel = {
+    "steel-insulated": "Steel-insulated panel — dominant in most regions, polyurethane or polystyrene foam core",
+    "aluminum-glass": "Aluminum-glass full-view — dominant in modern Sun Belt and contemporary architecture",
+    "wood-composite": "Wood-composite carriage-house — dominant in HOA-heavy and historic-preservation overlays",
+    "wood-solid": "Solid-wood carriage-house — dominant in luxury subdivisions and custom builds",
+    "fiberglass": "Fiberglass panel — dominant in coastal salt-spray corridors",
+    "vinyl": "Vinyl panel — dominant in low-budget Sun Belt subdivisions",
+  };
+  const operatorLabel = {
+    "belt-drive": "Belt-drive — dominant in attached-garage residential, quietest operation",
+    "chain-drive": "Chain-drive — dominant on detached or budget installs, durable and economical",
+    "direct-drive": "Direct-drive — premium quiet operation, gaining share in luxury subdivisions",
+    "jackshaft-side-mount": "Jackshaft side-mount — dominant in HVHZ Florida and high-ceiling carriage-house garages",
+    "screw-drive": "Screw-drive — declining share, reliable in extreme cold, slower than belt or chain",
+  };
+  const hurricaneLabel = {
+    HVHZ: "HVHZ — Miami-Dade NOA-rated and DASMA 115-tested at 175 mph design wind plus large-missile impact resistance",
+    wind_high: "High — DASMA 108 wind-pressure rating at 140-150 mph design wind",
+    wind_moderate: "Moderate — DASMA 108 wind-pressure rating at 110-140 mph design wind",
+    wind_low: "Low — DASMA 108 standard rating at sub-110 mph design wind",
+    none: "No hurricane wind-design exposure",
+  };
+  const termiteLabel = {
+    "very-high": "Very high — TPCT zone 1, all wood jamb framing requires PT southern yellow pine .60 CCA",
+    "high": "High — TPCT zone 2, PT wood jamb framing required",
+    "moderate": "Moderate — periodic termite pressure, PT framing recommended",
+    "low": "Low — minimal termite pressure",
+  };
+  const hoaLabel = {
+    "very-high": "Very high — 80%+ of subdivisions enforce HOA architectural-committee pre-approval on door color/material/style",
+    "high": "High — 60-80% of subdivisions enforce HOA architectural-committee pre-approval",
+    "moderate": "Moderate — suburban HOA prevalence on newer subdivisions",
+    "low": "Low — limited HOA garage-door restrictions outside metro subdivisions",
+  };
+  const saltLabel = {
+    "high-coastal": "High — coastal salt-spray drives stainless-hardware-and-zinc-coated-track requirement at 5-7 year intervals",
+    "moderate-coastal": "Moderate — bayfront salt-spray, stainless hardware recommended",
+    "low": "Low — minimal salt-air corrosion, standard galvanized hardware adequate",
+    "none": "None — no salt-air corrosion exposure",
+  };
+  const items = [
+    `<li><strong>ASCE 7-22 design wind speed:</strong> ${state.design_wind_speed_mph} mph (Risk Category II)</li>`,
+    `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(hurricaneLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
+    `<li><strong>Required garage-door R-value:</strong> ${escapeHtml(state.garage_door_r_value_required)} (IECC 2021 + state amendments)</li>`,
+    `<li><strong>Dominant residential door material:</strong> ${escapeHtml(matLabel[state.dominant_door_material] || state.dominant_door_material)}</li>`,
+    `<li><strong>Dominant residential opener type:</strong> ${escapeHtml(operatorLabel[state.dominant_opener_type] || state.dominant_opener_type)}</li>`,
+    `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
+    `<li><strong>HOA architectural-control prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
+    `<li><strong>Salt-air corrosion zone:</strong> ${escapeHtml(saltLabel[state.salt_air_corrosion] || state.salt_air_corrosion)}</li>`,
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
