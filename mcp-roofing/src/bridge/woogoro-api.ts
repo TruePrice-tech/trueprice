@@ -23,6 +23,15 @@ export interface PricingContext {
   materialsMult?: number;
   population?: number | null;
   source?: string;
+  expectedRange?: { low?: number | null; high?: number | null } | null;
+}
+
+export interface CalibrationData {
+  avgPrice?: number | null;
+  quotes?: number | null;
+  lastUpdated?: number | null;
+  source?: string;
+  confidence?: "high" | "medium" | "low" | "low_data" | "model_only";
 }
 
 export interface ParsedRoofingQuote {
@@ -37,6 +46,7 @@ export interface ParsedRoofingQuote {
   warranty?: string | null;
   scopeItems?: ScopeItems;
   pricingContext?: PricingContext;
+  calibration?: CalibrationData | null;
 }
 
 export interface AnalyzeQuoteOptions {

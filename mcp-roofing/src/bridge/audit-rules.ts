@@ -26,6 +26,10 @@ export function auditRoofingQuote(parsed: ParsedRoofingQuote): AuditFinding[] {
   const findings: AuditFinding[] = [];
   const scope = parsed.scopeItems || {};
 
+  // Price vs local baseline (calibration first, then static expectedRange)
+  const baselineFinding = priceVsBaselineFinding(parsed);
+  if (baselineFinding) findings.push(baselineFinding);
+
   // Scope gaps — missing or excluded items
   for (const req of REQUIRED_SCOPE_ITEMS) {
     const status = scope[req.key];
@@ -129,6 +133,69 @@ export function auditRoofingQuote(parsed: ParsedRoofingQuote): AuditFinding[] {
   }
 
   return findings;
+}
+
+function priceVsBaselineFinding(parsed: ParsedRoofingQuote): AuditFinding | null {
+  const price = parsed.price;
+  if (!price || price <= 0) return null;
+
+  const candidates: AuditFinding[] = [];
+
+  // Calibration baseline. Trust avgPrice when quotes >= 5 and confidence is not "low_data".
+  // "model_only" is the default when the parser doesn't emit a static expectedRange and does
+  // not signal that avgPrice itself is unreliable.
+  const cal = parsed.calibration;
+  if (cal && cal.avgPrice && cal.avgPrice > 0 && (cal.quotes ?? 0) >= 5 && cal.confidence !== "low_data") {
+    const delta = (price - cal.avgPrice) / cal.avgPrice;
+    if (delta > 0.50) {
+      const pct = Math.round(delta * 100);
+      candidates.push({
+        severity: "high",
+        category: "price_concern",
+        flag: `Quote is ${pct}% above local average ($${Math.round(cal.avgPrice).toLocaleString()})`,
+        detail: `Quoted at $${Math.round(price).toLocaleString()} vs local average of $${Math.round(cal.avgPrice).toLocaleString()} across ${cal.quotes} comparable quotes in this area. A gap this large warrants checking 2-3 additional bids before signing.`,
+        disputeAction: "Get 2-3 competing quotes for the same scope. Ask this contractor to itemize what justifies the gap (premium materials, complex pitch, decking replacement assumptions).",
+      });
+    } else if (delta > 0.25) {
+      const pct = Math.round(delta * 100);
+      candidates.push({
+        severity: "medium",
+        category: "price_concern",
+        flag: `Quote is ${pct}% above local average ($${Math.round(cal.avgPrice).toLocaleString()})`,
+        detail: `Quoted at $${Math.round(price).toLocaleString()} vs local average of $${Math.round(cal.avgPrice).toLocaleString()} across ${cal.quotes} comparable quotes in this area. Worth comparing to a second bid.`,
+        disputeAction: "Get one or two more quotes for the same scope and ask this contractor to explain the gap.",
+      });
+    }
+  }
+
+  const expectedHigh = parsed.pricingContext?.expectedRange?.high;
+  if (expectedHigh && expectedHigh > 0) {
+    if (price > expectedHigh * 1.25) {
+      const pct = Math.round(((price - expectedHigh) / expectedHigh) * 100);
+      candidates.push({
+        severity: "high",
+        category: "price_concern",
+        flag: `Quote is ${pct}% above the top of the expected price range ($${Math.round(expectedHigh).toLocaleString()})`,
+        detail: `Quoted at $${Math.round(price).toLocaleString()} vs the high end of the expected range of $${Math.round(expectedHigh).toLocaleString()}. A gap this large warrants checking 2-3 additional bids.`,
+        disputeAction: "Get 2-3 competing quotes for the same scope before signing.",
+      });
+    } else if (price > expectedHigh * 1.10) {
+      const pct = Math.round(((price - expectedHigh) / expectedHigh) * 100);
+      candidates.push({
+        severity: "medium",
+        category: "price_concern",
+        flag: `Quote is ${pct}% above the top of the expected price range ($${Math.round(expectedHigh).toLocaleString()})`,
+        detail: `Quoted at $${Math.round(price).toLocaleString()} vs the high end of the expected range of $${Math.round(expectedHigh).toLocaleString()}. Worth comparing to a second bid.`,
+        disputeAction: "Get one or two more quotes and ask this contractor to explain the gap.",
+      });
+    }
+  }
+
+  if (candidates.length === 0) return null;
+  // Prefer the more severe finding; tie-break by preferring calibration (real quotes beat static range).
+  const score = (f: AuditFinding) => (f.severity === "high" ? 2 : f.severity === "medium" ? 1 : 0) * 10 + (f.flag.includes("local average") ? 1 : 0);
+  candidates.sort((a, b) => score(b) - score(a));
+  return candidates[0];
 }
 
 function mapMaterial(material: string): string {
