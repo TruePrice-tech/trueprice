@@ -155,14 +155,25 @@ function neighborsToHTML(neighbors) {
 }
 
 function injectIntoPage(html, h3Text, neighbors) {
-  // Find: <h3>{h3Text}</h3><ul>...</ul>
-  // The widget is rendered on a single line; the <ul> immediately follows the </h3>.
-  const pattern = new RegExp(
+  // Path A (swap): the page already has a `<h3>{h3Text}</h3><ul>...</ul>` block.
+  // Replace the <ul> with the new neighbor list. Same shell, same h3.
+  const swapPattern = new RegExp(
     `(<h3>${h3Text.replace(/[.*+?^${}()|[\\\]\\\\]/g, '\\\\$&')}</h3>)<ul>[\\s\\S]*?</ul>`
   );
-  if (!pattern.test(html)) return null;
   const newUL = neighborsToHTML(neighbors);
-  return html.replace(pattern, `$1${newUL}`);
+  if (swapPattern.test(html)) {
+    return { html: html.replace(swapPattern, `$1${newUL}`), op: 'swap' };
+  }
+
+  // Path A.3.b (ADD): single-state-city pages whose state has only this one
+  // city — there's no "More <Vertical>" column to swap, only "Other Services".
+  // Insert a new <div><h3>{h3Text}</h3><ul>...</ul></div> as the FIRST child of
+  // `<div class="tp-city-nav-grid">`, before the existing "Other Services" div.
+  // Match: <div class="tp-city-nav-grid">  (single-line widget rendering)
+  const addPattern = /<div class="tp-city-nav-grid">(?!\s*<div><h3>More )/;
+  if (!addPattern.test(html)) return null;
+  const newColumn = `<div class="tp-city-nav-grid"><div><h3>${h3Text}</h3>${newUL}</div>`;
+  return { html: html.replace(addPattern, newColumn), op: 'add' };
 }
 
 function parseArgs() {
@@ -205,7 +216,7 @@ function main() {
   const target = args.limit ? idx.slice(0, args.limit) : idx;
   console.log(`  injecting on ${target.length} pages`);
 
-  let injected = 0, skipped_no_match = 0, skipped_too_few_neighbors = 0;
+  let injected_swap = 0, injected_add = 0, skipped_no_match = 0, skipped_too_few_neighbors = 0;
   const samples = [];
   for (const self of target) {
     const filePath = path.join(ROOT, self.filename);
@@ -215,23 +226,25 @@ function main() {
       skipped_too_few_neighbors++;
       continue;
     }
-    const newHTML = injectIntoPage(html, cfg.h3, neighbors);
-    if (newHTML === null) {
+    const result = injectIntoPage(html, cfg.h3, neighbors);
+    if (result === null) {
       skipped_no_match++;
       continue;
     }
     if (samples.length < 3) {
       samples.push({
+        op: result.op,
         file: self.filename,
         neighbors: neighbors.map(n => `${n.cityName},${n.stateCodeUpper} (${haversineMi(self, n).toFixed(0)}mi)`),
       });
     }
     if (!args.dryRun) {
-      fs.writeFileSync(filePath, newHTML);
+      fs.writeFileSync(filePath, result.html);
     }
-    injected++;
+    if (result.op === 'add') injected_add++; else injected_swap++;
   }
-  console.log(`  injected: ${injected}`);
+  console.log(`  injected (swap): ${injected_swap}`);
+  console.log(`  injected (add):  ${injected_add}`);
   console.log(`  skipped (no widget match): ${skipped_no_match}`);
   console.log(`  skipped (too few neighbors): ${skipped_too_few_neighbors}`);
   console.log('  samples:');

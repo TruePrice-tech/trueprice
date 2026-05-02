@@ -74,7 +74,7 @@ Locked decisions (do not re-litigate):
 
 **Naming gotcha for fencing:** the build-state-vertical-hub.js VERTICAL_CONFIG key is `fencing` (matches `data/state-fencing-data.json` and `fencing-cities.html`), but the city file suffix is `-fence-cost.html` (matches the existing 742 city pages). Audit script `audit-uniqueness-google.js` reads files by suffix and groups them under the vertical key it derives from the filename, which is `fence`. So: precommit and Google audit must be invoked as `fence`; build/state-hub audit invoked as `fencing`. The handoff doc lists this row as "fencing" to match the plan's vertical naming.
 
-### Phase A.3 — neighbor cross-links: TRADE VERTICALS COMPLETE (15 of 19, ~9,283 city pages)
+### Phase A.3 — neighbor cross-links: TRADE VERTICALS COMPLETE + A.3.a + A.3.b shipped (15 of 19, ~9,343 city pages)
 
 Path A — replace `<ul>` content inside existing `<section class="tp-city-nav">` widget's "More <Vertical> Pricing" column with 5-8 haversine ≤75mi neighbors (fallback 150mi for sparse states). Keep section shell, h3, and "Other Services" column untouched. Idempotent.
 
@@ -102,13 +102,21 @@ Cross-state proximity captured throughout (e.g., Albany GA picks Dothan AL, Tall
 
 **Open A.3 follow-ups (sub-tasks):**
 
-1. **Coverage gap (A.3.a).** 73 cities still lack centroids in city-coordinates.json. CSV is curated subset, missing major suburbs like Hoover AL, Bloomington MN, Coral Springs FL, Pittsburgh suburbs. Effect: ~190 city pages per major vertical fall back to next-ring neighbors instead of nearest. Recommend pulling US Census Gazetteer Places file (~30 MB, free, official, comprehensive — covers every CDP/incorporated place). Then re-run rollout (idempotent — no audit risk; pages with new neighbors silently get better neighbors).
+1. **Coverage gap (A.3.a).** ✅ SHIPPED 2026-05-02 (session 9). 71 of 72 missing centroids backfilled from US Census Gazetteer 2024 Places file. Plus inject script's slugify aligned to build-vertical-pages.js (strips punctuation rather than converting to dashes), which silently fixed 3 entries (St. Louis MO, Winston-Salem NC, Wilkes-Barre PA, Athens-Clarke County GA, etc.). Re-rolled all 15 trade verticals + hvac; ~6,478 city pages got better neighbors after the backfill. NF/FS audits unchanged from baseline on every vertical (zero drop). Sole unresolved: 1 malformed-slug stray `st.-louis-mo-roof-cost.html` — sitemap entry removed; canonical already points to proper slug.
 
-2. **Single-state-city pages (A.3.b).** Anchorage AK, Burlington VT, etc. (5 per vertical × 14 verticals ≈ 70 page-instances total nationally) have no "More <Vertical> Pricing" column to swap — their existing widget is "Other Services" only. Need ADD strategy if in scope: insert a new column with 3-5 haversine neighbors. Low-priority, small footprint.
+2. **Single-state-city pages (A.3.b).** ✅ SHIPPED 2026-05-02 (session 9). 60 pages across 15 trade verticals (4 per vertical: Anchorage AK, Burlington VT, Honolulu HI, Portland ME). Inject script extended with ADD path: when no "More <Vertical>" h3 exists, inserts a new `<div><h3>...</h3><ul>...</ul></div>` as the first child of `tp-city-nav-grid`. Audits unchanged from baseline on every vertical. AK/HI neighbors are 1,400-2,500mi (Pacific NW for Anchorage; West Coast for Honolulu) — geographically loose but link-equity benefit is real. VT/ME got reasonable ~100-200mi picks.
 
-3. **Service verticals (A.3.c) — auto-repair, medical, legal, moving.** Path A doesn't apply — they have no same-vertical column in their existing widget, just "Other Services" cross-vertical. ~47-58 base city pages each (235 total). Need separate ADD strategy (insert new "Nearby <Vertical>" column). Lower SEO leverage than trade verticals (smaller page count) but worth doing for consistency.
+3. **Service verticals (A.3.c) — auto-repair, medical, legal, moving.** ⏳ Not started. Path A doesn't apply — they have no same-vertical column in their existing widget, just "Other Services" cross-vertical. ~47-58 base city pages each (235 total). Need separate ADD strategy (insert new "Nearby <Vertical>" column). Lower SEO leverage than trade verticals (smaller page count) but worth doing for consistency. Recommended approach for next session: pilot 1 vertical (auto-repair, 58 pages — most data backing), measure NF/FS pre/post, halt if composite drops >2pt OR below 80%. If pilot clears, roll the other 3.
 
-### Phase A.4 — sitemap restructure: not started
+### Phase A.4 — sitemap restructure: DEFERRED 2026-05-02 (session 9)
+
+Original locked-plan call was to split per-vertical sitemaps into per-vertical-per-state submaps (~800 files). Plan rated impact as "marginal but positive — clearer hierarchy signal."
+
+Deferred for two reasons:
+- A.1 + A.2 + A.3 + A.3.a + A.3.b all shipped this week. Google needs runway to digest those crawl signals.
+- A.4 introduces a 1-2 week crawl-rediscovery window where indexability could temporarily worsen before settling. Doing it concurrently with A.3.a/b makes attribution impossible — any GSC movement could be A.4-disruption masking A.3 lift, or vice versa.
+
+**Reassess at week 4** (around 2026-05-30). By then GSC indexing-pickup from A.3.a/b will be observable; data may say "skip A.4" or "do the softer service-vertical-only split." If A.4 is needed, the 2-hr scripted job remains queued.
 
 ## Per-session workflow (follow exactly)
 
@@ -357,6 +365,38 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 - Pacing: 3 verticals × 50 pages = 3 units per the rules. Within session pacing cap. **Phase A.2 progress: 18 of 18 = COMPLETE.** Shipped commits: legal 6d207f3c997, medical 6182337f4f3, moving 3b07aafdb77.
 - Per-vertical data sources expanded beyond the construction-trade verticals: **legal** drew on NCBE 2026 jurisdiction list (38 UBE-adopter states + 12 non-UBE: CA/FL/TX/DE/LA/MI/MN/NV[ube-adopter]/OH[ube-since-2021]/OK[transitioning]/SC/VA/MS[ube]) including UBE minimum scores 260-280, integrated mandatory bar vs voluntary bar status, AZ ABS / UT Sandbox / WI Diploma Privilege / NH DWS / OR SPPE / WA APR 6 / CA-VT-VA Law Reader programs, state divorce grounds + residency requirements, state PI statute of limitations (1yr KY/LA/TN to 6yr ME/MN/ND), and BLS OEWS May 2024 SOC 23-1011 lawyers state mean wages ($44.50-$97.32/hr range); **medical** drew on Commonwealth Fund + Georgetown CHIR state surprise billing analysis (CT 2003 first state, NY 2015, CA AB-72 2017 as pioneers vs federal-NSA-only states), NCSL CON status (35 CON states + DC vs 15 non-CON), KFF Medicaid expansion status (41 expansion + DC vs 9 holdouts AL/FL/GA/KS/MS/SC/TN/TX/WI as of January 2026), AMA Advocacy Resource Center 2024 medical malpractice cap update (TX HB 4 $250K-per-tier, CA MICRA AB 35 $350K-rising, IN $1.8M PCF, MD $920K floating, LA PCF $500K, NM SB 523 2024 $750K, NV AB 404 2023 $350K-rising, plus constitutional bars in AZ/KY/PA/WA/WY), state hospital price transparency mandates (TX HB 2090, NC HB 250, MA, OR, NH HealthCost, MN Ch. 62U, CO HB22-1284, MD HSCRC unique all-payer rate-setting), and BLS OEWS May 2024 SOC 29-1141 RN state mean wages ($35.50-$63.85/hr range); **moving** drew on FMCSA federal Operating Authority MC numbers vs state intrastate carrier permit systems (49 CFR Part 375 Carmack Released Value $0.60/lb default + Full Value Protection state mandates), state intrastate household-goods regulator assignments (PUC for CA/CO/HI/IPUC/MPUC/NMPRC/OR/PA, PSC for AL/AR/KY/LA/MD/MI/MN/MS/MT/NE/ND/OH/RI/SC/WY+others, DOT for AK/AZ/CT/DE/IA/MN/MO/MnDOT/TX-TxDMV/UT/WisDOT, DPS for GA/NH, DMV for VT/VA, Corporation Commission for KS/OK, stand-alone Transportation Authority for NV uniquely, Consumer Affairs for FL FDACS + NJ Consumer Affairs, DFHV for DC, DOR for IN), 6 mandatory state tariff filing states (CA/NY/IL/HI/NV/PA), 5 fully-deregulated intrastate HHG states (SC 1999 + KS + IA + ND + SD), and BLS OEWS May 2024 SOC 53-7062 Laborers and Movers state mean wages ($15.50-$22.50/hr range).
 - All 3 small-NF-baseline ships (legal/medical/moving) followed the auto-repair precedent established in Session 7 — Lane's approval of structural sampling-dilution from 8-page baseline → 58-page combined was applied without halt-and-ask since the dilution stayed under 3pt and composite cleared ≥80% floor by 4-13pt margin on every vertical.
+
+### Session 9 — 2026-05-02 — Phase A.3.a + A.3.b shipped; A.4 deferred
+
+**A.3.a — Census Gazetteer coord backfill.**
+- Pulled US Census 2024 Gazetteer Places file (`https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_place_national.zip`, ~1.2MB / 32K rows).
+- Discovered TWO causes of missing-centroid pages, not one:
+  - 71 of 72 truly missing (Hoover AL, Bloomington MN, Coral Springs FL, Sandy Springs GA, etc.) — not in original CSV.
+  - 3 entries (St. Louis MO, Winston-Salem NC, Wilkes-Barre PA) WERE in coords but the inject script's slugify mismatched the site filename slugify. Inject script used `[^a-z0-9]+` → dash; site's `slugifyCity` strips punctuation entirely (apostrophes/periods/hyphens removed, then space→dash). So "Winston-Salem" became "winston-salem" via inject vs "winstonsalem" on disk. Silent mismatch.
+- Wrote `scripts/phase-a3a-backfill-coords.js` that parses Gazetteer + strips LSAD suffixes (`city`/`town`/`village`/`borough`/`CDP`/`unified government`/`consolidated government`/`urban county`) + matches via the strict slugify. Resolved 71 of 72 in two passes (added `UC` LSAD code on second pass after Lexington-Fayette KY came up unresolved).
+- Aligned `scripts/phase-a3-inject-neighbors.js` slugify to the site's strict pattern.
+- Re-ran rollout across all 15 trade verticals + hvac. ~6,478 city pages got file-content changes (new/better neighbors from the backfill). NF/FS audits unchanged from baseline on every vertical (15-of-15 + hvac confirmed gate-passing). Per-vertical commits 7b546328bbe → af3fe7e7492 + hvac f785daee6fe; coord/script commit 60e63dfe157; sitemap refresh 187296ecbd1.
+- Sole unresolved: `st.-louis-mo-roof-cost.html` (1 file, stray dup whose canonical already points to proper `st-louis-mo-roof-cost.html`). Removed from sitemap-roof.xml; file remains for direct-link traffic but Google now sees only the canonical via sitemap.
+
+**A.3.b — single-state-city ADD strategy.**
+- 60 city pages (4 per vertical × 15 trade verticals) across Anchorage AK, Burlington VT, Honolulu HI, Portland ME — single-city states whose `tp-city-nav` widget had only "Other Services" column.
+- Extended `phase-a3-inject-neighbors.js` with second injection path: when "More <Vertical>" h3 doesn't exist, inserts a new column as the FIRST child of `tp-city-nav-grid` (before "Other Services"). Same neighbor-picking logic (haversine 75mi → 150mi → last-resort 3 nearest).
+- Audits unchanged from baseline on every vertical. Per-vertical commits 36a50a1b1c0 (hvac) → 8211fd27536 (gutter); sitemap refresh 7334aebcff7.
+- AK/HI got geographically loose neighbors (Anchorage → Bellingham/Marysville/Everett WA at ~1,400mi; Honolulu → likely West Coast at ~2,500mi). Crawl-equity benefit is real, user-utility benefit is loose. VT/ME got reasonable ~100-200mi picks.
+
+**A.4 — sitemap restructure: deferred.**
+- Locked plan calls for splitting per-vertical sitemaps into per-vertical-per-state submaps (~800 files). Plan rates impact as "marginal but positive."
+- Halted-and-asked Lane: introduces 1-2 week crawl-rediscovery disruption window that would overlap A.3.a/b's GSC pickup window, making attribution impossible.
+- Decision: defer; reassess at week 4 (~2026-05-30) when GSC data is in.
+
+**IndexNow:** 13,157 URLs pushed after A.3.a re-rollout; 60 additional URLs pushed after A.3.b. Both batches HTTP 200.
+
+**Phase A overall status after session 9:**
+- A.1 ✅ COMPLETE (18 of 18 vertical-cities directories)
+- A.2 ✅ COMPLETE (18 of 18 verticals × 50 state hubs = 918 state-vertical hub pages)
+- A.3 trade verticals + A.3.a + A.3.b ✅ COMPLETE (~9,343 trade-vertical city pages now have haversine neighbor cross-links)
+- A.3.c ⏳ Pending (4 service verticals × ~58 city pages = 232 pages)
+- A.4 ⏸ Deferred to week 4
 
 ### Session 4 — 2026-05-01 — Phase A.2 plumbing vertical (clean greenfield ship)
 - Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with plumbing (wage field, repipe-cost field via new `avgFieldLow`/`avgFieldHigh` keys, intro hero builder, climateAndCodeFactsPlumbingHTML helper). Generalized `summaryCardsHTML` to honor `avgFieldLow`/`avgFieldHigh` (defaults to roof/hvac field names). Generalized `licenseAndPermitHTML` status labels for "municipal-only" + "none" → "No statewide trade license" (was "No statewide roofing license"; minor wording swap regenerates 17 roof + hvac pages with no Google-composite impact).
