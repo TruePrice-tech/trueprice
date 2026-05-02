@@ -430,6 +430,48 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  "auto-repair": {
+    fileSuffix: "-auto-repair-cost.html",
+    cityFileSuffix: "-auto-repair-cost.html",
+    pageTitle: (s) => `Auto Repair Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average front-axle brake pad + rotor replacement in ${s.name} runs ${money(s.avg_brake_low)}–${money(s.avg_brake_high)}, with shop labor rates ${money(s.labor_rate_low)}–${money(s.labor_rate_high)}/hour. Per-state inspection mandate, Right-to-Repair, ZEV, and license drivers explained.`,
+    h1: (s) => `Auto Repair Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/auto-repair-cities.html",
+    citiesDirLabel: "Auto repair cities",
+    costGuideHref: "/auto-repair-cost-guide.html",
+    quoteAnalyzerHref: "/auto-repair-quote-analyzer.html",
+    estimatorHref: "/auto-repair-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Auto repair estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "auto repair",
+    verticalLabelCap: "Auto Repair",
+    pricingMetricLabel: "front-axle brake pad + rotor replacement",
+    wageField: "automotive_tech_wage_mean_hourly",
+    wageLabel: "BLS automotive technician wage",
+    wageSourceLabel: "BLS OEWS automotive service technician + mechanic mean",
+    sitemapFile: "sitemap.xml",
+    introHero: (s, vConf) => {
+      const inspLabel = {
+        "yes-annual": "annual state safety inspection mandatory",
+        "yes-biennial": "biennial state safety inspection mandatory",
+        "yes-emissions-only": "emissions-only inspection mandatory (no separate safety inspection)",
+        "yes-emissions-metro-only": "metropolitan emissions inspection only",
+        "yes-on-transfer": "safety inspection only on transfer of ownership",
+        "no": "no state safety or emissions inspection mandate",
+      };
+      const insp = inspLabel[s.state_inspection_required] || s.state_inspection_required.replace(/-/g, " ");
+      return `Auto repair shops in ${s.name} typically charge ${money(s.labor_rate_low)}–${money(s.labor_rate_high)}/hour, with a front-axle brake pad and rotor replacement running ${money(s.avg_brake_low)}–${money(s.avg_brake_high)}. ${s.name} is a ${insp} state. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_brake_low",
+    avgFieldHigh: "avg_brake_high",
+    climateFactsHTML: (s) => climateAndCodeFactsAutoRepairHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} inspection, R2R & ZEV drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   window: {
     fileSuffix: "-window-cost.html",
     cityFileSuffix: "-window-cost.html",
@@ -1119,6 +1161,50 @@ function climateAndCodeFactsFencingHTML(state) {
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(windLabel[state.wind_tier] || state.wind_tier)}</li>`,
     `<li><strong>Termite pressure (TPCT zone):</strong> ${escapeHtml(termiteLabel[state.termite_risk] || state.termite_risk)}</li>`,
     `<li><strong>HOA fencing-rule prevalence:</strong> ${escapeHtml(hoaLabel[state.hoa_prevalence] || state.hoa_prevalence)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsAutoRepairHTML(state) {
+  const inspLabel = {
+    "yes-annual": "Annual state safety inspection — mandatory periodic inspection at every annual registration renewal",
+    "yes-biennial": "Biennial state safety inspection — mandatory periodic inspection every two years",
+    "yes-emissions-only": "Emissions-only inspection mandatory (no separate safety inspection)",
+    "yes-emissions-metro-only": "Metropolitan emissions inspection only — no statewide safety inspection",
+    "yes-on-transfer": "Safety inspection only on transfer of ownership (not periodic)",
+    "no": "No state safety or emissions inspection mandate",
+  };
+  const emissLabel = {
+    "yes-statewide": "Statewide Title-II Clean Air Act emissions inspection mandatory",
+    "yes-metropolitan": "Metropolitan-only Title-II Clean Air Act emissions inspection (selected counties)",
+    "no": "No state emissions inspection program",
+  };
+  const r2rLabel = {
+    "enacted": "Enacted — state Right-to-Repair (R2R) statute requires manufacturer data access for independent shops",
+    "pending": "Pending — R2R legislation introduced and active in state legislature",
+    "federal-preemption-only": "Federal preemption only — relies on MAGNUSON-MOSS Warranty Act federal framework",
+    "no-state-law": "No state R2R law and no pending legislation",
+  };
+  const zevLabel = {
+    "carb-leader": "CARB leader — sets the national ZEV standard, Clean Cars II at 100% ZEV by 2035",
+    "section-177-adopter": "§177 adopter — one of 17 states adopting CARB Clean Cars II ZEV mandate",
+    "federal-only": "Federal-only — no state ZEV mandate, EPA federal CO2 standards apply",
+  };
+  const chainLabel = {
+    "dealership-dominant": "Dealership-dominant — manufacturer-affiliated shops capture majority of repairs",
+    "independent-shop-dominant": "Independent-shop-dominant — non-affiliated shops capture majority of repairs",
+    "mixed": "Mixed — dealership and independent shops compete on roughly equal market share",
+  };
+  const items = [
+    `<li><strong>State safety inspection:</strong> ${escapeHtml(inspLabel[state.state_inspection_required] || state.state_inspection_required)}</li>`,
+    `<li><strong>Emissions inspection (Title-II Clean Air Act):</strong> ${escapeHtml(emissLabel[state.emissions_inspection_required] || state.emissions_inspection_required)}</li>`,
+    `<li><strong>Right-to-Repair (R2R) status:</strong> ${escapeHtml(r2rLabel[state.right_to_repair_law_status] || state.right_to_repair_law_status)}</li>`,
+    `<li><strong>ZEV / EV mandate:</strong> ${escapeHtml(zevLabel[state.ev_mandate_zev_program] || state.ev_mandate_zev_program)}</li>`,
+    `<li><strong>Dominant repair channel:</strong> ${escapeHtml(chainLabel[state.dominant_repair_chain] || state.dominant_repair_chain)}</li>`,
+    `<li><strong>Shop density per 100K population:</strong> ${escapeHtml(state.shop_density_per_100k)}</li>`,
+    `<li><strong>Hourly labor rate range:</strong> ${"$" + state.labor_rate_low}–$${state.labor_rate_high}/hour</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
