@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { analyzeAutoRepairQuote, ParsedAutoRepairQuote } from "../bridge/woogoro-api.js";
+import { detectPriceVsBaseline } from "../bridge/price-baseline.js";
 
 export const checkErrorsSchema = {
   name: "check_errors",
@@ -40,6 +41,16 @@ export async function runCheckErrors(rawArgs: unknown) {
   }
 
   const findings: Array<{ severity: "high" | "medium" | "low"; category: string; flag: string }> = [];
+
+  // Price vs local baseline (calibration first, then static expectedRange)
+  const priceFinding = detectPriceVsBaseline(quote);
+  if (priceFinding) {
+    findings.push({
+      severity: priceFinding.severity,
+      category: priceFinding.category,
+      flag: priceFinding.flag,
+    });
+  }
 
   for (const rf of quote.redFlags || []) {
     let severity: "high" | "medium" | "low" = "medium";

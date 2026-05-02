@@ -42,7 +42,31 @@ export interface ParsedAutoRepairQuote {
   scopeItems?: ScopeItems;
   redFlags?: string[];
   summary?: string;
-  pricingContext?: Record<string, unknown>;
+  pricingContext?: AutoRepairPricingContext;
+  calibration?: CalibrationData | null;
+}
+
+export interface AutoRepairPricingContext {
+  state?: string;
+  stateMultiplier?: number;
+  cityLaborMultiplier?: number;
+  effectiveLaborMultiplier?: number;
+  vehicleCategory?: string;
+  vehicleCategoryMultiplier?: number;
+  shopType?: string;
+  adjustedLaborRate?: number;
+  laborRateRange?: { low?: number; mid?: number; high?: number; metroFloor?: number };
+  expectedRange?: { low?: number | null; high?: number | null } | null;
+  source?: string;
+  [k: string]: unknown;
+}
+
+export interface CalibrationData {
+  avgPrice?: number | null;
+  quotes?: number | null;
+  lastUpdated?: number | null;
+  source?: string;
+  confidence?: "high" | "medium" | "low" | "low_data" | "model_only";
 }
 
 export interface AnalyzeQuoteOptions {

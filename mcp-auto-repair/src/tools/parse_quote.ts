@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { analyzeAutoRepairQuote, ParsedAutoRepairQuote } from "../bridge/woogoro-api.js";
+import { detectPriceVsBaseline } from "../bridge/price-baseline.js";
 
 export const parseQuoteSchema = {
   name: "parse_quote",
@@ -39,9 +40,15 @@ export async function runParseQuote(args: unknown) {
   }
 
   const data = result.data;
+  const priceFinding = detectPriceVsBaseline(data);
+  if (priceFinding) {
+    if (!Array.isArray(data.redFlags)) data.redFlags = [];
+    data.redFlags.unshift(priceFinding.flag);
+  }
   return {
     success: true,
     parsed: data,
+    priceBaselineFinding: priceFinding,
     summary_for_llm: buildSummary(data),
   };
 }
