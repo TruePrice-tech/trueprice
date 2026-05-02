@@ -265,6 +265,48 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  painting: {
+    fileSuffix: "-painting-cost.html",
+    cityFileSuffix: "-painting-cost.html",
+    pageTitle: (s) => `Exterior Painting Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average exterior repaint cost in ${s.name} runs ${money(s.avg_repaint_low)}–${money(s.avg_repaint_high)} for a 1,500 sq ft single-story home. Per-state humidity, UV, salt-air, lead-safe, and VOC drivers explained.`,
+    h1: (s) => `Exterior Painting Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/painting-cities.html",
+    citiesDirLabel: "Painting cities",
+    costGuideHref: "/painting-cost-guide.html",
+    quoteAnalyzerHref: "/painting-quote-analyzer.html",
+    estimatorHref: "/painting-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Painting estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "exterior repaint",
+    verticalLabelCap: "Exterior Painting",
+    pricingMetricLabel: "1,500 sq ft single-story exterior repaint",
+    wageField: "painter_wage_mean_hourly",
+    wageLabel: "BLS painter wage",
+    wageSourceLabel: "BLS OEWS painter (construction & maintenance) mean",
+    sitemapFile: "sitemap-painting.xml",
+    introHero: (s, vConf) => {
+      const subLabel = {
+        "wood-lap": "wood lap or shake siding",
+        "fiber-cement": "fiber-cement plank (Hardie or LP SmartSide-style)",
+        "brick-veneer": "painted-brick or brick-with-trim",
+        "stucco": "three-coat hard-coat stucco",
+        "vinyl": "vinyl panel (trim painting only on most homes)",
+        "engineered-wood": "engineered wood lap (LP SmartSide-style)",
+      };
+      const sub = subLabel[s.dominant_substrate] || s.dominant_substrate.replace(/-/g, " ");
+      return `Repainting a 1,500 sq ft home in ${s.name} typically runs ${money(s.avg_repaint_low)}–${money(s.avg_repaint_high)}, with ${sub} the dominant residential substrate driving prep scope. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_repaint_low",
+    avgFieldHigh: "avg_repaint_high",
+    climateFactsHTML: (s) => climateAndCodeFactsPaintingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate & coatings drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing, lead-safe & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   fencing: {
     fileSuffix: "-fence-cost.html",
     cityFileSuffix: "-fence-cost.html",
@@ -595,6 +637,60 @@ function climateAndCodeFactsGutterHTML(state) {
     `<li><strong>Ice-dam risk tier:</strong> ${escapeHtml(iceLabel[state.ice_dam_risk] || state.ice_dam_risk)}</li>`,
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(tierLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
     `<li><strong>Tree-canopy density:</strong> ${escapeHtml(canopyLabel[state.tree_canopy_density] || state.tree_canopy_density)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsPaintingHTML(state) {
+  const subLabel = {
+    "wood-lap": "Wood lap or shake — dominant pre-1990 substrate, drives full prep + caulk + prime + 2-coat",
+    "fiber-cement": "Fiber-cement plank (Hardie or LP SmartSide-style) — dominant post-2000 Sun Belt subdivision substrate",
+    "brick-veneer": "Painted brick or brick-with-trim — dominant in tornado-alley and historic-district overlays",
+    "stucco": "Three-coat hard-coat stucco — dominant in arid and Sun Belt corridors, drives elastomeric topcoats",
+    "vinyl": "Vinyl panel — paint scope reduced to wood trim, doors, and shutters on most homes",
+    "engineered-wood": "Engineered wood lap — dominant Sun Belt subdivision retrofit substrate",
+  };
+  const humidityLabel = {
+    "very-high": "Very high — 75%+ year-round drives mildew bloom + biocide-additive coatings",
+    "high": "High — extended summer humidity drives mildewcide-additive topcoats",
+    "moderate": "Moderate — typical continental humidity, standard topcoat formulations adequate",
+    "low": "Low — arid climate, dust-staining is the larger contamination risk",
+    "very-low": "Very low — extreme arid, no mildew exposure",
+  };
+  const uvLabel = {
+    "very-high": "Very high — 280+ sun-days drive Sun Belt-rated UV-stabilized binders + high-PVC TiO2 topcoats",
+    "high": "High — long sun seasons drive south-facing fade in 5-7 years on standard topcoats",
+    "moderate": "Moderate — typical continental UV, standard binder packages adequate",
+    "low": "Low — Pacific NW or high-latitude diffuse light, fade not the primary failure mode",
+  };
+  const saltLabel = {
+    "high-coastal": "High-corrosion coastal — marine-grade alkyd primer + stainless fastener replacement on every coastal repaint",
+    "moderate-coastal": "Moderate-corrosion coastal — marine primer recommended on bayfront and tidal exposures",
+    "low": "Low salt-air — standard primers adequate inland of 3,000 ft from saltwater",
+    "none": "No salt-air corrosion exposure (interior continental)",
+  };
+  const freezeLabel = {
+    "very-high": "Very high — 100+ annual freeze-thaw cycles drive caulk-and-recaulk on every repaint",
+    "high": "High — 60-100 freeze-thaw cycles drive sealant inspection on every repaint",
+    "moderate": "Moderate — periodic freeze events, standard caulk formulations adequate",
+    "low": "Low — occasional freeze events",
+    "none": "No freeze exposure",
+  };
+  const vocLabel = {
+    "carb-strict": "CARB-strict — 50 g/L flat exterior topcoat limit (matches CA SCAQMD Rule 1113)",
+    "otc-phase-ii": "OTC Phase II — 100 g/L flat exterior topcoat limit (Northeast/Mid-Atlantic)",
+    "federal-default": "Federal default — 250 g/L flat exterior topcoat limit (EPA 40 CFR Part 59)",
+  };
+  const items = [
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>Dominant residential substrate:</strong> ${escapeHtml(subLabel[state.dominant_substrate] || state.dominant_substrate)}</li>`,
+    `<li><strong>Annual humidity tier:</strong> ${escapeHtml(humidityLabel[state.annual_humidity_tier] || state.annual_humidity_tier)}</li>`,
+    `<li><strong>UV exposure:</strong> ${escapeHtml(uvLabel[state.uv_exposure_tier] || state.uv_exposure_tier)}</li>`,
+    `<li><strong>Salt-air corrosion zone:</strong> ${escapeHtml(saltLabel[state.salt_corrosion_zone] || state.salt_corrosion_zone)}</li>`,
+    `<li><strong>Freeze-thaw cycling:</strong> ${escapeHtml(freezeLabel[state.freeze_thaw_cycles] || state.freeze_thaw_cycles)}</li>`,
+    `<li><strong>VOC architectural coatings rule:</strong> ${escapeHtml(vocLabel[state.voc_regulation_tier] || state.voc_regulation_tier)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}

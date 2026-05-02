@@ -1,0 +1,537 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-05-02",
+    "purpose": "Per-state painting data dictionary for Phase A.2 state-vertical hub pages (exterior repaint focus)",
+    "sources": "EPA RRP Rule (40 CFR Part 745) lead-safe certified work disclosure; CARB SCAQMD Rule 1113 + OTC Phase II VOC architectural coatings rules; HUD lead-paint disclosure (24 CFR Part 35); state contractor licensing boards; BLS OEWS May 2024 (SOC 47-2141 Painters, Construction & Maintenance state means); IECC 2021 climate zones; NOAA NCEI 30-year (1991-2020) state precipitation/humidity normals.",
+    "fields": {
+      "iecc_zone": "2021 IECC climate zone (1-8, A=moist, B=dry, C=marine)",
+      "annual_humidity_tier": "very-high / high / moderate / low / very-low — drives mildew growth and recoat cycle",
+      "uv_exposure_tier": "very-high / high / moderate / low — annual sunshine + altitude drives chalking/fade",
+      "salt_corrosion_zone": "high-coastal / moderate-coastal / low / none — drives primer + topcoat selection on coastal exposures",
+      "freeze_thaw_cycles": "very-high / high / moderate / low / none — annual freeze-thaw events drive prep + caulking budget",
+      "dominant_substrate": "wood-lap / fiber-cement / brick-veneer / stucco / vinyl / engineered-wood — predominant residential substrate, affects scope",
+      "voc_regulation_tier": "carb-strict / otc-phase-ii / federal-default — adopted VOC limit basis on architectural coatings",
+      "lead_paint_disclosure_basis": "epa-rrp-strict / state-additive / federal-default — RRP enforcement intensity above EPA baseline",
+      "license_status": "required / registration / municipal-only / none",
+      "license_board_name": "Issuing authority for residential painting contractor licensing",
+      "license_url": "Official state license board URL",
+      "permit_typical": "Typical permit threshold for residential repaint",
+      "painter_wage_mean_hourly": "BLS OEWS May 2024 state mean hourly wage for SOC 47-2141 Painters, Construction & Maintenance (USD)",
+      "avg_repaint_low": "Typical low end of 1,500 sq ft single-story exterior repaint (USD)",
+      "avg_repaint_high": "Typical high end (premium prep + multi-color + elastomeric or fiber-cement primer-and-topcoat) (USD)",
+      "distinctive_law": "Single most distinctive state-specific painting, VOC, lead-safe, or coatings rule",
+      "climate_concern": "Primary climate, substrate, or coatings driver of repaint scope and cycle in this state"
+    }
+  },
+  "AL": {
+    "name": "Alabama", "slug": "alabama", "abbr": "AL",
+    "iecc_zone": "2A-3A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "high", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "fiber-cement", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Alabama Home Builders Licensure Board (residential >$10,000)",
+    "license_url": "https://www.hblb.alabama.gov/", "permit_typical": "no permit required for repaint; HBLB residential license required above $10,000 contract",
+    "painter_wage_mean_hourly": 18.74, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "Alabama Code §34-14A-5 makes the Alabama Home Builders Licensure Board the only state body that licenses residential repaint contractors above the $10,000 contract threshold — and the HBLB requires a Limited Specialty Construction credential with a separate examination on coatings substrate prep, VOC compliance, and lead-safe procedures for any pre-1978 housing-stock work in Birmingham, Mobile, and Huntsville historic districts.",
+    "climate_concern": "Alabama's combination of 70%+ summer humidity and Gulf Coast salt-air drives mildew bloom on south- and east-facing wood and fiber-cement substrates within 18-24 months of repaint, pushing the standard residential coatings spec toward 100% acrylic primer-and-topcoat with mildewcide and forcing power-wash + biocide-soak prep on every Mobile-Baldwin coastal repaint."
+  },
+  "AK": {
+    "name": "Alaska", "slug": "alaska", "abbr": "AK",
+    "iecc_zone": "7-8", "annual_humidity_tier": "moderate", "uv_exposure_tier": "low", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Alaska Department of Commerce — Construction Contractors Section",
+    "license_url": "https://www.commerce.alaska.gov/web/cbpl/professionallicensing/constructioncontractors.aspx", "permit_typical": "borough building permit not typical for repaint; Construction Contractor with Residential Endorsement required",
+    "painter_wage_mean_hourly": 31.62, "avg_repaint_low": 4800, "avg_repaint_high": 12400,
+    "distinctive_law": "Alaska AS 08.18 and 12 AAC 21 require every painting contractor working on a residential dwelling to hold an Alaska Construction Contractor with Residential Endorsement plus carry a $20,000 surety bond — the highest residential bond floor of any U.S. painting contractor licensing scheme, reflecting the long shipping lead times and extreme climate that magnify warranty exposure on every Alaskan exterior coating system.",
+    "climate_concern": "Alaska's 100+ annual freeze-thaw cycles in interior climate zones 7-8 combined with wide diurnal temperature swings cycle wood substrates aggressively, driving caulk-and-recaulk on every repaint and pushing Alaska repaint cycles to 6-8 years on south-facing elevations versus the 10-12 year national norm — and Southeast Alaska coastal panhandle salt-spray on Ketchikan and Juneau wood-lap exteriors mandates marine-grade alkyd primer with stainless-steel fastener replacement during prep."
+  },
+  "AZ": {
+    "name": "Arizona", "slug": "arizona", "abbr": "AZ",
+    "iecc_zone": "2B-3B-4B", "annual_humidity_tier": "very-low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Arizona Registrar of Contractors — license CR-34 (Painting & Wall Covering)",
+    "license_url": "https://roc.az.gov/", "permit_typical": "no permit required for repaint; ROC CR-34 specialty license required on contracts above $1,000",
+    "painter_wage_mean_hourly": 21.46, "avg_repaint_low": 2800, "avg_repaint_high": 8200,
+    "distinctive_law": "Arizona Registrar of Contractors §32-1121 sets the lowest residential contracting threshold in the country at $1,000 — every Arizona painting job above that figure requires a CR-34 Painting & Wall Covering specialty license, with the ROC Recovery Fund compensating Arizona homeowners up to $30,000 per project for licensed-contractor abandonment or breach on residential repaint work.",
+    "climate_concern": "Arizona's 300+ annual sun-days and high-altitude UV index in Phoenix, Tucson, and Flagstaff drive aggressive chalking and fade on every south- and west-facing stucco elevation — exterior repaint cycles run 5-7 years on premium 100% acrylic elastomeric versus 8-10 years in lower-UV climates, with Sun Belt-rated UV-stabilized binders and high-PVC titanium-dioxide topcoats now standard on every Phoenix-Tucson-Mesa stucco repaint."
+  },
+  "AR": {
+    "name": "Arkansas", "slug": "arkansas", "abbr": "AR",
+    "iecc_zone": "3A-4A", "annual_humidity_tier": "high", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Arkansas Contractors Licensing Board — Residential Remodeler (>$2,000)",
+    "license_url": "https://www.arkansas.gov/clb/", "permit_typical": "no permit required for repaint; residential remodeler license required above $2,000 contract",
+    "painter_wage_mean_hourly": 17.22, "avg_repaint_low": 2200, "avg_repaint_high": 6400,
+    "distinctive_law": "Arkansas Code §17-25-101 sets one of the lowest residential contracting thresholds at $2,000 — Arkansas Contractors Licensing Board requires a Residential Remodeler license, $5,000 surety bond, and financial-responsibility net-worth disclosure for any painting contractor exceeding the threshold, with mandatory consumer-complaint mediation through the CLB on every licensed paint contractor jobsite dispute.",
+    "climate_concern": "Arkansas's I-30 corridor and Delta region combine 70%+ summer humidity with Ozark and Ouachita pine pollen rain that bonds aggressively to fresh latex topcoats during the April-June pollen surge — Arkansas painting contractors routinely halt pollen-season exterior work or impose specialty pollen-resistant additive premiums to prevent the persistent yellow-green staining that plagues unprotected fresh acrylic exteriors statewide."
+  },
+  "CA": {
+    "name": "California", "slug": "california", "abbr": "CA",
+    "iecc_zone": "3B-3C-4B-5B", "annual_humidity_tier": "moderate", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "carb-strict", "lead_paint_disclosure_basis": "epa-rrp-strict",
+    "license_status": "required", "license_board_name": "California Contractors State License Board — C-33 (Painting & Decorating)",
+    "license_url": "https://www.cslb.ca.gov/", "permit_typical": "no permit required for repaint; CSLB C-33 license required above $500 contract; CDPH Lead-Related Construction Supervisor required for any pre-1978 housing prep that disturbs paint",
+    "painter_wage_mean_hourly": 28.84, "avg_repaint_low": 4200, "avg_repaint_high": 11800,
+    "distinctive_law": "California SCAQMD Rule 1113 imposes the most restrictive architectural coatings VOC limits in the country at 50 g/L for flat exterior topcoats versus the federal 250 g/L baseline — and California Title 17 §35001 requires a CDPH-certified Lead-Related Construction Supervisor and Lead-Safe Work Practices Worker on every residential repaint that disturbs more than 6 square feet of pre-1978 painted surface, doubling the EPA RRP federal trigger threshold and adding $400-1,200 to typical pre-1978 California exterior repaint scope.",
+    "climate_concern": "California's 22-inch state-average annual rainfall masks dramatic regional UV and salt-spray variation — Pacific coastal Northern California fog corrosion on Eureka and Bay Area wood-lap mandates marine-grade alkyd primer while Central Valley and Southern California arid 320-day sun seasons drive elastomeric stucco coatings, and CAL FIRE Tier 3 WUI overlay across the Sierra foothills, North Coast, and Santa Monica Mountains has driven Class A fire-rated intumescent topcoat retrofit on tens of thousands of wood-substrate exteriors since the 2017-2020 fire seasons."
+  },
+  "CO": {
+    "name": "Colorado", "slug": "colorado", "abbr": "CO",
+    "iecc_zone": "5B-6B-7", "annual_humidity_tier": "low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — Denver, Colorado Springs, Aurora issue municipal contractor credentials",
+    "license_url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development", "permit_typical": "no permit required for repaint; Denver requires Class C contractor registration for residential exterior coating contracts above $2,000",
+    "painter_wage_mean_hourly": 22.48, "avg_repaint_low": 3200, "avg_repaint_high": 9200,
+    "distinctive_law": "Colorado has no statewide painting contractor licensing — the lack of a state credential pushes Front Range homeowners to rely on Denver Class C, Colorado Springs Class B, and Aurora Specialty Contractor municipal credentials, with Denver Department of Excise & Licenses requiring a $5,000 surety bond on every Class C registration and triggering Denver Better Business Bureau disclosure on every licensed-contractor complaint history.",
+    "climate_concern": "Colorado's high-altitude UV exposure exceeds Sun Belt readings by 25-40% above 6,000 ft elevation in Denver, Boulder, and Colorado Springs, driving aggressive south-facing fade on every wood-lap exterior — and Front Range hailstones with 2-inch+ diameter routinely chip primed-but-not-recoated wood substrates during May-June hail season, pushing Class 4 impact-rated elastomeric coatings on hail-prone Denver and Colorado Springs ZIP codes despite the higher per-square-foot material cost."
+  },
+  "CT": {
+    "name": "Connecticut", "slug": "connecticut", "abbr": "CT",
+    "iecc_zone": "5A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Connecticut Department of Consumer Protection — Home Improvement Contractor (HIC) registration; DPH Lead Abatement Contractor for pre-1978 work",
+    "license_url": "https://portal.ct.gov/dcp/license-services-division/license-look-up", "permit_typical": "no permit required for repaint; HIC registration mandatory above $200 contract",
+    "painter_wage_mean_hourly": 26.54, "avg_repaint_low": 3800, "avg_repaint_high": 10800,
+    "distinctive_law": "Connecticut General Statutes §20-419 creates the lowest-threshold mandatory Home Improvement Contractor registration in the country at $200 contract value — every Connecticut residential painter exceeding that figure must hold a HIC registration, with the DCP Guaranty Fund compensating homeowners up to $25,000 per project for HIC-contractor abandonment, and Connecticut DPH Lead Abatement Contractor licensing additionally required on any pre-1978 housing repaint that disturbs more than 1 square foot of painted surface — half the EPA RRP federal trigger.",
+    "climate_concern": "Connecticut's combination of high mature-deciduous tree canopy, 50-inch annual rainfall concentrated in nor'easter rainfall bursts, and 100+ freeze-thaw cycles per winter aggressively cycles wood-lap substrates statewide, driving Connecticut residential repaint cycles to 6-8 years on north-facing elevations — and the state's pre-1978 housing stock concentration in Hartford, New Haven, Bridgeport, and Waterbury triggers the DPH Lead Abatement Contractor requirement on the majority of urban residential repaint scope."
+  },
+  "DE": {
+    "name": "Delaware", "slug": "delaware", "abbr": "DE",
+    "iecc_zone": "4A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Delaware Division of Revenue — Business License (painting contractor)",
+    "license_url": "https://revenue.delaware.gov/services/Business_Tax/", "permit_typical": "no permit required for repaint; Delaware Business License only",
+    "painter_wage_mean_hourly": 23.92, "avg_repaint_low": 3000, "avg_repaint_high": 8400,
+    "distinctive_law": "Delaware is one of the few East Coast states with no specialty painting contractor licensing — every Delaware painting contractor operates under a Delaware Division of Revenue Business License with no examination, bond, or board oversight, leaving Sussex County coastal property owners to rely on Delaware Consumer Protection Unit complaint history and BBB ratings rather than a state credential check, while Delaware adopted the OTC Phase II model rule on architectural coatings VOC limits at 100 g/L for flat exterior topcoats.",
+    "climate_concern": "Delaware Bay coastal salt-spray on Lewes, Rehoboth Beach, and Bethany Beach wood-lap exteriors combined with high summer humidity and concentrated nor'easter rainfall cycles drives marine-grade alkyd primer specification on every Sussex County beach-side repaint — and the state's I-95 corridor pre-1978 housing stock concentration in Wilmington and Newark triggers EPA RRP Lead-Safe Certified work on the majority of New Castle County residential repaint scope."
+  },
+  "FL": {
+    "name": "Florida", "slug": "florida", "abbr": "FL",
+    "iecc_zone": "1A-2A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "none",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Florida Department of Business & Professional Regulation — Construction Industry Licensing Board (Certified or Registered Painting Contractor)",
+    "license_url": "https://www2.myfloridalicense.com/construction-industry/", "permit_typical": "no permit required for repaint; FL DBPR painting contractor license required statewide; HOA approval typical in deed-restricted communities",
+    "painter_wage_mean_hourly": 19.36, "avg_repaint_low": 2800, "avg_repaint_high": 8400,
+    "distinctive_law": "Florida Statute §489.105 makes Florida one of only a handful of states that licenses Painting Contractors as a separately scoped category under the Construction Industry Licensing Board (CILB) — Certified Painting Contractors carry statewide jurisdiction while Registered Painting Contractors are limited to the local-jurisdiction examination county only, with both tiers subject to the CILB's recovery-fund disclosure on every residential repaint contract above $2,500.",
+    "climate_concern": "Florida's combination of 75%+ year-round humidity, 290+ sun-days, and Gulf and Atlantic salt-spray drives the most aggressive exterior coating-failure environment in the continental United States — Miami-Dade, Broward, and Palm Beach coastal stucco repaints typically run on a 5-7 year cycle versus 10-12 years in moderate climates, with elastomeric mid-coat over alkali-resistant primer now the dominant Florida residential coatings spec to bridge the inevitable hairline stucco cracks driven by hurricane-load building flex and persistent thermal expansion."
+  },
+  "GA": {
+    "name": "Georgia", "slug": "georgia", "abbr": "GA",
+    "iecc_zone": "2A-3A-4A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "high", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "fiber-cement", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Georgia State Licensing Board for Residential and General Contractors",
+    "license_url": "https://sos.ga.gov/georgia-state-licensing-board-residential-and-general-contractors", "permit_typical": "no permit required for repaint; residential-basic or residential-light contractor license required above $2,500 contract",
+    "painter_wage_mean_hourly": 19.18, "avg_repaint_low": 2600, "avg_repaint_high": 7600,
+    "distinctive_law": "Georgia Code §43-41 created the State Licensing Board for Residential and General Contractors in 2008, making Georgia one of the most recent Southeast states to centralize residential contractor licensing — every Georgia painting contractor exceeding the $2,500 contract threshold must hold a residential-basic or residential-light license, with mandatory continuing education on EPA RRP lead-safe procedures for Atlanta, Savannah, and Macon historic-district repaint work.",
+    "climate_concern": "Georgia's 75%+ summer humidity combined with Atlanta-Athens heavy pine-pollen surge in the April-May window and high mature-deciduous tree canopy across the Piedmont drives mildew bloom and pollen contamination on every residential exterior coating system — fiber-cement substrates with mildewcide-additive 100% acrylic primer-and-topcoat have become the dominant Atlanta and Savannah suburban repaint spec, with Coastal Georgia salt-air on Tybee and St. Simons mandating marine-grade alkyd primer."
+  },
+  "HI": {
+    "name": "Hawaii", "slug": "hawaii", "abbr": "HI",
+    "iecc_zone": "1A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "none",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Hawaii Department of Commerce & Consumer Affairs — Contractors License Board (C-32 Painting & Decorating)",
+    "license_url": "https://cca.hawaii.gov/pvl/boards/contractor/", "permit_typical": "no permit required for repaint; C-32 specialty license required statewide on contracts above $1,500",
+    "painter_wage_mean_hourly": 27.96, "avg_repaint_low": 4400, "avg_repaint_high": 12800,
+    "distinctive_law": "Hawaii HRS §444 requires every Hawaii painting contractor to hold a Contractors License Board C-32 Painting & Decorating specialty license — Hawaii is also the only state where every island-jurisdiction residential repaint must be performed by a contractor in current standing with the Hawaii Department of Health Lead Hazard Control Program for any pre-1978 housing prep, plus the state requires a $5,000 minimum surety bond on every C-32 contractor license.",
+    "climate_concern": "Hawaii's island-tropical combination of 80%+ year-round humidity, intense low-latitude UV, and persistent Pacific salt-spray on every windward coastal exposure drives the shortest exterior repaint cycle in the United States — typical Hawaii residential exterior coating systems require recoat at 4-6 years on windward elevations versus 10-12 years in moderate continental climates, with marine-grade epoxy primer over chloride-rinsed substrate now the dominant Oahu, Maui, and Kauai windward-coast repaint spec."
+  },
+  "ID": {
+    "name": "Idaho", "slug": "idaho", "abbr": "ID",
+    "iecc_zone": "5B-6B", "annual_humidity_tier": "low", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Idaho Division of Occupational and Professional Licenses — Contractor Registration",
+    "license_url": "https://dopl.idaho.gov/cbe/", "permit_typical": "no permit required for repaint; Idaho Contractor Registration required statewide (no examination)",
+    "painter_wage_mean_hourly": 19.32, "avg_repaint_low": 2600, "avg_repaint_high": 7200,
+    "distinctive_law": "Idaho Code §54-5210 established the Idaho Contractor Registration program in 2005 as a no-exam registration scheme — every Idaho painting contractor must register annually with the Division of Occupational and Professional Licenses, but unlike most state systems Idaho imposes no examination, no surety bond requirement, and no residential recovery fund, leaving Boise, Idaho Falls, and Coeur d'Alene homeowners with only the Idaho Attorney General Consumer Protection Division as a recovery channel.",
+    "climate_concern": "Idaho's 100+ annual freeze-thaw cycles in mountain valleys combined with intense Sun Valley and McCall high-altitude UV exposure drive aggressive caulk-and-recaulk cycles on every wood-lap exterior — and Boise, Twin Falls, and Idaho Falls valley smoke from regional summer wildfire seasons since 2017 has measurably accelerated topcoat soiling and required mid-cycle wash-down on lighter Idaho exterior color schemes, particularly on the standard western red cedar lap dominant in Idaho residential construction."
+  },
+  "IL": {
+    "name": "Illinois", "slug": "illinois", "abbr": "IL",
+    "iecc_zone": "5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — Chicago Department of Buildings issues municipal credentials; IL DPH Lead Abatement Contractor for pre-1978 work",
+    "license_url": "https://www.chicago.gov/city/en/depts/bldgs.html", "permit_typical": "no permit required for repaint; Chicago Class B General Contractor registration required for any city residential repaint contract above $5,000",
+    "painter_wage_mean_hourly": 32.46, "avg_repaint_low": 4200, "avg_repaint_high": 11200,
+    "distinctive_law": "Illinois Lead Poisoning Prevention Act (410 ILCS 45) imposes one of the most restrictive lead-safe regimes in the country — every Illinois residential painting contractor disturbing more than 2 square feet of pre-1978 painted surface must hold an Illinois Department of Public Health Lead Abatement Contractor license with the lead-safe Worker credential additionally required on every crew member, lowering the EPA RRP federal trigger threshold by half and adding $500-1,500 to typical pre-1978 Chicago, Rockford, and Peoria residential repaint scope.",
+    "climate_concern": "Illinois's pre-1978 housing-stock concentration in Chicago's bungalow belt, Rockford, Peoria, and the East St. Louis corridor combined with the state's IL DPH Lead Abatement Contractor license requirement triggers the lead-safe certified work requirement on the majority of urban Illinois residential repaint scope — and Chicago's 90+ annual freeze-thaw cycles drive caulk-and-recaulk on every wood-lap repaint with ice-melt salt-rinse prep on every grade-level wood-trim repaint to neutralize chloride contamination from city snow operations."
+  },
+  "IN": {
+    "name": "Indiana", "slug": "indiana", "abbr": "IN",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — Indianapolis, Fort Wayne, Evansville issue municipal contractor credentials",
+    "license_url": "https://www.indy.gov/agency/department-of-business-and-neighborhood-services", "permit_typical": "no permit required for repaint; Indianapolis Class A Improvement Contractor registration required for any city contract above $5,000",
+    "painter_wage_mean_hourly": 22.18, "avg_repaint_low": 2800, "avg_repaint_high": 7600,
+    "distinctive_law": "Indiana has no statewide painting or general contractor licensing — Indiana Code §25-2.7 explicitly preempts state credentials in favor of municipal regulation, with Indianapolis Department of Business & Neighborhood Services, Fort Wayne Neighborhood Code Enforcement, and Evansville Building Commission each maintaining separate Class A/B contractor registration schedules requiring $10,000 surety bonds on residential exterior contracting work.",
+    "climate_concern": "Indiana's combination of 60%+ summer humidity, central-Midwest pre-1978 housing stock concentration in Indianapolis, Gary, and South Bend, and 80+ annual freeze-thaw cycles drives EPA RRP Lead-Safe Certified work on the majority of urban Indiana residential repaint scope — and central Indiana corn-pollen surge in late July contaminates fresh latex topcoats on Indianapolis-Lafayette suburban repaints, requiring contractor scheduling around the pollen window."
+  },
+  "IA": {
+    "name": "Iowa", "slug": "iowa", "abbr": "IA",
+    "iecc_zone": "5A-6A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Iowa Workforce Development — Construction Contractor Registration",
+    "license_url": "https://www.iowaworkforcedevelopment.gov/division-labor-services-construction-contractor-registration", "permit_typical": "no permit required for repaint; Iowa Construction Contractor Registration required statewide above $2,000 annual gross",
+    "painter_wage_mean_hourly": 24.42, "avg_repaint_low": 2600, "avg_repaint_high": 7200,
+    "distinctive_law": "Iowa Code §91C requires every painting contractor performing more than $2,000 in annual gross construction work in Iowa to register with Iowa Workforce Development — Iowa is unusual in tying contractor registration to annual gross rather than per-project value, capturing every full-time Iowa painting contractor with no examination, no surety bond requirement, and no recovery fund, leaving consumer recourse to the Iowa Attorney General Consumer Protection Division.",
+    "climate_concern": "Iowa's 90+ annual freeze-thaw cycles combined with intense central-plains corn-pollen and soybean-dust contamination during the August-September harvest season measurably soils fresh latex topcoats on every Iowa exterior repaint — and Iowa's vinyl-siding-dominant residential stock since the 1990s shifts the typical Iowa painting scope toward trim-only painting on most homes built post-1995, with full exterior repaint demand concentrated in Des Moines, Cedar Rapids, and Davenport historic neighborhoods."
+  },
+  "KS": {
+    "name": "Kansas", "slug": "kansas", "abbr": "KS",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "none", "license_board_name": "No statewide painting license; Wichita, Overland Park, Kansas City KS issue municipal contractor credentials",
+    "license_url": "https://www.wichita.gov/Government/Departments/MBS/Pages/default.aspx", "permit_typical": "no permit required for repaint; municipal contractor registration required in Wichita and Overland Park",
+    "painter_wage_mean_hourly": 20.64, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "Kansas has no state-level contractor licensing for painting, drywall, or general residential building work — Kansas Statute §75-2935 reserves all construction trade regulation to municipalities, leaving Kansas one of only four states with zero state credential requirement for residential painting, and forcing Wichita Metropolitan Building Standards, Overland Park Community Development, and Kansas City KS Code Enforcement to operate independent contractor registration schedules with no reciprocity across city boundaries.",
+    "climate_concern": "Kansas's central-plains hailstorms produce 2-inch+ diameter stones routinely across the entire state during the April-June severe weather season, chipping primed-but-not-recoated wood substrates and necessitating Class 4 impact-rated elastomeric coatings on hail-prone Wichita, Topeka, and Garden City ZIP codes — and Kansas dust-storm contamination during high-wind spring events grits unprotected fresh latex topcoats statewide, particularly on west-facing Western Kansas exterior elevations."
+  },
+  "KY": {
+    "name": "Kentucky", "slug": "kentucky", "abbr": "KY",
+    "iecc_zone": "4A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "brick-veneer", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — Louisville Metro and Lexington-Fayette Urban County issue municipal contractor credentials",
+    "license_url": "https://louisvilleky.gov/government/codes-regulations", "permit_typical": "no permit required for repaint; Louisville Metro contractor registration required for residential exterior contracting above $5,000",
+    "painter_wage_mean_hourly": 20.98, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "Kentucky has no statewide residential painting contractor licensing — Louisville Metro Department of Codes & Regulations and Lexington-Fayette Urban County Government Building Inspection each operate independent contractor registration schedules, with Louisville Metro requiring a $25,000 surety bond on Class A General Contractor registration for any residential exterior contracting work above $5,000, the highest municipal painting-contractor surety floor in the Ohio Valley.",
+    "climate_concern": "Kentucky's Bluegrass region pre-1978 housing stock concentration in Louisville's Old Louisville and Lexington's Chevy Chase historic neighborhoods triggers EPA RRP Lead-Safe Certified work on the majority of urban Kentucky residential repaint scope — and Kentucky's brick-veneer-dominant residential stock shifts typical painting scope toward trim, wood-window, and door painting on most Louisville and Lexington homes, with full-elevation repaint demand concentrated in Eastern Kentucky Appalachian wood-lap housing stock."
+  },
+  "LA": {
+    "name": "Louisiana", "slug": "louisiana", "abbr": "LA",
+    "iecc_zone": "2A-3A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Louisiana State Licensing Board for Contractors — Residential Building Contractor or Painting Specialty",
+    "license_url": "https://www.lslbc.louisiana.gov/", "permit_typical": "no permit required for repaint; LSLBC residential license required above $7,500 contract; New Orleans HDLC review required in historic districts",
+    "painter_wage_mean_hourly": 19.84, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Louisiana RS §37:2156 requires every Louisiana painting contractor exceeding the $7,500 residential threshold to hold a Louisiana State Licensing Board for Contractors Painting Specialty or Residential Building Contractor license — and the New Orleans Historic District Landmarks Commission additionally requires HDLC color-palette and surface-treatment approval on every repaint scope in the French Quarter, Garden District, Faubourg Marigny, and 18 other designated NOLA historic districts, adding 30-90 day review timelines on every covered repaint.",
+    "climate_concern": "Louisiana's combination of 80%+ year-round humidity, persistent Gulf salt-spray on every coastal exposure from Cameron to Plaquemines, and the longest residential mildew-growing season in the continental U.S. drives the shortest mainland exterior repaint cycle outside Florida and Hawaii — New Orleans, Baton Rouge, and Lafayette wood-lap exteriors typically require recoat at 5-7 years versus 10-12 years in moderate climates, with mildewcide-additive 100% acrylic primer-and-topcoat now the dominant southern-Louisiana residential coatings spec."
+  },
+  "ME": {
+    "name": "Maine", "slug": "maine", "abbr": "ME",
+    "iecc_zone": "6A-7", "annual_humidity_tier": "moderate", "uv_exposure_tier": "low", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "none", "license_board_name": "No statewide painting license; Maine CDC Childhood Lead Poisoning Prevention Program licenses pre-1978 work",
+    "license_url": "https://www.maine.gov/dhhs/mecdc/environmental-health/eohp/lead/", "permit_typical": "no permit required for repaint; Maine Lead Hazard Reduction Contractor required for pre-1978 housing prep above 2 sq ft disturbed",
+    "painter_wage_mean_hourly": 22.92, "avg_repaint_low": 3200, "avg_repaint_high": 8600,
+    "distinctive_law": "Maine has no general residential painting contractor license, but Maine 22 MRS §1322 requires a Maine CDC Lead Hazard Reduction Contractor credential on every pre-1978 housing repaint that disturbs more than 2 square feet of painted surface — half the EPA RRP federal trigger of 6 sq ft and applied across the entire state's pre-1978 housing stock, which dominates Portland, Lewiston, Bangor, and Augusta residential neighborhoods.",
+    "climate_concern": "Maine's combination of 100+ annual freeze-thaw cycles in interior climate zones 6A-7, North Atlantic salt-spray on every coastal exposure from Kittery to Eastport, and the highest concentration of pre-1900 wood-frame housing stock in the country drives Maine residential exterior repaint cycles to 5-7 years on coastal elevations — and Penobscot Bay, Casco Bay, and Mount Desert Island salt-air mandates marine-grade alkyd primer with stainless-steel fastener replacement during prep on every coastal Maine repaint."
+  },
+  "MD": {
+    "name": "Maryland", "slug": "maryland", "abbr": "MD",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "brick-veneer", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Maryland Home Improvement Commission (MHIC) — Home Improvement Contractor",
+    "license_url": "https://www.dllr.state.md.us/license/mhic/", "permit_typical": "no permit required for repaint; MHIC license required above $500 contract; MDE Lead Paint Accreditation required for pre-1978 work",
+    "painter_wage_mean_hourly": 23.86, "avg_repaint_low": 3000, "avg_repaint_high": 8400,
+    "distinctive_law": "Maryland Business Regulation §8-301 requires every Maryland painting contractor exceeding the $500 residential threshold to hold a Maryland Home Improvement Commission (MHIC) Home Improvement Contractor license — and Maryland Environment Article §6-8 separately requires MDE Lead Paint Accreditation on every pre-1978 housing repaint that disturbs more than 1 square foot of painted surface, lowering the EPA RRP federal trigger threshold by 6x and capturing the majority of Baltimore, Frederick, and Cumberland residential repaint scope.",
+    "climate_concern": "Maryland's pre-1978 housing-stock concentration in Baltimore's rowhouse districts and Frederick's historic core triggers MDE Lead Paint Accreditation on the majority of urban Maryland residential repaint scope — and Maryland's brick-veneer-dominant residential stock shifts typical painting scope toward Baltimore-style painted-brick rowhouse formstone refresh, trim painting, and window-sash repaint with elastomeric masonry coatings dominating Baltimore City rowhouse exterior repaint specifications."
+  },
+  "MA": {
+    "name": "Massachusetts", "slug": "massachusetts", "abbr": "MA",
+    "iecc_zone": "5A-6A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Massachusetts Office of Consumer Affairs — Home Improvement Contractor (HIC) registration; MassDPH Lead-Safe Renovator required for pre-1978 work",
+    "license_url": "https://www.mass.gov/orgs/home-improvement-contractor-program", "permit_typical": "no permit required for repaint; HIC registration required above $1,000 contract; MassDPH Lead-Safe Renovator required for pre-1978 prep",
+    "painter_wage_mean_hourly": 28.42, "avg_repaint_low": 3800, "avg_repaint_high": 10800,
+    "distinctive_law": "Massachusetts 105 CMR 460 imposes the most restrictive lead-paint regime in the country on rental housing — every Massachusetts repaint that disturbs pre-1978 painted surfaces in housing units occupied by children under six must achieve a MassDPH Letter of Compliance (deleading) or Letter of Interim Control, requiring a licensed deleader plus MassDPH project notification, and the Massachusetts HIC Guaranty Fund compensates homeowners up to $10,000 per project for HIC-contractor breach on residential repaint contracts.",
+    "climate_concern": "Massachusetts's combination of 100+ annual freeze-thaw cycles in interior climate zone 5A-6A, North Atlantic salt-spray on Cape Cod and the South Shore, and the highest pre-1978 housing-stock density in the country drives the most expensive average exterior repaint cycle in New England — Boston, Cambridge, Worcester, and Springfield wood-lap repaints typically average 30-50% higher per-square-foot than national norms once MassDPH lead-safe procedures and HIC Guaranty Fund participation are factored into contractor pricing."
+  },
+  "MI": {
+    "name": "Michigan", "slug": "michigan", "abbr": "MI",
+    "iecc_zone": "5A-6A-7", "annual_humidity_tier": "moderate", "uv_exposure_tier": "low", "salt_corrosion_zone": "low", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Michigan Department of Licensing and Regulatory Affairs — Residential Builder or Maintenance & Alteration Contractor (Painting & Decorating)",
+    "license_url": "https://www.michigan.gov/lara/bureau-list/bcc/divisions/licensing-section", "permit_typical": "no permit required for repaint; Michigan M&A Contractor (Painting & Decorating) license required above $600 contract",
+    "painter_wage_mean_hourly": 22.84, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Michigan PA 299 of 1980 created the Maintenance & Alteration Contractor (Painting & Decorating) specialty license — Michigan is one of only a handful of states with painting as its own specialty trade license rather than rolled up under general residential building, and Michigan additionally maintains a separately-licensed Lead Abatement Contractor scheme through Michigan EGLE for any pre-1978 housing repaint that disturbs more than 2 square feet of painted surface.",
+    "climate_concern": "Michigan's combination of 100+ annual freeze-thaw cycles, Great Lakes lake-effect humidity along Lake Michigan and Lake Huron, and Michigan road-salt chloride contamination on grade-level exterior wood-trim drives caulk-and-recaulk on every Michigan exterior repaint and chloride-rinse prep on grade-level wood substrates — and Michigan's pre-1978 housing-stock concentration in Detroit, Flint, Saginaw, and Grand Rapids triggers Michigan EGLE Lead Abatement Contractor credentialing on the majority of urban Michigan repaint scope."
+  },
+  "MN": {
+    "name": "Minnesota", "slug": "minnesota", "abbr": "MN",
+    "iecc_zone": "6A-7", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Minnesota Department of Labor & Industry — Residential Building Contractor or Specialty (Painting)",
+    "license_url": "https://www.dli.mn.gov/business/contractors", "permit_typical": "no permit required for repaint; DLI residential contractor license required above $15,000 annual gross",
+    "painter_wage_mean_hourly": 28.36, "avg_repaint_low": 3000, "avg_repaint_high": 8400,
+    "distinctive_law": "Minnesota Statute §326B requires every Minnesota painting contractor performing more than $15,000 in annual gross residential construction work to hold a Minnesota Department of Labor & Industry Residential Building Contractor or Painting Specialty license — and Minnesota separately maintains the Minnesota Department of Health Lead Hazard Reduction Contractor credential under Minnesota Rules 4761 for any pre-1978 housing prep, with the Minnesota Contractor Recovery Fund compensating homeowners up to $75,000 per project, the highest residential recovery cap in the country.",
+    "climate_concern": "Minnesota's 110+ annual freeze-thaw cycles and -30°F winter low temperatures across the entire state drive the most aggressive wood-substrate cycling environment in the Lower 48 — and Minnesota road-salt chloride contamination on grade-level exterior trim plus Twin Cities lake-aerosol from Lake Minnetonka, Lake Calhoun, and 10,000+ regional lakes drives caulk-and-recaulk on every wood-lap repaint with mid-cycle wash-down on lighter Minnesota exterior color schemes."
+  },
+  "MS": {
+    "name": "Mississippi", "slug": "mississippi", "abbr": "MS",
+    "iecc_zone": "2A-3A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "high", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Mississippi State Board of Contractors — Residential Builder or Specialty",
+    "license_url": "https://www.msboc.us/", "permit_typical": "no permit required for repaint; MSBC residential license required above $50,000 contract or $10,000 in annual gross",
+    "painter_wage_mean_hourly": 17.46, "avg_repaint_low": 2200, "avg_repaint_high": 6200,
+    "distinctive_law": "Mississippi Code §31-3-15 sets one of the highest residential contracting thresholds at $50,000 per project — Mississippi State Board of Contractors only requires a Residential Builder license above that figure, leaving most Mississippi residential repaint contractors operating below the threshold without state credentials and with consumer recourse limited to the Mississippi Attorney General Consumer Protection Division and small-claims court.",
+    "climate_concern": "Mississippi's combination of 75%+ year-round humidity, persistent Gulf salt-spray on Hancock, Harrison, and Jackson coastal counties, and the longest residential mildew-growing season in the country outside Florida and Louisiana drives mildewcide-additive 100% acrylic primer-and-topcoat as the dominant Mississippi residential coatings spec — and the state's pre-1978 housing-stock concentration in Jackson, Hattiesburg, and Vicksburg triggers EPA RRP Lead-Safe Certified work on the majority of historic-district repaint scope."
+  },
+  "MO": {
+    "name": "Missouri", "slug": "missouri", "abbr": "MO",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — St. Louis, Kansas City MO, Springfield issue municipal contractor credentials",
+    "license_url": "https://www.stlouis-mo.gov/government/departments/public-safety/building/", "permit_typical": "no permit required for repaint; St. Louis Class B contractor registration required for residential exterior contracting above $5,000",
+    "painter_wage_mean_hourly": 27.62, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Missouri has no statewide residential painting contractor licensing — Missouri Revised Statutes §700 reserves construction trade regulation to municipalities, but Missouri DHSS separately maintains a Lead Abatement Contractor license under 19 CSR 30-70 for any pre-1978 housing prep that disturbs more than 2 square feet of painted surface in St. Louis, Kansas City, and St. Joseph, lowering the EPA RRP federal trigger threshold and capturing the majority of urban Missouri repaint scope.",
+    "climate_concern": "Missouri's central-Midwest pre-1978 housing-stock concentration in St. Louis Central West End, Soulard, Lafayette Square, Kansas City Old Northeast, and Springfield's Walnut Street historic district triggers Missouri DHSS Lead Abatement Contractor credentialing on the majority of urban Missouri residential repaint scope — and Missouri's brick-veneer-dominant inner-city housing stock drives elastomeric masonry coatings on Missouri urban repaint specifications, with full-elevation wood-lap repaint demand concentrated in Ozark and Bootheel rural Missouri housing stock."
+  },
+  "MT": {
+    "name": "Montana", "slug": "montana", "abbr": "MT",
+    "iecc_zone": "6B-7", "annual_humidity_tier": "low", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Montana Department of Labor & Industry — Independent Contractor Registration",
+    "license_url": "https://erd.dli.mt.gov/work-comp-claims/independent-contractor-central-unit/", "permit_typical": "no permit required for repaint; Montana Independent Contractor Registration required statewide (workers' compensation focus, no exam)",
+    "painter_wage_mean_hourly": 21.64, "avg_repaint_low": 2800, "avg_repaint_high": 7600,
+    "distinctive_law": "Montana Code §39-71-417 created the Montana Independent Contractor Registration program in 1987 as a workers'-compensation-focused registration — every Montana painting contractor must register annually with Montana DLI but the program imposes no examination, no surety bond, and no recovery fund, focusing exclusively on workers'-compensation election and IRS contractor-status documentation, leaving Bozeman, Billings, and Missoula homeowners with only the Montana Office of Consumer Protection as a recovery channel.",
+    "climate_concern": "Montana's 110+ annual freeze-thaw cycles in mountain valleys combined with intense Big Sky high-altitude UV exposure drive the most aggressive wood-substrate cycling outside Alaska and the Dakotas — and Bozeman, Missoula, and Helena valley smoke from regional summer wildfire seasons since 2017 has measurably accelerated topcoat soiling and required mid-cycle wash-down on lighter Montana exterior color schemes, particularly on the standard western red cedar lap dominant in Montana residential construction."
+  },
+  "NE": {
+    "name": "Nebraska", "slug": "nebraska", "abbr": "NE",
+    "iecc_zone": "5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Nebraska Department of Labor — Contractor Registration",
+    "license_url": "https://dol.nebraska.gov/", "permit_typical": "no permit required for repaint; Nebraska Contractor Registration required statewide above $2,500 annual gross",
+    "painter_wage_mean_hourly": 21.42, "avg_repaint_low": 2400, "avg_repaint_high": 6600,
+    "distinctive_law": "Nebraska Revised Statute §48-2103 requires every Nebraska painting contractor performing more than $2,500 in annual gross construction work to register with the Nebraska Department of Labor — Nebraska is one of the lowest-threshold registration states in the country, with the Department of Labor focus on workers'-compensation election rather than examination or bond, and consumer recovery limited to the Nebraska Attorney General Consumer Protection Division.",
+    "climate_concern": "Nebraska's central-plains hailstorms produce 2-inch+ diameter stones routinely across the entire state during the April-June severe weather season — and Lincoln-Omaha winter chinook wind events cycle exterior temperatures dramatically over short periods, driving caulk-and-recaulk on every wood-lap repaint with Western Nebraska valley dust contamination from Sandhills and Panhandle wind events gritting unprotected fresh latex topcoats on west-facing exterior elevations."
+  },
+  "NV": {
+    "name": "Nevada", "slug": "nevada", "abbr": "NV",
+    "iecc_zone": "3B-4B-5B", "annual_humidity_tier": "very-low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Nevada State Contractors Board — license C-26 (Painting & Decorating)",
+    "license_url": "https://nvcontractorsboard.com/", "permit_typical": "no permit required for repaint; NSCB C-26 specialty license required statewide on contracts above $1,000",
+    "painter_wage_mean_hourly": 22.94, "avg_repaint_low": 3200, "avg_repaint_high": 8800,
+    "distinctive_law": "Nevada NRS §624 requires every Nevada painting contractor exceeding the $1,000 residential threshold to hold a Nevada State Contractors Board C-26 Painting & Decorating specialty license — and the NSCB Residential Recovery Fund compensates Nevada homeowners up to $40,000 per single-family residence for licensed-contractor abandonment or breach on residential repaint work, the highest residential recovery cap in the Mountain West.",
+    "climate_concern": "Nevada's 320+ annual sun-days and the highest UV exposure outside Arizona drive aggressive chalking and fade on every south- and west-facing stucco elevation across Las Vegas, Reno, and Henderson — exterior repaint cycles run 5-7 years on premium 100% acrylic elastomeric versus 8-10 years in lower-UV climates, with Sun Belt-rated UV-stabilized binders and high-PVC titanium-dioxide topcoats now standard on every Las Vegas and Reno stucco repaint, and Lake Tahoe high-altitude UV further intensifying coating fade above 6,000 ft elevation."
+  },
+  "NH": {
+    "name": "New Hampshire", "slug": "new-hampshire", "abbr": "NH",
+    "iecc_zone": "5A-6A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "none", "license_board_name": "No statewide painting license; NH DHHS Lead Abatement Worker required for pre-1978 work",
+    "license_url": "https://www.dhhs.nh.gov/programs-services/health-care/healthy-homes-environment/childhood-lead-poisoning-prevention", "permit_typical": "no permit required for repaint; NH DHHS Lead Abatement Worker required for pre-1978 housing prep",
+    "painter_wage_mean_hourly": 23.42, "avg_repaint_low": 3200, "avg_repaint_high": 8600,
+    "distinctive_law": "New Hampshire has no statewide residential painting contractor licensing — the Live Free or Die contractor regulation framework leaves general residential painting unlicensed, but NH DHHS He-P 1600 separately requires a Lead Abatement Worker credential on every pre-1978 housing prep that disturbs more than 2 square feet of painted surface, capturing the majority of Manchester, Concord, Nashua, and Portsmouth pre-1978 residential repaint scope.",
+    "climate_concern": "New Hampshire's combination of 100+ annual freeze-thaw cycles in interior climate zones 5A-6A, North Atlantic salt-spray on the Seacoast from Hampton to Portsmouth, and high pre-1978 wood-frame housing stock concentration in Manchester, Nashua, and Concord drives Granite State exterior repaint cycles to 6-8 years on coastal elevations — and White Mountains intense fall-season foliage tannin contamination on east-facing exterior elevations measurably stains light-color fresh latex topcoats statewide."
+  },
+  "NJ": {
+    "name": "New Jersey", "slug": "new-jersey", "abbr": "NJ",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "registration", "license_board_name": "New Jersey Division of Consumer Affairs — Home Improvement Contractor (HIC) registration; NJ DCA Lead Evaluation Contractor for pre-1978 work",
+    "license_url": "https://www.njconsumeraffairs.gov/regulatedbusiness/Pages/Home-Improvement-Contractors.aspx", "permit_typical": "no permit required for repaint; HIC registration required above $500 contract; NJ DCA Lead Evaluation Contractor required for pre-1978 prep",
+    "painter_wage_mean_hourly": 31.84, "avg_repaint_low": 3800, "avg_repaint_high": 10800,
+    "distinctive_law": "New Jersey N.J.S.A. 56:8-136 (Contractors' Registration Act) requires every New Jersey painting contractor exceeding the $500 residential threshold to register with the Division of Consumer Affairs as a Home Improvement Contractor — and N.J.S.A. 52:27D-437.16 separately requires NJ DCA Lead Evaluation Contractor or Lead Abatement Contractor credentialing on every pre-1978 rental-housing repaint that disturbs more than 1 square foot of painted surface, with the New Jersey Childhood Lead Poisoning Prevention Act capturing the majority of urban pre-1978 New Jersey residential repaint scope.",
+    "climate_concern": "New Jersey's combination of Atlantic coastal salt-spray on every Cape May, Atlantic, and Monmouth county exposure, persistent I-95 corridor humidity, and the highest pre-1978 housing-stock density in the Mid-Atlantic drives the most expensive average exterior repaint cycle in the Garden State — Newark, Jersey City, Paterson, and Elizabeth wood-lap repaints typically average 25-40% higher per-square-foot than national norms once NJ DCA lead-safe procedures, HIC compliance, and Jersey Shore marine-grade primer specs are factored into contractor pricing."
+  },
+  "NM": {
+    "name": "New Mexico", "slug": "new-mexico", "abbr": "NM",
+    "iecc_zone": "4B-5B", "annual_humidity_tier": "very-low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "New Mexico Regulation & Licensing Department — Construction Industries Division (PR-2 Painting & Wallcovering)",
+    "license_url": "https://www.rld.nm.gov/construction-industries/", "permit_typical": "no permit required for repaint; PR-2 specialty contractor license required statewide on contracts above $7,200",
+    "painter_wage_mean_hourly": 17.84, "avg_repaint_low": 2600, "avg_repaint_high": 7600,
+    "distinctive_law": "New Mexico NMSA §60-13 requires every New Mexico painting contractor exceeding the $7,200 residential threshold to hold a Construction Industries Division PR-2 Painting & Wallcovering specialty license — New Mexico is one of only a handful of Mountain West states with painting as its own specialty trade license, and the CID Construction Industries Division separately requires Albuquerque and Santa Fe historic-district contractors to satisfy adobe and lime-stucco substrate-prep continuing-education requirements.",
+    "climate_concern": "New Mexico's 280+ annual sun-days combined with high-altitude UV exposure exceeding 7,000 ft elevation in Santa Fe, Taos, and Los Alamos drives aggressive chalking and fade on every south- and west-facing stucco and adobe elevation — and Santa Fe and Taos historic-district adobe substrates require lime-based or silicate mineral coatings rather than standard latex acrylic to maintain vapor permeability and prevent moisture-trapping spalling, with elastomeric coatings explicitly prohibited on adobe substrate by Santa Fe HDRB historic-district review."
+  },
+  "NY": {
+    "name": "New York", "slug": "new-york", "abbr": "NY",
+    "iecc_zone": "4A-5A-6A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — NYC Department of Consumer & Worker Protection issues municipal contractor credentials; NY State DOH Lead Hazard Reduction Contractor required for pre-1978 work",
+    "license_url": "https://www.nyc.gov/site/dca/businesses/license-checklist-home-improvement-contractor.page", "permit_typical": "no permit required for repaint; NYC HIC license required above $200 contract within five boroughs; NY State DOH Lead Hazard Reduction Contractor required for pre-1978 prep",
+    "painter_wage_mean_hourly": 35.42, "avg_repaint_low": 4200, "avg_repaint_high": 12400,
+    "distinctive_law": "New York City Administrative Code §20-386 imposes the most restrictive municipal home-improvement contractor scheme in the country — every NYC residential painting contractor exceeding the $200 contract threshold must hold a NYC Department of Consumer & Worker Protection HIC license with a $20,000 surety bond on file, and Local Law 1 of 2004 plus NYC Health Code §173.13 separately impose enhanced lead-safe work practice requirements on every pre-1960 NYC residential repaint that disturbs more than 2 square feet of painted surface, the most restrictive municipal lead-safe trigger in the country.",
+    "climate_concern": "New York's combination of 100+ annual freeze-thaw cycles in Upstate climate zones 5A-6A, Long Island Sound and Atlantic coastal salt-spray, and the highest pre-1960 housing-stock density in the country drives the most expensive average exterior repaint cycle in the Northeast — NYC, Buffalo, Rochester, Syracuse, and Albany wood-lap and brick-veneer repaints typically run 30-60% higher per-square-foot than national norms once NYC HIC compliance, NY State DOH lead-safe procedures, and Long Island marine-grade primer specs are factored into contractor pricing."
+  },
+  "NC": {
+    "name": "North Carolina", "slug": "north-carolina", "abbr": "NC",
+    "iecc_zone": "3A-4A-5A", "annual_humidity_tier": "high", "uv_exposure_tier": "high", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "fiber-cement", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "North Carolina Licensing Board for General Contractors (NCLBGC) — required above $40,000 contract",
+    "license_url": "https://www.nclbgc.org/", "permit_typical": "no permit required for repaint; NCLBGC General Contractor license required above $40,000 contract",
+    "painter_wage_mean_hourly": 19.74, "avg_repaint_low": 2600, "avg_repaint_high": 7600,
+    "distinctive_law": "North Carolina General Statutes §87-1 sets the residential general contracting threshold at $40,000 — the highest in the Southeast — leaving most North Carolina residential repaint contractors operating below the threshold without state credentials and with consumer recourse limited to small-claims court and the North Carolina Department of Justice Consumer Protection Division, while Charlotte and Raleigh historic districts impose separate municipal HDC review on coating-color and substrate-prep approval.",
+    "climate_concern": "North Carolina's combination of 75%+ summer humidity, intense Piedmont and Coastal Plain pine-pollen surge in the April-May window, and the high North Carolina mature-deciduous tree canopy drives mildew bloom and pollen contamination on every Charlotte, Raleigh, Greensboro, and Wilmington residential exterior coating system — fiber-cement substrates with mildewcide-additive 100% acrylic primer-and-topcoat have become the dominant North Carolina suburban repaint spec, with Outer Banks salt-air on Cape Hatteras, Nags Head, and Ocracoke mandating marine-grade alkyd primer."
+  },
+  "ND": {
+    "name": "North Dakota", "slug": "north-dakota", "abbr": "ND",
+    "iecc_zone": "6A-7", "annual_humidity_tier": "low", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "North Dakota Secretary of State — Contractor License",
+    "license_url": "https://sos.nd.gov/business/contractors", "permit_typical": "no permit required for repaint; ND Contractor License required statewide above $4,000 contract",
+    "painter_wage_mean_hourly": 24.64, "avg_repaint_low": 2800, "avg_repaint_high": 7400,
+    "distinctive_law": "North Dakota Century Code §43-07 requires every North Dakota painting contractor exceeding the $4,000 residential threshold to hold a Secretary of State Contractor License — and the North Dakota Contractor License is unusual in being administered by the Secretary of State rather than a dedicated contractor licensing board, with classifications by contract-value tier (Class A through Class D) requiring proportionally higher financial responsibility and net-worth disclosure on each tier above $4,000.",
+    "climate_concern": "North Dakota's 110+ annual freeze-thaw cycles and -40°F winter low temperatures across the entire state combined with extreme diurnal temperature swings drive the most aggressive wood-substrate cycling environment in the Lower 48 — and Bakken oil-patch fugitive dust contamination in the Williston, Tioga, and Watford City corridor measurably soils fresh latex topcoats during the April-October active-rig season, particularly on west-facing exterior elevations adjacent to truck-traffic corridors."
+  },
+  "OH": {
+    "name": "Ohio", "slug": "ohio", "abbr": "OH",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "municipal-only", "license_board_name": "No statewide painting license — Cleveland, Columbus, Cincinnati issue municipal contractor credentials; Ohio Department of Health Lead Abatement Contractor for pre-1978 work",
+    "license_url": "https://odh.ohio.gov/wps/portal/gov/odh/know-our-programs/childhood-lead-poisoning-prevention", "permit_typical": "no permit required for repaint; municipal contractor registration required in Cleveland, Cincinnati, and Columbus on residential exterior contracting above $5,000",
+    "painter_wage_mean_hourly": 24.42, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Ohio has no statewide residential painting contractor licensing — Ohio Revised Code §4740 reserves general construction trade regulation to municipalities, but Ohio Administrative Code 3701-32 separately requires Ohio Department of Health Lead Abatement Contractor and Lead Abatement Worker credentialing on every pre-1978 housing repaint that disturbs more than 2 square feet of painted surface, capturing the majority of Cleveland, Cincinnati, Columbus, Toledo, Youngstown, and Akron pre-1978 residential repaint scope.",
+    "climate_concern": "Ohio's combination of 100+ annual freeze-thaw cycles in the Western Reserve and Allegheny Plateau, Lake Erie lake-effect humidity along the Cleveland-Toledo corridor, and the highest pre-1900 housing-stock density in the Midwest drives Ohio Department of Health Lead Abatement Contractor credentialing on the majority of urban Ohio residential repaint scope — and Ohio road-salt chloride contamination on grade-level exterior wood-trim from Ohio Department of Transportation snow operations drives chloride-rinse prep on every grade-level wood-trim repaint statewide."
+  },
+  "OK": {
+    "name": "Oklahoma", "slug": "oklahoma", "abbr": "OK",
+    "iecc_zone": "3A-4A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "registration", "license_board_name": "Oklahoma Construction Industries Board (Roofing & Painting registration via municipal channels)",
+    "license_url": "https://www.ok.gov/cib/", "permit_typical": "no permit required for repaint; Oklahoma City and Tulsa municipal contractor registration required for residential exterior contracting above $5,000",
+    "painter_wage_mean_hourly": 18.84, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "Oklahoma has no statewide residential painting contractor licensing — Oklahoma 59 OS §1000 limits the Construction Industries Board to plumbing, electrical, mechanical, and roofing trades only, leaving Oklahoma residential painting contracting unregulated at the state level and forcing Oklahoma City Department of Code Enforcement and Tulsa Permit Center to operate independent contractor registration schedules requiring $10,000 surety bonds on residential exterior contracting work.",
+    "climate_concern": "Oklahoma's central-plains hailstorms produce 2-inch+ diameter stones routinely across the entire state during the April-June severe weather season, chipping primed-but-not-recoated wood substrates and necessitating Class 4 impact-rated elastomeric coatings on hail-prone Oklahoma City, Tulsa, Edmond, and Norman ZIP codes — and Oklahoma red-clay dust contamination during high-wind spring events grits unprotected fresh latex topcoats statewide, particularly on west-facing Oklahoma exterior elevations adjacent to unpaved roads."
+  },
+  "OR": {
+    "name": "Oregon", "slug": "oregon", "abbr": "OR",
+    "iecc_zone": "4C-5B", "annual_humidity_tier": "high", "uv_exposure_tier": "low", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "carb-strict", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Oregon Construction Contractors Board (CCB) — Residential General Contractor or Specialty",
+    "license_url": "https://www.oregon.gov/ccb/", "permit_typical": "no permit required for repaint; CCB license required statewide on every contract regardless of value; CCB Lead-Based Paint Renovation, Repair & Painting (LBPRRP) endorsement required for pre-1978 work",
+    "painter_wage_mean_hourly": 26.42, "avg_repaint_low": 3400, "avg_repaint_high": 9400,
+    "distinctive_law": "Oregon ORS §701 requires every Oregon painting contractor to hold a Construction Contractors Board (CCB) license regardless of contract value — Oregon is one of only two states with no contract-value threshold for residential contractor licensing, and the CCB Lead-Based Paint Renovation, Repair & Painting (LBPRRP) endorsement is additionally required on every pre-1978 housing repaint, with Oregon DEQ separately imposing the strictest VOC limits in the country at 50 g/L for flat exterior topcoats matching California SCAQMD Rule 1113.",
+    "climate_concern": "Oregon's Willamette Valley combination of 40+ inches annual rainfall concentrated in the October-May wet season, persistent Pacific Northwest mildew growing conditions, and Coast Range wood-substrate moisture cycling drives Oregon residential exterior repaint cycles to 6-8 years on north-facing and shaded elevations — and Oregon Coast salt-spray on Astoria, Newport, Coos Bay, and Brookings wood-lap exteriors mandates marine-grade alkyd primer with stainless-steel fastener replacement during prep on every coastal Oregon repaint."
+  },
+  "PA": {
+    "name": "Pennsylvania", "slug": "pennsylvania", "abbr": "PA",
+    "iecc_zone": "4A-5A-6A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "low", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "registration", "license_board_name": "Pennsylvania Office of Attorney General — Home Improvement Contractor (HIC) registration",
+    "license_url": "https://www.attorneygeneral.gov/protect-yourself/consumer-protection/home-improvement-consumer-protection-act/", "permit_typical": "no permit required for repaint; PA HIC registration required above $5,000 annual gross",
+    "painter_wage_mean_hourly": 23.42, "avg_repaint_low": 3000, "avg_repaint_high": 8400,
+    "distinctive_law": "Pennsylvania's Home Improvement Consumer Protection Act (73 P.S. §517) requires every Pennsylvania painting contractor performing more than $5,000 in annual gross residential construction work to register with the Pennsylvania Office of Attorney General — Pennsylvania is one of the few states where home-improvement contractor registration is administered by the Attorney General rather than a dedicated licensing board, and the HICPA additionally imposes mandatory written-contract, three-day-rescission, and warranty-disclosure requirements on every covered residential exterior repaint contract.",
+    "climate_concern": "Pennsylvania's combination of 100+ annual freeze-thaw cycles in the Allegheny Plateau and Pocono Mountains, persistent Susquehanna and Delaware Valley humidity, and the highest pre-1900 housing-stock density in the Mid-Atlantic drives Pennsylvania residential exterior repaint cycles to 6-8 years on north-facing elevations — and Philadelphia, Pittsburgh, Allentown, and Erie pre-1978 housing-stock concentration triggers EPA RRP Lead-Safe Certified work on the majority of urban Pennsylvania residential repaint scope."
+  },
+  "RI": {
+    "name": "Rhode Island", "slug": "rhode-island", "abbr": "RI",
+    "iecc_zone": "5A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "registration", "license_board_name": "Rhode Island Contractors Registration & Licensing Board (CRLB); RI DOH Lead Hazard Reduction Contractor for pre-1978 work",
+    "license_url": "https://crb.ri.gov/", "permit_typical": "no permit required for repaint; CRLB Contractor Registration required statewide regardless of contract value; RI DOH Lead Hazard Reduction Contractor required for pre-1978 prep",
+    "painter_wage_mean_hourly": 25.84, "avg_repaint_low": 3400, "avg_repaint_high": 9200,
+    "distinctive_law": "Rhode Island General Laws §5-65 requires every Rhode Island painting contractor to register with the Contractors Registration & Licensing Board (CRLB) regardless of contract value — Rhode Island is one of only two states with no contract-value threshold for residential contractor registration, and the Rhode Island Lead Hazard Mitigation Act (R.I. Gen. Laws §42-128.1) separately requires RI DOH Lead Hazard Reduction Contractor credentialing on every pre-1978 rental-housing repaint, the most restrictive lead-safe regime in the country alongside Massachusetts 105 CMR 460.",
+    "climate_concern": "Rhode Island's combination of 100+ annual freeze-thaw cycles, North Atlantic salt-spray on every Narragansett Bay and South County coastal exposure from Westerly to Newport, and the highest pre-1900 housing-stock density per capita in the country drives the most expensive average exterior repaint cycle in the smallest state — Providence, Pawtucket, Cranston, and Newport wood-lap repaints typically average 30-50% higher per-square-foot than national norms once RI DOH lead-safe procedures and CRLB compliance are factored into contractor pricing."
+  },
+  "SC": {
+    "name": "South Carolina", "slug": "south-carolina", "abbr": "SC",
+    "iecc_zone": "3A-4A", "annual_humidity_tier": "very-high", "uv_exposure_tier": "high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "fiber-cement", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "South Carolina Department of Labor, Licensing and Regulation — Residential Builder or Specialty",
+    "license_url": "https://llr.sc.gov/res/", "permit_typical": "no permit required for repaint; SC LLR residential license required above $5,000 contract",
+    "painter_wage_mean_hourly": 18.94, "avg_repaint_low": 2600, "avg_repaint_high": 7400,
+    "distinctive_law": "South Carolina Code §40-59 requires every South Carolina painting contractor exceeding the $5,000 residential threshold to hold a SC LLR Residential Specialty Contractor license — and South Carolina additionally maintains the South Carolina Office of Resilience disclosure requirements on Charleston, Beaufort, Hilton Head, and Myrtle Beach coastal repaint contracts above the National Flood Insurance Program substantial-improvement threshold, requiring elevation-certificate and flood-zone disclosure on every coastal SC residential repaint contract.",
+    "climate_concern": "South Carolina's combination of 75%+ summer humidity, persistent Atlantic salt-spray on the Lowcountry from Charleston to Hilton Head, and the longest residential mildew-growing season in the Carolinas drives mildewcide-additive 100% acrylic primer-and-topcoat as the dominant South Carolina coastal repaint spec — fiber-cement substrates with marine-grade alkyd primer have become the standard Lowcountry residential coatings system, with Charleston Old & Historic District and Beaufort Historic District separately imposing color-palette and substrate-prep approval through HBAR review."
+  },
+  "SD": {
+    "name": "South Dakota", "slug": "south-dakota", "abbr": "SD",
+    "iecc_zone": "5A-6A", "annual_humidity_tier": "low", "uv_exposure_tier": "high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "none", "license_board_name": "No statewide painting license; Sioux Falls, Rapid City issue municipal contractor credentials",
+    "license_url": "https://siouxfalls.gov/government/departments/community-development/", "permit_typical": "no permit required for repaint; municipal contractor registration required in Sioux Falls and Rapid City",
+    "painter_wage_mean_hourly": 21.42, "avg_repaint_low": 2400, "avg_repaint_high": 6600,
+    "distinctive_law": "South Dakota has no state-level contractor licensing for painting, drywall, or general residential building work — South Dakota Codified Laws §36 reserves all construction trade regulation to municipalities, leaving South Dakota one of only four states with zero state credential requirement for residential painting, and forcing Sioux Falls Department of Community Development and Rapid City Building Inspection to operate independent contractor registration schedules with no reciprocity across city boundaries.",
+    "climate_concern": "South Dakota's 110+ annual freeze-thaw cycles combined with intense Black Hills high-altitude UV exposure and Northern Plains chinook wind temperature swings drive aggressive wood-substrate cycling on every Rapid City, Spearfish, and Sturgis exterior — and Sioux Falls and East River agricultural-dust contamination during April-October planting and harvest seasons measurably soils fresh latex topcoats statewide, with Black Hills wildfire-smoke seasons since 2017 measurably accelerating topcoat soiling on lighter exterior color schemes."
+  },
+  "TN": {
+    "name": "Tennessee", "slug": "tennessee", "abbr": "TN",
+    "iecc_zone": "3A-4A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "brick-veneer", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Tennessee Board for Licensing Contractors — required above $25,000 contract; Home Improvement License above $3,000 in 6 specific counties",
+    "license_url": "https://www.tn.gov/commerce/regboards/contractor.html", "permit_typical": "no permit required for repaint; TN BLC contractor license required above $25,000 contract; Home Improvement License required above $3,000 in Davidson, Hamilton, Haywood, Knox, Marion, and Rutherford counties",
+    "painter_wage_mean_hourly": 19.86, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "Tennessee Code §62-6 imposes a two-tier residential contractor scheme — the Tennessee Board for Licensing Contractors requires a full general contractor license above $25,000, but Davidson, Hamilton, Haywood, Knox, Marion, and Rutherford counties operate a separate Home Improvement License regime kicking in at $3,000, leaving Tennessee with one of the most fragmented residential painting contractor licensing landscapes in the Southeast.",
+    "climate_concern": "Tennessee's combination of 75%+ summer humidity, intense Cumberland Plateau and Smoky Mountain pine-pollen surge in the April-May window, and the high Tennessee mature-deciduous tree canopy drives mildew bloom and pollen contamination on every Nashville, Memphis, Knoxville, and Chattanooga residential exterior coating system — and Tennessee's brick-veneer-dominant residential stock since the 1970s shifts typical painting scope toward trim, door, and wood-window painting on most homes built post-1975, with full-elevation wood-lap repaint demand concentrated in Tennessee historic neighborhoods."
+  },
+  "TX": {
+    "name": "Texas", "slug": "texas", "abbr": "TX",
+    "iecc_zone": "1A-2A-2B-3A-3B-4B", "annual_humidity_tier": "high", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "low",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "none", "license_board_name": "No statewide painting license; TDLR Lead Renovation, Repair & Painting registration required for pre-1978 work",
+    "license_url": "https://www.tdlr.texas.gov/lead/lead.htm", "permit_typical": "no permit required for repaint; TDLR Lead RRP Firm registration required for pre-1978 housing prep above 6 sq ft disturbed",
+    "painter_wage_mean_hourly": 19.42, "avg_repaint_low": 2600, "avg_repaint_high": 7600,
+    "distinctive_law": "Texas has no state-level contractor licensing for painting, drywall, or general residential building work — Texas Occupations Code §1305 limits the Texas Department of Licensing & Regulation to electrical and a handful of trades, leaving Texas one of only four states with zero state credential requirement for residential painting, and forcing Houston, Dallas, San Antonio, Austin, and Fort Worth to operate independent municipal contractor registration schedules where applicable, with TDLR Lead RRP Firm registration the only statewide painting-related credential required for pre-1978 housing prep.",
+    "climate_concern": "Texas's combination of 280+ annual sun-days in West Texas, persistent Gulf coastal humidity from Brownsville to Beaumont, and dramatic regional climate variation from East Texas piney woods (1A-2A) to Trans-Pecos arid (4B) drives state-specific repaint specifications — Houston and Beaumont coastal Gulf humidity mandates mildewcide-additive coatings while West Texas El Paso, Lubbock, and Amarillo demand Sun Belt-rated UV-stabilized elastomeric stucco coatings, and Galveston and Corpus Christi salt-spray requires marine-grade alkyd primer with stainless-steel fastener replacement during prep."
+  },
+  "UT": {
+    "name": "Utah", "slug": "utah", "abbr": "UT",
+    "iecc_zone": "5B-6B", "annual_humidity_tier": "low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "stucco", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Utah Division of Occupational and Professional Licensing — S330 (Painting Contractor)",
+    "license_url": "https://dopl.utah.gov/licensing/contractor/", "permit_typical": "no permit required for repaint; DOPL S330 Painting Contractor license required statewide on contracts above $3,000",
+    "painter_wage_mean_hourly": 22.42, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Utah Code §58-55 requires every Utah painting contractor exceeding the $3,000 residential threshold to hold a Utah Division of Occupational and Professional Licensing S330 Painting Contractor specialty license — Utah is one of only a handful of Mountain West states with painting as its own specialty trade license, and Utah additionally maintains the Utah Department of Environmental Quality Lead-Safe Renovator credential for any pre-1978 housing prep that disturbs more than 6 square feet of painted surface.",
+    "climate_concern": "Utah's high-altitude UV exposure exceeding 4,500 ft elevation across the Wasatch Front in Salt Lake City, Provo, and Park City drives aggressive south-facing fade on every stucco and wood-lap exterior — and Wasatch Front winter inversion deposits PM2.5 particulate matter on exterior coatings driving mid-cycle wash-down requirements on lighter Salt Lake Valley exterior color schemes, with Park City and Deer Valley high-altitude exposure above 7,000 ft further intensifying coating fade and necessitating Sun Belt-rated UV-stabilized binders on every premium ski-town residential repaint."
+  },
+  "VT": {
+    "name": "Vermont", "slug": "vermont", "abbr": "VT",
+    "iecc_zone": "6A", "annual_humidity_tier": "moderate", "uv_exposure_tier": "low", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "registration", "license_board_name": "Vermont Office of Professional Regulation — Residential Contractor Registration; VT DH Lead Abatement Contractor for pre-1978 work",
+    "license_url": "https://sos.vermont.gov/opr/find-a-profession/residential-contractor/", "permit_typical": "no permit required for repaint; Vermont Residential Contractor Registration required above $10,000 contract",
+    "painter_wage_mean_hourly": 22.84, "avg_repaint_low": 3200, "avg_repaint_high": 8400,
+    "distinctive_law": "Vermont 26 V.S.A. §2511 created the Vermont Residential Contractor Registration in 2017 — making Vermont one of the most recent states to require painting contractor registration on residential work above $10,000, and the Vermont Department of Health separately maintains the Lead Abatement Contractor and Lead Renovator credentials under Vermont Lead Hazard Reduction Rule for any pre-1978 housing prep that disturbs more than 1 square foot of painted surface, lowering the EPA RRP federal trigger threshold.",
+    "climate_concern": "Vermont's combination of 100+ annual freeze-thaw cycles in interior climate zone 6A, the highest concentration of pre-1900 wood-frame housing stock per capita in New England, and intense Green Mountain fall-foliage tannin drip on east-facing exterior elevations drives Vermont residential exterior repaint cycles to 6-8 years on north-facing elevations — and Lake Champlain Valley humidity plus the state's overwhelmingly wood-substrate residential building stock measurably accelerates mildew growth on shaded Burlington and Montpelier elevations."
+  },
+  "VA": {
+    "name": "Virginia", "slug": "virginia", "abbr": "VA",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "moderate-coastal", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "brick-veneer", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "Virginia Department of Professional and Occupational Regulation — Class A/B/C Contractor (PTC Painting & Wallcovering specialty)",
+    "license_url": "https://www.dpor.virginia.gov/Boards/Contractors/", "permit_typical": "no permit required for repaint; DPOR Class C Contractor license required above $1,000 contract or $10,000 annual gross",
+    "painter_wage_mean_hourly": 21.84, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Virginia Code §54.1-1100 requires every Virginia painting contractor exceeding the $1,000 single-contract or $10,000 annual gross threshold to hold a Virginia DPOR Class C Contractor license with the PTC (Painting & Wallcovering) specialty designation — and Virginia separately maintains the Virginia Asbestos Licensing Act and Virginia Department of Health Lead-Safe Renovator credentialing for any pre-1978 housing prep that disturbs more than 6 square feet of painted surface, plus Virginia historic-district overlays in Williamsburg, Alexandria Old Town, and Richmond Fan District impose additional ARB color-palette review.",
+    "climate_concern": "Virginia's combination of 75%+ summer humidity, intense Tidewater and Hampton Roads pollen surge in the April-May window, and the high Virginia Piedmont mature-deciduous tree canopy drives mildew bloom and pollen contamination on every Richmond, Norfolk, Virginia Beach, and Roanoke residential exterior coating system — and Virginia's brick-veneer-dominant residential stock since the 1980s shifts typical painting scope toward trim, door, and wood-window painting on most Virginia homes built post-1985, with Tidewater coastal salt-air mandating marine-grade alkyd primer."
+  },
+  "WA": {
+    "name": "Washington", "slug": "washington", "abbr": "WA",
+    "iecc_zone": "4C-5B-6B", "annual_humidity_tier": "high", "uv_exposure_tier": "low", "salt_corrosion_zone": "high-coastal", "freeze_thaw_cycles": "moderate",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "carb-strict", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Washington State Department of Labor & Industries — Contractor Registration",
+    "license_url": "https://lni.wa.gov/licensing-permits/contractors/", "permit_typical": "no permit required for repaint; L&I Contractor Registration required statewide regardless of contract value; WA Department of Commerce Lead-Based Paint Activities Certified Renovator required for pre-1978 work",
+    "painter_wage_mean_hourly": 28.96, "avg_repaint_low": 3600, "avg_repaint_high": 10200,
+    "distinctive_law": "Washington RCW §18.27 requires every Washington painting contractor to register with the Department of Labor & Industries regardless of contract value — Washington is one of only two states with no contract-value threshold for residential contractor registration alongside Oregon, and the Washington Department of Commerce Lead-Based Paint Activities Certified Renovator credential is additionally required on every pre-1978 housing repaint, with Washington adopting the OTC Phase II VOC architectural coatings rule plus additional Puget Sound airshed restrictions on solvent-based topcoats.",
+    "climate_concern": "Washington's Puget Sound combination of 35+ inches annual rainfall concentrated in the October-May wet season, persistent Pacific Northwest mildew growing conditions, and Cascade Range wood-substrate moisture cycling drives Washington residential exterior repaint cycles to 6-8 years on north-facing and shaded Seattle, Bellevue, Tacoma, and Olympia elevations — and Washington Coast salt-spray on Aberdeen, Long Beach, and Anacortes wood-lap exteriors mandates marine-grade alkyd primer with stainless-steel fastener replacement during prep on every coastal Washington repaint."
+  },
+  "WV": {
+    "name": "West Virginia", "slug": "west-virginia", "abbr": "WV",
+    "iecc_zone": "4A-5A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "required", "license_board_name": "West Virginia Division of Labor — Contractor Licensing Board",
+    "license_url": "https://labor.wv.gov/Licensing/Contractor-Licensing/Pages/default.aspx", "permit_typical": "no permit required for repaint; WV Division of Labor Contractor License required above $2,500 contract",
+    "painter_wage_mean_hourly": 18.42, "avg_repaint_low": 2400, "avg_repaint_high": 6800,
+    "distinctive_law": "West Virginia Code §21-11 requires every West Virginia painting contractor exceeding the $2,500 residential threshold to hold a Division of Labor Contractor License with painting-specialty endorsement — the West Virginia Contractor Licensing Board imposes a $5,000 surety bond on every license issuance and requires every covered contractor to satisfy a four-hour workers'-compensation orientation, reflecting the historic mining-state regulatory framework around residential building trades.",
+    "climate_concern": "West Virginia's Appalachian mountain combination of 100+ annual freeze-thaw cycles in interior climate zones 4A-5A, persistent Allegheny Plateau humidity, and the highest Appalachian wood-frame pre-1950 housing stock concentration outside Pennsylvania drives West Virginia residential exterior repaint cycles to 6-8 years on north-facing elevations — and the state's pre-1978 housing-stock concentration in Charleston, Huntington, Wheeling, and Morgantown triggers EPA RRP Lead-Safe Certified work on the majority of urban West Virginia residential repaint scope."
+  },
+  "WI": {
+    "name": "Wisconsin", "slug": "wisconsin", "abbr": "WI",
+    "iecc_zone": "6A-7", "annual_humidity_tier": "moderate", "uv_exposure_tier": "low", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "vinyl", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "Wisconsin Department of Safety & Professional Services — Dwelling Contractor Certification; WI DHS Lead Abatement Contractor for pre-1978 work",
+    "license_url": "https://dsps.wi.gov/Pages/Professions/DwellingContractor/Default.aspx", "permit_typical": "no permit required for repaint; WI Dwelling Contractor Certification required for any one-and two-family dwelling construction; DHS Lead Abatement Contractor required for pre-1978 prep above 2 sq ft disturbed",
+    "painter_wage_mean_hourly": 26.42, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Wisconsin Statute §101.654 requires every Wisconsin painting contractor performing exterior coating work on one- or two-family dwellings to hold a Wisconsin Department of Safety & Professional Services Dwelling Contractor Certification — and the Wisconsin Department of Health Services Lead Abatement Contractor credential under Wisconsin Administrative Code DHS 163 separately requires lead-safe certification on every pre-1978 housing repaint that disturbs more than 2 square feet of painted surface, lowering the EPA RRP federal trigger threshold.",
+    "climate_concern": "Wisconsin's 110+ annual freeze-thaw cycles and -25°F winter low temperatures across the entire state combined with Lake Michigan and Lake Superior lake-effect humidity drive aggressive wood-substrate cycling on every Milwaukee, Madison, Green Bay, and Eau Claire exterior — and Wisconsin road-salt chloride contamination on grade-level exterior wood-trim drives chloride-rinse prep on every grade-level wood-trim repaint statewide, with Driftless Area and Door County wood-lap residential stock requiring caulk-and-recaulk on every repaint."
+  },
+  "WY": {
+    "name": "Wyoming", "slug": "wyoming", "abbr": "WY",
+    "iecc_zone": "6B-7", "annual_humidity_tier": "very-low", "uv_exposure_tier": "very-high", "salt_corrosion_zone": "none", "freeze_thaw_cycles": "very-high",
+    "dominant_substrate": "wood-lap", "voc_regulation_tier": "federal-default", "lead_paint_disclosure_basis": "federal-default",
+    "license_status": "none", "license_board_name": "No statewide painting license; Cheyenne, Casper, Jackson issue municipal contractor credentials",
+    "license_url": "https://www.cheyennecity.org/Government/Departments/Building-Department", "permit_typical": "no permit required for repaint; municipal contractor registration required in Cheyenne and Jackson",
+    "painter_wage_mean_hourly": 21.84, "avg_repaint_low": 2800, "avg_repaint_high": 7800,
+    "distinctive_law": "Wyoming has no state-level contractor licensing for painting, drywall, or general residential building work — Wyoming Statute §33-1 reserves all construction trade regulation to municipalities, leaving Wyoming one of only four states with zero state credential requirement for residential painting alongside Kansas, South Dakota, and Texas, and forcing Cheyenne Public Works Building Division, Casper Code Enforcement, and Jackson Town Building Department to operate independent contractor registration schedules with no reciprocity across municipal boundaries.",
+    "climate_concern": "Wyoming's 110+ annual freeze-thaw cycles combined with the highest-altitude UV exposure in the continental U.S. across Jackson Hole, Cody, and Cheyenne plus the strongest Great Plains chinook wind events drive aggressive wood-substrate cycling on every Wyoming residential exterior — and Bighorn Basin and Powder River Basin oil-and-gas patch fugitive dust contamination plus regional summer wildfire-smoke seasons since 2017 measurably accelerate topcoat soiling on lighter Wyoming exterior color schemes, particularly on west-facing exposures."
+  },
+  "DC": {
+    "name": "District of Columbia", "slug": "district-of-columbia", "abbr": "DC",
+    "iecc_zone": "4A", "annual_humidity_tier": "high", "uv_exposure_tier": "moderate", "salt_corrosion_zone": "low", "freeze_thaw_cycles": "high",
+    "dominant_substrate": "brick-veneer", "voc_regulation_tier": "otc-phase-ii", "lead_paint_disclosure_basis": "state-additive",
+    "license_status": "required", "license_board_name": "DC Department of Licensing & Consumer Protection — Home Improvement Contractor (HIC) license; DOEE Lead-Based Paint Activities Renovator for pre-1978 work",
+    "license_url": "https://dlcp.dc.gov/", "permit_typical": "no permit required for repaint; DC HIC license required above $300 contract; DOEE Lead-Based Paint Activities Renovator required for pre-1978 prep above 1 sq ft disturbed",
+    "painter_wage_mean_hourly": 26.42, "avg_repaint_low": 3600, "avg_repaint_high": 9800,
+    "distinctive_law": "District of Columbia Municipal Regulation 16-800 requires every DC painting contractor exceeding the $300 contract threshold to hold a Department of Licensing & Consumer Protection Home Improvement Contractor license — and the DC Lead-Hazard Prevention and Elimination Act of 2008 separately requires DOEE Lead-Based Paint Activities Renovator credentialing on every pre-1978 housing repaint that disturbs more than 1 square foot of painted surface, lowering the EPA RRP federal trigger threshold by 6x and capturing the majority of DC pre-1978 residential repaint scope across Capitol Hill, Georgetown, and Petworth historic neighborhoods.",
+    "climate_concern": "District of Columbia's combination of 75%+ summer humidity, persistent I-95 corridor pollen surge in the April-May window, and the highest pre-1978 housing-stock density of any U.S. city after Boston drives DOEE Lead-Based Paint Activities Renovator credentialing on the majority of DC residential repaint scope — and DC's brick-veneer-dominant rowhouse stock shifts typical painting scope toward Georgetown-style painted-brick rowhouse refresh, trim painting, and window-sash repaint with elastomeric masonry coatings dominating Capitol Hill and Petworth historic-district exterior repaint specifications."
+  }
+}
