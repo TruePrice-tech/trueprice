@@ -265,6 +265,48 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  landscaping: {
+    fileSuffix: "-landscaping-cost.html",
+    cityFileSuffix: "-landscaping-cost.html",
+    pageTitle: (s) => `Landscape Installation Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average front-and-back-yard landscape install in ${s.name} runs ${money(s.avg_install_low)}–${money(s.avg_install_high)}. Per-state hardiness zone, drought, water-rights, pesticide, and HOA drivers explained.`,
+    h1: (s) => `Landscape Installation Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/landscaping-cities.html",
+    citiesDirLabel: "Landscaping cities",
+    costGuideHref: "/landscaping-cost-guide.html",
+    quoteAnalyzerHref: "/landscaping-quote-analyzer.html",
+    estimatorHref: "/landscaping-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Landscape estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "landscape installation",
+    verticalLabelCap: "Landscape Installation",
+    pricingMetricLabel: "front-and-back-yard residential landscape install",
+    wageField: "landscaper_wage_mean_hourly",
+    wageLabel: "BLS landscape worker wage",
+    wageSourceLabel: "BLS OEWS landscaping & groundskeeping mean",
+    sitemapFile: "sitemap-landscaping.xml",
+    introHero: (s, vConf) => {
+      const aestheticLabel = {
+        "turf-dominant": "cool- or warm-season turf-dominant front-yard design",
+        "native-prairie": "native-prairie short-grass aesthetic",
+        "xeriscape": "xeriscape with drought-tolerant perennials and gravel mulch",
+        "desert-adapted": "desert-adapted Sonoran or Mojave plant palette",
+        "forest-edge": "forest-edge native-shrub and shade-perennial design",
+        "coastal-mediterranean": "Pacific NW or California Mediterranean plant palette",
+      };
+      const aesthetic = aestheticLabel[s.dominant_landscape_type] || s.dominant_landscape_type.replace(/-/g, " ");
+      return `Landscape installation in ${s.name} typically runs ${money(s.avg_install_low)}–${money(s.avg_install_high)} for a ${vConf.pricingMetricLabel}, with ${aesthetic} as the dominant residential approach across USDA hardiness zone ${s.usda_hardiness_zone}. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_install_low",
+    avgFieldHigh: "avg_install_high",
+    climateFactsHTML: (s) => climateAndCodeFactsLandscapingHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} climate, water & plant-palette drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing, pesticide & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   painting: {
     fileSuffix: "-painting-cost.html",
     cityFileSuffix: "-painting-cost.html",
@@ -637,6 +679,50 @@ function climateAndCodeFactsGutterHTML(state) {
     `<li><strong>Ice-dam risk tier:</strong> ${escapeHtml(iceLabel[state.ice_dam_risk] || state.ice_dam_risk)}</li>`,
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(tierLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
     `<li><strong>Tree-canopy density:</strong> ${escapeHtml(canopyLabel[state.tree_canopy_density] || state.tree_canopy_density)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsLandscapingHTML(state) {
+  const aestheticLabel = {
+    "turf-dominant": "Turf-dominant — cool- or warm-season residential lawn as primary front-yard ground cover",
+    "native-prairie": "Native-prairie — short-grass and forb meadow as dominant front-yard aesthetic",
+    "xeriscape": "Xeriscape — drought-tolerant perennials with gravel or decomposed-granite mulch",
+    "desert-adapted": "Desert-adapted — Sonoran or Mojave palette (cactus, palo verde, agave) on most front yards",
+    "forest-edge": "Forest-edge — native-shrub and shade-perennial design under mature canopy",
+    "coastal-mediterranean": "Coastal-mediterranean — Pacific NW natives or California Mediterranean palette",
+  };
+  const droughtLabel = {
+    "extreme": "Extreme — multi-year drought cycles drive xeriscape adoption + statewide turf restrictions",
+    "severe": "Severe — recurring drought drives turf-replacement rebate programs",
+    "moderate": "Moderate — periodic drought, advisory water-saving guidelines",
+    "low": "Low — adequate residential precipitation, minimal drought stress",
+    "none": "None — no historical residential drought stress",
+  };
+  const irrigationLabel = {
+    "very-high": "Very high — 60%+ of residential outdoor water for irrigation",
+    "high": "High — 40-60% of residential outdoor water for irrigation",
+    "moderate": "Moderate — periodic irrigation needed during dry season",
+    "low": "Low — irrigation optional, established plants survive on rainfall",
+    "none": "None — established plants thrive on natural precipitation",
+  };
+  const wuiLabel = {
+    "required-statewide": "Statewide WUI defensible-space requirement on every property in fire-hazard zones",
+    "regional": "Regional WUI defensible-space rule in mapped fire-hazard zones (CAL FIRE-style)",
+    "advisory": "Advisory — state forestry recommends defensible-space cleanup in mapped fire zones",
+    "none": "No WUI defensible-space requirement",
+  };
+  const items = [
+    `<li><strong>USDA hardiness zone:</strong> ${escapeHtml(state.usda_hardiness_zone)} — drives plant-palette selection and frost-survival ratings</li>`,
+    `<li><strong>Annual rainfall:</strong> ${state.annual_rainfall_inches} inches/yr — drives irrigation system sizing</li>`,
+    `<li><strong>Growing season:</strong> ${state.growing_season_days} frost-free days per year</li>`,
+    `<li><strong>Drought tier:</strong> ${escapeHtml(droughtLabel[state.drought_tier] || state.drought_tier)}</li>`,
+    `<li><strong>Irrigation dependency:</strong> ${escapeHtml(irrigationLabel[state.irrigation_dependency] || state.irrigation_dependency)}</li>`,
+    `<li><strong>Frost-line trench depth:</strong> ${state.frost_line_inches}-inch design minimum for irrigation backflow + bed prep</li>`,
+    `<li><strong>Dominant residential aesthetic:</strong> ${escapeHtml(aestheticLabel[state.dominant_landscape_type] || state.dominant_landscape_type)}</li>`,
+    `<li><strong>Wildfire defensible-space rule:</strong> ${escapeHtml(wuiLabel[state.wui_defensible_space_rule] || state.wui_defensible_space_rule)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
