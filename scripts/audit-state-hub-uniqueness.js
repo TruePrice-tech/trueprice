@@ -97,6 +97,11 @@ const VERTICAL_CONFIG = {
     statePrefixOnly: true,
     skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-landscaping-cost\.html$/,
   },
+  insulation: {
+    fileSuffix: "-insulation-cost.html",
+    statePrefixOnly: true,
+    skipCityPattern: /^[a-z][a-z0-9-]*-[a-z]{2}-insulation-cost\.html$/,
+  },
 };
 
 function loadStateData(vertical) {

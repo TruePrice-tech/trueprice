@@ -265,6 +265,47 @@ const VERTICAL_CONFIG = {
     costsVarySectionHeading: (stateName, vConf) =>
       `How ${vConf.verticalLabel} costs vary in ${stateName}`,
   },
+  insulation: {
+    fileSuffix: "-insulation-cost.html",
+    cityFileSuffix: "-insulation-cost.html",
+    pageTitle: (s) => `Attic Insulation Upgrade Cost in ${s.name} (2026) | Woogoro`,
+    pageDescription: (s) => `Average attic insulation upgrade cost in ${s.name} runs ${money(s.avg_attic_upgrade_low)}–${money(s.avg_attic_upgrade_high)} for a 1,500 sq ft R-30 → R-49 blown cellulose retrofit. Per-state IECC code, R-value, IRA rebate, and air-sealing drivers explained.`,
+    h1: (s) => `Attic Insulation Upgrade Cost in ${s.name} (2026)`,
+    breadcrumbHubLabel: "All Cities",
+    breadcrumbHubHref: "/all-cities.html",
+    citiesDirHref: "/insulation-cities.html",
+    citiesDirLabel: "Insulation cities",
+    costGuideHref: "/insulation-cost-guide.html",
+    quoteAnalyzerHref: "/insulation-quote-analyzer.html",
+    estimatorHref: "/insulation-quote-analyzer.html?mode=estimator",
+    estimatorLinkLabel: "Insulation estimate",
+    estimatorLinkSubtitle: "Enter your address, get a price",
+    verticalLabel: "attic insulation upgrade",
+    verticalLabelCap: "Attic Insulation Upgrade",
+    pricingMetricLabel: "1,500 sq ft attic upgrade R-30 to R-49 blown cellulose",
+    wageField: "insulation_worker_wage_mean_hourly",
+    wageLabel: "BLS insulation worker wage",
+    wageSourceLabel: "BLS OEWS insulation worker (floor/ceiling/wall) mean",
+    sitemapFile: "sitemap-insulation.xml",
+    introHero: (s, vConf) => {
+      const matLabel = {
+        "blown-cellulose": "blown cellulose loose-fill",
+        "fiberglass-batt": "fiberglass batt rolled-and-cut",
+        "blown-fiberglass": "blown fiberglass loose-fill",
+        "spray-foam-closed-cell": "closed-cell spray polyurethane foam at the roofline",
+        "spray-foam-open-cell": "open-cell spray polyurethane foam at the roofline",
+      };
+      const mat = matLabel[s.dominant_attic_insulation] || s.dominant_attic_insulation.replace(/-/g, " ");
+      return `Attic insulation upgrades in ${s.name} typically run ${money(s.avg_attic_upgrade_low)}–${money(s.avg_attic_upgrade_high)} for a ${vConf.pricingMetricLabel}, with ${mat} the dominant residential retrofit material at the IECC R-${s.required_attic_r_value} attic minimum. ${s.climate_concern}`;
+    },
+    avgFieldLow: "avg_attic_upgrade_low",
+    avgFieldHigh: "avg_attic_upgrade_high",
+    climateFactsHTML: (s) => climateAndCodeFactsInsulationHTML(s),
+    climateSectionHeading: (stateName) => `${stateName} energy code & climate-load drivers`,
+    licensingSectionHeading: (stateName) => `${stateName} licensing, rebates & permits`,
+    costsVarySectionHeading: (stateName, vConf) =>
+      `How ${vConf.verticalLabel} costs vary in ${stateName}`,
+  },
   landscaping: {
     fileSuffix: "-landscaping-cost.html",
     cityFileSuffix: "-landscaping-cost.html",
@@ -679,6 +720,50 @@ function climateAndCodeFactsGutterHTML(state) {
     `<li><strong>Ice-dam risk tier:</strong> ${escapeHtml(iceLabel[state.ice_dam_risk] || state.ice_dam_risk)}</li>`,
     `<li><strong>Hurricane wind tier:</strong> ${escapeHtml(tierLabel[state.hurricane_tier] || state.hurricane_tier)}</li>`,
     `<li><strong>Tree-canopy density:</strong> ${escapeHtml(canopyLabel[state.tree_canopy_density] || state.tree_canopy_density)}</li>`,
+  ];
+  return `      <ul class="state-fact-list">
+        ${items.join("\n        ")}
+      </ul>`;
+}
+
+function climateAndCodeFactsInsulationHTML(state) {
+  const codeLabel = {
+    "iecc-2021": "IECC 2021 — current cycle, full mandatory R-49 attic + R-20 wall + air-sealing requirements",
+    "iecc-2018": "IECC 2018 — prior cycle, R-49 attic + R-20 wall, advisory air-sealing",
+    "iecc-2015": "IECC 2015 — older cycle, R-49 attic + R-20 wall (cold) or R-38 (warm)",
+    "iecc-2012": "IECC 2012 — legacy cycle, R-49 attic + R-20 wall",
+    "iecc-2009": "IECC 2009 — oldest active cycle, R-38/R-49 attic + R-13 wall",
+    "state-specific": "State-specific code (deviates from IECC baseline — typically more restrictive)",
+    "no-statewide-code": "No statewide residential energy code — municipal adoption only",
+  };
+  const matLabel = {
+    "blown-cellulose": "Blown cellulose loose-fill — dominant in heating-dominant Northeast and Upper Midwest",
+    "fiberglass-batt": "Fiberglass batt rolled-and-cut — dominant on new construction wall cavity",
+    "blown-fiberglass": "Blown fiberglass loose-fill — dominant in cooling-dominant Sun Belt",
+    "spray-foam-closed-cell": "Closed-cell spray polyurethane foam at the roofline — dominant in coastal humid + extreme cold",
+    "spray-foam-open-cell": "Open-cell spray polyurethane foam at the roofline — dominant in mixed-humid retrofits",
+  };
+  const vbLabel = {
+    "warm-side": "Warm-side vapor retarder required (typical IECC zones 5+)",
+    "no-statewide-rule": "No statewide vapor retarder rule — climate zone determines",
+    "climate-specific": "Climate-zone-specific vapor retarder rule (varies within state)",
+  };
+  const iraLabel = {
+    "live": "Live — IRA HOMES + HEER rebates currently available to residential homeowners",
+    "launching": "Launching — state energy office implementation underway, rebates expected within 12 months",
+    "planning": "Planning — IRA implementation plan filed with DOE, rebates pending state legislature",
+    "not-yet": "Not yet launched — no IRA HOMES + HEER timeline announced",
+  };
+  const items = [
+    `<li><strong>IECC climate zone:</strong> ${escapeHtml(state.iecc_zone)}</li>`,
+    `<li><strong>Required attic R-value:</strong> R-${state.required_attic_r_value} (IECC 2021 prescriptive minimum)</li>`,
+    `<li><strong>Required wall R-value:</strong> R-${state.required_wall_r_value} (above-grade wood-frame)</li>`,
+    `<li><strong>Adopted energy code basis:</strong> ${escapeHtml(codeLabel[state.energy_code_basis] || state.energy_code_basis)}</li>`,
+    `<li><strong>Stretch code available:</strong> ${state.stretch_code_available === "yes" ? "Yes — opt-in or mandatory above-baseline pathway" : "No — IECC base code only"}</li>`,
+    `<li><strong>Annual heating + cooling load:</strong> ${state.hdd_annual.toLocaleString()} HDD / ${state.cdd_annual.toLocaleString()} CDD</li>`,
+    `<li><strong>Vapor barrier requirement:</strong> ${escapeHtml(vbLabel[state.vapor_barrier_required] || state.vapor_barrier_required)}</li>`,
+    `<li><strong>Dominant attic insulation material:</strong> ${escapeHtml(matLabel[state.dominant_attic_insulation] || state.dominant_attic_insulation)}</li>`,
+    `<li><strong>IRA HOMES + HEER rebate status:</strong> ${escapeHtml(iraLabel[state.ira_rebate_program_status] || state.ira_rebate_program_status)}</li>`,
   ];
   return `      <ul class="state-fact-list">
         ${items.join("\n        ")}
