@@ -1,0 +1,7 @@
+startCommand:
+  type: http
+  url: https://auto-repair-mcp.woogoro.com/mcp
+displayName: Woogoro Auto Repair Quote Analyzer
+description: Audit auto repair quotes, catch upsells, draft warranty disputes via AI
+homepage: https://woogoro.com/auto-repair-quote-analyzer.html
+license: MIT

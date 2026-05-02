@@ -1,0 +1,7 @@
+startCommand:
+  type: http
+  url: https://hvac-mcp.woogoro.com/mcp
+displayName: Woogoro HVAC Quote Analyzer
+description: Audit HVAC quotes for sizing, refrigerant, efficiency, and upsells via AI
+homepage: https://woogoro.com/hvac-quote-analyzer.html
+license: MIT

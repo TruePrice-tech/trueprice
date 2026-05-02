@@ -1,0 +1,7 @@
+startCommand:
+  type: http
+  url: https://mcp.woogoro.com/mcp
+displayName: Woogoro Medical Bill Analyzer
+description: Audit medical bills, draft disputes, and negotiate balances via AI
+homepage: https://woogoro.com/medical-bill-analyzer.html
+license: MIT

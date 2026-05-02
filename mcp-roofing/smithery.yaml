@@ -1,0 +1,7 @@
+startCommand:
+  type: http
+  url: https://roofing-mcp.woogoro.com/mcp
+displayName: Woogoro Roofing Quote Analyzer
+description: Audit roofing contractor quotes, draft disputes, and negotiate via AI
+homepage: https://woogoro.com/roofing-quote-analyzer.html
+license: MIT
