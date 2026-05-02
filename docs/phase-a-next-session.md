@@ -13,7 +13,7 @@ Locked decisions (do not re-litigate):
 3. **Roof Option 2 + roof-cities.html:** ship both
 4. **Hub rollout:** HALTED (pivot to Phase A)
 
-## Current state (updated 2026-05-01)
+## Current state (updated 2026-05-02)
 
 ### Phase A.1 — vertical-cities directory pages (20 total)
 | # | Vertical | Page | Status | Commit |
@@ -48,10 +48,21 @@ Locked decisions (do not re-litigate):
 | 1 | roof | ✅ pilot shipped (rewrite-in-place) | 50 | 63.4% max (gate overridden by Lane — see Halt #2) | 83% / 89% (≥80% floor cleared) | bcda9957d6e (handoff) |
 | 2 | hvac | ✅ shipped (greenfield) | 50 | 62.4% max (Path A+B; gate informational) | **84% → 90%** / 89% (+6pt NF lift) | 0831ec8ab06 |
 | 3 | plumbing | ✅ shipped (greenfield) | 50 | 65.5% max (Path A+B; gate informational) | **83% → 91%** / 91% (+8pt NF lift) | 7f2654a957b |
-| 4 | electrical | ⏳ next | — | — | — | — |
-| 5–18 | (14 more) | ⏳ | — | — | — | — |
+| 4 | electrical | ✅ shipped (greenfield) | 50 | 60.8% max (Path A+B; gate informational) | 92% / 90% (≥80% floor cleared with margin) | 5371c3f5dd6 |
+| 5 | siding | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 91% / 89% (≥80% floor cleared with margin) | 4fd88e3342c |
+| 6 | gutter | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 89% / 88% (≥80% floor cleared with margin) | 919d6989f70 |
+| 7 | fencing | ✅ shipped (greenfield) | 50 | (Path A+B; gate informational) | 88% / 89% (≥80% floor cleared with margin) | c3fc5d3cad0 |
+| 8–18 | (11 more) | ⏳ | — | — | — | — |
 
-**Phase A.2 status: 3 of 18 verticals shipped (roof + hvac + plumbing).** Plumbing was a clean greenfield ship — no pre-existing state hubs to rewrite, just 50 new pages added on top of the 742 city pages. Per-state data dict (`data/state-plumbing-data.json`) carries IECC zone, frost-line trench depth (8 inches AL/FL → 100 inches AK), code basis (UPC vs IPC vs state-specific), water hardness tier, dominant supply material (copper/PEX/CPVC), lead-service-line risk tier, license board + URL + permit, BLS plumber mean wage (SOC 47-2152 May 2024), whole-house repipe cost range, plus 50 unique distinctive_law strings (state plumbing code / license-tier / LSL-replacement / greywater quirks — e.g., MA 248 CMR 10, IL Public Act 102-0613 LSLR, TX TSBPE four-tier RMP, AZ A.A.C. R18-9-711 greywater, HI Act 204 solar-water-heating mandate) and 50 unique climate_concern strings (freeze risk, karst, Cascadia seismic, hurricane storm surge, hard-water scale, AMD, etc.). Google composite jumped NF 83%→91% (+8pt) — now the largest single-vertical lift in Phase A.2 (HVAC was +6pt). Pairwise hits 65.5% on neighbor pairs (NH↔VT, ME↔NH, ND↔SD, KS↔OK) as expected per Halt #2 resolution; Path A+B accepts this as a property of the page TYPE. HVAC was previously the +6pt lift; HVAC retained.
+**Phase A.2 status: 7 of 18 verticals shipped (roof + hvac + plumbing + electrical + siding + gutter + fencing).** All four shipped this session were clean greenfield ships — no pre-existing state hubs to rewrite. Per-state data dicts now total 4 × 50 = 200 hand-curated state entries with unique distinctive_law and climate_concern strings each, anchored in BLS OEWS May 2024 wages, USDA-NRCS frost lines, NOAA precipitation/lightning data, ASCE 7-22 wind/snow tiers, and state contractor licensing boards verified by URL.
+
+**Per-vertical lifts this session (compared to baseline before adding 50 state hubs):**
+- electrical: NF/FS landed at **92% / 90%** with 50 new hubs added (740 city pages → 790 total)
+- siding: NF/FS landed at **91% / 89%** (740 city pages → 790 total)
+- gutter: NF/FS landed at **89% / 88%** (740 city pages → 790 total)
+- fencing: NF/FS landed at **88% / 89%** (742 city pages → 792 total) — note fencing audits under "fence" key in audit-uniqueness-google.js because city pages use `-fence-cost.html` suffix; vertical name in build script + data dict is "fencing"
+
+**Naming gotcha for fencing:** the build-state-vertical-hub.js VERTICAL_CONFIG key is `fencing` (matches `data/state-fencing-data.json` and `fencing-cities.html`), but the city file suffix is `-fence-cost.html` (matches the existing 742 city pages). Audit script `audit-uniqueness-google.js` reads files by suffix and groups them under the vertical key it derives from the filename, which is `fence`. So: precommit and Google audit must be invoked as `fence`; build/state-hub audit invoked as `fencing`. The handoff doc lists this row as "fencing" to match the plan's vertical naming.
 
 ### Phase A.3 — neighbor cross-links: not started
 ### Phase A.4 — sitemap restructure: not started
@@ -258,6 +269,16 @@ If genuinely-unique prose is ~150 words/page out of ~500-650 total tokens, expec
 - Sanity-checked roof composite: still 83%/89% (unchanged — generator changes were additive, no roof regen).
 - Updated `sitemap-hvac.xml` with 50 new state hub URLs at lastmod 2026-05-01 (total now 791 URLs).
 - Pacing: 1 vertical (50 pages) = 1 unit per the rules. 1 of max 4 used.
+
+### Session 5 — 2026-05-01/02 — Phase A.2 electrical + siding + gutter + fencing (4 verticals, 200 state hubs, clean greenfield ships)
+- Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with electrical, siding, gutter, and fencing — each with vertical-specific intro hero builder, climate-facts builder, BLS wage field, sitemap target, and avg-cost field-name overrides. Generalized `summaryCardsHTML` was already field-name agnostic; added 4 new climate-facts HTML helpers (climateAndCodeFactsElectricalHTML, ...SidingHTML, ...GutterHTML, ...FencingHTML) sized to each vertical's distinctive data axes.
+- Extended `scripts/audit-state-hub-uniqueness.js` VERTICAL_CONFIG with all 4 verticals (skipCityPattern + fileSuffix).
+- Built 4 per-state data dicts: `data/state-electrical-data.json`, `data/state-siding-data.json`, `data/state-gutter-data.json`, `data/state-fencing-data.json`. Each has 50 state entries + 1 DC entry, 14-16 fields each, sources documented in `_meta`. All 200 distinctive_law and 200 climate_concern strings hand-curated unique within their vertical.
+- Generated 200 `[state]-[vertical]-cost.html` pages across the 4 verticals (50 per vertical), all greenfield (no pre-existing state hubs to rewrite for any of these 4).
+- Google composite passes on all 4 ≥80% floor: electrical NF 92% / FS 90%, siding NF 91% / FS 89%, gutter NF 89% / FS 88%, fencing NF 88% / FS 89%. Pairwise per Halt #2 Path A+B is informational only — same neighbor-cluster pattern as roof/hvac/plumbing.
+- Updated 4 sitemaps with 50 new state hub URLs each at lastmod 2026-05-01 (electrical + siding) or 2026-05-02 (gutter + fencing): sitemap-electrical.xml, sitemap-siding.xml, sitemap-gutters.xml, sitemap-fence.xml. Total +200 URLs across the four sitemaps.
+- Pacing: 4 verticals × 50 pages = 4 units (max per session). Session hit pacing cap exactly. **Phase A.2 progress: 7 of 18 (roof + hvac + plumbing + electrical + siding + gutter + fencing).**
+- Discovered fencing naming gotcha — see new note in Phase A.2 status table above. Shipped commits: electrical 5371c3f5dd6, siding 4fd88e3342c, gutter 919d6989f70, fencing c3fc5d3cad0.
 
 ### Session 4 — 2026-05-01 — Phase A.2 plumbing vertical (clean greenfield ship)
 - Extended `scripts/build-state-vertical-hub.js` VERTICAL_CONFIG with plumbing (wage field, repipe-cost field via new `avgFieldLow`/`avgFieldHigh` keys, intro hero builder, climateAndCodeFactsPlumbingHTML helper). Generalized `summaryCardsHTML` to honor `avgFieldLow`/`avgFieldHigh` (defaults to roof/hvac field names). Generalized `licenseAndPermitHTML` status labels for "municipal-only" + "none" → "No statewide trade license" (was "No statewide roofing license"; minor wording swap regenerates 17 roof + hvac pages with no Google-composite impact).
