@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T18:16:18.861Z",
+  "ts": "2026-05-02T18:59:23.531Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-clean-invoice": {
@@ -47,7 +47,7 @@
       "verdictPrice": 3456,
       "details": {
         "system type": "Central Air Conditioning",
-        "seer rating": "14.3 SEER",
+        "seer rating": "14.3 SEER2",
         "system size": "3 Ton",
         "brand": "Goodman (value tier)",
         "parts warranty": "10 yr",
@@ -71,7 +71,7 @@
       "verdictPrice": 6620,
       "details": {
         "system type": "Central Air Conditioning",
-        "seer rating": "16 SEER",
+        "seer rating": "16 SEER2",
         "system size": "3 Ton",
         "brand": "Carrier (premium tier)",
         "parts warranty": "10 yr",
@@ -95,12 +95,12 @@
       "verdictPrice": 13457,
       "details": {
         "system type": "Central Air Conditioning",
-        "seer rating": "22 SEER",
+        "seer rating": "22 SEER2",
         "system size": "3 Ton",
         "brand": "Trane (premium tier)",
         "parts warranty": "12 yr",
         "labor warranty": "5 yr",
-        "contractor": "Premium HVAC - Trane Comfort Specialist",
+        "contractor": "ELITE COMFORT SYSTEMS",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $8,650 — 56% above average",
@@ -111,11 +111,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "Premium HVAC - Trane Comfort Specialist",
+      "contractor": "ELITE COMFORT SYSTEMS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /elite\\s*comfort/, got \"Premium HVAC - Trane Comfort Specialist\""
-      ]
+      "failures": []
     },
     "f6-mini-split": {
       "verdictPrice": 7944,
