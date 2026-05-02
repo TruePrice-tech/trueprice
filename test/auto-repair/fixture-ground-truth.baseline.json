@@ -1,14 +1,15 @@
 {
-  "ts": "2026-05-02T19:11:52.173Z",
+  "ts": "2026-05-02T22:06:39.702Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-honest-wrench-low": {
       "verdictPrice": 328,
       "details": {
-        "shop type": "Dealership",
+        "contractor": "HONEST WRENCH AUTO REPAIR",
+        "shop type": "Independent Shop",
         "region": "Southeast",
-        "labor total": "$1",
-        "market labor rate (dealership)": "$114 - $171/hr"
+        "labor total": "$143",
+        "market labor rate (independent shop)": "$76 - $124/hr"
       },
       "rangeText": "",
       "isInsuranceBanner": false,
@@ -18,20 +19,18 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "HONEST WRENCH AUTO REPAIR",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /honest\\s*wrench/, got null",
-        "shopType: expected match /independent/, got \"Dealership\""
-      ]
+      "failures": []
     },
     "f2-precision-mid": {
-      "verdictPrice": 2450,
+      "verdictPrice": 633,
       "details": {
-        "shop type": "Dealership",
+        "contractor": "PRECISION AUTO CARE",
+        "shop type": "Independent Shop",
         "region": "Southeast",
-        "labor total": "$2",
-        "market labor rate (dealership)": "$114 - $171/hr"
+        "labor total": "$230",
+        "market labor rate (independent shop)": "$76 - $124/hr"
       },
       "rangeText": "",
       "isInsuranceBanner": false,
@@ -41,20 +40,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PRECISION AUTO CARE",
       "stateCode": null,
-      "failures": [
-        "displayPrice: expected 633 ±10, got 2450",
-        "contractor: expected match /precision\\s*auto\\s*care/, got null",
-        "shopType: expected match /independent/, got \"Dealership\""
-      ]
+      "failures": []
     },
     "f3-park-avenue-dealer": {
       "verdictPrice": 1032,
       "details": {
+        "contractor": "PARK AVENUE LUXURY MOTORCARS",
         "shop type": "Dealership",
         "region": "Southeast",
-        "labor total": "$2",
+        "labor total": "$396",
         "parts type": "OEM",
         "market labor rate (dealership)": "$114 - $171/hr"
       },
@@ -66,24 +62,23 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PARK AVENUE LUXURY MOTORCARS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /park\\s*avenue/, got null"
-      ]
+      "failures": []
     },
     "f4-jeep-insurance": {
       "verdictPrice": 732,
       "details": {
+        "contractor": "Not detected",
         "shop type": "Independent Shop",
-        "region": "_national",
+        "region": "National",
         "labor rate": "$55/hr",
         "labor hours": "4.4 hrs",
         "parts total": "$324",
         "labor total": "$242",
         "market labor rate (independent shop)": "$80 - $130/hr"
       },
-      "rangeText": "Right at the market average for _national",
+      "rangeText": "Right at the market average for National",
       "isInsuranceBanner": true,
       "isRecommendationListBanner": false,
       "preConfirm": {
@@ -91,15 +86,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
     "f5-audi-recommendations": {
       "verdictPrice": 5557,
       "details": {
+        "contractor": "Not detected",
         "shop type": "Independent Shop",
-        "region": "_national",
+        "region": "National",
         "market labor rate (independent shop)": "$80 - $130/hr"
       },
       "rangeText": "",
@@ -110,20 +106,21 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /audi/, got null"
+        "contractor: expected match /audi/, got \"Not detected\""
       ]
     },
     "f6-equinox-quote": {
       "verdictPrice": 586,
       "details": {
-        "shop type": "Dealership",
-        "region": "_national",
+        "contractor": "Not detected",
+        "shop type": "Independent Shop",
+        "region": "National",
         "parts total": "$386",
         "labor total": "$161",
-        "market labor rate (dealership)": "$120 - $180/hr"
+        "market labor rate (independent shop)": "$80 - $130/hr"
       },
       "rangeText": "",
       "isInsuranceBanner": false,
@@ -133,19 +130,20 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
     "f7-honda-fuel-injector": {
       "verdictPrice": 2055,
       "details": {
+        "contractor": "Not detected",
         "shop type": "Independent Shop",
-        "region": "_national",
+        "region": "National",
         "labor hours": "1.5 hrs",
         "market labor rate (independent shop)": "$80 - $130/hr"
       },
-      "rangeText": "Right at the market average for _national",
+      "rangeText": "Right at the market average for National",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": false,
       "preConfirm": {
@@ -153,18 +151,19 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
     "f8-bmw-x3": {
       "verdictPrice": 2431,
       "details": {
-        "shop type": "Dealership",
+        "contractor": "PRECISION AUTO CARE",
+        "shop type": "Independent Shop",
         "region": "Southeast",
         "parts total": "$1,229",
         "parts type": "OEM",
-        "market labor rate (dealership)": "$114 - $171/hr"
+        "market labor rate (independent shop)": "$76 - $124/hr"
       },
       "rangeText": "",
       "isInsuranceBanner": false,
@@ -174,12 +173,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PRECISION AUTO CARE",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /precision\\s*auto\\s*care/, got null",
-        "shopType: expected match /independent/, got \"Dealership\""
-      ]
+      "failures": []
     }
   }
 }
