@@ -59,8 +59,14 @@ const RADIUS_FALLBACK_MI = 150; // expand if <3 neighbors within 75
 const MIN_NEIGHBORS = 3;
 const MAX_NEIGHBORS = 8;
 
+// MUST mirror build-<vertical>-pages.js `slugifyCity`:
+//   .toLowerCase().replace(/[^\w\s]/g, "").trim().replace(/\s+/g, "-")
+// That strips dashes/periods/apostrophes (NOT to dashes), so "Winston-Salem" -> "winstonsalem"
+// and "St. Paul" -> "st-paul". The earlier looser version converted those to dashes and
+// silently mismatched the site's filenames for ~3 entries (St. Louis, Winston-Salem,
+// Wilkes-Barre) plus every Census-name with internal hyphens (Athens-Clarke, etc.).
 function slugify(s) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return s.toLowerCase().replace(/[^\w\s]/g, '').trim().replace(/\s+/g, '-');
 }
 
 function parseCoordKey(k) {
