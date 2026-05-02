@@ -1,0 +1,188 @@
+{
+  "ts": "2026-05-02T22:24:39.821Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-budget-tank-low": {
+      "verdictPrice": 1380,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tank_50_gas",
+        "brand": "Rheem (mid tier)",
+        "pricing": "West regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,900 — 52% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /budget\\s*plumbing/, got null"
+      ]
+    },
+    "f2-westside-tank-mid": {
+      "verdictPrice": 2553,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tank_50_gas",
+        "brand": "Bradford White (mid tier)",
+        "pricing": "- Los Angeles local pricing"
+      },
+      "rangeText": "Market benchmark: $2,550 — 0% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /westside\\s*plumbing/, got null"
+      ]
+    },
+    "f3-premier-tankless-high": {
+      "verdictPrice": 7571,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tankless_gas",
+        "brand": "Rinnai (premium tier)",
+        "pricing": "West regional pricing"
+      },
+      "rangeText": "Market benchmark: $5,525 — 37% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /premier\\s*home\\s*plumbing/, got null"
+      ]
+    },
+    "f4-budget-tank-messy": {
+      "verdictPrice": 1380,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tank_50_gas",
+        "brand": "Rheem (mid tier)",
+        "pricing": "West regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,900 — 52% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /budget\\s*plumbing/, got null"
+      ]
+    },
+    "f5-westside-tank-messy": {
+      "verdictPrice": 2553,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tank_50_gas",
+        "brand": "Bradford White (mid tier)",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,300 — 11% above average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /westside\\s*plumbing/, got null"
+      ]
+    },
+    "f6-premier-tankless-messy": {
+      "verdictPrice": 7571,
+      "details": {
+        "service type": "Water Heater Replacement",
+        "details": "tankless_gas",
+        "brand": "Rinnai (premium tier)",
+        "pricing": "West regional pricing"
+      },
+      "rangeText": "Market benchmark: $5,525 — 37% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /premier\\s*home\\s*plumbing/, got null"
+      ]
+    },
+    "f7-roto-rooter-redacted": {
+      "verdictPrice": 903,
+      "details": {
+        "service type": "Drain Cleaning",
+        "details": "simple_clog",
+        "pricing": "Southeast regional pricing"
+      },
+      "rangeText": "Market benchmark: $225 — 301% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": "Roto-Rooter Services Company",
+      "stateCode": "IN",
+      "failures": [
+        "stateCode: expected null, got \"IN\""
+      ]
+    },
+    "f8-indirect-wh-page1": {
+      "verdictPrice": 6950,
+      "details": {
+        "service type": "Water Heater Tank",
+        "brand": "Bradford White (mid tier)",
+        "pricing": "West regional pricing"
+      },
+      "rangeText": "Market benchmark: $2,625 — 165% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "subType: expected match /indirect/, got \"\""
+      ]
+    }
+  }
+}

@@ -911,10 +911,25 @@
         // (was: defaulted to water_heater, which produced misleading verdicts
         // on small repair invoices).
         var serviceType = (typeof detectPlumbingServiceType === "function") ? detectPlumbingServiceType(text) : null;
-        // If AI backup fired and returned a jobType, prefer it
+        // If AI backup fired and returned a jobType, prefer it.
+        // Normalize the API enum (water_heater_tank / water_heater_tankless /
+        // whole_house_repipe / sewer_line_*) into the analyzer's internal
+        // serviceType keys (water_heater / repipe / sewer_line) so the
+        // sub-type detection below still runs against the OCR text. Without
+        // this, an indirect water heater swap was bench-marked vs a tank
+        // ($2,625 base) and got a confident "OVERPRICED" verdict at $6,950
+        // when the real indirect benchmark is $5,500 base — well within range.
         if (engineResult.aiData && engineResult.aiData.jobType && engineResult.aiData.jobType !== "other") {
-          var apiJobLabel = String(engineResult.aiData.jobType).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-          serviceType = { value: engineResult.aiData.jobType, label: apiJobLabel };
+          var rawJob = engineResult.aiData.jobType;
+          var normService = rawJob;
+          if (/^water_heater_/.test(rawJob)) normService = "water_heater";
+          else if (rawJob === "whole_house_repipe") normService = "repipe";
+          else if (/^sewer_line_/.test(rawJob)) normService = "sewer_line";
+          else if (rawJob === "gas_line_install") normService = "gas_line";
+          var canonical = PLUMBING_PRICING.basePriceByService[normService];
+          var apiJobLabel = (canonical && canonical.label) ||
+            String(rawJob).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+          serviceType = { value: normService, label: apiJobLabel };
         }
         // OCR-confidence gate: pre-printed Roto-Rooter / Mr. Rooter / similar
         // service-call forms list multiple service categories ("PLUMBING /
@@ -1004,6 +1019,13 @@
           var brandNote = "";
           if (_brand) brandNote = _brand.brand + " (" + _brand.tier + " tier)";
 
+          // Contractor surfaced in details grid for parity with roofing /
+          // HVAC / auto-repair. engineResult.contractor comes from regex
+          // detectContractor in analyzer-parser.js; falls back to AI backup.
+          var _contractor = (engineResult && engineResult.contractor) ||
+                            (engineResult && engineResult.aiData && (engineResult.aiData.contractor || engineResult.aiData.contractorName)) ||
+                            null;
+
           state.result = {
             source: quotePrice > 0 ? "upload" : "manual",
             quotePrice: confirmedPrice,
@@ -1015,6 +1037,7 @@
             subType: _subType,
             brand: _brand,
             brandNote: brandNote,
+            contractor: _contractor,
             scopeSignals: _scopeSignals,
             region: region,
             location: { city: engineResult.city, stateCode: engineResult.stateCode },
@@ -1350,19 +1373,45 @@
         rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
       }
 
+      // Sub-type humanization: SUB_TYPE_OPTIONS gives "50-Gal Gas Tank" for
+      // raw enum "tank_50_gas". Falls back to a Title-Cased version of the
+      // raw key (e.g. "indirect" → "Indirect", "tankless_gas" → "Tankless Gas")
+      // so non-cataloged subtypes still render readably.
+      function humanizeSubType(svc, sub) {
+        if (!sub) return "";
+        var def = SUB_TYPE_OPTIONS[svc];
+        if (def && def.options) {
+          var hit = def.options.find(function(o) { return o.value === sub; });
+          if (hit) return hit.label;
+        }
+        return String(sub).replace(/_/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+      }
+
+      // XSS-strip any contractor / city / state coming from OCR or AI before
+      // injecting into innerHTML. Strips < > and trims whitespace + leading
+      // punctuation from city ("- Los Angeles" → "Los Angeles").
+      function safeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
+      function cleanCity(s) { return safeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
+
       // Build details
       var detailsHtml = '<div class="plumb-details">';
-      detailsHtml += '<div class="plumb-detail"><div class="label">Service Type</div><div class="value">' + r.serviceType.label + '</div></div>';
+      detailsHtml += '<div class="plumb-detail"><div class="label">Service Type</div><div class="value">' + safeText(r.serviceType.label) + '</div></div>';
 
+      if (r.contractor) {
+        detailsHtml += '<div class="plumb-detail"><div class="label">Contractor</div><div class="value">' + safeText(r.contractor) + '</div></div>';
+      }
       if (r.subLabel || r.subType) {
-        var subDisplay = r.subLabel || r.subType;
-        detailsHtml += '<div class="plumb-detail"><div class="label">Details</div><div class="value">' + subDisplay + '</div></div>';
+        var subDisplay = r.subLabel || humanizeSubType(r.serviceType.value, r.subType);
+        if (subDisplay) {
+          detailsHtml += '<div class="plumb-detail"><div class="label">Details</div><div class="value">' + safeText(subDisplay) + '</div></div>';
+        }
       }
       if (r.brandNote) {
-        detailsHtml += '<div class="plumb-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
+        detailsHtml += '<div class="plumb-detail"><div class="label">Brand</div><div class="value">' + safeText(r.brandNote) + '</div></div>';
       }
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="plumb-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      var _pcity = cleanCity(state.address.city);
+      var pricingLabel = (_pcity && getCityMult(_pcity, state.address.stateCode)) ? (_pcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="plumb-detail"><div class="label">Pricing</div><div class="value">' + safeText(pricingLabel) + '</div></div>';
 
       if (r.bathrooms) {
         detailsHtml += '<div class="plumb-detail"><div class="label">Bathrooms</div><div class="value">' + r.bathrooms + '</div></div>';
