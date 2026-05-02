@@ -475,9 +475,11 @@
         // so the existing line-anchored TOTAL override misses. Allow a
         // non-anchored fallback for explicit "Total Cost / Total Project
         // Cost / Total Investment" labels — these are unambiguous bottom-
-        // line numbers, not interior line items.
+        // line numbers, not interior line items. Also accept up to one
+        // adjective word between the cost-noun and the $ ("Total Project
+        // Cost Estimate: $14,800" — Malarkey scope-doc fixture).
         if (!_totalOverride) {
-          _totalOverride = _ocrTextForOverride.match(/\btotal\s*(?:project\s*|job\s*|investment\s*)?(?:cost|price|amount|investment)\s*[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
+          _totalOverride = _ocrTextForOverride.match(/\btotal\s*(?:project\s*|job\s*|investment\s*)?(?:cost|price|amount|investment)\s*(?:estimate(?:d)?\s*)?[:\-]?\s*\$\s*([\d,]+(?:\.\d{1,2})?)/i);
         }
         // Many residential service quotes (fencing, concrete, painting)
         // bottom-line as "Subtotal" with no separate Tax/Total because
@@ -524,7 +526,21 @@
             result.price &&
             result.price >= 500 &&
             _overrideVal < result.price * 0.1;
-          if (
+          // Bidirectional defense: if the parser's pick is a tiny fraction
+          // of an explicitly labeled total (>10x smaller), the parser
+          // grabbed a fragment (page number, allowance line, OCR-confused
+          // digits) and the labeled total is the truth. This catches
+          // f2-style failures where the displayed price was $811 from
+          // OCR garbage while the document plainly says
+          // "Total Project Cost Estimate: $14,800".
+          var _parserPickIsTiny =
+            result.price &&
+            _overrideVal >= 500 &&
+            result.price < _overrideVal * 0.1;
+          if (_parserPickIsTiny) {
+            result.price = _overrideVal;
+            result.source = "regex";
+          } else if (
             _overrideVal >= 10 &&
             _overrideVal <= 500000 &&
             _overrideVal !== result.price &&

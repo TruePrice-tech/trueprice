@@ -1,0 +1,129 @@
+{
+  "ts": "2026-05-02T14:31:03.223Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-gaf": {
+      "displayPrice": 16766,
+      "contractor": "Not detected",
+      "stateCode": null,
+      "scopeFound": [
+        "drip edge",
+        "ridge cap",
+        "disposal",
+        "permit"
+      ],
+      "failures": [
+        "contractor: expected match /green\\s*ladder/, got \"Not detected\""
+      ]
+    },
+    "f2-scope-doc": {
+      "displayPrice": 811,
+      "contractor": "Not detected",
+      "stateCode": "OR",
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "flashing",
+        "ice & water shield",
+        "drip edge",
+        "ventilation",
+        "ridge vent",
+        "starter strip",
+        "ridge cap",
+        "decking",
+        "disposal",
+        "permit"
+      ],
+      "failures": [
+        "displayPrice: expected 14800 ±14.8, got 811",
+        "stateCode: expected null, got \"OR\""
+      ]
+    },
+    "f3-budget": {
+      "displayPrice": 7565,
+      "contractor": "BUDGET ROOFING CO",
+      "stateCode": null,
+      "scopeFound": [
+        "underlayment",
+        "flashing",
+        "drip edge",
+        "ventilation",
+        "ridge vent",
+        "starter strip",
+        "disposal",
+        "permit"
+      ],
+      "failures": [
+        "scopeFound missing: \"tear off\" (have: underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)",
+        "scopeFound missing: \"ridge cap\" (have: underlayment | flashing | drip edge | ventilation | ridge vent | starter strip | disposal | permit)"
+      ]
+    },
+    "f4-heritage": {
+      "displayPrice": 11895,
+      "contractor": "HERITAGE ROOFING & EXTERIORS",
+      "stateCode": null,
+      "scopeFound": [
+        "underlayment",
+        "flashing",
+        "ice & water shield",
+        "drip edge",
+        "ventilation",
+        "ridge vent",
+        "decking",
+        "disposal",
+        "permit"
+      ],
+      "failures": [
+        "scopeFound missing: \"tear off\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
+        "scopeFound missing: \"ridge cap\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)",
+        "scopeFound missing: \"starter strip\" (have: underlayment | flashing | ice & water shield | drip edge | ventilation | ridge vent | decking | disposal | permit)"
+      ]
+    },
+    "f5-pinnacle": {
+      "displayPrice": 17500,
+      "contractor": "PINNACLE PREMIUM ROOFING",
+      "stateCode": null,
+      "scopeFound": [
+        "underlayment",
+        "flashing",
+        "ice & water shield",
+        "starter strip",
+        "ridge cap",
+        "decking",
+        "disposal",
+        "permit"
+      ],
+      "failures": [
+        "scopeFound missing: \"tear off\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
+        "scopeFound missing: \"drip edge\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)",
+        "scopeFound missing: \"ridge vent\" (have: underlayment | flashing | ice & water shield | starter strip | ridge cap | decking | disposal | permit)"
+      ]
+    },
+    "f6-metal-136k": {
+      "displayPrice": 136375,
+      "contractor": "Not detected",
+      "stateCode": null,
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "flashing",
+        "decking",
+        "permit"
+      ],
+      "failures": []
+    },
+    "f7-handwritten": {
+      "displayPrice": 10500,
+      "contractor": "Not detected",
+      "stateCode": null,
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "flashing",
+        "drip edge",
+        "ventilation"
+      ],
+      "failures": []
+    }
+  }
+}
