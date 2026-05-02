@@ -74,20 +74,39 @@ Locked decisions (do not re-litigate):
 
 **Naming gotcha for fencing:** the build-state-vertical-hub.js VERTICAL_CONFIG key is `fencing` (matches `data/state-fencing-data.json` and `fencing-cities.html`), but the city file suffix is `-fence-cost.html` (matches the existing 742 city pages). Audit script `audit-uniqueness-google.js` reads files by suffix and groups them under the vertical key it derives from the filename, which is `fence`. So: precommit and Google audit must be invoked as `fence`; build/state-hub audit invoked as `fencing`. The handoff doc lists this row as "fencing" to match the plan's vertical naming.
 
-### Phase A.3 — neighbor cross-links: PILOT SHIPPED (hvac, 98 pages)
+### Phase A.3 — neighbor cross-links: TRADE VERTICALS COMPLETE (15 of 19, ~9,283 city pages)
 
-| # | Vertical | Status | Pages | Path | Audit (NF/FS pre→post) | Commit |
-|---|---|---|---|---|---|---|
-| 1 | hvac | ✅ pilot shipped (alpha-state → haversine swap) | 98 of 100 | A: replace `<ul>` inside existing widget | 90%/89% → **90%/89%** (zero drop) | 78fb1db98b5 |
+Path A — replace `<ul>` content inside existing `<section class="tp-city-nav">` widget's "More <Vertical> Pricing" column with 5-8 haversine ≤75mi neighbors (fallback 150mi for sparse states). Keep section shell, h3, and "Other Services" column untouched. Idempotent.
 
-**Path locked for the rest of A.3 trade verticals (15 remaining):** Path A — replace the `<ul>` content inside the existing `<section class="tp-city-nav">` widget's "More <Vertical> Pricing" column with 5-8 haversine ≤75mi neighbors (fallback 150mi for sparse states). Keep section shell, h3, and "Other Services" column untouched. Idempotent.
+| # | Vertical | Pages | Audit NF/FS (baseline → post) | Commit |
+|---|---|---|---|---|
+| 1 | hvac | 98 (pilot) + 397 (scale) = 495 | 90%/89% → **90%/89%** (zero drop) | 78fb1db98b5 + 3903a366986 |
+| 2 | roof | 665 | 83%/89% → **83%/89%** (zero drop) | 8a2cf1f267b |
+| 3 | plumbing | 662 | 91%/91% → **91%/91%** (zero drop) | e17c268670d |
+| 4 | electrical | 662 | 92%/90% → **92%/90%** (zero drop) | 468e1fb758c |
+| 5 | solar | 662 | 84%/88% → **84%/88%** (zero drop) | 1305815b2b2 |
+| 6 | window | 662 | 90%/88% → **90%/88%** (zero drop) | b43c3475d5e |
+| 7 | siding | 662 | 91%/89% → **91%/89%** (zero drop) | 57d933a5bd1 |
+| 8 | painting | 662 | 89%/89% → **89%/89%** (zero drop) | 5499b2c6696 |
+| 9 | garage-door | 662 | 90%/85% → **90%/85%** (zero drop) | b6aa869dc7b |
+| 10 | fence | 662 | 88%/89% → **88%/89%** (zero drop) | a2161a8e1a0 |
+| 11 | concrete | 662 | 92%/88% → **92%/88%** (zero drop) | e95258f47b3 |
+| 12 | landscaping | 662 | 88%/87% → **88%/87%** (zero drop) | 2c5a5b94ff3 |
+| 13 | foundation | 662 | 90%/90% → **90%/90%** (zero drop) | cef130b5d9e |
+| 14 | insulation | 662 | 92%/87% → **92%/87%** (zero drop) | 1169c8dce27 |
+| 15 | gutter | 662 | 89%/88% → **89%/88%** (zero drop) | b79c05c4cfc |
 
-**Awaiting Lane greenlight to scale.** Per locked plan: pilot → 500 → 12K. Pilot passed (zero NF/FS drop on 98 modified pages); next step is scale to 500 (effectively all of hvac's covered cities) → re-audit → scale to remaining 15 trade verticals.
+**Path A audit signal: 15 of 15 trade verticals showed zero composite movement on NF and FS.** The widget swap is genuinely uniqueness-neutral (same shell, same link count, similar surrounding text — haversine picks slightly more diverse city names than alphabetical-by-state). Confirmed across ~9,283 modified city pages.
 
-**Open follow-ups before full A.3 rollout:**
-1. **Coverage gap.** 73 cities still lack centroids after CSV backfill (4 of 77 found). Need Census Gazetteer file or SimpleMaps free tier to cover suburbs like Hoover AL, Bloomington MN, Coral Springs FL.
-2. **Single-city-state pages.** Anchorage AK, Burlington VT, etc. have no "More <Vertical> Pricing" column to swap (their widget is "Other Services" only). ~10-15 cities total nationally; need ADD strategy if in scope.
-3. **Service verticals (auto-repair / medical / legal / moving).** Path A doesn't apply — they have no same-vertical column. Separate strategy required (add new column?). 47-58 base city pages each.
+Cross-state proximity captured throughout (e.g., Albany GA picks Dothan AL, Tallahassee FL, Phenix City AL, Auburn AL among 8 neighbors) — old alphabetical widget never could deliver this.
+
+**Open A.3 follow-ups (sub-tasks):**
+
+1. **Coverage gap (A.3.a).** 73 cities still lack centroids in city-coordinates.json. CSV is curated subset, missing major suburbs like Hoover AL, Bloomington MN, Coral Springs FL, Pittsburgh suburbs. Effect: ~190 city pages per major vertical fall back to next-ring neighbors instead of nearest. Recommend pulling US Census Gazetteer Places file (~30 MB, free, official, comprehensive — covers every CDP/incorporated place). Then re-run rollout (idempotent — no audit risk; pages with new neighbors silently get better neighbors).
+
+2. **Single-state-city pages (A.3.b).** Anchorage AK, Burlington VT, etc. (5 per vertical × 14 verticals ≈ 70 page-instances total nationally) have no "More <Vertical> Pricing" column to swap — their existing widget is "Other Services" only. Need ADD strategy if in scope: insert a new column with 3-5 haversine neighbors. Low-priority, small footprint.
+
+3. **Service verticals (A.3.c) — auto-repair, medical, legal, moving.** Path A doesn't apply — they have no same-vertical column in their existing widget, just "Other Services" cross-vertical. ~47-58 base city pages each (235 total). Need separate ADD strategy (insert new "Nearby <Vertical>" column). Lower SEO leverage than trade verticals (smaller page count) but worth doing for consistency.
 
 ### Phase A.4 — sitemap restructure: not started
 
