@@ -132,9 +132,25 @@
     });
   }
 
+  // CMP-1 fix (cross-vertical, applies to all 20 compare-*-quotes pages):
+  // when the user uploads 2-3 quotes back-to-back, three concurrent OCR runs
+  // would race Tesseract worker creation and the CDN traineddata download.
+  // The third upload would hang indefinitely at "Parsing quote — This may
+  // take a moment". Serializing OCR runs at the engine layer means each
+  // recognize() only starts after the previous worker has terminated. UI
+  // still shows "Parsing..." for all slots concurrently; only the actual OCR
+  // work queues. Single-quote analyze pages are unaffected (one call at a
+  // time anyway).
+  var _ocrQueue = Promise.resolve();
+  function runOCR(imageDataUrl, onProgress) {
+    var p = _ocrQueue.then(function () { return _runOCRImpl(imageDataUrl, onProgress); });
+    _ocrQueue = p.catch(function () { /* swallow so chain continues */ });
+    return p;
+  }
+
   // Multi-pass OCR: runs soft + strong preprocessing, picks best result.
   // "Best" = has dollar signs and longest text (most content extracted).
-  async function runOCR(imageDataUrl, onProgress) {
+  async function _runOCRImpl(imageDataUrl, onProgress) {
     await ensureTesseract();
 
     var worker = await Tesseract.createWorker("eng");
