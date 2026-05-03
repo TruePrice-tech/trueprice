@@ -436,15 +436,22 @@
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
         // CMP-LND-1 (2026-05-03): Anthropic landscaping prompt returns jobType
-        // (enum: sod / pavers / planting / irrigation / hardscape / etc),
-        // hardscapeArea, treeCount, irrigationZones — but no explicit
-        // projectType / plantsIncluded / hardscapeIncluded / irrigationIncluded
-        // booleans that the ROWS rows expect. Derive them from the structured
-        // fields so the comparison table stops showing N/A.
+        // (enum: sod / pavers / planting / irrigation / hardscape / mixed)
+        // and a freeform subScope string — but no explicit projectType /
+        // plantsIncluded / hardscapeIncluded / irrigationIncluded booleans
+        // that the ROWS rows expect. For "mixed" jobType (most common), the
+        // structured numeric fields (treeCount/hardscapeArea/irrigationZones)
+        // are usually null, so we ALSO scan subScope text. Without the text
+        // scan, every "mixed" quote shows ✗ No for all three flags even when
+        // subScope literally says "shrub planting, drip irrigation, paver patio".
+        var _lndSub = (api.subScope || "").toLowerCase();
+        var _lndPlantsRe = /(plant|shrub|tree|sod|lawn|grass|garden|mulch|seed|flower)/;
+        var _lndHardscapeRe = /(paver|patio|stone|wall|hardscape|concrete|stamped|flagstone|brick|boulder|edging|coping|pergola)/;
+        var _lndIrrRe = /(irrigation|sprinkler|drip|backflow|controller)/;
         if (!api.projectType && api.jobType) api.projectType = api.jobType;
-        if (typeof api.plantsIncluded !== "boolean") api.plantsIncluded = (api.treeCount > 0) || api.jobType === "planting" || api.jobType === "tree_pruning" || api.jobType === "tree_removal";
-        if (typeof api.hardscapeIncluded !== "boolean") api.hardscapeIncluded = (api.hardscapeArea > 0) || !!api.hardscapeMaterial || api.jobType === "pavers" || api.jobType === "retaining_wall";
-        if (typeof api.irrigationIncluded !== "boolean") api.irrigationIncluded = (api.irrigationZones > 0) || api.jobType === "irrigation";
+        if (typeof api.plantsIncluded !== "boolean") api.plantsIncluded = (api.treeCount > 0) || api.jobType === "planting" || api.jobType === "tree_pruning" || api.jobType === "tree_removal" || _lndPlantsRe.test(_lndSub);
+        if (typeof api.hardscapeIncluded !== "boolean") api.hardscapeIncluded = (api.hardscapeArea > 0) || !!api.hardscapeMaterial || api.jobType === "pavers" || api.jobType === "retaining_wall" || _lndHardscapeRe.test(_lndSub);
+        if (typeof api.irrigationIncluded !== "boolean") api.irrigationIncluded = (api.irrigationZones > 0) || api.jobType === "irrigation" || _lndIrrRe.test(_lndSub);
 
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "landscaping");
