@@ -532,7 +532,7 @@
       return Math.max(1, Math.round(n / 450));
     }
 
-    function calcBenchmark(serviceType, homeSqFt, homeAge, region) {
+    function calcBenchmark(serviceType, homeSqFt, homeAge, region, fixtureCount) {
       var svc = ELEC_PRICING.basePriceByService[serviceType];
       if (!svc) svc = ELEC_PRICING.basePriceByService.panel_upgrade;
 
@@ -550,6 +550,14 @@
         var circuits = circuitsFromSqFt(homeSqFt);
         var midpoint = (low + high) / 2;
         basePrice = midpoint * circuits;
+      } else if (serviceType === "recessed_lights") {
+        // Recessed JSON benchmark is a 6-pack range. A 25-can install
+        // bench-marked vs 6-pack midpoint produces "OVERPRICED 99%" on a
+        // fair-priced job. Scale linearly when fixtureCount is detected
+        // from OCR text (E7, deep test 2026-05-02).
+        var count = Math.max(1, Number(fixtureCount) || 6);
+        var midpoint = (low + high) / 2;
+        basePrice = midpoint * (count / 6);
       } else {
         // panel_upgrade, ev_charger, generator, outlet_switch: use midpoint
         basePrice = (low + high) / 2;
@@ -682,15 +690,26 @@
       // "20" because it was first; we now look for amperage that sits
       // next to panel/service/main/entrance/upgrade keywords first.
       var t = (text || "");
-      var contextRe = /(?:(\d{2,3})\s*(?:amp|amps|A)\b[^.]{0,30}(?:panel|service|main|entrance|upgrade|meter|disconnect))|(?:(?:panel|service|main|entrance|upgrade|meter|disconnect)[^.]{0,30}(\d{2,3})\s*(?:amp|amps|A)\b)/i;
+      // Canonical service-panel / sub-panel amperage sizes. OCR runs on
+      // hand-printed quotes regularly invent values like "230A" out of
+      // adjacent characters ("1 1/2" + "30A" run together → "230A"); these
+      // aren't real panel sizes (residential standard 100/125/150/200/320/400)
+      // so we filter them out instead of preferring the max digit blob.
+      // Bug 12 deep test 2026-05-02: f9 handwritten panel parsed as 230A
+      // instead of ground-truth 125A.
+      var VALID = { 60:1, 100:1, 125:1, 150:1, 175:1, 200:1, 225:1, 250:1, 300:1, 320:1, 400:1, 600:1, 800:1, 1000:1 };
+      var contextRe = /(?:(\d{2,4})\s*(?:amp|amps|A)\b[^.]{0,30}(?:panel|service|main|entrance|upgrade|meter|disconnect))|(?:(?:panel|service|main|entrance|upgrade|meter|disconnect)[^.]{0,30}(\d{2,4})\s*(?:amp|amps|A)\b)/i;
       var ctx = t.match(contextRe);
-      if (ctx) return parseInt(ctx[1] || ctx[2]);
-      // Fallback: any amperage match, but prefer the LARGEST value seen
-      // (panel sizes are 100-400; branch breakers are 15-50, so the max
-      // is almost always the panel rating).
-      var all = (t.match(/(\d{2,3})\s*(?:amp|amps|A)\b/gi) || [])
-        .map(function(s) { var m = s.match(/(\d{2,3})/); return m ? parseInt(m[1]) : 0; })
-        .filter(function(v) { return v >= 30 && v <= 400; });
+      if (ctx) {
+        var v = parseInt(ctx[1] || ctx[2]);
+        if (VALID[v]) return v;
+        // context match returned a non-canonical size — fall through to
+        // the canonical-only fallback rather than returning OCR junk
+      }
+      // Fallback: filter to VALID canonical sizes, then prefer the LARGEST.
+      var all = (t.match(/(\d{2,4})\s*(?:amp|amps|A)\b/gi) || [])
+        .map(function(s) { var m = s.match(/(\d{2,4})/); return m ? parseInt(m[1]) : 0; })
+        .filter(function(v) { return VALID[v]; });
       if (all.length) return Math.max.apply(null, all);
       return null;
     }
@@ -699,6 +718,43 @@
       var t = (text || "");
       var match = t.match(/(\d{1,2})\s*(?:new\s*)?circuit/i);
       if (match) return parseInt(match[1]);
+      return null;
+    }
+
+    // Counts recessed-light fixtures from quote text. Used by calcBenchmark
+    // to scale the 6-pack JSON benchmark when the actual install is larger
+    // (e.g. 25-can install benchmark scales to 25/6 × $1,600 ≈ $6,667).
+    // Avoids matching "6\" halo recessed" (6 inch fixture diameter, not count).
+    function detectFixtureCount(text) {
+      if (!text) return null;
+      var t = String(text);
+      // Priority 1: "(N) units × $price" — the most reliable shape on
+      // estimate apps and quote forms.
+      var unitsMatch = t.match(/\b(\d{1,3})\s*units?\s*[×x@]/i);
+      if (unitsMatch) return parseInt(unitsMatch[1]);
+      // Priority 2: explicit "N can lights" / "N recessed lights" / "N halo"
+      // / "N pot lights" — leading digits followed by light-type keyword,
+      // EXCLUDING "6\"" / "6-inch" / "6 in" diameter context.
+      var phraseRe = /\b(\d{1,3})\s*(?:[xX]\s*)?(?:can\s*lights?|recessed\s*lights?|recessed\s*can(?:s|nister)?s?|pot\s*lights?|halo\s*(?:recessed|lights?|cans?)|wafer\s*(?:lights?|cans?)|trim\s*kits?|(?:downlight|down\s*light)s?|fixtures?)\b/i;
+      var phraseMatch = t.match(phraseRe);
+      if (phraseMatch) {
+        var n = parseInt(phraseMatch[1]);
+        // Reject single-digit numbers that are likely fixture-diameter
+        // (4", 5", 6", 8" cans are common product sizes). Diameter context
+        // would typically have an inch mark or "inch" word nearby.
+        var aroundIdx = phraseMatch.index;
+        var around = t.slice(Math.max(0, aroundIdx - 4), aroundIdx + 30);
+        if (n <= 8 && /["'’]\s*(?:halo|recessed|can|pot|wafer|trim|down)/i.test(around)) {
+          return null;
+        }
+        if (n >= 1 && n <= 200) return n;
+      }
+      // Priority 3: "(qty|quantity)" column patterns
+      var qtyMatch = t.match(/\bqty\.?\s*[:\-]?\s*(\d{1,3})/i);
+      if (qtyMatch) {
+        var qn = parseInt(qtyMatch[1]);
+        if (qn >= 6 && qn <= 200) return qn;
+      }
       return null;
     }
 
@@ -926,6 +982,7 @@
         var circuitCount = detectCircuitCount(text);
         var scopeSignals = detectElecScopeSignals(text);
         var brand = detectElecBrand(text);
+        var fixtureCount = detectFixtureCount(text);
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
@@ -994,7 +1051,7 @@ setProgress(90, "Almost done...");
 
         var _ocrSqft = detectHomeSqft(text);
         var _ocrAge = detectHomeAge(text);
-        var benchmark = _lowConfidence ? 0 : calcBenchmark(serviceType.value, _ocrSqft || 2000, _ocrAge || "2000_plus", region);
+        var benchmark = _lowConfidence ? 0 : calcBenchmark(serviceType.value, _ocrSqft || 2000, _ocrAge || "2000_plus", region, fixtureCount);
 
         var ratio = (!_lowConfidence && confirmedPrice > 0 && benchmark > 0) ? confirmedPrice / benchmark : 1.0;
         var verdict = _lowConfidence
@@ -1020,6 +1077,7 @@ setProgress(90, "Almost done...");
           serviceType: serviceType,
           amperage: amperage,
           circuitCount: circuitCount,
+          fixtureCount: fixtureCount,
           scopeSignals: scopeSignals,
           brand: brand,
           contractor: _contractor,
@@ -1353,6 +1411,9 @@ setProgress(90, "Almost done...");
       if (r.amperage) {
         detailsHtml += '<div class="elec-detail"><div class="label">Amperage</div><div class="value">' + r.amperage + 'A</div></div>';
       }
+      if (r.fixtureCount && r.serviceType && r.serviceType.value === "recessed_lights") {
+        detailsHtml += '<div class="elec-detail"><div class="label">Fixtures</div><div class="value">' + r.fixtureCount + ' lights</div></div>';
+      }
       if (r.homeAgeLabel) {
         detailsHtml += '<div class="elec-detail"><div class="label">Home Age</div><div class="value">' + r.homeAgeLabel + '</div></div>';
       }
@@ -1424,15 +1485,35 @@ setProgress(90, "Almost done...");
         contextHtml = '<div class="elec-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
       }
 
-      // Next Steps tips
+      // Next Steps tips. Job-type-aware (E11 + Bug 6 deep test 2026-05-02):
+      // drywall mention only fires on jobs that actually open drywall;
+      // utility-rebate copy only mentions panel/EV when those programs apply.
       var tipsHtml = '<div class="elec-card"><h3 style="margin-bottom:0.75rem;">Next Steps</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
       tipsHtml += '<li>Verify the electrician is licensed and insured in your state</li>';
       tipsHtml += '<li>Confirm all work will be permitted and inspected by the local authority</li>';
-      tipsHtml += '<li>Ask if the quote includes drywall patching and cleanup after wiring work</li>';
+      var _svcVal = (r.serviceType && r.serviceType.value) || "panel_upgrade";
+      var _opensDrywall = (_svcVal === "whole_house_rewire" || _svcVal === "circuit_addition" || _svcVal === "outlet_switch" || _svcVal === "recessed_lights");
+      if (_opensDrywall) {
+        tipsHtml += '<li>Ask if the quote includes drywall patching and cleanup after wiring access</li>';
+      } else if (_svcVal === "ev_charger") {
+        tipsHtml += '<li>Ask whether the panel has spare capacity, or if a panel upgrade or load-management device is required</li>';
+      } else if (_svcVal === "generator") {
+        tipsHtml += '<li>Confirm the gas line tie-in scope (natural gas / propane), generator pad, and ATS are all included</li>';
+      } else {
+        // panel_upgrade default — meter/utility coordination is the relevant ask
+        tipsHtml += '<li>Confirm utility coordination: temporary disconnect/reconnect, meter base, and inspection scheduling</li>';
+      }
       tipsHtml += '<li>Check that the warranty covers both materials and labor</li>';
       if (r.verdict.css === "high") {
         tipsHtml += '<li>Get 2-3 additional quotes from licensed local electricians</li>';
-        tipsHtml += '<li>Ask about utility rebates for panel upgrades or EV charger installations</li>';
+        // Job-aware utility-rebate copy
+        if (_svcVal === "ev_charger") {
+          tipsHtml += '<li>Ask about utility rebates for EV charger installations ($150-$500 typical)</li>';
+        } else if (_svcVal === "panel_upgrade") {
+          tipsHtml += '<li>Ask about utility rebates for panel upgrades that support electrification</li>';
+        } else if (_svcVal === "recessed_lights") {
+          tipsHtml += '<li>Ask if the LEDs qualify for utility rebates (most utilities offer $5-$25 per LED fixture)</li>';
+        }
       }
       if (r.verdict.css === "low") {
         tipsHtml += '<li>Verify materials are specified (brand, gauge, type) and not just "equivalent"</li>';
@@ -1451,7 +1532,9 @@ setProgress(90, "Almost done...");
         _rebateItems.push("Utility rebates: many utilities offer EV charger install incentives ($150-$500 typical)");
       } else if (_svc === "panel_upgrade") {
         _rebateItems.push("Utility rebates: many utilities offer incentives for panel upgrades that support electrification");
-        _rebateItems.push("Section 25C Energy Efficient Home Improvement Credit: 30% of cost up to $600/yr for panel upgrades that enable electrification (confirm via IRS Form 5695 for current year)");
+        // Note: Section 25C panel-upgrade credit (up to $600/yr) EXPIRED
+        // Dec 31 2025 per IRA 2022 sunset. Do NOT push as a current savings
+        // option — would be confident-wrong (Bug 8 deep test 2026-05-02).
       } else if (_svc === "whole_house_rewire") {
         _rebateItems.push("State weatherization assistance programs: low-income homeowners may qualify for grants covering rewires of homes with knob-and-tube or aluminum wiring");
         _rebateItems.push("Utility rebates: rewires that include grounding upgrades sometimes qualify for safety incentives");

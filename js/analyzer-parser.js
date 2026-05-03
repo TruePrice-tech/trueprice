@@ -1134,6 +1134,17 @@ function detectContractor(text) {
   while ((m = fallbackRegex.exec(source)) !== null) {
     const raw = m[1];
     const cleaned = cleanCompanyName(raw);
+    // Reject candidates that appear at the start of a form task-row line
+    // ("53 Main Electrical Panel" / "11 Check main electrical system").
+    // The line-level filter at lines.slice(0,10) catches the full row, but
+    // the fallback regex scans without line context and would still return
+    // "Main Electrical" out of the same row (E10 deep test 2026-05-02:
+    // f7 service-form $9,432). Anchor to line start so a legitimate brand
+    // mention inline ("12 squares Apex Roofing shingles") doesn't kill the
+    // real letterhead contractor.
+    const escaped = cleaned.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const taskRowContext = new RegExp("(?:^|\\n)\\s*\\d{2,}\\s+" + escaped, "i");
+    if (cleaned && taskRowContext.test(source)) continue;
     if (
       cleaned &&
       !/\$|,\d{3}|\.\d{2}\b/.test(cleaned) &&
