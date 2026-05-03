@@ -111,7 +111,12 @@ export default async function handler(req, res) {
     if (_mcpKeyValid) {
       _guard = { ok: true, imageHash: null, cachedResult: null };
     } else {
-      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v9-explicit-line-priority-2026-05-03", imageBytes: _imageBuf });
+      // L6 cross-vertical (legal dive 2026-05-03): use explicit cacheNamespace
+      // matched to the storeImageCache string below so cache lookups actually
+      // fire. Pre-fix the lookup ns ("medical-bill:v9-explicit-line-priority-...")
+      // and store ns ("medical-bill:v3-direct-call-...") didn't match — every
+      // request missed cache and ran Claude. v10 starts both aligned + clean.
+      _guard = await runAbuseGuard(req, { vertical: "medical-bill", cacheNamespace: "medical-bill:v10-no-pii-2026-05-03", imageBytes: _imageBuf });
       if (!_guard.ok) {
         return res.status(_guard.status).json({ error: _guard.error });
       }
@@ -292,13 +297,11 @@ CRITICAL ANALYSIS RULES:
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
 
-    // Record successful Claude call against the global ceiling
-    // and cache the parsed result by image hash for 24h dedup.
-    await recordClaudeCall();
-    if (_guard.imageHash) {
-      await storeImageCache("medical-bill:v3-direct-call-2026-04-27", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
-    }
-
+      // Record successful Claude call against the global ceiling. Cache write
+      // moved below — must run AFTER pricing enrichment AND patientName PII
+      // strip so cache hits don't leak HIPAA-adjacent data (legal dive
+      // 2026-05-03 cross-vertical L6 finding).
+      await recordClaudeCall();
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
@@ -385,6 +388,20 @@ CRITICAL ANALYSIS RULES:
 
     // Strip any PII before returning or storing
     delete parsed.patientName;
+
+    // L6 cross-vertical (legal dive 2026-05-03): cache write happens HERE so
+    // the cached payload includes pricingContext + facilityComparison from the
+    // enrichment block above and excludes patientName. Previously the cache
+    // held a pre-strip snapshot that would leak HIPAA-adjacent PII once cache
+    // hits started firing (cache was effectively broken pre-v10 due to a
+    // lookup/store namespace mismatch, masking the live exposure).
+    if (_guard.imageHash) {
+      await storeImageCache(
+        "medical-bill:v10-no-pii-2026-05-03",
+        _guard.imageHash,
+        { success: true, source: "claude-haiku", data: parsed }
+      );
+    }
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || parsed.facilityCity || "";
