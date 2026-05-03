@@ -1435,8 +1435,27 @@ setProgress(90, "Almost done...");
       // Scope checklist (upload only)
       var scopeHtml = "";
       if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0) {
+        // Per-job scope item set (E12 deep test 2026-05-02). The default
+        // 12-item panel-shaped list (permits/panel/breakers/wiring/grounding/
+        // conduit/trenching/testing/cleanup/warranty/codeCompliance/meter)
+        // hides entirely when a recessed-lights or outlet-switch quote
+        // doesn't trigger any panel signals. Surface a job-relevant set so
+        // recessed-lights actually gets a "did the LEDs come with brand,
+        // dimmer compat, IC-rated cans?" review.
+        var _scopeKeys = (
+          r.serviceType && r.serviceType.value === "recessed_lights"     ? ["permits", "wiring", "testing", "cleanup", "warranty"] :
+          r.serviceType && r.serviceType.value === "outlet_switch"        ? ["permits", "wiring", "testing", "warranty"] :
+          r.serviceType && r.serviceType.value === "ev_charger"           ? ["permits", "breakers", "wiring", "conduit", "grounding", "testing", "warranty"] :
+          r.serviceType && r.serviceType.value === "generator"            ? ["permits", "panel", "wiring", "conduit", "trenching", "testing", "warranty"] :
+          r.serviceType && r.serviceType.value === "circuit_addition"     ? ["permits", "breakers", "wiring", "grounding", "testing", "warranty"] :
+          // panel_upgrade / whole_house_rewire / default: full panel list
+          null
+        );
+        var _scopeItemsToShow = _scopeKeys
+          ? _scopeKeys.map(function(k) { return ELEC_PRICING.scopeItems.find(function(s) { return s.key === k; }); }).filter(Boolean)
+          : ELEC_PRICING.scopeItems;
         scopeHtml = '<div class="elec-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="elec-scope">';
-        ELEC_PRICING.scopeItems.forEach(function(item) {
+        _scopeItemsToShow.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
           var status = sig ? sig.status : "unclear";
           var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
@@ -1445,9 +1464,10 @@ setProgress(90, "Almost done...");
           scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
         });
         scopeHtml += '</ul>';
-        // Missing cost estimate
+        // Missing cost estimate (only show for jobs where missing items
+        // really do add five-figure change orders — panel/rewire/EV).
         var elecScopeCosts = { permits: [100,500], panel: [400,1500], breakers: [100,400], wiring: [300,2000], grounding: [100,400], conduit: [100,600], trenching: [200,1500], testing: [75,250], cleanup: [50,300], warranty: [0,0], codeCompliance: [100,500], meterUpgrade: [200,800] };
-        var missingItems = ELEC_PRICING.scopeItems.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
+        var missingItems = _scopeItemsToShow.filter(function(item) { var sig = r.scopeSignals[item.key]; return !sig || sig.status !== "included"; });
         if (missingItems.length > 0) {
           var mLow = 0, mHigh = 0;
           missingItems.forEach(function(item) { var c = elecScopeCosts[item.key]; if (c) { mLow += c[0]; mHigh += c[1]; } });
@@ -1458,17 +1478,38 @@ setProgress(90, "Almost done...");
         scopeHtml += '</div>';
       }
 
-      // Estimator scope info
+      // Estimator scope info — job-type-aware (Bug 5 deep test 2026-05-02).
+      // Previous version showed the same 8-item list (permits/panel/breakers/
+      // wiring/grounding/testing/cleanup/warranty) for EV chargers, generators,
+      // and rewires — which often misrepresented what the estimate actually
+      // covers. Now: each job type gets the items that actually apply.
       if (!isUpload) {
+        var _estSvc = (r.serviceType && r.serviceType.value) || "panel_upgrade";
+        var _estScope = {
+          panel_upgrade:      ["permits", "panel", "breakers", "wiring", "grounding", "meterUpgrade", "testing", "warranty"],
+          ev_charger:         ["permits", "breakers", "wiring", "conduit", "grounding", "testing", "warranty"],
+          generator:          ["permits", "panel", "wiring", "conduit", "trenching", "testing", "warranty"],
+          whole_house_rewire: ["permits", "panel", "breakers", "wiring", "grounding", "codeCompliance", "testing", "cleanup", "warranty"],
+          recessed_lights:    ["permits", "wiring", "testing", "cleanup", "warranty"],
+          circuit_addition:   ["permits", "breakers", "wiring", "grounding", "testing", "warranty"],
+          outlet_switch:      ["permits", "wiring", "testing", "warranty"]
+        };
+        var _estItems = _estScope[_estSvc] || _estScope.panel_upgrade;
+        var _estCaveat = (
+          _estSvc === "ev_charger"         ? "Estimate assumes existing panel has spare capacity and run length under 50 ft. Long runs, exterior install, or panel upgrade add cost." :
+          _estSvc === "generator"          ? "Estimate assumes natural-gas tie-in by a separate plumber and concrete pad already poured. Site grading, fuel-line trenching, and propane-tank install add cost." :
+          _estSvc === "whole_house_rewire" ? "Estimate assumes drywall repair NOT included. Knob-and-tube or aluminum-branch homes typically run higher." :
+          _estSvc === "recessed_lights"    ? "Estimate assumes existing ceiling structure with attic access. New-construction install or insulated ceilings (IC-rated cans required) add cost." :
+                                             "Estimate assumes standard installation. Trenching, conduit runs, or structural modifications may add cost."
+        );
         scopeHtml = '<div class="elec-card"><h3 style="margin-bottom:0.75rem;">What This Estimate Includes</h3><ul class="elec-scope">';
-        var typicalItems = ["permits", "panel", "breakers", "wiring", "grounding", "testing", "cleanup", "warranty"];
-        typicalItems.forEach(function(key) {
+        _estItems.forEach(function(key) {
           var item = ELEC_PRICING.scopeItems.find(function(s) { return s.key === key; });
           if (item) {
             scopeHtml += '<li><span class="scope-icon scope-included">&#10003;</span><span>' + item.label + '</span></li>';
           }
         });
-        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">Estimate assumes standard installation. Trenching, conduit runs, or structural modifications may add cost.</p></div>';
+        scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + _esc(_estCaveat) + '</p></div>';
       }
 
       // Market context

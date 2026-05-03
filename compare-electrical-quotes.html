@@ -634,7 +634,20 @@
               + diff.toLocaleString() + " more. " + escHtml(cheap.data.name)
               + " leaves out " + (shown || "items the other includes") + more + ".";
           } else {
-            ctx = escHtml(pricey.data.name) + " is $" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(cheap.data.name) + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
+            // Reframe large spreads as a multiplier \u2014 "5.3x the lower quote"
+            // reads more neutrally than "430% more than", which can sound
+            // like an indictment when the spread may reflect tier or brand
+            // differences not visible in scope items. Bug 9 deep test
+            // 2026-05-02 (concrete-dive UX bias pattern, Lane has flagged
+            // raw-percentage framing across multiple verticals).
+            var spreadFraming;
+            if (pct > 100) {
+              var mult = Math.round((pricey.data.price / cheap.data.price) * 10) / 10;
+              spreadFraming = "$" + diff.toLocaleString() + " more than " + escHtml(cheap.data.name) + " (" + mult + "x the lower quote)";
+            } else {
+              spreadFraming = "$" + diff.toLocaleString() + " (" + pct + "%) more than " + escHtml(cheap.data.name);
+            }
+            ctx = escHtml(pricey.data.name) + " is " + spreadFraming + ". A higher price doesn\u2019t always indicate above-market pricing \u2014 check the scope and warranty before deciding.";
           }
           html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
         }
