@@ -295,7 +295,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/windows-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Window Brand", "field": "brand", "type": "text"}, {"label": "Frame Material", "field": "frameMaterial", "type": "text"}, {"label": "Window Count", "field": "windowCount", "type": "number"}, {"label": "$/window", "field": "_dollarsPerWindow", "type": "computed"}, {"label": "Glass Package", "field": "glassPackage", "type": "text"}, {"label": "U-Factor", "field": "uFactor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
+    var ROWS = [{"label": "Window Brand", "field": "brand", "type": "text"}, {"label": "Frame Material", "field": "material", "type": "text"}, {"label": "Window Count", "field": "windowCount", "type": "number"}, {"label": "$/window", "field": "_dollarsPerWindow", "type": "computed"}, {"label": "Glass Package", "field": "glassPackage", "type": "text"}, {"label": "U-Factor", "field": "uFactor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Frame Warranty", "field": "warrantyFrame", "type": "text"}];
     var SCOPE_ITEMS = [{"key":"haul_away","label":"Old window removal"},{"key":"trim","label":"Trim/capping"},{"key":"flashing","label":"Flashing/waterproofing"},{"key":"caulk","label":"Caulk/insulation"},{"key":"low_e","label":"Low-E glass"},{"key":"argon","label":"Argon filled"},{"key":"screens","label":"Screens included"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"},{"key":"permit","label":"Permit"},{"key":"glass_package","label":"Glass package"},{"key":"install_method","label":"Install method"}];
     var IRIS = "/images/Worker%20Woogoro/Windows%20worker.png";
     var SINGLE_PAGE = "/window-quote-analyzer.html";
@@ -406,18 +406,38 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "windows");
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        // CMP-WIN-2 (TRUST-CRITICAL 2026-05-03): always call Claude API on
+        // compare path. Mirrors CMP-SOL-6 / M3 fix — previously regex
+        // fast-path returned with only { totalPrice }, leaving Brand /
+        // Material / Window Count / Glass Package / U-Factor / Labor Total /
+        // Frame Warranty as N/A and the comparison table near-empty. Cost:
+        // 3 API calls per session at ~$0.0015/quote = $0.0045. Cheap. The
+        // regex price serves as fallback below if Claude returns null.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+          })
+          .catch(function(err) {
+            console.warn("[compare-windows] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "windows");
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.warranty) api.warrantyFrame = extracted.warranty.parts || extracted.warranty.labor || null;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
@@ -426,9 +446,14 @@
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "windows");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
-          if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
+          if (!api.warrantyFrame && extracted.warranty) api.warrantyFrame = extracted.warranty.parts || extracted.warranty.labor || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
+        // CMP-WIN-3 (2026-05-03): Anthropic windows prompt doesn't return a
+        // contractor / company name field, so hoist the OCR-extracted
+        // contractor that TP_Engine surfaces (mirrors CMP-SOL-7). Without
+        // this, slot labels show "Installer 1 / 2 / 3" — amateurish.
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
