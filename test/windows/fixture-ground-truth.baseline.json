@@ -1,12 +1,12 @@
 {
-  "ts": "2026-05-03T21:50:18.372Z",
+  "ts": "2026-05-03T22:05:28.898Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-ecoview-handwritten": {
       "verdictLabel": "BELOW AVERAGE",
       "verdictPrice": "$10,469",
       "verdictRange": "Market benchmark: $11,900 -- 12% below average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n18\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$582\nPRICING SOURCE\nSouth regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nEcoView Windows & Doors\nWINDOW TYPE\nVinyl Windows\nCOUNT\n18\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$582\nPRICING SOURCE\nSouth regional pricing",
       "isHardReject": false,
       "contractor": "EcoView Windows & Doors",
       "totalPrice": 10469,
@@ -18,15 +18,13 @@
       "uFactor": null,
       "stateCode": null,
       "warrantyFrame": null,
-      "failures": [
-        "brand: expected match /eco\\s*view/, got api=\"\" display brand row=missing"
-      ]
+      "failures": []
     },
     "c1-low-pacific-warehouse": {
       "verdictLabel": "UNUSUALLY LOW",
       "verdictPrice": "$5,640",
       "verdictRange": "Market benchmark: $9,700 -- 42% below average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nPacific Window Warehouse\nLOCATION\nWA\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "Pacific Window Warehouse",
       "totalPrice": 5640,
@@ -44,7 +42,7 @@
       "verdictLabel": "FAIR PRICE",
       "verdictPrice": "$9,500",
       "verdictRange": "Market benchmark: $9,700 -- 2% below average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nCASCADE WINDOW & DOOR\nLOCATION\nWA\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "CASCADE WINDOW & DOOR",
       "totalPrice": 9500,
@@ -62,7 +60,7 @@
       "verdictLabel": "ABOVE AVERAGE",
       "verdictPrice": "$19,520",
       "verdictRange": "Market benchmark: $16,150 -- 21% above average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nEvergreen Premier Windows\nLOCATION\nWA\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "Evergreen Premier Windows",
       "totalPrice": 19520,
@@ -80,7 +78,7 @@
       "verdictLabel": "UNUSUALLY LOW",
       "verdictPrice": "$5,640",
       "verdictRange": "Market benchmark: $9,700 -- 42% below average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nPacific Window Warehouse\nLOCATION\nWA\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "Pacific Window Warehouse",
       "totalPrice": 5640,
@@ -98,7 +96,7 @@
       "verdictLabel": "FAIR PRICE",
       "verdictPrice": "$9,500",
       "verdictRange": "Market benchmark: $9,700 -- 2% below average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nCASCADE WINDOW & DOOR\nLOCATION\nWA\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "CASCADE WINDOW & DOOR",
       "totalPrice": 9500,
@@ -116,7 +114,7 @@
       "verdictLabel": "ABOVE AVERAGE",
       "verdictPrice": "$19,520",
       "verdictRange": "Market benchmark: $16,150 -- 21% above average",
-      "detailsTextSlice": "Project Details\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nWest regional pricing",
+      "detailsTextSlice": "Project Details\nCONTRACTOR\nEvergreen Premier Windows\nLOCATION\nWA\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nWest regional pricing",
       "isHardReject": false,
       "contractor": "Evergreen Premier Windows",
       "totalPrice": 19520,
