@@ -293,7 +293,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/insulation-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Insulation Type", "field": "insulationType", "type": "text"}, {"label": "R-Value", "field": "rValue", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Areas Covered", "field": "areasCovered", "type": "text"}, {"label": "Air Sealing Included", "field": "airSealingIncluded", "type": "yesno"}];
+    var ROWS = [{"label": "Insulation Type", "field": "insulationType", "type": "text"}, {"label": "R-Value", "field": "rValue", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Location", "field": "location", "type": "text"}, {"label": "Air Sealing Included", "field": "airSealingIncluded", "type": "yesno"}];
     var SCOPE_ITEMS = [{"key":"air_sealing","label":"Air sealing"},{"key":"baffles","label":"Baffles/ventilation"},{"key":"vapor_barrier","label":"Vapor barrier"},{"key":"removal","label":"Old insulation removal"},{"key":"rebate","label":"Rebate eligible"},{"key":"cleanup","label":"Cleanup/disposal"},{"key":"hatch","label":"Hatch insulation"},{"key":"energy_audit","label":"Energy audit"}];
     var IRIS = "/images/Worker%20Woogoro/Insulation%20worker.png";
     var SINGLE_PAGE = "/insulation-quote-analyzer.html";
@@ -413,7 +413,7 @@
               d._priceSource = "regex_fallback";
               if (raw && raw.data) raw.data = d;
             }
-            return { raw: raw, ocrText: _engOcrText };
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
           })
           .catch(function(err) {
             console.warn("[compare-insulation] Claude API failed, falling back to regex:", err.message);
@@ -426,7 +426,7 @@
                 if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
                 api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
               }
-              return { raw: { data: api }, ocrText: _engOcrText };
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
             }
             throw err;
           });
@@ -441,6 +441,8 @@
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
+        // CMP-INS-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
