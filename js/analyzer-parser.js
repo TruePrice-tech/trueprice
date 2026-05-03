@@ -1091,7 +1091,7 @@ function detectContractor(text) {
     const wordCount = name.split(/\s+/).filter(Boolean).length;
     if (wordCount > 8) return false;
 
-    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|motorcars|motors|automotive|tire|tires|service center|services|solutions|systems|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
+    return /(roofing|roof|exteriors|construction|contracting|restoration|builders|roof solutions|home improvement|plumbing|plumber|electric|electrical|electrician|hvac|heating|cooling|air conditioning|fencing|fence|foundation|concrete|masonry|gutters|gutter|insulation|kitchen|remodel|remodeling|remodelers|renovation|renovations|renovators|landscaping|landscape|lawn|moving|movers|mover|painting|painter|painters|solar|energy|siding|windows|window|glass|garage|door|doors|auto|repair|mechanic|body shop|motorcars|motors|automotive|tire|tires|service center|services|solutions|systems|pros|professionals|enterprises|industries|works|specialists|experts|group|brothers|sons|associates|partners|team)/i.test(normalizedForMatch);
   }
 
   const labeledPatterns = [
@@ -1116,6 +1116,7 @@ function detectContractor(text) {
     "builders","plumbing","plumber","electric","electrical","electrician",
     "hvac","heating","cooling","fencing","fence","foundation","concrete",
     "masonry","gutters","gutter","insulation","kitchen","remodel","remodeling",
+    "remodelers","renovation","renovations","renovators",
     "landscaping","landscape","moving","movers","mover","painting","painter",
     "solar","energy","siding","windows","window","garage","auto","repair",
     "mechanic","motorcars","motors","automotive","tire","tires",
@@ -1141,7 +1142,7 @@ function detectContractor(text) {
   // (Was: non-greedy regex returning the first/shortest match, which made
   // different OCR passes of the same quote produce different substrings like
   // "PEAKPRO ROOFING" vs "E ROOFING" vs "A E ROOFING".)
-  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders|Plumbing|Plumber|Electric|Electrical|Electrician|HVAC|Heating|Cooling|Fencing|Fence|Foundation|Concrete|Masonry|Gutters|Gutter|Insulation|Kitchen|Remodel|Remodeling|Landscaping|Landscape|Moving|Movers|Mover|Painting|Painter|Solar|Energy|Siding|Windows|Window|Garage|Auto|Repair|Mechanic|Motorcars|Motors|Automotive|Tire|Tires|Services|Solutions|Pros|Professionals|Enterprises|Industries|Works|Specialists|Experts|Group|Brothers|Sons|Associates|Partners|Team))\b/g;
+  const fallbackRegex = /\b([A-Z][A-Za-z0-9&.' -]{2,70}?(?:Roofing|Roof|Exteriors|Construction|Contracting|Restoration|Builders|Plumbing|Plumber|Electric|Electrical|Electrician|HVAC|Heating|Cooling|Fencing|Fence|Foundation|Concrete|Masonry|Gutters|Gutter|Insulation|Kitchen|Remodel|Remodeling|Remodelers|Renovation|Renovations|Renovators|Landscaping|Landscape|Moving|Movers|Mover|Painting|Painter|Solar|Energy|Siding|Windows|Window|Garage|Auto|Repair|Mechanic|Motorcars|Motors|Automotive|Tire|Tires|Services|Solutions|Pros|Professionals|Enterprises|Industries|Works|Specialists|Experts|Group|Brothers|Sons|Associates|Partners|Team))\b/g;
   const candidates = [];
   let m;
   while ((m = fallbackRegex.exec(source)) !== null) {
