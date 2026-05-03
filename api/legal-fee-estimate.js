@@ -85,10 +85,10 @@ export default async function handler(req, res) {
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
     // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
-    // cacheNamespace bumped to v5 (legal dive 2026-05-03) to invalidate old
-    // cached entries that held attorneyName PII + missing pricingContext /
-    // retainerCheckScore (cache-write moved below the strip + enrichment).
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v5-no-pii" });
+    // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
+    // got polluted with stale entries during the gradual deploy window before
+    // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v6-clean" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -343,8 +343,11 @@ Return ONLY the JSON object, no markdown, no explanation.`
         parsed.retainerCheckScore = totalWeight > 0 ? Math.round((passingWeight / totalWeight) * 100) : null;
       }
     } catch (e) {
-      // Pricing enrichment failed -- still return AI results
-      console.log("[legal-fee-estimate] Pricing enrichment error:", e.message);
+      // Pricing enrichment failed -- still return AI results, but log a
+      // structured marker on the response so the harness can diagnose
+      // whether the failure is at file-read, JSON parse, or schema lookup.
+      console.log("[legal-fee-estimate] Pricing enrichment error:", e.message, e.stack);
+      parsed._enrichmentError = String(e && e.message || e).slice(0, 240);
     }
 
     // Strip PII before returning or storing
