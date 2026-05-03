@@ -414,7 +414,11 @@
         // Range matches recessed_lights_6pack in electrical-pricing.json.
         recessed_lights: { label: "Recessed Lighting Install (6-pack)", low: 800, high: 2400 }
       },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
+      // "national" is the fallback when the user's state is unknown. Population-weighted
+       // mean of the six regional multipliers ≈ 1.10. Pre-Bug-13 fix the fallback was
+       // "south" (multiplier 1.00 — coincidentally the LOWEST) which silently treated
+       // unknown-state users as TX-pricing residents and produced wrong verdicts.
+       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22, national: 1.10 },
       overheadMultiplier: 1.0,
       roundTo: 50,
       homeSizes: [
@@ -501,7 +505,12 @@
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
     function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+      // Bug-13 (kitchen K13 cross-vertical fix 2026-05-03): when state is
+      // unknown, fall back to "national" (population-weighted mean
+      // multiplier ≈ 1.10), not "south" (multiplier 1.00 = TX-pricing
+      // band). The K13-style stateCode="" guarantee at the address-form
+      // confirm AND at the analyzer-parser fallback both flow through here.
+      return STATE_REGIONS[(sc || "").toUpperCase()] || "national";
     }
 
     // City-level multiplier + inflation + seasonal
