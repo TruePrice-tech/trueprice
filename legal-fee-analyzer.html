@@ -617,37 +617,77 @@
 
     async function processFile(file) {
       try {
-        // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
-        var engineResult = await TP_Engine.analyzeQuote(file, {
-          vertical: "legal",
-          apiEndpoint: "/api/legal-fee-estimate",
-          onProgress: setProgress
-        });
+        // L1 (legal dive 2026-05-03): legal documents need structured extraction
+        // (feeStructure / contingencyPercent / hourlyRate / firmName / etc.) the
+        // shared regex engine cannot produce. TP_Engine only calls the AI when
+        // the regex parser fails to find a price (shouldCallAI = !result.price).
+        // Legal fee agreements always contain dollar amounts (rates, retainers,
+        // case-value ranges) the regex matches incidentally, so AI was never
+        // called and aiData was always null. Bypass the engine and post the
+        // document directly to /api/legal-fee-estimate, mirroring medical.
+        setProgress(15, "Reading document...");
 
-        var text = engineResult.ocrText || "";
-        state.extractedText = text;
+        var payload = { _client: "legal-fee-analyzer" };
+        var name = (file.name || "").toLowerCase();
 
-        // HARD REJECT: refuse to render a verdict if the OCR text is clearly
-        // a different vertical's quote. Trust requirement Lane 2026-04-29.
-        if (text && typeof window.tpEnforceVerticalMatch === "function") {
+        var localOcrText = "";
+        if (name.endsWith(".pdf") || (file.type && file.type.indexOf("pdf") >= 0)) {
+          if (typeof window.loadVendorLibs === "function") await window.loadVendorLibs();
+          payload.text = await extractPdfText(file);
+          localOcrText = payload.text || "";
+        } else {
+          if (typeof window.loadVendorLibs === "function") await window.loadVendorLibs();
+          try {
+            localOcrText = await extractImageText(file);
+          } catch (e) { localOcrText = ""; }
+          var dataUrl = await fileToBase64(file);
+          payload.images = [dataUrl];
+          if (localOcrText) payload.text = localOcrText;
+        }
+
+        state.extractedText = localOcrText;
+
+        // HARD REJECT before API call: vertical mismatch (e.g. roofing quote
+        // uploaded to legal). Trust requirement Lane 2026-04-29.
+        if (localOcrText && typeof window.tpEnforceVerticalMatch === "function") {
           var __lfAppRoot = document.getElementById("appRoot") || document.querySelector("main") || document.body;
-          if (window.tpEnforceVerticalMatch("legal", text, __lfAppRoot)) {
+          if (window.tpEnforceVerticalMatch("legal", localOcrText, __lfAppRoot)) {
             return;
           }
         }
 
-        var apiResult = engineResult.aiData || null;
+        setProgress(45, "Checking against benchmark rates...");
+
+        var resp = await fetch("/api/legal-fee-estimate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        var apiResult = null;
+        if (resp.ok) {
+          var json = await resp.json();
+          if (json && json.success && json.data) apiResult = json.data;
+        } else {
+          console.warn("Legal API responded " + resp.status);
+        }
 
         setProgress(80, "Reviewing agreement terms...");
 
         var result = null;
-        if (apiResult && (apiResult.hourlyRate || apiResult.practiceArea || apiResult.lineItems)) {
+        if (apiResult) {
           result = buildResultFromAPI(apiResult);
-        } else {
-          result = buildResultFromLocal(text);
+        } else if (localOcrText) {
+          result = buildResultFromLocal(localOcrText);
         }
 
         setProgress(100, "Done!");
+
+        if (!result) {
+          renderErrorFallback();
+          return;
+        }
+
         state.result = result;
         state.step = "result";
         setTimeout(render, 400);
@@ -753,25 +793,56 @@
     }
 
     // ── Build result from API response ──
+    // L2 (legal dive 2026-05-03): the API (api/legal-fee-estimate.js) returns
+    // feeStructure / contingencyPercent / firmName, but this function used to
+    // read api.feeType / api.contingencyPct / api.firm. Field names now match
+    // the API contract. feeStructure values "flat_fee" | "hourly" |
+    // "contingency" | "hybrid" | "unclear" map to the renderer's feeType
+    // strings "flat" | "hourly" | "contingency" (hybrid/unclear → hourly).
     function buildResultFromAPI(api) {
       var practiceArea = api.practiceArea || "general_litigation";
       var region = api.region || null;
-      var hourlyRate = api.hourlyRate || 0;
-      var feeType = api.feeType || "hourly";
-      var contingencyPct = api.contingencyPct || null;
-      var flatFee = api.flatFee || null;
-      var market = getMarketRange(practiceArea, region);
+      var hourlyRate = Number(api.hourlyRate) || 0;
+      var contingencyPct = api.contingencyPercent != null ? Number(api.contingencyPercent) : null;
+      var flatFee = api.flatFee != null ? Number(api.flatFee) : null;
+      var retainerAmount = api.retainerAmount != null ? Number(api.retainerAmount) : null;
 
-      var verdictType = "fair";
-      if (hourlyRate > 0) {
-        if (hourlyRate > market.high) verdictType = "above";
-        else if (hourlyRate < market.low) verdictType = "below";
+      // Map API feeStructure → renderer feeType.
+      var feeType;
+      switch (api.feeStructure) {
+        case "flat_fee":   feeType = "flat";        break;
+        case "contingency":feeType = "contingency"; break;
+        case "hourly":     feeType = "hourly";      break;
+        default:
+          // Hybrid / unclear / missing — pick the populated field, else hourly.
+          if (flatFee)            feeType = "flat";
+          else if (contingencyPct)feeType = "contingency";
+          else                    feeType = "hourly";
       }
 
+      var market = getMarketRange(practiceArea, region);
+
+      // L3 (legal dive 2026-05-03): contingency verdict was unreachable —
+      // verdictType only ever reflected hourlyRate, leaving every PI quote
+      // tagged "fair" regardless of the percentage. Mirror buildResultFromLocal:
+      // contingency >40% = "above", <25% = "below".
+      var verdictType = "fair";
+      if (feeType === "hourly" && hourlyRate > 0) {
+        if (hourlyRate > market.high) verdictType = "above";
+        else if (hourlyRate < market.low) verdictType = "below";
+      } else if (feeType === "contingency" && contingencyPct) {
+        if (contingencyPct > 40) verdictType = "above";
+        else if (contingencyPct < 25) verdictType = "below";
+      }
+
+      // The API returns retainerChecks (not "checks"). Map keys when present.
+      var apiChecks = api.retainerChecks || api.checks || null;
       var checks = {};
       AGREEMENT_CHECKS.forEach(function(c) {
-        if (api.checks && api.checks[c.key] !== undefined) {
-          checks[c.key] = api.checks[c.key];
+        if (apiChecks && apiChecks[c.key] !== undefined) {
+          var v = apiChecks[c.key];
+          checks[c.key] = (v === "yes" || v === true) ? "pass" :
+                          (v === "no" || v === false) ? "fail" : null;
         } else {
           checks[c.key] = null;
         }
@@ -786,20 +857,28 @@
         };
       });
 
+      // The API strips attorneyName (PII) before returning. Use firmName.
+      var attorney = api.firmName || api.firm || api.attorney || "Unknown Attorney";
+
       return {
-        attorney: api.attorney || api.firm || "Unknown Attorney",
+        attorney: attorney,
         practiceArea: practiceArea,
         region: region,
         hourlyRate: hourlyRate,
         feeType: feeType,
         contingencyPct: contingencyPct,
         flatFee: flatFee,
+        retainerAmount: retainerAmount,
         marketLow: market.low,
         marketMid: market.mid,
         marketHigh: market.high,
         verdictType: verdictType,
         checks: checks,
-        redFlags: api.redFlags || [],
+        redFlags: (api.redFlags || []).map(function(f) {
+          // API returns plain strings; renderer expects {title, why, action}.
+          if (typeof f === "string") return { title: f, why: f, action: "" };
+          return f;
+        }),
         lineItems: lineItems,
         firmSize: api.firmSize || null,
         blockBillingEntries: api.blockBillingEntries || [],
@@ -809,7 +888,8 @@
         estimatedIncrementOvercharge: api.estimatedIncrementOvercharge || null,
         pricingContext: api.pricingContext || null,
         flatFeeComparison: api.flatFeeComparison || null,
-        retainerScore: api.retainerScore != null ? api.retainerScore : null,
+        retainerScore: api.retainerCheckScore != null ? api.retainerCheckScore :
+                       (api.retainerScore != null ? api.retainerScore : null),
         stateBarLink: api.stateBarLink || null,
         legalAidEligible: api.legalAidEligible || null,
         source: "api"

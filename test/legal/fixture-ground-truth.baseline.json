@@ -1,0 +1,248 @@
+{
+  "ts": "2026-05-03T12:21:58.180Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-pi-low-brighton": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "General Litigation",
+        "market mid": "$400/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~33, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /brighton.*sage|brighton/, got null",
+        "firmDisplay: verdict card missing firm match /brighton.*sage|brighton/"
+      ]
+    },
+    "f2-pi-mid-kestrel": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "General Litigation",
+        "market mid": "$500/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~35, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /kestrel/, got null",
+        "firmDisplay: verdict card missing firm match /kestrel/"
+      ]
+    },
+    "f3-pi-high-stratton": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "General Litigation",
+        "market mid": "$400/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~40, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /stratton|caine/, got null",
+        "firmDisplay: verdict card missing firm match /stratton|caine/"
+      ]
+    },
+    "f4-pi-low-messy": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "Estate Planning",
+        "market mid": "$350/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~33, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /brighton.*sage|brighton/, got null",
+        "firmDisplay: verdict card missing firm match /brighton.*sage|brighton/"
+      ]
+    },
+    "f5-pi-mid-messy": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "General Litigation",
+        "market mid": "$500/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~35, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /kestrel/, got null",
+        "firmDisplay: verdict card missing firm match /kestrel/"
+      ]
+    },
+    "f6-pi-high-messy": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "General Litigation",
+        "market mid": "$400/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"contingency\", got null",
+        "contingencyPct: expected ~40, got null",
+        "contingencyDisplay: row missing — got \"Not detected\"",
+        "practiceArea: expected \"personal_injury\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /stratton|caine/, got null",
+        "firmDisplay: verdict card missing firm match /stratton|caine/"
+      ]
+    },
+    "f7-hourly-retainer-blackwood": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "hourly rate": "$385/hr",
+        "practice area": "Business Law",
+        "market mid": "$400/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"hourly\", got null",
+        "hourlyRate: expected ~585, got null",
+        "hourlyRateDisplay: expected /585/, got \"$385/hr\"",
+        "retainerAmount: expected ~15000, got null",
+        "practiceArea: expected \"general_litigation\", got null",
+        "stateCode: expected \"NC\", got null",
+        "firmName(API): expected match /blackwood.*steel|blackwood/, got null",
+        "firmDisplay: verdict card missing firm match /blackwood.*steel|blackwood/"
+      ]
+    },
+    "f8-flat-criminal-falconer": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "fee": "Not detected",
+        "practice area": "Criminal Defense",
+        "market mid": "$352/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"flat_fee\", got null",
+        "flatFee: expected ~3500, got null",
+        "flatFeeDisplay: expected /3500/, got \"Not detected\"",
+        "practiceArea: expected \"criminal_defense\", got null",
+        "stateCode: expected \"AL\", got null",
+        "firmName(API): expected match /falconer/, got null",
+        "firmDisplay: verdict card missing firm match /falconer/"
+      ]
+    },
+    "f9-real-photo-invoice": {
+      "verdictLabel": "WITHIN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "details": {
+        "hourly rate": "$350/hr",
+        "practice area": "Estate Planning",
+        "market mid": "$438/hr"
+      },
+      "isHardReject": false,
+      "firmName": null,
+      "feeStructure": null,
+      "hourlyRate": null,
+      "flatFee": null,
+      "contingencyPercent": null,
+      "retainerAmount": null,
+      "practiceArea": null,
+      "stateCode": null,
+      "failures": [
+        "feeStructure: expected \"hourly\", got null",
+        "hourlyRate: expected ~350, got null",
+        "practiceArea: expected \"estate_planning\", got null",
+        "stateCode: expected \"TX\", got null",
+        "firmName(API): expected match /henderson.*cole|henderson/, got null"
+      ]
+    }
+  }
+}
