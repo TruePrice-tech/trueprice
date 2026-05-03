@@ -348,6 +348,7 @@
   <script src="/js/analyzer-core.min.js?v=20260429a" defer></script>
   <script src="/js/analyzer-parser.min.js?v=20260429a" defer></script>
   <script src="/js/analyzer-engine.min.js?v=20260502b" defer></script>
+  <script src="/js/analyzer-ocr.js" defer></script>
   <script src="/js/vertical-detect.min.js?v=20260429a"></script>
   <script src="/js/wrong-vertical-guard.min.js?v=20260429a"></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
@@ -459,33 +460,70 @@
     }
 
     // ── Build result from API response (same shape as legal-fee-analyzer) ──
+    // L4 (legal dive 2026-05-03): unwrap { success, source, data } envelope
+    // (caller used to pass the whole response, leaving every field undefined),
+    // and read API field names (feeStructure / contingencyPercent / firmName)
+    // instead of the made-up feeType / contingencyPct / firm. Mirrors the
+    // analyzer-side L2 fix in legal-fee-analyzer.html.
     function buildResultFromAPI(api) {
+      if (api && api.data && typeof api.data === "object") api = api.data;
+
       var practiceArea = api.practiceArea || "general_litigation";
       var region = api.region || null;
-      var hourlyRate = api.hourlyRate || 0;
-      var feeType = api.feeType || "hourly";
-      var market = getMarketRange(practiceArea, region);
+      var hourlyRate = Number(api.hourlyRate) || 0;
+      var contingencyPct = api.contingencyPercent != null ? Number(api.contingencyPercent) :
+                           (api.contingencyPct != null ? Number(api.contingencyPct) : null);
+      var flatFee = api.flatFee != null ? Number(api.flatFee) : null;
+      var retainerAmount = api.retainerAmount != null ? Number(api.retainerAmount) :
+                           (api.retainer != null ? Number(api.retainer) : null);
 
-      var verdictType = "fair";
-      if (hourlyRate > 0) {
-        if (hourlyRate > market.high) verdictType = "above";
-        else if (hourlyRate < market.low) verdictType = "below";
+      // Map API feeStructure → renderer feeType (analyzer L2 parity).
+      var feeType;
+      switch (api.feeStructure) {
+        case "flat_fee":   feeType = "flat";        break;
+        case "contingency":feeType = "contingency"; break;
+        case "hourly":     feeType = "hourly";      break;
+        default:
+          if (flatFee)            feeType = "flat";
+          else if (contingencyPct)feeType = "contingency";
+          else                    feeType = "hourly";
       }
 
+      var market = getMarketRange(practiceArea, region);
+
+      // Contingency verdict (L3 parity): >40 above, <25 below.
+      var verdictType = "fair";
+      if (feeType === "hourly" && hourlyRate > 0) {
+        if (hourlyRate > market.high) verdictType = "above";
+        else if (hourlyRate < market.low) verdictType = "below";
+      } else if (feeType === "contingency" && contingencyPct) {
+        if (contingencyPct > 40) verdictType = "above";
+        else if (contingencyPct < 25) verdictType = "below";
+      }
+
+      var apiChecks = api.retainerChecks || api.checks || null;
       var checks = {};
       AGREEMENT_CHECKS.forEach(function(c) {
-        checks[c.key] = (api.checks && api.checks[c.key] !== undefined) ? api.checks[c.key] : null;
+        if (apiChecks && apiChecks[c.key] !== undefined) {
+          var v = apiChecks[c.key];
+          checks[c.key] = (v === "yes" || v === true) ? "pass" :
+                          (v === "no" || v === false) ? "fail" : null;
+        } else {
+          checks[c.key] = null;
+        }
       });
 
+      var attorney = api.firmName || api.firm || api.attorney || "";
+
       return {
-        attorney: api.attorney || api.firm || "",
+        attorney: attorney,
         practiceArea: practiceArea,
         region: region,
         hourlyRate: hourlyRate,
         feeType: feeType,
-        contingencyPct: api.contingencyPct || null,
-        flatFee: api.flatFee || null,
-        retainerAmount: api.retainerAmount || api.retainer || null,
+        contingencyPct: contingencyPct,
+        flatFee: flatFee,
+        retainerAmount: retainerAmount,
         billingIncrement: api.billingIncrement || null,
         nonRefundableRetainer: api.nonRefundableRetainer || false,
         marketLow: market.low,
@@ -495,63 +533,56 @@
         checks: checks,
         redFlags: api.redFlags || [],
         blockBillingEntries: api.blockBillingEntries || [],
-        retainerScore: api.retainerScore != null ? api.retainerScore : null,
+        retainerScore: api.retainerCheckScore != null ? api.retainerCheckScore :
+                       (api.retainerScore != null ? api.retainerScore : null),
         source: "api"
       };
     }
 
     // ── Process a single file ──
+    // L4 (legal dive 2026-05-03): bypass TP_Engine's regex short-circuit
+    // (shouldCallAI = !result.price), which fired on incidental dollar amounts
+    // in fee agreements and stuffed the wrong number into a fake regexApi
+    // envelope that buildResultFromAPI couldn't read. Always post to
+    // /api/legal-fee-estimate, mirroring the analyzer's L1 fix.
     async function processFile(file) {
-      var engineResult = await TP_Engine.analyzeQuote(file, { vertical: "legal", apiEndpoint: "/api/legal-fee-estimate" });
-      var _engOcrText = engineResult.ocrText || "";
+      // Local OCR for the wrong-vertical hard-reject and as the API payload's
+      // text input. PDFs use pdfjs; images use the shared OCR helper.
+      var name = (file.name || "").toLowerCase();
+      var localOcrText = "";
+      var dataUrl = null;
+      if (name.endsWith(".pdf") || (file.type && file.type.indexOf("pdf") >= 0)) {
+        if (typeof window.loadVendorLibs === "function") await window.loadVendorLibs();
+        try { localOcrText = await extractPdfText(file); } catch (e) { localOcrText = ""; }
+      } else {
+        if (typeof window.loadVendorLibs === "function") await window.loadVendorLibs();
+        try { localOcrText = await extractImageText(file); } catch (e) { localOcrText = ""; }
+        dataUrl = await fileToBase64(file);
+      }
 
       // Wrong-vertical hard-reject before any analysis renders.
-      if (_engOcrText && _engOcrText.length > 50 &&
+      if (localOcrText && localOcrText.length > 50 &&
           typeof window.tpEnforceVerticalMatch === "function") {
-        // BUG FIX 2026-04-30: was .cmp-card (other compare pages use that
-        // class name) — compare-legal uses .cq-card so the selector returned
-        // null, the if-block was skipped, and any wrong-vertical file was
-        // silently accepted.
         var rootEl = document.querySelector(".cq-card");
-        if (rootEl && window.tpEnforceVerticalMatch("legal", _engOcrText, rootEl)) {
-          // Hide SEO sections on wrong-vertical reject (mirrors GD/Foundation/Kitchen/Insulation/Gutters/Auto/Medical)
+        if (rootEl && window.tpEnforceVerticalMatch("legal", localOcrText, rootEl)) {
           var _legSeoSections = document.querySelectorAll("#main .tp-pdf-noprint");
           for (var _legs = 0; _legs < _legSeoSections.length; _legs++) { _legSeoSections[_legs].style.display = "none"; }
           throw new Error("wrong_vertical_reject");
         }
       }
 
-      var regexPrice = engineResult.price || 0;
+      var apiPayload = { _client: "compare-legal-quotes" };
+      if (localOcrText) apiPayload.text = localOcrText;
+      if (dataUrl) apiPayload.images = [dataUrl];
 
-      // Regex found price: skip API call
-      if (regexPrice > 0) {
-        var regexApi = { totalPrice: regexPrice, _source: "regex" };
-        if (engineResult.contractor) regexApi.firmName = engineResult.contractor;
-        if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
-          var extracted = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
-          if (extracted.jobType && extracted.jobType.value !== "other") regexApi.practiceArea = extracted.jobType.label;
-          if (extracted.laborRate) regexApi.hourlyRate = extracted.laborRate;
-          regexApi.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) regexApi.scopeItems[s.key] = "included"; else if (s.excluded) regexApi.scopeItems[s.key] = "excluded"; });
-        }
-        var apiResult = { data: regexApi };
+      try {
+        fetch("/api/ai-counter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ vertical: "legal", action: "increment" })
+        }).catch(function () {});
+      } catch (e) {}
 
-        // Enrich with regex scope extraction
-        if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
-          var extracted2 = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
-          var d = apiResult.data || apiResult;
-          if (!d.practiceArea && extracted2.jobType && extracted2.jobType.value !== "other") d.practiceArea = extracted2.jobType.label;
-          if (!d.hourlyRate && extracted2.laborRate) d.hourlyRate = extracted2.laborRate;
-          if (!d.scopeItems) { d.scopeItems = {}; extracted2.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; }); }
-        }
-
-        return buildResultFromAPI(apiResult);
-      }
-
-      // Regex failed: call API as backup
-      var apiPayload = { text: engineResult.ocrText || "" };
-      if (engineResult.imageDataUrl) apiPayload.images = [engineResult.imageDataUrl];
-
-      try{fetch("/api/ai-counter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({vertical:"legal",action:"increment"})}).catch(function(){});}catch(e){}
       var apiResponse = await fetch("/api/legal-fee-estimate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -569,14 +600,19 @@
       }
 
       var apiResult = await apiResponse.json();
-
-      // Enrich with regex scope extraction
-      if (typeof TP_VerticalScope !== "undefined" && engineResult.ocrText) {
-        var extracted = TP_VerticalScope.extractFields(engineResult.ocrText, "legal");
+      // Optional regex enrichment for fields the API missed (scope items only;
+      // headline fee is the API's job alone).
+      if (typeof TP_VerticalScope !== "undefined" && localOcrText) {
+        var extracted = TP_VerticalScope.extractFields(localOcrText, "legal");
         var d = apiResult.data || apiResult;
         if (!d.practiceArea && extracted.jobType && extracted.jobType.value !== "other") d.practiceArea = extracted.jobType.label;
-        if (!d.hourlyRate && extracted.laborRate) d.hourlyRate = extracted.laborRate;
-        if (!d.scopeItems) { d.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) d.scopeItems[s.key] = "included"; else if (s.excluded) d.scopeItems[s.key] = "excluded"; }); }
+        if (!d.scopeItems) {
+          d.scopeItems = {};
+          extracted.scope.forEach(function (s) {
+            if (s.detected) d.scopeItems[s.key] = "included";
+            else if (s.excluded) d.scopeItems[s.key] = "excluded";
+          });
+        }
       }
 
       return buildResultFromAPI(apiResult);
