@@ -471,9 +471,16 @@
             if (!api.warrantyLabor && extracted.warranty.labor) api.warrantyLabor = extracted.warranty.labor + " yrs";
             if (!api.warrantyYears) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
           }
-          if (!api.scopeItems) {
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
+          // [CMP-GD-SCOPE-MERGE 2026-05-03] UNION-merge regex scope w/ Claude
+          // scopeItems (mirror of CMP-SOL-9). Pre-fix the inner gate skipped
+          // the regex pass whenever Claude returned scopeItems (always).
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-GD-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
         if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
