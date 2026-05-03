@@ -567,6 +567,13 @@
       // misclassifies SUNSET SOLAR DIRECT (selling Hanwha) as a "REC" install.
       // Use \b word boundaries OR allow . / - / + in surrounding chars (panel
       // model strings like "Q.PEAK" / "ML-G10+").
+      //
+      // Brands sorted by token specificity (longest first). Many manufacturers
+      // brand a single panel with multiple identifiers — e.g. Hanwha sells
+      // Q.PEAK DUO panels under the Q Cells sub-brand. OCR text often surfaces
+      // both "Hanwha" and "Q Cells". Without ordering, "Q Cells" matches first
+      // and Hanwha is silently dropped. Longest-first means "Q.PEAK DUO" > "Q.PEAK"
+      // > "Q Cells" > "Hanwha" — and we always return the most specific brand.
       var t = text.toLowerCase();
       var allBrands = [];
       Object.keys(SOLAR_PRICING.brands).forEach(function(tier) {
@@ -574,6 +581,7 @@
           allBrands.push({ brand: b, tier: tier });
         });
       });
+      allBrands.sort(function(a, b) { return b.brand.length - a.brand.length; });
       for (var i = 0; i < allBrands.length; i++) {
         var bLow = allBrands[i].brand.toLowerCase();
         // Escape regex specials in brand name (handles "q.peak" / "q cells")

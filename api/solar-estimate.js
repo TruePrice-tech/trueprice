@@ -34,7 +34,11 @@ async function captureAnonymizedData(vertical, parsed) {
   }
 }
 
-const RATE_LIMIT_MAX = 60;
+// Bumped 60 → 120 on 2026-05-03 (S-B): compare-solar-quotes uploads 3 quotes
+// = 3 API calls per session. 60/hr was too tight for users running multiple
+// compare sessions in an hour. At Claude haiku-4-5 pricing (~$0.0015/quote)
+// the new cap is ~$0.18/hr per IP, still cheap. Mirrors medical M5.
+const RATE_LIMIT_MAX = 120;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
@@ -72,7 +76,7 @@ export default async function handler(req, res) {
 
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
   if (!(await checkRateLimit(clientIp))) {
-    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
+    return res.status(429).json({ error: `Rate limit exceeded. Maximum ${RATE_LIMIT_MAX} requests per hour. Please try again later.` });
   }
 
     // Abuse guard: burst detect, IP daily cap, suspicious patterns,

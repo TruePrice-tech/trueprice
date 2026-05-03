@@ -100,7 +100,7 @@ export default async function handler(req, res) {
   // Rate limit by IP (10 req/hour - this calls Claude API)
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
   if (!_mcpKeyValid && !(await checkRateLimit(clientIp))) {
-    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour. Please try again later." });
+    return res.status(429).json({ error: `Rate limit exceeded. Maximum ${PQ_RATE_LIMIT_MAX} requests per hour. Please try again later.` });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;

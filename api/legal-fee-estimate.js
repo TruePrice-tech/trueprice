@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
   const clientIp = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.headers["x-real-ip"] || "unknown";
   if (!(await checkRateLimit(clientIp))) {
-    return res.status(429).json({ error: "Rate limit exceeded. Maximum 10 requests per hour." });
+    return res.status(429).json({ error: `Rate limit exceeded. Maximum ${RATE_LIMIT_MAX} requests per hour.` });
   }
 
     // Abuse guard: burst detect, IP daily cap, suspicious patterns,
