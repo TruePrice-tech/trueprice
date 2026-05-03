@@ -66,16 +66,17 @@ const FIXTURES = [
       // → "Pier Installation". API parsed.repairType expected pier_helical.
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /helical|pier_helical|pier_push/i,
+      pierTypeRegex: /helical/i,
       numPiers: 8,
       warrantyTypeRegex: /lifetime/i,
       transferable: true,
       engineerReport: true,
       scopeFound: ["inspection", "piers", "drainage", "warranty", "permits"],
       // f1 quote text does NOT mention waterproofing/landscaping/monitoring.
-      // The analyzer regex /landscap|yard|lawn|restoration|cleanup/ matches
-      // "cleanup, sod replacement, haul-off" → marks landscaping included
-      // (defensible). Backfill regex /backfill|compact|fill\s*material|soil\s*replac/
-      // doesn't match "Drainage diversion" so backfill stays not-mentioned.
+      // After Block 1 F1 fix, landscaping regex tightened to /landscap|sod\s*replac|yard\s*restoration|lawn\s*restor/
+      // — "cleanup, sod replacement, haul-off" still matches via "sod replacement".
+      // Backfill regex /backfill|compact|fill\s*material|soil\s*replac/ doesn't
+      // match "Drainage diversion" so backfill stays not-mentioned.
       scopeAbsent: ["waterproofing", "monitoring"],
     },
   },
@@ -94,6 +95,7 @@ const FIXTURES = [
       stateCode: "TX",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /pier_push|push|steel/i,
+      pierTypeRegex: /steel\s*push/i,
       numPiers: 8,
       // Allow "limited" since 25-year term may map to limited not lifetime.
       warrantyTypeRegex: /limited|25/i,
@@ -121,6 +123,7 @@ const FIXTURES = [
       stateCode: "TX",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /pier|concrete|hydraulic/i,
+      pierTypeRegex: /hydraulic|concrete/i,
       numPiers: 8,
       warrantyTypeRegex: /lifetime/i,
       transferable: true,
@@ -142,6 +145,7 @@ const FIXTURES = [
       stateCode: "TX",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /helical|pier_helical|pier_push/i,
+      pierTypeRegex: /helical/i,
       numPiers: 8,
       warrantyTypeRegex: /lifetime/i,
       transferable: true,
@@ -158,6 +162,7 @@ const FIXTURES = [
       stateCode: "TX",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /pier_push|push|steel/i,
+      pierTypeRegex: /steel\s*push/i,
       numPiers: 8,
       warrantyTypeRegex: /limited|25/i,
       transferable: true,
@@ -174,6 +179,7 @@ const FIXTURES = [
       stateCode: "TX",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /pier|concrete|hydraulic/i,
+      pierTypeRegex: /hydraulic|concrete/i,
       numPiers: 8,
       warrantyTypeRegex: /lifetime/i,
       transferable: true,
@@ -203,6 +209,7 @@ const FIXTURES = [
       stateCode: "NC",
       repairTypeRegex: /pier\s*installation/i,
       apiRepairTypeRegex: /pier_push|push|steel/i,
+      pierTypeRegex: /steel\s*push/i,
       numPiers: 8,
       warrantyTypeRegex: /limited|25/i,
       transferable: true,
@@ -414,30 +421,57 @@ function compare(label, actual, expected) {
   }
 
   if (typeof expected.numPiers === "number") {
-    const got = actual.parseQuote?.data?.numPiers;
+    // B2 (2026-05-03): also accept display-side "Pier Count" detail row.
+    let displayPiers = null;
+    const pcText = actual.display.details["pier count"] || "";
+    const pcMatch = pcText.match(/\d+/);
+    if (pcMatch) displayPiers = parseInt(pcMatch[0], 10);
+    const got = actual.parseQuote?.data?.numPiers ?? displayPiers;
     if (got !== expected.numPiers) {
       failures.push(`numPiers: expected ${expected.numPiers}, got ${JSON.stringify(got)}`);
     }
   }
 
   if (expected.warrantyTypeRegex) {
-    const got = actual.parseQuote?.data?.warrantyType || "";
+    // B3 (2026-05-03): also accept display-side "Warranty" detail row.
+    const apiGot = actual.parseQuote?.data?.warrantyType || "";
+    const displayGot = actual.display.details["warranty"] || "";
+    const got = apiGot || displayGot;
     if (!expected.warrantyTypeRegex.test(got)) {
       failures.push(`warrantyType: expected match /${expected.warrantyTypeRegex.source}/, got ${JSON.stringify(got)}`);
     }
   }
 
   if (typeof expected.transferable === "boolean") {
-    const got = actual.parseQuote?.data?.transferable;
+    // B3 (2026-05-03): also derive from display-side warranty row text.
+    const apiGot = actual.parseQuote?.data?.transferable;
+    let displayGot = null;
+    const wText = actual.display.details["warranty"] || "";
+    if (wText) displayGot = /transferable/i.test(wText);
+    const got = apiGot ?? displayGot;
     if (got !== expected.transferable) {
       failures.push(`transferable: expected ${expected.transferable}, got ${JSON.stringify(got)}`);
     }
   }
 
   if (typeof expected.engineerReport === "boolean") {
-    const got = actual.parseQuote?.data?.engineerReport;
+    // B4 (2026-05-03): also accept display-side "Engineer Report" detail row.
+    const apiGot = actual.parseQuote?.data?.engineerReport;
+    const erText = actual.display.details["engineer report"] || "";
+    let displayGot = null;
+    if (/^included$/i.test(erText)) displayGot = true;
+    else if (/not\s+included/i.test(erText)) displayGot = false;
+    const got = apiGot ?? displayGot;
     if (got !== expected.engineerReport) {
       failures.push(`engineerReport: expected ${expected.engineerReport}, got ${JSON.stringify(got)}`);
+    }
+  }
+
+  // B2 (2026-05-03): pier type display assertion (analyzer-only, no API field).
+  if (expected.pierTypeRegex) {
+    const got = actual.display.details["pier type"] || "";
+    if (!expected.pierTypeRegex.test(got)) {
+      failures.push(`pierType: expected match /${expected.pierTypeRegex.source}/, got ${JSON.stringify(got)}`);
     }
   }
 
@@ -504,6 +538,10 @@ function compare(label, actual, expected) {
         warrantyType: actual.parseQuote?.data?.warrantyType || null,
         transferable: actual.parseQuote?.data?.transferable ?? null,
         engineerReport: actual.parseQuote?.data?.engineerReport ?? null,
+        // B2/B3/B4: capture display-side rows for new detail fields.
+        displayPierType: actual.display.details["pier type"] || null,
+        displayWarranty: actual.display.details["warranty"] || null,
+        displayEngineer: actual.display.details["engineer report"] || null,
         failures,
       };
       if (failures.length) {
@@ -531,7 +569,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|repairType|apiRepairType|numPiers|warrantyType|transferable|engineerReport|isUncategorizedBanner|hardReject|scopeFound:[a-z]+|scopeExcluded:[a-z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|repairType|apiRepairType|pierType|numPiers|warrantyType|transferable|engineerReport|isUncategorizedBanner|hardReject|scopeFound:[a-z]+|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

@@ -480,7 +480,7 @@
         slot.innerHTML =
           '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
           '<span class="slot-check">&#10003;</span>' +
-          '<input type="text" class="slot-edit-name" value="' + escHtml(name) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameDefault ? '#fffbeb' : '#fff') + ';" />' +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(name) + '" title="' + escHtml(name) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid ' + (nameDefault ? '#fde68a' : '#e2e8f0') + '; border-radius:6px; padding:4px 8px; width:90%; background:' + (nameDefault ? '#fffbeb' : '#fff') + ';" />' +
           '<input type="text" class="slot-edit-price" value="' + (price > 0 ? '$' + Math.round(price).toLocaleString() : '') + '" data-idx="' + idx + '" placeholder="Enter price" style="font-size:16px; font-weight:700; text-align:center; color:#7c2d12; border:1px solid ' + (price > 0 ? '#e2e8f0' : '#fde68a') + '; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:' + (price > 0 ? '#fff' : '#fffbeb') + ';" />' +
           '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" />';
 
