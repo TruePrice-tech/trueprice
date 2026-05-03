@@ -441,13 +441,24 @@
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // [CMP-ELE-SCOPE-MERGE 2026-05-03] UNION-merge regex scope with Claude
+        // scopeItems. Pre-fix the SCOPE_ITEMS renderer used grounding/afci_gfci
+        // /panel/wiring/utility_coord/code_upgrade/labeling but Claude
+        // (api/electrical-estimate.js) only returned permit / cleanup of those
+        // (codeCompliance camelCase mismatch on code_upgrade) — so 7/9 rows
+        // showed "? Unclear". Mirror of CMP-SOL-9.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "electrical");
           if (!api.serviceType && extracted.jobType && extracted.jobType.value !== "other") api.serviceType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {};
-          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-ELE-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
         if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
