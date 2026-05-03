@@ -38,7 +38,12 @@ async function captureAnonymizedData(vertical, parsed) {
   }
 }
 
-const RATE_LIMIT_MAX = 60;
+// Bumped 60 → 120 on 2026-05-02 after M3 changed compare-medical-quotes
+// from "regex-then-API" to "always-API" — uploading 3 quotes used to be
+// 0-1 API calls, now it's 3. 60/hr was too tight for users running
+// multiple compare sessions in an hour. At Claude haiku-4-5 pricing
+// (~$0.001/bill) the new cap is ~$0.12/hr per IP, still cheap.
+const RATE_LIMIT_MAX = 120;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
@@ -104,7 +109,7 @@ export default async function handler(req, res) {
     if (_mcpKeyValid) {
       _guard = { ok: true, imageHash: null, cachedResult: null };
     } else {
-      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v5-cpt-inheritance-2026-05-02", imageBytes: _imageBuf });
+      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v6-cpt-inference-2026-05-02", imageBytes: _imageBuf });
       if (!_guard.ok) {
         return res.status(_guard.status).json({ error: _guard.error });
       }
@@ -237,6 +242,7 @@ CRITICAL ANALYSIS RULES:
 - Extract ALL line items you can find
 - For each line item, identify CPT/HCPCS code if present
 - SECTION-HEADER CPT INHERITANCE: If a section header lists a CPT code (e.g., "CT abdomen and pelvis with contrast (CPT 74177)" or "CPT 74177: CT abdomen and pelvis") and the line items beneath are sub-charges of that procedure (facility fee, contrast media, radiologist interpretation, IV catheter, drug administration, etc), apply the header's CPT code to every line item in that section UNLESS the line item explicitly lists a different CPT/HCPCS code. The radiologist interpretation line specifically is conventionally the same CPT with a -26 modifier (e.g., 74177-26). Without inheritance, the entire section's line items render with no CPT and the benchmark engine falls back to wildly wrong category averages.
+- CPT INFERENCE FROM PROCEDURE NAME: If a section description plainly identifies a common procedure but the CPT code itself is missing or OCR-mangled (e.g., the parenthesized "(CPT 74177)" is unreadable but the description "CT abdomen and pelvis with IV contrast" is clear), infer the standard CPT from the procedure name. Common inferences: "CT abdomen and pelvis with contrast" → 74177; "CT abdomen and pelvis without contrast" → 74176; "MRI brain without contrast" → 70551; "MRI brain with and without contrast" → 70553; "CT head without contrast" → 70450; "X-ray chest 2 views" → 71046; "ER visit level 3" → 99283; "ER visit level 4" → 99284; "ER visit level 5" → 99285; "office visit established level 3" → 99213; "office visit established level 4" → 99214; "screening colonoscopy" → 45378; "diagnostic colonoscopy with biopsy" → 45380; "screening mammogram" → 77067; "echocardiogram" → 93306; "EKG" → 93000. Mark inferred CPTs the same way as extracted ones; do not fabricate a CPT when the description is generic or ambiguous.
 - Flag charges > 3x Medicare rate for that CPT code as potential overcharges
 - Flag duplicate charges (same CPT code, same date)
 - Flag potential upcoding (level 5 visit for routine care, critical care for non-ICU)

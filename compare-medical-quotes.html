@@ -460,13 +460,48 @@
         if (err && err.message === "wrong_vertical_reject") return;
         console.error("[compare-medical] parse error:", err);
         slot.classList.remove("uploading");
+
+        // Distinguish 429 rate-limit from generic parse failure so users
+        // can recover by typing the price manually instead of being
+        // stranded waiting for the per-IP window to clear. The error
+        // surfaces from sendToApi as 'API 429'.
+        var isRateLimit = err && err.message && /API 4(29|03|13|30)/.test(err.message);
+        var errCopy = isRateLimit
+          ? "We hit our usage cap. Type the bill total below to continue."
+          : "Could not auto-read. Type the bill total below to continue.";
+
+        // Manual-recovery slot: gives the user a name + price input AND
+        // the ability to re-upload a different file. Mirrors the success
+        // path's slot-edit-name + slot-edit-price so the compare flow
+        // works even when Anthropic Claude can't extract the bill.
+        slot.classList.add("uploaded");
         slot.innerHTML =
-          '<span class="slot-icon">&#128196;</span>' +
-          '<span class="slot-label">Quote ' + (idx + 1) + '</span>' +
-          '<span class="slot-error">Could not parse. Try another file.</span>' +
-          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" onchange="handleUpload(' + idx + ', this)" />';
-        slot.onclick = function() { document.getElementById("file" + idx).click(); };
-        quotes[idx] = null; uploadedFiles[idx] = null;
+          '<button class="slot-remove" onclick="event.stopPropagation(); removeQuote(' + idx + ')" title="Remove">&times;</button>' +
+          '<span class="slot-warn" style="font-size:11px; color:#b45309; background:#fef3c7; border:1px solid #fde68a; border-radius:6px; padding:3px 8px; margin-bottom:4px;">' + errCopy + '</span>' +
+          '<input type="text" class="slot-edit-name" value="' + escHtml(NOUN_SHORT + " " + (idx + 1)) + '" data-idx="' + idx + '" placeholder="' + NOUN_SHORT + ' name" style="font-size:14px; font-weight:700; text-align:center; border:1px solid #fde68a; border-radius:6px; padding:4px 8px; width:90%; background:#fffbeb;" />' +
+          '<input type="text" class="slot-edit-price" value="" data-idx="' + idx + '" placeholder="$ amount" style="font-size:16px; font-weight:700; text-align:center; color:#0d9488; border:1px solid #fde68a; border-radius:6px; padding:4px 8px; width:90%; margin-top:4px; background:#fffbeb;" />' +
+          '<input type="file" id="file' + idx + '" accept=".pdf,image/*" style="display:none" onchange="handleUpload(' + idx + ', this)" />';
+
+        // Pre-seed quotes[idx] with empty data so updateBtn picks it up
+        // once the price input has a value.
+        quotes[idx] = { name: NOUN_SHORT + " " + (idx + 1), price: 0, api: { _source: "manual" }, scopeItems: {}, redFlags: [] };
+
+        slot.querySelector(".slot-edit-name").addEventListener("change", function() {
+          quotes[idx].name = this.value.trim() || (NOUN_SHORT + " " + (idx + 1));
+        });
+        slot.querySelector(".slot-edit-price").addEventListener("change", function() {
+          var v = parseFloat(this.value.replace(/[^0-9.]/g, "")) || 0;
+          quotes[idx].price = v;
+          if (v > 0) { this.value = "$" + v.toLocaleString(); this.style.borderColor = "#e2e8f0"; this.style.background = "#fff"; }
+          updateBtn();
+        });
+        // Re-upload affordance: clicking the slot opens file picker (same
+        // as the empty state).
+        slot.onclick = function(e) {
+          if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
+          document.getElementById("file" + idx).click();
+        };
+
         updateBtn();
       });
     };
