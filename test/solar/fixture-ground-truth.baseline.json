@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-03T12:46:58.969Z",
+  "ts": "2026-05-03T13:24:40.585Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-sunset-low": {
@@ -8,14 +8,13 @@
         "system size": "8.04 kW",
         "cost per watt": "$1.86/W",
         "panels": "24 panels (335W each)",
-        "panel brand": "REC (mid tier)",
+        "panel brand": "Hanwha (mid tier)",
         "inverter": "Microinverters (Enphase)",
-        "battery": "Enphase IQ Battery",
-        "region": "South",
+        "region": "Northeast",
         "warranty": "Panels: 25 yr",
         "est. payback period": "~7.1 years"
       },
-      "rangeText": "Market benchmark: $37,700 — 60% below average",
+      "rangeText": "Market benchmark: $32,700 — 54% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
@@ -25,9 +24,7 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "panelBrand: expected match /hanwha|q[\\s.]*peak|q\\s*cells/, got \"REC (mid tier)\""
-      ]
+      "failures": []
     },
     "f2-desert-mid": {
       "verdictPrice": 19250,
@@ -37,12 +34,11 @@
         "panels": "24 panels (340W each)",
         "panel brand": "REC (mid tier)",
         "inverter": "Microinverters (Enphase)",
-        "battery": "Enphase IQ Battery",
-        "region": "South",
+        "region": "Northeast",
         "warranty": "Panels: 25 yr",
         "est. payback period": "~9.1 years"
       },
-      "rangeText": "Market benchmark: $38,200 — 50% below average",
+      "rangeText": "Market benchmark: $33,200 — 42% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
@@ -52,9 +48,7 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "systemSize: expected match /8\\.\\d\\s*kw/, got \"8.16 kW\""
-      ]
+      "failures": []
     },
     "f3-apex-premium-battery": {
       "verdictPrice": 32770,
@@ -63,37 +57,12 @@
         "cost per watt": "$4.10/W",
         "panels": "20 panels (400W each)",
         "panel brand": "SunPower (premium tier)",
+        "inverter": "Integrated AC Microinverters (SunPower Maxeon AC)",
         "battery": "Tesla Powerwall",
-        "region": "South",
+        "region": "Northeast",
         "est. payback period": "~15.8 years"
       },
-      "rangeText": "Market benchmark: $42,000 — 22% below average",
-      "verdictLabel": "BELOW AVERAGE",
-      "isLeaseVerdict": false,
-      "isWholesaleVerdict": false,
-      "preConfirm": {
-        "hasConfirmBtn": true,
-        "hasManualBtn": false,
-        "hasHardReject": false
-      },
-      "stateCode": null,
-      "failures": [
-        "inverter: expected match /microinverter|enphase|maxeon/, got \"\""
-      ]
-    },
-    "f4-sunset-low-messy": {
-      "verdictPrice": 14940,
-      "details": {
-        "system size": "8.04 kW",
-        "cost per watt": "$1.86/W",
-        "panels": "24 panels (335W each)",
-        "panel brand": "REC (mid tier)",
-        "inverter": "Microinverters (Enphase)",
-        "region": "South",
-        "warranty": "Panels: 25 yr",
-        "est. payback period": "~7.1 years"
-      },
-      "rangeText": "Market benchmark: $27,700 — 46% below average",
+      "rangeText": "Market benchmark: $52,400 — 37% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
@@ -103,9 +72,31 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "panelBrand: expected match /hanwha|q[\\s.]*peak|q\\s*cells/, got \"REC (mid tier)\""
-      ]
+      "failures": []
+    },
+    "f4-sunset-low-messy": {
+      "verdictPrice": 14940,
+      "details": {
+        "system size": "8.04 kW",
+        "cost per watt": "$1.86/W",
+        "panels": "24 panels (335W each)",
+        "panel brand": "QPEAK (mid tier)",
+        "inverter": "Microinverters (Enphase)",
+        "region": "Midwest",
+        "warranty": "Panels: 25 yr",
+        "est. payback period": "~7.1 years"
+      },
+      "rangeText": "Market benchmark: $29,400 — 49% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isLeaseVerdict": false,
+      "isWholesaleVerdict": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "stateCode": null,
+      "failures": []
     },
     "f5-desert-mid-messy": {
       "verdictPrice": 19250,
@@ -115,12 +106,11 @@
         "panels": "24 panels (340W each)",
         "panel brand": "REC (mid tier)",
         "inverter": "Microinverters (Enphase)",
-        "battery": "Enphase IQ Battery",
-        "region": "South",
+        "region": "West",
         "warranty": "Panels: 25 yr",
         "est. payback period": "~9.1 years"
       },
-      "rangeText": "Market benchmark: $38,200 — 50% below average",
+      "rangeText": "Market benchmark: $34,300 — 44% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
@@ -130,9 +120,7 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "systemSize: expected match /8\\.\\d\\s*kw/, got \"8.16 kW\""
-      ]
+      "failures": []
     },
     "f6-apex-premium-messy": {
       "verdictPrice": 32770,
@@ -141,11 +129,12 @@
         "cost per watt": "$4.10/W",
         "panels": "20 panels (400W each)",
         "panel brand": "SunPower (premium tier)",
+        "inverter": "Integrated AC Microinverters (SunPower Maxeon AC)",
         "battery": "Tesla Powerwall",
         "region": "South",
         "est. payback period": "~15.8 years"
       },
-      "rangeText": "Market benchmark: $42,000 — 22% below average",
+      "rangeText": "Market benchmark: $44,400 — 26% below average",
       "verdictLabel": "BELOW AVERAGE",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
@@ -155,20 +144,15 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "inverter: expected match /microinverter|enphase|maxeon/, got \"\""
-      ]
+      "failures": []
     },
     "f7-lightreach-lease": {
       "verdictPrice": null,
       "details": {
         "system size": "8 kW",
-        "cost per watt": "$0.06/W",
         "inverter": "Microinverters (Enphase)",
-        "battery": "Enphase IQ Battery",
-        "region": "South",
-        "warranty": "Panels: 25 yr",
-        "est. payback period": "~0.2 years"
+        "region": "Northeast",
+        "warranty": "Panels: 25 yr"
       },
       "rangeText": "This is a lease or PPA, not a purchase. Install benchmarks ($/W) don't apply. Compare the monthly payment, escalator (locked vs annual %), term length, and end-of-term options instead. Most homeowners",
       "verdictLabel": "LEASE / PPA",
@@ -191,12 +175,12 @@
         "cost per watt": "$2.43/W",
         "panel brand": "REC (mid tier)",
         "inverter": "Optimizers (SolarEdge)",
-        "region": "South",
+        "region": "Northeast",
         "warranty": "Panels: 25 yr, Workmanship: 25 yr",
         "est. payback period": "~9.4 years"
       },
-      "rangeText": "Market benchmark: $44,000 — 27% below average",
-      "verdictLabel": "BELOW AVERAGE",
+      "rangeText": "Market benchmark: $51,900 — 38% below average",
+      "verdictLabel": "UNUSUALLY LOW",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
       "preConfirm": {
@@ -214,11 +198,11 @@
         "cost per watt": "$3.33/W",
         "panels": "45 panels",
         "battery": "Tesla Powerwall",
-        "region": "South",
+        "region": "West",
         "est. payback period": "~12.8 years"
       },
-      "rangeText": "Market benchmark: $61,100 — 15% below average",
-      "verdictLabel": "FAIR PRICE",
+      "rangeText": "Market benchmark: $74,600 — 30% below average",
+      "verdictLabel": "BELOW AVERAGE",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
       "preConfirm": {
@@ -227,9 +211,7 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "displayPrice: expected 38619 ±193.095, got 51938"
-      ]
+      "failures": []
     },
     "f10-sunnova-FL-2pw": {
       "verdictPrice": 98325,
@@ -259,9 +241,8 @@
       "verdictPrice": 1780,
       "details": {
         "system size": "8 kW",
-        "cost per watt": "$0.22/W",
-        "region": "South",
-        "est. payback period": "~0.9 years"
+        "panel brand": "ZNSHINE (budget tier)",
+        "region": "South"
       },
       "rangeText": "This appears to be a parts-only / wholesale quote (panels shipped, no install labor). A complete residential install runs ~$2–$4 per watt. Add labor ($1.00–$1.50/W), inverters, racking, electrical, pe",
       "verdictLabel": "PARTS ONLY",
@@ -273,21 +254,19 @@
         "hasHardReject": false
       },
       "stateCode": null,
-      "failures": [
-        "panelBrand: expected match /znshine|trina|jinko/, got \"\""
-      ]
+      "failures": []
     },
     "f12-cal-sun-WA": {
       "verdictPrice": 67029,
       "details": {
         "system size": "13.6 kW",
         "cost per watt": "$4.93/W",
-        "region": "South",
+        "region": "West",
         "warranty": "Panels: 25 yr",
         "est. payback period": "~19 years"
       },
-      "rangeText": "Market benchmark: $42,800 — 57% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Market benchmark: $52,300 — 28% above average",
+      "verdictLabel": "ABOVE AVERAGE",
       "isLeaseVerdict": false,
       "isWholesaleVerdict": false,
       "preConfirm": {
@@ -302,9 +281,7 @@
       "verdictPrice": null,
       "details": {
         "system size": "8 kW",
-        "cost per watt": "$18.18/W",
-        "region": "South",
-        "est. payback period": "~69.9 years"
+        "region": "South"
       },
       "rangeText": "This is a lease or PPA, not a purchase. Install benchmarks ($/W) don't apply. Compare the monthly payment, escalator (locked vs annual %), term length, and end-of-term options instead. Most homeowners",
       "verdictLabel": "LEASE / PPA",
