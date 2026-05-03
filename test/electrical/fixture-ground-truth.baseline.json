@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T23:56:48.678Z",
+  "ts": "2026-05-03T00:21:46.641Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-redding-panel-low": {
@@ -50,13 +50,13 @@
     "f3-meridian-panel-ev": {
       "verdictPrice": 8798,
       "details": {
-        "service type": "EV Charger Installation",
+        "service type": "Panel Upgrade (100A to 200A)",
         "contractor": "MERIDIAN POWER SOLUTIONS",
         "brand": "Square D QO (Premium tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $2,150 -- 309% above average",
+      "rangeText": "Market benchmark: $3,450 -- 155% above average",
       "verdictLabel": "OVERPRICED",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -119,13 +119,13 @@
     "f6-meridian-panel-messy": {
       "verdictPrice": 8798,
       "details": {
-        "service type": "EV Charger Installation",
+        "service type": "Panel Upgrade (100A to 200A)",
         "contractor": "MERIDIAN POWER SOLUTIONS",
         "brand": "Square D (Mid tier)",
         "amperage": "200A",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $2,150 -- 309% above average",
+      "rangeText": "Market benchmark: $3,450 -- 155% above average",
       "verdictLabel": "OVERPRICED",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -142,7 +142,7 @@
       "verdictPrice": 9432,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
-        "contractor": "11 Check main electrical system.",
+        "contractor": "Main Electrical",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $3,450 -- 173% above average",
@@ -154,7 +154,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "11 Check main electrical system.",
+      "contractor": "Main Electrical",
       "stateCode": null,
       "failures": []
     },
