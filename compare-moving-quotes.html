@@ -422,29 +422,45 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "moving");
-            // Prefer the moving-specific brand list (Allied / Mayflower / Two
-            // Men and a Truck / etc) over engine.contractor — engine.contractor
-            // grabs random capitalized phrases like "Number of Movers".
-            if (extracted.brand && extracted.brand.brand) api.contractor = extracted.brand.brand;
-            else if (engineResult.contractor) api.contractor = engineResult.contractor;
-            if (extracted.jobType && extracted.jobType.value !== "other") api.moveType = extracted.jobType.label;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          } else if (engineResult.contractor) {
-            api.contractor = engineResult.contractor;
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        // TP_Engine already calls /api/moving-estimate when regex fails
-        // (apiEndpoint passed in). Reuse engineResult.aiData rather than
-        // firing a duplicate POST that doubles Claude budget per upload.
+        // CMP-AUDIT 2026-05-03: API-first; regex graceful fallback. See M3 medical / CMP-SOL-6 solar.
+        // Moving keeps the engineResult.aiData reuse path (TP_Engine already
+        // called /api/moving-estimate when regex failed) — saves duplicate Claude
+        // call. Hoist regex price into aiData if Claude returned nothing.
         if (engineResult.aiData) {
-          return { raw: { data: engineResult.aiData }, ocrText: _engOcrText };
+          var aiData = engineResult.aiData;
+          if ((!aiData.totalPrice || aiData.totalPrice <= 0) && regexPrice > 0) {
+            aiData.totalPrice = regexPrice;
+            aiData._priceSource = "regex_fallback";
+          }
+          return { raw: { data: aiData }, ocrText: _engOcrText };
         }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            console.warn("[compare-moving] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "moving");
+                if (extracted.brand && extracted.brand.brand) api.contractor = extracted.brand.brand;
+                else if (engineResult.contractor) api.contractor = engineResult.contractor;
+                if (extracted.jobType && extracted.jobType.value !== "other") api.moveType = extracted.jobType.label;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              } else if (engineResult.contractor) {
+                api.contractor = engineResult.contractor;
+              }
+              return { raw: { data: api }, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;

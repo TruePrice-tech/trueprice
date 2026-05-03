@@ -405,23 +405,34 @@
         }
 
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "concrete");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
-          return { raw: raw, ocrText: _engOcrText };
-        });
+        // CMP-AUDIT 2026-05-03: API-first; regex graceful fallback. See M3 medical / CMP-SOL-6 solar.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            console.warn("[compare-concrete] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "concrete");
+                if (extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+                api.scopeItems = {};
+                extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
