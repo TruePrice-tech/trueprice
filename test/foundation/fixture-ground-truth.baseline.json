@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-03T21:27:23.032Z",
+  "ts": "2026-05-03T21:43:46.717Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-citadel-high": {
@@ -8,6 +8,9 @@
         "contractor": "CITADEL STRUCTURAL SOLUTIONS",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Helical Piers",
+        "warranty": "Lifetime, transferable",
+        "engineer report": "Included",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -39,12 +42,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Helical Piers",
+      "displayWarranty": "Lifetime, transferable",
+      "displayEngineer": "Included",
       "failures": [
-        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /lifetime/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected true, got undefined"
+        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\""
       ]
     },
     "f2-gulf-coast-mid": {
@@ -53,6 +55,9 @@
         "contractor": "GULF COAST FOUNDATION",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Steel Push Piers",
+        "warranty": "25-year, transferable",
+        "engineer report": "Included",
         "pricing": "Houston local pricing"
       },
       "scope": {
@@ -84,12 +89,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Steel Push Piers",
+      "displayWarranty": "25-year, transferable",
+      "displayEngineer": "Included",
       "failures": [
-        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /limited|25/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected true, got undefined"
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\""
       ]
     },
     "f3-anchor-low": {
@@ -98,6 +102,9 @@
         "contractor": "ANCHOR FOUNDATION REPAIR",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Hydraulic Concrete Piers",
+        "warranty": "Lifetime, transferable",
+        "engineer report": "Not included — get one separately (~$400)",
         "pricing": "Houston local pricing"
       },
       "scope": {
@@ -129,12 +136,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Hydraulic Concrete Piers",
+      "displayWarranty": "Lifetime, transferable",
+      "displayEngineer": "Not included — get one separately (~$400)",
       "failures": [
-        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /lifetime/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected false, got undefined"
+        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\""
       ]
     },
     "f4-citadel-high-messy": {
@@ -143,6 +149,9 @@
         "contractor": "CITADEL STRUCTURAL SOLUTIONS",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Helical Piers",
+        "warranty": "Lifetime, transferable",
+        "engineer report": "Included",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -174,12 +183,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Helical Piers",
+      "displayWarranty": "Lifetime, transferable",
+      "displayEngineer": "Included",
       "failures": [
-        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /lifetime/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected true, got undefined"
+        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\""
       ]
     },
     "f5-gulf-coast-mid-messy": {
@@ -188,6 +196,9 @@
         "contractor": "GULF coAsT FOUNDATION",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Steel Push Piers",
+        "warranty": "25-year, transferable",
+        "engineer report": "Included",
         "pricing": "Houston local pricing"
       },
       "scope": {
@@ -219,12 +230,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Steel Push Piers",
+      "displayWarranty": "25-year, transferable",
+      "displayEngineer": "Included",
       "failures": [
-        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /limited|25/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected true, got undefined"
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\""
       ]
     },
     "f6-anchor-low-messy": {
@@ -233,6 +243,9 @@
         "contractor": "ANCHOR FOUNDATION REPAIR",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Hydraulic Concrete Piers",
+        "warranty": "Lifetime, transferable",
+        "engineer report": "Not included — get one separately (~$400)",
         "pricing": "Houston local pricing"
       },
       "scope": {
@@ -264,12 +277,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Hydraulic Concrete Piers",
+      "displayWarranty": "Lifetime, transferable",
+      "displayEngineer": "Not included — get one separately (~$400)",
       "failures": [
-        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /lifetime/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected false, got undefined"
+        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\""
       ]
     },
     "f7-mock-foundation-pros-nc": {
@@ -278,6 +290,9 @@
         "contractor": "Foundation Pros LLC",
         "repair type": "Pier Installation",
         "pier count": "8 piers",
+        "pier type": "Steel Push Piers",
+        "warranty": "25-year, transferable",
+        "engineer report": "Included",
         "pricing": "Southeast regional pricing"
       },
       "scope": {
@@ -309,12 +324,11 @@
       "warrantyType": null,
       "transferable": null,
       "engineerReport": null,
+      "displayPierType": "Steel Push Piers",
+      "displayWarranty": "25-year, transferable",
+      "displayEngineer": "Included",
       "failures": [
-        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
-        "numPiers: expected 8, got undefined",
-        "warrantyType: expected match /limited|25/, got \"\"",
-        "transferable: expected true, got undefined",
-        "engineerReport: expected true, got undefined"
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\""
       ]
     }
   }
