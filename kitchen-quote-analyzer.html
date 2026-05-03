@@ -770,11 +770,20 @@
         var detectedCountertop = detectCountertopMaterial(text);
         var detectedSizeIdx = detectKitchenSize(text);
 
-        // Location detection from parser
-        var location = (parsed && parsed.location) ? parsed.location : null;
-        if (location && location.stateCode && !state.address.stateCode) {
-          state.address.stateCode = location.stateCode;
-          if (location.city) state.address.city = location.city;
+        // Location detection from parser. K3 trust-critical: analyzer-parser.js
+        // returns stateCode/city as TOP-LEVEL fields on the parsed object (see
+        // js/analyzer-parser.js:2610-2611) — NOT nested under .location. Reading
+        // parsed.location.stateCode silently never matched, leaving state.address.
+        // stateCode empty → getRegionFromState defaults to "south" → all IL/NC/etc
+        // fixtures displayed "South regional pricing" with the wrong labor multiplier.
+        // Same bug pattern lives in hvac/electrical analyzers (queued as cross-vertical
+        // followup KMP-1). Read top-level first, fall back to legacy nested shape.
+        var locStateCode = (parsed && (parsed.stateCode || (parsed.location && parsed.location.stateCode))) || "";
+        var locCity = (parsed && (parsed.city || (parsed.location && parsed.location.city))) || "";
+        var location = (parsed && parsed.location) ? parsed.location : (locStateCode ? { stateCode: locStateCode, city: locCity } : null);
+        if (locStateCode && !state.address.stateCode) {
+          state.address.stateCode = locStateCode;
+          if (locCity) state.address.city = locCity;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 

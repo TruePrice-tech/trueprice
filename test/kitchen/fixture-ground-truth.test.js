@@ -65,6 +65,11 @@ const FIXTURES = [
       // register as Expansive (200+ sq ft). K2 trust-critical guard
       // against the silent default to "Average (100-150 sq ft)".
       kitchenSizeRegex: /expansive|200\+/i,
+      // Property is in Naperville IL — Pricing detail must NOT default
+      // to "South regional pricing". K3 trust-critical guard: parser
+      // returns top-level stateCode and the analyzer must propagate to
+      // state.address.stateCode → midwest region label.
+      pricingRegex: /midwest|naperville|chicago|local pricing/i,
     },
   },
   {
@@ -408,6 +413,13 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (expected.pricingRegex) {
+    const got = actual.display.details["pricing"] || "";
+    if (!expected.pricingRegex.test(got)) {
+      failures.push(`pricing: expected match /${expected.pricingRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   if (Array.isArray(expected.excludedScope)) {
     for (const key of expected.excludedScope) {
       const got = (actual.display.scope || {})[key] || "(missing row)";
@@ -478,7 +490,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|kitchenSize|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|kitchenSize|pricing|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
