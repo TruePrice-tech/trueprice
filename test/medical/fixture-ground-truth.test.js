@@ -510,6 +510,16 @@ function compare(label, actual, expected) {
   await browser.close();
 
   if (IS_BASELINE) {
+    // Refuse to overwrite the baseline if half or more of the fixtures came
+    // back rate-limited — a 429 storm produces all-rateLimited results that
+    // would corrupt the baseline as the new "expected" state. Wait for the
+    // 60-min window to clear before refreshing.
+    const rateLimited = Object.values(out.results).filter(r => (r.failures || []).some(f => f.startsWith("rateLimited"))).length;
+    if (rateLimited >= FIXTURES.length / 2) {
+      console.log(`\nBaseline NOT written: ${rateLimited}/${FIXTURES.length} fixtures hit 429 rate limit. Wait for window to clear and re-run --baseline.`);
+      process.exit(2);
+      return;
+    }
     fs.writeFileSync(BASELINE_PATH, JSON.stringify(out, null, 2));
     console.log("\nBaseline written:", BASELINE_PATH);
     console.log(`\nTotal failures: ${totalFails}`);
