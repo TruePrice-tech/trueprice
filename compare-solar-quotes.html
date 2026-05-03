@@ -294,8 +294,13 @@
     var quotes = [null, null, null];
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/solar-estimate";
-    var PRICE_FIELDS = ["grossCost", "totalPrice", "netCost", "total", "price"];
-    var ROWS = [{"label": "System Size (kW)", "field": "systemSizeKw", "type": "number"}, {"label": "Gross Cost", "field": "grossCost", "type": "money"}, {"label": "Net Cost (after ITC)", "field": "netCost", "type": "money"}, {"label": "$/Watt (gross)", "field": "_dollarsPerWatt", "type": "computed"}, {"label": "Panel Brand", "field": "panelBrand", "type": "text"}, {"label": "Inverter Brand", "field": "inverterBrand", "type": "text"}, {"label": "Battery Included", "field": "batteryIncluded", "type": "yesno"}, {"label": "Production Warranty", "field": "productionWarrantyYears", "type": "years"}, {"label": "Workmanship Warranty", "field": "workmanshipWarrantyYears", "type": "years"}];
+    // Field names must match what api/solar-estimate.js actually returns:
+    // totalPrice (NOT grossCost), priceAfterTaxCredit (NOT netCost),
+    // systemSizeKW capital-W (NOT systemSizeKw), warrantyPanels +
+    // warrantyWorkmanship (NOT productionWarrantyYears + workmanshipWarrantyYears).
+    // Mismatched names made every row render "N/A" — same shape as legal L1.
+    var PRICE_FIELDS = ["totalPrice", "total", "price"];
+    var ROWS = [{"label": "System Size (kW)", "field": "systemSizeKW", "type": "number"}, {"label": "Gross Cost", "field": "totalPrice", "type": "money"}, {"label": "Net Cost (after ITC)", "field": "priceAfterTaxCredit", "type": "money"}, {"label": "$/Watt (gross)", "field": "_dollarsPerWatt", "alt_field": "costPerWatt", "type": "computed"}, {"label": "Panel Brand", "field": "panelBrand", "type": "text"}, {"label": "Inverter Brand", "field": "inverterBrand", "type": "text"}, {"label": "Battery Included", "field": "batteryIncluded", "type": "yesno"}, {"label": "Panel Warranty", "field": "warrantyPanels", "type": "years"}, {"label": "Workmanship Warranty", "field": "warrantyWorkmanship", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"permit","label":"Permit"},{"key":"monitoring","label":"Monitoring"},{"key":"critter_guard","label":"Critter guard"},{"key":"panel_upgrade","label":"Panel upgrade"},{"key":"tax_credit","label":"Tax credit noted"},{"key":"battery","label":"Battery storage"},{"key":"racking","label":"Racking/mounting"},{"key":"roof_warranty","label":"Roof penetration warranty"},{"key":"production","label":"Production guarantee"},{"key":"net_metering","label":"Net metering"},{"key":"warranty","label":"Warranty terms"},{"key":"cleanup","label":"Cleanup"}];
     var IRIS = "/images/Worker%20Woogoro/Solar%20worker.png";
     var SINGLE_PAGE = "/solar-quote-analyzer.html";
@@ -437,7 +442,10 @@
           if (api.squareFootage > 0) api._dollarsPerSqFt = (price / api.squareFootage).toFixed(2);
           if (api.linearFeet > 0) api._dollarsPerLinearFt = (price / api.linearFeet).toFixed(2);
           if (api.windowCount > 0) api._dollarsPerWindow = Math.round(price / api.windowCount);
-          if (api.systemSizeKw > 0) api._dollarsPerWatt = (price / (api.systemSizeKw * 1000)).toFixed(2);
+          // API returns systemSizeKW (capital W); also accept the lower-case
+          // variant some older parsers used.
+          var _kw = parseFloat(api.systemSizeKW || api.systemSizeKw || 0);
+          if (_kw > 0) api._dollarsPerWatt = (price / (_kw * 1000)).toFixed(2);
         }
 
         quotes[idx] = { name: name, price: price, api: api, scopeItems: api.scopeItems || {}, redFlags: api.redFlags || [] };
@@ -542,9 +550,16 @@
       var scopeScore = SCOPE_ITEMS.length ? (confirmed / SCOPE_ITEMS.length) * 50 : 0;
 
       // Reads any common warranty field name so HVAC's split (warrantyParts +
-      // warrantyLabor) and single-field verticals both work without per-
-      // vertical branching. Verticals with no warranty extraction get 0.
-      var wy = parseFloat(q.warrantyYears || q.warrantyPartsYears || q.warrantyLaborYears || 0);
+      // warrantyLabor), solar's split (warrantyPanels + warrantyWorkmanship),
+      // and single-field verticals all work without per-vertical branching.
+      // Solar warranty fields are strings like "25 years" — parseFloat picks
+      // up the leading number. Score also reads via q.api.* because some
+      // verticals (solar) only surface warranty inside the api payload.
+      var _api = q.api || {};
+      var wy = parseFloat(q.warrantyYears || _api.warrantyYears ||
+                          q.warrantyPartsYears || q.warrantyLaborYears ||
+                          _api.warrantyPanels || _api.warrantyWorkmanship ||
+                          _api.warrantyInverter || 0);
       var warrantyScore = wy >= 10 ? 10 : wy >= 5 ? 6 : wy >= 1 ? 3 : 0;
 
       var transparencyScore = Math.min(5, confirmed * 0.8);
