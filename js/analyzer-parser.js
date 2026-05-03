@@ -417,6 +417,19 @@ function extractPriceCandidates(text) {
       score -= 20;
     }
 
+    // Sub-total category lines ("TOTAL MATERIAL COST" / "LABOR TOTAL" /
+    // "TOTAL PARTS" / "Material Total $1,703.74") should not outscore the
+    // headline TOTAL JOB COST / GRAND TOTAL line. Without this demotion,
+    // f9 handwritten side-job quote "TOTAL MATERIAL COST = $1,703.74" was
+    // beating the boxed "TOTAL JOB COST = $4,588.74" because both line
+    // contexts hit the bare-word \btotal\b in strongTotalLineRegex.
+    // E9 deep test 2026-05-02 — cross-vertical, applies to all analyzers.
+    const subTotalCategoryRegex =
+      /\b(?:total\s+(?:material|labor|parts|equipment|supply)s?|(?:material|labor|parts|equipment|supply)s?\s+total|material\s+cost|labor\s+cost|parts\s+cost|equipment\s+cost|supply\s+cost|labor\s+rate|hourly\s+rate)\b/i;
+    if (subTotalCategoryRegex.test(lineText)) {
+      score -= 200;
+    }
+
     if (/deposit|down payment|deductible|deductible credit/.test(lineText)) {
     score -= 140;
     }

@@ -462,7 +462,12 @@ Rules:
       // 30C (EV charger) is still active in eligible census tracts.
       try {
         const iraApplicable = [];
-        if (jobType === "ev_charger_level2") {
+        // Match both the short prompt-enum key ("ev_charger") AND the long
+        // JSON key ("ev_charger_level2"). Bug 7 deep test 2026-05-02:
+        // jobType arrives from the Claude prompt as the short key, so the
+        // long-key-only check meant 30C was NEVER pushed for legit EV
+        // charger quotes — confident-NEGATIVE on a real available credit.
+        if (jobType === "ev_charger" || jobType === "ev_charger_level2") {
           iraApplicable.push({
             program: "30C EV Charger Credit",
             amount: "30% up to $1,000",
