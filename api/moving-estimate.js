@@ -85,7 +85,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "moving", imageBytes: _imageBuf, cacheNamespace: "moving:v2-summary" });
+    const _guard = await runAbuseGuard(req, { vertical: "moving", imageBytes: _imageBuf, cacheNamespace: "moving:v3-l6-2026-05-03" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -262,16 +262,22 @@ OTHER RULES:
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
 
-    // Record successful Claude call against the global ceiling
-    // and cache the parsed result by image hash for 24h dedup.
-    await recordClaudeCall();
-    if (_guard.imageHash) {
-      await storeImageCache("moving:v2-summary", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
-    }
-
+      // Record successful Claude call. Cache write moved below (legal dive
+      // 2026-05-03 cross-vertical L6 finding) so cached payload mirrors
+      // the post-enrichment shape returned to fresh callers.
+      await recordClaudeCall();
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
+    }
+
+    // L6: cache write happens HERE so cached payload mirrors fresh response.
+    if (_guard.imageHash) {
+      await storeImageCache(
+        "moving:v3-l6-2026-05-03",
+        _guard.imageHash,
+        { success: true, source: "claude-haiku", data: parsed }
+      );
     }
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate

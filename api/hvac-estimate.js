@@ -101,7 +101,7 @@ export default async function handler(req, res) {
     if (_mcpKeyValid) {
       _guard = { ok: true, imageHash: null, cachedResult: null };
     } else {
-      _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac-v3-jobtype", imageBytes: _imageBuf });
+      _guard = await runAbuseGuard(req, { vertical: "hvac", cacheNamespace: "hvac:v4-l6-2026-05-03", imageBytes: _imageBuf });
     }
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
@@ -280,13 +280,11 @@ Rules:
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
 
-    // Record successful Claude call against the global ceiling
-    // and cache the parsed result by image hash for 24h dedup.
-    await recordClaudeCall();
-    if (_guard.imageHash) {
-      await storeImageCache("hvac", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
-    }
-
+      // Record successful Claude call. Cache write moved below — must run
+      // AFTER pricing enrichment + delete parsed.city (legal dive 2026-05-03
+      // cross-vertical L6 finding). Pre-fix lookup ns "hvac-v3-jobtype" and
+      // store ns "hvac" didn't match either, so cache lookups never hit.
+      await recordClaudeCall();
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
@@ -515,6 +513,16 @@ Rules:
     const _calCity = parsed.city || parsed.cityName || "";
     const _calState = parsed.stateCode || parsed.state || "";
     delete parsed.city;
+
+    // L6: cache write happens HERE so cached payload includes pricingContext.
+    if (_guard.imageHash) {
+      await storeImageCache(
+        "hvac:v4-l6-2026-05-03",
+        _guard.imageHash,
+        { success: true, source: "claude-haiku", data: parsed }
+      );
+    }
+
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "hvac" });
 
     if (req.headers["x-woogoro-test"] !== "1") captureAnonymizedData("hvac", parsed); // fire and forget
