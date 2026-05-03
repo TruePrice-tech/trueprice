@@ -990,22 +990,13 @@
           else subType = "short_under_20ft";
         }
 
-        // Location from engine result. PL-2 fix: prefer AI's stateCode/city
-        // over regex-extracted ones — the regex parser hallucinates 2-letter
-        // state codes from random OCR fragments ("GArage" → "GA",
-        // "NC pages" → "NC"). On f7-roto-rooter the regex extracted "NC" but
-        // the actual fixture is Indianapolis IN; AI correctly returned "IN".
-        // Engine's guard `if (aiData.stateCode && !result.stateCode)` favored
-        // the wrong regex value over AI. Override here for plumbing — same
-        // class of bug likely affects other verticals but lifting to engine
-        // is a separate cross-vertical fix.
-        var _aiState = engineResult.aiData && engineResult.aiData.stateCode;
-        var _aiCity = engineResult.aiData && engineResult.aiData.city;
-        var _engState = _aiState || engineResult.stateCode;
-        var _engCity = _aiCity || engineResult.city;
-        if (_engState && !state.address.stateCode) {
-          state.address.stateCode = _engState;
-          if (_engCity) state.address.city = _engCity;
+        // Location from engine result. The engine (js/analyzer-engine.js)
+        // now prefers AI's stateCode/city over regex when both are set —
+        // see PL-2 cross-vertical fix in commit history. So we just read
+        // engineResult.{stateCode,city} directly.
+        if (engineResult.stateCode && !state.address.stateCode) {
+          state.address.stateCode = engineResult.stateCode;
+          if (engineResult.city) state.address.city = engineResult.city;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 

@@ -676,8 +676,21 @@
         if (aiData.contractor && !result.contractor) result.contractor = aiData.contractor;
         if (aiData.material && !result.material) result.material = aiData.material;
         if (aiData.materialLabel && !result.materialLabel) result.materialLabel = aiData.materialLabel;
-        if (aiData.city && !result.city) result.city = aiData.city;
-        if (aiData.stateCode && !result.stateCode) result.stateCode = aiData.stateCode;
+        // PL-2 cross-vertical fix: prefer AI's stateCode/city over regex when
+        // both are set. Regex extraction from garbled / handwritten / heavily-
+        // redacted OCR routinely hallucinates 2-letter state codes from
+        // random fragments ("GArage" → "GA", "NC pages" → "NC") and city
+        // names from form-field labels ("Customer Name" → "Ustomer Nal Je").
+        // AI sees the full document context and is far more reliable on
+        // these. The plumbing dive's f7 Roto-Rooter (Indianapolis IN) was
+        // the canonical surface — regex returned "NC", AI returned "IN",
+        // analyzer favored regex → wrong region → wrong benchmark multiplier.
+        // Other vertical-specific fields (contractor, material, warranty)
+        // keep their regex-first preference because their extractors anchor
+        // on stronger signals (company-name patterns, material vocabulary,
+        // numeric warranty patterns) less prone to fragment hallucination.
+        if (aiData.city) result.city = aiData.city;
+        if (aiData.stateCode) result.stateCode = aiData.stateCode;
         if (aiData.warranty && !result.warranty) result.warranty = aiData.warranty;
         if (aiData.lineItems) result.lineItems = aiData.lineItems;
         if (aiData.redFlags) result.redFlags = aiData.redFlags;
