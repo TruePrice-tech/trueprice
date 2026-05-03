@@ -126,7 +126,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "landscaping", imageBytes: _imageBuf, cacheNamespace: "landscaping:v3-l6-2026-05-03" });
+    const _guard = await runAbuseGuard(req, { vertical: "landscaping", imageBytes: _imageBuf, cacheNamespace: "landscaping:v4-cmp-contractor-2026-05-03" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -181,6 +181,7 @@ ${text ? "EXTRACTED TEXT FROM QUOTE:\n" + text.substring(0, 8000) + "\n\n" : ""}
 
 Return this exact JSON structure:
 {
+  "contractor": <string or null - landscaping contractor company name. Look at the top of the quote (letterhead), header, footer, signature line, or "from"/"prepared by" sections. Extract the company name even if it's in a logo image. This is REQUIRED whenever a name is visible.>,
   "totalPrice": <number or null - the total quoted price>,
   "laborTotal": <number or null>,
   "materialsTotal": <number or null>,
