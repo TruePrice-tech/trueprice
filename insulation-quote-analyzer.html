@@ -543,13 +543,24 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
-    // Detect insulation type from quote text
+    // Detect insulation type from quote text.
+    // I3 (2026-05-03): blown-in/cellulose check moved BEFORE spray-foam.
+    // Mixed quotes (e.g. blow-in cellulose at attic + closed-cell at rim joist)
+    // were previously classified as Spray Foam (Closed Cell) just because
+    // closed-cell appeared first in the regex chain — wrong benchmark
+    // (cellulose dominates the 1500 sf scope; rim joist foam is auxiliary).
+    // Now: if blown-in/cellulose IS present, classify as blown_in regardless
+    // of whether spray foam is also mentioned. Pure-foam quotes still
+    // classify correctly because they don't contain "blown-in" or "cellulose".
     function detectInsulationType(text) {
       var t = (text || "").toLowerCase();
+      var hasBlown = /blown.?in|loose.?fill|cellulose|blow.?in/i.test(t);
+      var hasSpray = /spray\s*foam|closed.?cell|open.?cell/i.test(t);
+      if (hasBlown && hasSpray) return { value: "blown_in", label: "Mixed (Blown-In + Spray Foam)" };
+      if (hasBlown) return { value: "blown_in", label: "Blown-In (Attic)" };
       if (/closed.?cell|spray\s*foam.*closed/i.test(t)) return { value: "spray_foam_closed", label: "Spray Foam (Closed Cell)" };
       if (/open.?cell|spray\s*foam.*open/i.test(t)) return { value: "spray_foam_open", label: "Spray Foam (Open Cell)" };
       if (/spray\s*foam/i.test(t)) return { value: "spray_foam_closed", label: "Spray Foam (Closed Cell)" };
-      if (/blown.?in|loose.?fill|cellulose|blow.?in/i.test(t)) return { value: "blown_in", label: "Blown-In (Attic)" };
       if (/rigid\s*foam|foam\s*board|xps|eps|polyiso/i.test(t)) return { value: "rigid_foam", label: "Rigid Foam Board" };
       if (/batt|fiberglass|mineral\s*wool|rockwool/i.test(t)) return { value: "batts", label: "Batts (Fiberglass)" };
       return { value: "blown_in", label: "Blown-In (Attic)" };
@@ -575,35 +586,81 @@
       return null;
     }
 
-    // Detect R-value from quote text
+    // Detect R-value from quote text.
+    // I5 (2026-05-03): pick MAX of all R-values found, not the first.
+    // Existing-insulation-being-removed lines (e.g. "Remove existing R-19
+    // insulation") would otherwise win over the line item that specifies
+    // the new install (e.g. "Blown-in fiberglass to R-49"). Codes don't
+    // typically allow downgrading insulation, so the highest R-value in
+    // the document is almost always the installed value.
     function detectRValue(text) {
-      var m = text.match(/r[\-\s]*(\d{1,3})/i);
-      if (m) {
+      var rx = /r[\-\s]*(\d{1,3})\b/gi;
+      var max = null;
+      var m;
+      while ((m = rx.exec(text)) !== null) {
         var val = parseInt(m[1]);
-        if (val >= 5 && val <= 100) return val;
+        if (val >= 5 && val <= 100) {
+          if (max === null || val > max) max = val;
+        }
       }
-      return null;
+      return max;
     }
 
-    // Detect scope signals from text
+    // Detect scope signals from text.
+    // I1+I2 (2026-05-03): negation-aware. Previously the regex matched the
+    // PHRASE without checking for negation context, so f3-class fixtures
+    // ("Air sealing NOT included." / "Existing insulation NOT removed.")
+    // falsely showed Included. Same false-positive class as foundation F1
+    // (engineer report) and kitchen K4 (appliances NOT included).
+    // I4 (2026-05-03): ventBaffles regex loosened — fixtures with "Soffit
+    // baffles, 16 total" (f1) failed the old /vent\s*baffle|.../ regex
+    // because "soffit baffles" doesn't contain the literal word "vent".
+    // Bare-word "baffle" is unambiguous in insulation-quote context.
+    // Energy audit also gained "blower-door" (with hyphen) and "manual j".
     function detectInsulationScopeSignals(text) {
       var t = (text || "").toLowerCase();
-      var signals = {};
+      // Split on newlines and sentence terminators so we can scan per-line
+      // for negation context. Per-line is safer than ±N chars because
+      // negation tokens ("NOT") are usually adjacent to the scope word
+      // within the same bullet/sentence.
+      var lines = t.split(/\n|(?:\.\s+)/);
+
       var checks = {
         airSealing: /air\s*seal|caulk|foam\s*seal|gap\s*seal/i,
         vaporBarrier: /vapor\s*barrier|moisture\s*barrier|poly\s*sheeting/i,
-        ventBaffles: /vent\s*baffle|rafter\s*vent|soffit\s*vent|attic\s*vent/i,
-        oldRemoval: /remov|tear\s*out|strip\s*out|haul\s*away.*insulation|old\s*insulation/i,
+        ventBaffles: /baffle|rafter\s*vent|soffit\s*vent|attic\s*vent/i,
+        oldRemoval: /\bremov|tear\s*out|strip\s*out|haul\s*away.*insulation|old\s*insulation/i,
         accessCreation: /access\s*(hatch|panel|door|point)|create\s*access|cut\s*access/i,
-        energyAudit: /energy\s*audit|thermal\s*imag|blower\s*door|infrared/i,
-        permits: /permit|inspection|code\s*compliance/i,
-        cleanup: /clean\s*up|cleanup|debris|disposal|haul\s*away/i,
+        energyAudit: /energy\s*audit|thermal\s*imag|blower[\s-]*door|infrared|manual\s+j\b/i,
+        permits: /\bpermit|code\s*compliance/i,
+        cleanup: /clean[\s-]*up|debris|disposal|haul\s*away|hepa/i,
         warranty: /warrant|guarantee/i,
         rValueCert: /r[\-\s]*value\s*cert|certification|r[\-\s]*value\s*verif/i
       };
+
+      // Negation patterns within the matched line. If present, mark
+      // status:"excluded" so the analyzer renders "Not included" instead
+      // of "Included" for that scope item. Patterns cover the common
+      // contractor-quote phrasings: "X NOT included", "no air sealing",
+      // "without removal", "X excluded", "X not part of scope".
+      var negationRx = /\bnot\s+(included|removed|provided|covered|in\s+scope|part)\b|\bno\s+(air\s*seal|removal|baffle|vapor\s*barrier|warranty|permit)\b|\bexcluded\b|\bwithout\s+(air\s*seal|removal|baffle)\b/i;
+
+      var signals = {};
       for (var key in checks) {
-        if (checks[key].test(t)) {
-          signals[key] = { status: "included" };
+        var rx = checks[key];
+        var matchedLine = null;
+        for (var i = 0; i < lines.length; i++) {
+          if (rx.test(lines[i])) {
+            matchedLine = lines[i];
+            break;
+          }
+        }
+        if (matchedLine) {
+          if (negationRx.test(matchedLine)) {
+            signals[key] = { status: "excluded" };
+          } else {
+            signals[key] = { status: "included" };
+          }
         }
       }
       return signals;
