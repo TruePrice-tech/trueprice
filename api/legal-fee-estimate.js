@@ -85,7 +85,10 @@ export default async function handler(req, res) {
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
     // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v4-ocr" });
+    // cacheNamespace bumped to v5 (legal dive 2026-05-03) to invalidate old
+    // cached entries that held attorneyName PII + missing pricingContext /
+    // retainerCheckScore (cache-write moved below the strip + enrichment).
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v5-no-pii" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -278,13 +281,11 @@ Return ONLY the JSON object, no markdown, no explanation.`
       const jsonMatch = aiText.match(/\{[\s\S]*\}/);
       parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(aiText);
 
-    // Record successful Claude call against the global ceiling
-    // and cache the parsed result by image hash for 24h dedup.
-    await recordClaudeCall();
-    if (_guard.imageHash) {
-      await storeImageCache(_guard.cacheNamespace || "legal-fee:v4-ocr", _guard.imageHash, { success: true, source: "claude-haiku", data: parsed });
-    }
-
+      // Record successful Claude call against the global ceiling. The image
+      // cache write moved below — it must run AFTER pricing enrichment and
+      // attorneyName PII strip so cached responses match fresh ones and don't
+      // leak PII (legal dive 2026-05-03 finding L6).
+      await recordClaudeCall();
     } catch (e) {
       console.error("Failed to parse Claude response:", aiText);
       return res.status(502).json({ error: "Could not parse AI response", raw: aiText });
@@ -348,6 +349,20 @@ Return ONLY the JSON object, no markdown, no explanation.`
 
     // Strip PII before returning or storing
     delete parsed.attorneyName;
+
+    // L6 (legal dive 2026-05-03): cache write happens HERE so the cached payload
+    // includes pricingContext + retainerCheckScore (added in the enrichment block
+    // above) and excludes attorneyName (just deleted). Previously the cache held
+    // a pre-enrichment, pre-PII-strip snapshot, so subsequent uploads of the same
+    // image silently leaked attorneyName and rendered with empty pricingContext /
+    // Agreement Score N/A.
+    if (_guard.imageHash) {
+      await storeImageCache(
+        _guard.cacheNamespace || "legal-fee:v4-ocr",
+        _guard.imageHash,
+        { success: true, source: "claude-haiku", data: parsed }
+      );
+    }
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || parsed.firmCity || "";
