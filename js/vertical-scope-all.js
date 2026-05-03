@@ -686,6 +686,21 @@
         { key: "appliances", label: "Appliances", patterns: [/appliance/i, /refrigerat/i, /range\b/i, /oven/i, /microwave/i, /dishwasher/i] },
         { key: "warranty", label: "Warranty", patterns: [/warranty/i, /guarantee/i, /workmanship/i] },
       ],
+      // K9 (kitchen 2026-05-02): the default scope-detection logic loses to
+      // incidental keyword matches — e.g. /dishwasher/ in "Plumbing reconnect
+      // (sink, dishwasher)" fires "Appliances ✓ Yes" even when the same quote
+      // explicitly says "Appliances NOT included (customer-provided)". A
+      // strong-exclusion regex matches an explicit category-+-negation pair
+      // and OVERRIDES the per-segment "found wins" rule, marking the category
+      // as excluded even when an unrelated mention exists elsewhere. Same
+      // patterns as kitchen analyzer's K4 detectKitchenScopeSignals override.
+      exclusionOverrides: {
+        appliances: /\b(appliance|appliances|range|oven|fridge|refrigerator|dishwasher|stove|microwave|hood)\b[^.]{0,80}?\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied|not\s*in\s*scope)\b|\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied)\b[^.]{0,80}?\b(appliance|appliances)\b/i,
+        permit:     /\b(permit|permits|inspection)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|not\s*in\s*scope)\b|\b(not\s*included|excluded|by\s*owner|by\s*homeowner)\b[^.]{0,60}?\b(permit|permits)\b/i,
+        warranty:   /\bno\s*warranty\b|\bwarranty\b[^.]{0,40}?\b(not\s*included|excluded|none)\b/i,
+        flooring:   /\b(flooring|floor)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner)\b/i,
+        backsplash: /\b(backsplash|back\s*splash)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner)\b/i,
+      },
       brands: [
         // Cabinets
         { pattern: /kraftmaid/i, brand: "KraftMaid", tier: "mid" },
@@ -970,6 +985,31 @@
           detected: found,
           excluded: !found && negatedOnly
         });
+      }
+      // K9 strong-exclusion override (kitchen 2026-05-02). When a vertical
+      // declares config.exclusionOverrides[key], the regex matches an explicit
+      // category-+-negation pair anywhere in the text and FORCES the scope
+      // entry to detected=false / excluded=true — overriding any incidental
+      // segment-level "found" that won the per-segment loop above. Solves
+      // bugs like /dishwasher/ in "Plumbing reconnect (sink, dishwasher)"
+      // marking Appliances ✓ Yes when the same quote explicitly says
+      // "Appliances NOT included (customer-provided)". Other verticals
+      // without exclusionOverrides see no behavior change.
+      if (config.exclusionOverrides) {
+        for (var key in config.exclusionOverrides) {
+          if (Object.prototype.hasOwnProperty.call(config.exclusionOverrides, key)) {
+            var ovrPat = config.exclusionOverrides[key];
+            if (ovrPat && ovrPat.test(t)) {
+              for (var sj = 0; sj < scope.length; sj++) {
+                if (scope[sj].key === key) {
+                  scope[sj].detected = false;
+                  scope[sj].excluded = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
       }
     }
 
