@@ -562,18 +562,27 @@
       return roundTo50(tierData.base * _kitAdjustment(sizeIdx, countertopKey));
     }
 
-    // K8: range-based benchmark. Returns the JSON-anchored low/high for the
-    // detected tier scaled by the same size + countertop + city + inflation +
-    // seasonal adjustments. Used by verdictFromRange below to decide whether
-    // the quote is below / inside / above the tier's typical range.
+    // K8: range-based benchmark. Range BOUNDS are JSON totalNational shifted
+    // ONLY by kitchen size — size determines how much cabinet linear-footage
+    // and countertop sqft you need (the dominant cost driver). Counter
+    // material, regional labor, inflation, and seasonality shift WHERE IN
+    // the range a typical price lands; they should not push the range above
+    // the JSON authority's max. Compounding all five multipliers would tag
+    // a fair-priced JSON-floor quote as "Unusually Low" because the lower
+    // bound floats above it.
     function calcBenchmarkRange(tier, sizeIdx, countertopKey) {
       var tierData = KIT_PRICING.basePriceByTier[tier];
       if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
-      var adj = _kitAdjustment(sizeIdx, countertopKey);
+      var sizeMult = 1.0;
+      if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
+        sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
+      }
+      // Display benchmark midpoint applies all adjustments so the user-specific
+      // city/inflation/seasonal context is reflected in the single-number figure.
       return {
-        low:  roundTo50(tierData.low * adj),
-        high: roundTo50(tierData.high * adj),
-        base: roundTo50(tierData.base * adj)
+        low:  roundTo50(tierData.low * sizeMult),
+        high: roundTo50(tierData.high * sizeMult),
+        base: roundTo50(tierData.base * _kitAdjustment(sizeIdx, countertopKey))
       };
     }
 
