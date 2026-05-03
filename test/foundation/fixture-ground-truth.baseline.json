@@ -1,0 +1,316 @@
+{
+  "ts": "2026-05-03T21:05:19.976Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-citadel-high": {
+      "verdictPrice": 12800,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "not mentioned",
+        "waterproofing": "not mentioned",
+        "drainage": "included",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "included",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 37% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /citadel\\s*structural/, got null",
+        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /lifetime/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected true, got undefined"
+      ]
+    },
+    "f2-gulf-coast-mid": {
+      "verdictPrice": 8750,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "not mentioned",
+        "waterproofing": "not mentioned",
+        "drainage": "included",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "included",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 6% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /gulf\\s*coast\\s*foundation/, got null",
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /limited|25/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected true, got undefined"
+      ]
+    },
+    "f3-anchor-low": {
+      "verdictPrice": 6900,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "included",
+        "waterproofing": "not mentioned",
+        "drainage": "not mentioned",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "not mentioned",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 26% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /anchor\\s*foundation\\s*repair/, got null",
+        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /lifetime/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected false, got undefined",
+        "scopeExcluded:inspection: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f4-citadel-high-messy": {
+      "verdictPrice": 12800,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "not mentioned",
+        "waterproofing": "not mentioned",
+        "drainage": "included",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "included",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 37% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /citadel\\s*structural/, got null",
+        "apiRepairType: expected match /helical|pier_helical|pier_push/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /lifetime/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected true, got undefined"
+      ]
+    },
+    "f5-gulf-coast-mid-messy": {
+      "verdictPrice": 8750,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "not mentioned",
+        "waterproofing": "not mentioned",
+        "drainage": "included",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "included",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 6% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /gulf\\s*coast\\s*foundation/, got null",
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /limited|25/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected true, got undefined"
+      ]
+    },
+    "f6-anchor-low-messy": {
+      "verdictPrice": 6900,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "included",
+        "waterproofing": "not mentioned",
+        "drainage": "not mentioned",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "not mentioned",
+        "landscaping": "included"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 26% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /anchor\\s*foundation\\s*repair/, got null",
+        "apiRepairType: expected match /pier|concrete|hydraulic/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /lifetime/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected false, got undefined",
+        "scopeExcluded:inspection: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f7-mock-foundation-pros-nc": {
+      "verdictPrice": 21115,
+      "details": {
+        "repair type": "Pier Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "inspection": "included",
+        "piers": "included",
+        "brackets": "not mentioned",
+        "excavation": "not mentioned",
+        "waterproofing": "not mentioned",
+        "drainage": "included",
+        "backfill": "not mentioned",
+        "monitoring": "not mentioned",
+        "warranty": "included",
+        "permits": "included",
+        "landscaping": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $9,350 -- 126% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiRepairType": null,
+      "numPiers": null,
+      "warrantyType": null,
+      "transferable": null,
+      "engineerReport": null,
+      "failures": [
+        "contractor: expected match /foundation\\s*pros/, got null",
+        "apiRepairType: expected match /pier_push|push|steel/, got \"\"",
+        "numPiers: expected 8, got undefined",
+        "warrantyType: expected match /limited|25/, got \"\"",
+        "transferable: expected true, got undefined",
+        "engineerReport: expected true, got undefined"
+      ]
+    }
+  }
+}

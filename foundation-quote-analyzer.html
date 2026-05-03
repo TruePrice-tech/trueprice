@@ -784,11 +784,27 @@
         // Detect scope signals
         var scopeSignals = detectFoundationScopeSignals(text);
 
-        // Location detection from parser
+        // F2/F3: detect pier count from text (used in benchmark below).
+        var detectedPierCount = detectPierCount(text);
+
+        // F4: detect contractor name from quote letterhead (analyzer-only,
+        // does not rely on AI being called).
+        var detectedContractor = (engineResult && engineResult.contractor) ||
+                                 (apiResult && apiResult.contractor) ||
+                                 detectContractor(text);
+
+        // Location detection from parser, or fall back to text regex (F9).
         var location = (parsed && parsed.location) ? parsed.location : null;
         if (location && location.stateCode && !state.address.stateCode) {
           state.address.stateCode = location.stateCode;
           if (location.city) state.address.city = location.city;
+        }
+        if (!state.address.stateCode) {
+          var fromText = detectStateFromText(text);
+          if (fromText.stateCode) {
+            state.address.stateCode = fromText.stateCode;
+            if (!state.address.city && fromText.city) state.address.city = fromText.city;
+          }
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
@@ -843,7 +859,21 @@ setProgress(90, "Almost done...");
 
 
         var region = getRegionFromState(state.address.stateCode);
-        var benchmark = calcBenchmark(repairType.value, "moderate", "1990_plus", region);
+
+        // F2/F3: pier-count-aware benchmark for the analyzer path. When
+        // pier_installation is detected and the quote text states an explicit
+        // pier count, use that count instead of the severity default of 6
+        // piers. Otherwise fall back to the existing calcBenchmark math
+        // (used by estimator + non-pier repair types).
+        var benchmark;
+        if (repairType.value === "pier_installation" && detectedPierCount) {
+          var typeData = FOUND_PRICING.basePriceByType.pier_installation;
+          var laborMult = getCityMult(state.address.city, state.address.stateCode) ||
+                          (FOUND_PRICING.laborMultiplierByRegion[region] || 1.0);
+          benchmark = roundTo50(typeData.basePrice * detectedPierCount * laborMult * INFLATION_MULT * FOUND_PRICING.overheadMultiplier);
+        } else {
+          benchmark = calcBenchmark(repairType.value, "moderate", "1990_plus", region);
+        }
 
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
         var verdict = verdictFromRatio(ratio);
@@ -860,7 +890,9 @@ setProgress(90, "Almost done...");
           scopeSignals: scopeSignals,
           region: region,
           location: location,
-          parsed: parsed
+          parsed: parsed,
+          contractor: detectedContractor,
+          pierCount: detectedPierCount
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "foundation" });
@@ -919,27 +951,115 @@ setProgress(90, "Almost done...");
     }
 
     function detectFoundationScopeSignals(text) {
-      var t = (text || "").toLowerCase();
+      // Negation-aware scope detection. F1 trust-critical guard 2026-05-03:
+      // previous regex marked "engineer report not included" as Included
+      // because /engineer/ matched anywhere. Now we look at ~60 chars before
+      // and ~80 after each match; if a negation phrase ("not included",
+      // "client to obtain", "obtain separately", "additional cost", "by
+      // others") appears in that window, mark status="excluded" instead.
+      // Same pattern as kitchen K4 EXCLUDED scope guard.
+      // Also tightened permits regex to \bpermit\b only (was matching plain
+      // "inspection"), and landscaping to landscap|sod replac|yard/lawn
+      // restoration only (was matching universal "cleanup").
+      var t = text || "";
       var signals = {};
       var patterns = {
-        inspection: /inspect|engineer|structural\s*report|assessment/i,
-        piers: /\bpier|push\s*pier|helical|steel\s*pier/i,
-        brackets: /bracket|hardware|mounting|attachment/i,
-        excavation: /excavat|dig|trench|soil\s*remov/i,
-        waterproofing: /waterproof|sealant|membrane|vapor\s*barrier/i,
-        drainage: /drain|french\s*drain|sump|grading/i,
-        backfill: /backfill|compact|fill\s*material|soil\s*replac/i,
-        monitoring: /monitor|follow[\-\s]*up|check[\-\s]*up|post[\-\s]*repair/i,
-        warranty: /warranty|guarantee|transferable|lifetime/i,
-        permits: /permit|inspection|code|compliance/i,
-        landscaping: /landscap|yard|lawn|restoration|cleanup/i
+        inspection: /(inspect(?:ion|or)|engineer(?:ing|'s|s)?(?:\s*(?:report|assessment|letter|evaluation))?|structural\s*(?:report|engineer|assessment))/ig,
+        piers: /(\bpier|push\s*pier|helical\s*pier|steel\s*pier|hydraulic\s*(?:concrete\s*)?pier)/ig,
+        brackets: /(bracket|hardware|mounting|attachment)/ig,
+        excavation: /(excavat|underpin|dig|trench|soil\s*remov)/ig,
+        waterproofing: /(waterproof|sealant|membrane|vapor\s*barrier)/ig,
+        drainage: /(french\s*drain|drain(?:age)?\s*(?:tile|diversion|assessment|correct|system)|sump\s*pump|gutter|grading)/ig,
+        backfill: /(backfill|compact|fill\s*material|soil\s*replac)/ig,
+        monitoring: /(monitor|follow[\-\s]*up|check[\-\s]*up|post[\-\s]*repair|re[\-\s]*survey)/ig,
+        warranty: /(warranty|guarantee|transferable|lifetime\s*(?:transferable|warranty|fully)?)/ig,
+        permits: /(\bpermit\b)/ig,
+        landscaping: /(landscap|sod\s*replac|yard\s*restoration|lawn\s*restor)/ig
       };
+      var negationRx = /\b(not\s+(?:included|mentioned|provided|covered|addressed)|excluded|client\s+(?:to\s+)?(?:obtain|provide)|obtain\s+separately|by\s+others|additional\s+cost|extra\s+charge|n\/a)\b/i;
       Object.keys(patterns).forEach(function(key) {
-        if (patterns[key].test(t)) {
+        var rx = patterns[key];
+        var m;
+        var seenNegation = false;
+        var seenAffirmation = false;
+        while ((m = rx.exec(t)) !== null) {
+          var ctxStart = Math.max(0, m.index - 60);
+          var ctxEnd = Math.min(t.length, m.index + (m[0] || "").length + 80);
+          var ctx = t.slice(ctxStart, ctxEnd);
+          if (negationRx.test(ctx)) {
+            seenNegation = true;
+          } else {
+            seenAffirmation = true;
+          }
+        }
+        if (seenAffirmation) {
           signals[key] = { status: "included" };
+        } else if (seenNegation) {
+          signals[key] = { status: "excluded" };
         }
       });
       return signals;
+    }
+
+    // F2/F3 trust-critical 2026-05-03: extract pier count from quote text so
+    // benchmark math uses actual count instead of default "moderate (6 piers)".
+    // Without this, an 8-pier quote at fair market rate verdicts as
+    // "Overpriced" because benchmark = 1500 * 6 * 1.04 = $9,350 vs actual
+    // $12k+ for 8 piers. Patterns: "8 piers required" / "(8 piers)" / "8-pier"
+    // / "Steel push piers (8 piers @ $1,500 ea)" / "Helical pier system, 8 piers".
+    function detectPierCount(text) {
+      var t = text || "";
+      var counts = [];
+      var rx = /(\d{1,3})\s*(?:[-]\s*)?piers?(?:\s+(?:required|installed|@|each|ea\b)|\s*[\)@,]|\b)/ig;
+      var m;
+      while ((m = rx.exec(t)) !== null) {
+        var n = parseInt(m[1], 10);
+        if (n >= 2 && n <= 50) counts.push(n);
+      }
+      if (!counts.length) return null;
+      counts.sort(function(a, b) { return a - b; });
+      return counts[Math.floor(counts.length / 2)];
+    }
+
+    // F4 trust-critical 2026-05-03: extract contractor name from quote text
+    // so the analyzer can render a Contractor detail row (parity with kitchen,
+    // roofing, HVAC, plumbing, electrical). First non-empty line that's not
+    // an obvious header is treated as the letterhead. Falls back to scanning
+    // first 5 lines for foundation/structural/pier/repair tokens.
+    function detectContractor(text) {
+      if (!text) return null;
+      var lines = text.split(/\n/).map(function(l) { return l.trim(); }).filter(Boolean).slice(0, 6);
+      var skipRx = /^(customer|property|job|date|description|amount|subtotal|sales\s*tax|tax|total|quote|valid|address|phone|fax|email)\b/i;
+      var fallback = null;
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.length < 4 || line.length > 80) continue;
+        if (skipRx.test(line)) continue;
+        if (/^[$\d.,]/.test(line)) continue;
+        if (/@|\.com|\.net/i.test(line)) continue;
+        if (!/[a-zA-Z]{3,}/.test(line)) continue;
+        if (/foundation|structural|pier|repair|services|solutions|group|company|construction/i.test(line)) {
+          return line;
+        }
+        if (!fallback) fallback = line;
+      }
+      return fallback;
+    }
+
+    // F9 polish 2026-05-03: extract state code from "City, ST 12345" pattern
+    // when parser didn't surface it. Catches Houston/Charlotte/etc. addresses
+    // in the quote letterhead or property block.
+    function detectStateFromText(text) {
+      if (!text) return { stateCode: "", city: "" };
+      var rx = /([A-Z][a-zA-Z\s.]{2,30}?),\s*([A-Z]{2})\s+\d{5}\b/g;
+      var m;
+      while ((m = rx.exec(text)) !== null) {
+        var sc = m[2];
+        if (STATE_REGIONS[sc]) {
+          return { stateCode: sc, city: (m[1] || "").trim() };
+        }
+      }
+      return { stateCode: "", city: "" };
     }
 
     async function extractPdfText(file) {
@@ -1191,8 +1311,27 @@ setProgress(90, "Almost done...");
       }
 
       // Build details
+      // Inline XSS-strip helper. OCR-extracted contractor strings can
+      // contain stray tokens; escape before injecting into innerHTML.
+      function _esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
       var detailsHtml = '<div class="found-details">';
+      // F4: Contractor row (only on upload path; estimator has no contractor).
+      if (isUpload && r.contractor) {
+        detailsHtml += '<div class="found-detail"><div class="label">Contractor</div><div class="value">' + _esc(r.contractor) + '</div></div>';
+      }
       detailsHtml += '<div class="found-detail"><div class="label">Repair Type</div><div class="value">' + r.repairType.label + '</div></div>';
+
+      // F2/F3: Pier Count row when detected from text (upload path only).
+      if (isUpload && r.pierCount) {
+        detailsHtml += '<div class="found-detail"><div class="label">Pier Count</div><div class="value">' + r.pierCount + ' piers</div></div>';
+      }
 
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="found-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';

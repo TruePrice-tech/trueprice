@@ -453,11 +453,20 @@
         if (typeof api.hardscapeIncluded !== "boolean") api.hardscapeIncluded = (api.hardscapeArea > 0) || !!api.hardscapeMaterial || api.jobType === "pavers" || api.jobType === "retaining_wall" || _lndHardscapeRe.test(_lndSub);
         if (typeof api.irrigationIncluded !== "boolean") api.irrigationIncluded = (api.irrigationZones > 0) || api.jobType === "irrigation" || _lndIrrRe.test(_lndSub);
 
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // [CMP-LND-SCOPE-MERGE 2026-05-03] UNION-merge regex scope w/ Claude
+        // scopeItems (mirror of CMP-SOL-9). Drop the `!api.scopeItems` outer
+        // gate and union-merge: regex fills any key Claude left undefined.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "landscaping");
           if (!api.projectType && extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-LND-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
         if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
