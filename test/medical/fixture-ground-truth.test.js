@@ -377,7 +377,7 @@ function compare(label, actual, expected) {
   // full harness run uses 9 of those. Surface 429s separately so they don't
   // pollute the baseline as fake regressions.
   if (actual.apiStatus && actual.apiStatus.includes(429)) {
-    failures.push("rateLimited: medical API returned 429 (60 req/hr cap hit) — re-run after window clears");
+    failures.push("rateLimited: medical API returned 429 (120 req/hr cap hit) — re-run after window clears");
     return failures;
   }
 

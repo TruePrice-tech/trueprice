@@ -856,13 +856,36 @@
 
       var redFlags = api.redFlags || [];
 
+      // Belt-and-suspenders credit-balance detection. The Claude prompt is
+      // the authoritative source, but Vision is non-deterministic — even
+      // with explicit worked examples in the prompt, sometimes the model
+      // returns positive patientResponsibility on a bill that clearly shows
+      // parens or that has insurancePaid + adjustments > totalBilled. This
+      // safeguard normalizes those to youOwe = 0 so the user never sees
+      // "you owe $X" on a bill where the math says they overpaid.
+      var billed = api.totalBilled || 0;
+      var paid = Math.abs(api.insurancePaid || 0);
+      var adj = Math.abs(api.adjustments || 0);
+      var rawPatientResp = (api.patientResponsibility != null) ? api.patientResponsibility : (api.youOwe != null ? api.youOwe : 0);
+      var youOweFinal = rawPatientResp;
+      if (typeof rawPatientResp === "number" && rawPatientResp < 0) {
+        // Claude returned a negative value (parens read as negative) — credit balance.
+        youOweFinal = 0;
+      } else if (billed > 0 && (paid + adj) > billed + 1) {
+        // Sum of payments + adjustments exceeds charges — patient overpaid even
+        // if Claude reports positive patientResponsibility. Override.
+        youOweFinal = 0;
+      } else if (rawPatientResp == null) {
+        youOweFinal = 0;
+      }
+
       return {
         facility: api.facilityName || api.facility || "Unknown Facility",
         facilityType: api.facilityType || "",
-        totalBilled: api.totalBilled || 0,
+        totalBilled: billed,
         insurancePaid: api.insurancePaid || 0,
         adjustments: api.adjustments || 0,
-        youOwe: api.patientResponsibility || api.youOwe || 0,
+        youOwe: youOweFinal,
         lineItems: lineItems,
         checks: checks,
         redFlags: redFlags,
