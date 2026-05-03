@@ -1,0 +1,372 @@
+{
+  "ts": "2026-05-03T02:17:37.291Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-valley-diagnostic-low": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 5",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "Valley Diagnostic Imaging · imaging_center",
+      "facilityNameFromApi": "Valley Diagnostic Imaging",
+      "totalBilled": 1225,
+      "insurancePaid": 650,
+      "youOwe": 390,
+      "lineItemCpts": [
+        "74177",
+        "--",
+        "74177-26"
+      ],
+      "lineItemCptsFromApi": [
+        "74177",
+        "74177-26"
+      ],
+      "lineItemCount": 3,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "?\nIn-network provider": "warn",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✗\nNo unbundled charges": "fail",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 5,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f2-banner-outpatient-mid": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 5",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "Banner Outpatient Imaging · imaging_center",
+      "facilityNameFromApi": "Banner Outpatient Imaging",
+      "totalBilled": 2200,
+      "insurancePaid": 1065,
+      "youOwe": 355,
+      "lineItemCpts": [
+        "74177",
+        "--",
+        "--",
+        "--"
+      ],
+      "lineItemCptsFromApi": [
+        "74177"
+      ],
+      "lineItemCount": 4,
+      "billChecks": {
+        "?\nCPT codes listed": "warn",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "✓\nIn-network provider": "pass",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 5,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f3-mayo-clinic-high": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 7",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "Mayo Clinic Arizona · hospital_outpatient",
+      "facilityNameFromApi": "Mayo Clinic Arizona",
+      "totalBilled": 5930,
+      "insurancePaid": 2316,
+      "youOwe": 579,
+      "lineItemCpts": [
+        "--",
+        "--",
+        "--",
+        "--",
+        "--",
+        "--"
+      ],
+      "lineItemCptsFromApi": [],
+      "lineItemCount": 6,
+      "billChecks": {
+        "✗\nCPT codes listed": "fail",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "?\nIn-network provider": "warn",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 7,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": [
+        "cptExtraction: expected match /74177/, got [--,--,--,--,--,--] (without CPT, benchmark engine falls back to wrong category averages)"
+      ]
+    },
+    "f4-valley-diagnostic-messy": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 5",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "Valley Diagnostic Imaging · imaging_center",
+      "facilityNameFromApi": "Valley Diagnostic Imaging",
+      "totalBilled": 1225,
+      "insurancePaid": 650,
+      "youOwe": 390,
+      "lineItemCpts": [
+        "74177",
+        "--",
+        "74177-26"
+      ],
+      "lineItemCptsFromApi": [
+        "74177",
+        "74177-26"
+      ],
+      "lineItemCount": 3,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "?\nIn-network provider": "warn",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 5,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f5-mayo-clinic-messy": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 9",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "Mayo Clinic Hospital · hospital_outpatient",
+      "facilityNameFromApi": "Mayo Clinic Hospital",
+      "totalBilled": 5930,
+      "insurancePaid": 2895,
+      "youOwe": 579,
+      "lineItemCpts": [
+        "--",
+        "--",
+        "--",
+        "--",
+        "--",
+        "--"
+      ],
+      "lineItemCptsFromApi": [],
+      "lineItemCount": 6,
+      "billChecks": {
+        "✗\nCPT codes listed": "fail",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "?\nIn-network provider": "warn",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 9,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": [
+        "cptExtraction: expected match /74177/, got [--,--,--,--,--,--] (without CPT, benchmark engine falls back to wrong category averages)"
+      ]
+    },
+    "f6-er-99283-towel-photo": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 6",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "West Boca Medical Center · emergency_room",
+      "facilityNameFromApi": "West Boca Medical Center",
+      "totalBilled": 3737,
+      "insurancePaid": 2012,
+      "youOwe": 1725,
+      "lineItemCpts": [
+        "99283"
+      ],
+      "lineItemCptsFromApi": [
+        "99283"
+      ],
+      "lineItemCount": 1,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✗\nCharges itemized": "fail",
+        "?\nFacility vs professional fees separated": "warn",
+        "✓\nInsurance adjustments applied": "pass",
+        "✓\nIn-network provider": "pass",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✗\nNo upcoding": "fail",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 6,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f7-surgery-denied-medical-necessity": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 7",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "",
+      "facilityNameFromApi": null,
+      "totalBilled": 11250,
+      "insurancePaid": 1691,
+      "youOwe": 3100,
+      "lineItemCpts": [
+        "30520",
+        "30140",
+        "30465",
+        "20912"
+      ],
+      "lineItemCptsFromApi": [
+        "30520",
+        "30140",
+        "30465",
+        "20912"
+      ],
+      "lineItemCount": 4,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "?\nIn-network provider": "warn",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✗\nNo unbundled charges": "fail",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 7,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f8-myomectomy-denied": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 5",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "",
+      "facilityNameFromApi": null,
+      "totalBilled": 6138,
+      "insurancePaid": 4145,
+      "youOwe": 1993,
+      "lineItemCpts": [
+        "58146",
+        "58300"
+      ],
+      "lineItemCptsFromApi": [
+        "58146",
+        "58300"
+      ],
+      "lineItemCount": 2,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✓\nCharges itemized": "pass",
+        "✓\nFacility vs professional fees separated": "pass",
+        "✓\nInsurance adjustments applied": "pass",
+        "✓\nIn-network provider": "pass",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✓\nNo upcoding": "pass",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 5,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": []
+    },
+    "f9-credit-balance-overpaid": {
+      "verdictLabel": "ISSUES FOUND",
+      "verdictTitle": "Potential Issues Found: 5",
+      "verdictClass": "mb-verdict issues",
+      "facilityName": "",
+      "facilityNameFromApi": null,
+      "totalBilled": 535,
+      "insurancePaid": 508,
+      "youOwe": 27,
+      "lineItemCpts": [
+        "99441",
+        "99213",
+        "99214"
+      ],
+      "lineItemCptsFromApi": [
+        "99441",
+        "99213",
+        "99214"
+      ],
+      "lineItemCount": 3,
+      "billChecks": {
+        "✓\nCPT codes listed": "pass",
+        "✓\nCharges itemized": "pass",
+        "✗\nFacility vs professional fees separated": "fail",
+        "✓\nInsurance adjustments applied": "pass",
+        "✓\nIn-network provider": "pass",
+        "✓\nNo duplicate charges": "pass",
+        "✓\nDates match visit": "pass",
+        "✓\nNo unbundled charges": "pass",
+        "✗\nNo upcoding": "fail",
+        "✓\nPatient responsibility clear": "pass"
+      },
+      "redFlagsCount": 5,
+      "isUnreadable": false,
+      "isError": false,
+      "isWrongVertical": false,
+      "apiStatus": [
+        200
+      ],
+      "failures": [
+        "youOwe: expected ≤ 0 OR unreadable fallback, got positive 27 (analyzer claims patient owes money on overpaid ledger)"
+      ]
+    }
+  }
+}
