@@ -414,7 +414,7 @@
               d._priceSource = "regex_fallback";
               if (raw && raw.data) raw.data = d;
             }
-            return { raw: raw, ocrText: _engOcrText };
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
           })
           .catch(function(err) {
             console.warn("[compare-concrete] Claude API failed, falling back to regex:", err.message);
@@ -429,7 +429,7 @@
                 api.scopeItems = {};
                 extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
               }
-              return { raw: { data: api }, ocrText: _engOcrText };
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
             }
             throw err;
           });
@@ -447,7 +447,8 @@
           api.scopeItems = {};
           extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
-
+        // CMP-CON-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
