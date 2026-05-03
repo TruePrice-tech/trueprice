@@ -372,6 +372,15 @@ function compare(label, actual, expected) {
     return failures;
   }
 
+  // 429 rate-limit detection. Distinguishes real "unreadable" failures from
+  // transient throttling — the medical API caps at 60 req/hr per IP and a
+  // full harness run uses 9 of those. Surface 429s separately so they don't
+  // pollute the baseline as fake regressions.
+  if (actual.apiStatus && actual.apiStatus.includes(429)) {
+    failures.push("rateLimited: medical API returned 429 (60 req/hr cap hit) — re-run after window clears");
+    return failures;
+  }
+
   // For credit-balance fixtures, allow either "you owe ≤ 0" or unreadable.
   if (expected.youOweMustBeLeqZeroOrUnreadable) {
     if (d.isUnreadable) {
