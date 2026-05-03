@@ -109,7 +109,7 @@ export default async function handler(req, res) {
     if (_mcpKeyValid) {
       _guard = { ok: true, imageHash: null, cachedResult: null };
     } else {
-      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v6-cpt-inference-2026-05-02", imageBytes: _imageBuf });
+      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v7-credit-balance-narrow-2026-05-03", imageBytes: _imageBuf });
       if (!_guard.ok) {
         return res.status(_guard.status).json({ error: _guard.error });
       }
@@ -233,8 +233,9 @@ ACCOUNTING CONVENTIONS (apply to EVERY dollar field — patientResponsibility, i
 - Parentheses around a number mean NEGATIVE in medical billing (e.g., "($27.00)" is -$27.00, "(2,012.00)" is -$2,012.00). This is the standard accounting convention used on EOBs and patient ledgers.
 - A leading minus sign also means negative ("-$650.00" is -$650.00).
 - Payments and adjustments are commonly shown as negative against charges. "Insurance Payment: ($2,012.00)" means insurance paid $2,012 — record this as insurancePaid: 2012 (positive), since the field semantically captures the magnitude paid.
-- CREDIT BALANCE: If the bill's "Amount Due" / "Remaining Amount Due" / "Balance" is in parentheses or otherwise shown as negative, the patient has OVERPAID. In this case set patientResponsibility to 0 (not a positive number) AND add a redFlag like "Credit balance: provider owes patient a refund of $X — call billing to request a refund check or apply to next visit". NEVER report a positive patientResponsibility value when the bill shows a negative remaining balance — this would tell the patient to pay money they don't owe.
-- If two views of the same number disagree (e.g., a labeled total of $535 but a remaining-due of -$27 after payments), the REMAINING DUE is the patient's actual responsibility, not the gross charges.
+- CREDIT BALANCE (narrow rule — apply ONLY when the explicit patient-owed line itself is negative): If the bill has a labeled "Patient Responsibility" / "Amount Due" / "Remaining Amount Due" / "Balance Due" line AND that specific line's number is in parentheses or has a leading minus sign, the patient has OVERPAID. In that case set patientResponsibility to 0 AND add a redFlag like "Credit balance: provider owes patient a refund of $X — call billing to request a refund check or apply to next visit". NEVER report a positive patientResponsibility value when the bill's patient-owed line is negative.
+- DO NOT infer a credit balance from negative payment/adjustment lines alone. Negative numbers on "Insurance Payment", "Adjustment", "Contractual Write-off", "Discount" lines are NORMAL accounting (subtractions from charges) and do NOT mean the patient overpaid. If "PATIENT RESPONSIBILITY" or "Amount Due" is shown as a positive number, USE that positive number — even if other lines on the bill are negative.
+- If two views of the same number disagree (e.g., a labeled total of $535 but a remaining-due of -$27 after payments), the REMAINING DUE is the patient's actual responsibility, not the gross charges. But this only applies when the remaining-due is itself explicitly negative — do not compute a synthetic remaining-due by subtracting payments from charges and inferring credit from arithmetic alone.
 
 - summary: ALWAYS explain WHY the bill total is high, low, or fair in MEDICAL terms. Reference specific factors: facility type (hospital outpatient is typically 2-3x an ambulatory surgery center for the same procedure), CPT complexity and typical commercial vs Medicare rates, emergency vs scheduled care, in-network vs out-of-network status, whether the patient had met their deductible. Never reference materials, labor rates, permits, or warranties — those do not apply to medical bills.
 
