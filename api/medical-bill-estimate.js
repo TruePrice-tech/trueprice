@@ -43,7 +43,9 @@ async function captureAnonymizedData(vertical, parsed) {
 // 0-1 API calls, now it's 3. 60/hr was too tight for users running
 // multiple compare sessions in an hour. At Claude haiku-4-5 pricing
 // (~$0.001/bill) the new cap is ~$0.12/hr per IP, still cheap.
-const RATE_LIMIT_MAX = 120;
+// TEMP 2026-05-03: bumped 120 → 1000 for medical deep test final
+// verification harness run. REVERT TO 120 in next commit after re-baseline.
+const RATE_LIMIT_MAX = 1000;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
