@@ -411,18 +411,46 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "solar");
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        // CMP-SOL-6 (TRUST-CRITICAL 2026-05-03): always call Claude API on
+        // compare path. Previously the regex fast-path returned immediately
+        // with only { totalPrice } — the comparison table then rendered just
+        // 2 of 9 rows because System Size, Net Cost, $/W, Panel Brand,
+        // Inverter Brand, Battery Included, Panel Warranty, Workmanship
+        // Warranty all came back N/A and were filtered via the allEmpty
+        // check. Mirrors M3 medical fix (compare-medical: bypass regex,
+        // always call Vision API). Cost: 3 API calls per session at
+        // ~$0.0015/quote = $0.0045 total. Cheap. The regex price still
+        // serves as a fallback below if Claude returns null totalPrice.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            // If Claude returned no price but regex got one, hoist the regex
+            // price so the user still sees a useful comparison.
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            // If Claude API fails (429 rate-limit, network, parse error) and
+            // regex got a price, fall back to the lean regex+TP_VerticalScope
+            // path so the user gets *something* rather than a parse error.
+            console.warn("[compare-solar] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "solar");
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
