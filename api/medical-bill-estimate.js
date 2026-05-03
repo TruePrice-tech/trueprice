@@ -104,7 +104,7 @@ export default async function handler(req, res) {
     if (_mcpKeyValid) {
       _guard = { ok: true, imageHash: null, cachedResult: null };
     } else {
-      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v4-credit-balance-2026-05-02", imageBytes: _imageBuf });
+      _guard = await runAbuseGuard(req, { vertical: "medical-bill:v5-cpt-inheritance-2026-05-02", imageBytes: _imageBuf });
       if (!_guard.ok) {
         return res.status(_guard.status).json({ error: _guard.error });
       }
@@ -236,6 +236,7 @@ ACCOUNTING CONVENTIONS (apply to EVERY dollar field — patientResponsibility, i
 CRITICAL ANALYSIS RULES:
 - Extract ALL line items you can find
 - For each line item, identify CPT/HCPCS code if present
+- SECTION-HEADER CPT INHERITANCE: If a section header lists a CPT code (e.g., "CT abdomen and pelvis with contrast (CPT 74177)" or "CPT 74177: CT abdomen and pelvis") and the line items beneath are sub-charges of that procedure (facility fee, contrast media, radiologist interpretation, IV catheter, drug administration, etc), apply the header's CPT code to every line item in that section UNLESS the line item explicitly lists a different CPT/HCPCS code. The radiologist interpretation line specifically is conventionally the same CPT with a -26 modifier (e.g., 74177-26). Without inheritance, the entire section's line items render with no CPT and the benchmark engine falls back to wildly wrong category averages.
 - Flag charges > 3x Medicare rate for that CPT code as potential overcharges
 - Flag duplicate charges (same CPT code, same date)
 - Flag potential upcoding (level 5 visit for routine care, critical care for non-ICU)
