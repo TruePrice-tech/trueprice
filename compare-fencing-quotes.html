@@ -294,7 +294,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/fencing-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Height (ft)", "field": "heightFt", "type": "number"}, {"label": "Linear Footage", "field": "linearFeet", "type": "number"}, {"label": "$/linear ft", "field": "_dollarsPerLinearFt", "type": "computed"}, {"label": "Post Type", "field": "postType", "type": "text"}, {"label": "Gates Included", "field": "gateCount", "type": "number"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
+    var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Height (ft)", "field": "height", "type": "number"}, {"label": "Linear Footage", "field": "linearFeet", "type": "number"}, {"label": "$/linear ft", "field": "_dollarsPerLinearFt", "type": "computed"}, {"label": "Post Type", "field": "postType", "type": "text"}, {"label": "Gates Included", "field": "gateCount", "type": "number"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"old_removal","label":"Old fence removal"},{"key":"concrete_posts","label":"Concrete posts"},{"key":"gates","label":"Gates included"},{"key":"hardware","label":"Hardware/hinges"},{"key":"stain_seal","label":"Stain/seal"},{"key":"utility_locate","label":"Utility locate (811)"},{"key":"survey","label":"Property survey"},{"key":"permit","label":"Permit"},{"key":"warranty","label":"Warranty"},{"key":"post_depth","label":"Post depth specified"},{"key":"cleanup","label":"Cleanup"}];
     var IRIS = "/images/Worker%20Woogoro/Fencing%20worker.png";
     var SINGLE_PAGE = "/fencing-quote-analyzer.html";
@@ -413,7 +413,7 @@
               d._priceSource = "regex_fallback";
               if (raw && raw.data) raw.data = d;
             }
-            return { raw: raw, ocrText: _engOcrText };
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
           })
           .catch(function(err) {
             console.warn("[compare-fencing] Claude API failed, falling back to regex:", err.message);
@@ -427,7 +427,7 @@
                 if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
                 api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
               }
-              return { raw: { data: api }, ocrText: _engOcrText };
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
             }
             throw err;
           });
@@ -436,13 +436,19 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // CMP-FNC-1b (2026-05-03): always run warranty fallback — Anthropic
+        // fencing prompt does not return warrantyYears, only scopeItems.warranty.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "fencing");
           if (!api.fenceType && extracted.jobType && extracted.jobType.value !== "other") api.fenceType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) {
+            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          }
         }
+        // CMP-FNC-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
