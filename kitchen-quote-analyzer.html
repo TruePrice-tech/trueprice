@@ -760,7 +760,13 @@
 
         // Detect kitchen-specific signals from text
         var scopeSignals = detectKitchenScopeSignals(text);
-        var detectedTier = detectKitchenTier(text, parsed ? parsed.finalPrice : 0);
+        // detectedTier (text+price) is recomputed inside the price-confirm callback
+        // below, where the user-confirmed price is finalized. The pre-confirm pass
+        // here is best-effort using the engine's parsed.finalPrice OR the engine's
+        // OCR-stage price as fallback — important for fixtures where the regex
+        // parser misses but the engine's combined OCR+API path still landed a price.
+        var _preConfirmPrice = (parsed && parsed.finalPrice) || quotePrice || 0;
+        var detectedTier = detectKitchenTier(text, _preConfirmPrice);
         var detectedCountertop = detectCountertopMaterial(text);
 
         // Location detection from parser
@@ -819,9 +825,12 @@ setProgress(90, "Almost done...");
 
         renderPriceConfirmation(appRoot, quotePrice, "kit", function(confirmedPrice) {
 
-
-        // Default to midrange, average size, granite if not detected
-        var tier = detectedTier || "midrange";
+        // Re-run tier detection with the user-confirmed price. This catches
+        // fixtures where the regex parser missed finalPrice but the user
+        // confirmed (or manually entered) a price > the $20K midrange floor —
+        // without this, "minor" line-item words like "minor drywall repair"
+        // would steal the verdict from a clear semi-custom mid-range job.
+        var tier = detectKitchenTier(text, confirmedPrice || _preConfirmPrice) || detectedTier || "midrange";
         var sizeIdx = 1; // average
         var countertopKey = detectedCountertop || "granite";
 
