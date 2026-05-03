@@ -1,10 +1,10 @@
 {
-  "ts": "2026-05-03T13:11:50.015Z",
+  "ts": "2026-05-03T14:12:07.971Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-valley-diagnostic-low": {
       "verdictLabel": "ISSUES FOUND",
-      "verdictTitle": "Potential Issues Found: 6",
+      "verdictTitle": "Potential Issues Found: 5",
       "verdictClass": "mb-verdict issues",
       "facilityName": "Valley Diagnostic Imaging · imaging_center",
       "facilityNameFromApi": "Valley Diagnostic Imaging",
@@ -34,7 +34,7 @@
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
-      "redFlagsCount": 6,
+      "redFlagsCount": 5,
       "isUnreadable": false,
       "isError": false,
       "isWrongVertical": false,
@@ -45,7 +45,7 @@
     },
     "f2-banner-outpatient-mid": {
       "verdictLabel": "ISSUES FOUND",
-      "verdictTitle": "Potential Issues Found: 4",
+      "verdictTitle": "Potential Issues Found: 5",
       "verdictClass": "mb-verdict issues",
       "facilityName": "Banner Outpatient Imaging · imaging_center",
       "facilityNameFromApi": "Banner Outpatient Imaging",
@@ -66,7 +66,7 @@
       ],
       "lineItemCount": 4,
       "billChecks": {
-        "?\nCPT codes listed": "warn",
+        "✓\nCPT codes listed": "pass",
         "✓\nCharges itemized": "pass",
         "✓\nFacility vs professional fees separated": "pass",
         "✓\nInsurance adjustments applied": "pass",
@@ -77,7 +77,7 @@
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
-      "redFlagsCount": 4,
+      "redFlagsCount": 5,
       "isUnreadable": false,
       "isError": false,
       "isWrongVertical": false,
@@ -120,7 +120,7 @@
         "?\nIn-network provider": "warn",
         "✓\nNo duplicate charges": "pass",
         "✓\nDates match visit": "pass",
-        "✗\nNo unbundled charges": "fail",
+        "✓\nNo unbundled charges": "pass",
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
@@ -176,7 +176,7 @@
     },
     "f5-mayo-clinic-messy": {
       "verdictLabel": "ISSUES FOUND",
-      "verdictTitle": "Potential Issues Found: 8",
+      "verdictTitle": "Potential Issues Found: 7",
       "verdictClass": "mb-verdict issues",
       "facilityName": "Mayo Clinic Hospital · hospital_outpatient",
       "facilityNameFromApi": "Mayo Clinic Hospital",
@@ -212,7 +212,7 @@
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
-      "redFlagsCount": 8,
+      "redFlagsCount": 7,
       "isUnreadable": false,
       "isError": false,
       "isWrongVertical": false,
@@ -231,10 +231,10 @@
       "insurancePaid": 2012,
       "youOwe": 1725,
       "lineItemCpts": [
-        "99288"
+        "99285"
       ],
       "lineItemCptsFromApi": [
-        "99288"
+        "99285"
       ],
       "lineItemCount": 1,
       "billChecks": {
@@ -257,12 +257,12 @@
         200
       ],
       "failures": [
-        "cptExtraction: expected match /99283/, got [99288] (without CPT, benchmark engine falls back to wrong category averages)"
+        "cptExtraction: expected match /99283/, got [99285] (without CPT, benchmark engine falls back to wrong category averages)"
       ]
     },
     "f7-surgery-denied-medical-necessity": {
       "verdictLabel": "ISSUES FOUND",
-      "verdictTitle": "Potential Issues Found: 5",
+      "verdictTitle": "Potential Issues Found: 7",
       "verdictClass": "mb-verdict issues",
       "facilityName": "",
       "facilityNameFromApi": null,
@@ -285,16 +285,16 @@
       "billChecks": {
         "✓\nCPT codes listed": "pass",
         "✓\nCharges itemized": "pass",
-        "✗\nFacility vs professional fees separated": "fail",
+        "?\nFacility vs professional fees separated": "warn",
         "✓\nInsurance adjustments applied": "pass",
-        "✓\nIn-network provider": "pass",
+        "?\nIn-network provider": "warn",
         "✓\nNo duplicate charges": "pass",
         "✓\nDates match visit": "pass",
         "✗\nNo unbundled charges": "fail",
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
-      "redFlagsCount": 5,
+      "redFlagsCount": 7,
       "isUnreadable": false,
       "isError": false,
       "isWrongVertical": false,
@@ -305,10 +305,10 @@
     },
     "f8-myomectomy-denied": {
       "verdictLabel": "ISSUES FOUND",
-      "verdictTitle": "Potential Issues Found: 4",
+      "verdictTitle": "Potential Issues Found: 5",
       "verdictClass": "mb-verdict issues",
-      "facilityName": "Hospital (not specified in documents) · hospital_outpatient",
-      "facilityNameFromApi": "Hospital (not specified in documents)",
+      "facilityName": "Hospital (Cigna/MyChart) · hospital_outpatient",
+      "facilityNameFromApi": "Hospital (Cigna/MyChart)",
       "totalBilled": 6138,
       "insurancePaid": 4145,
       "youOwe": 1993,
@@ -333,7 +333,7 @@
         "✓\nNo upcoding": "pass",
         "✓\nPatient responsibility clear": "pass"
       },
-      "redFlagsCount": 4,
+      "redFlagsCount": 5,
       "isUnreadable": false,
       "isError": false,
       "isWrongVertical": false,
@@ -349,8 +349,8 @@
       "facilityName": "",
       "facilityNameFromApi": null,
       "totalBilled": 535,
-      "insurancePaid": 508,
-      "youOwe": 27,
+      "insurancePaid": 562,
+      "youOwe": 0,
       "lineItemCpts": [
         "99441",
         "99213",
@@ -365,10 +365,10 @@
       "billChecks": {
         "✓\nCPT codes listed": "pass",
         "✓\nCharges itemized": "pass",
-        "✗\nFacility vs professional fees separated": "fail",
+        "?\nFacility vs professional fees separated": "warn",
         "✓\nInsurance adjustments applied": "pass",
         "✓\nIn-network provider": "pass",
-        "✓\nNo duplicate charges": "pass",
+        "✗\nNo duplicate charges": "fail",
         "✓\nDates match visit": "pass",
         "✓\nNo unbundled charges": "pass",
         "✗\nNo upcoding": "fail",
@@ -381,9 +381,7 @@
       "apiStatus": [
         200
       ],
-      "failures": [
-        "youOwe: expected ≤ 0 OR unreadable fallback, got positive 27 (analyzer claims patient owes money on overpaid ledger)"
-      ]
+      "failures": []
     }
   }
 }
