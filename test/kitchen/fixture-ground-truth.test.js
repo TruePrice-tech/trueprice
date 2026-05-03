@@ -55,6 +55,12 @@ const FIXTURES = [
       tierRegex: /minor|cosmetic|refresh|cabinet\s*refacing/i,
       countertopRegex: /laminate/i,
       isUncategorizedBanner: false,
+      // Quote explicitly states "Appliances NOT included (customer-
+      // provided)" and "Permit NOT included" — both must register as
+      // EXCLUDED in scope review. Naive keyword matchers fire on
+      // /appliance/ / /permit/ → wrongly mark Included → buyer surprised
+      // by change order. K4 trust-critical guard.
+      excludedScope: ["appliances", "permits"],
     },
   },
   {
@@ -266,6 +272,36 @@ async function uploadAndCapture(browser, fixture) {
       if (label) details[label.trim().toLowerCase()] = value.trim();
     });
 
+    // Scope Review checklist: <ul class="kit-scope"><li>...<icon>... <label>...
+    // <status></li>. We map each li back to the canonical scopeItems key by
+    // scanning the visible label text, then capture status (Included | Not
+    // included | Not mentioned). K4 trust-critical assertion target.
+    const scope = {};
+    const scopeMap = [
+      [/demolition/i, "demo"],
+      [/cabinets/i, "cabinets"],
+      [/countertops/i, "countertops"],
+      [/flooring/i, "flooring"],
+      [/backsplash/i, "backsplash"],
+      [/plumbing/i, "plumbing"],
+      [/electrical/i, "electrical"],
+      [/appliances/i, "appliances"],
+      [/lighting/i, "lighting"],
+      [/painting/i, "painting"],
+      [/permits/i, "permits"],
+      [/design/i, "design"],
+      [/warranty/i, "warranty"],
+    ];
+    document.querySelectorAll(".kit-scope li").forEach(li => {
+      const lines = (li.innerText || "").split("\n").map(s => s.trim()).filter(Boolean);
+      if (lines.length < 2) return;
+      const status = lines[lines.length - 1].toLowerCase();
+      const labelLine = lines.slice(0, -1).join(" ");
+      for (const [rx, key] of scopeMap) {
+        if (rx.test(labelLine)) { scope[key] = status; break; }
+      }
+    });
+
     const rangeText = (document.querySelector(".verdict-range") || {}).innerText || "";
 
     const verdictLabel = (document.querySelector(".verdict-label") || {}).innerText || "";
@@ -278,6 +314,7 @@ async function uploadAndCapture(browser, fixture) {
     return {
       verdictPrice: verdictMatch ? parseFloat(verdictMatch[1].replace(/,/g, "")) : null,
       details,
+      scope,
       rangeText,
       verdictLabel,
       isUncategorizedBanner,
@@ -355,6 +392,20 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (Array.isArray(expected.excludedScope)) {
+    for (const key of expected.excludedScope) {
+      const got = (actual.display.scope || {})[key] || "(missing row)";
+      // Accept any explicit "not included" / "excluded" / "not mentioned"
+      // wording — anything OTHER than "included" is acceptable for an
+      // explicitly-excluded category. K4 fix targets the active-mis-info
+      // bug where /\bappliance\b/ keyword presence in "Appliances NOT
+      // included" was rendered as "Included".
+      if (/^included$/i.test(got)) {
+        failures.push(`scopeExcluded:${key}: expected NOT "Included", got ${JSON.stringify(got)}`);
+      }
+    }
+  }
+
   return failures;
 }
 
@@ -371,6 +422,7 @@ function compare(label, actual, expected) {
       out.results[fx.id] = {
         verdictPrice: actual.display.verdictPrice,
         details: actual.display.details,
+        scope: actual.display.scope,
         rangeText: (actual.display.rangeText || "").slice(0, 200),
         verdictLabel: actual.display.verdictLabel,
         isUncategorizedBanner: actual.display.isUncategorizedBanner,
@@ -410,7 +462,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|isUncategorizedBanner|hardReject):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

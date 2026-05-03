@@ -979,12 +979,34 @@ setProgress(90, "Almost done...");
         design:      [/\b(design|plan|layout|render|3d|blueprint|architect)\b/],
         warranty:    [/\b(warrant|guarantee|coverage)\b/]
       };
+      // Explicit-exclusion patterns. Quotes commonly say "Appliances NOT
+      // included (customer-provided)" or "Permit NOT included" in fine print —
+      // those lines also fire the bare /appliance/ and /permit/ patterns above,
+      // so we'd silently mark exclusions as Included. That's active mis-
+      // information: the buyer reads "Appliances ✓ Included" while the contract
+      // explicitly excludes them, then gets blindsided when the contractor
+      // demands a change order or refuses to install. Override-to-excluded
+      // when an explicit negation phrase ("X NOT included" / "excluded" /
+      // "by owner" / "customer-provided") sits within the same clause as the
+      // category keyword.
+      var exclusionPatterns = {
+        appliances: /\b(appliance|appliances|range|oven|fridge|dishwasher|stove|microwave|hood)\b[^.]{0,80}?\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied|not\s*in\s*scope)\b|\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied)\b[^.]{0,80}?\b(appliance|appliances)\b/,
+        permits:    /\b(permit|permits|inspection)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied|not\s*in\s*scope)\b|\b(not\s*included|excluded|by\s*owner|by\s*homeowner|customer[-\s]?provided|owner[-\s]?supplied)\b[^.]{0,60}?\b(permit|permits)\b/,
+        warranty:   /\bno\s*warranty\b|\bwarranty\b[^.]{0,40}?\b(not\s*included|excluded|none)\b/,
+        design:     /\b(design|drawings|plans|rendering)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner|by\s*architect|extra)\b/,
+        flooring:   /\b(flooring|floor)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner)\b/,
+        backsplash: /\b(backsplash|back\s*splash)\b[^.]{0,60}?\b(not\s*included|excluded|by\s*owner)\b/,
+      };
       for (var key in patterns) {
         var found = false;
         for (var i = 0; i < patterns[key].length; i++) {
           if (patterns[key][i].test(t)) { found = true; break; }
         }
-        signals[key] = { status: found ? "included" : "unclear" };
+        var status = found ? "included" : "unclear";
+        if (exclusionPatterns[key] && exclusionPatterns[key].test(t)) {
+          status = "excluded";
+        }
+        signals[key] = { status: status };
       }
       return signals;
     }
