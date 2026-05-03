@@ -620,18 +620,22 @@
     function detectElecServiceType(text) {
       var t = (text || "").toLowerCase();
       if (/\b(whole\s*house\s*rewir|complete\s*rewir|knob\s*and\s*tube|full\s*rewir)/i.test(t)) return { value: "whole_house_rewire", label: "Whole House Rewire", _matched: true };
+      // Panel-upgrade EXPLICIT HEADLINE wins over ev_charger / generator /
+      // recessed when both signals appear. "Smart 200 Amp Service Upgrade with
+      // EV-ready" was firing ev_charger and bench-marking $8,798 vs $2,150
+      // = "OVERPRICED 309%" — but the headline is a panel upgrade with an
+      // EV rough-in sub-circuit. Trust-critical (E5, deep test 2026-05-02).
+      if (/\b(service\s*upgrade|service\s*panel\s*upgrade|main\s*panel\s*upgrade|smart\s*panel\s*upgrade|panel\s*upgrade|\d+\s*amp\s*service)/i.test(t)) return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: true };
       if (/\b(ev\s*charger|electric\s*vehicle|charger\s*install|level\s*2\s*charger|nema\s*14[- ]?50)/i.test(t)) return { value: "ev_charger", label: "EV Charger Installation", _matched: true };
       if (/\b(generator|generac|standby\s*power|backup\s*power|whole\s*house\s*generator|transfer\s*switch)/i.test(t)) return { value: "generator", label: "Generator Installation", _matched: true };
       // Recessed / can lights matched BEFORE outlet/switch — the latter
       // would otherwise capture "halo dimmer" line items and label a
       // 25-can recessed install as "Outlet/Switch Replacement".
       if (/\b(recessed|can\s*light|pot\s*light|halo|wafer\s*light|6[- ]?pack\s*recess|6[- ]?inch\s*can|trim\s*kit)/i.test(t)) return { value: "recessed_lights", label: "Recessed Lighting Install", _matched: true };
-      // Panel upgrade matched BEFORE outlet/switch. Otherwise a "200 Amp Service
-      // Upgrade" quote with an "AFCI/GFCI breakers (8 circuits)" line item would
-      // hit the gfci|afci word in the outlet branch and confidently mislabel a
-      // $3,425 panel upgrade as "Outlet/Switch Replacement" benchmarked vs $250.
-      // Trust-critical (E1, deep test 2026-05-02).
-      if (/\b(panel|200\s*amp|100\s*amp|400\s*amp|breaker\s*box|electrical\s*panel|service\s*panel|main\s*panel|service\s*upgrade|load\s*center|amp\s*service)/i.test(t)) return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: true };
+      // Panel upgrade BROADER fallback — catches generic "panel" / "load center"
+      // / "breaker box" mentions when no explicit headline above. Still beats
+      // outlet_switch so AFCI/GFCI line items don't override panel context (E1).
+      if (/\b(panel|400\s*amp|breaker\s*box|electrical\s*panel|service\s*panel|main\s*panel|load\s*center)/i.test(t)) return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: true };
       if (/\b(circuit\s*add|new\s*circuit|add\s*circuit|dedicated\s*circuit|sub\s*panel)/i.test(t)) return { value: "circuit_addition", label: "Circuit Addition", _matched: true };
       if (/\b(outlet|switch|receptacle|gfci|afci|dimmer|plug)/i.test(t)) return { value: "outlet_switch", label: "Outlet/Switch Replacement", _matched: true };
       return { value: "panel_upgrade", label: "Panel Upgrade (100A to 200A)", _matched: false };
@@ -1436,14 +1440,38 @@ setProgress(90, "Almost done...");
       }
       tipsHtml += '</ul></div>';
 
-      // Rebate/savings tips
-      var rebateHtml = '<div class="elec-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
-      rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
-      rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-      rebateHtml += '<li>Federal 30C tax credit: up to $1,000 for residential EV charger installations in eligible census tracts (verify status — check IRS Form 8911 guidance for current year)</li>';
-      rebateHtml += '<li>Utility rebates: many utilities offer incentives for panel upgrades that support electrification</li>';
-      rebateHtml += '<li>Off-peak scheduling: booking during fall or winter can reduce labor costs 5-10%</li>';
-      rebateHtml += '</ul></div>';
+      // Rebate/savings tips. Job-type-aware so a recessed lighting quote
+      // doesn't push a "Federal 30C tax credit for residential EV charger
+      // installations" line that has nothing to do with the job (E8 deep
+      // test 2026-05-02 — degrades trust on non-EV verdicts).
+      var _rebateItems = [];
+      var _svc = (r.serviceType && r.serviceType.value) || "panel_upgrade";
+      if (_svc === "ev_charger") {
+        _rebateItems.push("Federal 30C tax credit: up to $1,000 for residential EV charger installations in eligible census tracts (verify status — check IRS Form 8911 guidance for current year)");
+        _rebateItems.push("Utility rebates: many utilities offer EV charger install incentives ($150-$500 typical)");
+      } else if (_svc === "panel_upgrade") {
+        _rebateItems.push("Utility rebates: many utilities offer incentives for panel upgrades that support electrification");
+        _rebateItems.push("Section 25C Energy Efficient Home Improvement Credit: 30% of cost up to $600/yr for panel upgrades that enable electrification (confirm via IRS Form 5695 for current year)");
+      } else if (_svc === "whole_house_rewire") {
+        _rebateItems.push("State weatherization assistance programs: low-income homeowners may qualify for grants covering rewires of homes with knob-and-tube or aluminum wiring");
+        _rebateItems.push("Utility rebates: rewires that include grounding upgrades sometimes qualify for safety incentives");
+      } else if (_svc === "generator") {
+        _rebateItems.push("State emergency-preparedness grants: some states (FL, TX, LA) offer grants or tax exemptions for whole-house generators in storm-prone counties");
+      } else if (_svc === "recessed_lights") {
+        _rebateItems.push("Utility LED rebates: many utilities offer $5-25 per LED fixture installed (verify with your local utility)");
+      }
+      _rebateItems.push("Off-peak scheduling: booking during fall or winter can reduce labor costs 5-10%");
+
+      var rebateHtml = "";
+      if (_rebateItems.length) {
+        rebateHtml = '<div class="elec-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+        rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
+        rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+        for (var _ri = 0; _ri < _rebateItems.length; _ri++) {
+          rebateHtml += '<li>' + _esc(_rebateItems[_ri]) + '</li>';
+        }
+        rebateHtml += '</ul></div>';
+      }
 
       // Feedback prompt
       var feedbackHtml = '\

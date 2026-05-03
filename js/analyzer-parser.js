@@ -1035,6 +1035,22 @@ function detectContractor(text) {
       return false;
     }
 
+    // Reject form-table task-row strings — "11 Check main electrical system"
+    // / "53 Main Electrical Panel" / "1.00 Service Entrance Cable" are line
+    // items from Description-of-Work forms, not contractor names. OCR
+    // concatenates the Task # column with the Description column into a
+    // single string starting with a digit. Trade words inside the description
+    // (electrical / panel / wiring) made looksLikeCompanyName accept these
+    // as contractors (E6 deep test 2026-05-02: f7 service-form $9,432
+    // returned "11 Check main electrical system." as contractor).
+    //
+    // 2+ digit prefix or decimal prefix (1.00, 2.50). Single-digit prefix
+    // is allowed so "5 Star Electric LLC" / "4 Brothers Plumbing" / "3D
+    // Roofing" still pass.
+    if (/^(\d{2,}|\d+\.\d+)\s/.test(name)) {
+      return false;
+    }
+
     if (/\$|,\d{3}|\.\d{2}\b/.test(name)) {
       return false;
     }
