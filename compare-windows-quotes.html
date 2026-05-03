@@ -443,11 +443,24 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // [CMP-WIN-SCOPE-MERGE 2026-05-03] UNION-merge regex scope w/ Claude
+        // scopeItems. SCOPE_ITEMS uses 12 snake_case keys; Claude
+        // (api/windows-estimate.js) only matches `permit` / `warranty` directly
+        // (haul_away→disposal, trim→trimWrap, install_method→installMethod
+        // are camelCase / different-word mismatches; flashing / caulk / low_e
+        // / argon / screens / cleanup / glass_package omitted). 10/12 rows
+        // showed "? Unclear" pre-fix. Mirror of CMP-SOL-9.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "windows");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyFrame && extracted.warranty) api.warrantyFrame = extracted.warranty.parts || extracted.warranty.labor || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-WIN-3 (2026-05-03): Anthropic windows prompt doesn't return a
         // contractor / company name field, so hoist the OCR-extracted
