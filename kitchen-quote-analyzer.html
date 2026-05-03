@@ -733,8 +733,16 @@
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
+          // K13: leave stateCode empty when the user typed something that
+          // didn't normalize to a known abbreviation OR full state name.
+          // Silently defaulting to "TX" (south region) gave incorrect labor
+          // multipliers for everyone outside the south who mistyped.
+          // getRegionFromState already handles "" by falling to "south" as
+          // a final region default, but the empty stateCode lets the parser
+          // K3 propagation overwrite it later (parser may detect IL/CA/etc
+          // from the quote text after upload).
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = lookup || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
