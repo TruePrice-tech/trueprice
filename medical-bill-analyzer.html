@@ -498,13 +498,35 @@
   (function() {
     "use strict";
 
-    // ── Medicare Rate Lookup (common CPT codes) ──
+    // ── Medicare Rate Lookup ──
+    // 17-CPT inline subset (used until the full 146-CPT JSON loads).
+    // Async fetch of /data/medical-cpt-pricing.json populates the full
+    // rates from the same source as medical-cost-lookup.html. Without
+    // the async fetch, fixtures with non-common CPTs (myomectomy 58146,
+    // surgery codes 30520/30140/30465, telephone E&M 99441) rendered
+    // 'Medicare: --' / 'Ratio: --' on every line — analyzer couldn't
+    // benchmark anything outside the original 17 codes.
     var MEDICARE_RATES = {
       "99213": 110, "99214": 165, "99215": 225, "99283": 150, "99285": 350,
       "70553": 350, "72148": 270, "74177": 250, "71046": 30,
       "85025": 11, "80053": 14, "80061": 18, "36415": 3,
       "45378": 350, "45380": 400, "90837": 130, "97110": 35
     };
+    // Async-augment with the full 146-CPT pricing JSON. Best-effort:
+    // analyzer still works with the inline subset if the fetch fails.
+    fetch("/data/medical-cpt-pricing.json", { cache: "force-cache" })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.commonCPTCodes) return;
+        Object.keys(data.commonCPTCodes).forEach(function(code) {
+          var info = data.commonCPTCodes[code];
+          if (info && typeof info.medicareRate === "number" && info.medicareRate > 0) {
+            // Don't overwrite manually-tuned inline rates if they differ.
+            if (MEDICARE_RATES[code] == null) MEDICARE_RATES[code] = info.medicareRate;
+          }
+        });
+      })
+      .catch(function() {});
 
     // ── Bill check items ──
     // `key` is the frontend display key. `apiKey` is the field name the
