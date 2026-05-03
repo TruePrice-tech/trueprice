@@ -595,10 +595,22 @@
           if (!api.warrantyManufacturerYears) {
             api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, 0);
           }
-          if (!api.scopeItems) {
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
+          // [CMP-ROOF-SCOPE-MERGE 2026-05-03] UNION-merge regex scope with
+          // Claude scopeItems. Pre-fix the SCOPE_ITEMS renderer used snake_case
+          // keys (tear_off, drip_edge, ridge_vent, ice_shield, starter,
+          // pipe_boots, cleanup) but Claude returns camelCase (tearOff,
+          // dripEdge, ridgeVent, iceShield, starterStrip) plus omits pipe_boots
+          // and cleanup entirely — so 7/12 rows showed "? Unclear" indefinitely
+          // even when Claude detected them. Regex fills blanks (only writes
+          // when key is undefined or "unclear"); Claude wins on direct hits.
+          // Mirror of CMP-SOL-9 (solar 2026-05-03).
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
 
         // Fallback: if still no price, try client-side parser
