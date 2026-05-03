@@ -1,0 +1,336 @@
+{
+  "ts": "2026-05-03T21:58:19.308Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-green-envelope-high": {
+      "verdictPrice": 5680,
+      "details": {
+        "insulation type": "Spray Foam (Closed Cell)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "not mentioned",
+        "oldRemoval": "included",
+        "accessCreation": "not mentioned",
+        "energyAudit": "included",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $7,800 -- 27% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Spray Foam (Closed Cell)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /green\\s*envelope/, got null",
+        "insType: expected match /mixed|blown|cellulose/, got \"Spray Foam (Closed Cell)\"",
+        "warranty: expected match /lifetime/, got \"\"",
+        "scopeFound:ventBaffles: expected \"Included\", got \"not mentioned\""
+      ]
+    },
+    "f2-buckeye-mid": {
+      "verdictPrice": 3025,
+      "details": {
+        "insulation type": "Blown-In (Attic)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "included",
+        "oldRemoval": "not mentioned",
+        "accessCreation": "not mentioned",
+        "energyAudit": "included",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $2,500 -- 21% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Blown-In (Attic)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /buckeye\\s*energy/, got null",
+        "warranty: expected match /10[-\\s]*year|10\\s*yr/, got \"\""
+      ]
+    },
+    "f3-midstate-low": {
+      "verdictPrice": 1730,
+      "details": {
+        "insulation type": "Blown-In (Attic)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "not mentioned",
+        "oldRemoval": "included",
+        "accessCreation": "not mentioned",
+        "energyAudit": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $3,100 -- 44% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Blown-In (Attic)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /midstate\\s*insulation/, got null",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:airSealing: expected NOT \"Included\", got \"included\"",
+        "scopeExcluded:oldRemoval: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f4-green-envelope-high-messy": {
+      "verdictPrice": 5680,
+      "details": {
+        "insulation type": "Spray Foam (Closed Cell)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "not mentioned",
+        "oldRemoval": "included",
+        "accessCreation": "not mentioned",
+        "energyAudit": "included",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $7,800 -- 27% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Spray Foam (Closed Cell)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /green\\s*envelope/, got null",
+        "insType: expected match /mixed|blown|cellulose/, got \"Spray Foam (Closed Cell)\"",
+        "warranty: expected match /lifetime/, got \"\"",
+        "scopeFound:ventBaffles: expected \"Included\", got \"not mentioned\""
+      ]
+    },
+    "f5-buckeye-mid-messy": {
+      "verdictPrice": 3025,
+      "details": {
+        "insulation type": "Blown-In (Attic)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "included",
+        "oldRemoval": "not mentioned",
+        "accessCreation": "not mentioned",
+        "energyAudit": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $2,500 -- 21% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Blown-In (Attic)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /buckeye\\s*energy/, got null",
+        "warranty: expected match /10[-\\s]*year|10\\s*yr/, got \"\""
+      ]
+    },
+    "f6-midstate-low-messy": {
+      "verdictPrice": 1730,
+      "details": {
+        "insulation type": "Blown-In (Attic)",
+        "area": "1,500 sq ft",
+        "r-value": "R-49",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "not mentioned",
+        "oldRemoval": "included",
+        "accessCreation": "not mentioned",
+        "energyAudit": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $3,100 -- 44% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Blown-In (Attic)",
+      "displayRValue": "R-49",
+      "displayArea": "1,500 sq ft",
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /midstate\\s*insulation/, got null",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:airSealing: expected NOT \"Included\", got \"included\"",
+        "scopeExcluded:oldRemoval: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f7-mock-apex-nc": {
+      "verdictPrice": 5475,
+      "details": {
+        "insulation type": "Blown-In (Attic)",
+        "r-value": "R-19",
+        "location": "Attic",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "airSealing": "included",
+        "vaporBarrier": "not mentioned",
+        "ventBaffles": "included",
+        "oldRemoval": "included",
+        "accessCreation": "not mentioned",
+        "energyAudit": "not mentioned",
+        "permits": "included",
+        "cleanup": "included",
+        "warranty": "included",
+        "rValueCert": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $3,100 -- 77% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiInsulationType": null,
+      "apiRValue": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displayInsType": "Blown-In (Attic)",
+      "displayRValue": "R-19",
+      "displayArea": null,
+      "displayLocation": "Attic",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /apex\\s*insulation/, got null",
+        "rValue: expected match /R-49/, got \"R-19\"",
+        "warranty: expected match /2[-\\s]*year|manufacturer/, got \"\""
+      ]
+    }
+  }
+}
