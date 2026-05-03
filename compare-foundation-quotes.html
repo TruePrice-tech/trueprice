@@ -440,11 +440,23 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // [CMP-FND-SCOPE-MERGE 2026-05-03] UNION-merge regex scope w/ Claude
+        // scopeItems. SCOPE_ITEMS uses 10 snake_case keys; Claude
+        // (api/foundation-estimate.js) only returns cleanup / permit /
+        // warranty directly (engineering→engineerReport mismatch; piers /
+        // lift / excavation / crack_repair / waterproof / transferable
+        // omitted). 7/10 rows showed "? Unclear" pre-fix. Mirror of CMP-SOL-9.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "foundation");
           if (!api.repairType && extracted.jobType && extracted.jobType.value !== "other") api.repairType = extracted.jobType.label;
           if (!api.warrantyType && extracted.warranty) api.warrantyType = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-FND-3 (2026-05-03): hoist OCR-extracted contractor (CMP-SOL-7
         // pattern) since Anthropic foundation prompt doesn't return one.
