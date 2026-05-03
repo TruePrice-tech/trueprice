@@ -768,6 +768,7 @@
         var _preConfirmPrice = (parsed && parsed.finalPrice) || quotePrice || 0;
         var detectedTier = detectKitchenTier(text, _preConfirmPrice);
         var detectedCountertop = detectCountertopMaterial(text);
+        var detectedSizeIdx = detectKitchenSize(text);
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
@@ -831,7 +832,11 @@ setProgress(90, "Almost done...");
         // without this, "minor" line-item words like "minor drywall repair"
         // would steal the verdict from a clear semi-custom mid-range job.
         var tier = detectKitchenTier(text, confirmedPrice || _preConfirmPrice) || detectedTier || "midrange";
-        var sizeIdx = 1; // average
+        // K2: prefer detected sqft over the silent default. detectedSizeIdx
+        // returns 0..3 for Small / Average / Large / Expansive when the quote
+        // explicitly states a kitchen size or dimensions (e.g. "200 sqft kitchen"
+        // or "12' x 14' galley"). Fall through to Average when nothing volunteered.
+        var sizeIdx = (detectedSizeIdx === null || detectedSizeIdx === undefined) ? 1 : detectedSizeIdx;
         var countertopKey = detectedCountertop || "granite";
 
         var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
@@ -948,6 +953,50 @@ setProgress(90, "Almost done...");
         if (price < 32000) return "minor";
         if (price < 65000) return "midrange";
         return "major";
+      }
+      return null;
+    }
+
+    // Detect kitchen square-footage from common quote phrasings:
+    //   "Job: 200 sqft kitchen" / "200 sq ft kitchen" / "200 square feet"
+    //   "12' x 14' galley" / "12 x 14 kitchen"
+    // Returns the index into KIT_PRICING.kitchenSizes (0..3) when confident,
+    // or null when the quote doesn't volunteer a size. K2 trust-critical
+    // — without this, every quote benchmarks against "Average (100-150
+    // sq ft)" regardless of whether the actual kitchen is 80 sqft (over-
+    // benchmarks) or 280 sqft (under-benchmarks).
+    function sqftToSizeIdx(sqft) {
+      if (sqft < 100) return 0;       // Small
+      if (sqft < 150) return 1;       // Average
+      if (sqft < 200) return 2;       // Large
+      return 3;                        // Expansive 200+
+    }
+    function detectKitchenSize(text) {
+      if (!text) return null;
+      // Pattern A: explicit "<N> sqft kitchen" / "kitchen ... <N> sqft"
+      var a = text.match(/(\d{2,4})\s*(?:sq\s*\.?\s*ft|sqft|square\s*feet?)\b[^.\n]{0,40}?\bkitchen\b/i) ||
+              text.match(/\bkitchen\b[^.\n]{0,40}?(\d{2,4})\s*(?:sq\s*\.?\s*ft|sqft|square\s*feet?)\b/i);
+      if (a) {
+        var sa = parseInt(a[1], 10);
+        if (sa >= 40 && sa <= 1500) return sqftToSizeIdx(sa);
+      }
+      // Pattern B: "Job: 200 sqft" or "200 sqft job/space/room/footprint"
+      // (kitchen-implied because the analyzer is running on a kitchen quote).
+      var b = text.match(/\b(?:job|space|room|footprint)\s*:?\s*(\d{2,4})\s*(?:sq\s*\.?\s*ft|sqft|square\s*feet?)\b/i) ||
+              text.match(/(\d{2,4})\s*(?:sq\s*\.?\s*ft|sqft|square\s*feet?)\s*\b(?:job|space|room|footprint)\b/i);
+      if (b) {
+        var sb = parseInt(b[1], 10);
+        if (sb >= 40 && sb <= 1500) return sqftToSizeIdx(sb);
+      }
+      // Pattern C: dimensions like "12' x 14'" or "12 x 14" within ~60 chars
+      // of kitchen / galley / island words. Excludes plain L x W mentions
+      // for countertop or flooring sqft (those use "(N sq ft)" callouts).
+      var c = text.match(/(\d{1,2})\s*['′ft]?\s*[xX×]\s*(\d{1,2})\s*['′ft]?[^.\n]{0,60}?\b(?:kitchen|galley|island|space|room)\b/i) ||
+              text.match(/\b(?:kitchen|galley|island|space|room)\b[^.\n]{0,60}?(\d{1,2})\s*['′ft]?\s*[xX×]\s*(\d{1,2})\s*['′ft]?/i);
+      if (c) {
+        var w = parseInt(c[1], 10);
+        var h = parseInt(c[2], 10);
+        if (w >= 6 && w <= 30 && h >= 6 && h <= 30) return sqftToSizeIdx(w * h);
       }
       return null;
     }

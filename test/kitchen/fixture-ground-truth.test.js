@@ -61,6 +61,10 @@ const FIXTURES = [
       // /appliance/ / /permit/ → wrongly mark Included → buyer surprised
       // by change order. K4 trust-critical guard.
       excludedScope: ["appliances", "permits"],
+      // Quote says "Job: 200 sqft kitchen, mid-grade refresh" — must
+      // register as Expansive (200+ sq ft). K2 trust-critical guard
+      // against the silent default to "Average (100-150 sq ft)".
+      kitchenSizeRegex: /expansive|200\+/i,
     },
   },
   {
@@ -182,6 +186,11 @@ const FIXTURES = [
       tierRegex: /minor|mid[\s-]?range|midrange|cosmetic/i,
       countertopRegex: /quartz/i,
       isUncategorizedBanner: false,
+      // Quote says "12' x 14' galley to open concept | Layout: L-shaped" —
+      // 12*14=168 sqft puts the kitchen in Large (150-200 sq ft). K2.
+      // OCR may misread the dimensions; accept Large OR Average as a
+      // soft pass since the photographic fixture is OCR-hostile.
+      kitchenSizeRegex: /large|150-200|average|100-150/i,
     },
   },
 ];
@@ -392,6 +401,13 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (expected.kitchenSizeRegex) {
+    const got = actual.display.details["kitchen size"] || "";
+    if (!expected.kitchenSizeRegex.test(got)) {
+      failures.push(`kitchenSize: expected match /${expected.kitchenSizeRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   if (Array.isArray(expected.excludedScope)) {
     for (const key of expected.excludedScope) {
       const got = (actual.display.scope || {})[key] || "(missing row)";
@@ -462,7 +478,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|kitchenSize|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
