@@ -540,8 +540,15 @@
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
-        // Enrich with regex scope extraction when API fields are missing
-        if (typeof TP_VerticalScope !== "undefined" && ocrText && !api.scopeItems) {
+        // [CMP-PLUM-SCOPE-MERGE 2026-05-03] UNION-merge regex scope w/ Claude
+        // scopeItems. SCOPE_ITEMS uses 12 snake_case keys (permit,
+        // warranty_parts, warranty_labor, disposal, labor_rate, code_compliance,
+        // camera_inspection, expansion_tank, shutoff_valve, earthquake_straps,
+        // cleanup, pressure_test) but Claude (api/plumbing-estimate.js) only
+        // returns permit / cleanup directly (with laborRate / codeCompliance
+        // camelCase mismatches). 10/12 rows showed "? Unclear" pre-fix.
+        // Mirror of CMP-SOL-9.
+        if (typeof TP_VerticalScope !== "undefined" && ocrText) {
           var extracted = TP_VerticalScope.extractFields(ocrText, "plumbing");
           if (!api.jobType && extracted.jobType && extracted.jobType.value !== "other") api.jobType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
@@ -555,8 +562,13 @@
           if (!api.warrantyLaborDays && extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
           if (!api.stateCode && (extracted.location && extracted.location.stateCode)) api.stateCode = (extracted.location && extracted.location.stateCode);
           if (!api.jobTypeKey && extracted.jobType && extracted.jobType.value) api.jobTypeKey = extracted.jobType.value;
-          api.scopeItems = {};
-          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
 
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
