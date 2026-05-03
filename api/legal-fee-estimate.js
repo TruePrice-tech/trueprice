@@ -93,7 +93,14 @@ export default async function handler(req, res) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
     if (_guard.cachedResult) {
-      return res.status(200).json(_guard.cachedResult);
+      // Tag the cached payload with a fresh build marker so the harness can
+      // tell cache hits from fresh runs.
+      const _cached = _guard.cachedResult;
+      try {
+        if (_cached && _cached.data) _cached.data._buildMarker = "L6-v6-2026-05-03";
+        if (_cached && _cached.data) _cached.data._fromCache = true;
+      } catch (_) {}
+      return res.status(200).json(_cached);
     }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -352,6 +359,8 @@ Return ONLY the JSON object, no markdown, no explanation.`
 
     // Strip PII before returning or storing
     delete parsed.attorneyName;
+    parsed._buildMarker = "L6-v6-2026-05-03";
+    parsed._fromCache = false;
 
     // L6 (legal dive 2026-05-03): cache write happens HERE so the cached payload
     // includes pricingContext + retainerCheckScore (added in the enrichment block
