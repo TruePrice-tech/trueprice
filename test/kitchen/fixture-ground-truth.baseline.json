@@ -1,11 +1,12 @@
 {
-  "ts": "2026-05-03T01:13:53.524Z",
+  "ts": "2026-05-03T01:22:30.427Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-quick-kitchen-low": {
       "verdictPrice": 13850,
       "details": {
         "remodel tier": "Minor Remodel (Cosmetic)",
+        "contractor": "QUICK KITCHEN REFRESH LLC",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Laminate",
         "pricing": "South regional pricing"
@@ -19,16 +20,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "QUICK KITCHEN REFRESH LLC",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /quick\\s*kitchen\\s*refresh/, got null"
-      ]
+      "failures": []
     },
     "f2-prairie-mid": {
       "verdictPrice": 27250,
       "details": {
         "remodel tier": "Mid-Range Remodel",
+        "contractor": "PRAIRIE STATE KITCHEN & BATH",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Quartz",
         "pricing": "South regional pricing"
@@ -42,16 +42,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PRAIRIE STATE KITCHEN & BATH",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /prairie\\s*state\\s*kitchen/, got null"
-      ]
+      "failures": []
     },
     "f3-artisan-high": {
       "verdictPrice": 57200,
       "details": {
         "remodel tier": "Major/Upscale Remodel",
+        "contractor": "ARTISAN KITCHEN STUDIOS",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Granite",
         "pricing": "South regional pricing"
@@ -65,16 +64,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "ARTISAN KITCHEN STUDIOS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /artisan\\s*kitchen\\s*studios/, got null"
-      ]
+      "failures": []
     },
     "f4-quick-kitchen-low-messy": {
       "verdictPrice": 13850,
       "details": {
         "remodel tier": "Minor Remodel (Cosmetic)",
+        "contractor": "QUICK KITCHEN REFRESH LL¢",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Laminate",
         "pricing": "South regional pricing"
@@ -88,16 +86,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "QUICK KITCHEN REFRESH LL¢",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /quick\\s*kitchen\\s*refresh/, got null"
-      ]
+      "failures": []
     },
     "f5-prairie-mid-messy": {
       "verdictPrice": 27250,
       "details": {
         "remodel tier": "Mid-Range Remodel",
+        "contractor": "PRAIRIE STATE KITCHEN & BATH",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Quartz",
         "pricing": "South regional pricing"
@@ -111,16 +108,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "PRAIRIE STATE KITCHEN & BATH",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /prairie\\s*state\\s*kitchen/, got null"
-      ]
+      "failures": []
     },
     "f6-artisan-high-messy": {
       "verdictPrice": 57200,
       "details": {
         "remodel tier": "Major/Upscale Remodel",
+        "contractor": "ARTISAN KITCHEN STUDIOS",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Granite",
         "pricing": "South regional pricing"
@@ -134,16 +130,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "ARTISAN KITCHEN STUDIOS",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /artisan\\s*kitchen\\s*studios/, got null"
-      ]
+      "failures": []
     },
     "f7-mock-midrange-nc": {
       "verdictPrice": 50228,
       "details": {
         "remodel tier": "Mid-Range Remodel",
+        "contractor": "Heritage Kitchen Designs",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Quartz",
         "pricing": "South regional pricing"
@@ -157,16 +152,15 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Heritage Kitchen Designs",
       "stateCode": null,
-      "failures": [
-        "contractor: expected match /heritage\\s*kitchen\\s*designs/, got null"
-      ]
+      "failures": []
     },
     "f8-real-photo-l-shaped": {
       "verdictPrice": 22250,
       "details": {
         "remodel tier": "Mid-Range Remodel",
+        "contractor": "Not detected",
         "kitchen size": "Average (100-150 sq ft)",
         "countertop": "Quartz",
         "pricing": "South regional pricing"
@@ -180,10 +174,10 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /modern\\s*home\\s*renovations/, got null"
+        "contractor: expected match /modern\\s*home\\s*renovations/, got \"Not detected\""
       ]
     }
   }
