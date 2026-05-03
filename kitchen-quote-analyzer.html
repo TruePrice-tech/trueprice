@@ -903,7 +903,18 @@ setProgress(90, "Almost done...");
     function detectKitchenTier(text, price) {
       var t = (text || "").toLowerCase();
       if (/\b(cabinet\s*refac|reface|refacing)\b/.test(t)) return "cabinet_refacing";
-      if (/\b(custom|luxury|upscale|high[\s-]?end|premium|wolf|sub[\s-]?zero|thermador|viking)\b/.test(t)) return "major";
+      // Major-tier signals: full-custom cabinetry OR explicit luxury keywords OR
+      // pro-tier appliance brands. CRITICAL: "custom" alone matches "custom" inside
+      // "semi-custom" (hyphen / space create word boundaries), and semi-custom is
+      // the DOMINANT mid-range cabinet tier — not major. Same for "premium": it
+      // appears in "premium semi-custom" and on the appliance "premium" package
+      // (Bosch 800, KitchenAid, GE Cafe, Jenn-Air, Samsung Bespoke) which is
+      // mid-range-adjacent, not luxury. Don't fire major on "premium" alone.
+      var hasSemiCustom = /\bsemi[-\s]?custom\b/.test(t);
+      var hasFullCustom = /\bcustom\b/.test(t) && !hasSemiCustom;
+      var hasLuxurySignal = /\b(luxury|upscale|high[-\s]?end)\b/.test(t);
+      var hasProTierBrand = /\b(wolf|sub[-\s]?zero|thermador|viking|miele|la\s*cornue|gaggenau)\b/.test(t);
+      if (hasLuxurySignal || hasProTierBrand || hasFullCustom) return "major";
       if (/\b(cosmetic|paint|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major)\b/.test(t)) return "minor";
       // price-based fallback
       if (price) {
