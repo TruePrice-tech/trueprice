@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
-import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runAbuseGuard, recordClaudeCall, cacheResult } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
 import { guardedFlywheelBump } from "./_flywheel-guard.js";
@@ -434,13 +434,7 @@ For each red flag found, populate redFlagDetails with the name, severity, the ex
     delete parsed.city;
 
     // L6: cache write happens HERE so cached payload includes pricingContext.
-    if (_guard.imageHash) {
-      await storeImageCache(
-        "windows:v3-l6-2026-05-03",
-        _guard.imageHash,
-        { success: true, source: "claude-haiku", data: parsed }
-      );
-    }
+    await cacheResult(_guard, { success: true, source: "claude-haiku", data: parsed });
 
     await enrichWithCalibration(redis, parsed, { city: _calCity, state: _calState, service: "windows" });
 

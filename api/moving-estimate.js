@@ -1,5 +1,5 @@
 import { Redis } from "@upstash/redis";
-import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runAbuseGuard, recordClaudeCall, cacheResult } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
 
@@ -272,13 +272,7 @@ OTHER RULES:
     }
 
     // L6: cache write happens HERE so cached payload mirrors fresh response.
-    if (_guard.imageHash) {
-      await storeImageCache(
-        "moving:v3-l6-2026-05-03",
-        _guard.imageHash,
-        { success: true, source: "claude-haiku", data: parsed }
-      );
-    }
+    await cacheResult(_guard, { success: true, source: "claude-haiku", data: parsed });
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || "";

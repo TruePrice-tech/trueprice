@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
-import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runAbuseGuard, recordClaudeCall, cacheResult } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
 
@@ -393,13 +393,7 @@ CRITICAL ANALYSIS RULES:
     // held a pre-strip snapshot that would leak HIPAA-adjacent PII once cache
     // hits started firing (cache was effectively broken pre-v10 due to a
     // lookup/store namespace mismatch, masking the live exposure).
-    if (_guard.imageHash) {
-      await storeImageCache(
-        "medical-bill:v10-no-pii-2026-05-03",
-        _guard.imageHash,
-        { success: true, source: "claude-haiku", data: parsed }
-      );
-    }
+    await cacheResult(_guard, { success: true, source: "claude-haiku", data: parsed });
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || parsed.facilityCity || "";

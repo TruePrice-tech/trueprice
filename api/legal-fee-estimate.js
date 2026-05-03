@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 import fs from "fs";
 import path from "path";
-import { runAbuseGuard, recordClaudeCall, storeImageCache } from "./_abuse-guard.js";
+import { runAbuseGuard, recordClaudeCall, cacheResult } from "./_abuse-guard.js";
 import { runOcr, ocrTextLooksGood } from "./_ocr.js";
 import { enrichWithCalibration } from "./_flywheel-read.js";
 
@@ -356,13 +356,7 @@ Return ONLY the JSON object, no markdown, no explanation.`
     // a pre-enrichment, pre-PII-strip snapshot, so subsequent uploads of the same
     // image silently leaked attorneyName and rendered with empty pricingContext /
     // Agreement Score N/A.
-    if (_guard.imageHash) {
-      await storeImageCache(
-        _guard.cacheNamespace || "legal-fee:v4-ocr",
-        _guard.imageHash,
-        { success: true, source: "claude-haiku", data: parsed }
-      );
-    }
+    await cacheResult(_guard, { success: true, source: "claude-haiku", data: parsed });
 
     // FLYWHEEL READ: blend real-world calibration data into the model estimate
     const _calCity = parsed.city || parsed.cityName || parsed.firmCity || "";

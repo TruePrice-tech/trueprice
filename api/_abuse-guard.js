@@ -242,6 +242,9 @@ export async function recordClaudeCall() {
 // of the same image return instantly without paying for Claude.
 // `cacheNs` is the namespace used in runAbuseGuard — pass the same value
 // (defaults to vertical name).
+//
+// Prefer cacheResult(guard, result) below — that pulls cacheNamespace
+// from the guard so the lookup string and the store string can never drift.
 export async function storeImageCache(cacheNs, imageHash, result) {
   if (!imageHash || !result) return;
   try {
@@ -250,4 +253,14 @@ export async function storeImageCache(cacheNs, imageHash, result) {
   } catch (e) {
     /* swallow */
   }
+}
+
+// Safer wrapper: takes the _guard object returned by runAbuseGuard and pulls
+// both imageHash and cacheNamespace from it, so the lookup ns and the store
+// ns can NEVER drift apart. Drift was the silent bug class fixed in legal +
+// medical + auto-repair + 16 other endpoints (legal dive 2026-05-03 L6).
+// No-ops when imageHash is null (e.g. text-only request, or MCP bypass).
+export async function cacheResult(guard, result) {
+  if (!guard || !guard.imageHash || !result) return;
+  return storeImageCache(guard.cacheNamespace, guard.imageHash, result);
 }
