@@ -788,10 +788,16 @@
         var detectedPierCount = detectPierCount(text);
 
         // F4: detect contractor name from quote letterhead (analyzer-only,
-        // does not rely on AI being called).
-        var detectedContractor = (engineResult && engineResult.contractor) ||
+        // does not rely on AI being called). Prefer foundation-specific
+        // letterhead detector over the shared engineResult.contractor —
+        // the shared regex returned mock-01 section heading "Foundation
+        // Settlement Repair" instead of the actual letterhead "Foundation
+        // Pros LLC". Fall back to engine/api only if our letterhead pass
+        // produced nothing.
+        var detectedContractor = detectContractor(text) ||
+                                 (engineResult && engineResult.contractor) ||
                                  (apiResult && apiResult.contractor) ||
-                                 detectContractor(text);
+                                 null;
 
         // Location detection from parser, or fall back to text regex (F9).
         var location = (parsed && parsed.location) ? parsed.location : null;
