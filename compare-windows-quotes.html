@@ -748,6 +748,42 @@
       }
 
       // Red flags row
+      // W6 (deep test 2026-05-03): translate Claude flag IDs (snake_case
+      // catalog names from api/windows-estimate.js prompt) to human-friendly
+      // labels. Pre-W6 the table showed raw IDs like "missing_window_spec"
+      // which read as engineering jargon to a homeowner.
+      var FLAG_LABELS = {
+        today_only_pressure: "High-pressure 'today only' offer",
+        deferred_interest_balloon: "Deferred-interest financing",
+        lifetime_voids_on_maintenance: "Lifetime warranty voids on maintenance",
+        warranty_one_transfer: "Warranty transferable only once",
+        missing_window_spec: "Window brand/model not specified",
+        missing_u_factor: "U-factor not stated",
+        free_install_inversion: "Free install — likely marked up elsewhere",
+        subcontractor_handoff: "Install handed off to a different crew",
+        surprise_disposal_fee: "Disposal billed as separate fee",
+        permit_excluded: "Permit fees not included",
+        excessive_deposit: "Deposit > 33% before any work",
+        vague_timeline: "Schedule not committed in writing",
+        unwritten_scope: "Verbal promises not in the written quote",
+        out_of_state_company: "Out-of-state company (no local presence)",
+        not_energy_star: "No ENERGY STAR certification mentioned",
+        single_pane_quoted: "Single-pane glass included",
+        brand_premium_markup: "Premium-brand markup vs equivalent installer",
+        missing_install_method: "Install method (pocket vs full-frame) not stated",
+        missing_capping: "Exterior trim capping not mentioned",
+        no_low_e: "Low-E coating not mentioned",
+        no_argon_fill: "Argon fill not mentioned",
+        no_labor_warranty: "Labor not covered (parts/glass only)",
+        missing_energy_star: "No ENERGY STAR certification mentioned",
+        missing_shgc: "Solar Heat Gain Coefficient not stated",
+        missing_timeline: "Schedule not committed in writing"
+      };
+      function humanFlag(f) {
+        if (!f) return "";
+        if (typeof f === "object") return f.message || f.name || JSON.stringify(f);
+        return FLAG_LABELS[f] || String(f).replace(/_/g, " ").replace(/\b\w/g, function(m){return m.toUpperCase();});
+      }
       var anyFlags = active.some(function(a) { return (a.data.redFlags || []).length > 0; });
       if (anyFlags) {
         html += '<tr><td class="row-label" colspan="' + (active.length + 1) + '" style="font-weight:700;color:#1e293b;padding-top:16px;">Red Flags</td></tr>';
@@ -756,7 +792,7 @@
           var flags = a.data.redFlags || [];
           if (flags.length === 0) html += '<td><span style="color:#16a34a;">&#10003; None</span></td>';
           else {
-            var list = flags.slice(0, 3).map(function(f) { return '&bull; ' + escHtml(typeof f === "string" ? f : (f.message || JSON.stringify(f))); }).join("<br>");
+            var list = flags.slice(0, 3).map(function(f) { return '&bull; ' + escHtml(humanFlag(f)); }).join("<br>");
             html += '<td style="font-size:12px;color:#b91c1c;">' + list + '</td>';
           }
         });

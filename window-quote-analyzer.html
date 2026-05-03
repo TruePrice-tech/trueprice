@@ -927,6 +927,18 @@ setProgress(90, "Almost done...");
 
         setProgress(100, "Done!");
 
+        // W4 (deep test 2026-05-03): surface contractor name + API-derived
+        // location + redFlags so they can be displayed in the verdict card.
+        // Mirrors moving's "Detected mover" / kitchen's "Detected by Claude"
+        // pattern. Falls back gracefully when API didn't run or didn't
+        // populate the field.
+        var contractorName = (apiResult && apiResult.contractor) || null;
+        var apiCity = (apiResult && apiResult.city) || (location && location.city) || state.address.city || "";
+        var apiState = (apiResult && apiResult.stateCode) || (location && location.stateCode) || state.address.stateCode || "";
+        var apiRedFlagDetails = (apiResult && Array.isArray(apiResult.redFlagDetails)) ? apiResult.redFlagDetails : null;
+        var apiRedFlags = (apiResult && Array.isArray(apiResult.redFlags)) ? apiResult.redFlags : null;
+        var apiSummary = (apiResult && typeof apiResult.summary === "string") ? apiResult.summary : null;
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -943,6 +955,12 @@ setProgress(90, "Almost done...");
           scopeSignals: scopeSignals,
           region: region,
           location: location,
+          contractor: contractorName,
+          locationCity: apiCity,
+          locationState: apiState,
+          redFlagDetails: apiRedFlagDetails,
+          redFlags: apiRedFlags,
+          aiSummary: apiSummary,
           parsed: parsed
         };
 
@@ -1252,6 +1270,15 @@ setProgress(90, "Almost done...");
       var ageLabels = { pre_1970: "Pre-1970", "1970_1999": "1970-1999", "2000_plus": "2000+" };
 
       var detailsHtml = '<div class="win-details">';
+      // W4 (deep test 2026-05-03): contractor + location rows when API
+      // populated them. Trust signal — user sees we read who quoted them.
+      if (r.contractor) {
+        detailsHtml += '<div class="win-detail"><div class="label">Contractor</div><div class="value">' + r.contractor + '</div></div>';
+      }
+      if (r.locationCity || r.locationState) {
+        var locStr = [r.locationCity, r.locationState].filter(Boolean).join(", ");
+        detailsHtml += '<div class="win-detail"><div class="label">Location</div><div class="value">' + locStr + '</div></div>';
+      }
       detailsHtml += '<div class="win-detail"><div class="label">Window Type</div><div class="value">' + r.windowType.label + '</div></div>';
       detailsHtml += '<div class="win-detail"><div class="label">Count</div><div class="value">' + r.windowCount + (r.windowCountDetected ? '' : ' (estimated)') + '</div></div>';
 
@@ -1322,7 +1349,44 @@ setProgress(90, "Almost done...");
         } else {
           tip = "This quote appears to be within the typical market range for your area and window specifications.";
         }
-        contextHtml = '<div class="win-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + tip + '</p></div>';
+        // Prefer Claude's per-quote summary when available — it cites the
+        // actual price, brand, and the "why" behind the verdict.
+        var bodyText = (r.aiSummary && r.aiSummary.length > 20) ? r.aiSummary : tip;
+        contextHtml = '<div class="win-card"><h3 style="margin-bottom:0.5rem;">Market Context</h3><p style="color:#475569;font-size:0.95rem;">' + bodyText + '</p></div>';
+      }
+
+      // W5 (deep test 2026-05-03): API-detected red flags surfaced as
+      // quote-specific cards. Falls through silently when API didn't return
+      // any (clean quotes). The static "Red flags in a window quote" page
+      // section below remains as catalog/education — this card is the
+      // "what's wrong with YOUR quote" surface.
+      var flagsHtml = '';
+      if (isUpload && r.redFlagDetails && r.redFlagDetails.length > 0) {
+        var sevColor = { critical: "#991b1b", high: "#b45309", medium: "#0369a1" };
+        var sevBg = { critical: "#fef2f2", high: "#fffbeb", medium: "#eff6ff" };
+        var sevBorder = { critical: "#fecaca", high: "#fde68a", medium: "#bfdbfe" };
+        flagsHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">Red Flags in This Quote</h3>';
+        r.redFlagDetails.forEach(function(f) {
+          var sev = f.severity || "medium";
+          var c = sevColor[sev] || sevColor.medium;
+          var bg = sevBg[sev] || sevBg.medium;
+          var br = sevBorder[sev] || sevBorder.medium;
+          var name = (f.name || "").replace(/_/g, " ").replace(/\b\w/g, function(m){return m.toUpperCase();});
+          flagsHtml += '<div style="padding:12px 14px;background:' + bg + ';border:1px solid ' + br + ';border-radius:10px;margin-bottom:8px;">';
+          flagsHtml += '<div style="font-size:13px;font-weight:700;color:' + c + ';text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;">' + sev + ' &middot; ' + name + '</div>';
+          if (f.evidence) flagsHtml += '<div style="font-size:13px;color:#475569;font-style:italic;margin-bottom:4px;">"' + f.evidence + '"</div>';
+          if (f.explanation) flagsHtml += '<div style="font-size:14px;color:#334155;">' + f.explanation + '</div>';
+          flagsHtml += '</div>';
+        });
+        flagsHtml += '</div>';
+      } else if (isUpload && r.redFlags && r.redFlags.length > 0) {
+        // Fallback when API returned only the bare flag-name array
+        // (older prompt versions, or partial Claude responses).
+        flagsHtml = '<div class="win-card"><h3 style="margin-bottom:0.75rem;">Red Flags in This Quote</h3><ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+        r.redFlags.forEach(function(name) {
+          flagsHtml += '<li>' + (name || "").replace(/_/g, " ").replace(/\b\w/g, function(m){return m.toUpperCase();}) + '</li>';
+        });
+        flagsHtml += '</ul></div>';
       }
 
       // Next Steps tips
@@ -1392,6 +1456,7 @@ setProgress(90, "Almost done...");
         </div>\
         ' + scopeHtml + '\
         ' + contextHtml + '\
+        ' + flagsHtml + '\
         ' + tipsHtml + '\
         ' + rebateHtml + '\
         <div class="win-actions">\
