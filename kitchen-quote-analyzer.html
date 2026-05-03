@@ -915,7 +915,15 @@ setProgress(90, "Almost done...");
       var hasLuxurySignal = /\b(luxury|upscale|high[-\s]?end)\b/.test(t);
       var hasProTierBrand = /\b(wolf|sub[-\s]?zero|thermador|viking|miele|la\s*cornue|gaggenau)\b/.test(t);
       if (hasLuxurySignal || hasProTierBrand || hasFullCustom) return "major";
-      if (/\b(cosmetic|paint|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major)\b/.test(t)) return "minor";
+      // Mid-range signals: semi-custom cabinets ARE replaced (most common scope) +
+      // price meaningfully above the cosmetic-refresh ceiling (~$20K). The minor
+      // branch below also triggers on words like "paint" / "refresh" that appear
+      // as line items in legitimate mid-range quotes ("Drywall + paint", "mid-grade
+      // refresh"), so the minor classifier alone catches too many mid-range jobs.
+      // NKBA mid-range range is $28-55K; we treat $20K-$65K + new-semi-custom as
+      // midrange before falling through to the keyword-only minor branch.
+      if (hasSemiCustom && price && price >= 20000) return "midrange";
+      if (/\b(cosmetic|hardware|minor|refresh)\b/.test(t) && !/\b(gut|full|major|mid[-\s]?range)\b/.test(t)) return "minor";
       // price-based fallback
       if (price) {
         if (price < 15000) return "cabinet_refacing";
