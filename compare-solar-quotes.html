@@ -456,11 +456,26 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // CMP-SOL-9 (2026-05-03): UNION-merge Claude scopeItems with
+        // TP_VerticalScope.extractFields(...) regex scope. Pre-fix the
+        // walk #2 showed Claude returning sparser scope than the regex
+        // path — net_metering / production_guarantee / cleanup detection
+        // got lost in the regex-bypass migration (CMP-SOL-6). Strategy:
+        // run TP_VerticalScope ALWAYS, then for each scope key Claude
+        // wins on conflict (Claude has structured "yes/no/unclear"
+        // verdicts the regex doesn't), but regex fills any keys Claude
+        // left blank.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "solar");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
         // CMP-SOL-7 (2026-05-03): Anthropic Claude solar prompt doesn't extract
         // a contractor / shopName field, so we fall back to the OCR-extracted
@@ -468,6 +483,10 @@
         // the bold company header). Without this hoist, slot labels showed
         // "Installer 1" / "Installer 2" — amateurish + drops the very signal
         // most users are trying to compare.
+        // CMP-SOL-7-followup (2026-05-03): the API prompt now also asks for
+        // contractor + installerCity directly (api/solar-estimate.js bumped to
+        // solar:v4-contractor). This OCR fallback remains as a defense in
+        // depth for quotes where Claude can't read the header (low-res scans).
         if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));

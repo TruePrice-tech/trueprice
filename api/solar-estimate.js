@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "solar", cacheNamespace: "solar:v3-l6-2026-05-03", imageBytes: _imageBuf });
+    const _guard = await runAbuseGuard(req, { vertical: "solar", cacheNamespace: "solar:v4-contractor-2026-05-03", imageBytes: _imageBuf });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -159,6 +159,8 @@ Return this exact JSON structure:
   "financingType": <"cash" | "loan" | "lease" | "ppa" | null - how it is being financed>,
   "city": <string or null - city from the quote>,
   "stateCode": <string or null - 2-letter state code>,
+  "contractor": <string or null - solar installer / contractor company name as it appears on the quote (e.g. "SunRun", "Sunset Solar Direct", "Apex Solar"). Pull from the quote header / letterhead / "From:" line. Null only if no company name appears anywhere>,
+  "installerCity": <string or null - city of the installer company (often differs from project city)>,
   "lineItems": [
     {
       "description": <string - line item description>,
