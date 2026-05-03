@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-03T00:21:46.641Z",
+  "ts": "2026-05-03T00:56:05.951Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-redding-panel-low": {
@@ -142,7 +142,7 @@
       "verdictPrice": 9432,
       "details": {
         "service type": "Panel Upgrade (100A to 200A)",
-        "contractor": "Main Electrical",
+        "contractor": "Not detected",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $3,450 -- 173% above average",
@@ -154,7 +154,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "Main Electrical",
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -164,10 +164,11 @@
         "service type": "Recessed Lighting Install",
         "contractor": "Not detected",
         "brand": "Halo (Mid tier)",
+        "fixtures": "25 lights",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $1,750 -- 99% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Market benchmark: $7,350 -- 53% below average",
+      "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -185,7 +186,6 @@
         "service type": "Panel Upgrade (100A to 200A)",
         "contractor": "Not detected",
         "brand": "Eaton (Mid tier)",
-        "amperage": "230A",
         "pricing": "South regional pricing"
       },
       "rangeText": "Market benchmark: $3,450 -- 51% below average",
