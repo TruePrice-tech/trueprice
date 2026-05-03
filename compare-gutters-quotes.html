@@ -294,7 +294,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/gutters-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Gauge", "field": "gauge", "type": "text"}, {"label": "Linear Feet", "field": "linearFeet", "type": "number"}, {"label": "$/linear ft", "field": "_dollarsPerLinearFt", "type": "computed"}, {"label": "Downspouts", "field": "downspoutCount", "type": "number"}, {"label": "Gutter Guards", "field": "guardsIncluded", "type": "yesno"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
+    var ROWS = [{"label": "Material", "field": "gutterMaterial", "type": "text"}, {"label": "Size", "field": "gutterSize", "type": "text"}, {"label": "Linear Feet", "field": "linearFeet", "type": "number"}, {"label": "$/linear ft", "field": "_dollarsPerLinearFt", "type": "computed"}, {"label": "Downspouts", "field": "downspoutCount", "type": "number"}, {"label": "Gutter Guards", "field": "gutterGuards", "type": "yesno"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"old_removal","label":"Old gutter removal"},{"key":"downspouts","label":"Downspouts"},{"key":"guards","label":"Gutter guards"},{"key":"fascia","label":"Fascia repair"},{"key":"splash_blocks","label":"Splash blocks"},{"key":"hangers","label":"Hidden hangers"},{"key":"cleanup","label":"Cleanup"},{"key":"warranty","label":"Warranty"}];
     var IRIS = "/images/Worker%20Woogoro/Gutter%20worker.png";
     var SINGLE_PAGE = "/gutters-quote-analyzer.html";
@@ -437,7 +437,7 @@
               d._priceSource = "regex_fallback";
               if (raw && raw.data) raw.data = d;
             }
-            return { raw: raw, ocrText: _engOcrText };
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
           })
           .catch(function(err) {
             console.warn("[compare-gutters] Claude API failed, falling back to regex:", err.message);
@@ -450,7 +450,7 @@
                 if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
                 api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
               }
-              return { raw: { data: api }, ocrText: _engOcrText };
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
             }
             throw err;
           });
@@ -459,12 +459,18 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // CMP-GUT-1b (2026-05-03): always run warranty fallback — Anthropic
+        // gutters prompt does not return warrantyYears, only scopeItems.warranty.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "gutters");
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) {
+            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          }
         }
+        // CMP-GUT-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
