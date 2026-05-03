@@ -294,7 +294,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/painting-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Paint Brand", "field": "paintBrand", "type": "text"}, {"label": "Number of Coats", "field": "coats", "type": "number"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
+    var ROWS = [{"label": "Job Type", "field": "jobType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Paint Brand", "field": "paintBrand", "type": "text"}, {"label": "Number of Coats", "field": "numCoats", "type": "number"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "partsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"power_wash","label":"Power wash"},{"key":"scraping","label":"Scrape/sand prep"},{"key":"priming","label":"Primer"},{"key":"caulking","label":"Caulk/wood repair"},{"key":"trim","label":"Trim painting"},{"key":"ceiling","label":"Ceiling included"},{"key":"two_coats","label":"Two coats"},{"key":"furniture_move","label":"Furniture moved"},{"key":"drop_cloth","label":"Drop cloths/protection"},{"key":"cleanup","label":"Cleanup"},{"key":"paint_brand","label":"Paint brand specified"},{"key":"warranty","label":"Warranty"}];
     var IRIS = "/images/Worker%20Woogoro/Painter%20worker.png";
     var SINGLE_PAGE = "/painting-quote-analyzer.html";
@@ -404,31 +404,52 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "painting");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        // CMP-PNT-2 (TRUST-CRITICAL 2026-05-03): always call Claude API on
+        // compare path. Mirrors CMP-SOL-6 / CMP-WIN-2 / CMP-FND-2.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+          })
+          .catch(function(err) {
+            console.warn("[compare-painting] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "painting");
+                if (extracted.brand) api.paintBrand = extracted.brand.brand;
+                if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // CMP-PNT-1b (2026-05-03): always extract warranty from OCR even when
+        // API returned scopeItems — Anthropic painting prompt does not return
+        // warrantyYears at all, only scopeItems.warranty (yes/no/unclear). The
+        // ROWS row "Warranty (years)" depends on this fallback.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "painting");
-          if (!api.projectType && extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
-          if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
+          if (!api.paintBrand && extracted.brand) api.paintBrand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) {
+            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          }
         }
+        // CMP-PNT-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
