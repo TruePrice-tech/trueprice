@@ -413,7 +413,7 @@
               d._priceSource = "regex_fallback";
               if (raw && raw.data) raw.data = d;
             }
-            return { raw: raw, ocrText: _engOcrText };
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
           })
           .catch(function(err) {
             console.warn("[compare-landscaping] Claude API failed, falling back to regex:", err.message);
@@ -426,7 +426,7 @@
                 if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
                 api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
               }
-              return { raw: { data: api }, ocrText: _engOcrText };
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
             }
             throw err;
           });
@@ -435,12 +435,25 @@
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
+        // CMP-LND-1 (2026-05-03): Anthropic landscaping prompt returns jobType
+        // (enum: sod / pavers / planting / irrigation / hardscape / etc),
+        // hardscapeArea, treeCount, irrigationZones — but no explicit
+        // projectType / plantsIncluded / hardscapeIncluded / irrigationIncluded
+        // booleans that the ROWS rows expect. Derive them from the structured
+        // fields so the comparison table stops showing N/A.
+        if (!api.projectType && api.jobType) api.projectType = api.jobType;
+        if (typeof api.plantsIncluded !== "boolean") api.plantsIncluded = (api.treeCount > 0) || api.jobType === "planting" || api.jobType === "tree_pruning" || api.jobType === "tree_removal";
+        if (typeof api.hardscapeIncluded !== "boolean") api.hardscapeIncluded = (api.hardscapeArea > 0) || !!api.hardscapeMaterial || api.jobType === "pavers" || api.jobType === "retaining_wall";
+        if (typeof api.irrigationIncluded !== "boolean") api.irrigationIncluded = (api.irrigationZones > 0) || api.jobType === "irrigation";
+
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "landscaping");
           if (!api.projectType && extracted.jobType && extracted.jobType.value !== "other") api.projectType = extracted.jobType.label;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
+        // CMP-LND-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
