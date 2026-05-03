@@ -294,7 +294,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/siding-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Material", "field": "material", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Insulation Backing", "field": "insulationBacking", "type": "yesno"}, {"label": "Trim Color", "field": "trimColor", "type": "text"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
+    var ROWS = [{"label": "Material", "field": "sidingType", "type": "text"}, {"label": "Square Footage", "field": "squareFootage", "type": "number"}, {"label": "$/sq ft", "field": "_dollarsPerSqFt", "type": "computed"}, {"label": "Profile", "field": "profile", "type": "text"}, {"label": "Old Siding Removal", "field": "oldSidingRemoval", "type": "yesno"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}];
     var SCOPE_ITEMS = [{"key":"old_removal","label":"Old siding removal"},{"key":"insulation","label":"Insulation board"},{"key":"soffit_fascia","label":"Soffit/fascia"},{"key":"trim_wrap","label":"Trim wrap"},{"key":"housewrap","label":"House wrap"},{"key":"permit","label":"Permit"},{"key":"cleanup","label":"Cleanup"},{"key":"flashing","label":"Flashing"},{"key":"warranty","label":"Warranty"},{"key":"caulking","label":"Caulking/sealing"}];
     var IRIS = "/images/Worker%20Woogoro/Siding%20worker.png";
     var SINGLE_PAGE = "/siding-quote-analyzer.html";
@@ -404,32 +404,52 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "siding");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.sidingType = extracted.jobType.label;
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        // CMP-SID-2 (TRUST-CRITICAL 2026-05-03): always call Claude API on
+        // compare path. Mirrors CMP-SOL-6 / CMP-WIN-2 / CMP-FND-2 / CMP-PNT-2.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+          })
+          .catch(function(err) {
+            console.warn("[compare-siding] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "siding");
+                if (extracted.jobType && extracted.jobType.value !== "other") api.sidingType = extracted.jobType.label;
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // CMP-SID-1b (2026-05-03): always run warranty fallback — Anthropic
+        // siding prompt returns warrantyProduct/warrantyLabor as strings, not
+        // a numeric warrantyYears that the ROWS row expects.
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "siding");
-          if (!api.sidingType && extracted.jobType && extracted.jobType.value !== "other") api.sidingType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.parts || extracted.warranty.labor || null;
-          api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) {
+            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          }
         }
-
+        // CMP-SID-3 (2026-05-03): hoist OCR contractor (CMP-SOL-7 pattern).
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
