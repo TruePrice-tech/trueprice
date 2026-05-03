@@ -170,6 +170,10 @@ const FIXTURES = [
       tierRegex: /mid[\s-]?range|midrange/i,
       countertopRegex: /quartz/i,
       isUncategorizedBanner: false,
+      // f7 mock fixture line item "KraftMaid semi-custom cabinets" — must
+      // surface as a Cabinet Brand kit-detail row (K15 parity with electrical
+      // E2 brand row). Tier label "semi custom" expected alongside.
+      cabinetBrandRegex: /kraftmaid/i,
     },
   },
   {
@@ -197,6 +201,11 @@ const FIXTURES = [
       // OCR may misread the dimensions; accept Large OR Average as a
       // soft pass since the photographic fixture is OCR-hostile.
       kitchenSizeRegex: /large|150-200|average|100-150/i,
+      // K14: layout text "Layout: L-shaped" / "12'x14' galley to open
+      // concept" — must surface as a Layout kit-detail row. Accept any
+      // reasonable layout token because OCR may mangle the photographic
+      // fixture's text.
+      layoutRegex: /l[-\s]?shaped|galley|open\s*concept/i,
     },
   },
 ];
@@ -421,6 +430,20 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (expected.cabinetBrandRegex) {
+    const got = actual.display.details["cabinet brand"] || "";
+    if (!expected.cabinetBrandRegex.test(got)) {
+      failures.push(`cabinetBrand: expected match /${expected.cabinetBrandRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
+  if (expected.layoutRegex) {
+    const got = actual.display.details["layout"] || "";
+    if (!expected.layoutRegex.test(got)) {
+      failures.push(`layout: expected match /${expected.layoutRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   if (Array.isArray(expected.excludedScope)) {
     for (const key of expected.excludedScope) {
       const got = (actual.display.scope || {})[key] || "(missing row)";
@@ -491,7 +514,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|kitchenSize|pricing|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|tier|countertop|kitchenSize|pricing|cabinetBrand|layout|isUncategorizedBanner|hardReject|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

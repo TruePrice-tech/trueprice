@@ -839,6 +839,8 @@
         var detectedTier = detectKitchenTier(text, _preConfirmPrice);
         var detectedCountertop = detectCountertopMaterial(text);
         var detectedSizeIdx = detectKitchenSize(text);
+        var detectedBrand = detectKitchenBrand(text);
+        var detectedLayout = detectKitchenLayout(text);
 
         // Location detection from parser. K3 trust-critical: analyzer-parser.js
         // returns stateCode/city as TOP-LEVEL fields on the parsed object (see
@@ -955,6 +957,8 @@ setProgress(90, "Almost done...");
           sizeIdx: sizeIdx,
           countertopKey: countertopKey,
           countertopDetected: countertopDetected,
+          brand: detectedBrand,
+          layout: detectedLayout,
           contractor: _contractor,
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
@@ -1087,6 +1091,59 @@ setProgress(90, "Almost done...");
         var h = parseInt(c[2], 10);
         if (w >= 6 && w <= 30 && h >= 6 && h <= 30) return sqftToSizeIdx(w * h);
       }
+      return null;
+    }
+
+    // K15: detect cabinet brand and infer cabinet tier. Mirrors the brand-row
+    // pattern shipped on electrical (E2 detectElecBrand). Brand classes per
+    // data/kitchen-pricing.json cabinetTiers — value_rta / stock / semi_custom
+    // / premium_semi_custom / custom. Surfaced as a Brand kit-detail row so
+    // the buyer sees the cabinet tier alongside the remodel tier.
+    function detectKitchenBrand(text) {
+      var t = (text || "").toLowerCase();
+      // Custom shops (highest tier)
+      if (/\b(wood-mode|christopher\s*peacock|bilotta|plain\s*english|devol|henrybuilt)\b/.test(t)) {
+        return { brand: "Custom shop", tier: "custom" };
+      }
+      // Premium semi-custom
+      if (/\bkraftmaid\s*vantage|crystal\s*cabin|wood-mode\s*1894|plain\s*&\s*fancy|brighton|bellmont\s*1900\b/.test(t)) {
+        return { brand: "Premium semi-custom", tier: "premium_semi_custom" };
+      }
+      // Semi-custom (the dominant mid-range tier)
+      if (/\bkraftmaid\b/.test(t))      return { brand: "KraftMaid",          tier: "semi_custom" };
+      if (/\bschrock\b/.test(t))        return { brand: "Schrock",            tier: "semi_custom" };
+      if (/\bmedallion\b/.test(t))      return { brand: "Medallion",          tier: "semi_custom" };
+      if (/\bdecora\b/.test(t))         return { brand: "Decora",             tier: "semi_custom" };
+      if (/\bthomasville\b/.test(t))    return { brand: "Thomasville Custom", tier: "semi_custom" };
+      if (/\bwaypoint\b/.test(t))       return { brand: "Waypoint",           tier: "semi_custom" };
+      if (/\bmid[\s-]?continent\b/.test(t)) return { brand: "Mid Continent",  tier: "semi_custom" };
+      // Stock (in-stock at lumberyard / box store)
+      if (/\bdiamond\s*now\b/.test(t))      return { brand: "Diamond NOW",      tier: "stock" };
+      if (/\bamerican\s*woodmark\b/.test(t)) return { brand: "American Woodmark", tier: "stock" };
+      if (/\bshenandoah\b/.test(t))         return { brand: "Shenandoah",        tier: "stock" };
+      if (/\baristokraft\b/.test(t))        return { brand: "Aristokraft",       tier: "stock" };
+      if (/\bhampton\s*bay\b/.test(t))      return { brand: "Hampton Bay",       tier: "stock" };
+      // Value RTA / box-store (lowest tier)
+      if (/\bikea(\s*sektion)?\b/.test(t))  return { brand: "IKEA",              tier: "value_rta" };
+      if (/\bcabinets\s*to\s*go\b/.test(t)) return { brand: "Cabinets To Go",    tier: "value_rta" };
+      if (/\blily\s*ann\b/.test(t))         return { brand: "Lily Ann",          tier: "value_rta" };
+      if (/\brta\s*cabinet\s*store\b/.test(t)) return { brand: "RTA Cabinet Store", tier: "value_rta" };
+      return null;
+    }
+
+    // K14: layout type — galley, L-shaped, U-shaped, island, peninsula. Each
+    // affects labor 1.5-2.5x because of cabinet-corner cuts and end-panel
+    // count. Surfaced as a Layout kit-detail row when detected.
+    function detectKitchenLayout(text) {
+      var t = (text || "").toLowerCase();
+      if (/\bgalley\s*to\s*open\s*concept\b/.test(t)) return "Galley → open concept";
+      if (/\bopen\s*concept\b/.test(t))               return "Open concept";
+      if (/\bgalley\s*kitchen\b|\bgalley\b(?!\s*to)/.test(t)) return "Galley";
+      if (/\bl[-\s]?shaped\s*(?:kitchen|layout)?\b/.test(t)) return "L-shaped";
+      if (/\bu[-\s]?shaped\s*(?:kitchen|layout)?\b/.test(t)) return "U-shaped";
+      if (/\bg[-\s]?shaped\s*(?:kitchen|layout)?\b/.test(t)) return "G-shaped";
+      if (/\bisland\s*kitchen\b|\bkitchen\s*island\b/.test(t)) return "Island";
+      if (/\bpeninsula\b/.test(t)) return "Peninsula";
       return null;
     }
 
@@ -1449,6 +1506,18 @@ setProgress(90, "Almost done...");
         detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + KIT_PRICING.kitchenSizes[r.sizeIdx].label + '</div></div>';
       }
 
+      // K15: cabinet brand row (parity with electrical E2 brand row).
+      if (r.brand && r.brand.brand) {
+        var brandTier = r.brand.tier ? " (" + String(r.brand.tier).replace(/_/g, " ") + ")" : "";
+        detailsHtml += '<div class="kit-detail"><div class="label">Cabinet Brand</div><div class="value">' + _esc(r.brand.brand + brandTier) + '</div></div>';
+      }
+      // K14: kitchen layout row (galley / L-shaped / U-shaped / island /
+      // peninsula / open concept). Only render when we detected something —
+      // most quotes don't volunteer layout info, and "Not detected" on every
+      // quote would be noise.
+      if (r.layout) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Layout</div><div class="value">' + _esc(r.layout) + '</div></div>';
+      }
       if (r.countertopLabel) {
         detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
       } else if (r.countertopDetected === false && isUpload) {
