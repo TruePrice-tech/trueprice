@@ -454,9 +454,9 @@
         { key: "warranty", label: "Workmanship warranty", weight: 6 }
       ],
       brands: {
-        premium: ["SunPower", "LG", "Panasonic"],
-        mid: ["Q Cells", "LONGi", "REC", "Silfab"],
-        budget: ["Jinko", "Trina", "Canadian Solar", "JA Solar"]
+        premium: ["SunPower", "Maxeon", "LG", "Panasonic"],
+        mid: ["Q Cells", "Q.PEAK", "QPEAK", "Hanwha", "LONGi", "REC", "Silfab"],
+        budget: ["Jinko", "Trina", "Canadian Solar", "JA Solar", "ZNSHINE", "ZNShine"]
       }
     };
 
@@ -562,6 +562,11 @@
     }
 
     function detectPanelBrand(text) {
+      // Word-boundary match per brand. Naive substring matching causes false
+      // positives like "REC" matching inside "Direct" / "Director" — which
+      // misclassifies SUNSET SOLAR DIRECT (selling Hanwha) as a "REC" install.
+      // Use \b word boundaries OR allow . / - / + in surrounding chars (panel
+      // model strings like "Q.PEAK" / "ML-G10+").
       var t = text.toLowerCase();
       var allBrands = [];
       Object.keys(SOLAR_PRICING.brands).forEach(function(tier) {
@@ -570,13 +575,16 @@
         });
       });
       for (var i = 0; i < allBrands.length; i++) {
-        if (t.indexOf(allBrands[i].brand.toLowerCase()) !== -1) {
-          return allBrands[i];
-        }
+        var bLow = allBrands[i].brand.toLowerCase();
+        // Escape regex specials in brand name (handles "q.peak" / "q cells")
+        var bEsc = bLow.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        // Word boundary on both sides — \b doesn't fire across letters/digits
+        // boundary on its own, so explicitly allow non-letter neighbors.
+        var re = new RegExp("(^|[^a-z0-9])" + bEsc + "(?![a-z0-9])", "i");
+        if (re.test(t)) return allBrands[i];
       }
-      // Also check "q-cells" and "qcells"
-      if (t.indexOf("q-cells") !== -1 || t.indexOf("qcells") !== -1) return { brand: "Q Cells", tier: "mid" };
-      if (t.indexOf("longi") !== -1) return { brand: "LONGi", tier: "mid" };
+      // Hyphenated / no-space variants (defensive — some are already covered)
+      if (/(^|[^a-z])q[-\s]?cells(?![a-z])/i.test(t)) return { brand: "Q Cells", tier: "mid" };
       return null;
     }
 
@@ -598,6 +606,12 @@
       if (t.indexOf("enphase") !== -1 || t.indexOf("microinverter") !== -1 || t.indexOf("micro-inverter") !== -1 || t.indexOf("micro inverter") !== -1) {
         return { type: "microinverter", label: "Microinverters (Enphase)" };
       }
+      // SunPower Maxeon AC / SunPower AC modules ship with integrated AC
+      // microinverters at the panel. No separate inverter row in the BOM
+      // because the inverter is built into the panel. Treat as microinverter.
+      if (/maxeon\s*\d?\s*ac\b|sunpower.*\bac\s*module|\bac\s*modules?\b/i.test(t)) {
+        return { type: "microinverter", label: "Integrated AC Microinverters (SunPower Maxeon AC)" };
+      }
       if (t.indexOf("solaredge") !== -1 || t.indexOf("solar edge") !== -1 || t.indexOf("optimizer") !== -1 || t.indexOf("power optimizer") !== -1) {
         return { type: "optimizer", label: "Optimizers (SolarEdge)" };
       }
@@ -610,9 +624,15 @@
     function detectBattery(text) {
       var t = text.toLowerCase();
       if (t.indexOf("powerwall") !== -1 || t.indexOf("power wall") !== -1) return { type: "powerwall", label: "Tesla Powerwall" };
-      if (t.indexOf("enphase") !== -1 && (t.indexOf("battery") !== -1 || t.indexOf("iq") !== -1 || t.indexOf("storage") !== -1)) return { type: "enphase_iq", label: "Enphase IQ Battery" };
+      // Enphase IQ Battery — must be explicit: "iq battery", "iq pwr", "iq10",
+      // "iq3t", "iq5p". DO NOT trigger on bare "enphase iq8+" / "iq8m" / "iq7a"
+      // — those are inverter SKUs, not batteries (false positive observed
+      // 2026-05-03 on f1/f2/f4/f5 fixtures).
+      if (t.indexOf("enphase") !== -1 && /\biq\s*(battery|bat|pwr|10|3t|5p|3-tg|10t|10c)\b/i.test(t)) return { type: "enphase_iq", label: "Enphase IQ Battery" };
       if (t.indexOf("lg resu") !== -1 || t.indexOf("lg chem") !== -1) return { type: "other", label: "LG RESU Battery" };
       if (t.indexOf("generac") !== -1 && (t.indexOf("pwrcell") !== -1 || t.indexOf("battery") !== -1)) return { type: "other", label: "Generac PWRcell" };
+      // Generic "battery" + "storage|backup" — but NOT if the only battery word
+      // sits next to "Sunnova Protect" (warranty plan name, not equipment).
       if (t.indexOf("battery") !== -1 && (t.indexOf("storage") !== -1 || t.indexOf("backup") !== -1)) return { type: "other", label: "Battery Storage" };
       return null;
     }
@@ -953,11 +973,17 @@
         }
         if (!systemKw) systemKw = 8; // default
 
-        // Location detection from parser
+        // Location detection from parser. The shared analyzer-parser surfaces
+        // stateCode at the top level (parsed.stateCode) AND inside parsed.location.
+        // Cross-vertical KMP-1 pattern: read top-level FIRST, fall back to nested.
+        // Without this, every solar quote defaults Region:South — already shipped
+        // to hvac/electrical/kitchen, was missing from solar.
+        var parserStateCode = (parsed && parsed.stateCode) || (parsed && parsed.location && parsed.location.stateCode) || null;
+        var parserCity = (parsed && parsed.city) || (parsed && parsed.location && parsed.location.city) || null;
         var location = (parsed && parsed.location) ? parsed.location : null;
-        if (location && location.stateCode && !state.address.stateCode) {
-          state.address.stateCode = location.stateCode;
-          if (location.city) state.address.city = location.city;
+        if (parserStateCode && !state.address.stateCode) {
+          state.address.stateCode = parserStateCode;
+          if (parserCity) state.address.city = parserCity;
         }
 
         // Determine price — prefer Claude API result (server-side, structured)
@@ -1474,7 +1500,11 @@ setProgress(90, "Almost done...");
       var detailsHtml = '<div class="solar-details">';
       detailsHtml += '<div class="solar-detail"><div class="label">System Size</div><div class="value">' + r.systemKw + ' kW</div></div>';
 
-      if (perWattStr) {
+      // Hide $/W for lease/wholesale — install benchmarks don't apply (e.g.
+      // f7 LightReach lease previously showed nonsense "$0.06/W" derived from
+      // a $30K placeholder against an 8 kW system, and f11 wholesale showed
+      // "$0.22/W" because shipped panels alone don't include labor).
+      if (perWattStr && !r.isLease && !r.isWholesale) {
         detailsHtml += '<div class="solar-detail"><div class="label">Cost per Watt</div><div class="value">' + perWattStr + '</div></div>';
       }
 
@@ -1510,7 +1540,10 @@ setProgress(90, "Almost done...");
         }
       }
 
-      if (paybackYears) {
+      // Hide payback for lease/wholesale — payback math requires a real
+      // purchase price and a known $/kWh offset (lease bills you forever; a
+      // parts-only invoice has no install yet so payback is meaningless).
+      if (paybackYears && !r.isLease && !r.isWholesale) {
         detailsHtml += '<div class="solar-detail"><div class="label">Est. Payback Period</div><div class="value">~' + paybackYears + ' years</div></div>';
       }
 
