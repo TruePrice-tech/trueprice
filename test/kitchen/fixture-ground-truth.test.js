@@ -105,10 +105,11 @@ const FIXTURES = [
       contractorRegex: /artisan\s*kitchen\s*studios/i,
       stateCode: "IL",
       tierRegex: /major|upscale|custom/i,
-      // Quartzite is NOT in analyzer's countertopMaterials enum
-      // (laminate/granite/quartz/marble). Detection should either match
-      // quartzite OR fall back to granite — accept either pending Block 2.
-      countertopRegex: /quartz|granite/i,
+      // Quartzite shipped to enum 2026-05-02 (K7). Quote literally says
+      // "Quartzite countertops (28 lf), waterfall edge" — must register
+      // as quartzite, not granite default. Allow quartz/quartzite (OCR
+      // sometimes drops the "ite" suffix on the messy variant).
+      countertopRegex: /quartzite|quartz/i,
       isUncategorizedBanner: false,
     },
   },

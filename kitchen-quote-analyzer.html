@@ -405,24 +405,43 @@
     "use strict";
 
     // ── Kitchen Pricing Model ──
+    // K8 trust-critical recalibration 2026-05-02. Tier ranges anchored to
+    // NKBA 2025 totalNational from data/kitchen-pricing.json. Multipliers
+    // tightened — the prior 0.75/1.0/1.30/1.65 size mults compounded with
+    // 0.85/1.0/1.10/1.25 counter mults and city/labor mults pushed major
+    // benchmarks above $200K (vs JSON max $120K), turning every fixture
+    // into a "Unusually Low" verdict. Size and countertop are scope deltas
+    // — they shift the within-tier range, they don't double the total.
     var KIT_PRICING = {
       basePriceByTier: {
-        minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
-        midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
-        major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
-        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
+        // low/high mirror data/kitchen-pricing.json totalNational. base is
+        // the midpoint we use for the legacy single-number benchmark display.
+        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,   high: 12000,  base: 8500  },
+        minor:            { label: "Minor Remodel (Cosmetic)",  low: 12000,  high: 22000,  base: 17000 },
+        midrange:         { label: "Mid-Range Remodel",         low: 28000,  high: 55000,  base: 41500 },
+        major:            { label: "Major/Upscale Remodel",     low: 60000,  high: 120000, base: 90000 }
       },
       kitchenSizes: [
-        { label: "Small (< 100 sq ft)",      multiplier: 0.75 },
-        { label: "Average (100-150 sq ft)",   multiplier: 1.0  },
-        { label: "Large (150-200 sq ft)",     multiplier: 1.30 },
-        { label: "Expansive (200+ sq ft)",    multiplier: 1.65 }
+        // Cosmetic refreshes don't scale linearly with sqft (cabinets stay,
+        // appliances stay), and even major remodels per JSON span their full
+        // range across kitchen sizes. Keep size as a small ±10-20% nudge.
+        { label: "Small (< 100 sq ft)",      multiplier: 0.92 },
+        { label: "Average (100-150 sq ft)",   multiplier: 1.00 },
+        { label: "Large (150-200 sq ft)",     multiplier: 1.10 },
+        { label: "Expansive (200+ sq ft)",    multiplier: 1.20 }
       ],
       countertopMaterials: [
-        { key: "laminate", label: "Laminate",  multiplier: 0.85 },
-        { key: "granite",  label: "Granite",   multiplier: 1.0  },
-        { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
-        { key: "marble",   label: "Marble",    multiplier: 1.25 }
+        // Counters are 10-15% of total kitchen cost (per JSON
+        // componentBudgetSplit.countertops = 0.10), so even a 2x material
+        // upgrade can only shift total by ~10%. Tightened from 0.85/1.0/
+        // 1.10/1.25 to 0.95/1.0/1.04/1.10.
+        { key: "laminate",  label: "Laminate",  multiplier: 0.95 },
+        { key: "granite",   label: "Granite",   multiplier: 1.00 },
+        { key: "quartz",    label: "Quartz",    multiplier: 1.04 },
+        { key: "quartzite", label: "Quartzite", multiplier: 1.08 },
+        { key: "marble",    label: "Marble",    multiplier: 1.10 },
+        { key: "soapstone", label: "Soapstone", multiplier: 1.06 },
+        { key: "butcher_block", label: "Butcher Block", multiplier: 0.98 }
       ],
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       roundTo: 50,
@@ -514,31 +533,73 @@
     var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function calcBenchmark(tier, sizeIdx, countertopKey) {
-      var tierData = KIT_PRICING.basePriceByTier[tier];
-      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
-      var base = tierData.base;
-
+    // Combined adjustment factor — size + countertop + city/region labor +
+    // inflation + seasonal. Same math is applied to both the tier's range
+    // (low/high) and the legacy base midpoint, so the range and the
+    // displayed benchmark stay coherent.
+    function _kitAdjustment(sizeIdx, countertopKey) {
       var sizeMult = 1.0;
       if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
         sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
       }
-
       var countertopMult = 1.0;
       if (countertopKey) {
         var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === countertopKey; });
         if (mat) countertopMult = mat.multiplier;
       }
-
       var cityMult = getCityMult(state.address.city, state.address.stateCode);
       var region = getRegionFromState(state.address.stateCode);
       var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
-
-      var total = base * sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
-
-      return roundTo50(total);
+      // Cap labor at 1.30 so a single-city outlier (Manhattan / SF) doesn't
+      // double the entire benchmark — labor is one component, not the whole.
+      if (laborMult > 1.30) laborMult = 1.30;
+      return sizeMult * countertopMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
     }
 
+    function calcBenchmark(tier, sizeIdx, countertopKey) {
+      var tierData = KIT_PRICING.basePriceByTier[tier];
+      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
+      return roundTo50(tierData.base * _kitAdjustment(sizeIdx, countertopKey));
+    }
+
+    // K8: range-based benchmark. Returns the JSON-anchored low/high for the
+    // detected tier scaled by the same size + countertop + city + inflation +
+    // seasonal adjustments. Used by verdictFromRange below to decide whether
+    // the quote is below / inside / above the tier's typical range.
+    function calcBenchmarkRange(tier, sizeIdx, countertopKey) {
+      var tierData = KIT_PRICING.basePriceByTier[tier];
+      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
+      var adj = _kitAdjustment(sizeIdx, countertopKey);
+      return {
+        low:  roundTo50(tierData.low * adj),
+        high: roundTo50(tierData.high * adj),
+        base: roundTo50(tierData.base * adj)
+      };
+    }
+
+    // K8: verdict from RANGE (price vs JSON-anchored tier range), not RATIO.
+    // The prior ratio approach against an inflated single-number benchmark
+    // wrongly tagged appropriately-priced quotes "Unusually Low" because the
+    // benchmark was 2x the JSON max. Range-based verdict reads directly:
+    //   far below low      → Unusually Low (likely cut corners)
+    //   just below low     → Below Average (low end of typical range)
+    //   inside [low, high] → Fair Price
+    //   just above high    → Above Average
+    //   far above high     → Overpriced
+    function verdictFromRange(price, range) {
+      if (!price || !range || !range.low || !range.high) {
+        return { label: "Fair Price", css: "fair", emoji: "" };
+      }
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // Backward-compat ratio verdict — kept for callers that still pass a
+    // single number (estimator path uses calcBenchmark midpoint). Same tuned
+    // thresholds as before.
     function verdictFromRatio(ratio) {
       if (ratio < 0.78) return { label: "Unusually Low", css: "low", emoji: "" };
       if (ratio <= 0.90) return { label: "Below Average", css: "low", emoji: "" };
@@ -846,12 +907,20 @@ setProgress(90, "Almost done...");
         // explicitly states a kitchen size or dimensions (e.g. "200 sqft kitchen"
         // or "12' x 14' galley"). Fall through to Average when nothing volunteered.
         var sizeIdx = (detectedSizeIdx === null || detectedSizeIdx === undefined) ? 1 : detectedSizeIdx;
+        // K7: don't silently default to "granite" — that mis-labels every
+        // quote whose countertop wasn't detected. Use "granite" as the math
+        // multiplier (1.0× neutral) but record the missing-detection state
+        // separately so the display row can read "Not detected" honestly.
         var countertopKey = detectedCountertop || "granite";
+        var countertopDetected = !!detectedCountertop;
 
-        var benchmark = calcBenchmark(tier, sizeIdx, countertopKey);
+        var benchmarkRange = calcBenchmarkRange(tier, sizeIdx, countertopKey);
+        var benchmark = benchmarkRange.base;
 
+        // K8: verdict reads from JSON-anchored tier RANGE, not single-number
+        // ratio against an inflated benchmark. See calcBenchmarkRange comment.
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var verdict = verdictFromRange(confirmedPrice, benchmarkRange);
 
         setProgress(100, "Done!");
 
@@ -869,12 +938,14 @@ setProgress(90, "Almost done...");
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
+          benchmarkRange: benchmarkRange,
           ratio: ratio,
           verdict: verdict,
           tier: tier,
           tierLabel: tierData ? tierData.label : "Mid-Range Remodel",
           sizeIdx: sizeIdx,
           countertopKey: countertopKey,
+          countertopDetected: countertopDetected,
           contractor: _contractor,
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
@@ -1012,6 +1083,14 @@ setProgress(90, "Almost done...");
 
     function detectCountertopMaterial(text) {
       var t = (text || "").toLowerCase();
+      // K7: quartzite is a distinct material (natural stone, harder than
+      // granite, often confused visually with marble) — \bquartz\b does NOT
+      // match inside "quartzite" (no word boundary at z|i), so previously
+      // quartzite fell through to the silent "granite" default. Detect it
+      // BEFORE quartz so /\bquartz\b/ doesn't shadow.
+      if (/\bquartzite\b/.test(t)) return "quartzite";
+      if (/\bsoapstone\b/.test(t)) return "soapstone";
+      if (/\bbutcher\s*block\b/.test(t)) return "butcher_block";
       if (/\bmarble\b/.test(t)) return "marble";
       if (/\bquartz\b/.test(t)) return "quartz";
       if (/\bgranite\b/.test(t)) return "granite";
@@ -1308,18 +1387,32 @@ setProgress(90, "Almost done...");
       var priceDisplay = isUpload ? fmt(r.quotePrice) : fmt(r.benchmark);
       var rangeText = "";
 
-      if (isUpload && r.source !== "manual") {
+      if (isUpload && r.benchmarkRange) {
+        // K8: surface the JSON-anchored tier range as the trust anchor —
+        // "Typical range $A - $B for {tier} in {region}" reads cleanly and
+        // matches what verdictFromRange actually compared against. The
+        // legacy "X% above/below average" language overweighted a single
+        // benchmark number that was often outside the JSON range entirely.
+        rangeText = "Typical range: " + fmt(r.benchmarkRange.low) + " - " + fmt(r.benchmarkRange.high);
+        if (r.quotePrice > 0) {
+          if (r.quotePrice < r.benchmarkRange.low) {
+            var lowPct = Math.round((1 - r.quotePrice / r.benchmarkRange.low) * 100);
+            rangeText += " -- " + lowPct + "% below the typical range";
+          } else if (r.quotePrice > r.benchmarkRange.high) {
+            var highPct = Math.round((r.quotePrice / r.benchmarkRange.high - 1) * 100);
+            rangeText += " -- " + highPct + "% above the typical range";
+          } else {
+            rangeText += " -- inside the typical range";
+          }
+        }
+      } else if (isUpload) {
+        // Fallback if benchmarkRange isn't populated (legacy state shapes).
         rangeText = "Market benchmark: " + fmt(r.benchmark);
         if (r.quotePrice > 0) {
           var pct = Math.round((r.ratio - 1) * 100);
           var dir = pct > 0 ? "above" : "below";
           rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
         }
-      } else if (r.source === "manual") {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        var pct = Math.round((r.ratio - 1) * 100);
-        var dir = pct > 0 ? "above" : "below";
-        rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
@@ -1349,6 +1442,11 @@ setProgress(90, "Almost done...");
 
       if (r.countertopLabel) {
         detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + r.countertopLabel + '</div></div>';
+      } else if (r.countertopDetected === false && isUpload) {
+        // K7: honest "Not detected" beats the silent "Granite" default — the
+        // upload path tells the buyer when we couldn't read the material from
+        // their quote rather than confidently labeling it Granite.
+        detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">Not detected</div></div>';
       } else if (r.countertopKey) {
         var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === r.countertopKey; });
         if (mat) detailsHtml += '<div class="kit-detail"><div class="label">Countertop</div><div class="value">' + mat.label + '</div></div>';
