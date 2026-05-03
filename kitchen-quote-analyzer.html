@@ -843,6 +843,14 @@ setProgress(90, "Almost done...");
 
         var tierData = KIT_PRICING.basePriceByTier[tier];
 
+        // Contractor surfaced in details grid for parity with roofing /
+        // HVAC / auto-repair / plumbing / electrical. engineResult.contractor
+        // comes from regex detectContractor in analyzer-parser.js; falls
+        // back to AI extraction.
+        var _contractor = (engineResult && engineResult.contractor) ||
+                          (engineResult && engineResult.aiData && (engineResult.aiData.contractor || engineResult.aiData.contractorName)) ||
+                          null;
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -853,6 +861,7 @@ setProgress(90, "Almost done...");
           tierLabel: tierData ? tierData.label : "Mid-Range Remodel",
           sizeIdx: sizeIdx,
           countertopKey: countertopKey,
+          contractor: _contractor,
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
           location: location,
@@ -1235,9 +1244,22 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
+      // Inline XSS-strip helper. OCR-extracted contractor strings can
+      // carry stray markup if a quote PDF embeds odd characters. Mirrors
+      // the _esc helper in electrical-quote-analyzer.html.
+      var _esc = function (s) {
+        return String(s == null ? "" : s).replace(/[<>"']/g, function (c) {
+          return ({ "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+        });
+      };
+
       // Build details
       var detailsHtml = '<div class="kit-details">';
       detailsHtml += '<div class="kit-detail"><div class="label">Remodel Tier</div><div class="value">' + r.tierLabel + '</div></div>';
+
+      if (r.contractor) {
+        detailsHtml += '<div class="kit-detail"><div class="label">Contractor</div><div class="value">' + _esc(r.contractor) + '</div></div>';
+      }
 
       if (r.sizeLabel) {
         detailsHtml += '<div class="kit-detail"><div class="label">Kitchen Size</div><div class="value">' + r.sizeLabel + '</div></div>';
