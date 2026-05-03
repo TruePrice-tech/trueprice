@@ -461,19 +461,31 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var p = { quoteTotal: regexPrice, _source: "regex" };
-          if (engineResult.contractor) p.shopName = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "auto");
-            if (extracted.jobType && extracted.jobType.value !== "other") p.repairType = extracted.jobType.label;
-            if (extracted.brand) p.brand = extracted.brand.brand;
-          }
-          return { data: p, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(data) {
-          return { data: data, ocrText: _engOcrText };
-        });
+        // CMP-AUDIT 2026-05-03: API-first; regex graceful fallback. See M3 medical / CMP-SOL-6 solar.
+        // Note: auto API returns data shape directly (not wrapped in {data}).
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(data) {
+            var d = data || {};
+            if ((!d.quoteTotal || d.quoteTotal <= 0) && regexPrice > 0) {
+              d.quoteTotal = regexPrice;
+              d._priceSource = "regex_fallback";
+            }
+            return { data: d, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            console.warn("[compare-auto] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var p = { quoteTotal: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) p.shopName = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "auto");
+                if (extracted.jobType && extracted.jobType.value !== "other") p.repairType = extracted.jobType.label;
+                if (extracted.brand) p.brand = extracted.brand.brand;
+              }
+              return { data: p, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var data = combined.data;
         var _engOcrText = combined.ocrText;

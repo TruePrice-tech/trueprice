@@ -497,36 +497,43 @@
         }
 
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "plumbing");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.jobType = extracted.jobType.label;
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            // Prefer rate*hours when both are present; fall back to a directly
-            // extracted labor TOTAL (e.g. "Labor: 2.5 hours $325" with no @rate).
-            if (extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
-            else if (extracted.laborTotal) api.laborTotal = extracted.laborTotal;
-            if (extracted.warranty) {
-              api.warrantyParts = extracted.warranty.parts || null;
-              api.warrantyLabor = extracted.warranty.labor || null;
-              api.warrantyYears = api.warrantyLabor || api.warrantyParts || null;
+        // CMP-AUDIT 2026-05-03: API-first; regex graceful fallback. See M3 medical / CMP-SOL-6 solar.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
             }
-            if (extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
-            // PL-7/PL-12 context fields: stateCode for earthquake-straps row
-            // visibility, jobType.value for camera-inspection row visibility.
-            if ((extracted.location && extracted.location.stateCode)) api.stateCode = (extracted.location && extracted.location.stateCode);
-            if (extracted.jobType && extracted.jobType.value) api.jobTypeKey = extracted.jobType.value;
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
-          return { raw: raw, ocrText: _engOcrText };
-        });
+            return { raw: raw, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            console.warn("[compare-plumbing] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "plumbing");
+                if (extracted.jobType && extracted.jobType.value !== "other") api.jobType = extracted.jobType.label;
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.laborRate && extracted.laborHours) api.laborTotal = extracted.laborRate * extracted.laborHours;
+                else if (extracted.laborTotal) api.laborTotal = extracted.laborTotal;
+                if (extracted.warranty) {
+                  api.warrantyParts = extracted.warranty.parts || null;
+                  api.warrantyLabor = extracted.warranty.labor || null;
+                  api.warrantyYears = api.warrantyLabor || api.warrantyParts || null;
+                }
+                if (extracted.warranty && extracted.warranty.laborDays) api.warrantyLaborDays = extracted.warranty.laborDays;
+                if ((extracted.location && extracted.location.stateCode)) api.stateCode = (extracted.location && extracted.location.stateCode);
+                if (extracted.jobType && extracted.jobType.value) api.jobTypeKey = extracted.jobType.value;
+                api.scopeItems = {};
+                extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var ocrText = combined.ocrText;
