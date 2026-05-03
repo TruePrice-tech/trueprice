@@ -1,0 +1,390 @@
+{
+  "ts": "2026-05-03T17:28:46.018Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-atlanta-dc-3k": {
+      "verdictLabel": "UNUSUALLY LOW",
+      "verdictPrice": "$3,071",
+      "verdictRange": "30% below average for your area (typical range: $2,444 - $6,842)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$140/hrMarket rate",
+        "crew size": "3 movers",
+        "move date": "April 22, 2024",
+        "market range": "$2,444 - $6,842"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "about: binding or not-to-exceed estimate provided, detailed inventory list included, packing materials and labor itemized, special item handling noted (piano, art, etc.), stairs/elevator/long carry fees disclosed, storage fees (if applicable) listed, cancellation/rescheduling policy stated, usdot or state license number shown",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": []
+    },
+    "f2-mvm-tx-oh": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$6,563",
+      "verdictRange": "27% above average for your area (typical range: $2,875 - $8,050)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "distance": "264 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$25/hrBelow market",
+        "crew size": "4 movers",
+        "estimated hours": "5.25 hrs",
+        "market range": "$2,875 - $8,050"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "Estimated Moving. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupState: expected \"TX\", got null",
+        "deliveryState: expected \"OH\", got null",
+        "companyName: expected match /\\bMVM\\b/, got api=null display=\"Estimated Moving. Looking up the federal carrier record...\""
+      ]
+    },
+    "f3-two-men-truck": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$22,715",
+      "verdictRange": "416% above average for your area (typical range: $2,444 - $6,842)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "pricing": "City-level Shoulder season",
+        "crew size": "2 movers",
+        "market range": "$2,444 - $6,842"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "TWO MEN AND A TRUCK. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": []
+    },
+    "f4-allied-socal-denver": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$12,260",
+      "verdictRange": "98% above average for Englewood, CO (typical range: $3,445 - $9,646)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "distance": "1,025 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$48.5/hrBelow market",
+        "estimated weight": "100 lbs",
+        "market range": "$3,445 - $9,646"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "ORIGIN AGENT DESTINATION AGENT Bailey's Moving. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupOrDeliveryState: expected one to be \"CO\", got pickup=\"\" delivery=\"\""
+      ]
+    },
+    "f5-brightside": {
+      "verdictLabel": "UNUSUALLY LOW",
+      "verdictPrice": "$2,030",
+      "verdictRange": "66% below average for your area (typical range: $3,306 - $9,257)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "distance": "899 miles",
+        "pricing": "City-level Shoulder season",
+        "market range": "$3,306 - $9,257"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "Nataile Relocation. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "companyName: expected match /brightside|relorstinn/, got api=null display=\"Nataile Relocation. Looking up the federal carrier record...\""
+      ]
+    },
+    "f6-united-vs-mayflower": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$28,016",
+      "verdictRange": "2607% above average for your area (typical range: $690 - $1,380)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "2 Bedroom",
+        "pricing": "City-level Shoulder season",
+        "market range": "$690 - $1,380"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "United Van Lines. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "moveType: expected match /^(long_distance|longDistance)$/, got api=null display=\"local move\""
+      ]
+    },
+    "f7-mayflower": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$5,717",
+      "verdictRange": "30% above average for your area (typical range: $2,444 - $6,842)",
+      "details": {
+        "move type": "Long Distance / Interstate",
+        "home size": "2 Bedroom",
+        "pricing": "City-level Shoulder season",
+        "market range": "$2,444 - $6,842"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "mayflower. Looking up the federal carrier record...",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": []
+    },
+    "c1-low-atl-discount": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$30,318",
+      "verdictRange": "1940% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$130/hrMarket rate",
+        "crew size": "3 movers",
+        "estimated hours": "6 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "price: expected ~990 ±50, got 30318 (display=\"$30,318\", api=null)",
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /atl\\s*discount|discount\\s*movers/, got api=null display=\"can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.\""
+      ]
+    },
+    "c2-mid-peach-state": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$1,860",
+      "verdictRange": "25% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$180/hrMarket rate",
+        "crew size": "4 movers",
+        "estimated hours": "7 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /peach\\s*state/, got api=null display=\"can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.\""
+      ]
+    },
+    "c3-high-white-glove": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$4,040",
+      "verdictRange": "172% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$220/hr",
+        "crew size": "5 movers",
+        "estimated hours": "8 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "commits to a maximum price. You pay this or less, never more. This is the strongest protection a mover can offer.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /white\\s*glove/, got api=null display=\"commits to a maximum price. You pay this or less, never more. This is the strongest protection a mover can offer.\""
+      ]
+    },
+    "m1-low-atl-discount-messy": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$30,318",
+      "verdictRange": "1940% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$130/hrMarket rate",
+        "crew size": "3 movers",
+        "estimated hours": "6 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "price: expected ~990 ±50, got 30318 (display=\"$30,318\", api=null)",
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /atl\\s*discount|discount\\s*movers/, got api=null display=\"can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.\""
+      ]
+    },
+    "m2-mid-peach-state-messy": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$1,860",
+      "verdictRange": "25% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$180/hrMarket rate",
+        "crew size": "4 movers",
+        "estimated hours": "7 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /peach\\s*state/, got api=null display=\"can legally charge MORE on move day if the actual weight or services exceed the estimate. Federal law caps the increase at 110% of the estimate that you must pay at delivery, with the remainder due within 30 days. Always ask about converting to a binding estimate.\""
+      ]
+    },
+    "m3-high-white-glove-messy": {
+      "verdictLabel": "HIGHER THAN EXPECTED",
+      "verdictPrice": "$4,040",
+      "verdictRange": "172% above average for Atlanta, GA (typical range: $990 - $1,981)",
+      "details": {
+        "move type": "Local Move",
+        "home size": "3 Bedroom",
+        "distance": "12 miles",
+        "pricing": "City-level Shoulder season",
+        "hourly rate": "$220/hr",
+        "crew size": "5 movers",
+        "estimated hours": "8 hrs",
+        "market range": "$990 - $1,981"
+      },
+      "isHardReject": false,
+      "detectedMoverText": "commits to a maximum price. You pay this or less, never more. This is the strongest protection a mover can offer.",
+      "companyName": null,
+      "totalPrice": null,
+      "moveType": null,
+      "homeSize": null,
+      "pickupState": null,
+      "deliveryState": null,
+      "distance": null,
+      "crewSize": null,
+      "hourlyRate": null,
+      "usdotNumber": null,
+      "failures": [
+        "pickupState: expected \"GA\", got null",
+        "deliveryState: expected \"GA\", got null",
+        "companyName: expected match /white\\s*glove/, got api=null display=\"commits to a maximum price. You pay this or less, never more. This is the strongest protection a mover can offer.\""
+      ]
+    }
+  }
+}
