@@ -160,7 +160,13 @@ async function uploadAndCapture(browser, fixture) {
   const page = await browser.newPage();
   page.setDefaultTimeout(180000);
   await page.setViewport({ width: 1440, height: 900 });
-  await page.setExtraHTTPHeaders({ "x-woogoro-test": "1" });
+  // Real-Chrome UA + explicit Origin header so the shared abuse guard's
+  // "no_origin" + "scripted_user_agent" checks (api/_abuse-guard.js
+  // lines 80-99) don't 403 our test traffic. Headless Chrome doesn't
+  // always attach Origin to same-origin fetch POSTs even though normal
+  // Chrome does — discovered during W1 verification.
+  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
+  await page.setExtraHTTPHeaders({ "x-woogoro-test": "1", "Origin": BASE });
 
   const apiResponses = [];
   page.on("response", async res => {
