@@ -481,15 +481,27 @@
         var api = (raw && raw.data) || raw || {};
         var price = readPrice(api);
 
-        // Enrich with regex scope extraction when API fields are missing
-        if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
+        // [CMP-HVAC-SCOPE-MERGE 2026-05-03] UNION-merge regex scope with
+        // Claude scopeItems. Pre-fix the SCOPE_ITEMS renderer used snake_case
+        // keys (load_calc, line_set, concrete_pad, refrigerant, flue, cleanup)
+        // but Claude (api/hvac-estimate.js) returns camelCase (loadCalc,
+        // lineSet, pad) and omits refrigerant/flue/cleanup entirely — so
+        // 6/11 rows showed "? Unclear" indefinitely. The `!api.scopeItems`
+        // gate ALSO skipped systemType/brand/warranty enrichment whenever
+        // Claude returned scopeItems (always). Mirror of CMP-SOL-9 (solar).
+        if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "hvac");
           if (!api.systemType && extracted.jobType && extracted.jobType.value !== "other") api.systemType = extracted.jobType.label;
           if (!api.brand && extracted.brand) api.brand = extracted.brand.brand;
           if (!api.warrantyPartsYears && extracted.warranty && extracted.warranty.parts) api.warrantyPartsYears = extracted.warranty.parts;
           if (!api.warrantyLaborYears && extracted.warranty && extracted.warranty.labor) api.warrantyLaborYears = extracted.warranty.labor;
-          api.scopeItems = {};
-          extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+          if (!api.scopeItems) api.scopeItems = {};
+          extracted.scope.forEach(function(s) {
+            if (api.scopeItems[s.key] === undefined || api.scopeItems[s.key] === "unclear") {
+              if (s.detected) api.scopeItems[s.key] = "included";
+              else if (s.excluded) api.scopeItems[s.key] = "excluded";
+            }
+          });
         }
 
         // Fallback: if still no price, try client-side parser
