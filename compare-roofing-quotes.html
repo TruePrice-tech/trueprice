@@ -525,33 +525,48 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (engineResult.material) api.material = engineResult.material;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "roofing");
-            if (!api.material) api.material = detectRoofMaterial(_engOcrText) || (extracted.jobType && extracted.jobType.value !== "other" ? extracted.jobType.label : null);
-            if (extracted.brand) api.brand = extracted.brand.brand;
-            if (extracted.warranty && extracted.warranty.parts) api.warrantyManufacturerYears = extracted.warranty.parts;
-            if (extracted.warranty && extracted.warranty.labor) api.warrantyWorkmanshipYears = extracted.warranty.labor;
-            // If labor warranty was detected but parts/manufacturer wasn't,
-            // scan for brand-named manufacturer warranties (CertainTeed
-            // SureStart Plus 50-yr, GAF Golden Pledge 30-year, etc.) that
-            // sit between brand modifiers + "warranty" without an explicit
-            // noun the shared extractor can grab. Local to roofing only.
-            if (!api.warrantyManufacturerYears && api.warrantyWorkmanshipYears) {
-              api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, api.warrantyWorkmanshipYears);
+        // CMP-AUDIT 2026-05-03 (mirrors M3 medical + CMP-SOL-6 solar): always
+        // call the Anthropic Claude API on the compare path. The regex-bypass
+        // fast-path returned only { totalPrice, contractor, material, brand,
+        // warranty } — comparison table then rendered just those rows and
+        // filtered out the rest via allEmpty checks. Worse, the shared parser
+        // mis-reads "$1,225.00" as 122500 (100x) on bills with ,XXX.YY decimal
+        // patterns. Now: always API-first; regex serves as graceful fallback
+        // if Claude returns null price OR throws (rate-limit / network / parse).
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            // If Claude returned no price but regex got one, hoist the regex
+            // price so the user still sees a useful comparison.
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
             }
-            api.scopeItems = {};
-            extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) {
-          return { raw: raw, ocrText: _engOcrText };
-        });
+            return { raw: raw, ocrText: _engOcrText };
+          })
+          .catch(function(err) {
+            console.warn("[compare-roofing] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (engineResult.material) api.material = engineResult.material;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "roofing");
+                if (!api.material) api.material = detectRoofMaterial(_engOcrText) || (extracted.jobType && extracted.jobType.value !== "other" ? extracted.jobType.label : null);
+                if (extracted.brand) api.brand = extracted.brand.brand;
+                if (extracted.warranty && extracted.warranty.parts) api.warrantyManufacturerYears = extracted.warranty.parts;
+                if (extracted.warranty && extracted.warranty.labor) api.warrantyWorkmanshipYears = extracted.warranty.labor;
+                if (!api.warrantyManufacturerYears && api.warrantyWorkmanshipYears) {
+                  api.warrantyManufacturerYears = detectMfrWarrantyYears(_engOcrText, api.warrantyWorkmanshipYears);
+                }
+                api.scopeItems = {};
+                extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
