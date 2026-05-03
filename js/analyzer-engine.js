@@ -652,9 +652,17 @@
       } catch (e) { /* silent */ }
     }
 
-    // Step 4: AI backup (ONLY when regex failed to find a price)
+    // Step 4: AI backup. Default: ONLY when regex failed to find a price.
+    // forceAI: when set true by the caller, ALSO call AI even when regex
+    // succeeded — used by verticals that need Claude's structured fields
+    // (companyName, pickupState, deliveryState, redFlags, summary) beyond
+    // a headline price. Mirrors the bypass legal/medical analyzers ship
+    // by posting directly to their /api/X-estimate endpoints; here it is
+    // exposed as a one-line flag so verticals can opt in without losing
+    // the engine's OCR machinery. Documented at line ~306 but historically
+    // unread until moving deep test 2026-05-03 (MV-1).
     var shouldCallAI = !options.skipAI &&
-                       !result.price &&
+                       (options.forceAI || !result.price) &&
                        options.apiEndpoint;
 
     if (shouldCallAI) {
