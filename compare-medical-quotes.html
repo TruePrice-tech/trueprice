@@ -392,7 +392,6 @@
 
       TP_Engine.analyzeQuote(file, { vertical: "medical", apiEndpoint: "/api/medical-bill-estimate" }).then(function(engineResult) {
         var _engOcrText = engineResult.ocrText || "";
-        var regexPrice = engineResult.price || 0;
 
         if (_engOcrText && _engOcrText.length > 50 &&
             typeof window.tpEnforceVerticalMatch === "function") {
@@ -405,16 +404,13 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "medical");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.serviceType = extracted.jobType.label;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
+        // ALWAYS call the medical Vision API — the shared regex parser
+        // misreads "$1,225.00" as 122500 (strips both comma AND decimal),
+        // producing a 100x price inflation on common bill formats. The
+        // bill-analyzer fixed this 2026-04-27 by bypassing TP_Engine
+        // entirely; compare-medical does the same here. Without this,
+        // a $1,225 CT bill renders as "$122,500 — 1966% more than the
+        // other quote" — TRUST-CRITICAL display lie.
         return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
       }).then(function(combined) {
         var raw = combined.raw;
