@@ -1,0 +1,158 @@
+{
+  "ts": "2026-05-03T21:35:57.189Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-ecoview-handwritten": {
+      "verdictLabel": "",
+      "verdictPrice": "",
+      "verdictRange": "",
+      "detailsTextSlice": "",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "price: expected ~10627 ±9000, got null (display=\"\", api=null)",
+        "brand: expected match /eco\\s*view/, got api=\"\" display brand row=missing",
+        "contractor: expected match /eco\\s*view/, got api=\"\" (no visible match in display)"
+      ]
+    },
+    "c1-low-pacific-warehouse": {
+      "verdictLabel": "UNUSUALLY LOW",
+      "verdictPrice": "$5,640",
+      "verdictRange": "Market benchmark: $7,950 -- 29% below average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "contractor: expected match /pacific\\s*window/, got api=\"\" (no visible match in display)",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    },
+    "c2-mid-cascade-window": {
+      "verdictLabel": "ABOVE AVERAGE",
+      "verdictPrice": "$9,500",
+      "verdictRange": "Market benchmark: $7,950 -- 19% above average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "contractor: expected match /cascade\\s*window/, got api=\"\" (no visible match in display)",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    },
+    "c3-high-evergreen-andersen": {
+      "verdictLabel": "OVERPRICED",
+      "verdictPrice": "$19,520",
+      "verdictRange": "Market benchmark: $13,250 -- 47% above average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    },
+    "m1-low-pacific-messy": {
+      "verdictLabel": "UNUSUALLY LOW",
+      "verdictPrice": "$5,640",
+      "verdictRange": "Market benchmark: $7,950 -- 29% below average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$470\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "contractor: expected match /pacific\\s*window/, got api=\"\" (no visible match in display)",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    },
+    "m2-mid-cascade-messy": {
+      "verdictLabel": "ABOVE AVERAGE",
+      "verdictPrice": "$9,500",
+      "verdictRange": "Market benchmark: $7,950 -- 19% above average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nVinyl Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nPER WINDOW COST\n$792\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "contractor: expected match /cascade\\s*window/, got api=\"\" (no visible match in display)",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    },
+    "m3-high-evergreen-messy": {
+      "verdictLabel": "OVERPRICED",
+      "verdictPrice": "$19,520",
+      "verdictRange": "Market benchmark: $13,250 -- 47% above average",
+      "detailsTextSlice": "Project Details\nWINDOW TYPE\nWood Windows\nCOUNT\n12\nSIZE CATEGORY\nStandard\nBRAND\nAndersen (premium tier)\nPER WINDOW COST\n$1,627\nPRICING SOURCE\nSouth regional pricing",
+      "isHardReject": false,
+      "contractor": null,
+      "totalPrice": null,
+      "brand": null,
+      "material": null,
+      "windowType": null,
+      "windowCount": null,
+      "glassPackage": null,
+      "uFactor": null,
+      "stateCode": null,
+      "warrantyFrame": null,
+      "failures": [
+        "stateCode: expected \"WA\", got null",
+        "windowCount: expected 10-12, got null/NaN (api=null)"
+      ]
+    }
+  }
+}

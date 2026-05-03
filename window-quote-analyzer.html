@@ -776,9 +776,18 @@
     async function processFile(file) {
       try {
         // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        // W1 (deep test 2026-05-03): forceAI mirrors MV-1 / L1 / M1 bypass.
+        // Windows needs Claude's structured fields (contractor, brand,
+        // brandTier, windowCount, material, glassPackage, uFactor, stateCode,
+        // city, scopeItems, redFlags) for every quote — local detect-X regex
+        // misclassifies on cleaner fixtures (Pacific Window Warehouse → no
+        // contractor row), defaults windowType to "vinyl" on handwriting,
+        // and the engine's CONTRACT PRICE regex on EcoView returns null so
+        // the only path to $10,627 is Claude vision reading the letterhead.
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "windows",
           apiEndpoint: "/api/windows-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
@@ -787,12 +796,14 @@
         var parsed = engineResult.parsed;
         var apiResult = engineResult.aiData || null;
 
-        // Price from engine (regex-first, AI backup if regex failed)
+        // Price from engine (regex-first, AI overwrites at engine line 679
+        // when AI returns a usable totalPrice — so quotePrice already reflects
+        // the better signal whichever source produced it).
         var quotePrice = engineResult.price || 0;
 
         setProgress(70, "Building analysis...");
 
-        // Window-specific detection
+        // Window-specific detection (regex-first; API overrides below).
         var windowType = detectWindowType(text);
         var windowCount = detectWindowCount(text);
         var windowSize = detectWindowSize(text);
@@ -801,6 +812,50 @@
 
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
+
+        // ── W1 AI override block ──
+        // When Claude returned structured fields, prefer them over weak
+        // local regex. Specifically: contractor (no local extractor),
+        // stateCode/city (regex hallucinates from form labels like
+        // "Property:" + ZIP digits), windowCount (regex misses on tabular
+        // line items where each row reads as a separate "1 window" hit),
+        // brand (local whitelist misses EcoView, Power Home Remodeling,
+        // Window Nation, Window World, Provia, Soft-Lite, Atrium and
+        // miscategorizes Renewal by Andersen as "mid" instead of luxury).
+        if (apiResult) {
+          if (apiResult.windowCount && Number(apiResult.windowCount) >= 1) {
+            windowCount = Number(apiResult.windowCount);
+          }
+          // Map API material → local windowType label.
+          var _aiMat = (apiResult.material || "").toLowerCase();
+          var _aiWT = (apiResult.windowType || "").toLowerCase();
+          if (_aiMat === "wood_clad" || _aiMat === "wood") {
+            windowType = { value: "wood", label: "Wood Windows" };
+          } else if (_aiMat === "fiberglass" || _aiMat === "composite") {
+            windowType = { value: "fiberglass", label: "Fiberglass Windows" };
+          } else if (_aiMat === "vinyl") {
+            windowType = { value: "vinyl", label: "Vinyl Windows" };
+          } else if (_aiMat === "aluminum") {
+            windowType = { value: "vinyl", label: "Aluminum Windows" };
+          }
+          if (_aiWT === "bay" || _aiWT === "bow") {
+            windowType = { value: "wood", label: "Bay / Bow Windows" };
+            windowSize = "bay_bow";
+          }
+          if (apiResult.brand) {
+            var _tier = (apiResult.brandTier || "mid");
+            brand = { brand: apiResult.brand, tier: _tier };
+          }
+          // Adopt API's city/state when local regex didn't surface one.
+          if (!location || !location.stateCode) {
+            if (apiResult.stateCode) {
+              location = location || {};
+              location.stateCode = apiResult.stateCode;
+              if (apiResult.city) location.city = apiResult.city;
+            }
+          }
+        }
+
         if (location && location.stateCode && !state.address.stateCode) {
           state.address.stateCode = location.stateCode;
           if (location.city) state.address.city = location.city;
