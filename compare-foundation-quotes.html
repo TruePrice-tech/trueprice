@@ -293,7 +293,7 @@
     var uploadedFiles = [null, null, null];
     var ENDPOINT = "/api/foundation-estimate";
     var PRICE_FIELDS = ["totalPrice", "quoteTotal", "total", "price", "estimatedTotalLow"];
-    var ROWS = [{"label": "Repair Method", "field": "repairMethod", "type": "text"}, {"label": "Pier Count", "field": "pierCount", "type": "number"}, {"label": "Pier Type", "field": "pierType", "type": "text"}, {"label": "Engineer Report", "field": "engineerReport", "type": "yesno"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "materialsTotal", "type": "money"}, {"label": "Warranty (years)", "field": "warrantyYears", "type": "years"}, {"label": "Lifetime Transferable", "field": "lifetimeTransferable", "type": "yesno"}];
+    var ROWS = [{"label": "Repair Method", "field": "repairMethod", "type": "text"}, {"label": "Pier Count", "field": "numPiers", "type": "number"}, {"label": "Repair Type", "field": "repairType", "type": "text"}, {"label": "Engineer Report", "field": "engineerReport", "type": "yesno"}, {"label": "Labor Total", "field": "laborTotal", "type": "money"}, {"label": "Materials Total", "field": "partsTotal", "type": "money"}, {"label": "Warranty", "field": "warrantyType", "type": "text"}, {"label": "Transferable", "field": "transferable", "type": "yesno"}];
     var SCOPE_ITEMS = [{"key":"piers","label":"Piers/pilings"},{"key":"lift","label":"Hydraulic lift"},{"key":"excavation","label":"Excavation"},{"key":"cleanup","label":"Cleanup/grading"},{"key":"crack_repair","label":"Crack repair"},{"key":"waterproof","label":"Waterproofing"},{"key":"engineering","label":"Engineering report"},{"key":"transferable","label":"Transferable warranty"},{"key":"permit","label":"Permit"},{"key":"warranty","label":"Warranty"}];
     var IRIS = "/images/Worker%20Woogoro/Foundation%20worker.png";
     var SINGLE_PAGE = "/foundation-quote-analyzer.html";
@@ -405,18 +405,36 @@
           }
         }
 
-        if (regexPrice > 0) {
-          var api = { totalPrice: regexPrice, _source: "regex" };
-          if (engineResult.contractor) api.contractor = engineResult.contractor;
-          if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
-            var extracted = TP_VerticalScope.extractFields(_engOcrText, "foundation");
-            if (extracted.jobType && extracted.jobType.value !== "other") api.repairType = extracted.jobType.label;
-            if (extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
-            api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
-          }
-          return { raw: { data: api }, ocrText: _engOcrText };
-        }
-        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] }).then(function(raw) { return { raw: raw, ocrText: _engOcrText }; });
+        // CMP-FND-2 (TRUST-CRITICAL 2026-05-03): always call Claude API on
+        // compare path. Mirrors CMP-SOL-6 / CMP-WIN-2. Pre-fix: regex returned
+        // with only { totalPrice }, leaving Repair Method / Pier Count /
+        // Repair Type / Engineer Report / Labor / Parts / Warranty /
+        // Transferable all N/A.
+        return sendToApi({ text: _engOcrText, images: engineResult.imageDataUrl ? [engineResult.imageDataUrl] : [] })
+          .then(function(raw) {
+            var d = (raw && raw.data) || {};
+            if ((!d.totalPrice || d.totalPrice <= 0) && regexPrice > 0) {
+              d.totalPrice = regexPrice;
+              d._priceSource = "regex_fallback";
+              if (raw && raw.data) raw.data = d;
+            }
+            return { raw: raw, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+          })
+          .catch(function(err) {
+            console.warn("[compare-foundation] Claude API failed, falling back to regex:", err.message);
+            if (regexPrice > 0) {
+              var api = { totalPrice: regexPrice, _source: "regex_fallback" };
+              if (engineResult.contractor) api.contractor = engineResult.contractor;
+              if (typeof TP_VerticalScope !== "undefined" && _engOcrText) {
+                var extracted = TP_VerticalScope.extractFields(_engOcrText, "foundation");
+                if (extracted.jobType && extracted.jobType.value !== "other") api.repairType = extracted.jobType.label;
+                if (extracted.warranty) api.warrantyType = extracted.warranty.labor || extracted.warranty.parts || null;
+                api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
+              }
+              return { raw: { data: api }, ocrText: _engOcrText, contractor: engineResult.contractor || null };
+            }
+            throw err;
+          });
       }).then(function(combined) {
         var raw = combined.raw;
         var _engOcrText = combined.ocrText;
@@ -425,9 +443,12 @@
         if (typeof TP_VerticalScope !== "undefined" && _engOcrText && !api.scopeItems) {
           var extracted = TP_VerticalScope.extractFields(_engOcrText, "foundation");
           if (!api.repairType && extracted.jobType && extracted.jobType.value !== "other") api.repairType = extracted.jobType.label;
-          if (!api.warrantyYears && extracted.warranty) api.warrantyYears = extracted.warranty.labor || extracted.warranty.parts || null;
+          if (!api.warrantyType && extracted.warranty) api.warrantyType = extracted.warranty.labor || extracted.warranty.parts || null;
           api.scopeItems = {}; extracted.scope.forEach(function(s) { if (s.detected) api.scopeItems[s.key] = "included"; else if (s.excluded) api.scopeItems[s.key] = "excluded"; });
         }
+        // CMP-FND-3 (2026-05-03): hoist OCR-extracted contractor (CMP-SOL-7
+        // pattern) since Anthropic foundation prompt doesn't return one.
+        if (!api.contractor && combined.contractor) api.contractor = combined.contractor;
         var _rawName = api.contractor || api.companyName || api.providerName || api.shopName || api.moverName || "";
         var name = (_rawName && _rawName !== "Not detected") ? _rawName : (NOUN_SHORT + " " + (idx + 1));
 
