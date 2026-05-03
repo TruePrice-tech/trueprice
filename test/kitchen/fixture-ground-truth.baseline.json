@@ -1,0 +1,196 @@
+{
+  "ts": "2026-05-03T00:44:09.747Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-quick-kitchen-low": {
+      "verdictPrice": 13850,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Laminate",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $84,350 -- 84% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /quick\\s*kitchen\\s*refresh/, got null",
+        "tier: expected match /minor|cosmetic|refresh|cabinet\\s*refacing/, got \"Major/Upscale Remodel\""
+      ]
+    },
+    "f2-prairie-mid": {
+      "verdictPrice": 27250,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Quartz",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $109,150 -- 75% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /prairie\\s*state\\s*kitchen/, got null",
+        "tier: expected match /mid[\\s-]?range|midrange/, got \"Major/Upscale Remodel\""
+      ]
+    },
+    "f3-artisan-high": {
+      "verdictPrice": 57200,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Granite",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $99,250 -- 42% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /artisan\\s*kitchen\\s*studios/, got null"
+      ]
+    },
+    "f4-quick-kitchen-low-messy": {
+      "verdictPrice": 13850,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Laminate",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $84,350 -- 84% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /quick\\s*kitchen\\s*refresh/, got null",
+        "tier: expected match /minor|cosmetic|refresh|cabinet\\s*refacing/, got \"Major/Upscale Remodel\""
+      ]
+    },
+    "f5-prairie-mid-messy": {
+      "verdictPrice": 27250,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Quartz",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $109,150 -- 75% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /prairie\\s*state\\s*kitchen/, got null",
+        "tier: expected match /mid[\\s-]?range|midrange/, got \"Major/Upscale Remodel\""
+      ]
+    },
+    "f6-artisan-high-messy": {
+      "verdictPrice": 57200,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Granite",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $99,250 -- 42% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /artisan\\s*kitchen\\s*studios/, got null"
+      ]
+    },
+    "f7-mock-midrange-nc": {
+      "verdictPrice": 50228,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Quartz",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $109,150 -- 54% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /heritage\\s*kitchen\\s*designs/, got null",
+        "tier: expected match /mid[\\s-]?range|midrange/, got \"Major/Upscale Remodel\""
+      ]
+    },
+    "f8-real-photo-l-shaped": {
+      "verdictPrice": 22250,
+      "details": {
+        "remodel tier": "Major/Upscale Remodel",
+        "kitchen size": "Average (100-150 sq ft)",
+        "countertop": "Quartz",
+        "pricing": "South regional pricing"
+      },
+      "rangeText": "Market benchmark: $109,150 -- 80% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /modern\\s*home\\s*renovations/, got null",
+        "tier: expected match /minor|mid[\\s-]?range|midrange|cosmetic/, got \"Major/Upscale Remodel\""
+      ]
+    }
+  }
+}
