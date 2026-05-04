@@ -299,7 +299,7 @@
         label: "Transmission",
         subtypes: {
           fluid_change:  { label: "Transmission fluid change", laborHrs: [0.5, 1.5], partsLow: 40, partsHigh: 100, totalLow: 100, totalHigh: 300 },
-          rebuild:       { label: "Transmission rebuild", laborHrs: [8.0, 15.0], partsLow: 500, partsHigh: 2000, totalLow: 2500, totalHigh: 5000 },
+          rebuild:       { label: "Transmission rebuild", laborHrs: [8.0, 15.0], partsLow: 800, partsHigh: 2000, totalLow: 2500, totalHigh: 5000 },
           replacement:   { label: "Transmission replacement", laborHrs: [6.0, 10.0], partsLow: 1500, partsHigh: 4000, totalLow: 2800, totalHigh: 6000 },
           clutch:        { label: "Clutch replacement (manual)", laborHrs: [4.0, 8.0], partsLow: 150, partsHigh: 800, totalLow: 800, totalHigh: 2000 }
         },
@@ -311,14 +311,14 @@
           spark_plugs:  { label: "Spark plug replacement", laborHrs: [0.5, 3.0], partsLow: 20, partsHigh: 120, totalLow: 100, totalHigh: 350 },
           timing_belt:  { label: "Timing belt/chain", laborHrs: [3.0, 10.0], partsLow: 80, partsHigh: 400, totalLow: 400, totalHigh: 2500 },
           head_gasket:  { label: "Head gasket replacement", laborHrs: [10.0, 20.0], partsLow: 100, partsHigh: 600, totalLow: 1500, totalHigh: 3500 },
-          engine_replace: { label: "Engine replacement", laborHrs: [10.0, 20.0], partsLow: 1500, partsHigh: 7000, totalLow: 3000, totalHigh: 8000 }
+          engine_replace: { label: "Engine replacement", laborHrs: [10.0, 20.0], partsLow: 2500, partsHigh: 7000, totalLow: 3000, totalHigh: 8000 }
         },
         included: ["Parts as specified", "Gaskets and seals", "Fluids and coolant", "Computer reset/calibration", "Road test and inspection"]
       },
       ac_heating: {
         label: "AC / Heating",
         subtypes: {
-          ac_recharge:   { label: "AC recharge (R134a)", laborHrs: [0.5, 1.0], partsLow: 30, partsHigh: 60, totalLow: 100, totalHigh: 250 },
+          ac_recharge:   { label: "AC recharge", laborHrs: [0.5, 1.0], partsLow: 60, partsHigh: 180, totalLow: 150, totalHigh: 400 },
           ac_compressor: { label: "AC compressor replacement", laborHrs: [3.0, 5.0], partsLow: 200, partsHigh: 700, totalLow: 600, totalHigh: 1400 },
           heater_core:   { label: "Heater core replacement", laborHrs: [4.0, 10.0], partsLow: 80, partsHigh: 250, totalLow: 500, totalHigh: 1500 },
           thermostat:    { label: "Thermostat replacement", laborHrs: [1.0, 2.5], partsLow: 15, partsHigh: 80, totalLow: 150, totalHigh: 400 }
@@ -338,9 +338,9 @@
       electrical: {
         label: "Electrical",
         subtypes: {
-          battery:       { label: "Battery replacement", laborHrs: [0.3, 0.5], partsLow: 80, partsHigh: 200, totalLow: 120, totalHigh: 300 },
-          alternator:    { label: "Alternator replacement", laborHrs: [1.0, 3.0], partsLow: 120, partsHigh: 500, totalLow: 350, totalHigh: 800 },
-          starter:       { label: "Starter motor replacement", laborHrs: [1.0, 3.0], partsLow: 100, partsHigh: 450, totalLow: 300, totalHigh: 700 },
+          battery:       { label: "Battery replacement", laborHrs: [0.3, 0.5], partsLow: 130, partsHigh: 320, totalLow: 180, totalHigh: 380 },
+          alternator:    { label: "Alternator replacement", laborHrs: [1.0, 3.0], partsLow: 180, partsHigh: 500, totalLow: 350, totalHigh: 800 },
+          starter:       { label: "Starter motor replacement", laborHrs: [1.0, 3.0], partsLow: 150, partsHigh: 450, totalLow: 300, totalHigh: 700 },
           ignition_coils:{ label: "Ignition coil(s) replacement", laborHrs: [0.5, 2.0], partsLow: 25, partsHigh: 200, totalLow: 150, totalHigh: 500 }
         },
         included: ["Parts as specified", "Electrical system test", "Battery terminal cleaning", "Computer reset if needed", "Charging system verification"]
@@ -349,7 +349,7 @@
         label: "Exhaust",
         subtypes: {
           muffler:     { label: "Muffler replacement", laborHrs: [0.5, 1.5], partsLow: 50, partsHigh: 250, totalLow: 150, totalHigh: 400 },
-          catalytic:   { label: "Catalytic converter", laborHrs: [1.0, 3.0], partsLow: 200, partsHigh: 2500, totalLow: 500, totalHigh: 3000 },
+          catalytic:   { label: "Catalytic converter", laborHrs: [1.0, 3.0], partsLow: 400, partsHigh: 2800, totalLow: 600, totalHigh: 3500 },
           o2_sensor:   { label: "Oxygen sensor replacement", laborHrs: [0.5, 1.5], partsLow: 40, partsHigh: 200, totalLow: 150, totalHigh: 400 },
           exhaust_pipe:{ label: "Exhaust pipe repair/replace", laborHrs: [0.5, 2.0], partsLow: 50, partsHigh: 200, totalLow: 100, totalHigh: 400 }
         },
@@ -379,9 +379,9 @@
 
     // Shop type multipliers and labor rates
     var SHOP_TYPES = {
-      dealer:      { label: "Dealership", mult: 1.30, rateRange: [125, 200] },
-      independent: { label: "Independent Shop", mult: 1.0, rateRange: [75, 150] },
-      chain:       { label: "Chain Shop", mult: 0.90, rateRange: [90, 145] },
+      dealer:      { label: "Dealership", mult: 1.30, rateRange: [150, 250] },
+      independent: { label: "Independent Shop", mult: 1.0, rateRange: [90, 160] },
+      chain:       { label: "Chain Shop", mult: 0.90, rateRange: [95, 150] },
       diy:         { label: "DIY (Parts Only)", mult: 0.0, rateRange: [0, 0] }
     };
 
