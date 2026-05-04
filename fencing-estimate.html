@@ -360,6 +360,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/fencing-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -384,54 +386,11 @@
     "use strict";
 
     // ── Fence Pricing Model ──
-    var FENCE_PRICING = {
-      basePricePerLinearFoot: {
-        chain_link: { label: "Chain Link", low: 8, high: 25, mid: 15.00 },
-        wood_privacy: { label: "Wood Privacy (PT Pine)", low: 22, high: 45, mid: 33.50 },
-        cedar: { label: "Cedar Privacy", low: 30, high: 60, mid: 45.00 },
-        vinyl_privacy: { label: "Vinyl / PVC Privacy", low: 35, high: 80, mid: 50.00 },
-        aluminum: { label: "Aluminum Ornamental", low: 32, high: 75, mid: 48.00 },
-        composite: { label: "Composite", low: 45, high: 95, mid: 65.00 },
-        wrought_iron: { label: "Wrought / Ornamental Iron", low: 42, high: 100, mid: 65.00 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      heightMultiplier: { "4": 0.85, "6": 1.00, "8": 1.25 },
-      gateCost: {
-        chain_link: { low: 200, high: 500 },
-        wood_privacy: { low: 300, high: 600 },
-        cedar: { low: 400, high: 700 },
-        vinyl_privacy: { low: 400, high: 700 },
-        aluminum: { low: 450, high: 800 },
-        composite: { low: 500, high: 900 },
-        wrought_iron: { low: 500, high: 1000 }
-      },
-      scopeItems: [
-        { key: "postHoles", label: "Post holes", weight: 12 },
-        { key: "concreteFootings", label: "Concrete footings", weight: 14 },
-        { key: "posts", label: "Posts", weight: 14 },
-        { key: "rails", label: "Rails", weight: 10 },
-        { key: "picketsPanels", label: "Pickets / panels", weight: 14 },
-        { key: "gate", label: "Gate", weight: 10 },
-        { key: "hardware", label: "Hardware (hinges, latches, screws)", weight: 6 },
-        { key: "removalOldFence", label: "Old fence removal", weight: 6 },
-        { key: "permits", label: "Permits", weight: 4 },
-        { key: "grading", label: "Grading / ground prep", weight: 4 },
-        { key: "stainingSealing", label: "Staining / sealing", weight: 4 },
-        { key: "warranty", label: "Warranty", weight: 6 }
-      ]
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/fencing-calc.js (UMD).
+    var _FNCCALC = (typeof window !== "undefined" && window.WoogoroFencingCalc) || null;
+    if (!_FNCCALC) { console.error("[fencing-estimate] /js/fencing-calc.min.js failed to load"); return; }
+    var FENCE_PRICING = _FNCCALC.FENCE_PRICING;
+    var STATE_REGIONS = _FNCCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -465,54 +424,39 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _FNCCALC.getRegionFromState;
+    var getGateCost = _FNCCALC.getGateCost;
 
-    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=fencing")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: fencing peaks in spring/summer
-    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.97, 4:1.04, 5:1.08, 6:1.10, 7:1.10, 8:1.06, 9:1.00, 10:0.96, 11:0.93, 12:0.91 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
-
-    function getGateCost(fenceType) {
-      var gc = FENCE_PRICING.gateCost[fenceType];
-      if (!gc) return 500;
-      return Math.round((gc.low + gc.high) / 2);
-    }
+    var SEASONAL_MULT = _FNCCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(fenceType, linearFeet, height, includesGate) {
-      var typeData = FENCE_PRICING.basePricePerLinearFoot[fenceType];
-      if (!typeData) typeData = FENCE_PRICING.basePricePerLinearFoot.wood_privacy;
-
-      var midPerLF = typeData.mid;
-      var heightMult = FENCE_PRICING.heightMultiplier[String(height)] || 1.0;
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (FENCE_PRICING.laborMultiplierByRegion[region] || 1.0);
-
-      var gateCost = includesGate ? getGateCost(fenceType) : 0;
-
-      var total = midPerLF * linearFeet * laborMult * heightMult * INFLATION_MULT * SEASONAL_MULT + gateCost;
-
-      return roundTo50(total);
+      var out = _FNCCALC.calcFencingEstimate({
+        fenceType: fenceType, linearFeet: linearFeet, height: height, includesGate: includesGate,
+        region: getRegionFromState(state.address.stateCode),
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {

@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T12:21:08.786Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "wood-150-6ft-gate-nc": {
+      "total": 5650,
+      "band": {
+        "low": 4000,
+        "high": 8000
+      },
+      "label": "Wood privacy 150 lf 6ft +gate, NC",
+      "failures": []
+    },
+    "chain-200-4ft-tx": {
+      "total": 2550,
+      "band": {
+        "low": 1500,
+        "high": 5000
+      },
+      "label": "Chain link 200 lf 4ft no gate, TX",
+      "failures": []
+    },
+    "vinyl-100-6ft-gate-ny": {
+      "total": 6450,
+      "band": {
+        "low": 4500,
+        "high": 9500
+      },
+      "label": "Vinyl privacy 100 lf 6ft +gate, NY",
+      "failures": []
+    },
+    "iron-80-6ft-gate-ca": {
+      "total": 7100,
+      "band": {
+        "low": 5000,
+        "high": 11000
+      },
+      "label": "Wrought iron 80 lf 6ft +gate, CA",
+      "failures": []
+    },
+    "cedar-120-8ft-gate-mw": {
+      "total": 7700,
+      "band": {
+        "low": 5000,
+        "high": 11000
+      },
+      "label": "Cedar privacy 120 lf 8ft +gate, MW",
+      "failures": []
+    }
+  }
+}
