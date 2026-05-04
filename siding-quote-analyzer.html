@@ -592,29 +592,62 @@
       return null;
     }
 
+    // Detect scope signals from text.
+    // S2 (2026-05-03): negation-aware. Mirror of insulation I1+I2 / kitchen K4
+    // / foundation F1. Previously the keyword scan checked text.indexOf
+    // without any negation context, so f3-class fixtures ("House wrap NOT
+    // included." / "Insulation backing NOT included.") falsely showed
+    // Included for houseWrap. Now splits text per-line, finds matching line
+    // for each scope key, then checks for negation tokens (NOT included |
+    // no house wrap | excluded | without ...) before deciding included/
+    // excluded. Pre-fix baseline showed f3 + f6 (low-tier vinyl quotes with
+    // explicit "House wrap NOT included.") falsely surfacing houseWrap as
+    // Included — decisive trust signal that flipped a buyer's mental model.
     function detectScopeSignals(text) {
-      var t = text.toLowerCase();
-      var signals = {};
+      var t = (text || "").toLowerCase();
+      var lines = t.split(/\n|(?:\.\s+)/);
+
       var checks = {
-        removal: ["removal", "tear off", "tear-off", "remove existing", "demo", "strip"],
-        houseWrap: ["house wrap", "housewrap", "tyvek", "weather barrier", "moisture barrier", "building paper"],
-        flashing: ["flashing", "window flash", "door flash", "drip cap"],
-        trimFascia: ["trim", "fascia", "board and batten"],
-        soffit: ["soffit"],
-        caulking: ["caulk", "sealant", "seal"],
-        painting: ["paint", "stain", "finish", "prime"],
-        disposal: ["disposal", "haul away", "debris", "dump", "cleanup", "clean up"],
-        permits: ["permit", "inspection", "code"],
-        warranty: ["warranty", "guarantee", "warranted"],
-        cornerPosts: ["corner post", "corner piece", "corner trim"],
-        jChannel: ["j-channel", "j channel", "jchannel", "j trim"]
+        removal: /tear[\s-]*off|remove\s*existing|removal\s*of\s*existing|removal\s*and\s*disposal|\bremoval\b|\bdemo\b|\bstrip(?:\s|$)/i,
+        houseWrap: /house\s*wrap|housewrap|\btyvek\b|weather\s*barrier|moisture\s*barrier|building\s*paper/i,
+        flashing: /flashing|window\s*flash|door\s*flash|drip\s*cap/i,
+        trimFascia: /\btrim\b|\bfascia\b|board\s*and\s*batten/i,
+        soffit: /\bsoffit\b/i,
+        caulking: /caulk|sealant/i,
+        painting: /\bpaint(?:ing|ed|er)?\b|\bstain\b|\bprime[rd]?\b|finishing/i,
+        disposal: /\bdisposal\b|haul\s*away|debris|\bdump\b|cleanup|clean[\s-]*up|magnet\s*sweep/i,
+        permits: /\bpermit\b|\binspection\b|coordinat/i,
+        warranty: /\bwarrant\w*|\bguarantee\b/i,
+        cornerPosts: /corner\s*(post|piece|trim)/i,
+        jChannel: /j[-\s]*channel|jchannel|\bj\s*trim\b/i
       };
+
+      // Negation patterns within the matched line. If present, mark
+      // status:"excluded" so the analyzer renders "Not included" instead
+      // of "Included" for that scope item. Patterns cover the common
+      // contractor-quote phrasings: "X NOT included", "no house wrap",
+      // "without removal", "X excluded", "X not part of scope".
+      var negationRx = /\bnot\s+(included|removed|provided|covered|in\s+scope|part)\b|\bno\s+(house\s*wrap|removal|trim|soffit|fascia|caulk|painting|warranty|permit)\b|\bexcluded\b|\bwithout\s+(house\s*wrap|removal|trim|soffit|caulking|painting)\b/i;
+
+      var signals = {};
       for (var key in checks) {
-        var found = false;
-        for (var i = 0; i < checks[key].length; i++) {
-          if (t.indexOf(checks[key][i]) !== -1) { found = true; break; }
+        var rx = checks[key];
+        var matchedLine = null;
+        for (var i = 0; i < lines.length; i++) {
+          if (rx.test(lines[i])) {
+            matchedLine = lines[i];
+            break;
+          }
         }
-        signals[key] = { status: found ? "included" : "unclear" };
+        if (matchedLine) {
+          if (negationRx.test(matchedLine)) {
+            signals[key] = { status: "excluded" };
+          } else {
+            signals[key] = { status: "included" };
+          }
+        } else {
+          signals[key] = { status: "unclear" };
+        }
       }
       return signals;
     }
@@ -785,9 +818,21 @@
     async function processFile(file) {
       try {
         // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        // S1 (forceAI cross-vertical audit 2026-05-03): mirrors W1/MV-1/INS-1.
+        // Without forceAI, TP_Engine's shouldCallAI gate
+        // (!skipAI && (forceAI || !result.price)) short-circuits the
+        // /api/siding-estimate call whenever regex extracts a price (which
+        // is every well-formed quote), leaving aiData=null and the API-only
+        // contractor / stateCode / warranty / brand fields permanently null.
+        // Siding's local detectBrand/detectSidingType handle most material
+        // detection, but contractor (especially logo-based letterheads) and
+        // warranty-term extraction require Claude. Baseline 2026-05-03
+        // showed 18/21 known-fails caused by this single missing flag
+        // (6 contractor + 6 stateCode + 6 warranty across f1-f6).
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "siding",
           apiEndpoint: "/api/siding-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 

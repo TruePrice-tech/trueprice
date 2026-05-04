@@ -1,0 +1,293 @@
+{
+  "ts": "2026-05-04T00:52:51.113Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-greater-cincinnati-high": {
+      "verdictPrice": 23620,
+      "details": {
+        "siding type": "Fiber Cement (Hardie)",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$13.12/sqft",
+        "brand": "James Hardie (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "included",
+        "disposal": "included",
+        "permits": "included",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $22,250 -- 6% above average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Fiber Cement (Hardie)",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$13.12/sqft",
+      "displayBrand": "James Hardie (premium tier)",
+      "failures": [
+        "contractor: expected match /greater\\s*cincinnati\\s*siding/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /lifetime|30[-\\s]*year|hardie/, got \"\""
+      ]
+    },
+    "f2-queen-city-mid": {
+      "verdictPrice": 14880,
+      "details": {
+        "siding type": "Vinyl Siding",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$8.27/sqft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "not mentioned",
+        "disposal": "included",
+        "permits": "not mentioned",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "included"
+      },
+      "rangeText": "Market benchmark: $12,150 -- 22% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Vinyl Siding",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$8.27/sqft",
+      "displayBrand": null,
+      "failures": [
+        "contractor: expected match /queen\\s*city\\s*exteriors/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /10[-\\s]*year|10\\s*yr|50[-\\s]*year/, got \"\"",
+        "scopeFound:soffit: expected \"Included\", got \"(missing row)\""
+      ]
+    },
+    "f3-ohio-vinyl-low": {
+      "verdictPrice": 9040,
+      "details": {
+        "siding type": "Vinyl Siding",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$5.02/sqft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "not mentioned",
+        "disposal": "not mentioned",
+        "permits": "not mentioned",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "included"
+      },
+      "rangeText": "Market benchmark: $12,150 -- 26% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Vinyl Siding",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$5.02/sqft",
+      "displayBrand": null,
+      "failures": [
+        "contractor: expected match /ohio\\s*vinyl\\s*siding/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:houseWrap: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f4-greater-cincinnati-high-messy": {
+      "verdictPrice": 23620,
+      "details": {
+        "siding type": "Fiber Cement (Hardie)",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$13.12/sqft",
+        "brand": "James Hardie (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "included",
+        "disposal": "included",
+        "permits": "included",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $22,250 -- 6% above average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Fiber Cement (Hardie)",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$13.12/sqft",
+      "displayBrand": "James Hardie (premium tier)",
+      "failures": [
+        "contractor: expected match /greater\\s*cincinnati\\s*siding/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /lifetime|30[-\\s]*year|hardie/, got \"\""
+      ]
+    },
+    "f5-queen-city-mid-messy": {
+      "verdictPrice": 14880,
+      "details": {
+        "siding type": "Vinyl Siding",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$8.27/sqft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "not mentioned",
+        "disposal": "included",
+        "permits": "not mentioned",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "included"
+      },
+      "rangeText": "Market benchmark: $12,150 -- 22% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Vinyl Siding",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$8.27/sqft",
+      "displayBrand": null,
+      "failures": [
+        "contractor: expected match /queen\\s*city\\s*exteriors/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /10[-\\s]*year|10\\s*yr|50[-\\s]*year/, got \"\""
+      ]
+    },
+    "f6-ohio-vinyl-low-messy": {
+      "verdictPrice": 9040,
+      "details": {
+        "siding type": "Vinyl Siding",
+        "wall area": "1,800 sq ft",
+        "stories": "1 Story",
+        "condition": "Good",
+        "per sqft cost": "$5.02/sqft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "removal": "included",
+        "houseWrap": "included",
+        "flashing": "not mentioned",
+        "trimFascia": "included",
+        "caulking": "not mentioned",
+        "painting": "not mentioned",
+        "disposal": "not mentioned",
+        "permits": "not mentioned",
+        "warranty": "included",
+        "cornerPosts": "not mentioned",
+        "jChannel": "included"
+      },
+      "rangeText": "Market benchmark: $12,150 -- 26% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiSidingType": null,
+      "apiSquareFootage": null,
+      "apiWarranty": null,
+      "displaySidingType": "Vinyl Siding",
+      "displayWallArea": "1,800 sq ft",
+      "displayPerSqft": "$5.02/sqft",
+      "displayBrand": null,
+      "failures": [
+        "contractor: expected match /ohio\\s*vinyl\\s*siding/, got null",
+        "stateCode: expected \"OH\", got no API response (forceAI?)",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:houseWrap: expected NOT \"Included\", got \"included\""
+      ]
+    }
+  }
+}
