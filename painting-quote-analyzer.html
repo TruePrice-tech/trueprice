@@ -411,12 +411,21 @@
 
     // ── Painting Pricing Model ──
     var PAINT_PRICING = {
+      // P-K8 re-anchored to data/painting-pricing.json published ranges:
+      // exterior body only $1.25-$3.50/sqft, exterior full $1.75-$4.50/sqft;
+      // interior whole house $1.80-$5.50/sqft (with ceilings up to $6.40);
+      // cabinet repaint $2,200-$6,500. Pre-K8 the basePricePerSqft.exterior_standard
+      // was a narrow $2-$4/sqft band (a 2x spread) -- $3,280 1-coat ext at
+      // 2200sqft ($1.49/sqft, just below band low) verdicted "UNUSUALLY LOW
+      // 55% below average" against single $7,300 midpoint. Widen ranges to
+      // match published data so range-based verdicts treat in-range or
+      // near-range prices as "Below Average" or "Fair", not "Unusually Low".
       basePricePerSqft: {
-        exterior_standard: { label: "Exterior - Standard (1 Coat)", low: 2.00, high: 4.00, mid: 3.00 },
-        exterior_premium: { label: "Exterior - Premium (2 Coats)", low: 3.00, high: 6.00, mid: 4.50 },
-        interior_standard: { label: "Interior - Standard", low: 1.50, high: 3.00, mid: 2.25 },
-        interior_premium: { label: "Interior - Premium", low: 2.50, high: 5.00, mid: 3.75 },
-        cabinet_painting: { label: "Cabinet Painting", flatLow: 3000, flatHigh: 7000, flatMid: 5000 }
+        exterior_standard: { label: "Exterior - Standard (1 Coat)", low: 1.50, high: 4.00, mid: 2.75 },
+        exterior_premium: { label: "Exterior - Premium (2 Coats)", low: 2.50, high: 6.00, mid: 4.25 },
+        interior_standard: { label: "Interior - Standard", low: 1.50, high: 3.50, mid: 2.50 },
+        interior_premium: { label: "Interior - Premium", low: 2.50, high: 5.50, mid: 4.00 },
+        cabinet_painting: { label: "Cabinet Painting", flatLow: 2500, flatHigh: 7000, flatMid: 4750 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       roundTo: 50,
@@ -563,6 +572,67 @@
       if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
       if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
       return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // P-K8 (TRUST-CRITICAL, mirror kitchen K8): range-based verdict.
+    // Pre-fix calcBenchmark returned just the midpoint and verdictFromRatio
+    // bucketed price/midpoint. Problem: PAINT_PRICING.basePricePerSqft.exterior_standard
+    // spans $2-$4/sqft (a 2x spread) -- a perfectly fair $3,280 BUDGET 1-coat
+    // exterior at 2200 sqft (= $1.49/sqft, just below $2/sqft low) verdicted
+    // "UNUSUALLY LOW 55% below average" against a $7,300 midpoint benchmark,
+    // because the JSON range itself was 2x wide. Migrate to range-based:
+    // bucket against the published [low, high] range, not a single midpoint.
+    function verdictFromRange(price, range) {
+      if (!range || !(range.low > 0) || !(range.high > 0)) {
+        // Fallback to midpoint ratio if range unavailable.
+        var mid = (range && range.mid) || 1;
+        return verdictFromRatio(price / mid);
+      }
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    function calcBenchmarkRange(projectType, sqft, paintQuality, condition, region) {
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var laborMult = cityMult || (PAINT_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var conditionMult = CONDITION_MULTS[condition] || 1.0;
+
+      if (projectType === "cabinets") {
+        var cabData = PAINT_PRICING.basePricePerSqft.cabinet_painting;
+        var cabCommon = laborMult * INFLATION_MULT;
+        return {
+          low:  roundTo50(cabData.flatLow  * cabCommon),
+          mid:  roundTo50(cabData.flatMid  * cabCommon),
+          high: roundTo50(cabData.flatHigh * cabCommon)
+        };
+      }
+
+      if (projectType === "both") {
+        var extKey = "exterior_" + (paintQuality === "premium" ? "premium" : "standard");
+        var intKey = "interior_" + (paintQuality === "premium" ? "premium" : "standard");
+        var extData = PAINT_PRICING.basePricePerSqft[extKey];
+        var intData = PAINT_PRICING.basePricePerSqft[intKey];
+        var bothCommon = sqft * laborMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+        return {
+          low:  roundTo50((extData.low  + intData.low ) * bothCommon),
+          mid:  roundTo50((extData.mid  + intData.mid ) * bothCommon),
+          high: roundTo50((extData.high + intData.high) * bothCommon)
+        };
+      }
+
+      var key = getPricingKey(projectType, paintQuality);
+      var pricing = PAINT_PRICING.basePricePerSqft[key];
+      if (!pricing) pricing = PAINT_PRICING.basePricePerSqft.exterior_standard;
+
+      var common = sqft * laborMult * conditionMult * INFLATION_MULT * SEASONAL_MULT;
+      return {
+        low:  roundTo50(pricing.low  * common),
+        mid:  roundTo50(pricing.mid  * common),
+        high: roundTo50(pricing.high * common)
+      };
     }
 
     // ── Paint-specific quote parsing ──
@@ -932,10 +1002,17 @@ setProgress(90, "Almost done...");
         if (brand && brand.tier === "premium") paintQuality = "premium";
         var region = getRegionFromState(state.address.stateCode);
 
-        var benchmark = calcBenchmark(paintType.value, effectiveSqft, paintQuality, "good", region);
-
+        // P-K8: range-based verdict (mirror kitchen K8). calcBenchmarkRange
+        // returns { low, mid, high } from PAINT_PRICING.basePricePerSqft so
+        // verdictFromRange can bucket against the JSON [low, high] band
+        // instead of a single midpoint that mis-verdicted in-range BUDGET
+        // / ROCKY / cabinet quotes as "UNUSUALLY LOW" pre-fix. Display
+        // continues to surface r.benchmark for back-compat; r.range is
+        // what renderResult uses for the Typical-range copy.
+        var range = calcBenchmarkRange(paintType.value, effectiveSqft, paintQuality, "good", region);
+        var benchmark = range.mid;
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var verdict = verdictFromRange(confirmedPrice, range);
 
         // Brand note
         var brandNote = "";
@@ -967,6 +1044,7 @@ setProgress(90, "Almost done...");
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
+          range: range,
           ratio: ratio,
           verdict: verdict,
           paintType: paintType,
@@ -1284,11 +1362,30 @@ setProgress(90, "Almost done...");
       var rangeText = "";
 
       if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        // P-K8 (mirror kitchen K8): show typical range, not single benchmark.
+        // Pre-fix: "Market benchmark: $7,300 -- 55% below average" for an
+        // in-range $3,280 quote made buyers think they got a steal when
+        // they actually paid a fair budget-tier price. Post-fix: "Typical
+        // range: $4,800 - $9,600 -- inside the typical range" / "X% below
+        // typical low" / "Y% above typical high".
+        if (r.range && r.range.low > 0 && r.range.high > 0) {
+          rangeText = "Typical range: " + fmt(r.range.low) + " - " + fmt(r.range.high);
+          if (r.quotePrice >= r.range.low * 0.92 && r.quotePrice <= r.range.high * 1.05) {
+            rangeText += " -- inside the typical range";
+          } else if (r.quotePrice < r.range.low) {
+            var pctLow = Math.round((1 - r.quotePrice / r.range.low) * 100);
+            rangeText += " -- " + pctLow + "% below typical low";
+          } else if (r.quotePrice > r.range.high) {
+            var pctHigh = Math.round((r.quotePrice / r.range.high - 1) * 100);
+            rangeText += " -- " + pctHigh + "% above typical high";
+          }
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
