@@ -1,0 +1,79 @@
+{
+  "ts": "2026-05-04T20:25:07.202Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "wh-tank-50-gas-south": {
+      "price": 2200,
+      "band": {
+        "low": 1800,
+        "high": 3500
+      },
+      "label": "50-gal gas tank water heater, Texas (south baseline)",
+      "failures": []
+    },
+    "wh-tankless-gas-west": {
+      "price": 5250,
+      "band": {
+        "low": 4200,
+        "high": 9500
+      },
+      "label": "Tankless gas water heater, California (west labor)",
+      "failures": []
+    },
+    "wh-indirect-southeast": {
+      "price": 5775,
+      "band": {
+        "low": 4500,
+        "high": 9500
+      },
+      "label": "Indirect water heater (boiler-fed), Georgia (southeast)",
+      "failures": []
+    },
+    "repipe-pex-south-2bath": {
+      "price": 5775,
+      "band": {
+        "low": 4500,
+        "high": 8500
+      },
+      "label": "PEX whole-house repipe, 2-bath, Texas (south baseline)",
+      "failures": []
+    },
+    "repipe-copper-northeast-3bath": {
+      "price": 11725,
+      "band": {
+        "low": 8500,
+        "high": 16000
+      },
+      "label": "Copper whole-house repipe, 3-bath, New York (northeast labor)",
+      "failures": []
+    },
+    "sewer-trenchless-midwest": {
+      "price": 8100,
+      "band": {
+        "low": 6500,
+        "high": 13500
+      },
+      "label": "Trenchless sewer line replacement, Illinois (midwest)",
+      "failures": []
+    },
+    "bath-rough-in-full-west": {
+      "price": 5625,
+      "band": {
+        "low": 4500,
+        "high": 9500
+      },
+      "label": "Full-bath rough-in plumbing, California (west)",
+      "failures": []
+    },
+    "gas-line-medium-south": {
+      "price": 1500,
+      "band": {
+        "low": 1000,
+        "high": 2800
+      },
+      "label": "20-50ft gas line install, Texas (south)",
+      "failures": []
+    }
+  }
+}
