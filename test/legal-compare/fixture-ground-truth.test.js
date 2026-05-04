@@ -316,8 +316,22 @@ function compare(scenario, actual) {
   const browser = await launchHarnessBrowser();
   const out = { ts: new Date().toISOString(), base: BASE, results: {} };
 
+  // LP-A3 timing: api/_abuse-guard.js BURST_MAX is 15 req in a 10s window.
+  // Each compare scenario uploads 3 fixtures (3 API calls). Three scenarios
+  // back-to-back = 9 calls. If they're all cache-warm and land sub-second
+  // each, plus any analyzer-harness calls that ran just before, total can
+  // exceed 15 in 10s and blocklist the IP for 5 min. Sleep BETWEEN scenarios
+  // to fully clear the burst window. Within-scenario the slot upload waits
+  // (waitForFunction) already serialize uploads through Claude latency.
+  const SCENARIO_GAP_MS = 12000;
+
   let totalFails = 0;
+  let scenarioIdx = 0;
   for (const sc of SCENARIOS) {
+    if (scenarioIdx > 0) {
+      await new Promise(r => setTimeout(r, SCENARIO_GAP_MS));
+    }
+    scenarioIdx++;
     process.stdout.write(`  ${sc.id} ... `);
     try {
       const actual = await uploadAndCompare(browser, sc);

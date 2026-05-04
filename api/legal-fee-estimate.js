@@ -38,7 +38,14 @@ async function captureAnonymizedData(vertical, parsed) {
   }
 }
 
-const RATE_LIMIT_MAX = 60;
+// LP-A6 (price-sanity round-2 2026-05-03): bumped 60 -> 120 to mirror
+// medical M5 (project_medical_dive_followups.md). The compare harness
+// runs 9 calls per full pass (3 scenarios × 3 slots) and back-to-back
+// runs of analyzer+compare can burn 30+ calls in a few minutes; the
+// previous 60/hr limit tripwired the regression suite. Real users
+// uploading 1-3 quotes are nowhere near 120/hr; the abuse-guard burst
+// (15 req/10s) and per-IP-daily (500/day) are the tighter gates.
+const RATE_LIMIT_MAX = 120;
 const RATE_LIMIT_WINDOW_SEC = 3600;
 
 const memoryRateLimit = new Map();
