@@ -532,6 +532,23 @@ function extractPriceCandidates(text) {
     ) {
       sourceType = "warranty_mileage_not_price";
     } else if (/[OIlSBGZAoilsbgza]/.test(matchText)) {
+      // P-PARSER-OCR-REPAIR (cross-vertical, painting f3 deep test 2026-05-03):
+      // require a $ prefix in the matchText itself when the candidate
+      // contains OCR-confused letters. Without $, the "candidate" is a
+      // bare digit-letter sequence in OCR noise (status bars, page
+      // numbers, time strings, addresses, dimensions) -- not a price.
+      // Painting f3 surface: dark-mode notes-app screenshot phone status
+      // bar "9:03 1%" OCR'd to "903s A MM - QUAE1%" -- "903s" got
+      // repaired to $9,035 and BEAT the legitimate "Total $475" /
+      // "Total $550" / "Total $450" labeled overrides because the engine's
+      // _overrideIsSuspect check rejected them as "too tiny" vs the
+      // phantom $9,035 (analyzer-engine.js:541).
+      // ocr_repaired_candidate already has rank 1 (the lowest positive
+      // rank) so it only wins when nothing better survives; this guard
+      // ensures it must at least have a $ marker to be considered.
+      if (!/\$/.test(matchText)) {
+        continue;
+      }
       sourceType = "ocr_repaired_candidate";
     }
 
