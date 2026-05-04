@@ -725,30 +725,69 @@
       return /fiber[\s-]?(?:reinforc|mesh|mix|added)|fibermesh|fibrous/i.test(text);
     }
 
+    // CONC-5 (2026-05-03): negation-aware. Mirror of siding S2 / insulation
+    // I1+I2 / kitchen K4 / landscaping LND-2 / foundation F1. Previously
+    // this scanned the whole text blob with positive-only regex (e.g.
+    // /seal(ant|er|ing)?/), so f3-class fixtures fired /seal/ on
+    // "Sealer NOT included." → falsely shown as Included.
+    //
+    // Decisive trust signal flipped: a buyer comparing the f1 Precision
+    // \$12,100 premium quote (sealer + drainage INCLUDED with 2-coat
+    // penetrating + 5-year reapply) against the f3 Quick Pour \$4,840
+    // bargain (EXPLICITLY "Sealer NOT included.") would have seen both
+    // showing sealer Included, making the price gap look like
+    // unexplained gouging when the real story is scope cut. Sealer is the
+    // most common concrete upcharge change-order item; mis-detecting it
+    // as included undermines the analyzer's trust-signal job.
+    //
+    // Per-line scan + concrete-specific negation regex catches "Sealer NOT
+    // included." / "Permits not provided" / "without rebar" / "no warranty"
+    // / "X excluded" / "X not in scope".
     function detectConcreteScope(text) {
-      var t = text.toLowerCase();
-      var signals = {};
+      var t = (text || "").toLowerCase();
+      var lines = t.split(/\n|(?:\.\s+)/);
+
       var checks = {
-        demolition: [/demoli|tear[\s-]*out|remov(e|al)\s*(of\s*)?(existing|old|current)/],
-        grading: [/grad(e|ing)|level(ing)?|slope/],
-        basePrep: [/base\s*prep|gravel|compact(ion|ed)|sub[\s-]*base|crushed\s*stone/],
-        forms: [/form(s|work)?|framing/],
-        rebarMesh: [/rebar|reinforc|wire\s*mesh|steel\s*mesh|#\d\s*bar/],
-        concretePour: [/pour|concrete\s*(?:work|install|place)|ready[\s-]*mix|yard(s)?\s*(?:of\s*)?concrete/],
-        finishing: [/finish(ing)?|broom|smooth|stamp(ed)?|texture|trowel/],
-        sealing: [/seal(ant|er|ing)?|cur(e|ing)\s*compound|protect(ant|ive)/],
-        expansionJoints: [/expansion\s*joint|control\s*joint|saw[\s-]*cut|joint/],
-        permits: [/permit|inspection|code\s*compliance/],
-        cleanup: [/clean[\s-]*up|haul[\s-]*away|debris\s*removal|disposal/],
-        warranty: [/warrant|guarant/],
-        cureTime: [/cure\s*time|curing|dry(ing)?\s*time|\d+\s*day(s)?\s*(before|until|cure)/]
+        demolition: /demoli|tear[\s-]*out|remov(?:e|al)\s*(?:of\s*)?(?:existing|old|current)/i,
+        grading: /\bgrad(?:e|ing)|level(?:ing)?|\bslope\b/i,
+        basePrep: /base\s*prep|\bgravel\b|compact(?:ion|ed)|sub[\s-]*base|crushed\s*stone/i,
+        forms: /\bform(?:s|work)?\b|\bframing\b/i,
+        rebarMesh: /\brebar\b|reinforc|wire\s*mesh|steel\s*mesh|#\d\s*bar/i,
+        concretePour: /\bpour\b|concrete\s*(?:work|install|place)|ready[\s-]*mix|yard(?:s)?\s*(?:of\s*)?concrete/i,
+        finishing: /finish(?:ing)?|\bbroom\b|\bsmooth\b|stamp(?:ed)?|texture|trowel/i,
+        sealing: /\bseal(?:ant|er|ing)?\b|cur(?:e|ing)\s*compound|protect(?:ant|ive)/i,
+        expansionJoints: /expansion\s*joint|control\s*joint|saw[\s-]*cut|\bjoint\b/i,
+        permits: /\bpermit\b|\binspection\b|code\s*compliance/i,
+        cleanup: /clean[\s-]*up|haul[\s-]*away|debris\s*removal|\bdisposal\b/i,
+        warranty: /\bwarrant\w*|\bguarant\w*/i,
+        cureTime: /cure\s*time|curing|dry(?:ing)?\s*time|\d+\s*day(?:s)?\s*(?:before|until|cure)/i
       };
 
-      Object.keys(checks).forEach(function(key) {
-        var found = checks[key].some(function(rx) { return rx.test(t); });
-        signals[key] = { status: found ? "included" : "unclear" };
-      });
+      // Negation patterns within the matched line. If present, mark
+      // status:"excluded" so the analyzer renders "Not included" instead
+      // of "Included" for that scope item.
+      var negationRx = /\bnot\s+(?:included|provided|covered|in\s+scope|part)\b|\bno\s+(?:sealer|seal|sealing|permit|permits|warranty|guarantee|rebar|reinforcement|cleanup|disposal|haul|grading|joint|joints|forms|base|prep)\b|\bexcluded\b|\bwithout\s+(?:sealer|sealing|permit|warranty|rebar|reinforcement|grading|joints|forms|base)\b/i;
 
+      var signals = {};
+      for (var key in checks) {
+        var rx = checks[key];
+        var matchedLine = null;
+        for (var i = 0; i < lines.length; i++) {
+          if (rx.test(lines[i])) {
+            matchedLine = lines[i];
+            break;
+          }
+        }
+        if (matchedLine) {
+          if (negationRx.test(matchedLine)) {
+            signals[key] = { status: "excluded" };
+          } else {
+            signals[key] = { status: "included" };
+          }
+        } else {
+          signals[key] = { status: "unclear" };
+        }
+      }
       return signals;
     }
 
