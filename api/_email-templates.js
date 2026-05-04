@@ -100,6 +100,37 @@ export function magicLinkTemplate({ verifyUrl, ttlMinutes }) {
   return { subject, html };
 }
 
+// Pro tier purchase confirmation. Sent transactionally per CAN-SPAM
+// § 7702(17)(A) — confirms a transaction the recipient initiated.
+// expiresAtMs: when Pro access ends (ms since epoch).
+export function proConfirmationTemplate({ expiresAtMs }) {
+  const expiresDate = new Date(Number(expiresAtMs) || Date.now());
+  const expiresStr = expiresDate.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  const subject = "Your Woogoro Pro Report is active";
+  const html = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1e293b;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img src="${IRIS_HEADSHOT}" alt="Iris" width="84" height="84" style="border-radius:50%;border:3px solid #f1f5f9;">
+    </div>
+    <h1 style="font-size:22px;margin:0 0 16px;text-align:center;color:#0f172a;">You're in. Pro is active.</h1>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">Thanks for backing Woogoro. Your $19 Pro Report is live across every analyzer on the site for the next 30 days &mdash; through <strong>${expiresStr}</strong>.</p>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px;">To use it, just <a href="${SITE_ORIGIN}/analyze-my-quote.html" style="color:#1d4ed8;">upload a quote</a> like normal. The Pro sections (contractor red flags, line-item benchmarks, negotiation script, rebate hunt) will appear inline below your free verdict. Nothing else changes &mdash; the free analysis you already get stays free, forever.</p>
+    <p style="font-size:15px;line-height:1.6;margin:0 0 14px;"><strong>One thing to know:</strong> Pro is tied to this browser, not your email. If you switch browsers or devices and lose access, just reply to this email with your Stripe receipt and we'll move your Pro over. (We're working on a real cross-device restore.)</p>
+    <p style="font-size:15px;line-height:1.6;margin:18px 0 8px;"><strong>Refund policy</strong></p>
+    <ul style="font-size:14px;line-height:1.7;margin:0 0 14px;padding-left:20px;color:#475569;">
+      <li>1-hour cooling-off, no questions asked &mdash; self-service button on the success page.</li>
+      <li>7 days if you haven't opened a Pro report yet &mdash; same self-service button.</li>
+      <li>Outside those windows: reply to this email and we'll work it out case by case.</li>
+    </ul>
+    <p style="font-size:14px;line-height:1.6;margin:18px 0 0;color:#475569;">Reply to this email if anything looks off. It hits a real human (Geoff, Woogoro's founder).</p>
+    <p style="font-size:14px;line-height:1.6;margin:14px 0 0;color:#475569;">&mdash; Iris</p>
+  </div>`;
+  return { subject, html };
+}
+
 // Monthly digest. interests is an array of { city, stateCode, service, change }
 // where change is { currentAvg, baseline, deviation, currentQuotes } or null.
 // Returns null if there's nothing meaningful to say (all interests skipped).

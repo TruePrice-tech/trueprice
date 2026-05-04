@@ -16,6 +16,8 @@
 // (200 OK) without re-running the side effect.
 
 import { grantPro, revokePro, isEventSeen, markEventSeen, getStripe, isValidProToken } from "./_pro.js";
+import { sendEmail, hashEmail } from "./_email-send.js";
+import { proConfirmationTemplate } from "./_email-templates.js";
 
 export const config = {
   api: {
@@ -121,6 +123,36 @@ export default async function handler(req, res) {
           sessionId: session.id,
           purchasedAt: (session.created ? session.created * 1000 : Date.now()),
         });
+
+        // Send a branded confirmation email. Stripe Checkout collects the
+        // customer email on its hosted page; it lands on session.customer_details.email.
+        // We only send on a *new* grant (idempotent: webhook retries for the
+        // same session won't double-email). Failure is logged but non-fatal —
+        // the grant has already happened and we don't want Stripe to retry
+        // the whole webhook over an email send blip.
+        if (grant.granted) {
+          const buyerEmail = session.customer_details && session.customer_details.email;
+          if (buyerEmail) {
+            try {
+              const tpl = proConfirmationTemplate({ expiresAtMs: grant.state.expiresAt });
+              const r = await sendEmail({
+                to: buyerEmail,
+                subject: tpl.subject,
+                html: tpl.html,
+                emailHash: hashEmail(buyerEmail),
+                purpose: "transactional",
+              });
+              if (!r || !r.ok) {
+                console.error("[pro-webhook] confirmation email failed:", r && r.reason, r && r.body);
+              }
+            } catch (e) {
+              console.error("[pro-webhook] confirmation email exception:", e && e.message);
+            }
+          } else {
+            console.error("[pro-webhook] no customer_details.email on session", session.id);
+          }
+        }
+
         result = { ok: true, granted: grant.granted };
         break;
       }
