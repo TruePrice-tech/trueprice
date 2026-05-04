@@ -442,11 +442,14 @@
       // calls (Roto-Rooter, Mr Rooter, ARS, Benjamin Franklin) which
       // routinely 1.5-2x independent plumber rates.
       priceRangeBySubType: {
-        // Water heater: tank vs tankless vs heat-pump (JSON commonJobs total).
-        tank_40_gas:       { low: 1200, mid: 1800, high: 2700 },
-        tank_50_gas:       { low: 1500, mid: 2200, high: 3200 },
-        tank_40_electric:  { low: 1100, mid: 1500, high: 2300 },
-        tank_50_electric:  { low: 1300, mid: 1800, high: 2700 },
+        // Water heater: tank vs tankless vs heat-pump (JSON commonJobs total
+        // $800-$2,000 install + parts $700-$2,200; budget Home Depot promo
+        // turnkey can hit $1,000-$1,400 -- range floor reflects that, not
+        // the analyzer's pre-fix tier-mid).
+        tank_40_gas:       { low: 950,  mid: 1500, high: 2400 },
+        tank_50_gas:       { low: 1100, mid: 1800, high: 2800 },
+        tank_40_electric:  { low: 900,  mid: 1300, high: 2000 },
+        tank_50_electric:  { low: 1000, mid: 1500, high: 2300 },
         tankless_gas:      { low: 3000, mid: 4500, high: 8000 },
         tankless_electric: { low: 2400, mid: 3200, high: 5000 },
         hybrid_heat_pump:  { low: 2800, mid: 3800, high: 5500 },
