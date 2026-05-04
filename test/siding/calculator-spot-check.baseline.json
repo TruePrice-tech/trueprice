@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T11:32:11.542Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "vinyl-1500-1story-good-nc": {
+      "total": 9250,
+      "band": {
+        "low": 6000,
+        "high": 12000
+      },
+      "label": "Vinyl 1,500 sqft 1-story good, NC",
+      "failures": []
+    },
+    "hardie-2000-2story-fair-mw": {
+      "total": 30850,
+      "band": {
+        "low": 22000,
+        "high": 40000
+      },
+      "label": "Fiber cement (Hardie) 2,000 sqft 2-story fair, MW",
+      "failures": []
+    },
+    "wood-1500-2story-good-ne": {
+      "total": 19350,
+      "band": {
+        "low": 14000,
+        "high": 25000
+      },
+      "label": "Wood siding 1,500 sqft 2-story good, NE",
+      "failures": []
+    },
+    "stone-800-1story-good-ca": {
+      "total": 21950,
+      "band": {
+        "low": 14000,
+        "high": 30000
+      },
+      "label": "Stone veneer 800 sqft 1-story good, CA",
+      "failures": []
+    },
+    "engwood-2500-3story-poor-tx": {
+      "total": 35100,
+      "band": {
+        "low": 25000,
+        "high": 50000
+      },
+      "label": "Engineered wood 2,500 sqft 3-story poor condition, TX",
+      "failures": []
+    }
+  }
+}

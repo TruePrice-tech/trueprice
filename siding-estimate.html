@@ -326,6 +326,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/siding-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -350,48 +352,11 @@
     "use strict";
 
     // ── Siding Pricing Model ──
-    var SIDE_PRICING = {
-      basePriceByType: {
-        vinyl: { label: "Vinyl Siding", lowPerSqft: 4, highPerSqft: 8 },
-        fiber_cement: { label: "Fiber Cement (Hardie)", lowPerSqft: 8, highPerSqft: 14 },
-        wood: { label: "Wood Siding", lowPerSqft: 7, highPerSqft: 12 },
-        engineered_wood: { label: "Engineered Wood (LP SmartSide)", lowPerSqft: 6, highPerSqft: 10 },
-        stone_veneer: { label: "Stone Veneer", lowPerSqft: 15, highPerSqft: 30 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      roundTo: 50,
-      scopeItems: [
-        { key: "removal", label: "Old siding removal", weight: 10 },
-        { key: "houseWrap", label: "House wrap / weather barrier", weight: 12 },
-        { key: "flashing", label: "Flashing (windows, doors, corners)", weight: 8 },
-        { key: "trimFascia", label: "Trim and fascia", weight: 10 },
-        { key: "soffit", label: "Soffit", weight: 8 },
-        { key: "caulking", label: "Caulking and sealant", weight: 6 },
-        { key: "painting", label: "Painting / finishing", weight: 8 },
-        { key: "disposal", label: "Debris removal and disposal", weight: 6 },
-        { key: "permits", label: "Permits and inspections", weight: 6 },
-        { key: "warranty", label: "Warranty (materials + labor)", weight: 10 },
-        { key: "cornerPosts", label: "Corner posts", weight: 6 },
-        { key: "jChannel", label: "J-channel", weight: 6 }
-      ],
-      brands: {
-        premium: ["James Hardie", "Hardie", "Boral", "Nichiha"],
-        mid: ["LP SmartSide", "CertainTeed", "Ply Gem", "Mastic"],
-        value: ["Alside", "Norandex", "Georgia-Pacific", "Kaycan"]
-      }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/siding-calc.js (UMD).
+    var _SIDCALC = (typeof window !== "undefined" && window.WoogoroSidingCalc) || null;
+    if (!_SIDCALC) { console.error("[siding-estimate] /js/siding-calc.min.js failed to load"); return; }
+    var SIDE_PRICING = _SIDCALC.SIDE_PRICING;
+    var STATE_REGIONS = _SIDCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -426,66 +391,43 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _SIDCALC.getRegionFromState;
+    var storyMult = _SIDCALC.storyMult;
+    var conditionMult = _SIDCALC.conditionMult;
 
-    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=siding")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: siding peaks in spring/summer
-    var SEASONAL_MULTS = { 1:0.93, 2:0.93, 3:0.96, 4:1.02, 5:1.08, 6:1.10, 7:1.10, 8:1.06, 9:1.02, 10:0.97, 11:0.93, 12:0.92 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
-
-    // Story multiplier
-    function storyMult(stories) {
-      if (stories === "3") return 1.30;
-      if (stories === "2") return 1.15;
-      return 1.0;
-    }
-
-    // Condition multiplier
-    function conditionMult(cond) {
-      if (cond === "poor") return 1.35;
-      if (cond === "fair") return 1.15;
-      return 1.0;
-    }
+    var SEASONAL_MULT = _SIDCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(sidingType, wallSqft, stories, condition) {
-      var typeData = SIDE_PRICING.basePriceByType[sidingType];
-      if (!typeData) typeData = SIDE_PRICING.basePriceByType.vinyl;
-
-      var midPerSqft = (typeData.lowPerSqft + typeData.highPerSqft) / 2;
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (SIDE_PRICING.laborMultiplierByRegion[region] || 1.0);
-
-      var total = midPerSqft * wallSqft * laborMult * storyMult(stories) * conditionMult(condition) * INFLATION_MULT * SEASONAL_MULT;
-
-      return roundTo50(total);
+      var out = _SIDCALC.calcSidingEstimate({
+        sidingType: sidingType, wallSqft: wallSqft, stories: stories, condition: condition,
+        region: getRegionFromState(state.address.stateCode),
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
-
     function calcRange(benchmark) {
-      return {
-        low: roundTo50(benchmark * 0.88),
-        high: roundTo50(benchmark * 1.15)
-      };
+      return { low: _SIDCALC.roundTo50(benchmark * 0.88), high: _SIDCALC.roundTo50(benchmark * 1.15) };
     }
 
     function verdictFromRatio(ratio) {
