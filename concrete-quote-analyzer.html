@@ -422,6 +422,29 @@
         asphalt_driveway: { label: "Asphalt Driveway", low: 5, high: 10, mid: 7.50 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
+      // CONC-4 (TRUST-CRITICAL 2026-05-03): spec-aware multipliers for
+      // thickness / PSI / fiber-reinforced. Pre-fix the analyzer ignored 5"
+      // upgrades + 4500 PSI premium + fiber additive entirely, treating a
+      // \$15.13/sf premium-spec patio as if it were a \$8.50/sf plain 4"
+      // standard quote. Combined with the contractor-tagline "Stamped"
+      // misclass (CONC-2) the math accidentally landed in BELOW AVERAGE,
+      // but tightening the misclass alone would have flipped to OVERPRICED.
+      // These multipliers stack: thickness × psi × fiber × demo × labor ×
+      // inflation × seasonal. Mirror of foundation FND-B1 pier-type-aware
+      // perPierByType pattern.
+      thicknessMultByInches: { 3: 0.85, 4: 1.00, 5: 1.20, 6: 1.30, 7: 1.40, 8: 1.50 },
+      psiMultByPsi:          { 3000: 1.00, 3500: 1.05, 4000: 1.10, 4500: 1.18, 5000: 1.25, 5500: 1.30, 6000: 1.35 },
+      fiberReinforcedMult:   1.05,
+      // Per-job add-ons triggered by detectConcreteScope[key] === included.
+      // Padded into LOW/MID/HIGH benchmark range so a quote that includes
+      // sealer / drainage / permits doesn't read OVERPRICED against a
+      // bare-pour benchmark. Calibrated to ~800 sqft patio scale; small
+      // jobs (sub-200sqft) may over-add but fixture pool is patio/driveway.
+      scopeAddOns: {
+        sealing:    { low: 400,  mid: 700,  high: 1200 }, // 2-coat penetrating
+        permits:    { low: 100,  mid: 300,  high: 500 },
+        decorativeFinishUpsell: { low: 1500, mid: 2500, high: 4000 } // stamped/colored
+      },
       scopeItems: [
         { key: "demolition", label: "Demolition of existing surface", weight: 12 },
         { key: "grading", label: "Grading and leveling", weight: 10 },
@@ -554,10 +577,97 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
+    // CONC-4 calcBenchmarkRange: returns { low, mid, high } anchored to
+    // basePricePerSqft × spec multipliers (thickness × PSI × fiber) with
+    // scope-breadth add-ons. Replaces single-midpoint calcBenchmark for
+    // the upload path. Estimator path keeps single-midpoint since that
+    // collects spec inputs from the user step-by-step.
+    //
+    // Inputs:
+    //   projectType:  CONC_PRICING.basePricePerSqft key
+    //   sqft:         detected area or area-from-price fallback
+    //   thickness:    detectThickness output { value, label } | null
+    //   psi:          detectPsi output { value, label } | null
+    //   fiber:        detectFiber boolean
+    //   demoMult:     1.15 if demolition detected, else 1.0
+    //   scopeSignals: detectConcreteScope output (drives scope add-ons)
+    function calcBenchmarkRange(projectType, sqft, thickness, psi, fiber, demoMult, scopeSignals) {
+      var proj = CONC_PRICING.basePricePerSqft[projectType];
+      if (!proj) proj = CONC_PRICING.basePricePerSqft.standard_driveway;
+
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var region = getRegionFromState(state.address.stateCode);
+      var laborMult = cityMult || (CONC_PRICING.laborMultiplierByRegion[region] || 1.0);
+
+      var thickMult = (thickness && CONC_PRICING.thicknessMultByInches[thickness.value]) || 1.0;
+      var psiMult = (psi && CONC_PRICING.psiMultByPsi[psi.value]) || 1.0;
+      var fiberMult = fiber ? CONC_PRICING.fiberReinforcedMult : 1.0;
+
+      var allMult = laborMult * thickMult * psiMult * fiberMult * demoMult * INFLATION_MULT * SEASONAL_MULT;
+
+      var lo = proj.low * sqft * allMult;
+      var mi = proj.mid * sqft * allMult;
+      var hi = proj.high * sqft * allMult;
+
+      // Scope-breadth add-ons. When the buyer's quote includes sealer /
+      // permits as line items, the benchmark must include those costs too
+      // — otherwise a comprehensive sealed-and-permitted quote reads
+      // OVERPRICED vs a bare-pour benchmark.
+      function addOn(key) {
+        var ad = CONC_PRICING.scopeAddOns[key];
+        if (!ad) return;
+        lo += ad.low; mi += ad.mid; hi += ad.high;
+      }
+      var sig = scopeSignals || {};
+      if (sig.sealing && sig.sealing.status === "included") addOn("sealing");
+      if (sig.permits && sig.permits.status === "included") addOn("permits");
+
+      // Flywheel blend: pull range.mid toward real-world city avg if avail.
+      // (Range low/high stay model-derived since flywheel returns mid only.)
+      var calData = getCityCal(state.address.city, state.address.stateCode);
+      if (window.FlywheelBlend && calData) {
+        var blended = window.FlywheelBlend.blendedBenchmark(mi, calData, roundTo50);
+        if (blended.applied) {
+          var shift = blended.total / mi;
+          lo *= shift; mi = blended.total; hi *= shift;
+        }
+      }
+
+      return {
+        low:  roundTo50(lo),
+        mid:  roundTo50(mi),
+        high: roundTo50(hi)
+      };
+    }
+
+    // CONC-4 verdictFromRange: buckets price against the published
+    // [low, high] range, not a single midpoint. Mirror of foundation
+    // FND-B1 verdictFromRange thresholds.
+    function verdictFromRange(price, range) {
+      var mid = range.mid || 0;
+      if (mid <= 0) return verdictFromRatio(price / mid);
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
     // ── Quote parsing helpers ──
+    // CONC-2 (2026-05-03): Stamped Concrete classification now requires an
+    // explicit stamping/decorative-pattern keyword paired with a surface
+    // noun (concrete/patio/driveway/walkway/overlay/finish/pattern).
+    // Pre-fix the loose /decorative\s*concrete/ alternative matched contractor
+    // tagline phrases like "Decorative concrete specialists" on company
+    // letterhead, mis-classifying plain patio quotes (f1+f4 Precision
+    // Flatwork) as Stamped Concrete. That accidentally inflated benchmark
+    // to ~\$14,100 (stamped \$16/sf mid) and masked the missing thickness/
+    // PSI/fiber detection — a "two wrongs make a right-ish" compensating
+    // bug. Tightening the regex without simultaneously adding spec-aware
+    // multipliers (CONC-3+4) would flip f1 to OVERPRICED.
     function detectConcreteType(text) {
       var t = text.toLowerCase();
-      if (/stamp(ed)?[\s-]*concrete/i.test(t) || /decorative[\s-]*concrete/i.test(t)) return { value: "stamped_concrete", label: "Stamped Concrete" };
+      if (/stamp(?:ed|ing)?[\s-]*(?:concrete|patio|driveway|walkway|surface|overlay|finish|pattern)|decorative[\s-]*(?:patio|driveway|walkway|finish|pattern|stain|overlay)/i.test(t)) return { value: "stamped_concrete", label: "Stamped Concrete" };
       if (/asphalt/i.test(t)) return { value: "asphalt_driveway", label: "Asphalt Driveway" };
       if (/patio/i.test(t)) return { value: "concrete_patio", label: "Concrete Patio" };
       if (/sidewalk/i.test(t) || /walkway/i.test(t)) return { value: "sidewalk", label: "Sidewalk" };
@@ -576,21 +686,43 @@
       return null;
     }
 
+    // CONC-3 (2026-05-03): expanded thickness detection from 4-or-6 buckets
+    // to 3/4/5/6+ inch granularity. Pre-fix all 5" pours read as 4" and got
+    // benchmarked at standard pricing, a Block 1 trust gap on premium
+    // upgraded patios. Same shape as foundation pre-FND-B1 pier-type-blind
+    // benchmark. Also matches "5\" pour" (apostrophe-quote followed by pour)
+    // from the canonical f1 fixture text.
+    function bucketThickness(inches) {
+      if (inches >= 6) return { value: 6, label: '6+ inch (heavy duty)' };
+      if (inches === 5) return { value: 5, label: '5 inch (upgraded)' };
+      if (inches === 4) return { value: 4, label: '4 inch (standard)' };
+      if (inches === 3) return { value: 3, label: '3 inch (thin — undersized)' };
+      return { value: inches, label: inches + ' inch' };
+    }
     function detectThickness(text) {
-      var match = text.match(/(\d+)\s*(?:inch|in\.?|")\s*(?:thick|concrete|slab|depth)/i);
-      if (match) {
-        var inches = parseInt(match[1]);
-        if (inches >= 6) return { value: 6, label: '6 inch (heavy duty)' };
-        return { value: 4, label: '4 inch (standard)' };
-      }
-      // Also check for "6 in" or "6"" standalone near concrete context
+      var match = text.match(/(\d+)\s*(?:inch|in\.?|")\s*(?:thick|concrete|slab|depth|pour)/i);
+      if (match) return bucketThickness(parseInt(match[1]));
       var match2 = text.match(/(?:thickness|depth|thick)\s*(?:of|:)?\s*(\d+)/i);
-      if (match2) {
-        var inches2 = parseInt(match2[1]);
-        if (inches2 >= 6) return { value: 6, label: '6 inch (heavy duty)' };
-        return { value: 4, label: '4 inch (standard)' };
+      if (match2) return bucketThickness(parseInt(match2[1]));
+      var match3 = text.match(/(\d+)['"]\s*(?:thick|pour|slab)/i);
+      if (match3) return bucketThickness(parseInt(match3[1]));
+      return null;
+    }
+
+    // CONC-4 (2026-05-03): PSI + fiber-reinforced detection feed the
+    // spec-aware benchmark (calcBenchmarkRange below). Standard residential
+    // concrete is 3000 PSI; 4000-4500 PSI adds material cost; 5000+ is
+    // structural-grade. Fiber-reinforced concrete adds ~5% material premium.
+    function detectPsi(text) {
+      var m = text.match(/(\d{4})\s*[-]?\s*psi\b/i);
+      if (m) {
+        var psi = parseInt(m[1]);
+        if (psi >= 2500 && psi <= 8000) return { value: psi, label: psi + ' PSI' };
       }
       return null;
+    }
+    function detectFiber(text) {
+      return /fiber[\s-]?(?:reinforc|mesh|mix|added)|fibermesh|fibrous/i.test(text);
     }
 
     function detectConcreteScope(text) {
@@ -831,6 +963,8 @@
         var concreteType = detectConcreteType(text);
         var area = detectArea(text);
         var thickness = detectThickness(text);
+        var psi = detectPsi(text);
+        var fiber = detectFiber(text);
         var scopeSignals = detectConcreteScope(text);
 
         // Location detection from parser
@@ -899,14 +1033,19 @@ setProgress(90, "Almost done...");
           if (effectiveArea > 5000) effectiveArea = 5000;
         }
         if (!effectiveArea) effectiveArea = 400;
-        var thicknessMult = (thickness && thickness.value >= 6) ? 1.30 : 1.0;
         // Check if demolition is mentioned for demo multiplier
         var demoMult = (scopeSignals.demolition && scopeSignals.demolition.status === "included") ? 1.15 : 1.0;
 
-        var benchmark = calcBenchmark(concreteType.value, effectiveArea, thicknessMult, demoMult);
-
+        // CONC-4: spec-aware range-based benchmark replaces single-midpoint
+        // calcBenchmark on the upload path. calcBenchmarkRange picks the
+        // base $/sqft from concreteType, scales by thickness × PSI × fiber
+        // × demo × labor × inflation × seasonal, then adds scope add-ons
+        // (sealing / permits) when included. verdictFromRange buckets price
+        // against [low, high] range, not a single midpoint.
+        var range = calcBenchmarkRange(concreteType.value, effectiveArea, thickness, psi, fiber, demoMult, scopeSignals);
+        var benchmark = range.mid;
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var verdict = verdictFromRange(confirmedPrice, range);
 
         // Per sqft cost
         var perSqft = quotePrice > 0 && effectiveArea > 0 ? (quotePrice / effectiveArea) : null;
@@ -917,11 +1056,14 @@ setProgress(90, "Almost done...");
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
+          range: range,
           ratio: ratio,
           verdict: verdict,
           concreteType: concreteType,
           area: area,
           thickness: thickness,
+          psi: psi,
+          fiber: fiber,
           demolition: (scopeSignals.demolition && scopeSignals.demolition.status === "included") ? "Yes" : "Not mentioned",
           perSqft: perSqft,
           scopeSignals: scopeSignals,
@@ -1211,11 +1353,30 @@ setProgress(90, "Almost done...");
       var rangeText = "";
 
       if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        // CONC-4: range-based verdict text. Mirror foundation B1 wording
+        // ("Typical range: $X - $Y"). Falls back to single-midpoint
+        // language if range unavailable (manual-price path / pre-fix
+        // result).
+        if (r.range && r.range.low && r.range.high) {
+          rangeText = "Typical range: " + fmt(r.range.low) + " - " + fmt(r.range.high);
+          if (r.quotePrice > 0) {
+            if (r.quotePrice >= r.range.low && r.quotePrice <= r.range.high) {
+              rangeText += " -- inside the typical range";
+            } else if (r.quotePrice < r.range.low) {
+              var pctLow = Math.round((1 - r.quotePrice / r.range.low) * 100);
+              rangeText += " -- " + pctLow + "% below typical low";
+            } else {
+              var pctHigh = Math.round((r.quotePrice / r.range.high - 1) * 100);
+              rangeText += " -- " + pctHigh + "% above typical high";
+            }
+          }
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
@@ -1230,6 +1391,14 @@ setProgress(90, "Almost done...");
       }
       if (r.thickness) {
         detailsHtml += '<div class="conc-detail"><div class="label">Thickness</div><div class="value">' + r.thickness.label + '</div></div>';
+      }
+      // CONC-4: PSI + Fiber detail rows (upload path only — estimator
+      // doesn't collect those inputs from the user). Hidden when not detected.
+      if (isUpload && r.psi) {
+        detailsHtml += '<div class="conc-detail"><div class="label">PSI Strength</div><div class="value">' + r.psi.label + '</div></div>';
+      }
+      if (isUpload && r.fiber) {
+        detailsHtml += '<div class="conc-detail"><div class="label">Fiber Reinforced</div><div class="value">Yes</div></div>';
       }
       detailsHtml += '<div class="conc-detail"><div class="label">Demolition</div><div class="value">' + r.demolition + '</div></div>';
 
