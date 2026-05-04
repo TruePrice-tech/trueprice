@@ -1814,6 +1814,55 @@ var AUTO_REPAIR_PRICING={
   ]
 };
 
+// E8 fallback: when laborRate + laborHours aren't both detected, the verdict
+// would say "Couldn't Compare to Market" — uninformative on a clearly-readable
+// quote that just lacks a stated hourly rate. This table maps common repair
+// patterns to a national totalRange (std vehicle, std shop) sourced from
+// data/auto-repair-common-jobs.json + RepairPal 2026. Inference is keyword-
+// based and only fires when the local-OCR path can't compute a real benchmark.
+// Values scale by regionMult at use site.
+var COMMON_REPAIR_LOOKUP=[
+  // Most-specific patterns first; first match wins.
+  {key:"brakes_all_four",re:/(?:full\s*brake|all\s*4\s*(?:wheel|brake)|brake\s*job\s*(?:all|complete))/i,totalLow:450,totalHigh:1100},
+  {key:"brakes_pads_rotors",re:/(?:pads?\s*(?:and|\+|&)\s*rotors?|rotors?\s*(?:and|\+|&)\s*pads?|brake\s*pads?\s*(?:and|\+|&)\s*rotors?)/i,totalLow:300,totalHigh:700},
+  {key:"brakes_pads_only",re:/(?:brake\s*pads?(?!\s*(?:and|\+|&)\s*rotor)|pad\s*replacement)/i,totalLow:150,totalHigh:350},
+  {key:"oil_synthetic",re:/(?:full\s*synthetic|synthetic\s*oil)/i,totalLow:65,totalHigh:120},
+  {key:"oil_conventional",re:/(?:conventional\s*oil|standard\s*oil\s*change|^oil\s*change\b(?!\s*(?:full|syn|high)))/i,totalLow:30,totalHigh:75},
+  {key:"tire_set",re:/(?:set\s*of\s*4|4\s*new\s*tires|tire\s*set|new\s*tires|4\s*tires)/i,totalLow:500,totalHigh:1400},
+  {key:"alignment",re:/(?:wheel\s*alignment|4-wheel\s*alignment|alignment\s*service)/i,totalLow:75,totalHigh:150},
+  {key:"alternator",re:/\balternator\b/i,totalLow:350,totalHigh:800},
+  {key:"battery",re:/\b(?:battery\s*(?:replac|install)|new\s*battery|agm\s*battery)\b/i,totalLow:180,totalHigh:380},
+  {key:"starter",re:/\bstarter\s*(?:motor|replac|repair)/i,totalLow:300,totalHigh:700},
+  {key:"timing_chain",re:/timing\s*chain/i,totalLow:800,totalHigh:2500},
+  {key:"timing_belt",re:/timing\s*belt/i,totalLow:500,totalHigh:1200},
+  {key:"transmission_rebuild",re:/(?:trans(?:mission)?\s*(?:rebuild|overhaul))/i,totalLow:2500,totalHigh:5000},
+  {key:"transmission_replacement",re:/(?:trans(?:mission)?\s*(?:replac|swap)|reman.*trans)/i,totalLow:2800,totalHigh:6000},
+  {key:"clutch",re:/\bclutch\s*(?:replac|kit|repair)/i,totalLow:800,totalHigh:2000},
+  {key:"catalytic",re:/(?:catalytic\s*converter|cat\s*converter)/i,totalLow:600,totalHigh:3500},
+  {key:"o2_sensor",re:/(?:o2\s*sensor|oxygen\s*sensor)/i,totalLow:150,totalHigh:400},
+  {key:"struts_front",re:/(?:front\s*struts?|strut\s*assembl(?:y|ies))/i,totalLow:400,totalHigh:900},
+  {key:"struts_rear",re:/(?:rear\s*(?:struts?|shocks?))/i,totalLow:300,totalHigh:700},
+  {key:"ac_compressor",re:/(?:a\/?c\s*compressor|air\s*conditioning\s*compressor)/i,totalLow:600,totalHigh:1400},
+  {key:"ac_recharge",re:/(?:a\/?c\s*recharge|refrigerant\s*recharge|freon\s*recharge)/i,totalLow:150,totalHigh:400},
+  {key:"thermostat",re:/(?:thermostat\s*replac|engine\s*thermostat)/i,totalLow:150,totalHigh:400},
+  {key:"spark_plugs",re:/spark\s*plugs?/i,totalLow:100,totalHigh:350},
+  {key:"serpentine",re:/(?:serpentine\s*belt|drive\s*belt)/i,totalLow:75,totalHigh:200},
+  {key:"tune_up",re:/\b(?:tune.?up|major\s*service)/i,totalLow:200,totalHigh:600}
+];
+
+// Match the strongest signal across OCR text + line-item descriptions.
+// Returns { key, totalLow, totalHigh, source } or null.
+function inferRepairFromText(text,lineItems){
+  var hay=String(text||"");
+  if(Array.isArray(lineItems)) hay+=" | "+lineItems.map(function(li){return li&&li.description||"";}).join(" | ");
+  if(!hay.trim()) return null;
+  for(var i=0;i<COMMON_REPAIR_LOOKUP.length;i++){
+    var entry=COMMON_REPAIR_LOOKUP[i];
+    if(entry.re.test(hay)) return {key:entry.key,totalLow:entry.totalLow,totalHigh:entry.totalHigh,source:"common_repair"};
+  }
+  return null;
+}
+
 var STATE_REGIONS={
   AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
   DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
@@ -2354,12 +2403,17 @@ function initQuoteApp(){
     scopeSignals.laborWarranty={status:/labor\s*warrant|warrant.*labor/i.test(text)?"included":"unclear"};
     scopeSignals.diagnosticFee={status:/diagnost/i.test(text)?"included":"unclear"};
     scopeSignals.fluidDisposal={status:/dispos|waste|fluid\s*fee|env(?:ironmental)/i.test(text)?"included":"unclear"};
-    // Only build a benchmark when we actually have labor rate + hours to
-    // compare against. The previous fallback (benchmark = quoteTotal /
-    // regionMult) collapsed to ratio = regionMult, producing a verdict like
-    // "8% below average for South" on every quote regardless of total or
-    // repair type — meaningless and misleading.
-    var benchmark=null,ratio=null;
+    // Build a benchmark by the strongest signal we have. The historical bug
+    // (commented above) was a regionMult-only collapse that fabricated a
+    // "Below Average for South" verdict on every quote regardless of repair
+    // type. Two real signals, in order of preference:
+    //   1) Stated labor rate + labor hours: derive expected labor + parts
+    //      remainder. Most accurate when the quote breaks out the math.
+    //   2) E8 fallback (2026-05-03): when only the quoteTotal + a recognizable
+    //      repair description are visible, compare against a national common-
+    //      repair totalRange scaled by regionMult. Wider band but informative
+    //      where the prior code surfaced "Couldn't Compare to Market".
+    var benchmark=null,ratio=null,benchmarkSource=null,inferredRepair=null;
     if(laborRate&&laborHours){
       var expectedLabor=regionalRates.mid*laborHours;
       var actualLabor=laborRate*laborHours;
@@ -2367,6 +2421,24 @@ function initQuoteApp(){
       if(partsEstimate<0) partsEstimate=quoteTotal*0.4;
       benchmark=expectedLabor+partsEstimate;
       ratio=benchmark>0?quoteTotal/benchmark:null;
+      benchmarkSource="labor_rate_x_hours";
+    } else if(quoteTotal>0){
+      inferredRepair=inferRepairFromText(text,lineItems);
+      if(inferredRepair){
+        // Scale national totalRange by regionMult; don't apply shopType mult
+        // here because the common-repair table is already shop-agnostic
+        // mid-of-market. The verdict band stays wide on purpose.
+        var regionMult=AUTO_REPAIR_PRICING.laborMultiplierByRegion[region]||1.0;
+        var bLow=inferredRepair.totalLow*regionMult;
+        var bHigh=inferredRepair.totalHigh*regionMult;
+        benchmark=(bLow+bHigh)/2;
+        ratio=benchmark>0?quoteTotal/benchmark:null;
+        benchmarkSource="common_repair:"+inferredRepair.key;
+        // Stash band edges so renderQuoteResult can show "Typical for this
+        // job: $X-$Y in <region>" rather than a single midpoint.
+        inferredRepair.benchmarkLow=Math.round(bLow);
+        inferredRepair.benchmarkHigh=Math.round(bHigh);
+      }
     }
 
     // Dealer-upsell red flag detection. When the OCR shows a
@@ -2408,7 +2480,7 @@ function initQuoteApp(){
       lineItems.forEach(function(it){ it.urgency=null; });
     }
 
-    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:laborRate,laborHours:laborHours,partsTotal:partsTotal,laborTotal:laborTotal,shopType:shopType,partsType:partsType,region:region,regionalRates:regionalRates,laborFlag:(laborRate&&!_isInsuranceEstimate)?laborRateFlag(laborRate,regionalRates):null,scopeSignals:scopeSignals,parsed:parsed,isInsuranceEstimate:_isInsuranceEstimate,looksLikeRecommendationList:_looksLikeRecommendationList,possibleUpsells:possibleUpsells};
+    return{source:"upload",quoteTotal:quoteTotal,benchmark:benchmark,ratio:ratio,verdict:verdictFromRatio(ratio),lineItems:lineItems,laborRate:laborRate,laborHours:laborHours,partsTotal:partsTotal,laborTotal:laborTotal,shopType:shopType,partsType:partsType,region:region,regionalRates:regionalRates,laborFlag:(laborRate&&!_isInsuranceEstimate)?laborRateFlag(laborRate,regionalRates):null,scopeSignals:scopeSignals,parsed:parsed,isInsuranceEstimate:_isInsuranceEstimate,looksLikeRecommendationList:_looksLikeRecommendationList,possibleUpsells:possibleUpsells,benchmarkSource:benchmarkSource,inferredRepair:inferredRepair,stateCode:qState.stateCode||null};
   }
 
   function renderErrorFallback(){
@@ -2507,6 +2579,13 @@ function initQuoteApp(){
       var dir=pct>0?"above":"below";
       if(Math.abs(pct)<=2) rangeText="Right at the market average for "+capitalize(r.region);
       else rangeText=Math.abs(pct)+"% "+dir+" average for "+capitalize(r.region);
+      // E8: when the benchmark came from common-repair inference (no labor
+      // rate + hours stated), append a wider-band hint so users know the
+      // verdict is repair-type-anchored, not labor-math-derived.
+      if(r.benchmarkSource&&r.benchmarkSource.indexOf("common_repair:")===0&&r.inferredRepair){
+        var ir=r.inferredRepair;
+        rangeText+=' <span style="display:block;font-size:12px;color:#94a3b8;margin-top:4px;">Typical for this job: $'+(ir.benchmarkLow||ir.totalLow).toLocaleString()+'&ndash;$'+(ir.benchmarkHigh||ir.totalHigh).toLocaleString()+' in '+capitalize(r.region)+'</span>';
+      }
     }
     var shopLabels={dealer:"Dealership",independent:"Independent Shop",chain:"Chain Shop"};
 
@@ -2517,8 +2596,26 @@ function initQuoteApp(){
       detailsHtml+='<div class="ar-detail"><div class="label">Contractor</div><div class="value">'+_safeContractor+'</div></div>';
     }
     detailsHtml+='<div class="ar-detail"><div class="label">Shop Type</div><div class="value">'+(shopLabels[r.shopType]||r.shopType)+'</div></div>';
+    // E7: surface stateCode in details when extracted (parity with HVAC).
+    // r.stateCode comes from the analyzer's renderQuoteResult plumbing;
+    // qState.stateCode is the canonical source set by address parser / OCR /
+    // fallback form per renderUpload + parseQuote flows.
+    var _stateForDetails = r.stateCode || qState.stateCode || (r.parsed && r.parsed.stateCode) || "";
+    if(_stateForDetails) detailsHtml+='<div class="ar-detail"><div class="label">State</div><div class="value">'+escHtml(_stateForDetails)+'</div></div>';
     detailsHtml+='<div class="ar-detail"><div class="label">Region</div><div class="value">'+capitalize(r.region)+'</div></div>';
-    if(r.laborRate){var flagHtml="";if(r.laborFlag) flagHtml='<span class="ar-labor-flag '+r.laborFlag.css+'">'+r.laborFlag.label+'</span>';detailsHtml+='<div class="ar-detail"><div class="label">Labor Rate</div><div class="value">$'+r.laborRate+'/hr'+flagHtml+'</div></div>';}
+    if(r.laborRate){
+      // E9: insurance estimates use Mitchell/CCC/Audatex BODY-LABOR units, not
+      // mechanic shop rates. The bare "$55/hr" row was misleading even after
+      // the laborFlag suppression in 2026-05-02 commit 33bb0bf593 — the rate
+      // value alone implied an apples-to-apples comparison. Annotate with
+      // the source so the user knows this isn't a market labor-rate signal.
+      var flagHtml="";
+      if(r.laborFlag) flagHtml='<span class="ar-labor-flag '+r.laborFlag.css+'">'+r.laborFlag.label+'</span>';
+      var _rateLabel = r.isInsuranceEstimate ? "Body Labor Rate (Mitchell)" : "Labor Rate";
+      var _rateValue = '$'+r.laborRate+'/hr'+flagHtml;
+      if(r.isInsuranceEstimate) _rateValue += '<div style="font-size:11px;color:#94a3b8;margin-top:4px;">Insurance book rate, not a mechanic shop rate</div>';
+      detailsHtml+='<div class="ar-detail"><div class="label">'+_rateLabel+'</div><div class="value">'+_rateValue+'</div></div>';
+    }
     if(r.laborHours) detailsHtml+='<div class="ar-detail"><div class="label">Labor Hours</div><div class="value">'+r.laborHours+' hrs</div></div>';
     if(r.partsTotal) detailsHtml+='<div class="ar-detail"><div class="label">Parts Total</div><div class="value">'+fmt(r.partsTotal)+'</div></div>';
     if(r.laborTotal) detailsHtml+='<div class="ar-detail"><div class="label">Labor Total</div><div class="value">'+fmt(r.laborTotal)+'</div></div>';

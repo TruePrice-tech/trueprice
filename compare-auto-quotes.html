@@ -95,6 +95,7 @@
     .caq-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     .caq-table th, .caq-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
     .caq-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    .caq-table th.caq-shop-name { white-space: normal; word-break: break-word; max-width: 220px; vertical-align: top; line-height: 1.3; }
     .caq-table td { color: #1e293b; }
     .caq-table tr:last-child td { border-bottom: none; }
     .caq-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 160px; }
@@ -783,7 +784,7 @@
           var cheapRate = priced[0].data.laborRate||0;
           var expRate = priced[priced.length-1].data.laborRate||0;
           if (cheapRate && expRate && expRate > cheapRate*1.2) reasons.push("higher labor rate ($" + expRate + "/hr vs $" + cheapRate + "/hr)");
-          var ctx = escHtml(priced[priced.length-1].data.shopName) + " is $" + diff.toLocaleString() + " (" + pct + "%) more. ";
+          var ctx = escHtml(priced[priced.length-1].data.shopName) + " is $" + Math.round(diff).toLocaleString() + " (" + pct + "%) more. ";
           ctx += reasons.length ? "This may reflect " + reasons.join(", ") + ". " : "";
           ctx += "A higher price doesn't always indicate above-market pricing -- it may include better parts, longer warranty, or more thorough work.";
           html += '<p style="font-size:13px;color:#475569;margin:8px 0 0;line-height:1.5;">' + ctx + '</p>';
@@ -809,10 +810,11 @@
       // Comparison table
       html += '<div class="caq-table-wrap"><table class="caq-table">';
 
-      // Header
+      // Header — caq-shop-name class allows long contractor names to wrap
+      // across multiple lines instead of being clipped under overflow-x scroll.
       html += '<thead><tr><th></th>';
       active.forEach(function(a) {
-        html += '<th>' + escHtml(a.data.shopName);
+        html += '<th class="caq-shop-name" title="' + escHtml(a.data.shopName) + '">' + escHtml(a.data.shopName);
         if (a === bestValue && !isTight) html += ' <span class="caq-badge caq-badge-green">BEST VALUE</span>';
         html += '</th>';
       });
@@ -825,11 +827,13 @@
       });
       html += '</tr>';
 
-      // Total Price
+      // Total Price — round to integer for consistent formatting (CMP-2 fix).
+      // Prior code used .toLocaleString() which left $327.6 with a stray
+      // single decimal next to $633 with none.
       html += '<tr><td class="row-label">Total Price</td>';
       active.forEach(function(a) {
         var cls = (a.data.price > 0 && a.data.price === bestPrice) ? ' class="highlight"' : '';
-        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + a.data.price.toLocaleString() : 'N/A') + '</td>';
+        html += '<td' + cls + '>' + (a.data.price > 0 ? '$' + Math.round(a.data.price).toLocaleString() : 'N/A') + '</td>';
       });
       html += '</tr>';
 
@@ -850,17 +854,17 @@
       });
       html += '</tr>';
 
-      // Parts Total
+      // Parts Total — rounded to integer for consistent decimal formatting.
       html += '<tr><td class="row-label">Parts Total</td>';
       active.forEach(function(a) {
-        html += '<td>' + (a.data.partsTotal > 0 ? '$' + a.data.partsTotal.toLocaleString() : 'N/A') + '</td>';
+        html += '<td>' + (a.data.partsTotal > 0 ? '$' + Math.round(a.data.partsTotal).toLocaleString() : 'N/A') + '</td>';
       });
       html += '</tr>';
 
-      // Labor Total
+      // Labor Total — rounded to integer for consistent decimal formatting.
       html += '<tr><td class="row-label">Labor Total</td>';
       active.forEach(function(a) {
-        html += '<td>' + (a.data.laborTotal > 0 ? '$' + a.data.laborTotal.toLocaleString() : 'N/A') + '</td>';
+        html += '<td>' + (a.data.laborTotal > 0 ? '$' + Math.round(a.data.laborTotal).toLocaleString() : 'N/A') + '</td>';
       });
       html += '</tr>';
 
