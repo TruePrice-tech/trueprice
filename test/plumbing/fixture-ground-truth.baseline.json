@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T22:48:15.342Z",
+  "ts": "2026-05-04T02:43:46.417Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-budget-tank-low": {
@@ -11,8 +11,8 @@
         "brand": "Rheem (mid tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $2,900 — 52% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $1,800 – $5,325 — 23% below typical low",
+      "verdictLabel": "BELOW AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -33,7 +33,7 @@
         "brand": "Bradford White (mid tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $2,550 — 0% below average",
+      "rangeText": "Typical range: $1,775 – $5,700 — inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -55,8 +55,8 @@
         "brand": "Rinnai (premium tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $5,525 — 37% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Typical range: $4,075 – $11,250 — inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -77,8 +77,8 @@
         "brand": "Rheem (mid tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $2,900 — 52% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $1,800 – $5,325 — 23% below typical low",
+      "verdictLabel": "BELOW AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -99,7 +99,7 @@
         "brand": "Bradford White (mid tier)",
         "pricing": "South regional pricing"
       },
-      "rangeText": "Market benchmark: $2,300 — 11% above average",
+      "rangeText": "Typical range: $1,550 – $5,000 — inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -121,8 +121,8 @@
         "brand": "Rinnai (premium tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $5,525 — 37% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Typical range: $4,075 – $11,250 — inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -135,17 +135,16 @@
       "failures": []
     },
     "f7-roto-rooter-redacted": {
-      "verdictPrice": 893,
+      "verdictPrice": 903,
       "details": {
-        "service type": "Drain Cleaning",
+        "service type": "Plumbing Service",
         "contractor": "ROOTER Roto-Rooter Services",
-        "details": "Simple Clog",
-        "pricing": "Southeast regional pricing"
+        "pricing": "Midwest regional pricing"
       },
-      "rangeText": "Market benchmark: $225 — 297% above average",
-      "verdictLabel": "OVERPRICED",
-      "isUncategorizedBanner": false,
-      "isNeedsReview": false,
+      "rangeText": "We couldn’t identify the specific plumbing service from this quote, so we can’t fairly compare it to a benchmark. Plumbing prices vary widely by service: a service call runs $75–$200, leak repairs $15",
+      "verdictLabel": "NEEDS REVIEW",
+      "isUncategorizedBanner": true,
+      "isNeedsReview": true,
       "preConfirm": {
         "hasConfirmBtn": true,
         "hasManualBtn": false,
@@ -164,7 +163,7 @@
         "brand": "Bradford White (mid tier)",
         "pricing": "West regional pricing"
       },
-      "rangeText": "Market benchmark: $7,225 — 4% below average",
+      "rangeText": "Typical range: $5,950 – $12,075 — inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,

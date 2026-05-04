@@ -1,0 +1,14 @@
+  f1-budget-tank-low ... FAIL
+     - verdict: expected NOT match /unusually\s*low|overpriced/, got "UNUSUALLY LOW"
+  f2-westside-tank-mid ... OK
+  f3-premier-tankless-high ... OK
+  f4-budget-tank-messy ... FAIL
+     - verdict: expected NOT match /unusually\s*low|overpriced/, got "UNUSUALLY LOW"
+  f5-westside-tank-messy ... OK
+  f6-premier-tankless-messy ... OK
+  f7-roto-rooter-redacted ... OK
+  f8-indirect-wh-page1 ... OK
+
+Baseline written: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test\plumbing\fixture-ground-truth.baseline.json
+
+Total failures: 2
