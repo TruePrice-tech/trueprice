@@ -1,14 +1,16 @@
 {
-  "ts": "2026-05-03T22:09:30.116Z",
+  "ts": "2026-05-04T00:34:36.374Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-green-envelope-high": {
       "verdictPrice": 5680,
       "details": {
+        "contractor": "GREEN ENVELOPE BUILDING SCIENCE",
         "insulation type": "Mixed (Blown-In + Spray Foam)",
         "area": "1,500 sq ft",
         "r-value": "R-60",
         "location": "Attic",
+        "warranty": "Lifetime workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -32,29 +34,28 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
+      "contractor": "GREEN ENVELOPE BUILDING SCIENCE",
+      "stateCode": "OH",
+      "apiInsulationType": "mixed",
       "apiRValue": null,
-      "apiSquareFootage": null,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Mixed (Blown-In + Spray Foam)",
       "displayRValue": "R-60",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /green\\s*envelope/, got null",
-        "warranty: expected match /lifetime/, got \"\""
-      ]
+      "displayWarranty": "Lifetime workmanship",
+      "failures": []
     },
     "f2-buckeye-mid": {
       "verdictPrice": 3025,
       "details": {
+        "contractor": "BUCKEYE ENERGY SOLUTIONS",
         "insulation type": "Blown-In (Attic)",
         "area": "1,500 sq ft",
         "r-value": "R-49",
         "location": "Attic",
+        "warranty": "10-year workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -78,29 +79,28 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
+      "contractor": "BUCKEYE ENERGY SOLUTIONS",
+      "stateCode": "OH",
+      "apiInsulationType": "blown_in",
       "apiRValue": null,
-      "apiSquareFootage": null,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
       "displayRValue": "R-49",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /buckeye\\s*energy/, got null",
-        "warranty: expected match /10[-\\s]*year|10\\s*yr/, got \"\""
-      ]
+      "displayWarranty": "10-year workmanship",
+      "failures": []
     },
     "f3-midstate-low": {
       "verdictPrice": 1730,
       "details": {
+        "contractor": "MIDSTATE INSULATION DIRECT",
         "insulation type": "Blown-In (Attic)",
         "area": "1,500 sq ft",
         "r-value": "R-49",
         "location": "Attic",
+        "warranty": "1-year workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -124,29 +124,28 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
-      "apiRValue": null,
-      "apiSquareFootage": null,
+      "contractor": "MIDSTATE INSULATION DIRECT",
+      "stateCode": "OH",
+      "apiInsulationType": "blown_in",
+      "apiRValue": 11,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
       "displayRValue": "R-49",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /midstate\\s*insulation/, got null",
-        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\""
-      ]
+      "displayWarranty": "1-year workmanship",
+      "failures": []
     },
     "f4-green-envelope-high-messy": {
       "verdictPrice": 5680,
       "details": {
+        "contractor": "GREEN ENVELOPE BUILDING SCIENCE",
         "insulation type": "Mixed (Blown-In + Spray Foam)",
         "area": "1,500 sq ft",
         "r-value": "R-60",
         "location": "Attic",
+        "warranty": "Lifetime workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -170,29 +169,28 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
-      "apiRValue": null,
-      "apiSquareFootage": null,
+      "contractor": "GREEN ENVELOPE BUILDING SCIENCE",
+      "stateCode": "OH",
+      "apiInsulationType": "mixed",
+      "apiRValue": 60,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Mixed (Blown-In + Spray Foam)",
       "displayRValue": "R-60",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /green\\s*envelope/, got null",
-        "warranty: expected match /lifetime/, got \"\""
-      ]
+      "displayWarranty": "Lifetime workmanship",
+      "failures": []
     },
     "f5-buckeye-mid-messy": {
       "verdictPrice": 3025,
       "details": {
+        "contractor": "BUCKEYE ENERGY SOLUTIONS",
         "insulation type": "Blown-In (Attic)",
         "area": "1,500 sq ft",
         "r-value": "R-49",
         "location": "Attic",
+        "warranty": "10-year workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -216,29 +214,28 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
+      "contractor": "BUCKEYE ENERGY SOLUTIONS",
+      "stateCode": "OH",
+      "apiInsulationType": "blown_in",
       "apiRValue": null,
-      "apiSquareFootage": null,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
       "displayRValue": "R-49",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /buckeye\\s*energy/, got null",
-        "warranty: expected match /10[-\\s]*year|10\\s*yr/, got \"\""
-      ]
+      "displayWarranty": "10-year workmanship",
+      "failures": []
     },
     "f6-midstate-low-messy": {
       "verdictPrice": 1730,
       "details": {
+        "contractor": "MIDSTATE INSULATION DIRECT",
         "insulation type": "Blown-In (Attic)",
         "area": "1,500 sq ft",
         "r-value": "R-49",
         "location": "Attic",
+        "warranty": "1-year workmanship",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -262,28 +259,27 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
-      "apiRValue": null,
-      "apiSquareFootage": null,
+      "contractor": "MIDSTATE INSULATION DIRECT",
+      "stateCode": "OH",
+      "apiInsulationType": "blown_in",
+      "apiRValue": 11,
+      "apiSquareFootage": 1500,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
       "displayRValue": "R-49",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /midstate\\s*insulation/, got null",
-        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\""
-      ]
+      "displayWarranty": "1-year workmanship",
+      "failures": []
     },
     "f7-mock-apex-nc": {
       "verdictPrice": 5475,
       "details": {
+        "contractor": "Apex Insulation Co",
         "insulation type": "Blown-In (Attic)",
         "r-value": "R-49",
         "location": "Attic",
+        "warranty": "2-year on labor (+ manufacturer materials)",
         "pricing": "South regional pricing"
       },
       "scope": {
@@ -307,21 +303,18 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiInsulationType": null,
-      "apiRValue": null,
+      "contractor": "Apex Insulation Co",
+      "stateCode": "NC",
+      "apiInsulationType": "blown_in",
+      "apiRValue": 49,
       "apiSquareFootage": null,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
       "displayRValue": "R-49",
       "displayArea": null,
       "displayLocation": "Attic",
-      "displayWarranty": null,
-      "failures": [
-        "contractor: expected match /apex\\s*insulation/, got null",
-        "warranty: expected match /2[-\\s]*year|manufacturer/, got \"\""
-      ]
+      "displayWarranty": "2-year on labor (+ manufacturer materials)",
+      "failures": []
     }
   }
 }
