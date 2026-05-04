@@ -1,37 +1,25 @@
 name: SEO sitemap refresh + IndexNow ping
 
-# Two purposes:
-#  1. On every push to main: ping IndexNow so Bing/Yandex see fresh URLs
-#     immediately. Does NOT touch sitemaps, does NOT commit anything.
-#  2. Weekly Monday 5am UTC: rewrite sitemap-*.xml lastmods from git mtime
-#     (per-URL accurate dates so Google can prioritize recrawls correctly),
-#     commit if changed, then ping IndexNow.
+# On every push to main (and weekly Monday 5am UTC, and manual dispatch):
+#  1. Rewrite sitemap-*.xml lastmods from per-file git mtime so search
+#     engines see accurate dates and prioritize recrawls correctly.
+#  2. Commit + push if anything changed (with [skip ci] to prevent loops —
+#     GitHub Actions skips workflows for commits with that marker).
+#  3. Ping IndexNow so Bing/Yandex see fresh URLs immediately.
 #
-# Runs only the IndexNow step on push to keep CI cheap and avoid commit
-# loops. Sitemap rewrite is idempotent on weekly cadence.
+# Per-push wiring (vs the prior weekly-only cadence) ensures lastmods
+# track today's edits today instead of lagging up to a week. The rewrite
+# script is idempotent — if no HTML changed, no commit fires, no loop.
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '0 5 * * 1'   # Monday 05:00 UTC
+    - cron: '0 5 * * 1'   # Monday 05:00 UTC (safety net if a push misses)
   workflow_dispatch:
 
 jobs:
-  ping:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: IndexNow ping
-        run: node scripts/indexnow-push.js
-
   refresh-and-ping:
-    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
