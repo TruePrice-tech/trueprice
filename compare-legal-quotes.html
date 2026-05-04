@@ -377,6 +377,9 @@
     var rateLimited = false;
 
     // ── Legal Rate Data (same as legal-fee-analyzer) ──
+    // LP-1 (price-sanity audit 2026-05-03): personal_injury added with
+    // contingencyRange so PI quotes don't fall back to general_litigation
+    // hourly defaults (mirror of legal-fee-analyzer).
     var LEGAL_RATES = {
       family_law: { low: 200, mid: 350, high: 550 },
       criminal_defense: { low: 200, mid: 400, high: 750 },
@@ -388,7 +391,8 @@
       employment_law: { low: 250, mid: 400, high: 600 },
       intellectual_property: { low: 300, mid: 450, high: 800 },
       tax_law: { low: 250, mid: 400, high: 700 },
-      general_litigation: { low: 250, mid: 400, high: 650 }
+      general_litigation: { low: 250, mid: 400, high: 650 },
+      personal_injury: { low: 0, mid: 0, high: 0, feeType: "contingency", contingencyRange: [25, 40] }
     };
 
     var REGION_MULT = {
@@ -489,16 +493,36 @@
           else                    feeType = "hourly";
       }
 
-      var market = getMarketRange(practiceArea, region);
+      // LP-3 (price-sanity audit 2026-05-03): mirror legal-fee-analyzer —
+      // prefer apiResult.pricingContext (state×practice×firmSize-adjusted)
+      // over coarse local LEGAL_RATES + REGION_MULT. The compare-table cell
+      // labelled "Within market" was using the coarse table for every firm,
+      // so e.g. NC general litigation showed "Within market $250-650" instead
+      // of the state-adjusted "$205-$533".
+      var pctx = api.pricingContext || null;
+      var market;
+      if (pctx && pctx.marketRateRange && pctx.adjustedMarketRate) {
+        market = {
+          low: Number(pctx.marketRateRange[0]) || 0,
+          mid: Number(pctx.adjustedMarketRate) || 0,
+          high: Number(pctx.marketRateRange[1]) || 0
+        };
+      } else {
+        market = getMarketRange(practiceArea, region);
+      }
+      var contingencyBand = (pctx && pctx.contingencyRange) ||
+                            (LEGAL_RATES[practiceArea] && LEGAL_RATES[practiceArea].contingencyRange) ||
+                            [25, 40];
 
-      // Contingency verdict (L3 parity): >40 above, <25 below.
+      // Contingency verdict (L3 parity); LP-5: contingency band is now per-area
+      // not hardcoded.
       var verdictType = "fair";
-      if (feeType === "hourly" && hourlyRate > 0) {
+      if (feeType === "hourly" && hourlyRate > 0 && market.high > 0) {
         if (hourlyRate > market.high) verdictType = "above";
         else if (hourlyRate < market.low) verdictType = "below";
       } else if (feeType === "contingency" && contingencyPct) {
-        if (contingencyPct > 40) verdictType = "above";
-        else if (contingencyPct < 25) verdictType = "below";
+        if (contingencyPct > contingencyBand[1]) verdictType = "above";
+        else if (contingencyPct < contingencyBand[0]) verdictType = "below";
       }
 
       var apiChecks = api.retainerChecks || api.checks || null;
@@ -529,6 +553,8 @@
         marketLow: market.low,
         marketMid: market.mid,
         marketHigh: market.high,
+        contingencyBand: contingencyBand,
+        pricingContext: pctx,
         verdictType: verdictType,
         checks: checks,
         redFlags: api.redFlags || [],
@@ -774,12 +800,17 @@
           var cls = isLowest ? ' class="highlight"' : '';
           var badge = isLowest ? ' <span class="cq-badge cq-badge-green">Lowest rate</span>' : '';
 
-          // Market comparison
-          var market = getMarketRange(a.data.practiceArea, a.data.region);
+          // Market comparison — LP-3: use the upstream pctx-aware values from
+          // buildResultFromAPI so the band shown reflects state×practice×firm
+          // multipliers, not a re-derived coarse local-table number.
+          var mLow = (typeof a.data.marketLow === "number") ? a.data.marketLow : null;
+          var mHigh = (typeof a.data.marketHigh === "number") ? a.data.marketHigh : null;
           var mktNote = '';
-          if (rate > market.high) mktNote = '<div style="font-size:11px; color:#dc2626; margin-top:2px;">Above market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
-          else if (rate < market.low) mktNote = '<div style="font-size:11px; color:#ca8a04; margin-top:2px;">Below market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
-          else mktNote = '<div style="font-size:11px; color:#16a34a; margin-top:2px;">Within market (' + fmtWhole(market.low) + '-' + fmtWhole(market.high) + ')</div>';
+          if (mLow != null && mHigh != null && mHigh > 0) {
+            if (rate > mHigh) mktNote = '<div style="font-size:11px; color:#dc2626; margin-top:2px;">Above market (' + fmtWhole(mLow) + '-' + fmtWhole(mHigh) + ')</div>';
+            else if (rate < mLow) mktNote = '<div style="font-size:11px; color:#ca8a04; margin-top:2px;">Below market (' + fmtWhole(mLow) + '-' + fmtWhole(mHigh) + ')</div>';
+            else mktNote = '<div style="font-size:11px; color:#16a34a; margin-top:2px;">Within market (' + fmtWhole(mLow) + '-' + fmtWhole(mHigh) + ')</div>';
+          }
 
           h += '<td' + cls + '>' + fmtWhole(rate) + '/hr' + badge + mktNote + '</td>';
         } else {

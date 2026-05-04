@@ -84,11 +84,14 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    // cacheNamespace: bump the suffix when the prompt changes to invalidate stale cache
+    // cacheNamespace: bump the suffix when the prompt or pricingContext shape
+    // changes to invalidate stale cache. v7 added contingencyRange +
+    // practiceFeeType + nulled adjustedMarketRate for contingency-only practice
+    // areas (price-sanity audit LP-4, 2026-05-03).
     // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
     // got polluted with stale entries during the gradual deploy window before
     // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v6-clean" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v7-pctx" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -305,16 +308,28 @@ Return ONLY the JSON object, no markdown, no explanation.`
       const baseRate = paData?.rates?.mid || pricingData.metadata?.nationalAvgHourlyRate || 349;
       const adjustedRate = Math.round(baseRate * stateMult * firmSizeMult);
 
+      // LP-4 (price-sanity audit 2026-05-03): for contingency-driven practice
+      // areas (personal_injury), paData.rates is [0,0,0] so adjustedMarketRate
+      // is meaningless. The frontend needs paData.contingencyRange + feeType to
+      // render "Typical 25-40%" instead of "Market Mid $0/hr". Also surface the
+      // hourly band [low, high] alongside the mid so the frontend can stop
+      // recomputing it from a coarse local table (mirror FENCE-B2 upstream
+      // apiResult-override pattern).
+      const isContingencyOnly = paData?.feeType === "contingency" &&
+                                (!paData.rates || (paData.rates.low === 0 && paData.rates.mid === 0));
+
       const pricingContext = {
         state: stateCode || null,
         stateMultiplier: stateMult,
         firmSize: firmSize,
         firmSizeMultiplier: firmSizeMult,
-        adjustedMarketRate: adjustedRate,
-        marketRateRange: paData ? [
+        adjustedMarketRate: isContingencyOnly ? null : adjustedRate,
+        marketRateRange: paData && !isContingencyOnly ? [
           Math.round(paData.rates.low * stateMult * firmSizeMult),
           Math.round(paData.rates.high * stateMult * firmSizeMult)
         ] : null,
+        practiceFeeType: paData?.feeType || null,
+        contingencyRange: paData?.contingencyRange || null,
         source: "Clio Legal Trends 2025, LawPay, state bar surveys"
       };
 

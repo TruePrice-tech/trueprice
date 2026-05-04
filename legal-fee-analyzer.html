@@ -448,6 +448,11 @@
     "use strict";
 
     // ── Legal Rate Data ──
+    // Local fallback bands. Used only when apiResult.pricingContext is absent
+    // (happy path uses the API's state×practice×firmSize-adjusted numbers).
+    // LP-1 (price-sanity audit 2026-05-03): personal_injury added with
+    // contingencyRange so PI fixtures stop falling back to general_litigation
+    // hourly rates and rendering "Market Mid $400/hr" for a contingency case.
     var LEGAL_RATES = {
       family_law: { low: 200, mid: 350, high: 550 },
       criminal_defense: { low: 200, mid: 400, high: 750 },
@@ -459,7 +464,8 @@
       employment_law: { low: 250, mid: 400, high: 600 },
       intellectual_property: { low: 300, mid: 450, high: 800 },
       tax_law: { low: 250, mid: 400, high: 700 },
-      general_litigation: { low: 250, mid: 400, high: 650 }
+      general_litigation: { low: 250, mid: 400, high: 650 },
+      personal_injury: { low: 0, mid: 0, high: 0, feeType: "contingency", contingencyRange: [25, 40] }
     };
 
     var REGION_MULT = {
@@ -821,19 +827,74 @@
           else                    feeType = "hourly";
       }
 
-      var market = getMarketRange(practiceArea, region);
+      // LP-3 (price-sanity audit 2026-05-03): the API's pricingContext is the
+      // authoritative benchmark — state-multiplier × practice-area × firm-size,
+      // computed in api/legal-fee-estimate.js against data/legal-fee-pricing.json.
+      // Previously this function ignored it and re-derived market from a coarse
+      // local LEGAL_RATES table + REGION_MULT (which never picked up region for
+      // any of the PI/Blackwood/Falconer/Henderson fixtures). Mirror of FENCE-B2:
+      // wire apiResult overrides UPSTREAM of the benchmark so verdict math uses
+      // them instead of using stale local-detector values.
+      var pctx = api.pricingContext || null;
+      var market;
+      if (pctx && pctx.marketRateRange && pctx.adjustedMarketRate) {
+        market = {
+          low: Number(pctx.marketRateRange[0]) || 0,
+          mid: Number(pctx.adjustedMarketRate) || 0,
+          high: Number(pctx.marketRateRange[1]) || 0
+        };
+      } else {
+        market = getMarketRange(practiceArea, region);
+      }
 
+      // LP-5: contingency band — prefer pricingContext.contingencyRange (per
+      // practice area), fall back to local LEGAL_RATES.contingencyRange, then to
+      // the previous hardcoded [25, 40] PI-default.
+      var contingencyBand = (pctx && pctx.contingencyRange) ||
+                            (LEGAL_RATES[practiceArea] && LEGAL_RATES[practiceArea].contingencyRange) ||
+                            [25, 40];
+
+      // LP-2 (price-sanity audit 2026-05-03): when feeType=flat, find the
+      // closest scope band in pricingContext.flatFeeComparison so the renderer
+      // can show "Your $3,500 falls near typical DUI 1st offense $1,800-$3,600"
+      // instead of the apples-to-oranges hourly mid. Also drives an above/below
+      // verdict for flat-fee cases (was always "fair").
+      var flatFeeScope = null;
+      if (feeType === "flat" && flatFee && pctx && pctx.flatFeeComparison) {
+        var bestKey = null, bestDist = Infinity;
+        for (var k in pctx.flatFeeComparison) {
+          var range = pctx.flatFeeComparison[k];
+          if (!range || range.length !== 2) continue;
+          var mid = (Number(range[0]) + Number(range[1])) / 2;
+          var dist = Math.abs(flatFee - mid);
+          if (dist < bestDist) { bestDist = dist; bestKey = k; }
+        }
+        if (bestKey) {
+          var range2 = pctx.flatFeeComparison[bestKey];
+          flatFeeScope = {
+            key: bestKey,
+            label: bestKey.replace(/_/g, " ").replace(/\b\w/g, function(c){ return c.toUpperCase(); }),
+            low: Number(range2[0]),
+            high: Number(range2[1])
+          };
+        }
+      }
       // L3 (legal dive 2026-05-03): contingency verdict was unreachable —
       // verdictType only ever reflected hourlyRate, leaving every PI quote
-      // tagged "fair" regardless of the percentage. Mirror buildResultFromLocal:
-      // contingency >40% = "above", <25% = "below".
+      // tagged "fair" regardless of the percentage. LP-5 (2026-05-03):
+      // generalize so the band comes from pricingContext, not hardcoded.
+      // LP-2 (2026-05-03): flat-fee verdict added — soft above/below based on
+      // closest scope band. Was always "fair" prior.
       var verdictType = "fair";
-      if (feeType === "hourly" && hourlyRate > 0) {
+      if (feeType === "hourly" && hourlyRate > 0 && market.high > 0) {
         if (hourlyRate > market.high) verdictType = "above";
         else if (hourlyRate < market.low) verdictType = "below";
       } else if (feeType === "contingency" && contingencyPct) {
-        if (contingencyPct > 40) verdictType = "above";
-        else if (contingencyPct < 25) verdictType = "below";
+        if (contingencyPct > contingencyBand[1]) verdictType = "above";
+        else if (contingencyPct < contingencyBand[0]) verdictType = "below";
+      } else if (feeType === "flat" && flatFee && flatFeeScope) {
+        if (flatFee > flatFeeScope.high * 1.3) verdictType = "above";
+        else if (flatFee < flatFeeScope.low * 0.7) verdictType = "below";
       }
 
       // The API returns retainerChecks (not "checks"). Map keys when present.
@@ -873,6 +934,8 @@
         marketLow: market.low,
         marketMid: market.mid,
         marketHigh: market.high,
+        contingencyBand: contingencyBand,
+        flatFeeScope: flatFeeScope,
         verdictType: verdictType,
         checks: checks,
         redFlags: (api.redFlags || []).map(function(f) {
@@ -938,15 +1001,16 @@
       var practiceArea = detectPracticeArea(text);
       var region = detectRegion(text);
       var market = getMarketRange(practiceArea, region);
+      var localBand = (LEGAL_RATES[practiceArea] && LEGAL_RATES[practiceArea].contingencyRange) || [25, 40];
 
       // Determine verdict
       var verdictType = "fair";
-      if (hourlyRate > 0) {
+      if (hourlyRate > 0 && market.high > 0) {
         if (hourlyRate > market.high) verdictType = "above";
         else if (hourlyRate < market.low) verdictType = "below";
       } else if (feeType === "contingency" && contingencyPct) {
-        if (contingencyPct > 40) verdictType = "above";
-        else if (contingencyPct < 25) verdictType = "below";
+        if (contingencyPct > localBand[1]) verdictType = "above";
+        else if (contingencyPct < localBand[0]) verdictType = "below";
       }
 
       // Detect attorney/firm name
@@ -1071,6 +1135,7 @@
         marketLow: market.low,
         marketMid: market.mid,
         marketHigh: market.high,
+        contingencyBand: (LEGAL_RATES[practiceArea] && LEGAL_RATES[practiceArea].contingencyRange) || [25, 40],
         verdictType: verdictType,
         checks: checks,
         redFlags: redFlags,
@@ -1146,7 +1211,25 @@
         html += '<div class="lf-summary-item"><div class="label">Fee</div><div class="value">Not detected</div></div>';
       }
       html += '<div class="lf-summary-item"><div class="label">Practice Area</div><div class="value" style="font-size:1rem;">' + escHtml(PRACTICE_LABELS[r.practiceArea] || "General") + '</div></div>';
-      html += '<div class="lf-summary-item"><div class="label">Market Mid</div><div class="value">' + fmtWhole(r.marketMid) + '/hr</div></div>';
+      // LP-2 (price-sanity audit 2026-05-03): "Market Mid $X/hr" used to render
+      // for every fee structure including contingency (apples-to-percent) and
+      // flat-fee (apples-to-rate). Now varies by feeType so the right benchmark
+      // is shown next to the right kind of fee.
+      if (r.feeType === "contingency") {
+        var band = r.contingencyBand || [25, 40];
+        html += '<div class="lf-summary-item"><div class="label">Typical Range</div><div class="value">' + band[0] + '&ndash;' + band[1] + '%</div></div>';
+      } else if (r.feeType === "flat") {
+        // For flat fee, show the closest scope band as the comparable benchmark
+        // (e.g. "Typical DUI First $1,800-$3,600") instead of an apples-to-rate
+        // hourly mid. Falls back to a label-only row when no scope match.
+        if (r.flatFeeScope) {
+          html += '<div class="lf-summary-item"><div class="label">Typical ' + escHtml(r.flatFeeScope.label) + '</div><div class="value" style="font-size:1.05rem;">' + fmtWhole(r.flatFeeScope.low) + '&ndash;' + fmtWhole(r.flatFeeScope.high) + '</div></div>';
+        } else {
+          html += '<div class="lf-summary-item"><div class="label">Fee Structure</div><div class="value" style="font-size:1rem;">Flat Fee</div></div>';
+        }
+      } else if (r.marketMid > 0) {
+        html += '<div class="lf-summary-item"><div class="label">Market Mid</div><div class="value">' + fmtWhole(r.marketMid) + '/hr</div></div>';
+      }
       html += '</div></div>';
 
       // Rate comparison section
