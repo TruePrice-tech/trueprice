@@ -1,0 +1,136 @@
+[
+  {
+    "id": "f1-quick-kitchen-low",
+    "file": "test-quotes/kitchen-images/comparison-kitchen-low.png",
+    "expect": {
+      "price": 13850,
+      "contractorRegex": "quick\\s*kitchen\\s*refresh",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "minor|cosmetic|refresh|cabinet\\s*refacing",
+      "tierRegex_flags": "i",
+      "countertopRegex": "laminate",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "excludedScope": [
+        "appliances",
+        "permits"
+      ],
+      "kitchenSizeRegex": "expansive|200\\+",
+      "kitchenSizeRegex_flags": "i",
+      "pricingRegex": "midwest|naperville|chicago|local pricing",
+      "pricingRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f2-prairie-mid",
+    "file": "test-quotes/kitchen-images/comparison-kitchen-mid.png",
+    "expect": {
+      "price": 27250,
+      "contractorRegex": "prairie\\s*state\\s*kitchen",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "mid[\\s-]?range|midrange",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartz",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f3-artisan-high",
+    "file": "test-quotes/kitchen-images/comparison-kitchen-high.png",
+    "expect": {
+      "price": 57200,
+      "contractorRegex": "artisan\\s*kitchen\\s*studios",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "major|upscale|custom",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartzite|quartz",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f4-quick-kitchen-low-messy",
+    "file": "test-quotes/kitchen-images/messy-comparison-kitchen-low.jpg",
+    "expect": {
+      "price": 13850,
+      "contractorRegex": "quick\\s*kitchen\\s*refresh",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "minor|cosmetic|refresh|cabinet\\s*refacing",
+      "tierRegex_flags": "i",
+      "countertopRegex": "laminate",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f5-prairie-mid-messy",
+    "file": "test-quotes/kitchen-images/messy-comparison-kitchen-mid.jpg",
+    "expect": {
+      "price": 27250,
+      "contractorRegex": "prairie\\s*state\\s*kitchen",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "mid[\\s-]?range|midrange",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartz",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f6-artisan-high-messy",
+    "file": "test-quotes/kitchen-images/messy-comparison-kitchen-high.jpg",
+    "expect": {
+      "price": 57200,
+      "contractorRegex": "artisan\\s*kitchen\\s*studios",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "major|upscale|custom",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartz|granite",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f7-mock-midrange-nc",
+    "file": "test-quotes/kitchen-images/mock-01.png",
+    "expect": {
+      "price": 50228,
+      "contractorRegex": "heritage\\s*kitchen\\s*designs",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "tierRegex": "mid[\\s-]?range|midrange",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartz",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "cabinetBrandRegex": "kraftmaid",
+      "cabinetBrandRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f8-real-photo-l-shaped",
+    "file": "test-quotes/real-quotes/kitchen/fixture-kitchen-remodel.jpg",
+    "expect": {
+      "price": 22250,
+      "contractorRegex": "modern\\s*home\\s*renovations",
+      "contractorRegex_flags": "i",
+      "stateCode": "IL",
+      "tierRegex": "minor|mid[\\s-]?range|midrange|cosmetic",
+      "tierRegex_flags": "i",
+      "countertopRegex": "quartz",
+      "countertopRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "kitchenSizeRegex": "large|150-200|average|100-150",
+      "kitchenSizeRegex_flags": "i",
+      "layoutRegex": "l[-\\s]?shaped|galley|open\\s*concept",
+      "layoutRegex_flags": "i"
+    }
+  }
+]

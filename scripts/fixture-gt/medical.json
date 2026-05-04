@@ -1,0 +1,120 @@
+[
+  {
+    "id": "f1-valley-diagnostic-low",
+    "file": "test-quotes/medical-images/comparison-ct-01-low.png",
+    "expect": {
+      "totalBilled": 1225,
+      "youOwe": 390,
+      "facilityRegex": "valley\\s*diagnostic",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "74177",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f2-banner-outpatient-mid",
+    "file": "test-quotes/medical-images/comparison-ct-02-mid.png",
+    "expect": {
+      "totalBilled": 2200,
+      "youOwe": 355,
+      "facilityRegex": "banner",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "74177",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f3-mayo-clinic-high",
+    "file": "test-quotes/medical-images/comparison-ct-03-high.png",
+    "expect": {
+      "totalBilled": 5930,
+      "youOwe": 579,
+      "facilityRegex": "mayo",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "74177",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f4-valley-diagnostic-messy",
+    "file": "test-quotes/medical-images/messy-comparison-ct-01-low.jpg",
+    "expect": {
+      "totalBilled": 1225,
+      "youOwe": 390,
+      "facilityRegex": "valley\\s*diagnostic",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "74177",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f5-mayo-clinic-messy",
+    "file": "test-quotes/medical-images/messy-comparison-ct-03-high.jpg",
+    "expect": {
+      "totalBilled": 5930,
+      "youOwe": 579,
+      "facilityRegex": "mayo",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "74177",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f6-er-99283-towel-photo",
+    "file": "test-quotes/medical-images/02-2000-hospital-bill-for-a-10-minute-visit-to-er-the.jpeg",
+    "expect": {
+      "totalBilled": 3737,
+      "youOwe": 1725,
+      "facilityRegex": "west\\s*boca",
+      "facilityRegex_flags": "i",
+      "cptExtractionRegex": "99283",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "any",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f7-surgery-denied-medical-necessity",
+    "file": "test-quotes/medical-images/05-just-got-the-bill-doctor-waited-to-send-stuff-unti.jpeg",
+    "expect": {
+      "totalBilled": 11250,
+      "youOwe": 3100,
+      "cptExtractionRegex": "30520|30140|30465|20912",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "issues",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f8-myomectomy-denied",
+    "file": "test-quotes/medical-images/10-help-international-student-with-1990-surgery-bill.jpeg",
+    "expect": {
+      "totalBilled": 6138,
+      "youOwe": 1992,
+      "cptExtractionRegex": "58146|58300",
+      "cptExtractionRegex_flags": "",
+      "verdictExpected": "issues",
+      "isUnreadable": false
+    }
+  },
+  {
+    "id": "f9-credit-balance-overpaid",
+    "file": "test-quotes/medical-images/09-asked-for-itemized-bill.jpg",
+    "expect": {
+      "youOweMustBeLeqZeroOrUnreadable": true,
+      "cptExtractionRegex": "99441|99213|99214",
+      "cptExtractionRegex_flags": "",
+      "isUnreadable": null
+    }
+  }
+]

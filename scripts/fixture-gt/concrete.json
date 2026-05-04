@@ -1,0 +1,149 @@
+[
+  {
+    "id": "f1-precision-flatwork-high",
+    "file": "test-quotes/concrete-images/comparison-conc-high.png",
+    "expect": {
+      "price": 12100,
+      "contractorRegex": "precision\\s*flatwork",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "thicknessInches": 5,
+      "psiRating": 4500,
+      "areaSqft": 800,
+      "scopeFound": [
+        "basePrep",
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "sealing",
+        "expansionJoints",
+        "cleanup",
+        "warranty"
+      ],
+      "verdictNotMatch": "overpriced",
+      "verdictNotMatch_flags": "i"
+    }
+  },
+  {
+    "id": "f2-lone-star-mid",
+    "file": "test-quotes/concrete-images/comparison-conc-mid.png",
+    "expect": {
+      "price": 7800,
+      "contractorRegex": "lone\\s*star\\s*concrete",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "thicknessInches": 4,
+      "psiRating": 4000,
+      "areaSqft": 800,
+      "scopeFound": [
+        "basePrep",
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "expansionJoints",
+        "cleanup",
+        "warranty"
+      ]
+    }
+  },
+  {
+    "id": "f3-quick-pour-low",
+    "file": "test-quotes/concrete-images/comparison-conc-low.png",
+    "expect": {
+      "price": 4840,
+      "contractorRegex": "quick\\s*pour\\s*concrete",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "thicknessInches": 4,
+      "psiRating": 3000,
+      "areaSqft": 800,
+      "scopeFound": [
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "sealing"
+      ]
+    }
+  },
+  {
+    "id": "f4-precision-flatwork-high-messy",
+    "file": "test-quotes/concrete-images/messy-comparison-conc-high.jpg",
+    "expect": {
+      "price": 12100,
+      "contractorRegex": "precision\\s*flatwork",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "areaSqft": 800,
+      "scopeFound": [
+        "basePrep",
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "sealing",
+        "warranty"
+      ],
+      "verdictNotMatch": "overpriced",
+      "verdictNotMatch_flags": "i"
+    }
+  },
+  {
+    "id": "f5-lone-star-mid-messy",
+    "file": "test-quotes/concrete-images/messy-comparison-conc-mid.jpg",
+    "expect": {
+      "price": 7800,
+      "contractorRegex": "lone\\s*star\\s*concrete",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "areaSqft": 800,
+      "scopeFound": [
+        "basePrep",
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "warranty"
+      ]
+    }
+  },
+  {
+    "id": "f6-quick-pour-low-messy",
+    "file": "test-quotes/concrete-images/messy-comparison-conc-low.jpg",
+    "expect": {
+      "price": 4840,
+      "contractorRegex": "quick\\s*pour\\s*concrete",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "concreteTypeRegex": "patio",
+      "concreteTypeRegex_flags": "i",
+      "areaSqft": 800,
+      "scopeFound": [
+        "rebarMesh",
+        "concretePour",
+        "finishing",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "sealing"
+      ]
+    }
+  },
+  {
+    "id": "f7-driveway-widening-multislab",
+    "file": "test-quotes/concrete-images/06-quote-to-widen-driveway-pour-cement-pad-for-shed-p.png",
+    "expect": {
+      "price": 12637
+    }
+  }
+]

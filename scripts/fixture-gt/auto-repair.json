@@ -1,0 +1,103 @@
+[
+  {
+    "id": "f1-honest-wrench-low",
+    "file": "test-quotes/auto-images/comparison-brake-01-shop-a-low.png",
+    "expect": {
+      "price": 327.6,
+      "contractorRegex": "honest\\s*wrench",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "shopTypeRegex": "independent",
+      "shopTypeRegex_flags": "i",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f2-precision-mid",
+    "file": "test-quotes/auto-images/comparison-brake-02-shop-b-mid.png",
+    "expect": {
+      "price": 633,
+      "contractorRegex": "precision\\s*auto\\s*care",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "shopTypeRegex": "independent",
+      "shopTypeRegex_flags": "i",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f3-park-avenue-dealer",
+    "file": "test-quotes/auto-images/comparison-brake-03-shop-c-high.png",
+    "expect": {
+      "price": 1031.6,
+      "contractorRegex": "park\\s*avenue",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "shopTypeRegex": "dealer",
+      "shopTypeRegex_flags": "i",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f4-jeep-insurance",
+    "file": "test-quotes/auto-images/07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg",
+    "expect": {
+      "price": 732.39,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isInsuranceBanner": true,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f5-audi-recommendations",
+    "file": "test-quotes/auto-images/09-am-i-crazy-or-is-this-quote.jpg",
+    "expect": {
+      "price": 5557.45,
+      "contractorRegex": "audi",
+      "contractorRegex_flags": "i",
+      "stateCode": null,
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": true
+    }
+  },
+  {
+    "id": "f6-equinox-quote",
+    "file": "test/receipt/ocr-cache/fixtures/auto-equinox-quote.jpeg",
+    "expect": {
+      "price": 585.7,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f7-honda-fuel-injector",
+    "file": "test/receipt/ocr-cache/fixtures/auto-honda-paper-photo.jpeg",
+    "expect": {
+      "price": 2054.91,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  },
+  {
+    "id": "f8-bmw-x3",
+    "file": "test-quotes/sample-auto-bmw-nc.png",
+    "expect": {
+      "price": 2431.32,
+      "contractorRegex": "precision\\s*auto\\s*care",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "shopTypeRegex": "independent",
+      "shopTypeRegex_flags": "i",
+      "isInsuranceBanner": false,
+      "isRecommendationListBanner": false
+    }
+  }
+]

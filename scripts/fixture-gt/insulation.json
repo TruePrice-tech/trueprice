@@ -1,0 +1,204 @@
+[
+  {
+    "id": "f1-green-envelope-high",
+    "file": "test-quotes/insulation-images/comparison-insul-high.png",
+    "expect": {
+      "price": 5680,
+      "contractorRegex": "green\\s*envelope",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "mixed|blown|cellulose",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-(49|60)",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "airSealing",
+        "ventBaffles",
+        "oldRemoval",
+        "energyAudit",
+        "cleanup",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "vaporBarrier",
+        "rValueCert"
+      ],
+      "warrantyRegex": "lifetime",
+      "warrantyRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f2-buckeye-mid",
+    "file": "test-quotes/insulation-images/comparison-insul-mid.png",
+    "expect": {
+      "price": 3025,
+      "contractorRegex": "buckeye\\s*energy",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "blown|cellulose",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-49",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "airSealing",
+        "ventBaffles",
+        "energyAudit",
+        "cleanup",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "vaporBarrier"
+      ],
+      "warrantyRegex": "10[-\\s]*year|10\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f3-midstate-low",
+    "file": "test-quotes/insulation-images/comparison-insul-low.png",
+    "expect": {
+      "price": 1730,
+      "contractorRegex": "midstate\\s*insulation",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "blown|fiberglass",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-49",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "cleanup",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "airSealing",
+        "oldRemoval"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f4-green-envelope-high-messy",
+    "file": "test-quotes/insulation-images/messy-comparison-insul-high.jpg",
+    "expect": {
+      "price": 5680,
+      "contractorRegex": "green\\s*envelope",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "mixed|blown|cellulose",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-(49|60)",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "airSealing",
+        "ventBaffles",
+        "oldRemoval",
+        "cleanup",
+        "warranty"
+      ],
+      "warrantyRegex": "lifetime",
+      "warrantyRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f5-buckeye-mid-messy",
+    "file": "test-quotes/insulation-images/messy-comparison-insul-mid.jpg",
+    "expect": {
+      "price": 3025,
+      "contractorRegex": "buckeye\\s*energy",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "blown|cellulose",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-49",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "airSealing",
+        "ventBaffles",
+        "cleanup",
+        "warranty"
+      ],
+      "warrantyRegex": "10[-\\s]*year|10\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f6-midstate-low-messy",
+    "file": "test-quotes/insulation-images/messy-comparison-insul-low.jpg",
+    "expect": {
+      "price": 1730,
+      "contractorRegex": "midstate\\s*insulation",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "insTypeRegex": "blown|fiberglass",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-49",
+      "rValueRegex_flags": "",
+      "areaSqFt": 1500,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "cleanup",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "airSealing",
+        "oldRemoval"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f7-mock-apex-nc",
+    "file": "test-quotes/insulation-images/mock-01.png",
+    "expect": {
+      "price": 5475,
+      "contractorRegex": "apex\\s*insulation",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "insTypeRegex": "blown|fiberglass",
+      "insTypeRegex_flags": "i",
+      "rValueRegex": "R-49",
+      "rValueRegex_flags": "",
+      "areaSqFt": null,
+      "locationRegex": "attic",
+      "locationRegex_flags": "i",
+      "scopeFound": [
+        "airSealing",
+        "ventBaffles",
+        "oldRemoval",
+        "permits",
+        "cleanup",
+        "warranty"
+      ],
+      "warrantyRegex": "2[-\\s]*year|manufacturer",
+      "warrantyRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  }
+]

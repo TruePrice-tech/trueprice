@@ -1,0 +1,119 @@
+[
+  {
+    "id": "f1-gaf",
+    "file": "test/receipt/ocr-cache/fixtures/roofing-gaf-quote.jpeg",
+    "expect": {
+      "price": 16765.79,
+      "contractorRegex": "green\\s*ladder",
+      "contractorRegex_flags": "i",
+      "stateCode": null,
+      "scopeFound": [
+        "drip edge",
+        "ridge cap",
+        "disposal",
+        "permit"
+      ],
+      "scopeContingent": [
+        "decking"
+      ]
+    }
+  },
+  {
+    "id": "f2-scope-doc",
+    "file": "test/receipt/ocr-cache/fixtures/roofing-scope-doc.png",
+    "expect": {
+      "price": 14800,
+      "contractorRegex": null,
+      "stateCode": null
+    }
+  },
+  {
+    "id": "f3-budget",
+    "file": "test-quotes/roofing-images/comparison-roof-01-low.png",
+    "expect": {
+      "price": 7565,
+      "contractorRegex": "budget\\s*roofing",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "drip edge",
+        "ridge cap",
+        "ridge vent",
+        "starter strip",
+        "flashing",
+        "disposal",
+        "permit"
+      ],
+      "scopeAbsent": [
+        "ice",
+        "decking"
+      ]
+    }
+  },
+  {
+    "id": "f4-heritage",
+    "file": "test-quotes/roofing-images/comparison-roof-02-mid.png",
+    "expect": {
+      "price": 11895,
+      "contractorRegex": "heritage\\s*roofing",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "ice",
+        "drip edge",
+        "ridge cap",
+        "starter strip",
+        "flashing",
+        "decking",
+        "disposal",
+        "permit",
+        "ventilation"
+      ]
+    }
+  },
+  {
+    "id": "f5-pinnacle",
+    "file": "test-quotes/roofing-images/comparison-roof-03-high.png",
+    "expect": {
+      "price": 17500,
+      "contractorRegex": "pinnacle\\s*premium",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "scopeFound": [
+        "tear off",
+        "underlayment",
+        "ice",
+        "drip edge",
+        "ridge cap",
+        "ridge vent",
+        "starter strip",
+        "flashing",
+        "decking",
+        "disposal",
+        "permit"
+      ]
+    }
+  },
+  {
+    "id": "f6-metal-136k",
+    "file": "test-quotes/roofing-images/03-how-over-priced-is-this-estimate-for-a-metal-roof.jpeg",
+    "expect": {
+      "price": 136375,
+      "contractorRegex": null,
+      "stateCode": null
+    }
+  },
+  {
+    "id": "f7-handwritten",
+    "file": "test-quotes/roofing-images/07-2000sqft-home-roof-estimate-is-this-a-decent-price.jpg",
+    "expect": {
+      "price": 10500,
+      "contractorRegex": null,
+      "stateCode": null
+    }
+  }
+]

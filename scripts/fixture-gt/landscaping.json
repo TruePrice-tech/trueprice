@@ -1,0 +1,169 @@
+[
+  {
+    "id": "f1-piedmont-high",
+    "file": "test-quotes/landscaping-images/comparison-land-high.png",
+    "expect": {
+      "price": 9420,
+      "contractorRegex": "piedmont\\s*landscape\\s*design",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|landscape_design|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 24,
+      "scopeFound": [
+        "designPlan",
+        "plants",
+        "mulchRock",
+        "irrigation",
+        "lighting",
+        "edging",
+        "cleanup",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "sealing",
+        "permits"
+      ]
+    }
+  },
+  {
+    "id": "f2-evergreen-mid",
+    "file": "test-quotes/landscaping-images/comparison-land-mid.png",
+    "expect": {
+      "price": 3820,
+      "contractorRegex": "evergreen\\s*groundskeeping",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|sod|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 12,
+      "scopeFound": [
+        "plants",
+        "mulchRock",
+        "irrigation",
+        "cleanup",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "sealing",
+        "permits",
+        "lighting"
+      ]
+    }
+  },
+  {
+    "id": "f3-lawn-and-order-low",
+    "file": "test-quotes/landscaping-images/comparison-land-low.png",
+    "expect": {
+      "price": 2080,
+      "contractorRegex": "lawn\\s*&?\\s*order\\s*landscaping",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|sod|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 1,
+      "scopeFound": [
+        "plants",
+        "mulchRock",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "irrigation",
+        "designPlan"
+      ],
+      "scopeAbsent": [
+        "sealing",
+        "permits",
+        "lighting",
+        "drainage"
+      ]
+    }
+  },
+  {
+    "id": "f4-piedmont-high-messy",
+    "file": "test-quotes/landscaping-images/messy-comparison-land-high.jpg",
+    "expect": {
+      "price": 9420,
+      "contractorRegex": "piedmont\\s*landscape\\s*design",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|landscape_design|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 24,
+      "scopeFound": [
+        "designPlan",
+        "plants",
+        "mulchRock",
+        "irrigation",
+        "warranty"
+      ]
+    }
+  },
+  {
+    "id": "f5-evergreen-mid-messy",
+    "file": "test-quotes/landscaping-images/messy-comparison-land-mid.jpg",
+    "expect": {
+      "price": 3820,
+      "contractorRegex": "evergreen\\s*groundskeeping",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|sod|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 12,
+      "scopeFound": [
+        "plants",
+        "mulchRock",
+        "irrigation",
+        "warranty"
+      ]
+    }
+  },
+  {
+    "id": "f6-lawn-and-order-low-messy",
+    "file": "test-quotes/landscaping-images/messy-comparison-land-low.jpg",
+    "expect": {
+      "price": 2080,
+      "contractorRegex": "lawn\\s*&?\\s*order\\s*landscaping",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "jobTypeRegex": "mixed|sod|planting",
+      "jobTypeRegex_flags": "i",
+      "plantWarrantyMonths": 1,
+      "scopeFound": [
+        "plants",
+        "mulchRock",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "irrigation",
+        "designPlan"
+      ]
+    }
+  },
+  {
+    "id": "mock-01-greenscape-hardscape",
+    "file": "test-quotes/landscaping-images/mock-01.png",
+    "expect": {
+      "price": 17495,
+      "contractorRegex": "greenscape\\s*designs",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "jobTypeRegex": "mixed|pavers|retaining_wall",
+      "jobTypeRegex_flags": "i",
+      "scopeFound": [
+        "excavation",
+        "drainage",
+        "mulchRock",
+        "edging",
+        "plants",
+        "irrigation",
+        "cleanup",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "sealing",
+        "permits"
+      ]
+    }
+  }
+]

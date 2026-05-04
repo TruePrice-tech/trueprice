@@ -1,0 +1,164 @@
+[
+  {
+    "id": "f1-blueprint-outdoor-high",
+    "file": "test-quotes/fencing-images/comparison-fence-high.png",
+    "expect": {
+      "price": 10800,
+      "contractorRegex": "blueprint\\s*outdoor",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "stainingSealing",
+        "permits",
+        "warranty",
+        "gate",
+        "concreteFootings",
+        "posts"
+      ],
+      "warrantyRegex": "lifetime",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f2-tarheel-mid",
+    "file": "test-quotes/fencing-images/comparison-fence-mid.png",
+    "expect": {
+      "price": 7400,
+      "contractorRegex": "tarheel\\s*fence",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "stainingSealing",
+        "warranty",
+        "gate",
+        "concreteFootings",
+        "posts"
+      ],
+      "warrantyRegex": "5[-\\s]*year|5\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f3-pine-state-low",
+    "file": "test-quotes/fencing-images/comparison-fence-low.png",
+    "expect": {
+      "price": 5100,
+      "contractorRegex": "pine\\s*state",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "warranty",
+        "gate",
+        "concreteFootings",
+        "posts"
+      ],
+      "scopeExcluded": [
+        "stainingSealing"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f4-blueprint-outdoor-high-messy",
+    "file": "test-quotes/fencing-images/messy-comparison-fence-high.jpg",
+    "expect": {
+      "price": 10800,
+      "contractorRegex": "blueprint\\s*outdoor",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "stainingSealing",
+        "permits",
+        "warranty",
+        "gate"
+      ],
+      "warrantyRegex": "lifetime",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f5-tarheel-mid-messy",
+    "file": "test-quotes/fencing-images/messy-comparison-fence-mid.jpg",
+    "expect": {
+      "price": 7400,
+      "contractorRegex": "tarheel\\s*fence",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "stainingSealing",
+        "warranty",
+        "gate"
+      ],
+      "warrantyRegex": "5[-\\s]*year|5\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f6-pine-state-low-messy",
+    "file": "test-quotes/fencing-images/messy-comparison-fence-low.jpg",
+    "expect": {
+      "price": 5100,
+      "contractorRegex": "pine\\s*state",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "materialRegex": "wood|cedar",
+      "materialRegex_flags": "i",
+      "linearFeet": 180,
+      "heightFt": 6,
+      "gateCount": 2,
+      "scopeFound": [
+        "removalOldFence",
+        "warranty",
+        "gate"
+      ],
+      "scopeExcluded": [
+        "stainingSealing"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f7-real-1600lf-wire",
+    "file": "test-quotes/fencing-images/real-02-1600-ft-of-6-wire-t-post-fence-with-some-braces-is.jpg",
+    "expect": {
+      "price": 18025,
+      "statelessFixture": true,
+      "materialOptional": true,
+      "linearFeet": 1600,
+      "heightOptional": true,
+      "gateCount": 0
+    }
+  }
+]

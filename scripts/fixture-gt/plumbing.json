@@ -1,0 +1,140 @@
+[
+  {
+    "id": "f1-budget-tank-low",
+    "file": "test-quotes/plumbing-images/comparison-wh-01-low.png",
+    "expect": {
+      "price": 1380,
+      "contractorRegex": "budget\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tank",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "rheem",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f2-westside-tank-mid",
+    "file": "test-quotes/plumbing-images/comparison-wh-02-mid.png",
+    "expect": {
+      "price": 2553,
+      "contractorRegex": "westside\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tank",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "bradford\\s*white",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f3-premier-tankless-high",
+    "file": "test-quotes/plumbing-images/comparison-wh-03-high.png",
+    "expect": {
+      "price": 7571,
+      "contractorRegex": "premier\\s*home\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tankless",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "rinnai",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f4-budget-tank-messy",
+    "file": "test-quotes/plumbing-images/messy-comparison-wh-01-low.jpg",
+    "expect": {
+      "price": 1380,
+      "contractorRegex": "budget\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tank",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "rheem",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f5-westside-tank-messy",
+    "file": "test-quotes/plumbing-images/messy-comparison-wh-02-mid.jpg",
+    "expect": {
+      "price": 2553,
+      "contractorRegex": "westside\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tank",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "bradford\\s*white",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f6-premier-tankless-messy",
+    "file": "test-quotes/plumbing-images/messy-comparison-wh-03-high.jpg",
+    "expect": {
+      "price": 7571,
+      "contractorRegex": "premier\\s*home\\s*plumbing",
+      "contractorRegex_flags": "i",
+      "stateCode": "CA",
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "tankless",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "rinnai",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f7-roto-rooter-redacted",
+    "file": "test-quotes/plumbing-images/06-help-me-understand-the-invoicenote-from-a-plumber.jpeg",
+    "expect": {
+      "contractorRegex": "roto[\\s-]?rooter",
+      "contractorRegex_flags": "i",
+      "stateCode": "IN",
+      "isUncategorizedOrDrainCleaning": true,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f8-indirect-wh-page1",
+    "file": "test-quotes/plumbing-images/10-is-this-estimate-crazy-or-am-i.jpeg",
+    "expect": {
+      "price": 6950,
+      "contractorRegex": null,
+      "stateCode": null,
+      "serviceTypeRegex": "water\\s*heater",
+      "serviceTypeRegex_flags": "i",
+      "subTypeRegex": "indirect",
+      "subTypeRegex_flags": "i",
+      "brandRegex": "bradford\\s*white",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  }
+]

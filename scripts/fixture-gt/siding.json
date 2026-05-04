@@ -1,0 +1,148 @@
+[
+  {
+    "id": "f1-greater-cincinnati-high",
+    "file": "test-quotes/siding-images/comparison-siding-high.png",
+    "expect": {
+      "price": 23620,
+      "contractorRegex": "greater\\s*cincinnati\\s*siding",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "fiber\\s*cement|hardie",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "houseWrap",
+        "trimFascia",
+        "disposal",
+        "permits",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "painting"
+      ],
+      "warrantyRegex": "lifetime|30[-\\s]*year|hardie",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f2-queen-city-mid",
+    "file": "test-quotes/siding-images/comparison-siding-mid.png",
+    "expect": {
+      "price": 14880,
+      "contractorRegex": "queen\\s*city\\s*exteriors",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "vinyl",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "houseWrap",
+        "trimFascia",
+        "soffit",
+        "jChannel",
+        "disposal",
+        "warranty"
+      ],
+      "scopeAbsent": [
+        "painting"
+      ],
+      "warrantyRegex": "10[-\\s]*year|10\\s*yr|50[-\\s]*year",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f3-ohio-vinyl-low",
+    "file": "test-quotes/siding-images/comparison-siding-low.png",
+    "expect": {
+      "price": 9040,
+      "contractorRegex": "ohio\\s*vinyl\\s*siding",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "vinyl",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "trimFascia",
+        "jChannel",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "houseWrap"
+      ],
+      "scopeAbsent": [
+        "houseWrap",
+        "painting"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f4-greater-cincinnati-high-messy",
+    "file": "test-quotes/siding-images/messy-comparison-siding-high.jpg",
+    "expect": {
+      "price": 23620,
+      "contractorRegex": "greater\\s*cincinnati\\s*siding",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "fiber\\s*cement|hardie",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "houseWrap",
+        "trimFascia",
+        "warranty"
+      ],
+      "warrantyRegex": "lifetime|30[-\\s]*year|hardie",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f5-queen-city-mid-messy",
+    "file": "test-quotes/siding-images/messy-comparison-siding-mid.jpg",
+    "expect": {
+      "price": 14880,
+      "contractorRegex": "queen\\s*city\\s*exteriors",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "vinyl",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "houseWrap",
+        "trimFascia",
+        "warranty"
+      ],
+      "warrantyRegex": "10[-\\s]*year|10\\s*yr|50[-\\s]*year",
+      "warrantyRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f6-ohio-vinyl-low-messy",
+    "file": "test-quotes/siding-images/messy-comparison-siding-low.jpg",
+    "expect": {
+      "price": 9040,
+      "contractorRegex": "ohio\\s*vinyl\\s*siding",
+      "contractorRegex_flags": "i",
+      "stateCode": "OH",
+      "sidingTypeRegex": "vinyl",
+      "sidingTypeRegex_flags": "i",
+      "wallAreaSqFt": 1800,
+      "scopeFound": [
+        "removal",
+        "trimFascia",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "houseWrap"
+      ],
+      "warrantyRegex": "1[-\\s]*year|1\\s*yr",
+      "warrantyRegex_flags": "i"
+    }
+  }
+]

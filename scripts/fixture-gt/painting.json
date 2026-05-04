@@ -1,0 +1,180 @@
+[
+  {
+    "id": "f1-imessage-exterior",
+    "file": "test-quotes/painting-test-images/01-is-my-estimate-reasonable-or-am-i-going-crazy.jpeg",
+    "expect": {
+      "price": 10650,
+      "contractorRegex": null,
+      "stateCode": null,
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f2-cabinet-refinish",
+    "file": "test-quotes/painting-test-images/07-is-this-a-fair-price-from-professional-point-of-vi.jpeg",
+    "expect": {
+      "price": 2820,
+      "contractorRegex": null,
+      "stateCode": null,
+      "paintTypeRegex": "cabinet",
+      "paintTypeRegex_flags": "i",
+      "isUncategorizedBanner": false,
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f3-primer-notes",
+    "file": "test-quotes/painting-test-images/08-quote-feedback--primer-only-job.png",
+    "expect": {
+      "price": 550,
+      "priceTolerance": 100,
+      "contractorRegex": null,
+      "stateCode": null,
+      "paintTypeRegex": "interior|exterior|cabinet|painting",
+      "paintTypeRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f4-budget-low",
+    "file": "test-quotes/painting-images/comparison-paint-low.png",
+    "expect": {
+      "price": 3280,
+      "contractorRegex": "budget\\s*painters",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "behr",
+      "brandRegex_flags": "i",
+      "coats": 1,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f5-rocky-mountain-mid",
+    "file": "test-quotes/painting-images/comparison-paint-mid.png",
+    "expect": {
+      "price": 6680,
+      "contractorRegex": "rocky\\s*mountain\\s*pro\\s*painting",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "sherwin[\\s-]?williams",
+      "brandRegex_flags": "i",
+      "coats": 2,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f6-front-range-high",
+    "file": "test-quotes/painting-images/comparison-paint-high.png",
+    "expect": {
+      "price": 12400,
+      "contractorRegex": "front\\s*range\\s*finishworks",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "sherwin[\\s-]?williams",
+      "brandRegex_flags": "i",
+      "coats": 2,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f7-budget-low-messy",
+    "file": "test-quotes/painting-images/messy-comparison-paint-low.jpg",
+    "expect": {
+      "price": 3280,
+      "contractorRegex": "budget\\s*painters",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "behr",
+      "brandRegex_flags": "i",
+      "coats": 1,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f8-rocky-mountain-mid-messy",
+    "file": "test-quotes/painting-images/messy-comparison-paint-mid.jpg",
+    "expect": {
+      "price": 6680,
+      "contractorRegex": "rocky\\s*mountain\\s*pro\\s*painting",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "sherwin[\\s-]?williams",
+      "brandRegex_flags": "i",
+      "coats": 2,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f9-front-range-high-messy",
+    "file": "test-quotes/painting-images/messy-comparison-paint-high.jpg",
+    "expect": {
+      "price": 12400,
+      "contractorRegex": "front\\s*range\\s*finishworks",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "sherwin[\\s-]?williams",
+      "brandRegex_flags": "i",
+      "coats": 2,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f10-paint-exclusions",
+    "file": "test-quotes/painting-images/comparison-paint-exclusions.png",
+    "expect": {
+      "price": 2600,
+      "contractorRegex": "shoestring\\s*painting",
+      "contractorRegex_flags": "i",
+      "paintTypeRegex": "exterior",
+      "paintTypeRegex_flags": "i",
+      "brandRegex": "behr",
+      "brandRegex_flags": "i",
+      "coats": 1,
+      "isUncategorizedBanner": false,
+      "pricingRegex": "mountain|aurora|denver|colorado|local pricing",
+      "pricingRegex_flags": "i",
+      "scopeNotIncluded": [
+        "priming",
+        "caulking",
+        "scraping",
+        "trimPainting"
+      ],
+      "verdictNotRegex": "overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  }
+]

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "f1-ecoview-handwritten",
+    "file": "test-quotes/windows-images/real/reddit-img-1-fair-quote.jpg",
+    "expect": {
+      "price": 10627,
+      "priceTolerance": 9000,
+      "brandRegex": "eco\\s*view",
+      "brandRegex_flags": "i",
+      "contractorRegex": "eco\\s*view",
+      "contractorRegex_flags": "i",
+      "stateCode": null,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c1-low-pacific-warehouse",
+    "file": "test-quotes/windows-images/comparison-windows-low.png",
+    "expect": {
+      "price": 5640,
+      "priceTolerance": 100,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "vinyl",
+      "materialRegex_flags": "i",
+      "contractorRegex": "pacific\\s*window",
+      "contractorRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c2-mid-cascade-window",
+    "file": "test-quotes/windows-images/comparison-windows-mid.png",
+    "expect": {
+      "price": 9500,
+      "priceTolerance": 100,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "vinyl",
+      "materialRegex_flags": "i",
+      "contractorRegex": "cascade\\s*window",
+      "contractorRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c3-high-evergreen-andersen",
+    "file": "test-quotes/windows-images/comparison-windows-high.png",
+    "expect": {
+      "price": 19520,
+      "priceTolerance": 200,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "wood|fiberglass|clad",
+      "materialRegex_flags": "i",
+      "contractorRegex": "evergreen|andersen",
+      "contractorRegex_flags": "i",
+      "brandRegex": "andersen",
+      "brandRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m1-low-pacific-messy",
+    "file": "test-quotes/windows-images/messy-comparison-windows-low.jpg",
+    "expect": {
+      "price": 5640,
+      "priceTolerance": 100,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "vinyl",
+      "materialRegex_flags": "i",
+      "contractorRegex": "pacific\\s*window",
+      "contractorRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m2-mid-cascade-messy",
+    "file": "test-quotes/windows-images/messy-comparison-windows-mid.jpg",
+    "expect": {
+      "price": 9500,
+      "priceTolerance": 100,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "vinyl",
+      "materialRegex_flags": "i",
+      "contractorRegex": "cascade\\s*window",
+      "contractorRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m3-high-evergreen-messy",
+    "file": "test-quotes/windows-images/messy-comparison-windows-high.jpg",
+    "expect": {
+      "price": 19520,
+      "priceTolerance": 200,
+      "windowCountMin": 10,
+      "windowCountMax": 12,
+      "materialRegex": "wood|fiberglass|clad",
+      "materialRegex_flags": "i",
+      "contractorRegex": "evergreen|andersen",
+      "contractorRegex_flags": "i",
+      "brandRegex": "andersen",
+      "brandRegex_flags": "i",
+      "stateCode": "WA",
+      "isHardReject": false
+    }
+  }
+]

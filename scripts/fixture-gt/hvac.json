@@ -1,0 +1,91 @@
+[
+  {
+    "id": "f1-clean-invoice",
+    "file": "test/receipt/ocr-cache/fixtures/hvac-clean-invoice.jpeg",
+    "expect": {
+      "price": 610,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isServiceJob": true,
+      "refrigerantContains": "R-22"
+    }
+  },
+  {
+    "id": "f2-coil-quote",
+    "file": "test/receipt/ocr-cache/fixtures/hvac-coil-quote.jpeg",
+    "expect": {
+      "price": 3810,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isServiceJob": true
+    }
+  },
+  {
+    "id": "f3-arctic-low",
+    "file": "test-quotes/hvac-images/comparison-ac-01-low.png",
+    "expect": {
+      "price": 3456,
+      "contractorRegex": "arctic\\s*air",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "brandRegex": "goodman",
+      "brandRegex_flags": "i",
+      "tonnage": 3,
+      "seer": 14.3,
+      "warrantyParts": 10,
+      "warrantyLabor": 1,
+      "isServiceJob": false
+    }
+  },
+  {
+    "id": "f4-precision-mid",
+    "file": "test-quotes/hvac-images/comparison-ac-02-mid.png",
+    "expect": {
+      "price": 6620,
+      "contractorRegex": "precision\\s*climate",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "brandRegex": "carrier",
+      "brandRegex_flags": "i",
+      "tonnage": 3,
+      "seer": 16,
+      "warrantyParts": 10,
+      "warrantyLabor": 2,
+      "isServiceJob": false
+    }
+  },
+  {
+    "id": "f5-elite-high",
+    "file": "test-quotes/hvac-images/comparison-ac-03-high.png",
+    "expect": {
+      "price": 13457,
+      "contractorRegex": "elite\\s*comfort",
+      "contractorRegex_flags": "i",
+      "stateCode": "GA",
+      "brandRegex": "trane",
+      "brandRegex_flags": "i",
+      "tonnage": 3,
+      "seer": 22,
+      "warrantyParts": 12,
+      "warrantyLabor": 5,
+      "isServiceJob": false
+    }
+  },
+  {
+    "id": "f6-mini-split",
+    "file": "test-quotes/hvac-images/10-8k-for-mitsubishi-mini-split-leak-detection-just-t.png",
+    "expect": {
+      "price": 7943.56,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isServiceJob": true
+    }
+  },
+  {
+    "id": "f7-heat-pump-table",
+    "file": "test-quotes/hvac-images/09-every-quote-10-total-ive-gotten-for-a-heat-pump-in.png",
+    "expect": {
+      "lowConfidenceOrTableDetected": true
+    }
+  }
+]

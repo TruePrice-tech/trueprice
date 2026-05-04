@@ -1,0 +1,218 @@
+[
+  {
+    "id": "f1-citadel-high",
+    "file": "test-quotes/foundation-images/comparison-pier-high.png",
+    "expect": {
+      "price": 12800,
+      "contractorRegex": "citadel\\s*structural",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "helical|pier_helical|pier_push",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "helical",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "lifetime",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": true,
+      "scopeFound": [
+        "inspection",
+        "piers",
+        "drainage",
+        "warranty",
+        "permits"
+      ],
+      "scopeAbsent": [
+        "waterproofing",
+        "monitoring"
+      ]
+    }
+  },
+  {
+    "id": "f2-gulf-coast-mid",
+    "file": "test-quotes/foundation-images/comparison-pier-mid.png",
+    "expect": {
+      "price": 8750,
+      "contractorRegex": "gulf\\s*coast\\s*foundation",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "pier_push|push|steel",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "steel\\s*push",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "limited|25",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": true,
+      "scopeFound": [
+        "inspection",
+        "piers",
+        "drainage",
+        "warranty",
+        "permits"
+      ],
+      "scopeAbsent": [
+        "waterproofing",
+        "monitoring"
+      ],
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f3-anchor-low",
+    "file": "test-quotes/foundation-images/comparison-pier-low.png",
+    "expect": {
+      "price": 6900,
+      "contractorRegex": "anchor\\s*foundation\\s*repair",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "pier|concrete|hydraulic",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "hydraulic|concrete",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "lifetime",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": false,
+      "scopeFound": [
+        "piers",
+        "excavation",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "inspection"
+      ],
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f4-citadel-high-messy",
+    "file": "test-quotes/foundation-images/messy-comparison-pier-high.jpg",
+    "expect": {
+      "price": 12800,
+      "contractorRegex": "citadel\\s*structural",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "helical|pier_helical|pier_push",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "helical",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "lifetime",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": true,
+      "scopeFound": [
+        "inspection",
+        "piers",
+        "drainage",
+        "warranty",
+        "permits"
+      ]
+    }
+  },
+  {
+    "id": "f5-gulf-coast-mid-messy",
+    "file": "test-quotes/foundation-images/messy-comparison-pier-mid.jpg",
+    "expect": {
+      "price": 8750,
+      "contractorRegex": "gulf\\s*coast\\s*foundation",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "pier_push|push|steel",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "steel\\s*push",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "limited|25",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": true,
+      "scopeFound": [
+        "inspection",
+        "piers",
+        "drainage",
+        "warranty",
+        "permits"
+      ],
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f6-anchor-low-messy",
+    "file": "test-quotes/foundation-images/messy-comparison-pier-low.jpg",
+    "expect": {
+      "price": 6900,
+      "contractorRegex": "anchor\\s*foundation\\s*repair",
+      "contractorRegex_flags": "i",
+      "stateCode": "TX",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "pier|concrete|hydraulic",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "hydraulic|concrete",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "lifetime",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": false,
+      "scopeFound": [
+        "piers",
+        "excavation",
+        "warranty"
+      ],
+      "scopeExcluded": [
+        "inspection"
+      ],
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  },
+  {
+    "id": "f7-mock-foundation-pros-nc",
+    "file": "test-quotes/foundation-images/mock-01.png",
+    "expect": {
+      "price": 21115,
+      "contractorRegex": "foundation\\s*pros",
+      "contractorRegex_flags": "i",
+      "stateCode": "NC",
+      "repairTypeRegex": "pier\\s*installation",
+      "repairTypeRegex_flags": "i",
+      "apiRepairTypeRegex": "pier_push|push|steel",
+      "apiRepairTypeRegex_flags": "i",
+      "pierTypeRegex": "steel\\s*push",
+      "pierTypeRegex_flags": "i",
+      "numPiers": 8,
+      "warrantyTypeRegex": "limited|25",
+      "warrantyTypeRegex_flags": "i",
+      "transferable": true,
+      "engineerReport": true,
+      "scopeFound": [
+        "inspection",
+        "piers",
+        "drainage",
+        "warranty",
+        "permits"
+      ],
+      "verdictNotRegex": "unusually\\s*low|overpriced",
+      "verdictNotRegex_flags": "i"
+    }
+  }
+]

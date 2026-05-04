@@ -1,0 +1,121 @@
+[
+  {
+    "id": "f1-pi-low-brighton",
+    "file": "test-quotes/legal-images/comparison-pi-01-firm-a-low.png",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 33,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "brighton.*sage|brighton",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f2-pi-mid-kestrel",
+    "file": "test-quotes/legal-images/comparison-pi-02-firm-b-mid.png",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 35,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "kestrel",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f3-pi-high-stratton",
+    "file": "test-quotes/legal-images/comparison-pi-03-firm-c-high.png",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 40,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "stratton|caine",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f4-pi-low-messy",
+    "file": "test-quotes/legal-images/messy-comparison-pi-01-firm-a-low.jpg",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 33,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "brighton.*sage|brighton",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f5-pi-mid-messy",
+    "file": "test-quotes/legal-images/messy-comparison-pi-02-firm-b-mid.jpg",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 35,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "kestrel",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f6-pi-high-messy",
+    "file": "test-quotes/legal-images/messy-comparison-pi-03-firm-c-high.jpg",
+    "expect": {
+      "feeStructure": "contingency",
+      "contingencyPct": 40,
+      "practiceArea": "personal_injury",
+      "stateCode": "NC",
+      "firmRegex": "stratton|caine",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f7-hourly-retainer-blackwood",
+    "file": "test-quotes/legal-images/02-hourly-retainer-litigation.png",
+    "expect": {
+      "feeStructureRegex": "^(hourly|hybrid)$",
+      "feeStructureRegex_flags": "",
+      "hourlyRate": 585,
+      "retainerAmount": 15000,
+      "practiceArea": "general_litigation",
+      "stateCode": "NC",
+      "firmRegex": "blackwood.*steel|blackwood",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f8-flat-criminal-falconer",
+    "file": "test-quotes/legal-images/06-criminal-defense-flat-fee.png",
+    "expect": {
+      "feeStructure": "flat_fee",
+      "flatFee": 3500,
+      "practiceArea": "criminal_defense",
+      "stateCode": "AL",
+      "firmRegex": "falconer",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f9-real-photo-invoice",
+    "file": "test-quotes/real-quotes/legal/fixture-attorney-invoice.jpg",
+    "expect": {
+      "feeStructure": "hourly",
+      "hourlyRate": 350,
+      "practiceArea": "estate_planning",
+      "stateCode": "TX",
+      "firmRegex": "henderson.*cole|henderson",
+      "firmRegex_flags": "i",
+      "isHardReject": false
+    }
+  }
+]

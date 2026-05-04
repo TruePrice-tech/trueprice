@@ -1,0 +1,138 @@
+[
+  {
+    "id": "f1-redding-panel-low",
+    "file": "test-quotes/electrical-images/comparison-panel-01-low.png",
+    "expect": {
+      "price": 1660,
+      "contractorRegex": "redding\\s*electric",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "square\\s*d",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f2-spartan-panel-mid",
+    "file": "test-quotes/electrical-images/comparison-panel-02-mid.png",
+    "expect": {
+      "price": 3425,
+      "contractorRegex": "spartan\\s*electric",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "eaton",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f3-meridian-panel-ev",
+    "file": "test-quotes/electrical-images/comparison-panel-03-high.png",
+    "expect": {
+      "price": 8798,
+      "contractorRegex": "meridian\\s*power",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel|ev",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "square\\s*d",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f4-redding-panel-messy",
+    "file": "test-quotes/electrical-images/messy-comparison-panel-01-low.jpg",
+    "expect": {
+      "price": 1660,
+      "contractorRegex": "redding\\s*electric",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "square\\s*d",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f5-spartan-panel-messy",
+    "file": "test-quotes/electrical-images/messy-comparison-panel-02-mid.jpg",
+    "expect": {
+      "price": 3425,
+      "contractorRegex": "spartan\\s*electric",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "eaton",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f6-meridian-panel-messy",
+    "file": "test-quotes/electrical-images/messy-comparison-panel-03-high.jpg",
+    "expect": {
+      "price": 8798,
+      "contractorRegex": "meridian\\s*power",
+      "contractorRegex_flags": "i",
+      "stateCode": "SC",
+      "serviceTypeRegex": "panel|ev",
+      "serviceTypeRegex_flags": "i",
+      "amperageRegex": "200",
+      "amperageRegex_flags": "",
+      "brandRegex": "square\\s*d",
+      "brandRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f7-service-form-9432",
+    "file": "test-quotes/real-world/electrical-extra-11.png",
+    "expect": {
+      "price": 9432,
+      "contractorRegex": null,
+      "stateCode": null,
+      "serviceTypeRegex": "panel|electrical",
+      "serviceTypeRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f8-recessed-lights-3487",
+    "file": "test-quotes/real-world/electrical-extra-12.jpg",
+    "expect": {
+      "price": 3487.53,
+      "contractorRegex": null,
+      "stateCode": null,
+      "serviceTypeRegex": "recessed|can\\s*light|lighting",
+      "serviceTypeRegex_flags": "i",
+      "isUncategorizedBanner": false
+    }
+  },
+  {
+    "id": "f9-handwritten-side-job",
+    "file": "test-quotes/electrical-images/07-did-i-lowball-myself-on-this-side-job.jpeg",
+    "expect": {
+      "price": null,
+      "contractorRegex": null,
+      "stateCode": null,
+      "isUncategorizedOrPanel": true
+    }
+  }
+]

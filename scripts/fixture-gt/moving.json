@@ -1,0 +1,185 @@
+[
+  {
+    "id": "f1-atlanta-dc-3k",
+    "file": "test-quotes/moving-images/01-atlanta-dc-3k-estimate.jpeg",
+    "expect": {
+      "price": 3070.58,
+      "priceTolerance": 50,
+      "moveTypeRegex": "^(long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": null,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f2-mvm-tx-oh",
+    "file": "test-quotes/moving-images/02-thoughts-on-quote.jpeg",
+    "expect": {
+      "price": 6563,
+      "priceTolerance": 100,
+      "moveTypeRegex": "^(long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "TX",
+      "deliveryState": "OH",
+      "companyNameRegex": "\\bMVM\\b",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f3-two-men-truck",
+    "file": "test-quotes/moving-images/03-two-men-truck-doubled.jpg",
+    "expect": {
+      "price": 22715.02,
+      "priceTolerance": 200,
+      "moveTypeRegex": "^(local|long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": "two\\s*men.*truck",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f4-allied-socal-denver",
+    "file": "test-quotes/moving-images/04-allied-socal-denver-18k.jpeg",
+    "expect": {
+      "price": 17541.88,
+      "priceTolerance": 6000,
+      "moveTypeRegex": "^(long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": "allied|bailey",
+      "companyNameRegex_flags": "i",
+      "pickupStateOrDelivery": "CO",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f5-brightside",
+    "file": "test-quotes/moving-images/05-brightside-quote.jpeg",
+    "expect": {
+      "price": 2030.25,
+      "priceTolerance": 100,
+      "moveTypeRegex": "^(long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": "brightside|relorstinn",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f6-united-vs-mayflower",
+    "file": "test-quotes/moving-images/06-united-vs-mayflower.jpeg",
+    "expect": {
+      "price": 28016.08,
+      "priceTolerance": 22000,
+      "moveTypeRegex": "^(long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": "united|mayflower",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f7-mayflower",
+    "file": "test-quotes/moving-images/07-mayflower-quote.jpeg",
+    "expect": {
+      "price": 7022.89,
+      "priceTolerance": 1500,
+      "moveTypeRegex": "^(local|long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "companyNameRegex": "mayflower",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c1-low-atl-discount",
+    "file": "test-quotes/moving-images/comparison-move-low.png",
+    "expect": {
+      "price": 990,
+      "priceTolerance": 50,
+      "moveTypeRegex": "^local$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "atl\\s*discount|discount\\s*movers",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c2-mid-peach-state",
+    "file": "test-quotes/moving-images/comparison-move-mid.png",
+    "expect": {
+      "price": 1860,
+      "priceTolerance": 60,
+      "moveTypeRegex": "^local$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "peach\\s*state",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "c3-high-white-glove",
+    "file": "test-quotes/moving-images/comparison-move-high.png",
+    "expect": {
+      "price": 4040,
+      "priceTolerance": 100,
+      "moveTypeRegex": "^(local|long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "white\\s*glove",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m1-low-atl-discount-messy",
+    "file": "test-quotes/moving-images/messy-comparison-move-low.jpg",
+    "expect": {
+      "price": 990,
+      "priceTolerance": 50,
+      "moveTypeRegex": "^local$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "atl\\s*discount|discount\\s*movers",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m2-mid-peach-state-messy",
+    "file": "test-quotes/moving-images/messy-comparison-move-mid.jpg",
+    "expect": {
+      "price": 1860,
+      "priceTolerance": 60,
+      "moveTypeRegex": "^local$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "peach\\s*state",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "m3-high-white-glove-messy",
+    "file": "test-quotes/moving-images/messy-comparison-move-high.jpg",
+    "expect": {
+      "price": 4040,
+      "priceTolerance": 100,
+      "moveTypeRegex": "^(local|long_distance|longDistance)$",
+      "moveTypeRegex_flags": "i",
+      "pickupState": "GA",
+      "deliveryState": "GA",
+      "companyNameRegex": "white\\s*glove",
+      "companyNameRegex_flags": "i",
+      "isHardReject": false
+    }
+  }
+]
