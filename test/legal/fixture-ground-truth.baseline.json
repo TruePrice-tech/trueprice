@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T02:01:21.223Z",
+  "ts": "2026-05-04T10:00:26.959Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-pi-low-brighton": {
@@ -11,7 +11,7 @@
         "typical range": "25–40%"
       },
       "isHardReject": false,
-      "firmName": "Brighton & Sage Injury Lawyers",
+      "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
       "feeStructure": "contingency",
       "hourlyRate": null,
       "flatFee": null,
@@ -103,8 +103,8 @@
       "retainerAmount": null,
       "practiceArea": "personal_injury",
       "stateCode": "NC",
-      "firmSize": "small",
-      "firmSizeMult": 1,
+      "firmSize": "solo",
+      "firmSizeMult": 0.75,
       "failures": []
     },
     "f6-pi-high-messy": {
@@ -116,7 +116,7 @@
         "typical range": "25–40%"
       },
       "isHardReject": false,
-      "firmName": "Stratton & Caine Trial Attorneys",
+      "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
       "feeStructure": "contingency",
       "hourlyRate": null,
       "flatFee": null,
@@ -155,7 +155,7 @@
       "details": {
         "flat fee": "$3,500",
         "practice area": "Criminal Defense",
-        "typical dui first": "$1,800–$3,600"
+        "typical dui first": "$1,350–$2,700"
       },
       "isHardReject": false,
       "firmName": "THE FALCONER LAW FIRM",
@@ -179,12 +179,12 @@
         "market mid": "$322/hr"
       },
       "isHardReject": false,
-      "firmName": "HENDERSON & COLE, PLLIC",
+      "firmName": "HENDERSON & COLE, PLLC",
       "feeStructure": "hourly",
       "hourlyRate": 350,
       "flatFee": null,
       "contingencyPercent": null,
-      "retainerAmount": 5900,
+      "retainerAmount": null,
       "practiceArea": "estate_planning",
       "stateCode": "TX",
       "firmSize": "small",
