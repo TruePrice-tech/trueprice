@@ -176,17 +176,27 @@ function scanStubReferences() {
 function scanInternalLinks() {
   const results = new Map(); // target -> Set of files referencing it
   const repoHtml = [...listRepoHtml()].map((p) => p.replace(/^\//, ""));
-  const linkRe = /href=["']([^"']+)["']/g;
+  // Match the full <a ...> tag so we can inspect rel="nofollow".
+  // rel=nofollow tells crawlers "don't follow / no crawl-budget here";
+  // those links are not ghost links from an SEO perspective even if the
+  // target is noindex.
+  const aRe = /<a\b([^>]*)>/gi;
   for (const file of repoHtml) {
     const html = readMaybe(path.join(ROOT, file));
     if (!html) continue;
     let m;
-    while ((m = linkRe.exec(html)) !== null) {
-      let target = m[1];
+    while ((m = aRe.exec(html)) !== null) {
+      const attrs = m[1];
+      const hrefMatch = attrs.match(/\bhref=["']([^"']+)["']/i);
+      if (!hrefMatch) continue;
+      let target = hrefMatch[1];
       if (!target.startsWith("/") || target.startsWith("//")) continue;
       if (target.startsWith("/api/")) continue;
       target = target.split("?")[0].split("#")[0];
       if (!target.endsWith(".html")) continue;
+      // Skip nofollow links — they don't waste crawl budget on noindex targets.
+      const relMatch = attrs.match(/\brel=["']([^"']*)["']/i);
+      if (relMatch && /\bnofollow\b/i.test(relMatch[1])) continue;
       if (!results.has(target)) results.set(target, new Set());
       results.get(target).add("/" + file);
     }

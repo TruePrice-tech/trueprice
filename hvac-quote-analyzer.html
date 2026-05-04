@@ -256,8 +256,8 @@
   <main id="main" class="analyzer-wrap">
     <div class="tp-pdf-noprint" style="max-width:720px; margin:0 auto 24px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; display:flex; flex-wrap:wrap; gap:12px 24px; justify-content:center; font-size:13px;">
       <span style="font-weight:700; color:#0f172a;">You are analyzing a quote.</span>
-      <a href="/hvac-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Want a free estimate first? &rarr;</a>
-      <a href="/compare-hvac-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;">Multiple quotes? Compare &rarr;</a>
+      <a href="/hvac-estimate.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;" rel="nofollow">Want a free estimate first? &rarr;</a>
+      <a href="/compare-hvac-quotes.html" style="color:#1d4ed8; font-weight:600; text-decoration:none;" rel="nofollow">Multiple quotes? Compare &rarr;</a>
     </div>
     <div class="hvac-app" id="hvacApp">
       <div style="max-width:720px; margin:80px auto; text-align:center; padding:0 24px;">
@@ -772,7 +772,7 @@
           </div>\
           <div style="text-align:center; margin-top:16px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">\
             <span style="font-size:13px; color:#64748b;">Have multiple quotes? </span>\
-            <a href="/compare-hvac-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;">Compare 2-3 HVAC quotes side by side &rarr;</a>\
+            <a href="/compare-hvac-quotes.html" style="font-size:13px; font-weight:600; color:#1d4ed8; text-decoration:none;" rel="nofollow">Compare 2-3 HVAC quotes side by side &rarr;</a>\
           </div>\
           <div style="margin-top:12px; font-size:12px; color:#94a3b8; text-align:center;">Your quote stays private. Processed in your browser, never stored or shared.</div>\
         </div>';
@@ -1530,8 +1530,51 @@
         var safeContractor = String(r.contractor).replace(/[<>]/g, "");
         detailsHtml += '<div class="hvac-detail"><div class="label">Contractor</div><div class="value">' + safeContractor + '</div></div>';
       }
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      // HVAC-DT-1 (mirror PLUMB-DT-1): AI sometimes hallucinates a city by
+      // mis-OCR-ing form-field labels ("Customer Name" -> "Ustomer Nal Je")
+      // or by lifting a sub-type / service-type label from the document body
+      // ("Heat pump install" -> city = "Heat pump"). Reject form-fragment +
+      // OCR-stripped variants, sub-type / job-type labels, and any value
+      // that doesn't appear verbatim in the OCR text. Also require stateCode
+      // because getCityMult is unreliable without one.
+      function _hSafeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
+      function _hCleanCity(s) { return _hSafeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
+      function _hIsReasonableCity(s, ocrText, badLabels) {
+        if (!s) return false;
+        var t = String(s).trim();
+        if (t.length < 2 || t.length > 50) return false;
+        if (/\b(c?ustomer|n?al\s?je|a?ddress|i?nvoice|a?ccount|n?ame|d?ate|p?age|p?hone|e?mail|s?ignature|e?stimate|t?otal|s?ubtotal|a?mount|d?ue|q?ty|i?tem|d?escription)\b/i.test(t)) return false;
+        if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        if (badLabels && badLabels.length) {
+          for (var _bi = 0; _bi < badLabels.length; _bi++) {
+            var bl = (badLabels[_bi] || "").toLowerCase().trim();
+            if (bl && bl === t.toLowerCase()) return false;
+          }
+        }
+        if (ocrText && t.length >= 3) {
+          var rx = new RegExp("\\b" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+          if (!rx.test(ocrText)) return false;
+        }
+        return true;
+      }
+      var _hcity = _hCleanCity(state.address.city);
+      var _hBadLabels = [];
+      if (r.systemType) {
+        if (typeof r.systemType === "object") {
+          if (r.systemType.label) _hBadLabels.push(r.systemType.label);
+          if (r.systemType.value) {
+            _hBadLabels.push(r.systemType.value);
+            _hBadLabels.push(String(r.systemType.value).replace(/_/g, " "));
+          }
+        } else {
+          _hBadLabels.push(String(r.systemType));
+          _hBadLabels.push(String(r.systemType).replace(/_/g, " "));
+        }
+      }
+      if (r.jobType) _hBadLabels.push(String(r.jobType));
+      var _hcityOk = _hIsReasonableCity(_hcity, state.extractedText || "", _hBadLabels);
+      var pricingLabel = (_hcityOk && state.address.stateCode && getCityMult(_hcity, state.address.stateCode)) ? (_hcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + _hSafeText(pricingLabel) + '</div></div>';
 
       if (r.homeSqFt) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Home Size</div><div class="value">' + Number(r.homeSqFt).toLocaleString() + ' sq ft</div></div>';
@@ -1956,8 +1999,8 @@
         ' + tipsHtml + '\
         ' + rebateHtml + '\
         <div class="hvac-actions">\
-          <a class="hvac-btn hvac-btn-primary hvac-btn-full" href="/hvac-estimate.html">Get an HVAC estimate</a>\
-          <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="/compare-hvac-quotes.html">Compare 2-3 quotes side by side</a>\
+          <a class="hvac-btn hvac-btn-primary hvac-btn-full" href="/hvac-estimate.html" rel="nofollow">Get an HVAC estimate</a>\
+          <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="/compare-hvac-quotes.html" rel="nofollow">Compare 2-3 quotes side by side</a>\
           <a class="hvac-btn hvac-btn-secondary hvac-btn-full" href="/methodology.html" style="font-size:0.9rem;">How we calculate estimates</a>\
         </div>';
 
