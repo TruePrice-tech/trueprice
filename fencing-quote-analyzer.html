@@ -412,7 +412,12 @@
         vinyl_privacy: { label: "Vinyl Privacy", low: 30, high: 60, mid: 45.00 },
         chain_link: { label: "Chain Link (4ft)", low: 15, high: 25, mid: 20.00 },
         aluminum: { label: "Aluminum (4ft)", low: 30, high: 55, mid: 42.50 },
-        wrought_iron: { label: "Wrought Iron", low: 40, high: 75, mid: 57.50 }
+        wrought_iron: { label: "Wrought Iron", low: 40, high: 75, mid: 57.50 },
+        // Agricultural / high-tensile wire / barbed / woven field fence.
+        // HomeGuide / Angi 2024-25: 5-7 strand wire installed runs $7-18/lf
+        // depending on terrain + bracing. f7 $18,025 / 1600 lf = $11.27/lf
+        // sits squarely in this band.
+        wire_agricultural: { label: "Wire / Agricultural", low: 7, high: 18, mid: 12.50 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       heightMultiplier: { "4": 0.85, "6": 1.00, "8": 1.25 },
@@ -421,7 +426,8 @@
         vinyl_privacy: { low: 400, high: 700 },
         chain_link: { low: 300, high: 500 },
         aluminum: { low: 450, high: 800 },
-        wrought_iron: { low: 500, high: 800 }
+        wrought_iron: { low: 500, high: 800 },
+        wire_agricultural: { low: 200, high: 600 }
       },
       scopeItems: [
         { key: "postHoles", label: "Post holes", weight: 12 },
@@ -918,6 +924,59 @@
         var hasGate = detectGate(text);
         var scopeSignals = detectFenceScopeSignals(text);
 
+        // FENCE-B2 (apiResult overrides upstream of benchmark 2026-05-03):
+        // Block 1 fixes only updated the DISPLAY label/value in renderResult,
+        // which left calcBenchmark below using the stale local-detector
+        // values. f3 Pine State's "chain link specialists" tagline made
+        // detectFenceType return chain_link, so calcBenchmark used the
+        // $20/lf chain-link rate for what was actually 180lf of cedar
+        // privacy — benchmark $4,450 instead of $8,050. f7 wire fence
+        // similarly fell through to wood_privacy + length=150 default,
+        // giving a $6,800 benchmark for a $18,025 / 1600lf wire job.
+        // Apply the apiResult overrides BEFORE calcBenchmark so the
+        // verdict reflects the right rate × right linear feet.
+        if (apiResult) {
+          var apiMaterialUp = (apiResult.material || "").toLowerCase();
+          var apiFenceTypeUp = (apiResult.fenceType || "").toLowerCase();
+          var typeRemap = null;
+          if (/^(wood|composite)$/.test(apiMaterialUp)) typeRemap = { value: "wood_privacy", label: "Wood Privacy (" + (height || 6) + "ft)" };
+          else if (/^vinyl$/.test(apiMaterialUp)) typeRemap = { value: "vinyl_privacy", label: "Vinyl Privacy" };
+          else if (/^chain_link$/.test(apiMaterialUp)) typeRemap = { value: "chain_link", label: "Chain Link (" + (height || 4) + "ft)" };
+          else if (/^aluminum$/.test(apiMaterialUp)) typeRemap = { value: "aluminum", label: "Aluminum (" + (height || 4) + "ft)" };
+          else if (/^wrought_iron$/.test(apiMaterialUp)) typeRemap = { value: "wrought_iron", label: "Wrought Iron" };
+          else if (/^(steel|wire)$/.test(apiMaterialUp) || /ranch|wire/.test(apiFenceTypeUp)) typeRemap = { value: "wire_agricultural", label: "Wire / Agricultural" };
+          // Trust API override when it disagrees with the local default
+          // (wood_privacy fallback) OR when local picked chain_link off a
+          // tagline mention but API says wood/composite.
+          if (typeRemap && (
+              fenceType.value === "wood_privacy" ||
+              (fenceType.value === "chain_link" && /^(wood|composite)$/.test(apiMaterialUp))
+          )) {
+            fenceType = typeRemap;
+          }
+
+          if (typeof apiResult.linearFeet === "number" && apiResult.linearFeet > 0) {
+            // When local missed entirely OR drifted >50% from API's number,
+            // prefer Claude's structured value (f7 1600 vs local 150 default).
+            if (length == null || apiResult.linearFeet > length * 1.5 || apiResult.linearFeet < length * 0.5) {
+              length = apiResult.linearFeet;
+            }
+          }
+
+          if (typeof apiResult.height === "number" && apiResult.height > 0 && height == null) {
+            height = apiResult.height;
+          }
+
+          if (typeof apiResult.gateCount === "number") {
+            hasGate = apiResult.gateCount > 0;
+          }
+
+          // State code fallback when local location parser misses.
+          if (apiResult.stateCode && !state.address.stateCode) {
+            state.address.stateCode = apiResult.stateCode;
+          }
+        }
+
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
         if (location && location.stateCode && !state.address.stateCode) {
@@ -1314,59 +1373,21 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
-      // FENCE-7 (apiResult overrides 2026-05-03): when Claude returned
-      // structured data and the local regex landed on defaults, prefer the
-      // API. Local detectFenceType misclassifies cedar quotes as Chain Link
-      // when the contractor's tagline says "chain link specialists" (f3
-      // Pine State); detectLength caps at 2000 lf and misses bare numeric
-      // formats (f7 1600 lf agricultural); detectGate defaults to true on
-      // any "gate" mention, even quotes with explicit gateCount=0.
+      // FENCE-B2 2026-05-03: apiResult overrides moved upstream into
+      // processFile so calcBenchmark uses corrected values. The renderResult
+      // detail rows now read straight from r.fenceType / r.length / r.height
+      // / r.gate which are already API-corrected. Gate row reads gateCount
+      // when present so "2 gates" surfaces instead of bare "Yes".
       var apiR = r.apiResult || {};
-      var apiMaterial = apiR.material || "";
-      var apiFenceType = apiR.fenceType || "";
-      var fenceTypeLabel = r.fenceType.label;
-      if (apiMaterial && /^(wood|composite)$/i.test(apiMaterial) && r.fenceType.value === "chain_link") {
-        fenceTypeLabel = "Wood Privacy (" + (r.height || 6) + "ft)";
-      } else if (apiMaterial && /^vinyl$/i.test(apiMaterial) && r.fenceType.value !== "vinyl_privacy") {
-        fenceTypeLabel = "Vinyl Privacy (" + (r.height || 6) + "ft)";
-      } else if (apiMaterial && /^chain_link$/i.test(apiMaterial)) {
-        fenceTypeLabel = "Chain Link (" + (r.height || 4) + "ft)";
-      } else if (apiMaterial && /^aluminum$/i.test(apiMaterial)) {
-        fenceTypeLabel = "Aluminum (" + (r.height || 4) + "ft)";
-      } else if (apiMaterial && /^wrought_iron$/i.test(apiMaterial)) {
-        fenceTypeLabel = "Wrought Iron";
-      } else if (apiMaterial && /^(steel|wire)$/i.test(apiMaterial)) {
-        fenceTypeLabel = "Wire / Agricultural";
-      } else if (apiFenceType && /split_rail/i.test(apiFenceType)) {
-        fenceTypeLabel = "Split Rail";
-      } else if (apiFenceType && /ranch/i.test(apiFenceType)) {
-        fenceTypeLabel = "Ranch / Wire";
-      }
-
-      var displayLength = r.length;
-      if (typeof apiR.linearFeet === "number" && apiR.linearFeet > 0 &&
-          (r.length === 150 || apiR.linearFeet > r.length * 1.5 || apiR.linearFeet < r.length * 0.5)) {
-        displayLength = apiR.linearFeet;
-      }
-
-      var displayHeight = r.height;
-      if (typeof apiR.height === "number" && apiR.height > 0 && r.height === 6 && apiR.height !== 6) {
-        displayHeight = apiR.height;
-      }
-
-      var displayGate = r.gate;
-      if (typeof apiR.gateCount === "number") {
-        displayGate = apiR.gateCount > 0;
-      }
 
       // Build details
       var detailsHtml = '<div class="fence-details">';
-      detailsHtml += '<div class="fence-detail"><div class="label">Fence Type</div><div class="value">' + fenceTypeLabel + '</div></div>';
-      detailsHtml += '<div class="fence-detail"><div class="label">Length</div><div class="value">' + displayLength + ' linear feet</div></div>';
-      detailsHtml += '<div class="fence-detail"><div class="label">Height</div><div class="value">' + displayHeight + ' ft</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Fence Type</div><div class="value">' + r.fenceType.label + '</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Length</div><div class="value">' + r.length + ' linear feet</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Height</div><div class="value">' + r.height + ' ft</div></div>';
       var gateValue = (typeof apiR.gateCount === "number" && apiR.gateCount > 0)
         ? (apiR.gateCount + " gate" + (apiR.gateCount > 1 ? "s" : ""))
-        : (displayGate ? "Yes" : "No");
+        : (r.gate ? "Yes" : "No");
       detailsHtml += '<div class="fence-detail"><div class="label">Gate</div><div class="value">' + gateValue + '</div></div>';
 
       // FENCE-2/3 (Contractor + Warranty rows 2026-05-03): mirror the
