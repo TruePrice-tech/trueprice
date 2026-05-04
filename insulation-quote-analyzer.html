@@ -667,44 +667,51 @@
     }
 
     // I6 (Block 2 2026-05-03): extract contractor name from quote letterhead
-    // (parity with foundation F4 / kitchen K6 / electrical E2). Two-pass:
-    // STRONG keywords (insulation/energy/foam/envelope/thermal/building
-    // science/group/llc/inc) are unambiguous company-name tokens and beat
-    // WEAK keywords (specialists/performance/comfort/professionals/pro)
+    // (parity with foundation F4 / kitchen K6 / electrical E2). STRONG +
+    // WEAK split: STRONG keywords (insulation/energy/foam/envelope/thermal/
+    // building science/group/llc/inc) are unambiguous company tokens and
+    // beat WEAK keywords (specialists/performance/comfort/professionals)
     // which often appear in taglines. f4 messy fixture surfaced this:
-    // OCR mangled line 1 leading char, current scan grabbed line 2
-    // ("Whole-home performance specialists") instead of line 1
-    // ("GREEN ENVELOPE BUILDING SCIENCE"). Now line 1 wins via STRONG
-    // pass even with a stray leading char, and the leading-punctuation
-    // filter only fires when no STRONG keyword is present.
-    function detectContractor(text) {
-      if (!text) return null;
-      var lines = text.split(/\n/).map(function(l) {
-        // Strip leading punctuation/whitespace before further checks —
-        // OCR-skewed letterheads sometimes carry stray "." or "," at start.
+    // Claude returned "Whole-home performance Specialists" (misread the
+    // tagline as the company name) instead of "GREEN ENVELOPE BUILDING
+    // SCIENCE". Resolution priority is now: local STRONG hit > API >
+    // engine > local WEAK fallback. When OCR is clean enough to surface
+    // a STRONG keyword in the first 6 lines, the local letterhead is
+    // more reliable than Claude's name-extraction guess.
+    function _ctrLines(text) {
+      if (!text) return [];
+      return text.split(/\n/).map(function(l) {
         return String(l || "").replace(/^[\s.,;:|]+/, "").trim();
       }).filter(Boolean).slice(0, 6);
+    }
+    function _ctrSkip(line) {
       var skipRx = /^(customer|property|job|date|description|amount|subtotal|sales\s*tax|tax|total|quote|valid|address|phone|fax|email|bpi|hic|licensed|whole[\s-]*home|quality\s+work|since\s+\d{4})\b/i;
+      if (line.length < 4 || line.length > 80) return true;
+      if (skipRx.test(line)) return true;
+      if (/@|\.com|\.net/i.test(line)) return true;
+      if (!/[a-zA-Z]{3,}/.test(line)) return true;
+      return false;
+    }
+    function detectContractorStrong(text) {
+      var lines = _ctrLines(text);
       var strongRx = /\b(insulation|energy|foam|envelope|thermal|building\s+science|spray\s+foam\b|attic\s+(?:co|insulation|specialists)|group|llc|inc\b|\bco\b)\b/i;
-      var weakRx = /\b(specialists|performance|comfort|professionals|solutions|services|company)\b/i;
-      var fallback = null;
-      // Pass 1: STRONG match wins outright.
       for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        if (line.length < 4 || line.length > 80) continue;
-        if (skipRx.test(line)) continue;
-        if (/@|\.com|\.net/i.test(line)) continue;
-        if (!/[a-zA-Z]{3,}/.test(line)) continue;
+        if (_ctrSkip(line)) continue;
         if (strongRx.test(line)) return line;
       }
-      // Pass 2: WEAK match (existing behavior, with skip filters retained).
+      return null;
+    }
+    function detectContractor(text) {
+      var strong = detectContractorStrong(text);
+      if (strong) return strong;
+      var lines = _ctrLines(text);
+      var weakRx = /\b(specialists|performance|comfort|professionals|solutions|services|company)\b/i;
+      var fallback = null;
       for (var j = 0; j < lines.length; j++) {
         var line2 = lines[j];
-        if (line2.length < 4 || line2.length > 80) continue;
-        if (skipRx.test(line2)) continue;
+        if (_ctrSkip(line2)) continue;
         if (/^[$\d]/.test(line2)) continue;
-        if (/@|\.com|\.net/i.test(line2)) continue;
-        if (!/[a-zA-Z]{3,}/.test(line2)) continue;
         if (weakRx.test(line2)) return line2;
         if (!fallback) fallback = line2;
       }
@@ -985,13 +992,19 @@
         var detectedRValue = detectRValue(text);
         var scopeSignals = detectInsulationScopeSignals(text);
 
-        // I6 (Block 2 2026-05-03): contractor name. Prefer Claude API result
-        // (server-side, structured) over local letterhead detector — Claude
-        // reads the visual letterhead even when OCR mangles ALL-CAPS company
-        // names. Falls back to engine.contractor and local letterhead pass.
-        // _normalizeContractor filters Claude sentinel responses ("Not
-        // detected" / "Unknown" / etc.) to null so local fallback runs.
-        var detectedContractor = _normalizeContractor(apiResult && apiResult.contractor) ||
+        // I6 (Block 2 2026-05-03): contractor name. Resolution priority:
+        //   1. Local STRONG keyword hit (unambiguous company token in first
+        //      6 OCR lines). Most reliable when OCR is clean.
+        //   2. Claude API contractor (filters sentinel "Not detected" etc.).
+        //      Useful when OCR drops the letterhead entirely.
+        //   3. Engine contractor (shared parser fallback).
+        //   4. Local WEAK fallback (tagline / generic line).
+        // f4 surfaced #1 — Claude returned tagline "Whole-home performance
+        // Specialists" instead of letterhead "GREEN ENVELOPE BUILDING
+        // SCIENCE" even though the letterhead was in the OCR text. Local
+        // STRONG match catches it cleanly.
+        var detectedContractor = detectContractorStrong(text) ||
+                                 _normalizeContractor(apiResult && apiResult.contractor) ||
                                  _normalizeContractor(engineResult && engineResult.contractor) ||
                                  detectContractor(text) ||
                                  null;
