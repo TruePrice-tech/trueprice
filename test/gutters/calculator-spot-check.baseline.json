@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T12:25:37.521Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "alum-seamless-150-1story-se": {
+      "total": 1390,
+      "band": {
+        "low": 1000,
+        "high": 2500
+      },
+      "label": "Aluminum seamless 150lf 1-story, SE",
+      "failures": []
+    },
+    "alum-6inch-200-2story-ne-guards": {
+      "total": 7080,
+      "band": {
+        "low": 5500,
+        "high": 12000
+      },
+      "label": "Aluminum 6\" 200lf 2-story, NE, +guards",
+      "failures": []
+    },
+    "vinyl-100-1story-tx": {
+      "total": 600,
+      "band": {
+        "low": 400,
+        "high": 1000
+      },
+      "label": "Vinyl 100lf 1-story, TX, no guards",
+      "failures": []
+    },
+    "copper-80-2story-ca-guards": {
+      "total": 5970,
+      "band": {
+        "low": 4500,
+        "high": 9000
+      },
+      "label": "Copper 80lf 2-story, CA, +guards",
+      "failures": []
+    },
+    "steel-150-1story-mw-guards": {
+      "total": 3900,
+      "band": {
+        "low": 2500,
+        "high": 5500
+      },
+      "label": "Steel 150lf 1-story, MW, +guards",
+      "failures": []
+    }
+  }
+}
