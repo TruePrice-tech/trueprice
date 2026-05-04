@@ -62,6 +62,28 @@
         "https://www.angi.com/articles/roof-replacement-cost.htm"
       ]
     },
+    "moving": {
+      "harnessPath": "test/moving/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "local-2br-under-50mi",
+          "label": "Local 2BR move under 50 miles (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a local move (under 50 miles) of a 2-bedroom home with no packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 1200, "high": 2500 }
+        },
+        {
+          "id": "ld-3br-cross-country",
+          "label": "Long-distance 3BR cross-country move 1000+ mi (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a long-distance move (1,000+ miles, cross-country) of a 3-bedroom home with partial packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 12000, "high": 25000 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/moving-cost",
+        "https://www.forbes.com/home-improvement/moving-services/cost-of-moving/",
+        "https://www.angi.com/articles/how-much-does-it-cost-hire-mover.htm"
+      ]
+    },
     "garage-door": {
       "harnessPath": "test/garage-door/calculator-spot-check.test.js",
       "pinpoints": [

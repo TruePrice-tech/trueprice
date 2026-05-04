@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T12:40:09.080Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "local-2br-under50-none-nc": {
+      "total": 1650,
+      "band": {
+        "low": 1200,
+        "high": 2500
+      },
+      "label": "Local 2BR <50mi NC",
+      "failures": []
+    },
+    "ld-3br-1000plus-partial-ca-piano": {
+      "total": 19150,
+      "band": {
+        "low": 12000,
+        "high": 25000
+      },
+      "label": "Long-distance 3BR 1000+mi partial CA +piano",
+      "failures": []
+    },
+    "local-4brplus-50to250-full-ny-hottub": {
+      "total": 7000,
+      "band": {
+        "low": 5000,
+        "high": 10000
+      },
+      "label": "Local 4BR+ 50-250mi full NY +hot tub",
+      "failures": []
+    },
+    "samebld-2br-under50-mw": {
+      "total": 650,
+      "band": {
+        "low": 400,
+        "high": 1200
+      },
+      "label": "Same-building 2BR MW",
+      "failures": []
+    },
+    "office-under50-tx": {
+      "total": 4500,
+      "band": {
+        "low": 3000,
+        "high": 6500
+      },
+      "label": "Office move under_50 TX",
+      "failures": []
+    }
+  }
+}

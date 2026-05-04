@@ -337,6 +337,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/moving-calc.min.js"></script>
 
   <!-- Vendor libs loaded on-demand for PDF report -->
   <script>
@@ -358,68 +360,12 @@
     "use strict";
 
     // ── Moving Pricing Model ──
-    var MOVING_PRICING = {
-      // Base prices for a 2BR local move (under 50 mi)
-      basePriceByType: {
-        local:          { label: "Local Move",        base2BR: 1600 },
-        long_distance:  { label: "Long Distance Move", base2BR: 5000 },
-        same_building:  { label: "Same Building Move", base2BR: 600  },
-        office:         { label: "Office/Commercial",  base2BR: 2800 }
-      },
-      // Size multipliers relative to 2BR
-      sizeMultiplier: {
-        studio_1br: 0.60,
-        "2br":      1.00,
-        "3br":      1.40,
-        "4br_plus": 1.90,
-        office:     1.60
-      },
-      // Distance multipliers (applied to long_distance base $5K for 2BR).
-      // Tuned to match the SEO range table on the same page:
-      //   Same-state (50-250 mi) 2BR: $1,500-$4,500   → 0.65 * 5000 ≈ $3,250
-      //   Long-distance (250-1,000 mi) 2BR: $3,000-$7,000 → 1.40 * 5000 = $7,000
-      //   Cross-country (1,000+ mi) 2BR: $5,000-$11,000 → 1.90 * 5000 = $9,500
-      // Long-distance + under-50 is semantically off (it's really a local
-      // move) but the wizard allows it, so price it like a long local.
-      distanceMultiplier: {
-        under_50:    0.40,
-        "50_250":    0.65,
-        "250_1000":  1.40,
-        "1000_plus": 1.90
-      },
-      // Packing service add-on multiplier
-      packingMultiplier: {
-        none:    1.00,
-        partial: 1.15,
-        full:    1.30
-      },
-      // Special items add-on (flat dollar amounts)
-      specialItemsCost: {
-        none:     0,
-        piano:    350,
-        hot_tub:  500,
-        stairs:   200
-      },
-      scopeItems: [
-        { key: "truck",       label: "Truck / transportation" },
-        { key: "loading",     label: "Loading labor" },
-        { key: "unloading",   label: "Unloading labor" },
-        { key: "protection",  label: "Basic furniture protection (blankets/wrap)" },
-        { key: "fuel",        label: "Fuel / travel charges" }
-      ]
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/moving-calc.js (UMD).
+    var _MVCALC = (typeof window !== "undefined" && window.WoogoroMovingCalc) || null;
+    if (!_MVCALC) { console.error("[moving-estimate] /js/moving-calc.min.js failed to load"); return; }
+    var MOVING_PRICING = _MVCALC.MOVING_PRICING;
+    var STATE_REGIONS = _MVCALC.STATE_REGIONS;
+    var LABOR_MULT_BY_REGION = _MVCALC.LABOR_MULT_BY_REGION;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -435,7 +381,6 @@
       "district of columbia":"DC"
     };
 
-    var LABOR_MULT_BY_REGION = { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 };
 
     // ── State ──
     var appRoot = document.getElementById("moveApp");
@@ -451,70 +396,40 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _MVCALC.getRegionFromState;
 
-    // City-level multiplier
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=moving")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: moving peaks in summer
-    var SEASONAL_MULTS = { 1:0.88, 2:0.88, 3:0.92, 4:0.96, 5:1.06, 6:1.14, 7:1.16, 8:1.14, 9:1.02, 10:0.94, 11:0.90, 12:0.88 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+    var SEASONAL_MULT = _MVCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
-    function capitalize(s) {
-      return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
-    }
+    function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
 
-    // ── Pricing Calculation ──
     function calcMovingEstimate(moveType, homeSize, distance, packing, specialItems, region) {
-      var typeData = MOVING_PRICING.basePriceByType[moveType];
-      if (!typeData) typeData = MOVING_PRICING.basePriceByType.local;
-
-      var base = typeData.base2BR;
-      var sizeMult = MOVING_PRICING.sizeMultiplier[homeSize] || 1.0;
-      var distMult = MOVING_PRICING.distanceMultiplier[distance] || 1.0;
-      var packMult = MOVING_PRICING.packingMultiplier[packing] || 1.0;
-      var specialCost = MOVING_PRICING.specialItemsCost[specialItems] || 0;
-
-      // distanceMultiplier is tuned for long_distance (under_50=0.40 / 50_250=0.65
-      // approximate same-state pricing). Other move types need their own
-      // distance handling — without this, a local + under_50 pick was getting
-      // a 0.40 multiplier and producing $650 for a 2BR move (vs ~$1,650 fair).
-      if (moveType === "local") {
-        if (distance === "under_50") distMult = 1.0;
-        else if (distance === "50_250") distMult = 1.30;
-        // local doesn't really go beyond 250, but the table lets it pass through
-      } else if (moveType === "office") {
-        if (distance === "under_50") distMult = 1.0;
-        else if (distance === "50_250") distMult = 1.20;
-        // office moves treat distance similarly to local; LD office is rare.
-      } else if (moveType === "same_building") {
-        distMult = 1.0;
-      }
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var regionMult = cityMult || (LABOR_MULT_BY_REGION[region] || 1.0);
-
-      var total = (base * sizeMult * distMult * packMult * regionMult * INFLATION_MULT * SEASONAL_MULT) + (specialCost * sizeMult);
-
-      return roundTo50(total);
+      var out = _MVCALC.calcMovingEstimate({
+        moveType: moveType, homeSize: homeSize, distance: distance,
+        packing: packing, specialItems: specialItems, region: region,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     // ── Feedback ──
