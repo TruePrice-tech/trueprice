@@ -48,10 +48,10 @@ a.button{display:inline-block;background:#111827;color:white;padding:14px 20px;b
 
 <label>Material</label><br>
 <select id="material">
-<option value="5.5">Asphalt shingles</option>
-<option value="6.5">Architectural shingles</option>
-<option value="11">Metal roofing</option>
-<option value="14">Tile roofing</option>
+<option value="asphalt">Asphalt shingles</option>
+<option value="architectural" selected>Architectural shingles</option>
+<option value="metal">Metal roofing</option>
+<option value="tile">Tile roofing</option>
 </select>
 
 <br>
@@ -69,20 +69,25 @@ a.button{display:inline-block;background:#111827;color:white;padding:14px 20px;b
   &middot; <a href="/methodology.html">Methodology</a>
 </p>
 
+<script src="/js/roofing-calc.min.js"></script>
 <script>
 function calcRoof(){
   const sqft = Number(document.getElementById('sqft').value);
-  const rate = Number(document.getElementById('material').value);
+  const material = document.getElementById('material').value;
   if(!sqft) return;
 
-  const low = Math.round(sqft * (rate - 1));
-  const mid = Math.round(sqft * rate);
-  const high = Math.round(sqft * (rate + 1.5));
+  if (!window.WoogoroRoofingCalc) {
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').innerHTML = 'Calculator failed to load. Please refresh.';
+    return;
+  }
+
+  const est = window.WoogoroRoofingCalc.calcRoofEstimate({ sqft: sqft, material: material });
 
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').innerHTML = `
-    <strong>Estimated range:</strong> $${low.toLocaleString()} to $${high.toLocaleString()}<br>
-    <strong>Midpoint estimate:</strong> $${mid.toLocaleString()}<br><br>
+    <strong>Estimated range:</strong> $${est.low.toLocaleString()} to $${est.high.toLocaleString()}<br>
+    <strong>Midpoint estimate:</strong> $${est.mid.toLocaleString()}<br><br>
     Compare your real contractor quote with this estimate using the Woogoro analyzer.
   `;
 }

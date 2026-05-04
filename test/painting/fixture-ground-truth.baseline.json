@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T00:54:07.330Z",
+  "ts": "2026-05-04T01:17:02.364Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-imessage-exterior": {
@@ -73,7 +73,7 @@
       "failures": []
     },
     "f3-primer-notes": {
-      "verdictPrice": 9035,
+      "verdictPrice": 475,
       "details": {
         "project type": "Interior / Trim Painting",
         "contractor": "Mask windows",
@@ -94,8 +94,8 @@
         "coats": "not mentioned",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Typical range: $3,300 - $7,700 -- 17% above typical high",
-      "verdictLabel": "ABOVE AVERAGE",
+      "rangeText": "Typical range: $3,300 - $7,700 -- 86% below typical low",
+      "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -105,9 +105,7 @@
       },
       "contractor": "Mask windows",
       "stateCode": null,
-      "failures": [
-        "displayPrice: expected 550 ±100, got 9035"
-      ]
+      "failures": []
     },
     "f4-budget-low": {
       "verdictPrice": 3280,

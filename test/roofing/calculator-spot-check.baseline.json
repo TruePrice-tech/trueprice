@@ -1,0 +1,93 @@
+{
+  "ts": "2026-05-04T01:19:47.229Z",
+  "results": {
+    "asphalt-1200sqft": {
+      "calcMid": 4800,
+      "calcLow": 3360,
+      "calcHigh": 6480,
+      "band": {
+        "low": 3500,
+        "high": 8500
+      },
+      "label": "1,200 sqft small home, 3-tab asphalt shingles",
+      "failures": []
+    },
+    "asphalt-1500sqft": {
+      "calcMid": 6000,
+      "calcLow": 4200,
+      "calcHigh": 8100,
+      "band": {
+        "low": 4500,
+        "high": 10500
+      },
+      "label": "1,500 sqft typical small home, 3-tab asphalt",
+      "failures": []
+    },
+    "architectural-2000sqft": {
+      "calcMid": 12000,
+      "calcLow": 8400,
+      "calcHigh": 16200,
+      "band": {
+        "low": 7500,
+        "high": 16500
+      },
+      "label": "2,000 sqft typical home, architectural shingles (most popular case)",
+      "failures": []
+    },
+    "architectural-2500sqft": {
+      "calcMid": 15000,
+      "calcLow": 10500,
+      "calcHigh": 20250,
+      "band": {
+        "low": 9500,
+        "high": 20000
+      },
+      "label": "2,500 sqft larger home, architectural shingles",
+      "failures": []
+    },
+    "metal-2000sqft": {
+      "calcMid": 20000,
+      "calcLow": 14000,
+      "calcHigh": 27000,
+      "band": {
+        "low": 14000,
+        "high": 28000
+      },
+      "label": "2,000 sqft home, metal roofing (mix of corrugated + standing seam)",
+      "failures": []
+    },
+    "metal-2500sqft": {
+      "calcMid": 25000,
+      "calcLow": 17500,
+      "calcHigh": 33750,
+      "band": {
+        "low": 17500,
+        "high": 32000
+      },
+      "label": "2,500 sqft home, metal roofing",
+      "failures": []
+    },
+    "tile-2000sqft": {
+      "calcMid": 26000,
+      "calcLow": 18200,
+      "calcHigh": 35100,
+      "band": {
+        "low": 17000,
+        "high": 35000
+      },
+      "label": "2,000 sqft home, tile roofing (concrete + clay average)",
+      "failures": []
+    },
+    "tile-3000sqft": {
+      "calcMid": 39000,
+      "calcLow": 27300,
+      "calcHigh": 52650,
+      "band": {
+        "low": 25000,
+        "high": 50000
+      },
+      "label": "3,000 sqft home, tile roofing",
+      "failures": []
+    }
+  }
+}
