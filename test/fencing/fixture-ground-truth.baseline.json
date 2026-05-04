@@ -1,0 +1,362 @@
+{
+  "ts": "2026-05-04T00:50:50.770Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-blueprint-outdoor-high": {
+      "verdictPrice": 10800,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$60/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "included",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "included",
+        "removalOldFence": "included",
+        "permits": "included",
+        "grading": "included",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $8,050 -- 34% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /blueprint\\s*outdoor/, got null",
+        "warranty: expected match /lifetime/, got \"\""
+      ]
+    },
+    "f2-tarheel-mid": {
+      "verdictPrice": 7400,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$41/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "not mentioned",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "not mentioned",
+        "removalOldFence": "included",
+        "permits": "included",
+        "grading": "not mentioned",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $8,050 -- 8% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /tarheel\\s*fence/, got null",
+        "warranty: expected match /5[-\\s]*year|5\\s*yr/, got \"\"",
+        "scopeFound:posts: expected \"Included\", got \"not mentioned\""
+      ]
+    },
+    "f3-pine-state-low": {
+      "verdictPrice": 5100,
+      "details": {
+        "fence type": "Chain Link (4ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$28/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "included",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "included",
+        "removalOldFence": "included",
+        "permits": "not mentioned",
+        "grading": "not mentioned",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $4,450 -- 15% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Chain Link (4ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /pine\\s*state/, got null",
+        "material: expected match /wood|cedar/, got \"Chain Link (4ft)\"",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:stainingSealing: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f4-blueprint-outdoor-high-messy": {
+      "verdictPrice": 10800,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$60/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "included",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "included",
+        "removalOldFence": "included",
+        "permits": "included",
+        "grading": "included",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $8,050 -- 34% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /blueprint\\s*outdoor/, got null",
+        "warranty: expected match /lifetime/, got \"\""
+      ]
+    },
+    "f5-tarheel-mid-messy": {
+      "verdictPrice": 7400,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$41/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "not mentioned",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "not mentioned",
+        "removalOldFence": "included",
+        "permits": "included",
+        "grading": "not mentioned",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $8,050 -- 8% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /tarheel\\s*fence/, got null",
+        "warranty: expected match /5[-\\s]*year|5\\s*yr/, got \"\""
+      ]
+    },
+    "f6-pine-state-low-messy": {
+      "verdictPrice": 5100,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "180 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$28/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "postHoles": "not mentioned",
+        "concreteFootings": "included",
+        "posts": "included",
+        "rails": "not mentioned",
+        "picketsPanels": "not mentioned",
+        "gate": "included",
+        "hardware": "included",
+        "removalOldFence": "included",
+        "permits": "not mentioned",
+        "grading": "not mentioned",
+        "stainingSealing": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $8,050 -- 37% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "180 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "contractor: expected match /pine\\s*state/, got null",
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
+        "scopeExcluded:stainingSealing: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f7-real-1600lf-wire": {
+      "verdictPrice": 14400,
+      "details": {
+        "fence type": "Wood Privacy (6ft)",
+        "length": "150 linear feet",
+        "height": "6 ft",
+        "gate": "Yes",
+        "per linear foot cost": "$96/lf",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {},
+      "rangeText": "Market benchmark: $6,800 -- 112% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiMaterial": null,
+      "apiFenceType": null,
+      "apiLinearFeet": null,
+      "apiHeight": null,
+      "apiGateCount": null,
+      "apiWarrantyLabor": null,
+      "apiWarrantyProduct": null,
+      "displayFenceType": "Wood Privacy (6ft)",
+      "displayLength": "150 linear feet",
+      "displayHeight": "6 ft",
+      "displayGate": "Yes",
+      "displayWarranty": null,
+      "failures": [
+        "displayPrice: expected 18025 ±18.025000000000002, got 14400",
+        "linearFeet: expected 1600, got display=150 api=null",
+        "gate: expected No, got \"yes\""
+      ]
+    }
+  }
+}

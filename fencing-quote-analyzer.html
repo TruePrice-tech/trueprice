@@ -633,7 +633,11 @@
       var checks = {
         postHoles: /post\s*hole|dig\s*hole|auger|bore\s*hole/i,
         concreteFootings: /concrete|footing|cement|quick[- ]?crete|sakrete/i,
-        posts: /\bpost[s]?\b.*(?:4x4|6x6|steel|wood|metal|set)/i,
+        // FENCE-6 (posts regex bidirectional 2026-05-03): original regex
+        // /\bpost[s]?\b.*(?:4x4|6x6|...)/ required `post` BEFORE the size
+        // modifier and missed f2 Tarheel "Concrete-set 4x4 posts, 8 ft on
+        // center" (modifier first). Accept either direction.
+        posts: /\bpost[s]?\b[^\n]{0,40}(?:4x4|6x6|4x6|steel|wood|metal|set|concrete)|(?:4x4|6x6|4x6|steel|wood|metal|concrete[\s-]*set)[^\n]{0,40}\bpost[s]?\b/i,
         rails: /\brail[s]?\b|stringer|2x4|horizontal\s*board/i,
         picketsPanels: /picket|panel|board|slat|infill/i,
         gate: /gate/i,
@@ -648,6 +652,33 @@
       for (var key in checks) {
         if (checks[key].test(t)) {
           signals[key] = { status: "included" };
+        }
+      }
+
+      // FENCE-5 (negation guard 2026-05-03): f3 Pine State + f6 messy
+      // variant explicitly say "Stain/seal NOT included." and "811 utility
+      // locate handled by customer." The positive-match regex above falsely
+      // marks both as Included. Mirror the F1 / I1-I2 trust-critical guard:
+      // when a negation phrase appears next to the keyword on the same
+      // line, downgrade Included -> excluded. Without this the cheapest
+      // tier fixtures look fully scoped, which is the worst possible
+      // misread for buyer trust.
+      var lines = String(text || "").split(/\n/);
+      var negationsByKey = {
+        stainingSealing: /(stain|seal|paint|finish)(?:[\/\s-]*(?:stain|seal|paint|finish))?[^.\n]{0,40}\b(?:not\s*included|not\s*incl|n[o']t\s*included|excluded|by\s*(?:owner|customer))\b/i,
+        permits: /(permit|inspection|811|utility\s*locate|locate)[^.\n]{0,40}\b(?:not\s*included|not\s*incl|by\s*(?:owner|customer)|customer\s*(?:to|will)|handled\s*by\s*customer|owner\s*to|if\s*needed|if\s*hoa\s*requires)\b/i,
+        removalOldFence: /(removal|demo|tear[- ]?down|haul[- ]?off|haul[- ]?away|disposal|old\s*fence)[^.\n]{0,40}\b(?:not\s*included|not\s*incl|by\s*(?:owner|customer))\b/i,
+        warranty: /(warranty|guarant)[^.\n]{0,40}\b(?:not\s*included|not\s*incl|excluded|none|n\/a)\b/i,
+        cleanup: /(clean[- ]?up|cleanup|debris)[^.\n]{0,40}\b(?:not\s*included|not\s*incl|by\s*(?:owner|customer))\b/i,
+      };
+      for (var negKey in negationsByKey) {
+        if (!signals[negKey]) continue;
+        var rx = negationsByKey[negKey];
+        for (var li = 0; li < lines.length; li++) {
+          if (rx.test(lines[li])) {
+            signals[negKey] = { status: "excluded" };
+            break;
+          }
         }
       }
 
@@ -813,9 +844,19 @@
     async function processFile(file) {
       try {
         // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        // FENCE-1 (forceAI cross-vertical audit 2026-05-03): mirrors W1/MV-1/INS-1.
+        // Fencing needs Claude's structured contractor/warranty/material/
+        // linearFeet for every quote — local detectFenceType misreads
+        // "chain link specialists" tagline as the job's material, local
+        // detectGate defaults to true on any "gate" mention even when the
+        // fixture is wireFence with no gate, and there is no Contractor or
+        // Warranty row at all without apiResult. Without forceAI the engine
+        // bypassed the API on every regex-success fixture, leaving
+        // apiResult=null on f1-f6 (12/19 baseline failures).
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "fencing",
           apiEndpoint: "/api/fencing-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
@@ -826,6 +867,23 @@
 
         // Price from engine (regex-first, AI backup if regex failed)
         var quotePrice = engineResult.price || 0;
+
+        // FENCE-7 (price override 2026-05-03): when Claude returned a
+        // structured totalPrice and it differs from the regex pick by >5%,
+        // prefer Claude. The regex picks the largest $-amount match, which
+        // on agricultural / multi-line-item quotes lands on the largest
+        // single line item (e.g. f7 6-strand-fence $14,400) rather than
+        // the bottom-line total ($18,025). Claude reads the explicit
+        // Subtotal/TOTAL row and is structurally more reliable here.
+        if (apiResult && typeof apiResult.totalPrice === "number" &&
+            apiResult.totalPrice > 0 && quotePrice > 0 &&
+            Math.abs(apiResult.totalPrice - quotePrice) /
+              Math.max(apiResult.totalPrice, quotePrice) > 0.05) {
+          quotePrice = apiResult.totalPrice;
+        } else if ((!quotePrice || quotePrice === 0) && apiResult &&
+                   typeof apiResult.totalPrice === "number" && apiResult.totalPrice > 0) {
+          quotePrice = apiResult.totalPrice;
+        }
 
         setProgress(70, "Building analysis...");
 
@@ -940,7 +998,8 @@ setProgress(90, "Almost done...");
           redFlags: buildLocalRedFlags(scopeSignals, text),
           region: getRegionFromState(state.address.stateCode),
           location: location,
-          parsed: parsed
+          parsed: parsed,
+          apiResult: apiResult
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "fencing" });
@@ -1255,12 +1314,72 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
+      // FENCE-7 (apiResult overrides 2026-05-03): when Claude returned
+      // structured data and the local regex landed on defaults, prefer the
+      // API. Local detectFenceType misclassifies cedar quotes as Chain Link
+      // when the contractor's tagline says "chain link specialists" (f3
+      // Pine State); detectLength caps at 2000 lf and misses bare numeric
+      // formats (f7 1600 lf agricultural); detectGate defaults to true on
+      // any "gate" mention, even quotes with explicit gateCount=0.
+      var apiR = r.apiResult || {};
+      var apiMaterial = apiR.material || "";
+      var apiFenceType = apiR.fenceType || "";
+      var fenceTypeLabel = r.fenceType.label;
+      if (apiMaterial && /^(wood|composite)$/i.test(apiMaterial) && r.fenceType.value === "chain_link") {
+        fenceTypeLabel = "Wood Privacy (" + (r.height || 6) + "ft)";
+      } else if (apiMaterial && /^vinyl$/i.test(apiMaterial) && r.fenceType.value !== "vinyl_privacy") {
+        fenceTypeLabel = "Vinyl Privacy (" + (r.height || 6) + "ft)";
+      } else if (apiMaterial && /^chain_link$/i.test(apiMaterial)) {
+        fenceTypeLabel = "Chain Link (" + (r.height || 4) + "ft)";
+      } else if (apiMaterial && /^aluminum$/i.test(apiMaterial)) {
+        fenceTypeLabel = "Aluminum (" + (r.height || 4) + "ft)";
+      } else if (apiMaterial && /^wrought_iron$/i.test(apiMaterial)) {
+        fenceTypeLabel = "Wrought Iron";
+      } else if (apiMaterial && /^(steel|wire)$/i.test(apiMaterial)) {
+        fenceTypeLabel = "Wire / Agricultural";
+      } else if (apiFenceType && /split_rail/i.test(apiFenceType)) {
+        fenceTypeLabel = "Split Rail";
+      } else if (apiFenceType && /ranch/i.test(apiFenceType)) {
+        fenceTypeLabel = "Ranch / Wire";
+      }
+
+      var displayLength = r.length;
+      if (typeof apiR.linearFeet === "number" && apiR.linearFeet > 0 &&
+          (r.length === 150 || apiR.linearFeet > r.length * 1.5 || apiR.linearFeet < r.length * 0.5)) {
+        displayLength = apiR.linearFeet;
+      }
+
+      var displayHeight = r.height;
+      if (typeof apiR.height === "number" && apiR.height > 0 && r.height === 6 && apiR.height !== 6) {
+        displayHeight = apiR.height;
+      }
+
+      var displayGate = r.gate;
+      if (typeof apiR.gateCount === "number") {
+        displayGate = apiR.gateCount > 0;
+      }
+
       // Build details
       var detailsHtml = '<div class="fence-details">';
-      detailsHtml += '<div class="fence-detail"><div class="label">Fence Type</div><div class="value">' + r.fenceType.label + '</div></div>';
-      detailsHtml += '<div class="fence-detail"><div class="label">Length</div><div class="value">' + r.length + ' linear feet</div></div>';
-      detailsHtml += '<div class="fence-detail"><div class="label">Height</div><div class="value">' + r.height + ' ft</div></div>';
-      detailsHtml += '<div class="fence-detail"><div class="label">Gate</div><div class="value">' + (r.gate ? "Yes" : "No") + '</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Fence Type</div><div class="value">' + fenceTypeLabel + '</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Length</div><div class="value">' + displayLength + ' linear feet</div></div>';
+      detailsHtml += '<div class="fence-detail"><div class="label">Height</div><div class="value">' + displayHeight + ' ft</div></div>';
+      var gateValue = (typeof apiR.gateCount === "number" && apiR.gateCount > 0)
+        ? (apiR.gateCount + " gate" + (apiR.gateCount > 1 ? "s" : ""))
+        : (displayGate ? "Yes" : "No");
+      detailsHtml += '<div class="fence-detail"><div class="label">Gate</div><div class="value">' + gateValue + '</div></div>';
+
+      // FENCE-2/3 (Contractor + Warranty rows 2026-05-03): mirror the
+      // foundation/insulation Block 2 fix. Surface apiResult.contractor +
+      // apiResult.warrantyLabor/warrantyProduct in dedicated detail rows so
+      // the verdict UI carries the same trust signals as the API has.
+      if (apiR.contractor) {
+        detailsHtml += '<div class="fence-detail"><div class="label">Contractor</div><div class="value">' + escapeHtml(apiR.contractor) + '</div></div>';
+      }
+      var warrantyText = apiR.warrantyLabor || apiR.warrantyProduct || "";
+      if (warrantyText) {
+        detailsHtml += '<div class="fence-detail"><div class="label">Warranty</div><div class="value">' + escapeHtml(warrantyText) + '</div></div>';
+      }
 
       if (r.perLF) {
         detailsHtml += '<div class="fence-detail"><div class="label">Per Linear Foot Cost</div><div class="value">' + fmt(r.perLF) + '/lf</div></div>';
@@ -1423,6 +1542,12 @@ setProgress(90, "Almost done...");
 
     function capitalize(s) {
       return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
     }
 
     // ── Init ──
