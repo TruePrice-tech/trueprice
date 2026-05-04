@@ -1472,6 +1472,11 @@ function detectLocation(text) {
       ""
     );
 
+    // Drop leading punctuation that survives the street-suffix strip — the
+    // Heritage roofing fixture has "Battleground Avenue · Greensboro" where
+    // OCR converts the middot to a hyphen, leaving "- Greensboro" otherwise.
+    city = city.replace(/^[^A-Za-z]+/, "").trim();
+
     return titleCase(city);
   }
 

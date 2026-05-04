@@ -955,6 +955,19 @@
     var negationPattern = /\bnot\s+included\b|\bnot\s+available\b|\bexcluded\b|\bnot\s+covered\b|\blimited\s+to\s+existing\b|\bowner\s+responsible\b|\bextra\s+cost\b|\badditional\s+charge\b|\bnon-\w+ed\b|\bnon\s+insulated\b/i;
     if (config.scope) {
       var tLower = t.toLowerCase();
+      // Roofing-specific OCR repair: Tesseract collapses "ri" → "n" on
+      // hand-scanned proposals, so "ridge vent" reads as "ndge vent" and
+      // "drip edge" reads as "dnp edge". analyzer-parser.js already
+      // normalizes the analyze path; mirror it here so the compare path
+      // catches Pinnacle's "ndge venting" / "dnp edge" too.
+      if (vertical === "roofing") {
+        tLower = tLower
+          .replace(/\bndge\s*cap\b/g, "ridge cap")
+          .replace(/\bndge\s*vent(?:ing)?\b/g, "ridge vent")
+          .replace(/\bndge\b/g, "ridge")
+          .replace(/\bdnp\s*edge\b/g, "drip edge")
+          .replace(/\bdnp\b(?=\s+(?:edge|metal))/g, "drip");
+      }
       // Split on newlines AND sentence punctuation so OCR-induced line
       // wraps don't sever a pattern match from its negation. e.g.
       // "Stain/seal NOT\nincluded." has the negation on the next line
