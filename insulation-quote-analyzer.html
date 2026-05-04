@@ -932,6 +932,9 @@
 
         var text = engineResult.ocrText || "";
         state.extractedText = text;
+        // Debug breadcrumb so the harness / debug scripts can capture OCR
+        // text without instrumenting the engine. No behavior change.
+        try { window.__TP_LAST_OCR_TEXT = text; window.__TP_LAST_AI_DATA = engineResult.aiData || null; } catch (e) {}
         var parsed = engineResult.parsed;
         var apiResult = engineResult.aiData || null;
 
