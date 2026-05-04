@@ -38,6 +38,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    # Weekly Monday 05:00 UTC — exercises the gate on quiet weeks so infra
+    # rot (CI runner regression, npm dependency drift, Vercel deploy
+    # changes) gets caught even when no one's pushing. The push/PR triggers
+    # remain the primary gate; this is just a heartbeat.
+    - cron: '0 5 * * 1'
   workflow_dispatch:
     inputs:
       skip_smoke:

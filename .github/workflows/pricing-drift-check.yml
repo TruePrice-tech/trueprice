@@ -1,0 +1,59 @@
+name: Pricing Drift Check (monthly)
+
+# Layer 3 of the auto-pricing-realism gate stack (see also regression-gate.yml
+# which auto-discovers test/*/calculator-spot-check.test.js as Layers 1 + 2).
+#
+# Reads industry pricing pages monthly via Claude haiku-4-5, extracts
+# typical-installed-cost RANGES for representative scenarios, compares
+# against the bands hard-coded in our calculator-spot-check harnesses, and
+# emails Lane when industry has moved more than 15% outside any band.
+#
+# Cost: ~$0.01 per run with the seed catalog (9 pinpoints across 3 verticals
+# in data/pricing-drift-sources.json). When the catalog grows to all 20
+# verticals it'll be ~$0.05/run = ~$0.60/yr at monthly cadence.
+#
+# Output: output/pricing-drift/<date>.md + email digest via Resend (only
+# fires when drift > threshold). Informational by default — does NOT fail
+# the build. Set PRICING_DRIFT_HARD_FAIL=1 in the env to gate merges on
+# drift findings (not recommended without first widening bands once).
+
+on:
+  schedule:
+    # First Monday of every month, 06:00 UTC. Cadence: monthly is enough —
+    # industry pricing data publishers (HomeGuide, Forbes, RepairPal, etc.)
+    # don't update faster than that, and we don't want to burn Claude
+    # tokens chasing noise.
+    - cron: '0 6 1-7 * 1'
+  workflow_dispatch:
+    inputs:
+      hard_fail:
+        description: 'Exit non-zero on drift findings (default: informational only)'
+        required: false
+        default: 'false'
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run pricing-drift check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          PRICING_DRIFT_HARD_FAIL: ${{ github.event.inputs.hard_fail == 'true' && '1' || '' }}
+        run: node scripts/_pricing-drift-check.js
+
+      - name: Upload digest artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pricing-drift-${{ github.run_id }}
+          path: output/pricing-drift/
+          retention-days: 90
+          if-no-files-found: warn

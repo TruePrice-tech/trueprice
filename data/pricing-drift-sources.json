@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "purpose": "Source URLs the monthly pricing-drift check fetches to detect when 2026 industry pricing has moved beyond our spot-check bands. See scripts/_pricing-drift-check.js.",
+    "lastUpdated": "2026-05-04",
+    "driftThresholdPct": 15,
+    "notes": "Each vertical lists 3-5 representative industry pricing pages. Claude haiku-4-5 reads each, extracts the typical-installed-cost range it cites, and the script compares against the per-vertical calculator-spot-check baseline. Add or replace URLs when sources go stale or paywall."
+  },
+  "verticals": {
+    "hvac": {
+      "harnessPath": "test/hvac/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "central_ac-3ton-16seer",
+          "label": "3-ton 16 SEER central AC, fully installed (national avg)",
+          "askClaude": "Find the typical installed cost RANGE for a 3-ton (~36,000 BTU) 16 SEER R-454B central air conditioner including labor, permits, and standard accessories. Average across single-family homes nationwide. Return only a JSON object: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<short quote from the source>\"}.",
+          "currentBand": { "low": 6500, "high": 13500 }
+        },
+        {
+          "id": "heat_pump-3ton-16seer",
+          "label": "3-ton 16 SEER heat pump, fully installed (national avg)",
+          "askClaude": "Find the typical installed cost RANGE for a 3-ton 16 SEER R-454B heat pump including labor, permits, and standard accessories. Single-family home national average. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 8000, "high": 15500 }
+        },
+        {
+          "id": "full_system-4ton-16seer-90afue",
+          "label": "Full HVAC system AC + furnace 16 SEER / 90 AFUE 4-ton (national)",
+          "askClaude": "Find the typical installed cost RANGE for a complete HVAC system replacement (16 SEER central AC + 90 AFUE gas furnace) for an average 2,500 sqft home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 11500, "high": 19500 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/central-ac-installation-cost",
+        "https://www.forbes.com/home-improvement/hvac/cost-of-new-ac-unit/",
+        "https://www.angi.com/articles/how-much-does-it-cost-install-air-conditioner.htm"
+      ]
+    },
+    "roofing": {
+      "harnessPath": "test/roofing/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "asphalt-2000sqft",
+          "label": "Asphalt 3-tab shingle roof, 2,000 sqft home (national avg)",
+          "askClaude": "Find the typical installed cost RANGE for a complete 3-tab asphalt shingle roof replacement on a 2,000 sqft single-family home, including tear-off of one layer, underlayment, and standard accessories. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 5500, "high": 11000 }
+        },
+        {
+          "id": "architectural-2000sqft",
+          "label": "Architectural shingle roof, 2,000 sqft home (national avg)",
+          "askClaude": "Find the typical installed cost RANGE for a complete architectural (dimensional) asphalt shingle roof replacement on a 2,000 sqft home, including tear-off and standard installation. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 7500, "high": 16500 }
+        },
+        {
+          "id": "metal-2000sqft",
+          "label": "Metal roof installation, 2,000 sqft home (national avg)",
+          "askClaude": "Find the typical installed cost RANGE for a complete metal roof replacement (mix of corrugated and standing seam) on a 2,000 sqft home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 14000, "high": 28000 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/roof-replacement-cost",
+        "https://www.forbes.com/home-improvement/roofing/roof-replacement-cost/",
+        "https://www.angi.com/articles/roof-replacement-cost.htm"
+      ]
+    },
+    "auto-repair": {
+      "harnessPath": "test/auto-repair/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "brakes_pads_rotors-std-indep",
+          "label": "Brake pads + rotors per axle, standard sedan, independent shop (national)",
+          "askClaude": "Find the typical RepairPal/AAA cost RANGE for replacing front brake pads AND rotors per axle on a standard sedan (Camry/Accord-class) at an independent shop. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 250, "high": 700 }
+        },
+        {
+          "id": "engine_replace-std-indep",
+          "label": "Engine replacement, standard sedan, independent shop (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a remanufactured engine replacement on a standard sedan at an independent shop, including labor and the reman engine itself. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 3200, "high": 10000 }
+        },
+        {
+          "id": "battery-std-chain",
+          "label": "AGM battery replacement, standard sedan, chain shop (national)",
+          "askClaude": "Find the typical installed cost RANGE for an AGM battery replacement on a standard modern sedan at a chain shop (Pep Boys / Firestone / Midas). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 130, "high": 360 }
+        }
+      ],
+      "sources": [
+        "https://repairpal.com/estimator",
+        "https://www.aaa.com/autorepair/articles",
+        "https://www.kbb.com/car-advice/repair-cost-comparison/"
+      ]
+    }
+  }
+}
