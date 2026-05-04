@@ -334,6 +334,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/solar-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -357,60 +359,12 @@
   (function() {
     "use strict";
 
-    // ── Solar Pricing Model (embedded from solar-pricing-model.json) ──
-    var SOLAR_PRICING = {
-      pricePerWatt: {
-        budget: { label: "Budget Panels (Jinko, Trina, Canadian Solar)", low: 2.30, high: 3.20, base: 2.75 },
-        mid:    { label: "Mid-Tier Panels (Q Cells, LONGi, REC, Silfab)", low: 2.60, high: 3.70, base: 3.15 },
-        premium:{ label: "Premium Panels (SunPower, LG, Panasonic)", low: 3.00, high: 4.50, base: 3.75 }
-      },
-      inverterAdder: {
-        string:       { label: "String Inverter", perWatt: 0.00 },
-        microinverter: { label: "Microinverters (Enphase)", perWatt: 0.30 },
-        optimizer:    { label: "Optimizers (SolarEdge)", perWatt: 0.20 }
-      },
-      batteryAdder: {
-        none:       { label: "No Battery", cost: 0 },
-        powerwall:  { label: "Tesla Powerwall", cost: 12000 },
-        enphase_iq: { label: "Enphase IQ Battery", cost: 10000 },
-        other:      { label: "Other Battery", cost: 10000 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      overheadMultiplier: 1.0,
-      federalTaxCredit: 0.30,
-      roundTo: 100,
-      scopeItems: [
-        { key: "panels", label: "Solar panels (brand, count, wattage)", weight: 25 },
-        { key: "inverter", label: "Inverter / microinverters", weight: 12 },
-        { key: "racking", label: "Racking / mounting system", weight: 8 },
-        { key: "wiring", label: "Electrical wiring and conduit", weight: 8 },
-        { key: "panelUpgrade", label: "Electrical panel upgrade (if needed)", weight: 6 },
-        { key: "permits", label: "Permit and plan review", weight: 6 },
-        { key: "interconnection", label: "Utility interconnection", weight: 5 },
-        { key: "netMetering", label: "Net metering application", weight: 4 },
-        { key: "monitoring", label: "Monitoring system", weight: 4 },
-        { key: "roofWork", label: "Roof penetration / waterproofing", weight: 6 },
-        { key: "battery", label: "Battery storage (if applicable)", weight: 0 },
-        { key: "warranty", label: "Workmanship warranty", weight: 6 }
-      ],
-      brands: {
-        premium: ["SunPower", "LG", "Panasonic"],
-        mid: ["Q Cells", "LONGi", "REC", "Silfab"],
-        budget: ["Jinko", "Trina", "Canadian Solar", "JA Solar"]
-      }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // ── Solar Pricing Model ──
+    // Single source of truth in /js/solar-calc.js (UMD).
+    var _SOLCALC = (typeof window !== "undefined" && window.WoogoroSolarCalc) || null;
+    if (!_SOLCALC) { console.error("[solar-estimate] /js/solar-calc.min.js failed to load"); return; }
+    var SOLAR_PRICING = _SOLCALC.SOLAR_PRICING;
+    var STATE_REGIONS = _SOLCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -444,31 +398,26 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo100(n) { return Math.round(n / 100) * 100; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _SOLCALC.getRegionFromState;
+    var kwFromSize = _SOLCALC.kwFromSize;
 
-    // City-level multiplier
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=solar")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-
-    function kwFromSize(sizeKey, customKw) {
-      if (customKw && Number(customKw) > 0) return Number(customKw);
-      var map = { small: 5, medium: 8, large: 11, very_large: 14 };
-      return map[sizeKey] || 8;
-    }
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
 
     function detectSystemSizeKw(text) {
       var t = text.toLowerCase();
@@ -589,33 +538,13 @@
     }
 
     function calcSolarBenchmark(systemKw, panelTier, inverterType, batteryType, region, roofCondition) {
-      var tier = SOLAR_PRICING.pricePerWatt[panelTier] || SOLAR_PRICING.pricePerWatt.mid;
-      var basePerWatt = tier.base;
-
-      // Inverter adder
-      var invAdder = SOLAR_PRICING.inverterAdder[inverterType] || SOLAR_PRICING.inverterAdder.string;
-      var totalPerWatt = basePerWatt + invAdder.perWatt;
-
-      // System base cost in watts
-      var systemWatts = systemKw * 1000;
-      var baseCost = totalPerWatt * systemWatts;
-
-      // Battery adder
-      var bat = SOLAR_PRICING.batteryAdder[batteryType] || SOLAR_PRICING.batteryAdder.none;
-      baseCost += bat.cost;
-
-      // Regional labor multiplier (city-level if available)
-      var _cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var regionMult = _cityMult || (SOLAR_PRICING.laborMultiplierByRegion[region] || 1.0);
-      var overheadMult = SOLAR_PRICING.overheadMultiplier;
-
-      var total = baseCost * regionMult * overheadMult;
-
-      // Roof condition adjustment
-      if (roofCondition === "minor_repair") total *= 1.05;
-      else if (roofCondition === "significant_work") total *= 1.15;
-
-      return roundTo100(total);
+      var out = _SOLCALC.calcSolarEstimate({
+        systemKw: systemKw, panelTier: panelTier, inverterType: inverterType,
+        batteryType: batteryType, region: region, roofCondition: roofCondition,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {

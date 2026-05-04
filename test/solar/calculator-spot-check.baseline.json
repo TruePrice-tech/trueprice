@@ -1,0 +1,51 @@
+{
+  "ts": "2026-05-04T11:27:51.600Z",
+  "inflationMult": 1,
+  "results": {
+    "8kw-mid-string-none-ca-good": {
+      "total": 30700,
+      "band": {
+        "low": 22000,
+        "high": 38000
+      },
+      "label": "8kW mid-tier, string inverter, no battery, CA, good roof",
+      "failures": []
+    },
+    "11kw-prem-micro-powerwall-ny": {
+      "total": 66700,
+      "band": {
+        "low": 50000,
+        "high": 80000
+      },
+      "label": "11kW premium, microinverters, Tesla Powerwall, NY",
+      "failures": []
+    },
+    "5kw-budget-string-none-tx": {
+      "total": 13800,
+      "band": {
+        "low": 10000,
+        "high": 18000
+      },
+      "label": "5kW budget, string inverter, no battery, TX",
+      "failures": []
+    },
+    "14kw-mid-optim-none-az-minor": {
+      "total": 60100,
+      "band": {
+        "low": 45000,
+        "high": 68000
+      },
+      "label": "14kW mid, optimizers, no battery, AZ (West region), minor roof repair",
+      "failures": []
+    },
+    "8kw-prem-micro-enphase-ne-major": {
+      "total": 57500,
+      "band": {
+        "low": 45000,
+        "high": 75000
+      },
+      "label": "8kW premium, micro, Enphase IQ battery, NE, major roof work",
+      "failures": []
+    }
+  }
+}
