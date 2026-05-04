@@ -1,0 +1,56 @@
+{
+  "ts": "2026-05-04T12:57:50.995Z",
+  "inflationMult": 1,
+  "results": {
+    "er-moderate-insured-in-ne": {
+      "patientLow": 458,
+      "patientHigh": 1220,
+      "band": {
+        "low": 200,
+        "high": 1500
+      },
+      "label": "ER moderate visit, in-network insured, NE",
+      "failures": []
+    },
+    "knee-replacement-medicare-mw": {
+      "patientLow": 3800,
+      "patientHigh": 9500,
+      "band": {
+        "low": 2500,
+        "high": 11000
+      },
+      "label": "Knee replacement, Medicare, MW",
+      "failures": []
+    },
+    "mri-brain-self-pay-w": {
+      "patientLow": 768,
+      "patientHigh": 2304,
+      "band": {
+        "low": 600,
+        "high": 2400
+      },
+      "label": "MRI brain self-pay, W",
+      "failures": []
+    },
+    "crown-insured-in-se": {
+      "patientLow": 200,
+      "patientHigh": 500,
+      "band": {
+        "low": 150,
+        "high": 600
+      },
+      "label": "Dental crown insured-in, SE",
+      "failures": []
+    },
+    "vaginal-epidural-out-of-net-s": {
+      "patientLow": 4900,
+      "patientHigh": 12250,
+      "band": {
+        "low": 4000,
+        "high": 13000
+      },
+      "label": "Vaginal birth + epidural out-of-network insured, S",
+      "failures": []
+    }
+  }
+}

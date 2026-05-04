@@ -62,6 +62,28 @@
         "https://www.angi.com/articles/roof-replacement-cost.htm"
       ]
     },
+    "medical": {
+      "harnessPath": "test/medical/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "er-moderate-insured-in",
+          "label": "ER moderate visit, in-network insured patient OOP (national)",
+          "askClaude": "Find the typical 2026 patient out-of-pocket cost RANGE for a moderate emergency room visit (stitches/fracture, not trauma) for someone with in-network insurance after deductible/copay/coinsurance. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 200, "high": 1500 }
+        },
+        {
+          "id": "knee-replacement-medicare",
+          "label": "Knee replacement on Medicare patient cost-sharing (national)",
+          "askClaude": "Find the typical 2026 patient cost-sharing RANGE for a knee replacement surgery covered by Medicare Part A/B. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 2500, "high": 11000 }
+        }
+      ],
+      "sources": [
+        "https://www.healthcare.gov/glossary/out-of-pocket-costs/",
+        "https://www.kff.org/health-costs/",
+        "https://www.cms.gov/medicare/your-medicare-costs"
+      ]
+    },
     "moving": {
       "harnessPath": "test/moving/calculator-spot-check.test.js",
       "pinpoints": [
