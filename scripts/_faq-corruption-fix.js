@@ -11,7 +11,7 @@ const CITY_PAGES_GLOB = `*-${VERTICAL}-cost.html`;
 
 const VERTICAL_RULES = {
   insulation: {
-    junkStartFragment: "</section>.50/sqft for batt insulation in walls, and ",
+    junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
     cityH1: /<h1>Insulation Cost in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
@@ -43,7 +43,7 @@ const VERTICAL_RULES = {
 </section>`,
   },
   electrical: {
-    junkStartFragment: "</section>00 if wiring can be run through accessible spaces",
+    junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
     cityH1: /<h1>Electrical (?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
@@ -82,7 +82,7 @@ const VERTICAL_RULES = {
 </section>`,
   },
   concrete: {
-    junkStartFragment: "</section>0,000. A slab foundation for a house costs",
+    junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
     cityH1: /<h1>Concrete (?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
@@ -121,7 +121,7 @@ const VERTICAL_RULES = {
 </section>`,
   },
   landscaping: {
-    junkStartFragment: "</section>0-$50/yard.</p>",
+    junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
     cityH1: /<h1>Landscaping (?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
@@ -190,13 +190,13 @@ function findCorruptionEndIndex(html, junkStartIdx) {
 
 function fixFile(filePath, rule) {
   const html = fs.readFileSync(filePath, "utf8");
-  const fpIdx = html.indexOf(rule.junkStartFragment);
-  if (fpIdx < 0) return { changed: false, reason: "no-fingerprint" };
+  const fpMatch = html.match(rule.junkStartRegex);
+  if (!fpMatch) return { changed: false, reason: "no-fingerprint" };
   const cityMatch = html.match(rule.cityH1);
   if (!cityMatch) return { changed: false, reason: "no-city-h1" };
   const city = cityMatch[1].trim();
   // junk starts AFTER the legit </section> close
-  const junkStartIdx = fpIdx + rule.legitCloseLen;
+  const junkStartIdx = fpMatch.index + rule.legitCloseLen;
   const corruptionEndIdx = findCorruptionEndIndex(html, junkStartIdx);
   if (corruptionEndIdx < 0) return { changed: false, reason: "no-end-marker" };
   const usesCRLF = html.includes("\r\n");
