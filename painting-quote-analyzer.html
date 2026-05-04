@@ -757,8 +757,16 @@
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
+          // P-Bug13 (mirror kitchen K13): leave stateCode empty when the user
+          // typed something that didn't normalize to a known state. Silently
+          // defaulting to "TX" gave south-region labor multipliers (1.00x) to
+          // every user outside the south who mistyped. P-K3 reads the parser
+          // stateCode unconditionally post-upload, and getRegionFromState
+          // already handles "" by falling to "south" as a final display
+          // default -- but the empty stateCode lets P-K3 propagation overwrite
+          // it later when the quote text contains a real state token.
           var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = lookup || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
@@ -859,11 +867,20 @@
         var sqft = detectSqft(text);
         var scopeSignals = detectPaintScopeSignals(text);
 
-        // Location detection from parser
-        var location = (parsed && parsed.location) ? parsed.location : null;
-        if (location && location.stateCode && !state.address.stateCode) {
-          state.address.stateCode = location.stateCode;
-          if (location.city) state.address.city = location.city;
+        // Location detection from parser. P-K3 trust-critical (mirror kitchen K3,
+        // hvac/electrical KMP-1): analyzer-parser.js returns stateCode/city as
+        // TOP-LEVEL fields on the parsed object (js/analyzer-parser.js:2610-2611),
+        // NOT nested under .location. Reading parsed.location.stateCode silently
+        // never matched, leaving state.address.stateCode empty for every Aurora
+        // CO / Denver CO synthetic fixture and defaulting region to "south" with
+        // wrong labor multiplier (mountain 1.10x -> south 1.00x = 10% benchmark
+        // understatement). Read top-level first; fall back to legacy nested shape.
+        var locStateCode = (parsed && (parsed.stateCode || (parsed.location && parsed.location.stateCode))) || "";
+        var locCity = (parsed && (parsed.city || (parsed.location && parsed.location.city))) || "";
+        var location = (parsed && parsed.location) ? parsed.location : (locStateCode ? { stateCode: locStateCode, city: locCity } : null);
+        if (locStateCode && !state.address.stateCode) {
+          state.address.stateCode = locStateCode;
+          if (locCity) state.address.city = locCity;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
@@ -931,6 +948,21 @@ setProgress(90, "Almost done...");
 
         setProgress(100, "Done!");
 
+        // P-K6: Contractor surfaced in details grid for parity with roofing /
+        // HVAC / auto-repair / plumbing / electrical / kitchen.
+        // engineResult.contractor comes from regex detectContractor in
+        // analyzer-parser.js; falls back to AI extraction.
+        var _contractor = (engineResult && engineResult.contractor) ||
+                          (engineResult && engineResult.aiData && (engineResult.aiData.contractor || engineResult.aiData.contractorName)) ||
+                          null;
+
+        // P-CABINET-SQFT: cabinet refinish quotes have no home-size concept
+        // (per-cabinet/per-door pricing). Track sqftDetected separately so
+        // the Home Size + Per Sq Ft Cost rows can be hidden for cabinet
+        // jobs in renderResult, instead of falsely displaying a 2,000 sqft
+        // default and a $1.41/sqft ratio that don't reflect the quote.
+        var sqftDetected = (typeof sqft === "number" && sqft > 0);
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -941,9 +973,11 @@ setProgress(90, "Almost done...");
           coats: coats,
           paintQuality: paintQuality,
           sqft: effectiveSqft,
+          sqftDetected: sqftDetected,
           brand: brand,
           brandNote: brandNote,
           perSqft: perSqft,
+          contractor: _contractor,
           scopeSignals: scopeSignals,
           region: region,
           location: location,
@@ -1260,11 +1294,30 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
+      // P-K6: inline XSS-strip helper for contractor name. OCR-extracted
+      // strings can carry stray markup if a quote PDF embeds odd characters.
+      // Mirrors the _esc helper in kitchen / electrical analyzers.
+      var _esc = function (s) {
+        return String(s == null ? "" : s).replace(/[<>"']/g, function (c) {
+          return ({ "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+        });
+      };
+
       // Build details
       var detailsHtml = '<div class="paint-details">';
       detailsHtml += '<div class="paint-detail"><div class="label">Project Type</div><div class="value">' + r.paintType.label + '</div></div>';
 
-      if (r.homeSqFt || r.sqft) {
+      // P-K6: render Contractor row (parity with roofing / HVAC / auto-repair
+      // / plumbing / electrical / kitchen).
+      if (r.contractor) {
+        detailsHtml += '<div class="paint-detail"><div class="label">Contractor</div><div class="value">' + _esc(r.contractor) + '</div></div>';
+      }
+
+      // P-CABINET-SQFT: cabinet refinish jobs have no home-size concept.
+      // Only show Home Size when sqft was actually detected from the quote
+      // AND the project is not cabinets. Previously a silent default to
+      // 2000 sqft leaked into f1 (iMessage no-sqft) and f2 (cabinet refinish).
+      if ((r.homeSqFt || r.sqft) && r.sqftDetected && r.paintType.value !== "cabinets") {
         detailsHtml += '<div class="paint-detail"><div class="label">Home Size</div><div class="value">' + Number(r.homeSqFt || r.sqft).toLocaleString() + ' sq ft</div></div>';
       }
 
@@ -1280,7 +1333,11 @@ setProgress(90, "Almost done...");
         detailsHtml += '<div class="paint-detail"><div class="label">Condition</div><div class="value">' + (condLabels[r.condition] || r.condition) + '</div></div>';
       }
 
-      if (r.perSqft && r.paintType.value !== "cabinets") {
+      // P-CABINET-SQFT: only show Per Sq Ft when sqft was actually detected.
+      // Previously the silent 2000 default in effectiveSqft leaked into a
+      // misleading "$5.33/sq ft" / "$1.49/sq ft" line for fixtures with no
+      // sqft text (iMessage f1) or a cabinet quote (f2).
+      if (r.perSqft && r.sqftDetected && r.paintType.value !== "cabinets") {
         detailsHtml += '<div class="paint-detail"><div class="label">Per Sq Ft Cost</div><div class="value">$' + r.perSqft.toFixed(2) + '/sq ft</div></div>';
       }
 
