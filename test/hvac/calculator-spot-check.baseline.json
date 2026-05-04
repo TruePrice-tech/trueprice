@@ -1,0 +1,70 @@
+{
+  "ts": "2026-05-04T01:08:33.676Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "ac-3ton-14seer-ga": {
+      "price": 6700,
+      "band": {
+        "low": 5500,
+        "high": 9000
+      },
+      "label": "3-ton 14 SEER central AC, Georgia (Southeast new-minimum tier)",
+      "failures": []
+    },
+    "ac-5ton-16seer-sc": {
+      "price": 10950,
+      "band": {
+        "low": 10000,
+        "high": 15000
+      },
+      "label": "5-ton 16 SEER central AC, South Carolina (Lane's regression case)",
+      "failures": []
+    },
+    "ac-4ton-18seer-nc": {
+      "price": 12750,
+      "band": {
+        "low": 11000,
+        "high": 16500
+      },
+      "label": "4-ton 18 SEER central AC, North Carolina (high-eff Southeast)",
+      "failures": []
+    },
+    "hp-3ton-16seer-ny": {
+      "price": 12400,
+      "band": {
+        "low": 11500,
+        "high": 17500
+      },
+      "label": "3-ton 16 SEER heat pump, New York (cold climate, Northeast labor)",
+      "failures": []
+    },
+    "furnace-95afue-il": {
+      "price": 6550,
+      "band": {
+        "low": 5500,
+        "high": 9500
+      },
+      "label": "95 AFUE gas furnace, Illinois (Midwest)",
+      "failures": []
+    },
+    "mini-3zone-ca": {
+      "price": 13400,
+      "band": {
+        "low": 11500,
+        "high": 18500
+      },
+      "label": "Mini-split 3-zone, California (West labor)",
+      "failures": []
+    },
+    "full-4ton-16-90-tx": {
+      "price": 15950,
+      "band": {
+        "low": 14000,
+        "high": 21000
+      },
+      "label": "Full system 4-ton 16 SEER + 90 AFUE, Texas",
+      "failures": []
+    }
+  }
+}

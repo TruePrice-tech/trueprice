@@ -120,6 +120,39 @@ jobs:
           echo "passed_verticals=$PASSED_VERTICALS" >> $GITHUB_OUTPUT
           echo "regressed_verticals=$REGRESSED_VERTICALS" >> $GITHUB_OUTPUT
 
+      # ---- Calculator spot-check: per-vertical, industry-anchored bands ----
+      # Walks each vertical's calculator-spot-check.test.js. Where fixture-truth
+      # validates the upload/analyze path against real fixtures, this validates
+      # the input-form/calculator path against industry-sourced market bands.
+      # Catches base-price drift in pricing tables that were silently dropping
+      # estimates below market (e.g. HVAC 5-ton 16 SEER central AC was $6,400
+      # in May 2026 when the R-454B installed market is $11k-$14.5k — bug
+      # discovered 2026-05-03 from a Fort Mill SC user test). Pure Node — no
+      # browser, no live-site dependency, runs in seconds.
+      - name: Calculator spot-check
+        id: calc_spot
+        if: github.event.inputs.skip_smoke != 'true'
+        continue-on-error: true
+        run: |
+          REGRESSED=0
+          PASSED_VERTICALS=""
+          REGRESSED_VERTICALS=""
+          for harness in test/*/calculator-spot-check.test.js; do
+            [ -f "$harness" ] || continue
+            vertical=$(basename "$(dirname "$harness")")
+            echo "::group::calc-spot-check $vertical"
+            if node "$harness" 2>&1 | tee -a /tmp/calc-spot-check.log; then
+              PASSED_VERTICALS="$PASSED_VERTICALS $vertical"
+            else
+              REGRESSED=1
+              REGRESSED_VERTICALS="$REGRESSED_VERTICALS $vertical"
+            fi
+            echo "::endgroup::"
+          done
+          echo "regressed=$REGRESSED" >> $GITHUB_OUTPUT
+          echo "passed_verticals=$PASSED_VERTICALS" >> $GITHUB_OUTPUT
+          echo "regressed_verticals=$REGRESSED_VERTICALS" >> $GITHUB_OUTPUT
+
       # ---- Uniqueness audit: per-vertical composite scores ----
       - name: Uniqueness audit
         id: uniqueness
@@ -146,6 +179,8 @@ jobs:
           UNIQ_WORST: ${{ steps.uniqueness.outputs.worst }}
           FIXTURE_REGRESSED: ${{ steps.fixture_truth.outputs.regressed }}
           FIXTURE_REGRESSED_VERTICALS: ${{ steps.fixture_truth.outputs.regressed_verticals }}
+          CALC_REGRESSED: ${{ steps.calc_spot.outputs.regressed }}
+          CALC_REGRESSED_VERTICALS: ${{ steps.calc_spot.outputs.regressed_verticals }}
         run: |
           node <<'EOF'
           import fs from 'node:fs';
@@ -156,15 +191,18 @@ jobs:
           const uniqWorst = parseInt(process.env.UNIQ_WORST || '100', 10);
           const fixtureRegressed = (process.env.FIXTURE_REGRESSED || '0') === '1';
           const fixtureRegressedVerticals = (process.env.FIXTURE_REGRESSED_VERTICALS || '').trim();
+          const calcRegressed = (process.env.CALC_REGRESSED || '0') === '1';
+          const calcRegressedVerticals = (process.env.CALC_REGRESSED_VERTICALS || '').trim();
           const smokeFailed = smokeTotal > 0 && smokePassed < smokeTotal;
           const uniqFailed = uniqThin > 0;
-          if (!smokeFailed && !uniqFailed && !fixtureRegressed) { console.log('all clean -- skip email'); process.exit(0); }
+          if (!smokeFailed && !uniqFailed && !fixtureRegressed && !calcRegressed) { console.log('all clean -- skip email'); process.exit(0); }
           const today = new Date().toISOString().substring(0, 10);
-          let smokeLog = '', uniqLog = '', fixtureLog = '';
+          let smokeLog = '', uniqLog = '', fixtureLog = '', calcLog = '';
           try { smokeLog = fs.readFileSync('/tmp/smoke.log', 'utf8').slice(-8000); } catch {}
           try { uniqLog = fs.readFileSync('/tmp/uniqueness.log', 'utf8').slice(-8000); } catch {}
           try { fixtureLog = fs.readFileSync('/tmp/fixture-truth.log', 'utf8').slice(-8000); } catch {}
-          const subj = `[Woogoro] Regression gate FAILED on ${today} (smoke ${smokePassed}/${smokeTotal}, ${uniqThin} THIN, fixture-truth: ${fixtureRegressed ? fixtureRegressedVerticals : 'ok'})`;
+          try { calcLog = fs.readFileSync('/tmp/calc-spot-check.log', 'utf8').slice(-8000); } catch {}
+          const subj = `[Woogoro] Regression gate FAILED on ${today} (smoke ${smokePassed}/${smokeTotal}, ${uniqThin} THIN, fixture-truth: ${fixtureRegressed ? fixtureRegressedVerticals : 'ok'}, calc-spot: ${calcRegressed ? calcRegressedVerticals : 'ok'})`;
           const r = await fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: { 'Authorization': 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
@@ -178,10 +216,13 @@ jobs:
                 <p><strong>Smoke walk:</strong> ${smokePassed}/${smokeTotal} verticals passed.</p>
                 <p><strong>Uniqueness:</strong> ${uniqThin} vertical(s) in THIN/RISK tier (worst score: ${uniqWorst}%).</p>
                 <p><strong>Fixture ground-truth:</strong> ${fixtureRegressed ? 'REGRESSED on ' + fixtureRegressedVerticals : 'no new regressions'}.</p>
+                <p><strong>Calculator spot-check:</strong> ${calcRegressed ? 'REGRESSED on ' + calcRegressedVerticals : 'no new regressions'}.</p>
                 <h3>Smoke log (tail)</h3>
                 <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(smokeLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
                 <h3>Fixture-truth log (tail)</h3>
                 <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(fixtureLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
+                <h3>Calculator spot-check log (tail)</h3>
+                <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(calcLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
                 <h3>Uniqueness log (tail)</h3>
                 <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:400px;overflow:auto;">${(uniqLog || '(empty)').replace(/&/g,'&amp;').replace(/</g,'&lt;')}</pre>
                 <p>Workflow: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}</p>
@@ -235,4 +276,10 @@ jobs:
         if: steps.fixture_truth.outputs.regressed == '1'
         run: |
           echo "::error::Fixture ground-truth regressed on:${{ steps.fixture_truth.outputs.regressed_verticals }}. A real fixture's price/contractor/scope drifted from the baseline. Either fix the regression or refresh the baseline if the change is intentional."
+          exit 1
+
+      - name: Fail build on calculator spot-check regression
+        if: steps.calc_spot.outputs.regressed == '1'
+        run: |
+          echo "::error::Calculator spot-check regressed on:${{ steps.calc_spot.outputs.regressed_verticals }}. A vertical's calculator output drifted outside its industry-anchored band. Either fix the basePrice tables (likely root cause) or refresh the baseline if the band itself needs to widen."
           exit 1

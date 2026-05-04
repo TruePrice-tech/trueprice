@@ -62,150 +62,60 @@
       "label": "Central Air Conditioner",
       "pricingByEfficiency": {
         "14_seer": {
-          "equipment": [
-            1800,
-            3000
-          ],
-          "labor": [
-            1500,
-            2500
-          ],
-          "total": [
-            3300,
-            5500
-          ]
+          "equipment": [3000, 5000],
+          "labor": [2500, 4000],
+          "total": [5500, 11000]
         },
         "16_seer": {
-          "equipment": [
-            2200,
-            3800
-          ],
-          "labor": [
-            1500,
-            2500
-          ],
-          "total": [
-            3700,
-            6300
-          ]
+          "equipment": [3500, 6000],
+          "labor": [2800, 4500],
+          "total": [6500, 13500]
         },
         "18_seer": {
-          "equipment": [
-            3000,
-            5000
-          ],
-          "labor": [
-            1800,
-            3000
-          ],
-          "total": [
-            4800,
-            8000
-          ]
+          "equipment": [4500, 8000],
+          "labor": [3000, 5000],
+          "total": [8500, 16500]
         },
         "20_seer": {
-          "equipment": [
-            4000,
-            6500
-          ],
-          "labor": [
-            2000,
-            3500
-          ],
-          "total": [
-            6000,
-            10000
-          ]
+          "equipment": [6000, 11000],
+          "labor": [3500, 5500],
+          "total": [11000, 20000]
         },
         "25_seer": {
-          "equipment": [
-            5500,
-            8500
-          ],
-          "labor": [
-            2500,
-            4000
-          ],
-          "total": [
-            8000,
-            12500
-          ]
+          "equipment": [9000, 15000],
+          "labor": [4500, 6500],
+          "total": [15000, 26000]
         }
       },
-      "notes": "Cooling only. Pair with furnace for heating. Minimum 15 SEER2 required since 2023."
+      "notes": "Cooling only. Pair with furnace for heating. Federal min 14.3 SEER2 (~15 SEER) since 2023 in South/Southeast/Southwest. 2026 R-454B retail; R-410A new manufacture banned 2026-01-01 per EPA AIM Act."
     },
     "heat_pump": {
       "label": "Heat Pump (Heating + Cooling)",
       "pricingByEfficiency": {
         "15_seer": {
-          "equipment": [
-            2500,
-            4000
-          ],
-          "labor": [
-            1800,
-            3000
-          ],
-          "total": [
-            4300,
-            7000
-          ]
+          "equipment": [4000, 7000],
+          "labor": [3000, 5000],
+          "total": [7000, 13500]
         },
         "16_seer": {
-          "equipment": [
-            3000,
-            5000
-          ],
-          "labor": [
-            1800,
-            3000
-          ],
-          "total": [
-            4800,
-            8000
-          ]
+          "equipment": [4500, 8000],
+          "labor": [3500, 5500],
+          "total": [8000, 15500]
         },
         "18_seer": {
-          "equipment": [
-            4000,
-            6500
-          ],
-          "labor": [
-            2000,
-            3500
-          ],
-          "total": [
-            6000,
-            10000
-          ]
+          "equipment": [5500, 10500],
+          "labor": [4000, 6500],
+          "total": [10500, 19500]
         },
         "20_seer": {
-          "equipment": [
-            5500,
-            8000
-          ],
-          "labor": [
-            2500,
-            4000
-          ],
-          "total": [
-            8000,
-            12000
-          ]
+          "equipment": [7500, 13500],
+          "labor": [5000, 7500],
+          "total": [13500, 23500]
         },
         "variable": {
-          "equipment": [
-            7000,
-            12000
-          ],
-          "labor": [
-            3000,
-            5000
-          ],
-          "total": [
-            10000,
-            17000
-          ]
+          "equipment": [10000, 18000],
+          "labor": [5500, 8500],
+          "total": [16500, 28500]
         }
       },
       "taxCredit": {
@@ -220,60 +130,24 @@
       "label": "Gas Furnace",
       "pricingByEfficiency": {
         "80_afue": {
-          "equipment": [
-            1500,
-            2500
-          ],
-          "labor": [
-            1200,
-            2000
-          ],
-          "total": [
-            2700,
-            4500
-          ]
+          "equipment": [1800, 3200],
+          "labor": [1500, 2800],
+          "total": [3500, 7000]
         },
         "90_afue": {
-          "equipment": [
-            2000,
-            3500
-          ],
-          "labor": [
-            1500,
-            2500
-          ],
-          "total": [
-            3500,
-            6000
-          ]
+          "equipment": [2400, 4500],
+          "labor": [1800, 3200],
+          "total": [4500, 8500]
         },
         "95_afue": {
-          "equipment": [
-            2800,
-            4500
-          ],
-          "labor": [
-            1800,
-            3000
-          ],
-          "total": [
-            4600,
-            7500
-          ]
+          "equipment": [3200, 6000],
+          "labor": [2200, 3800],
+          "total": [5500, 10500]
         },
         "98_afue": {
-          "equipment": [
-            3500,
-            5500
-          ],
-          "labor": [
-            2000,
-            3500
-          ],
-          "total": [
-            5500,
-            9000
-          ]
+          "equipment": [4000, 7500],
+          "labor": [2500, 4500],
+          "total": [6500, 12000]
         }
       },
       "notes": "Heating only. 80% AFUE vents through chimney. 90%+ is condensing (PVC vent). Requires gas line."
@@ -282,60 +156,24 @@
       "label": "Ductless Mini-Split",
       "pricingByZones": {
         "1_zone": {
-          "equipment": [
-            1500,
-            3000
-          ],
-          "labor": [
-            1500,
-            2500
-          ],
-          "total": [
-            3000,
-            5500
-          ]
+          "equipment": [2000, 4500],
+          "labor": [1800, 3500],
+          "total": [4000, 7500]
         },
         "2_zone": {
-          "equipment": [
-            3000,
-            5000
-          ],
-          "labor": [
-            2000,
-            3500
-          ],
-          "total": [
-            5000,
-            8500
-          ]
+          "equipment": [3800, 6500],
+          "labor": [2500, 4500],
+          "total": [6500, 11500]
         },
         "3_zone": {
-          "equipment": [
-            4500,
-            7500
-          ],
-          "labor": [
-            2500,
-            4500
-          ],
-          "total": [
-            7000,
-            12000
-          ]
+          "equipment": [5500, 9500],
+          "labor": [3500, 5500],
+          "total": [9500, 15500]
         },
         "4_zone": {
-          "equipment": [
-            6000,
-            10000
-          ],
-          "labor": [
-            3000,
-            5500
-          ],
-          "total": [
-            9000,
-            15500
-          ]
+          "equipment": [7500, 12500],
+          "labor": [4500, 7500],
+          "total": [12500, 20000]
         }
       },
       "taxCredit": {
@@ -350,63 +188,27 @@
       "label": "Full System (AC + Furnace)",
       "pricingByEfficiency": {
         "14_80": {
-          "equipment": [
-            3500,
-            5500
-          ],
-          "labor": [
-            2500,
-            4000
-          ],
-          "total": [
-            6000,
-            9500
-          ]
+          "equipment": [5000, 8500],
+          "labor": [3500, 6000],
+          "total": [9000, 15000]
         },
         "16_90": {
-          "equipment": [
-            4500,
-            7000
-          ],
-          "labor": [
-            2800,
-            4500
-          ],
-          "total": [
-            7300,
-            11500
-          ]
+          "equipment": [6500, 11000],
+          "labor": [4000, 7000],
+          "total": [11500, 19500]
         },
         "18_95": {
-          "equipment": [
-            6000,
-            9500
-          ],
-          "labor": [
-            3000,
-            5000
-          ],
-          "total": [
-            9000,
-            14500
-          ]
+          "equipment": [8500, 14500],
+          "labor": [5000, 8500],
+          "total": [14500, 24500]
         },
         "20_98": {
-          "equipment": [
-            8000,
-            13000
-          ],
-          "labor": [
-            3500,
-            5500
-          ],
-          "total": [
-            11500,
-            18500
-          ]
+          "equipment": [11000, 18500],
+          "labor": [6000, 10000],
+          "total": [18000, 30000]
         }
       },
-      "notes": "Best value for complete replacement. Matched components for optimal efficiency."
+      "notes": "Best value for complete replacement. Matched components for optimal efficiency. 2026 R-454B retail."
     },
     "geothermal": {
       "label": "Geothermal Heat Pump",
