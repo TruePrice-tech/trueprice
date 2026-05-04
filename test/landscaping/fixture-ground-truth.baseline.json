@@ -1,0 +1,332 @@
+{
+  "ts": "2026-05-04T01:27:28.047Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-piedmont-high": {
+      "verdictPrice": 9420,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "included",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "included",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $10,300 -- 9% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /piedmont\\s*landscape\\s*design/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|landscape_design|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~24, got null"
+      ]
+    },
+    "f2-evergreen-mid": {
+      "verdictPrice": 3820,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "not mentioned",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "not mentioned",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $4,550 -- 16% below average",
+      "verdictLabel": "BELOW AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /evergreen\\s*groundskeeping/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|sod|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~12, got null"
+      ]
+    },
+    "f3-lawn-and-order-low": {
+      "verdictPrice": 2080,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "not mentioned",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "not mentioned",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "not mentioned",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $2,500 -- 17% below average",
+      "verdictLabel": "BELOW AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /lawn\\s*&?\\s*order\\s*landscaping/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|sod|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~1, got null",
+        "scopeExcluded:irrigation: expected NOT \"Included\", got \"included\"",
+        "scopeExcluded:designPlan: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "f4-piedmont-high-messy": {
+      "verdictPrice": 9420,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "included",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "included",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $10,300 -- 9% below average",
+      "verdictLabel": "FAIR PRICE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /piedmont\\s*landscape\\s*design/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|landscape_design|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~24, got null"
+      ]
+    },
+    "f5-evergreen-mid-messy": {
+      "verdictPrice": 3820,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "not mentioned",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "not mentioned",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $4,550 -- 16% below average",
+      "verdictLabel": "BELOW AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /evergreen\\s*groundskeeping/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|sod|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~12, got null"
+      ]
+    },
+    "f6-lawn-and-order-low-messy": {
+      "verdictPrice": 2080,
+      "details": {
+        "project type": "Sod Installation",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "not mentioned",
+        "drainage": "not mentioned",
+        "baseMaterial": "not mentioned",
+        "edging": "not mentioned",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "not mentioned",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "not mentioned",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $2,500 -- 17% below average",
+      "verdictLabel": "BELOW AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Sod Installation",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /lawn\\s*&?\\s*order\\s*landscaping/, got null",
+        "stateCode: expected \"GA\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|sod|planting/, got \"\"",
+        "plantWarrantyMonths: expected ~1, got null",
+        "scopeExcluded:irrigation: expected NOT \"Included\", got \"included\"",
+        "scopeExcluded:designPlan: expected NOT \"Included\", got \"included\""
+      ]
+    },
+    "mock-01-greenscape-hardscape": {
+      "verdictPrice": 17495,
+      "details": {
+        "project type": "Paver Patio",
+        "pricing": "South regional pricing"
+      },
+      "scope": {
+        "designPlan": "included",
+        "excavation": "included",
+        "drainage": "included",
+        "baseMaterial": "not mentioned",
+        "edging": "included",
+        "mulchRock": "included",
+        "plants": "included",
+        "irrigation": "included",
+        "lighting": "included",
+        "sealing": "not mentioned",
+        "permits": "not mentioned",
+        "cleanup": "included",
+        "warranty": "included"
+      },
+      "rangeText": "Market benchmark: $20,900 -- 16% below average",
+      "verdictLabel": "BELOW AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "apiJobType": null,
+      "apiSubScope": null,
+      "apiSquareFootage": null,
+      "apiPlantWarrantyMonths": null,
+      "displayProjectType": "Paver Patio",
+      "displayProjectSize": null,
+      "displayPricing": "South regional pricing",
+      "failures": [
+        "contractor: expected match /greenscape\\s*designs/, got null",
+        "stateCode: expected \"NC\", got no API response (forceAI?)",
+        "jobType: expected match /mixed|pavers|retaining_wall/, got \"\"",
+        "plantWarrantyMonths: expected ~24, got null"
+      ]
+    }
+  }
+}
