@@ -1,0 +1,26 @@
+  f1-imessage-exterior ... OK
+  f2-cabinet-refinish ... OK
+  f3-primer-notes ... FAIL
+     - displayPrice: expected 550 ±100, got 9035
+  f4-budget-low ... FAIL
+     - contractor: expected match /budget\s*painters/, got null
+     - stateCode: expected "CO", got null
+  f5-rocky-mountain-mid ... FAIL
+     - contractor: expected match /rocky\s*mountain\s*pro\s*painting/, got null
+     - stateCode: expected "CO", got null
+  f6-front-range-high ... FAIL
+     - contractor: expected match /front\s*range\s*finishworks/, got null
+     - stateCode: expected "CO", got null
+  f7-budget-low-messy ... FAIL
+     - contractor: expected match /budget\s*painters/, got null
+     - stateCode: expected "CO", got null
+  f8-rocky-mountain-mid-messy ... FAIL
+     - contractor: expected match /rocky\s*mountain\s*pro\s*painting/, got null
+     - stateCode: expected "CO", got null
+  f9-front-range-high-messy ... FAIL
+     - contractor: expected match /front\s*range\s*finishworks/, got null
+     - stateCode: expected "CO", got null
+
+Baseline written: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test\painting\fixture-ground-truth.baseline.json
+
+Total failures: 13

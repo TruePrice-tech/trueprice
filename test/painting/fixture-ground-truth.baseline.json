@@ -1,0 +1,361 @@
+{
+  "ts": "2026-05-04T00:24:49.750Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "f1-imessage-exterior": {
+      "verdictPrice": 10650,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,000 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$5.33/sq ft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "not mentioned",
+        "scraping": "not mentioned",
+        "priming": "not mentioned",
+        "caulking": "not mentioned",
+        "masking": "not mentioned",
+        "trimPainting": "not mentioned",
+        "cleanup": "not mentioned",
+        "warranty": "not mentioned",
+        "paintQuality": "not mentioned",
+        "coats": "not mentioned",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $6,600 -- 61% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f2-cabinet-refinish": {
+      "verdictPrice": 2820,
+      "details": {
+        "project type": "Cabinet Painting",
+        "home size": "2,000 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "condition": "Good (repaint)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "not mentioned",
+        "scraping": "not mentioned",
+        "priming": "included",
+        "caulking": "not mentioned",
+        "masking": "not mentioned",
+        "trimPainting": "not mentioned",
+        "cleanup": "not mentioned",
+        "warranty": "not mentioned",
+        "paintQuality": "not mentioned",
+        "coats": "not mentioned",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $5,200 -- 46% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": []
+    },
+    "f3-primer-notes": {
+      "verdictPrice": 9035,
+      "details": {
+        "project type": "Interior / Trim Painting",
+        "home size": "2,000 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$4.52/sq ft",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "included",
+        "priming": "included",
+        "caulking": "not mentioned",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "not mentioned",
+        "warranty": "not mentioned",
+        "paintQuality": "included",
+        "coats": "not mentioned",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $4,950 -- 83% above average",
+      "verdictLabel": "OVERPRICED",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "displayPrice: expected 550 ±100, got 9035"
+      ]
+    },
+    "f4-budget-low": {
+      "verdictPrice": 3280,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "coats": "1 coat",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$1.49/sq ft",
+        "paint brand": "Behr (value tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "not mentioned",
+        "priming": "not mentioned",
+        "caulking": "not mentioned",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "not mentioned",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $7,300 -- 55% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /budget\\s*painters/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    },
+    "f5-rocky-mountain-mid": {
+      "verdictPrice": 6680,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Premium (2 coats, name brand)",
+        "coats": "2 coats",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$3.04/sq ft",
+        "paint brand": "Sherwin-Williams (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "not mentioned",
+        "priming": "not mentioned",
+        "caulking": "included",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "included",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $10,900 -- 39% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /rocky\\s*mountain\\s*pro\\s*painting/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    },
+    "f6-front-range-high": {
+      "verdictPrice": 12400,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Premium (2 coats, name brand)",
+        "coats": "2 coats",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$5.64/sq ft",
+        "paint brand": "Sherwin-Williams (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "included",
+        "priming": "included",
+        "caulking": "included",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "included",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $10,900 -- 14% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /front\\s*range\\s*finishworks/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    },
+    "f7-budget-low-messy": {
+      "verdictPrice": 3280,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "coats": "1 coat",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$1.49/sq ft",
+        "paint brand": "Behr (value tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "not mentioned",
+        "priming": "not mentioned",
+        "caulking": "not mentioned",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "not mentioned",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $7,300 -- 55% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /budget\\s*painters/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    },
+    "f8-rocky-mountain-mid-messy": {
+      "verdictPrice": 6680,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Premium (2 coats, name brand)",
+        "coats": "2 coats",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$3.04/sq ft",
+        "paint brand": "Sherwin-Williams (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "not mentioned",
+        "priming": "not mentioned",
+        "caulking": "included",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "included",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $10,900 -- 39% below average",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /rocky\\s*mountain\\s*pro\\s*painting/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    },
+    "f9-front-range-high-messy": {
+      "verdictPrice": 12400,
+      "details": {
+        "project type": "Exterior Painting",
+        "home size": "2,200 sq ft",
+        "paint quality": "Premium (2 coats, name brand)",
+        "coats": "2 coats",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$5.64/sq ft",
+        "paint brand": "Sherwin-Williams (premium tier)",
+        "pricing source": "South regional pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "included",
+        "priming": "included",
+        "caulking": "included",
+        "masking": "included",
+        "trimPainting": "included",
+        "cleanup": "included",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Market benchmark: $10,900 -- 14% above average",
+      "verdictLabel": "ABOVE AVERAGE",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": null,
+      "stateCode": null,
+      "failures": [
+        "contractor: expected match /front\\s*range\\s*finishworks/, got null",
+        "stateCode: expected \"CO\", got null"
+      ]
+    }
+  }
+}
