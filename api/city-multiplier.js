@@ -64,9 +64,12 @@ async function lookupServiceCalibration(city, state, service, repair) {
 
 export default async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://woogoro.com');
-  // Calibration data changes throughout the day as quotes seed in;
-  // shorten the cache so flywheel signal doesn't get stuck behind a 24h CDN window.
-  res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+  // Cache 24h: per-edge-region origin pulls stay at ~30/day total. Flywheel
+  // signal propagates with up to a 24h lag, which is fine — verdicts only
+  // shift when a city accumulates enough quotes to cross a confidence band,
+  // and waiting a day for that to reach all users is cheaper than 24x the
+  // function invocations.
+  res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
