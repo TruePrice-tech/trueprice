@@ -91,7 +91,7 @@ export default async function handler(req, res) {
     // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
     // got polluted with stale entries during the gradual deploy window before
     // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v7-pctx" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v8-prompt" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -213,6 +213,17 @@ PICKING THE HEADLINE FEE — only ONE of these fields gets the primary number:
       "Initial Retainer: $15,000"        -> retainerAmount = 15000
       "Client agrees to deposit $7,500"  -> retainerAmount = 7500
 
+  retainerAmount is NOT setup fees, administrative fees, file-open fees,
+    document-prep fees, court-filing pass-throughs, or any one-time
+    non-trust charge. Those go in lineItems with a category note, never
+    in retainerAmount. Specific examples to reject:
+      "$500 case file setup fee, due at signing"  -> retainerAmount = null
+      "$250 administrative fee"                   -> retainerAmount = null
+      "$150 document preparation fee"             -> retainerAmount = null
+      "$75 filing fee"                            -> retainerAmount = null
+    The retainer must be explicitly described as a deposit, trust deposit,
+    IOLTA deposit, or initial retainer — not a one-time service charge.
+
   contingencyPercent: The lowest tier percentage from a contingency
     agreement. Use this for personal injury, employment, etc. Examples:
       "33 1/3% if before lawsuit"        -> contingencyPercent = 33.33
@@ -241,7 +252,21 @@ OTHER FIELDS:
   - estimatedTotalLow / estimatedTotalHigh: explicit range like "$8,000 to $25,000"
   - city / stateCode: from firm letterhead
   - practiceArea: divorce = family_law, DUI = criminal_defense, will = estate_planning, etc.
-  - firmSize: solo (1), small (2-10), midsize (11-50), large (51-200), biglaw (200+), null if unknown
+  - firmSize: solo (1), small (2-10), midsize (11-50), large (51-200), biglaw (200+), null if unknown.
+    Inferring firmSize from the document is encouraged when staff lists, attorney rosters, or
+    letterhead make it unambiguous. Examples:
+      Letterhead names ONE attorney + "Esq." sole signer        -> "solo"
+      Staff list shows 2-10 named attorneys (any mix of Senior/Junior Partner/Associate/
+        Of Counsel; Paralegals do NOT count toward attorney count) -> "small"
+      Letterhead lists 11-50 named attorneys / "& Associates" with multi-floor address
+        / second-tier regional firm                              -> "midsize"
+      Multi-state offices listed / 50+ named attorneys           -> "large"
+      AmLaw 100/200 firms (Cravath, Skadden, Latham, etc.) or
+        explicit "Global Headquarters" + 200+ attorneys          -> "biglaw"
+    If only one named attorney is shown but the doc references "our team" / "the firm"
+    without a roster, prefer null over guessing. If a paralegal is named alongside one
+    attorney, it's still "solo" (one attorney). Multiplier is applied downstream so
+    inferring correctly directly affects the user's market-rate band.
   - feeStructure: hourly | flat_fee | contingency | hybrid | unclear
   - documentType: retainer_agreement | engagement_letter | invoice | fee_agreement | other
   - lineItems: each fee/rate/cost as a row
