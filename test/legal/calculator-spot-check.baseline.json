@@ -1,0 +1,72 @@
+{
+  "ts": "2026-05-04T13:01:57.793Z",
+  "inflationMult": 1,
+  "results": {
+    "uncontested-divorce-simple-se": {
+      "low": 1350,
+      "high": 4500,
+      "isContingency": false,
+      "band": {
+        "low": 1000,
+        "high": 5500
+      },
+      "label": "Uncontested divorce simple SE",
+      "failures": []
+    },
+    "auto-accident-contingency": {
+      "low": 33,
+      "high": 40,
+      "isContingency": true,
+      "band": {
+        "low": 30,
+        "high": 45
+      },
+      "label": "Auto accident contingency (% band)",
+      "failures": []
+    },
+    "basic-will-simple-se": {
+      "low": 450,
+      "high": 1800,
+      "isContingency": false,
+      "band": {
+        "low": 350,
+        "high": 2500
+      },
+      "label": "Basic will simple SE",
+      "failures": []
+    },
+    "chapter-7-simple-s": {
+      "low": 1300,
+      "high": 3400,
+      "isContingency": false,
+      "band": {
+        "low": 1000,
+        "high": 4500
+      },
+      "label": "Chapter 7 bankruptcy simple S",
+      "failures": []
+    },
+    "dui-moderate-mw": {
+      "low": 3100,
+      "high": 18500,
+      "isContingency": false,
+      "band": {
+        "low": 2500,
+        "high": 20000
+      },
+      "label": "DUI defense moderate MW",
+      "failures": []
+    },
+    "llc-formation-simple-w": {
+      "low": 650,
+      "high": 2500,
+      "isContingency": false,
+      "band": {
+        "low": 500,
+        "high": 3000
+      },
+      "label": "LLC formation simple W",
+      "failures": []
+    }
+  }
+}
