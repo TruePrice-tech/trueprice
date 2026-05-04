@@ -1,15 +1,14 @@
 {
-  "ts": "2026-05-04T00:24:49.750Z",
+  "ts": "2026-05-04T00:40:16.074Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-imessage-exterior": {
       "verdictPrice": 10650,
       "details": {
         "project type": "Exterior Painting",
-        "home size": "2,000 sq ft",
+        "contractor": "Not detected",
         "paint quality": "Standard (1 coat)",
         "condition": "Good (repaint)",
-        "per sq ft cost": "$5.33/sq ft",
         "pricing source": "South regional pricing"
       },
       "scope": {
@@ -34,7 +33,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -42,7 +41,7 @@
       "verdictPrice": 2820,
       "details": {
         "project type": "Cabinet Painting",
-        "home size": "2,000 sq ft",
+        "contractor": "Not detected",
         "paint quality": "Standard (1 coat)",
         "condition": "Good (repaint)",
         "pricing source": "South regional pricing"
@@ -69,7 +68,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Not detected",
       "stateCode": null,
       "failures": []
     },
@@ -77,10 +76,9 @@
       "verdictPrice": 9035,
       "details": {
         "project type": "Interior / Trim Painting",
-        "home size": "2,000 sq ft",
+        "contractor": "Mask windows",
         "paint quality": "Standard (1 coat)",
         "condition": "Good (repaint)",
-        "per sq ft cost": "$4.52/sq ft",
         "pricing source": "South regional pricing"
       },
       "scope": {
@@ -105,7 +103,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "Mask windows",
       "stateCode": null,
       "failures": [
         "displayPrice: expected 550 ±100, got 9035"
@@ -115,13 +113,14 @@
       "verdictPrice": 3280,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "BUDGET PAINTERS DENVER",
         "home size": "2,200 sq ft",
         "paint quality": "Standard (1 coat)",
         "coats": "1 coat",
         "condition": "Good (repaint)",
         "per sq ft cost": "$1.49/sq ft",
         "paint brand": "Behr (value tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Mountain regional pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -136,7 +135,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,300 -- 55% below average",
+      "rangeText": "Market benchmark: $8,000 -- 59% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -145,10 +144,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "BUDGET PAINTERS DENVER",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /budget\\s*painters/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     },
@@ -156,13 +154,14 @@
       "verdictPrice": 6680,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "ROCKY MOUNTAIN PRO PAINTING",
         "home size": "2,200 sq ft",
         "paint quality": "Premium (2 coats, name brand)",
         "coats": "2 coats",
         "condition": "Good (repaint)",
         "per sq ft cost": "$3.04/sq ft",
         "paint brand": "Sherwin-Williams (premium tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Aurora local pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -177,7 +176,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $10,900 -- 39% below average",
+      "rangeText": "Market benchmark: $11,750 -- 43% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -186,10 +185,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "ROCKY MOUNTAIN PRO PAINTING",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /rocky\\s*mountain\\s*pro\\s*painting/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     },
@@ -197,13 +195,14 @@
       "verdictPrice": 12400,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "FRONT RANGE FINISHWORKS",
         "home size": "2,200 sq ft",
         "paint quality": "Premium (2 coats, name brand)",
         "coats": "2 coats",
         "condition": "Good (repaint)",
         "per sq ft cost": "$5.64/sq ft",
         "paint brand": "Sherwin-Williams (premium tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Aurora local pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -218,8 +217,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $10,900 -- 14% above average",
-      "verdictLabel": "ABOVE AVERAGE",
+      "rangeText": "Market benchmark: $11,750 -- 6% above average",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -227,10 +226,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "FRONT RANGE FINISHWORKS",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /front\\s*range\\s*finishworks/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     },
@@ -238,13 +236,14 @@
       "verdictPrice": 3280,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "BUDGET PAINTERS DENVER",
         "home size": "2,200 sq ft",
         "paint quality": "Standard (1 coat)",
         "coats": "1 coat",
         "condition": "Good (repaint)",
         "per sq ft cost": "$1.49/sq ft",
         "paint brand": "Behr (value tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Aurora local pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -259,7 +258,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,300 -- 55% below average",
+      "rangeText": "Market benchmark: $7,850 -- 58% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -268,10 +267,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "BUDGET PAINTERS DENVER",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /budget\\s*painters/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     },
@@ -279,13 +277,14 @@
       "verdictPrice": 6680,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "ROCKY MOUNTAIN PRO PAINTING",
         "home size": "2,200 sq ft",
         "paint quality": "Premium (2 coats, name brand)",
         "coats": "2 coats",
         "condition": "Good (repaint)",
         "per sq ft cost": "$3.04/sq ft",
         "paint brand": "Sherwin-Williams (premium tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Aurora local pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -300,7 +299,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $10,900 -- 39% below average",
+      "rangeText": "Market benchmark: $11,750 -- 43% below average",
       "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -309,10 +308,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "ROCKY MOUNTAIN PRO PAINTING",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /rocky\\s*mountain\\s*pro\\s*painting/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     },
@@ -320,13 +318,14 @@
       "verdictPrice": 12400,
       "details": {
         "project type": "Exterior Painting",
+        "contractor": "FRONT RANGE FINISHWORKs",
         "home size": "2,200 sq ft",
         "paint quality": "Premium (2 coats, name brand)",
         "coats": "2 coats",
         "condition": "Good (repaint)",
         "per sq ft cost": "$5.64/sq ft",
         "paint brand": "Sherwin-Williams (premium tier)",
-        "pricing source": "South regional pricing"
+        "pricing source": "Aurora local pricing"
       },
       "scope": {
         "powerWash": "included",
@@ -341,8 +340,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $10,900 -- 14% above average",
-      "verdictLabel": "ABOVE AVERAGE",
+      "rangeText": "Market benchmark: $11,750 -- 6% above average",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -350,10 +349,9 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
+      "contractor": "FRONT RANGE FINISHWORKs",
       "stateCode": null,
       "failures": [
-        "contractor: expected match /front\\s*range\\s*finishworks/, got null",
         "stateCode: expected \"CO\", got null"
       ]
     }

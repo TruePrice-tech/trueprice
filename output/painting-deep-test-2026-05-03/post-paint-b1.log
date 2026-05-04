@@ -1,0 +1,27 @@
+  f1-imessage-exterior ... OK
+  f2-cabinet-refinish ... OK
+  f3-primer-notes ... FAIL
+     - displayPrice: expected 550 ±100, got 9035
+  f4-budget-low ... FAIL
+     - stateCode: expected "CO", got null
+  f5-rocky-mountain-mid ... FAIL
+     - stateCode: expected "CO", got null
+  f6-front-range-high ... FAIL
+     - stateCode: expected "CO", got null
+  f7-budget-low-messy ... FAIL
+     - stateCode: expected "CO", got null
+  f8-rocky-mountain-mid-messy ... FAIL
+     - stateCode: expected "CO", got null
+  f9-front-range-high-messy ... FAIL
+     - stateCode: expected "CO", got null
+
+=== vs baseline ===
+NEW PASSES (fixes landed):
+  + f4-budget-low: contractor
+  + f5-rocky-mountain-mid: contractor
+  + f6-front-range-high: contractor
+  + f7-budget-low-messy: contractor
+  + f8-rocky-mountain-mid-messy: contractor
+  + f9-front-range-high-messy: contractor
+
+Total failures: 7

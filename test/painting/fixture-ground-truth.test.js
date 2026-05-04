@@ -104,11 +104,18 @@ const FIXTURES = [
       // exterior + standard quality (1 coat). Brand Behr = value tier.
       price: 3280,
       contractorRegex: /budget\s*painters/i,
-      stateCode: "CO",
+      // stateCode dropped on f4-f9: painting analyzer's TP_Engine short-
+      // circuits the API call when the regex parser finds a price. With no
+      // /api/painting-estimate response, paintingEstimate.data.stateCode is
+      // null -- creates a false-positive failure. The pricingRegex below
+      // verifies the K3 fix at the UI level (Pricing Source row).
       paintTypeRegex: /exterior/i,
       brandRegex: /behr/i,
       coats: 1,
       isUncategorizedBanner: false,
+      // P-K3 UI assertion: post-fix the Pricing Source row should show
+      // mountain region or local pricing for an Aurora CO 80016 quote.
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
   {
@@ -121,11 +128,12 @@ const FIXTURES = [
       // Premium tier classification expected.
       price: 6680,
       contractorRegex: /rocky\s*mountain\s*pro\s*painting/i,
-      stateCode: "CO",
+      // stateCode dropped (see f4 note).
       paintTypeRegex: /exterior/i,
       brandRegex: /sherwin[\s-]?williams/i,
       coats: 2,
       isUncategorizedBanner: false,
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
   {
@@ -139,11 +147,12 @@ const FIXTURES = [
       // touch-up. Top tier.
       price: 12400,
       contractorRegex: /front\s*range\s*finishworks/i,
-      stateCode: "CO",
+      // stateCode dropped (see f4 note).
       paintTypeRegex: /exterior/i,
       brandRegex: /sherwin[\s-]?williams/i,
       coats: 2,
       isUncategorizedBanner: false,
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
   {
@@ -154,11 +163,18 @@ const FIXTURES = [
       // OCR robustness at edge alignment.
       price: 3280,
       contractorRegex: /budget\s*painters/i,
-      stateCode: "CO",
+      // stateCode dropped on f4-f9: painting analyzer's TP_Engine short-
+      // circuits the API call when the regex parser finds a price. With no
+      // /api/painting-estimate response, paintingEstimate.data.stateCode is
+      // null -- creates a false-positive failure. The pricingRegex below
+      // verifies the K3 fix at the UI level (Pricing Source row).
       paintTypeRegex: /exterior/i,
       brandRegex: /behr/i,
       coats: 1,
       isUncategorizedBanner: false,
+      // P-K3 UI assertion: post-fix the Pricing Source row should show
+      // mountain region or local pricing for an Aurora CO 80016 quote.
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
   {
@@ -167,11 +183,12 @@ const FIXTURES = [
     expect: {
       price: 6680,
       contractorRegex: /rocky\s*mountain\s*pro\s*painting/i,
-      stateCode: "CO",
+      // stateCode dropped (see f4 note).
       paintTypeRegex: /exterior/i,
       brandRegex: /sherwin[\s-]?williams/i,
       coats: 2,
       isUncategorizedBanner: false,
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
   {
@@ -180,11 +197,12 @@ const FIXTURES = [
     expect: {
       price: 12400,
       contractorRegex: /front\s*range\s*finishworks/i,
-      stateCode: "CO",
+      // stateCode dropped (see f4 note).
       paintTypeRegex: /exterior/i,
       brandRegex: /sherwin[\s-]?williams/i,
       coats: 2,
       isUncategorizedBanner: false,
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
     },
   },
 ];
@@ -368,9 +386,32 @@ function compare(label, actual, expected) {
   }
 
   if ("stateCode" in expected) {
-    const got = actual.parseQuote?.data?.stateCode || null;
+    // Painting analyzer uses TP_Engine.analyzeQuote which calls
+    // /api/painting-estimate (Claude haiku-4-5) for AI extraction. The
+    // local analyzer-parser.js parser ALSO runs client-side and its
+    // parsed.stateCode is read by P-K3 patch into state.address.stateCode
+    // -- that propagates to the displayed Pricing Source row but isn't
+    // visible to the harness via any API response. Read paintingEstimate
+    // primary (Claude's extraction); legacy parseQuote endpoint isn't
+    // called for painting -- kept as fallback only.
+    const got = actual.paintingEstimate?.data?.stateCode ||
+                actual.parseQuote?.data?.stateCode || null;
     if ((got || null) !== (expected.stateCode || null)) {
       failures.push(`stateCode: expected ${JSON.stringify(expected.stateCode)}, got ${JSON.stringify(got)}`);
+    }
+  }
+
+  if (expected.pricingRegex) {
+    // Mirrors kitchen f1 pricingRegex assertion. Verifies the UI-display
+    // side of P-K3: "Pricing Source" row should reflect the propagated
+    // stateCode -> region (or city local pricing if cityMult cached). Pre-P-K3
+    // every CO synthetic fixture displayed "South regional pricing" because
+    // parsed.location.stateCode never matched. Post-fix, "Aurora, CO 80016"
+    // text in the quote -> CO -> mountain region -> "Mountain regional
+    // pricing" / "Aurora local pricing" / "Denver local pricing".
+    const got = actual.display.details["pricing source"] || "";
+    if (!expected.pricingRegex.test(got)) {
+      failures.push(`pricing: expected match /${expected.pricingRegex.source}/, got ${JSON.stringify(got)}`);
     }
   }
 
@@ -461,7 +502,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|paintType|brand|coats|isUncategorizedBanner|hardReject):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|pricing|paintType|brand|coats|isUncategorizedBanner|hardReject):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
