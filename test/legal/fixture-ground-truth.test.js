@@ -382,6 +382,8 @@ function compare(label, actual, expected) {
         retainerAmount: actual.parseQuote?.data?.retainerAmount ?? null,
         practiceArea: actual.parseQuote?.data?.practiceArea || null,
         stateCode: actual.parseQuote?.data?.stateCode || null,
+        firmSize: actual.parseQuote?.data?.firmSize || null,
+        firmSizeMult: actual.parseQuote?.data?.pricingContext?.firmSizeMultiplier ?? null,
         failures,
       };
       if (failures.length) {
