@@ -1,0 +1,18 @@
+  f1-citadel-high ... FAIL
+     - apiRepairType: expected match /helical|pier_helical|pier_push/, got ""
+  f2-gulf-coast-mid ... FAIL
+     - apiRepairType: expected match /pier_push|push|steel/, got ""
+  f3-anchor-low ... FAIL
+     - apiRepairType: expected match /pier|concrete|hydraulic/, got ""
+  f4-citadel-high-messy ... FAIL
+     - apiRepairType: expected match /helical|pier_helical|pier_push/, got ""
+  f5-gulf-coast-mid-messy ... FAIL
+     - apiRepairType: expected match /pier_push|push|steel/, got ""
+  f6-anchor-low-messy ... FAIL
+     - apiRepairType: expected match /pier|concrete|hydraulic/, got ""
+  f7-mock-foundation-pros-nc ... FAIL
+     - apiRepairType: expected match /pier_push|push|steel/, got ""
+
+Baseline written: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test\foundation\fixture-ground-truth.baseline.json
+
+Total failures: 7
