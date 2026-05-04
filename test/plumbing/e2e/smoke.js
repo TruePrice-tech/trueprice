@@ -7,7 +7,7 @@
 //        BASE_URL=http://localhost:3000 node test/plumbing/e2e/smoke.js
 
 const path = require("path");
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser, preparePage } = require("../../lib/harness-browser");
 
 const BASE_URL = process.env.BASE_URL || "https://woogoro.com";
 const FIXTURES = path.resolve(__dirname, "..", "..", "..", "test-quotes", "plumbing-images");
@@ -23,11 +23,12 @@ function pricesMatch(e, a) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
+  const browser = await launchHarnessBrowser();
   const rows = [];
   for (const { name, expected } of SMOKE) {
     const t0 = Date.now();
     const page = await browser.newPage();
+    await preparePage(page, BASE_URL);
     try {
       await page.goto(`${BASE_URL}/plumbing-quote-analyzer.html?path=quote`, { waitUntil: "networkidle2", timeout: 60000 });
       await page.waitForSelector('input[type="file"]', { timeout: 30000 });

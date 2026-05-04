@@ -29,7 +29,7 @@
 // firmName. This baseline will likely show "Fee: Not detected" + "Unknown
 // Attorney" across most fixtures and will be the first Block-1 fix.
 
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser, preparePage } = require("../lib/harness-browser");
 const fs = require("fs");
 const path = require("path");
 
@@ -176,6 +176,7 @@ const FIXTURES = [
 
 async function uploadAndCapture(browser, fixture) {
   const page = await browser.newPage();
+  await preparePage(page, BASE);
   page.setDefaultTimeout(120000);
   await page.setViewport({ width: 1440, height: 900 });
 
@@ -359,7 +360,7 @@ function compare(label, actual, expected) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
+  const browser = await launchHarnessBrowser();
   const out = { ts: new Date().toISOString(), base: BASE, results: {} };
 
   let totalFails = 0;

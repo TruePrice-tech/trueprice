@@ -17,7 +17,7 @@
 //   - shopType: dealer / independent / chain — surfaces in the verdict copy
 //     and benchmark calculation; wrong shop-type kills the comparison.
 
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser, preparePage } = require("../lib/harness-browser");
 const fs = require("fs");
 const path = require("path");
 
@@ -132,6 +132,7 @@ const PRICE_TOLERANCE_PCT = 0.001;
 
 async function uploadAndCapture(browser, fixture) {
   const page = await browser.newPage();
+  await preparePage(page, BASE);
   page.setDefaultTimeout(120000);
   await page.setViewport({ width: 1440, height: 900 });
 
@@ -298,7 +299,7 @@ function compare(label, actual, expected) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
+  const browser = await launchHarnessBrowser();
   const out = { ts: new Date().toISOString(), base: BASE, results: {} };
 
   let totalFails = 0;

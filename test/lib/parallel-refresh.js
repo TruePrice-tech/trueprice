@@ -19,7 +19,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser } = require("./harness-browser");
 
 module.exports = async function parallelRefresh(opts) {
   const {
@@ -47,10 +47,11 @@ module.exports = async function parallelRefresh(opts) {
   console.log(`Parallel refresh: ${files.length} fixtures, ${WORKERS} workers, target ${BASE_URL}${analyzerPath}`);
   const tStart = Date.now();
 
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"]
-  });
+  // Use shared launcher: needs --enable-features=SharedArrayBuffer +
+  // IsolateOrigins-disabled or Tesseract.js v5's worker fetch for
+  // eng.traineddata.gz hangs with TypeError: Failed to fetch in headless
+  // Chrome (windows deep test 2026-05-03).
+  const browser = await launchHarnessBrowser();
 
   // Simple work queue: each worker pulls from `pending` until empty.
   const pending = files.slice();

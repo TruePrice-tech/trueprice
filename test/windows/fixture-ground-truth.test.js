@@ -30,7 +30,7 @@
 // W1 fix is one line: add `forceAI: true` to that options bag, then
 // rebuild + redeploy. Baseline locks the pre-fix state.
 
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser, preparePage } = require("../lib/harness-browser");
 const fs = require("fs");
 const path = require("path");
 
@@ -160,13 +160,7 @@ async function uploadAndCapture(browser, fixture) {
   const page = await browser.newPage();
   page.setDefaultTimeout(180000);
   await page.setViewport({ width: 1440, height: 900 });
-  // Real-Chrome UA + explicit Origin header so the shared abuse guard's
-  // "no_origin" + "scripted_user_agent" checks (api/_abuse-guard.js
-  // lines 80-99) don't 403 our test traffic. Headless Chrome doesn't
-  // always attach Origin to same-origin fetch POSTs even though normal
-  // Chrome does — discovered during W1 verification.
-  await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
-  await page.setExtraHTTPHeaders({ "x-woogoro-test": "1", "Origin": BASE });
+  await preparePage(page, BASE);
 
   const apiResponses = [];
   page.on("response", async res => {
@@ -335,20 +329,7 @@ function compare(label, actual, expected) {
 }
 
 (async () => {
-  // Headless Chrome flags: without --enable-features=SharedArrayBuffer +
-  // disabling IsolateOrigins / web-security, Tesseract.js v5's worker fetch
-  // for eng.traineddata.gz fails with "TypeError: Failed to fetch" after
-  // the page-level fetch returns 200. Real Chrome users don't hit this —
-  // it's a headless-only WebAssembly + cross-origin-isolation interaction.
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: [
-      "--no-sandbox",
-      "--enable-features=SharedArrayBuffer",
-      "--disable-features=IsolateOrigins,site-per-process",
-      "--disable-web-security",
-    ],
-  });
+  const browser = await launchHarnessBrowser();
   const out = { ts: new Date().toISOString(), base: BASE, results: {} };
 
   let totalFails = 0;

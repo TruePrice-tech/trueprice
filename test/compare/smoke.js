@@ -8,7 +8,7 @@
 //   node test/compare/smoke.js hvac concrete      # specific verticals
 //   BASE_URL=http://localhost:3000 node test/compare/smoke.js
 
-const puppeteer = require("puppeteer");
+const { launchHarnessBrowser, preparePage } = require("../lib/harness-browser");
 const path = require("path");
 const fs = require("fs");
 
@@ -41,7 +41,7 @@ const requested = process.argv.slice(2);
 const toTest = requested.length ? requested : Object.keys(VERTICALS);
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
+  const browser = await launchHarnessBrowser();
   const results = [];
 
   for (const v of toTest) {
@@ -58,6 +58,7 @@ const toTest = requested.length ? requested : Object.keys(VERTICALS);
     }
 
     const page = await browser.newPage();
+    await preparePage(page, BASE_URL);
     const errors = [];
     page.on("pageerror", e => errors.push(e.message.slice(0, 100)));
     page.on("console", m => {
