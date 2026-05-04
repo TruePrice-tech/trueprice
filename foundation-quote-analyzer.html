@@ -410,6 +410,36 @@
         drainage_correction: { label: "Drainage Correction", basePrice: 4000 },
         crack_repair: { label: "Crack Repair", basePrice: 525, unit: "per crack" }
       },
+      // FND-B1 (TRUST-CRITICAL 2026-05-03): per-pier ranges anchored to
+      // data/foundation-pricing.json published rates. Pre-fix the analyzer
+      // assumed flat $1,500/pier across ALL pier types -- 2-4x too high
+      // for hydraulic concrete piers ($350-$700/pier real range), at
+      // midpoint for steel push, at low end for helical. This drove
+      // f3 anchor (concrete) -> UNUSUALLY LOW 41%, f7 mock NC -> OVERPRICED
+      // 64%, both wrong verdicts on fair-priced quotes.
+      perPierByType: {
+        hydraulic_concrete: { low: 350, mid: 525, high: 700 },
+        concrete:           { low: 350, mid: 525, high: 700 },
+        steel_push:         { low: 1000, mid: 1600, high: 2200 },
+        helical:            { low: 1100, mid: 1800, high: 2500 },
+        // Unspecified / generic "piers" -- use the wide envelope spanning
+        // all three so a plain "8 piers" quote isn't pinned to one tier.
+        pier_unspecified:   { low: 800,  mid: 1500, high: 2300 }
+      },
+      // Per-job add-ons triggered by detectFoundationScopeSignals[key] === included.
+      // Mirrors data/foundation-pricing.json scope items + engineer-report row.
+      // Engineer mid $950 from $700-$1,200 published range. Drainage mid $2,000
+      // from $1,500-$2,500 (drainage tile or surface-drain bundle). Permits mid
+      // $450 from $300-$600. These pad the LOW/MID/HIGH benchmark range when
+      // the scope is detected as included so a comprehensive job doesn't read
+      // OVERPRICED against a basic-scope benchmark (f7 mock surfaced this).
+      scopeAddOns: {
+        inspection: { low: 700, mid: 950, high: 1200 },   // structural engineer report / assessment
+        drainage:   { low: 1500, mid: 2000, high: 2500 }, // drainage tile / diversion / surface drains
+        permits:    { low: 300, mid: 450, high: 600 },
+        waterproofing: { low: 1000, mid: 2500, high: 5000 },
+        monitoring: { low: 200, mid: 400, high: 700 }
+      },
       projectSizes: [
         { label: "Minor (1-3 cracks)", multiplier: 0.6 },
         { label: "Moderate (4-8 piers)", multiplier: 1.0 },
@@ -570,6 +600,113 @@
       if (ratio <= 1.12) return { label: "Fair Price", css: "fair", emoji: "" };
       if (ratio <= 1.25) return { label: "Above Average", css: "high", emoji: "" };
       return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // FND-B1 (TRUST-CRITICAL, mirror kitchen K8 / painting K8): range-based
+    // verdict. Pre-fix verdictFromRatio bucketed price/single-midpoint with
+    // thresholds that mis-verdicted in-range jobs as UNUSUALLY LOW or
+    // OVERPRICED because the analyzer's flat $1,500/pier midpoint didn't
+    // reflect the JSON's published per-pier-type ranges (hydraulic concrete
+    // $350-$700, steel push $1,000-$2,200, helical $1,100-$2,500). Migrate
+    // to range-based: bucket against the published [low, high] band, not
+    // a single midpoint.
+    function verdictFromRange(price, range) {
+      if (!range || !(range.low > 0) || !(range.high > 0)) {
+        var mid = (range && range.mid) || 1;
+        return verdictFromRatio(price / mid);
+      }
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // FND-B1 calcBenchmarkRange: returns { low, mid, high } anchored to JSON
+    // published rates with pier-type awareness + scope-breadth add-ons.
+    //
+    // Inputs:
+    //   repairType:  "pier_installation" | "slabjacking" | "wall_stabilization" | ...
+    //   pierType:    { value: "helical" | "steel_push" | "hydraulic_concrete" | ... } | null
+    //   pierCount:   detected count from text (e.g., 8) -- falls back to severity default
+    //   severity:    "minor" | "moderate" | "major" | "extensive"
+    //   homeAge:     "pre_1960" | "1960_1989" | "1990_plus"
+    //   region:      labor multiplier region key
+    //   scopeSignals: detectFoundationScopeSignals output (drives scope add-ons)
+    //   engineer:    detectEngineerReport output (drives inspection add-on)
+    function calcBenchmarkRange(repairType, pierType, pierCount, severity, homeAge, region, scopeSignals, engineer) {
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var laborMult = cityMult || (FOUND_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var ageMult = getAgeMultiplier(homeAge);
+
+      var lo = 0, mi = 0, hi = 0;
+
+      if (repairType === "pier_installation") {
+        // Pick the per-pier tier from detected pierType (falls back to
+        // generic envelope when type can't be read from OCR).
+        var pierKey = (pierType && pierType.value) || "pier_unspecified";
+        var tier = FOUND_PRICING.perPierByType[pierKey] || FOUND_PRICING.perPierByType.pier_unspecified;
+        var n = pierCount && pierCount > 0 ? pierCount : getDefaultPierCount(severity);
+        lo = tier.low  * n;
+        mi = tier.mid  * n;
+        hi = tier.high * n;
+      } else if (repairType === "crack_repair") {
+        var typeData = FOUND_PRICING.basePriceByType.crack_repair;
+        var crackCount = getDefaultCrackCount(severity);
+        // Crack repair has a tighter spread than piers (mostly carbon-fiber
+        // straps + epoxy injection). Approximate as 0.7x-1.5x around the
+        // published $525/crack midpoint.
+        lo = typeData.basePrice * crackCount * 0.7;
+        mi = typeData.basePrice * crackCount;
+        hi = typeData.basePrice * crackCount * 1.5;
+      } else {
+        // Non-pier repair types -- use severity multiplier × basePrice with
+        // a 0.7x-1.5x envelope. Wall stabilization / slabjacking / drainage
+        // have wider real-world ranges than the basePrice suggests but the
+        // single-midpoint legacy is preserved here pending Block 1b.
+        var data = FOUND_PRICING.basePriceByType[repairType];
+        if (!data) data = FOUND_PRICING.basePriceByType.pier_installation;
+        var sevMult = getSeverityMultiplier(severity);
+        var base = data.basePrice * sevMult * ageMult;
+        lo = base * 0.7;
+        mi = base;
+        hi = base * 1.5;
+      }
+
+      // Apply labor / inflation / overhead uniformly to all three bounds.
+      lo = lo * laborMult * INFLATION_MULT * FOUND_PRICING.overheadMultiplier;
+      mi = mi * laborMult * INFLATION_MULT * FOUND_PRICING.overheadMultiplier;
+      hi = hi * laborMult * INFLATION_MULT * FOUND_PRICING.overheadMultiplier;
+
+      // Scope-breadth add-ons. When the buyer's quote includes engineer
+      // report / drainage / permits / waterproofing / monitoring as line
+      // items, the benchmark must include those costs too -- otherwise a
+      // comprehensive 8-pier+engineer+drainage job reads OVERPRICED vs a
+      // bare-bones-pier benchmark. f7 mock NC was the canonical surface.
+      function addOn(key) {
+        var ad = FOUND_PRICING.scopeAddOns[key];
+        if (!ad) return;
+        lo += ad.low;
+        mi += ad.mid;
+        hi += ad.high;
+      }
+      var sig = scopeSignals || {};
+      // Engineer report: prefer the explicit detectEngineerReport result
+      // (handles "not included" negations) over the keyword-based scope
+      // signal which can false-positive on "engineer" mentioned for redirect.
+      var hasEngineer = (engineer && engineer.value === true) ||
+                        (sig.inspection && sig.inspection.status === "included");
+      if (hasEngineer) addOn("inspection");
+      if (sig.drainage && sig.drainage.status === "included") addOn("drainage");
+      if (sig.permits && sig.permits.status === "included") addOn("permits");
+      if (sig.waterproofing && sig.waterproofing.status === "included") addOn("waterproofing");
+      if (sig.monitoring && sig.monitoring.status === "included") addOn("monitoring");
+
+      return {
+        low:  roundTo50(lo),
+        mid:  roundTo50(mi),
+        high: roundTo50(hi)
+      };
     }
 
     window.submitFeedback = function(response) {
@@ -873,23 +1010,37 @@ setProgress(90, "Almost done...");
 
         var region = getRegionFromState(state.address.stateCode);
 
-        // F2/F3: pier-count-aware benchmark for the analyzer path. When
-        // pier_installation is detected and the quote text states an explicit
-        // pier count, use that count instead of the severity default of 6
-        // piers. Otherwise fall back to the existing calcBenchmark math
-        // (used by estimator + non-pier repair types).
-        var benchmark;
-        if (repairType.value === "pier_installation" && detectedPierCount) {
-          var typeData = FOUND_PRICING.basePriceByType.pier_installation;
-          var laborMult = getCityMult(state.address.city, state.address.stateCode) ||
-                          (FOUND_PRICING.laborMultiplierByRegion[region] || 1.0);
-          benchmark = roundTo50(typeData.basePrice * detectedPierCount * laborMult * INFLATION_MULT * FOUND_PRICING.overheadMultiplier);
-        } else {
-          benchmark = calcBenchmark(repairType.value, "moderate", "1990_plus", region);
-        }
-
+        // FND-B1 (TRUST-CRITICAL, mirror kitchen K8 / painting K8): range-based
+        // verdict with pier-type-aware basePrice + scope-breadth add-ons.
+        //
+        // Pre-fix the analyzer used flat $1,500/pier across ALL pier types
+        // and a single-midpoint verdictFromRatio. This drove:
+        //   f3 anchor (8 hydraulic concrete piers, real $4.5K-$7.3K) at
+        //     $6,900 -> "UNUSUALLY LOW 41% below $11,700" (wrong: $6,900
+        //     is at the HIGH end of typical for concrete piers)
+        //   f7 mock NC (8 steel push + engineer + drainage + 6% tax, real
+        //     $13K-$23K) at $21,115 -> "OVERPRICED 64% above $12,850"
+        //     (wrong: $21,115 is at the top end of typical for that scope)
+        //
+        // calcBenchmarkRange picks per-pier rates from the detected pierType
+        // (helical / steel_push / hydraulic_concrete each have published
+        // ranges in data/foundation-pricing.json) and adds scope premiums
+        // when engineer / drainage / permits / waterproofing are detected.
+        // verdictFromRange buckets price against the published [low, high]
+        // range, not a single midpoint.
+        var range = calcBenchmarkRange(
+          repairType.value,
+          detectedPierType,
+          detectedPierCount,
+          "moderate",
+          "1990_plus",
+          region,
+          scopeSignals,
+          detectedEngineer
+        );
+        var benchmark = range.mid;
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var verdict = verdictFromRange(confirmedPrice, range);
 
         setProgress(100, "Done!");
 
@@ -897,6 +1048,7 @@ setProgress(90, "Almost done...");
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
+          range: range,
           ratio: ratio,
           verdict: verdict,
           repairType: repairType,
@@ -1380,11 +1532,30 @@ setProgress(90, "Almost done...");
       var rangeText = "";
 
       if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        // FND-B1 (mirror kitchen K8 / painting K8): show typical range, not
+        // single benchmark. Pre-fix "Market benchmark: $12,850 -- 64% above
+        // average" on a fair-priced 8-pier+engineer+drainage job made buyers
+        // think they were being overcharged when they had a comprehensive
+        // legitimate quote. Post-fix: "Typical range: $A - $B -- inside the
+        // typical range" / "X% below typical low" / "Y% above typical high".
+        if (r.range && r.range.low > 0 && r.range.high > 0) {
+          rangeText = "Typical range: " + fmt(r.range.low) + " - " + fmt(r.range.high);
+          if (r.quotePrice >= r.range.low * 0.92 && r.quotePrice <= r.range.high * 1.05) {
+            rangeText += " -- inside the typical range";
+          } else if (r.quotePrice < r.range.low) {
+            var pctLow = Math.round((1 - r.quotePrice / r.range.low) * 100);
+            rangeText += " -- " + pctLow + "% below typical low";
+          } else if (r.quotePrice > r.range.high) {
+            var pctHigh = Math.round((r.quotePrice / r.range.high - 1) * 100);
+            rangeText += " -- " + pctHigh + "% above typical high";
+          }
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);

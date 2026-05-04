@@ -103,6 +103,12 @@ const FIXTURES = [
       engineerReport: true,
       scopeFound: ["inspection", "piers", "drainage", "warranty", "permits"],
       scopeAbsent: ["waterproofing", "monitoring"],
+      // FND-B1 regression guard: $8,750 for 8 steel push piers ($7,200) +
+      // engineer letter ($700) + permit ($450) + cleanup ($400) is at the
+      // low end of typical for steel push (JSON $1,000-$2,200/pier × 8 +
+      // $700 engineer + $450 permits = $9,000-$19,000+). Should verdict
+      // BELOW AVERAGE or FAIR, never UNUSUALLY LOW.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -132,6 +138,12 @@ const FIXTURES = [
       scopeFound: ["piers", "excavation", "warranty"],
       // Analyzer falsely reports inspection=included on f3. F3 trust guard.
       scopeExcluded: ["inspection"],
+      // FND-B1 regression guard: $6,900 for 8 hydraulic concrete piers
+      // ($5,200) + excavation ($1,400) + cleanup ($300) is at the HIGH
+      // end of typical for hydraulic concrete (JSON $350-$700/pier × 8 =
+      // $2,800-$5,600 + extras = $4,500-$7,300). Should verdict FAIR or
+      // even ABOVE AVERAGE, NEVER UNUSUALLY LOW.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -168,6 +180,7 @@ const FIXTURES = [
       transferable: true,
       engineerReport: true,
       scopeFound: ["inspection", "piers", "drainage", "warranty", "permits"],
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -186,6 +199,7 @@ const FIXTURES = [
       engineerReport: false,
       scopeFound: ["piers", "excavation", "warranty"],
       scopeExcluded: ["inspection"],
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -215,6 +229,14 @@ const FIXTURES = [
       transferable: true,
       engineerReport: true,
       scopeFound: ["inspection", "piers", "drainage", "warranty", "permits"],
+      // FND-B1 regression guard: $21,115 for 8 steel push piers @ $1,500
+      // ($12,000) + engineer ($850) + drainage tile 40 LF ($1,800) +
+      // grading ($750) + permit ($320) + 6% NC tax = $21,115. With JSON
+      // steel push $1,000-$2,200/pier × 8 + scope add-ons (engineer + drain
+      // + permit) the typical range expands to ~$13K-$23K. $21,115 lands
+      // at the top of typical -- should verdict FAIR or ABOVE AVERAGE,
+      // NEVER OVERPRICED.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
 ];
@@ -505,6 +527,21 @@ function compare(label, actual, expected) {
     }
   }
 
+  // FND-B1 regression guard: synthetic in-range or near-range foundation
+  // quotes should NEVER verdict "Unusually Low" (or "Overpriced") post-fix.
+  // Pre-fix the analyzer benchmarked every pier at $1,500 regardless of
+  // type (concrete $350-$700 / steel push $1,000-$2,200 / helical $1,100-
+  // $2,500 in JSON), so f2/f3/f5/f6 (concrete + budget steel push) read
+  // UNUSUALLY LOW and f7 (mock NC 8-pier+engineer+drainage+tax) read
+  // OVERPRICED. If any future patch reverts the range-based verdict or
+  // re-flattens the per-pier rate, this assertion fires.
+  if (expected.verdictNotRegex) {
+    const got = actual.display.verdictLabel || "";
+    if (expected.verdictNotRegex.test(got)) {
+      failures.push(`verdict: expected NOT match /${expected.verdictNotRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   return failures;
 }
 
@@ -570,7 +607,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|repairType|apiRepairType|pierType|numPiers|warrantyType|transferable|engineerReport|isUncategorizedBanner|hardReject|scopeFound:[a-z]+|scopeExcluded:[a-z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|repairType|apiRepairType|pierType|numPiers|warrantyType|transferable|engineerReport|verdict|isUncategorizedBanner|hardReject|scopeFound:[a-z]+|scopeExcluded:[a-z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
