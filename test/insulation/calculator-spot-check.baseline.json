@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T11:22:21.239Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "blown-in-1500-attic-se-no-removal": {
+      "total": 2450,
+      "band": {
+        "low": 1500,
+        "high": 3500
+      },
+      "label": "Blown-in attic, 1,500 sqft, SE, no old removal",
+      "failures": []
+    },
+    "spray-foam-closed-1000-walls-ne": {
+      "total": 5450,
+      "band": {
+        "low": 3000,
+        "high": 7000
+      },
+      "label": "Closed-cell spray foam in walls, 1,000 sqft, NE",
+      "failures": []
+    },
+    "batts-2000-attic-mw-with-removal": {
+      "total": 3700,
+      "band": {
+        "low": 2500,
+        "high": 5500
+      },
+      "label": "Fiberglass batts attic, 2,000 sqft, MW, with old removal",
+      "failures": []
+    },
+    "spray-foam-open-800-crawl-s": {
+      "total": 2400,
+      "band": {
+        "low": 1500,
+        "high": 4000
+      },
+      "label": "Open-cell spray foam in crawl space, 800 sqft, S",
+      "failures": []
+    },
+    "rigid-foam-1500-walls-w": {
+      "total": 4650,
+      "band": {
+        "low": 3000,
+        "high": 6500
+      },
+      "label": "Rigid foam board in walls, 1,500 sqft, W",
+      "failures": []
+    }
+  }
+}

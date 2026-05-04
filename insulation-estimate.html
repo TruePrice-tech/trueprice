@@ -376,6 +376,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/insulation-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/home-type-classifier.js"></script>
 
@@ -401,52 +403,11 @@
     "use strict";
 
     // ── Insulation Pricing Model ──
-    var INS_PRICING = {
-      basePriceByType: {
-        // Per-sqft installed ranges. Mirrors data/insulation-pricing.json materialTiers.
-        blown_in: { label: "Blown-In (Attic)", lowPerSqft: 0.90, highPerSqft: 2.30 },
-        spray_foam_open: { label: "Spray Foam (Open Cell)", lowPerSqft: 1.50, highPerSqft: 3.50 },
-        spray_foam_closed: { label: "Spray Foam (Closed Cell)", lowPerSqft: 2.50, highPerSqft: 5.50 },
-        batts: { label: "Batts (Fiberglass)", lowPerSqft: 0.80, highPerSqft: 2.00 },
-        rigid_foam: { label: "Rigid Foam Board", lowPerSqft: 1.20, highPerSqft: 3.20 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      locationMultiplier: { attic: 1.0, walls: 1.15, crawl_space: 1.20, basement: 1.05 },
-      removalMultiplier: 1.25,
-      roundTo: 50,
-      areaSizes: [
-        { label: "800", sqft: 800 },
-        { label: "1000", sqft: 1000 },
-        { label: "1500", sqft: 1500 },
-        { label: "2000", sqft: 2000 },
-        { label: "2500", sqft: 2500 }
-      ],
-      scopeItems: [
-        { key: "airSealing", label: "Air sealing", weight: 12 },
-        { key: "vaporBarrier", label: "Vapor barrier", weight: 10 },
-        { key: "ventBaffles", label: "Vent baffles / rafter vents", weight: 8 },
-        { key: "oldRemoval", label: "Old insulation removal", weight: 10 },
-        { key: "accessCreation", label: "Access creation (hatches, panels)", weight: 6 },
-        { key: "energyAudit", label: "Energy audit / thermal imaging", weight: 8 },
-        { key: "permits", label: "Permits and inspections", weight: 6 },
-        { key: "cleanup", label: "Cleanup and debris removal", weight: 6 },
-        { key: "warranty", label: "Warranty (materials + labor)", weight: 10 },
-        { key: "rValueCert", label: "R-value certification", weight: 8 }
-      ]
-    };
-
-    // Mirrors api/insulation-estimate.js stateToRegion map. Keep in sync.
-    var STATE_REGIONS = {
-      AL:"south",AK:"west",AZ:"mountain",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"mountain",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/insulation-calc.js (UMD).
+    var _INSCALC = (typeof window !== "undefined" && window.WoogoroInsulationCalc) || null;
+    if (!_INSCALC) { console.error("[insulation-estimate] /js/insulation-calc.min.js failed to load"); return; }
+    var INS_PRICING = _INSCALC.INS_PRICING;
+    var STATE_REGIONS = _INSCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -481,60 +442,43 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _INSCALC.getRegionFromState;
 
-    // City-level multiplier
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=insulation")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: insulation peaks in fall/winter prep
-    var SEASONAL_MULTS = { 1:0.95, 2:0.94, 3:0.96, 4:0.98, 5:1.00, 6:1.02, 7:1.04, 8:1.06, 9:1.08, 10:1.10, 11:1.06, 12:0.97 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+    var SEASONAL_MULT = _INSCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(insType, sqft, regionOrMult, removalIncluded, locationKey) {
-      var typeData = INS_PRICING.basePriceByType[insType];
-      if (!typeData) typeData = INS_PRICING.basePriceByType.blown_in;
-
-      var midPerSqft = (typeData.lowPerSqft + typeData.highPerSqft) / 2;
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var laborMult = cityMult || (INS_PRICING.laborMultiplierByRegion[regionOrMult] || 1.0);
-      var removalMult = removalIncluded ? INS_PRICING.removalMultiplier : 1.0;
-      var locationMult = INS_PRICING.locationMultiplier[locationKey] || 1.0;
-
-      var total = midPerSqft * sqft * laborMult * removalMult * locationMult * INFLATION_MULT * SEASONAL_MULT;
-
-      return roundTo50(total);
+      var out = _INSCALC.calcInsulationEstimate({
+        insType: insType, sqft: sqft, region: regionOrMult,
+        removalIncluded: removalIncluded, locationKey: locationKey,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
-
+    // Standard 0.88/1.15 band off benchmark midpoint per project_estimate_range_bands.md.
     function calcRange(insType, sqft, regionOrMult, removalIncluded, locationKey) {
-      // Use the standard 0.88/1.15 band off the benchmark midpoint, NOT the raw
-      // industry per-sqft low/high. Industry range (e.g. blown-in $0.90-$2.30/sqft)
-      // is too wide for a personalized estimate — once we know the user's
-      // insulation type, sqft, location, and removal status, the ±13% band
-      // matches the rest of the site (project_estimate_range_bands.md).
-      var benchmark = calcBenchmark(insType, sqft, regionOrMult, removalIncluded, locationKey);
-      return {
-        low: roundTo50(benchmark * 0.88),
-        high: roundTo50(benchmark * 1.15)
-      };
+      var b = calcBenchmark(insType, sqft, regionOrMult, removalIncluded, locationKey);
+      return { low: _INSCALC.roundTo50(b * 0.88), high: _INSCALC.roundTo50(b * 1.15) };
     }
 
     function verdictFromRatio(ratio) {
