@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T10:00:26.959Z",
+  "ts": "2026-05-04T11:27:10.748Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-pi-low-brighton": {
@@ -11,7 +11,7 @@
         "typical range": "25–40%"
       },
       "isHardReject": false,
-      "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+      "firmName": "Brighton & Sage Injury Lawyers",
       "feeStructure": "contingency",
       "hourlyRate": null,
       "flatFee": null,
@@ -19,7 +19,7 @@
       "retainerAmount": null,
       "practiceArea": "personal_injury",
       "stateCode": "NC",
-      "firmSize": "small",
+      "firmSize": null,
       "firmSizeMult": 1,
       "failures": []
     },
@@ -40,7 +40,7 @@
       "retainerAmount": null,
       "practiceArea": "personal_injury",
       "stateCode": "NC",
-      "firmSize": "small",
+      "firmSize": null,
       "firmSizeMult": 1,
       "failures": []
     },
@@ -103,8 +103,8 @@
       "retainerAmount": null,
       "practiceArea": "personal_injury",
       "stateCode": "NC",
-      "firmSize": "solo",
-      "firmSizeMult": 0.75,
+      "firmSize": null,
+      "firmSizeMult": 1,
       "failures": []
     },
     "f6-pi-high-messy": {
@@ -116,7 +116,7 @@
         "typical range": "25–40%"
       },
       "isHardReject": false,
-      "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
+      "firmName": "Stratton & Caine Trial Attorneys",
       "feeStructure": "contingency",
       "hourlyRate": null,
       "flatFee": null,
@@ -132,14 +132,14 @@
       "verdictLabel": "HIGHER THAN TYPICAL RANGE",
       "verdictTitle": "Based on published data, this rate is above the typical range for this practice area and region",
       "details": {
-        "hourly rate": "$585/hr",
+        "hourly rate": "$583/hr",
         "practice area": "General Litigation",
         "market mid": "$328/hr"
       },
       "isHardReject": false,
-      "firmName": "Blackwood Steel Attorneys",
+      "firmName": "BLACKWOOD STEEL ATTORNEYS",
       "feeStructure": "hourly",
-      "hourlyRate": 585,
+      "hourlyRate": 583,
       "flatFee": null,
       "contingencyPercent": null,
       "retainerAmount": 15000,
@@ -179,7 +179,7 @@
         "market mid": "$322/hr"
       },
       "isHardReject": false,
-      "firmName": "HENDERSON & COLE, PLLC",
+      "firmName": "HENDERSON & COLE, PLLIC",
       "feeStructure": "hourly",
       "hourlyRate": 350,
       "flatFee": null,
@@ -187,7 +187,7 @@
       "retainerAmount": null,
       "practiceArea": "estate_planning",
       "stateCode": "TX",
-      "firmSize": "small",
+      "firmSize": null,
       "firmSizeMult": 1,
       "failures": []
     }
