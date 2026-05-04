@@ -1,5 +1,5 @@
 // Painting fixture ground-truth harness.
-// Reads 9 hand-curated fixtures, uploads each through the live analyzer at
+// Reads 10 hand-curated fixtures, uploads each through the live analyzer at
 // /painting-quote-analyzer.html, and asserts displayed total / project type /
 // paint quality / contractor / banner state against ground truth captured
 // 2026-05-03.
@@ -232,6 +232,40 @@ const FIXTURES = [
       // or near-range premium quotes ($6,680 ROCKY 2-coat / $12,400 FRONT
       // RANGE 2-coat) -- buyer gets falsely told they got a steal.
       verdictNotRegex: /unusually\s*low|overpriced/i,
+    },
+  },
+  {
+    // P-NEG-1 fixture (2026-05-04): exclusion-heavy quote that exercises
+    // detectPaintScopeSignals' negation handling. Pre-P-NEG-1, /prim/,
+    // /caulk/, /trim/, /scrap/ all matched the keyword without checking
+    // negation context, so this kind of quote falsely showed priming /
+    // caulking / scraping / trimPainting as "Included" -- buyer would see
+    // a checked scope list and assume the contractor was doing prep, when
+    // the footer plainly says they aren't. Post-fix those four scope rows
+    // render "Not included" (status:"excluded"), powerWash + warranty +
+    // paintQuality + coats stay "Included" (positive matches with no
+    // negation in the same line).
+    id: "f10-paint-exclusions",
+    file: "test-quotes/painting-images/comparison-paint-exclusions.png",
+    expect: {
+      price: 2600,
+      contractorRegex: /shoestring\s*painting/i,
+      paintTypeRegex: /exterior/i,
+      brandRegex: /behr/i,
+      coats: 1,
+      isUncategorizedBanner: false,
+      pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-NEG-1 negation assertions: these four scope rows MUST show
+      // "Not included" because the footer explicitly negates them. Pre-fix
+      // they showed "Included" (false-positive). The harness reads scope
+      // status from the last line of each .paint-scope li.
+      scopeNotIncluded: ["priming", "caulking", "scraping", "trimPainting"],
+      // $2,600 1-coat exterior on 2200 sqft = $1.18/sqft -- below the
+      // basePricePerSqft.exterior_standard low ($1.50), so verdict is
+      // expected to land in Below Average / Unusually Low band depending
+      // on labor multiplier. Don't pin verdict label; just guard against
+      // OVERPRICED (which would indicate spec-detection drift).
+      verdictNotRegex: /overpriced/i,
     },
   },
 ];
@@ -485,6 +519,23 @@ function compare(label, actual, expected) {
     if (expected.verdictNotRegex.test(got)) {
       failures.push(`verdict: expected NOT match /${expected.verdictNotRegex.source}/, got ${JSON.stringify(got)}`);
     }
+  }
+
+  // P-NEG-1 regression guard: assert listed scope keys render "Not included"
+  // (status:"excluded" -> "Not included" via the renderer at painting-quote-
+  // analyzer.html:~1473). Pre-fix the regex matched the keyword without
+  // checking negation context, so f10's "Primer NOT included" / "No caulking"
+  // / "Trim painting NOT included" / "no scraping" footer falsely showed
+  // those rows as "Included". The harness reads the status from the last
+  // line of each .paint-scope li, which is "Included", "Not included", or
+  // "Not mentioned".
+  if (Array.isArray(expected.scopeNotIncluded)) {
+    expected.scopeNotIncluded.forEach(function(key) {
+      var got = actual.display.scope[key];
+      if (got !== "not included") {
+        failures.push(`scope.${key}: expected "not included" (negated), got ${JSON.stringify(got)}`);
+      }
+    });
   }
 
   return failures;

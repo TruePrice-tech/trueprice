@@ -634,8 +634,12 @@ VERTICALS = [
     },
 
     # ----------- PAINTING -----------
+    # NOTE: target folder is `painting-images` (not `painting-test-images`).
+    # The 3-quote comparison set was relocated to `painting-images` early in
+    # painting deep-test 2026-05-03 so the harness reads from a single dir;
+    # generator targets `painting-images` to match where the harness loads.
     {
-        "folder": "painting-test-images",
+        "folder": "painting-images",
         "prefix": "comparison-paint",
         "scenario": "2200 sqft 2-story home exterior, full repaint",
         "customer": [
@@ -703,6 +707,33 @@ VERTICALS = [
                     "Lifetime paint warranty (manufacturer).",
                     "Free touch-up visit at year 1.",
                     "Payment: 25/50/25 schedule.",
+                ],
+            },
+            # P-NEG-1 fixture (2026-05-04): exclusion-heavy quote that
+            # exercises detectPaintScopeSignals' negation handling. Pre-P-NEG-1,
+            # /prim/, /caulk/, /trim/, /scrap/ matched the keyword without
+            # checking negation context, so this kind of quote falsely showed
+            # priming / caulking / trim / scraping as "Included". Post-fix
+            # they should render as "Not included" (status:"excluded").
+            {
+                "tier": "exclusions", "company": "SHOESTRING PAINTING CO",
+                "tag": "Discount painting · CO #CP-99887",
+                "addr": "1100 Aurora Pkwy · Aurora, CO 80012",
+                "items": [
+                    ("2-story exterior, body color (1 coat)", "$2,400"),
+                    ("Pressure wash", "$200"),
+                    ("Drop cloths", "Included"),
+                ],
+                "subtotal": "$2,600", "tax": "$0", "total": "$2,600",
+                "footer": [
+                    "Trim painting NOT included.",
+                    "Primer NOT included.",
+                    "No caulking, no scraping.",
+                    "Wallpaper removal by owner.",
+                    "Drywall repair separate.",
+                    "1-year warranty on workmanship only.",
+                    "Builder-grade paint (Behr Marquee).",
+                    "Payment: 100% on completion.",
                 ],
             },
         ],

@@ -705,28 +705,56 @@
       return null;
     }
 
+    // P-NEG-1 (2026-05-04, mirror INSUL I1+I2 / SID-S2 / LND-2 / CONC-5):
+    // negation-aware. Pre-fix the regex matched the keyword without checking
+    // for negation context, so quotes like "Primer NOT included" / "No
+    // caulking" / "Trim by owner" / "Wallpaper removal NOT included"
+    // falsely showed Included. Same false-positive class as foundation F1
+    // (engineer report) and kitchen K4 (appliances NOT included). Per-line
+    // scan + negationRx is safer than ±N chars because contractor quotes
+    // usually keep negation tokens adjacent to the scope word in the same
+    // bullet/sentence.
     function detectPaintScopeSignals(text) {
-      var t = text.toLowerCase();
-      var signals = {};
+      var lines = (text || "").toLowerCase().split(/\n|(?:\.\s+)/);
+
       var checks = {
-        powerWash: [/power\s*wash/i, /pressure\s*wash/i, /surface\s*clean/i],
-        scraping: [/scrap(e|ing)/i, /paint\s*removal/i, /strip(ping)?/i],
-        priming: [/prim(e|ing|er)/i],
-        caulking: [/caulk(ing)?/i, /seal(ing|ant)?/i],
-        masking: [/mask(ing)?/i, /tap(e|ing)/i, /protect(ion)?/i],
-        trimPainting: [/\btrim\b/i, /baseboard/i, /molding/i, /door\s*frame/i],
-        cleanup: [/clean[\s-]?up/i, /debris\s*removal/i],
-        warranty: [/warrant(y|ies)/i, /guarantee/i],
-        paintQuality: [/sherwin/i, /benjamin\s*moore/i, /behr/i, /ppg/i, /dunn/i, /paint\s*brand/i, /premium\s*paint/i],
-        coats: [/\bcoats?\b/i, /\bapplication/i],
-        colorSamples: [/color\s*sample/i, /color\s*consult/i, /swatch/i]
+        powerWash: /power\s*wash|pressure\s*wash|surface\s*clean/i,
+        scraping: /scrap(e|ing)|paint\s*removal|strip(ping)?/i,
+        priming: /prim(e|ing|er)/i,
+        caulking: /caulk(ing)?|seal(ing|ant)?/i,
+        masking: /mask(ing)?|tap(e|ing)|protect(ion)?/i,
+        trimPainting: /\btrim\b|baseboard|molding|door\s*frame/i,
+        cleanup: /clean[\s-]?up|debris\s*removal/i,
+        warranty: /warrant(y|ies)|guarantee/i,
+        paintQuality: /sherwin|benjamin\s*moore|behr|ppg|dunn|paint\s*brand|premium\s*paint/i,
+        coats: /\bcoats?\b|\bapplication/i,
+        colorSamples: /color\s*sample|color\s*consult|swatch/i
       };
+
+      // Negation patterns within the matched line. If present, mark
+      // status:"excluded" so the renderer at line ~1473 shows "Not included"
+      // (statusLabel triage) instead of "Included" for that scope item.
+      // Patterns cover the common painting-quote phrasings: "X NOT included",
+      // "no primer / no caulking / no prep", "trim by owner", "wallpaper
+      // removal separate", "X excluded", "X not part of scope".
+      var negationRx = /\bnot\s+(included|painted|primed|caulked|covered|provided|in\s+scope|part)\b|\bno\s+(prim|caulk|prep|scrap|mask|cleanup|warranty|trim|wallpaper|drywall)\w*\b|\bby\s+(owner|customer|homeowner)\b|\bexcluded\b|\bseparate\s+(charge|scope|line|estimate|quote)\b|\bnot\s+part\s+of\s+(this|scope)\b/i;
+
+      var signals = {};
       for (var key in checks) {
-        var found = false;
-        for (var j = 0; j < checks[key].length; j++) {
-          if (checks[key][j].test(text)) { found = true; break; }
+        var rx = checks[key];
+        var matchedLine = null;
+        for (var i = 0; i < lines.length; i++) {
+          if (rx.test(lines[i])) { matchedLine = lines[i]; break; }
         }
-        signals[key] = { status: found ? "included" : "unclear" };
+        if (matchedLine) {
+          if (negationRx.test(matchedLine)) {
+            signals[key] = { status: "excluded" };
+          } else {
+            signals[key] = { status: "included" };
+          }
+        } else {
+          signals[key] = { status: "unclear" };
+        }
       }
       return signals;
     }
@@ -905,9 +933,17 @@
     async function processFile(file) {
       try {
         // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        // P-FORCEAI-1 (mirror MV-1 / W1 / SID-S1 / INSUL-1 / LND-1 / FENCE-1 /
+        // CONC-1): forceAI: true ensures /api/painting-estimate (Claude haiku)
+        // runs even when the regex parser already found a price. Painting
+        // quotes commonly include scope/exclusion text that regex can't
+        // semantically resolve ("Primer NOT included", "Trim by owner") --
+        // letting Claude enrich contractor + scope on every upload, not just
+        // OCR-bound fixtures where regex misses price.
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "painting",
           apiEndpoint: "/api/painting-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
