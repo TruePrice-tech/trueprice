@@ -1,13 +1,15 @@
 {
-  "ts": "2026-05-04T02:09:14.373Z",
+  "ts": "2026-05-04T02:29:22.677Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-precision-flatwork-high": {
       "verdictPrice": 12100,
       "details": {
-        "project type": "Stamped Concrete",
+        "project type": "Concrete Patio",
         "area": "800 sq ft",
-        "thickness": "4 inch (standard)",
+        "thickness": "5 inch (upgraded)",
+        "psi strength": "4500 PSI",
+        "fiber reinforced": "Yes",
         "demolition": "Not mentioned",
         "per sq ft cost": "$15.13",
         "pricing source": "South regional pricing"
@@ -27,8 +29,8 @@
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $14,100 -- 14% below average",
-      "verdictLabel": "BELOW AVERAGE",
+      "rangeText": "Typical range: $6,950 - $18,250 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -36,23 +38,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
-      "displayProjectType": "Stamped Concrete",
+      "contractor": "PRECISION FLATWORK SOLUTIONS",
+      "stateCode": "TX",
+      "apiPsiRating": 4500,
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
+      "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
-      "displayThickness": "4 inch (standard)",
+      "displayThickness": "5 inch (upgraded)",
       "displayPerSqft": "$15.13",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /precision\\s*flatwork/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)",
-        "concreteType: expected match /patio/, got \"Stamped Concrete\"",
-        "thicknessInches: expected 5, got 4 (display: \"4 inch (standard)\")",
-        "psiRating: expected 4500, got undefined"
-      ]
+      "failures": []
     },
     "f2-lone-star-mid": {
       "verdictPrice": 7800,
@@ -60,6 +56,7 @@
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
+        "psi strength": "4000 PSI",
         "demolition": "Not mentioned",
         "per sq ft cost": "$9.75",
         "pricing source": "South regional pricing"
@@ -79,7 +76,7 @@
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,500 -- 4% above average",
+      "rangeText": "Typical range: $5,250 - $13,800 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -88,21 +85,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
+      "contractor": "LONE STAR CONCRETE WORKS",
+      "stateCode": "TX",
+      "apiPsiRating": 4000,
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
       "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
       "displayThickness": "4 inch (standard)",
       "displayPerSqft": "$9.75",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /lone\\s*star\\s*concrete/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)",
-        "psiRating: expected 4000, got undefined"
-      ]
+      "failures": []
     },
     "f3-quick-pour-low": {
       "verdictPrice": 4840,
@@ -110,6 +103,7 @@
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
+        "psi strength": "3000 PSI",
         "demolition": "Not mentioned",
         "per sq ft cost": "$6.05",
         "pricing source": "South regional pricing"
@@ -122,15 +116,15 @@
         "rebarMesh": "included",
         "concretePour": "included",
         "finishing": "included",
-        "sealing": "included",
+        "sealing": "not included",
         "expansionJoints": "not mentioned",
         "permits": "not mentioned",
         "cleanup": "not mentioned",
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,500 -- 35% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $4,400 - $11,450 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -138,29 +132,26 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
+      "contractor": "QUICK POUR CONCRETE",
+      "stateCode": "TX",
+      "apiPsiRating": 3000,
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
       "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
       "displayThickness": "4 inch (standard)",
       "displayPerSqft": "$6.05",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /quick\\s*pour\\s*concrete/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)",
-        "psiRating: expected 3000, got undefined",
-        "scopeExcluded:sealing: expected NOT \"Included\", got \"included\""
-      ]
+      "failures": []
     },
     "f4-precision-flatwork-high-messy": {
       "verdictPrice": 12100,
       "details": {
-        "project type": "Stamped Concrete",
+        "project type": "Concrete Patio",
         "area": "800 sq ft",
-        "thickness": "4 inch (standard)",
+        "thickness": "5 inch (upgraded)",
+        "psi strength": "4500 PSI",
+        "fiber reinforced": "Yes",
         "demolition": "Not mentioned",
         "per sq ft cost": "$15.13",
         "pricing source": "South regional pricing"
@@ -180,8 +171,8 @@
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $14,100 -- 14% below average",
-      "verdictLabel": "BELOW AVERAGE",
+      "rangeText": "Typical range: $6,950 - $18,250 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -189,21 +180,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
+      "contractor": "PRECISION FLATWORK SOLUTIONS",
+      "stateCode": "TX",
       "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
-      "displayProjectType": "Stamped Concrete",
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
+      "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
-      "displayThickness": "4 inch (standard)",
+      "displayThickness": "5 inch (upgraded)",
       "displayPerSqft": "$15.13",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /precision\\s*flatwork/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)",
-        "concreteType: expected match /patio/, got \"Stamped Concrete\""
-      ]
+      "failures": []
     },
     "f5-lone-star-mid-messy": {
       "verdictPrice": 7800,
@@ -211,6 +198,7 @@
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
+        "psi strength": "4000 PSI",
         "demolition": "Not mentioned",
         "per sq ft cost": "$9.75",
         "pricing source": "South regional pricing"
@@ -230,7 +218,7 @@
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,500 -- 4% above average",
+      "rangeText": "Typical range: $5,250 - $13,800 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -239,20 +227,17 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
+      "contractor": "LONE STAR CONCRETE WORKS",
+      "stateCode": "TX",
+      "apiPsiRating": 4000,
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
       "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
       "displayThickness": "4 inch (standard)",
       "displayPerSqft": "$9.75",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /lone\\s*star\\s*concrete/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)"
-      ]
+      "failures": []
     },
     "f6-quick-pour-low-messy": {
       "verdictPrice": 4840,
@@ -260,6 +245,7 @@
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
+        "psi strength": "3000 PSI",
         "demolition": "Not mentioned",
         "per sq ft cost": "$6.05",
         "pricing source": "South regional pricing"
@@ -272,15 +258,15 @@
         "rebarMesh": "included",
         "concretePour": "included",
         "finishing": "included",
-        "sealing": "included",
+        "sealing": "not included",
         "expansionJoints": "not mentioned",
         "permits": "not mentioned",
         "cleanup": "not mentioned",
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,500 -- 35% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $4,400 - $11,450 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -288,24 +274,20 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiPsiRating": null,
-      "apiSquareFootage": null,
-      "apiJobType": null,
+      "contractor": "QUICK POUR CONCRETE",
+      "stateCode": "TX",
+      "apiPsiRating": 3000,
+      "apiSquareFootage": 800,
+      "apiJobType": "patio",
       "displayProjectType": "Concrete Patio",
       "displayArea": "800 sq ft",
       "displayThickness": "4 inch (standard)",
       "displayPerSqft": "$6.05",
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /quick\\s*pour\\s*concrete/, got null",
-        "stateCode: expected \"TX\", got no API response (forceAI?)",
-        "scopeExcluded:sealing: expected NOT \"Included\", got \"included\""
-      ]
+      "failures": []
     },
     "f7-driveway-widening-multislab": {
-      "verdictPrice": 11674,
+      "verdictPrice": 12637,
       "details": {
         "project type": "Sidewalk",
         "area": "66 sq ft",
@@ -328,7 +310,7 @@
         "warranty": "not mentioned",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Market benchmark: $11,700 -- 0% below average",
+      "rangeText": "Typical range: $8,450 - $18,600 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -340,7 +322,7 @@
       "contractor": null,
       "stateCode": null,
       "apiPsiRating": null,
-      "apiSquareFootage": null,
+      "apiSquareFootage": 1087.5,
       "apiJobType": null,
       "displayProjectType": "Sidewalk",
       "displayArea": "66 sq ft",
