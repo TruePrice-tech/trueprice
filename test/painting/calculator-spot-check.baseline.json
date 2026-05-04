@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T11:40:55.087Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "ext-std-2000-mid-good-nc": {
+      "total": 6200,
+      "band": {
+        "low": 4000,
+        "high": 9000
+      },
+      "label": "Exterior standard 2,000 sqft, mid-range paint, good condition, NC",
+      "failures": []
+    },
+    "int-prem-2500-ultra-fair-ny": {
+      "total": 19700,
+      "band": {
+        "low": 12000,
+        "high": 25000
+      },
+      "label": "Interior premium 2,500 sqft, ultra-premium paint, fair condition, NY",
+      "failures": []
+    },
+    "cabinets-builder-mw": {
+      "total": 4250,
+      "band": {
+        "low": 3000,
+        "high": 7000
+      },
+      "label": "Cabinet painting, builder grade, MW",
+      "failures": []
+    },
+    "both-2000-mid-good-tx": {
+      "total": 10500,
+      "band": {
+        "low": 7000,
+        "high": 15000
+      },
+      "label": "Both exterior + interior 2,000 sqft, mid paint, good, TX",
+      "failures": []
+    },
+    "ext-prem-1500-prem-poor-ca": {
+      "total": 13900,
+      "band": {
+        "low": 9000,
+        "high": 20000
+      },
+      "label": "Exterior premium 1,500 sqft, premium paint, poor condition, CA",
+      "failures": []
+    }
+  }
+}

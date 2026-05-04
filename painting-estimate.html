@@ -344,6 +344,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/painting-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/home-type-classifier.js"></script>
 
@@ -369,84 +371,12 @@
     "use strict";
 
     // ── Painting Pricing Model ──
-    // Paint brand tiers with per-gallon cost and quality multiplier
-    var PAINT_BRAND_TIER = {
-      builder: {
-        label: "Builder Grade",
-        tag: "Basic coverage. Best for rentals, flips, or pre-sale touch-ups.",
-        mult: 0.80,
-        examples: "Behr Pro, SW ProMar 200, Valspar Pro, Glidden Premium",
-        perGallon: "$22 - $38"
-      },
-      mid: {
-        label: "Mid-Range",
-        tag: "Most popular. Good coverage and durability for lived-in homes.",
-        mult: 1.00,
-        examples: "Behr Premium Plus, SW SuperPaint, Benjamin Moore Ben, PPG Diamond",
-        perGallon: "$38 - $60"
-      },
-      premium: {
-        label: "Premium",
-        tag: "Excellent coverage, 1-coat hide, 10-15 year exterior durability.",
-        mult: 1.25,
-        examples: "SW Duration, BM Regal Select, Behr Marquee, PPG Manor Hall",
-        perGallon: "$60 - $90"
-      },
-      ultra: {
-        label: "Ultra-Premium",
-        tag: "Top-of-line. Maximum durability, stain resistance, and color depth.",
-        mult: 1.55,
-        examples: "SW Emerald, BM Aura, Farrow & Ball, Fine Paints of Europe",
-        perGallon: "$80 - $130"
-      }
-    };
-
-    var PAINT_PRICING = {
-      basePricePerSqft: {
-        exterior_standard: { label: "Exterior - Standard (1 Coat)", low: 2.00, high: 4.00, mid: 3.00 },
-        exterior_premium: { label: "Exterior - Premium (2 Coats)", low: 3.00, high: 6.00, mid: 4.50 },
-        interior_standard: { label: "Interior - Standard", low: 1.50, high: 3.00, mid: 2.25 },
-        interior_premium: { label: "Interior - Premium", low: 2.50, high: 5.00, mid: 3.75 },
-        cabinet_painting: { label: "Cabinet Painting", flatLow: 3000, flatHigh: 7000, flatMid: 5000 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      roundTo: 50,
-      homeSizes: [
-        { label: "1000", sqft: 1000 }, { label: "1500", sqft: 1500 },
-        { label: "2000", sqft: 2000 }, { label: "2500", sqft: 2500 },
-        { label: "3000", sqft: 3000 }, { label: "3500", sqft: 3500 }
-      ],
-      scopeItems: [
-        { key: "powerWash", label: "Power washing / surface cleaning", weight: 8 },
-        { key: "scraping", label: "Scraping old paint", weight: 10 },
-        { key: "priming", label: "Priming surfaces", weight: 10 },
-        { key: "caulking", label: "Caulking gaps and seams", weight: 8 },
-        { key: "masking", label: "Masking / taping (windows, trim, floors)", weight: 6 },
-        { key: "trimPainting", label: "Trim and detail painting", weight: 10 },
-        { key: "cleanup", label: "Job site cleanup", weight: 6 },
-        { key: "warranty", label: "Warranty on workmanship", weight: 10 },
-        { key: "paintQuality", label: "Paint quality / brand specified", weight: 12 },
-        { key: "coats", label: "Number of coats specified", weight: 12 },
-        { key: "colorSamples", label: "Color samples / consultation", weight: 4 }
-      ],
-      brands: {
-        premium: ["Sherwin-Williams", "Benjamin Moore"],
-        mid: ["PPG", "Dunn-Edwards"],
-        value: ["Behr"]
-      }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/painting-calc.js (UMD).
+    var _PNTCALC = (typeof window !== "undefined" && window.WoogoroPaintingCalc) || null;
+    if (!_PNTCALC) { console.error("[painting-estimate] /js/painting-calc.min.js failed to load"); return; }
+    var PAINT_PRICING = _PNTCALC.PAINT_PRICING;
+    var PAINT_BRAND_TIER = _PNTCALC.PAINT_BRAND_TIER;
+    var STATE_REGIONS = _PNTCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -481,72 +411,40 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _PNTCALC.getRegionFromState;
+    var getPricingKey = _PNTCALC.getPricingKey;
+    var CONDITION_MULTS = _PNTCALC.CONDITION_MULTS;
 
-    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=painting")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: painting peaks in summer
-    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.96, 4:1.00, 5:1.06, 6:1.10, 7:1.12, 8:1.10, 9:1.04, 10:0.98, 11:0.94, 12:0.91 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
-
-    // Condition multipliers
-    var CONDITION_MULTS = { good: 1.0, fair: 1.15, poor: 1.35 };
-
-    function getPricingKey(projectType, paintQuality) {
-      if (projectType === "cabinets") return "cabinet_painting";
-      var base = "";
-      if (projectType === "exterior" || projectType === "both") base = "exterior";
-      else base = "interior";
-      return base + "_" + (paintQuality === "premium" ? "premium" : "standard");
-    }
+    var SEASONAL_MULT = _PNTCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(projectType, sqft, paintQuality, condition, region, brandTier) {
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var laborMult = cityMult || (PAINT_PRICING.laborMultiplierByRegion[region] || 1.0);
-      var conditionMult = CONDITION_MULTS[condition] || 1.0;
-      var tierMult = (PAINT_BRAND_TIER[brandTier] && PAINT_BRAND_TIER[brandTier].mult) || 1.0;
-
-      if (projectType === "cabinets") {
-        var cabData = PAINT_PRICING.basePricePerSqft.cabinet_painting;
-        var mid = cabData.flatMid * laborMult * tierMult * INFLATION_MULT;
-        return roundTo50(mid);
-      }
-
-      if (projectType === "both") {
-        var extKey = "exterior_" + (paintQuality === "premium" ? "premium" : "standard");
-        var intKey = "interior_" + (paintQuality === "premium" ? "premium" : "standard");
-        var extMid = PAINT_PRICING.basePricePerSqft[extKey].mid;
-        var intMid = PAINT_PRICING.basePricePerSqft[intKey].mid;
-        var combinedPerSqft = extMid + intMid;
-        var total = combinedPerSqft * sqft * laborMult * conditionMult * tierMult * INFLATION_MULT * SEASONAL_MULT;
-        return roundTo50(total);
-      }
-
-      var key = getPricingKey(projectType, paintQuality);
-      var pricing = PAINT_PRICING.basePricePerSqft[key];
-      if (!pricing) pricing = PAINT_PRICING.basePricePerSqft.exterior_standard;
-
-      var midPerSqft = pricing.mid;
-      var total = midPerSqft * sqft * laborMult * conditionMult * tierMult * INFLATION_MULT * SEASONAL_MULT;
-      return roundTo50(total);
+      var out = _PNTCALC.calcPaintingEstimate({
+        projectType: projectType, sqft: sqft, paintQuality: paintQuality,
+        condition: condition, region: region, brandTier: brandTier,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {
