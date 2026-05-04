@@ -700,13 +700,23 @@
       return { value: inches, label: inches + ' inch' };
     }
     function detectThickness(text) {
-      var match = text.match(/(\d+)\s*(?:inch|in\.?|")\s*(?:thick|concrete|slab|depth|pour)/i);
-      if (match) return bucketThickness(parseInt(match[1]));
-      var match2 = text.match(/(?:thickness|depth|thick)\s*(?:of|:)?\s*(\d+)/i);
-      if (match2) return bucketThickness(parseInt(match2[1]));
-      var match3 = text.match(/(\d+)['"]\s*(?:thick|pour|slab)/i);
-      if (match3) return bucketThickness(parseInt(match3[1]));
-      return null;
+      // CONC-3-followup (2026-05-03): take MAX of all detected thicknesses
+      // across the whole quote. Pre-fix the analyzer took the FIRST match,
+      // which on f1 Precision Flatwork picked up the JOB DESCRIPTION header
+      // ("Job: 800 sqft 4" concrete patio") before the actual LINE ITEM
+      // upgrade ("5" concrete pour, 800 sqft, 4500 PSI fiber-reinforced").
+      // Contractors upgrade-not-downgrade in line items, so the line-item
+      // value is always the right one. Taking MAX is a safe heuristic.
+      var allInches = [];
+      var rx1 = /(\d+)\s*(?:inch|in\.?|")\s*(?:thick|concrete|slab|depth|pour)/gi;
+      var rx2 = /(?:thickness|depth|thick)\s*(?:of|:)?\s*(\d+)/gi;
+      var rx3 = /(\d+)['"]\s*(?:thick|pour|slab)/gi;
+      var m;
+      while ((m = rx1.exec(text)) !== null) { var n = parseInt(m[1]); if (n >= 3 && n <= 12) allInches.push(n); }
+      while ((m = rx2.exec(text)) !== null) { var n = parseInt(m[1]); if (n >= 3 && n <= 12) allInches.push(n); }
+      while ((m = rx3.exec(text)) !== null) { var n = parseInt(m[1]); if (n >= 3 && n <= 12) allInches.push(n); }
+      if (!allInches.length) return null;
+      return bucketThickness(Math.max.apply(null, allInches));
     }
 
     // CONC-4 (2026-05-03): PSI + fiber-reinforced detection feed the
@@ -766,7 +776,13 @@
       // Negation patterns within the matched line. If present, mark
       // status:"excluded" so the analyzer renders "Not included" instead
       // of "Included" for that scope item.
-      var negationRx = /\bnot\s+(?:included|provided|covered|in\s+scope|part)\b|\bno\s+(?:sealer|seal|sealing|permit|permits|warranty|guarantee|rebar|reinforcement|cleanup|disposal|haul|grading|joint|joints|forms|base|prep)\b|\bexcluded\b|\bwithout\s+(?:sealer|sealing|permit|warranty|rebar|reinforcement|grading|joints|forms|base)\b/i;
+      // CONC-5-followup (2026-05-03): added "(scope) not" reverse pattern
+      // to catch OCR-noisy negations where the trailing "included" gets
+      // garbled (f6 messy: "Sealer NOT includeq" — Tesseract rendered the
+      // period+d as q). The forward "not included" pattern requires
+      // "included" intact; the reverse "sealer not" pattern keys off the
+      // scope item itself.
+      var negationRx = /\bnot\s+(?:included|provided|covered|in\s+scope|part)\b|\bno\s+(?:sealer|seal|sealing|permit|permits|warranty|guarantee|rebar|reinforcement|cleanup|disposal|haul|grading|joint|joints|forms|base|prep)\b|\b(?:sealer|seal|sealing|permit|warranty|guarantee|rebar|reinforcement)\s+not\b|\bexcluded\b|\bwithout\s+(?:sealer|sealing|permit|warranty|rebar|reinforcement|grading|joints|forms|base)\b/i;
 
       var signals = {};
       for (var key in checks) {

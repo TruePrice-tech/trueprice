@@ -191,11 +191,10 @@ const FIXTURES = [
       // breakdown. Loose assertions — this fixture stress-tests area
       // detection and multi-line totals against analyzer-parser.js.
       // No contractor letterhead in cropped fixture.
-      // Subtotal $11,673.50 is what the analyzer's regex picks (largest
-      // line item not including tax). Tax-inclusive total $12,636.56 would
-      // require the parser to recognize the TOTAL row as the authoritative
-      // bottom-line. For now assert against the regex-pick'd subtotal.
-      price: 11674,
+      // Post-CONC-1 forceAI the API picks the tax-inclusive TOTAL
+      // ($12,636.56) which is the right buyer-facing bottom-line.
+      // Pre-fix the regex-only path picked the subtotal ($11,673.50).
+      price: 12637,
       // No contractorRegex — cropped fixture starts at the line items
       // table, contractor letterhead is above the crop.
       // No stateCode — no city/state in cropped fixture.
