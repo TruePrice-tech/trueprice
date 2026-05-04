@@ -79,6 +79,12 @@ const FIXTURES = [
       // f1 quote does NOT mention vapor barrier or rValueCert.
       scopeAbsent: ["vaporBarrier", "rValueCert"],
       warrantyRegex: /lifetime/i,
+      // INS-B1 regression guard: $5,680 for premium comprehensive Mixed
+      // (blown + spray foam) job with 6 scope add-ons (removal + air-seal +
+      // baffles + audit + cleanup + warranty) is FAIR for that breadth of
+      // scope (real range $4-7K). Should NEVER verdict OVERPRICED/UNUSUALLY
+      // LOW post-fix.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -132,6 +138,12 @@ const FIXTURES = [
       // falsely reports both as Included.
       scopeExcluded: ["airSealing", "oldRemoval"],
       warrantyRegex: /1[-\s]*year|1\s*yr/i,
+      // INS-B1 regression guard: $1,730 for bare-bones blow-only R-49
+      // fiberglass (NO air-seal, NO removal, just cleanup + 1yr warranty)
+      // is FAIR for budget tier (real range $1.5-2.5K for blow-only). The
+      // budget contractor isn't suspicious -- they're skipping prep that
+      // adds $400-1500. Should NEVER verdict UNUSUALLY LOW or OVERPRICED.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -149,6 +161,7 @@ const FIXTURES = [
       locationRegex: /attic/i,
       scopeFound: ["airSealing", "ventBaffles", "oldRemoval", "cleanup", "warranty"],
       warrantyRegex: /lifetime/i,
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -181,6 +194,7 @@ const FIXTURES = [
       // Trust-critical: must register as NOT Included on messy variant too.
       scopeExcluded: ["airSealing", "oldRemoval"],
       warrantyRegex: /1[-\s]*year|1\s*yr/i,
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -208,6 +222,11 @@ const FIXTURES = [
       locationRegex: /attic/i,
       scopeFound: ["airSealing", "ventBaffles", "oldRemoval", "permits", "cleanup", "warranty"],
       warrantyRegex: /2[-\s]*year|manufacturer/i,
+      // INS-B1 regression guard: $5,475 for comprehensive Apex NC quote
+      // (8 line items: removal + air-seal + blow + baffles + disposal +
+      // permit + 6% NC tax) is FAIR for that scope (real range $4-7K).
+      // Should NEVER verdict OVERPRICED post-fix.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
 ];
@@ -469,6 +488,21 @@ function compare(label, actual, expected) {
     }
   }
 
+  // INS-B1 regression guard: synthetic in-range or near-range insulation
+  // quotes should NEVER verdict "Unusually Low" (or "Overpriced") post-fix.
+  // Pre-INS-B1 the analyzer benchmarked perSqft × area only (no scope-
+  // breadth premium for air-seal / removal / baffles / energy audit / etc),
+  // so f1/f4/f7 (comprehensive 5-6 add-on jobs) read OVERPRICED and f3/f6
+  // (bare-bones blow-only) read UNUSUALLY LOW. If any future patch reverts
+  // the range-based verdict or drops the scopeAddOns map, this assertion
+  // fires.
+  if (expected.verdictNotRegex) {
+    const got = actual.display.verdictLabel || "";
+    if (expected.verdictNotRegex.test(got)) {
+      failures.push(`verdict: expected NOT match /${expected.verdictNotRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   return failures;
 }
 
@@ -534,7 +568,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|insType|rValue|areaSqFt|location|warranty|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|insType|rValue|areaSqFt|location|warranty|verdict|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

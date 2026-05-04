@@ -406,7 +406,34 @@
         spray_foam_open: { label: "Spray Foam (Open Cell)", lowPerSqft: 1.50, highPerSqft: 3.50 },
         spray_foam_closed: { label: "Spray Foam (Closed Cell)", lowPerSqft: 2.50, highPerSqft: 5.50 },
         batts: { label: "Batts (Fiberglass)", lowPerSqft: 0.80, highPerSqft: 2.00 },
-        rigid_foam: { label: "Rigid Foam Board", lowPerSqft: 1.20, highPerSqft: 3.20 }
+        rigid_foam: { label: "Rigid Foam Board", lowPerSqft: 1.20, highPerSqft: 3.20 },
+        // INS-B1 (TRUST-CRITICAL 2026-05-03): Mixed = blown-in primary +
+        // closed-cell spray foam at rim joist (or similar hybrid). Pre-fix
+        // detectInsulationType returned "mixed" but basePriceByType had no
+        // "mixed" key, so fell back to blown_in (0.90-2.30/sqft) -- way too
+        // narrow for a job that includes premium spray-foam line items.
+        // Hybrid range bridges blown_in low and spray_foam_open high.
+        mixed: { label: "Mixed (Blown-In + Spray Foam)", lowPerSqft: 1.20, highPerSqft: 3.80 }
+      },
+      // INS-B1 (TRUST-CRITICAL 2026-05-03, mirror foundation FND-B1 / kitchen
+      // K8 / painting K8): scope-breadth add-ons. Pre-fix benchmark was just
+      // perSqft × area × multipliers -- a comprehensive job with air-seal +
+      // old-removal + vent-baffles + energy-audit + cleanup verdicted
+      // OVERPRICED vs a benchmark that didn't include any of those costs.
+      // f1 Green Envelope $5,680 (all 6 add-ons) -> "OVERPRICED 83% above
+      // $3,100" was the canonical surface. f7 mock NC $5,475 (5 add-ons)
+      // same shape. Add-on rates anchored to data/insulation-pricing.json
+      // ancillaryCosts + standard ancillary surveys.
+      scopeAddOns: {
+        airSealing:     { low: 400, mid: 800, high: 1500 },
+        oldRemoval:     { low: 400, mid: 700, high: 1200 },
+        ventBaffles:    { low: 150, mid: 250, high: 400 },
+        vaporBarrier:   { low: 300, mid: 700, high: 1500 },
+        accessCreation: { low: 200, mid: 350, high: 500 },
+        energyAudit:    { low: 200, mid: 400, high: 600 },
+        permits:        { low: 100, mid: 200, high: 400 },
+        rValueCert:     { low: 100, mid: 200, high: 300 },
+        cleanup:        { low: 80, mid: 180, high: 300 }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       locationMultiplier: { attic: 1.0, walls: 1.15, crawl_space: 1.20, basement: 1.05 },
@@ -558,6 +585,89 @@
       return { label: "Overpriced", css: "high", emoji: "" };
     }
 
+    // INS-B1 (TRUST-CRITICAL, mirror foundation FND-B1 / kitchen K8 / painting
+    // K8): range-based verdict. Pre-fix verdictFromRatio bucketed price/single
+    // -midpoint with thresholds that mis-verdicted in-range comprehensive
+    // jobs as "OVERPRICED" (because the benchmark didn't include scope-
+    // breadth add-ons) and bare-bones jobs as "UNUSUALLY LOW" (because the
+    // benchmark assumed at-midpoint scope). Migrate to range-based.
+    function verdictFromRange(price, range) {
+      if (!range || !(range.low > 0) || !(range.high > 0)) {
+        var mid = (range && range.mid) || 1;
+        return verdictFromRatio(price / mid);
+      }
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // INS-B1 calcBenchmarkRange: returns { low, mid, high } anchored to
+    // per-sqft ranges + scope-breadth add-ons. The base [low, high] uses
+    // basePriceByType perSqft × area × labor × location × inflation × seasonal
+    // (no removalMultiplier -- that's now superseded by the additive
+    // oldRemoval scope add-on, which more accurately models removal as a
+    // dollar-cost line item rather than a percentage uplift on the entire
+    // per-sqft rate).
+    function calcBenchmarkRange(insType, sqft, regionOrMult, locationKey, scopeSignals) {
+      var typeData = INS_PRICING.basePriceByType[insType];
+      if (!typeData) typeData = INS_PRICING.basePriceByType.blown_in;
+
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var laborMult = cityMult || (INS_PRICING.laborMultiplierByRegion[regionOrMult] || 1.0);
+      var locationMult = INS_PRICING.locationMultiplier[locationKey] || 1.0;
+      var common = sqft * laborMult * locationMult * INFLATION_MULT * SEASONAL_MULT;
+
+      var low  = typeData.lowPerSqft  * common;
+      var high = typeData.highPerSqft * common;
+      var mid  = ((typeData.lowPerSqft + typeData.highPerSqft) / 2) * common;
+
+      // Scope-breadth add-ons. Pad benchmark range when buyer's quote
+      // includes air-sealing, old removal, vent baffles, vapor barrier,
+      // hatch insulation, energy audit, permits, R-value cert, or
+      // cleanup as line items. Without this, a comprehensive 6-line-item
+      // job reads OVERPRICED vs a per-sqft-only benchmark.
+      function addOn(key) {
+        var ad = INS_PRICING.scopeAddOns[key];
+        if (!ad) return;
+        low  += ad.low;
+        mid  += ad.mid;
+        high += ad.high;
+      }
+      var sig = scopeSignals || {};
+      function isIncluded(s) {
+        if (!s) return false;
+        if (s.status) return s.status === "included";
+        return !!s; // legacy boolean signal
+      }
+      if (isIncluded(sig.airSealing))     addOn("airSealing");
+      if (isIncluded(sig.oldRemoval))     addOn("oldRemoval");
+      if (isIncluded(sig.ventBaffles))    addOn("ventBaffles");
+      if (isIncluded(sig.vaporBarrier))   addOn("vaporBarrier");
+      if (isIncluded(sig.accessCreation)) addOn("accessCreation");
+      if (isIncluded(sig.energyAudit))    addOn("energyAudit");
+      if (isIncluded(sig.permits))        addOn("permits");
+      if (isIncluded(sig.rValueCert))     addOn("rValueCert");
+      if (isIncluded(sig.cleanup))        addOn("cleanup");
+
+      // Apply flywheel blend to MID (back-compat with calcBenchmark) so the
+      // displayed midpoint stays consistent with calibration data; range
+      // bounds keep their mathematical anchor since flywheel data is
+      // single-point not range.
+      var __cal = (typeof getCityCal === "function" && state && state.address) ? getCityCal(state.address.city, state.address.stateCode) : null;
+      if (window.FlywheelBlend && __cal) {
+        var __blend = window.FlywheelBlend.blendedBenchmark(mid, __cal, roundTo50);
+        if (__blend.applied) mid = __blend.total;
+      }
+
+      return {
+        low:  roundTo50(low),
+        mid:  roundTo50(mid),
+        high: roundTo50(high)
+      };
+    }
+
     // Detect insulation type from quote text.
     // I3 (2026-05-03): blown-in/cellulose check moved BEFORE spray-foam.
     // Mixed quotes (e.g. blow-in cellulose at attic + closed-cell at rim joist)
@@ -571,7 +681,11 @@
       var t = (text || "").toLowerCase();
       var hasBlown = /blown.?in|loose.?fill|cellulose|blow.?in/i.test(t);
       var hasSpray = /spray\s*foam|closed.?cell|open.?cell/i.test(t);
-      if (hasBlown && hasSpray) return { value: "blown_in", label: "Mixed (Blown-In + Spray Foam)" };
+      // INS-B1 (2026-05-03): return value "mixed" so calcBenchmarkRange
+      // picks the hybrid $1.20-$3.80/sqft tier in basePriceByType.mixed
+      // instead of falling back to blown_in $0.90-$2.30/sqft (too narrow
+      // for a job that includes premium spray-foam line items).
+      if (hasBlown && hasSpray) return { value: "mixed", label: "Mixed (Blown-In + Spray Foam)" };
       if (hasBlown) return { value: "blown_in", label: "Blown-In (Attic)" };
       if (/closed.?cell|spray\s*foam.*closed/i.test(t)) return { value: "spray_foam_closed", label: "Spray Foam (Closed Cell)" };
       if (/open.?cell|spray\s*foam.*open/i.test(t)) return { value: "spray_foam_open", label: "Spray Foam (Open Cell)" };
@@ -1083,13 +1197,41 @@ setProgress(90, "Almost done...");
 
         var effectiveArea = detectedArea || 1500;
         var effectiveLocation = detectedLocation || "attic";
-        var hasRemoval = scopeSignals.oldRemoval ? true : false;
         var region = getRegionFromState(state.address.stateCode);
 
-        var benchmark = calcBenchmark(insType.value, effectiveArea, region, hasRemoval, effectiveLocation);
-
+        // INS-B1 (TRUST-CRITICAL, mirror foundation FND-B1 / kitchen K8 /
+        // painting K8): range-based verdict with scope-breadth add-ons.
+        //
+        // Pre-fix calcBenchmark returned a single midpoint (perSqft × area
+        // × multipliers) and verdictFromRatio bucketed price/midpoint. This
+        // drove:
+        //   f1 Green Envelope $5,680 (Mixed: blown + spray foam, all 6 add-
+        //     ons including audit + air-seal + removal + baffles) -> "OVER-
+        //     PRICED 83% above $3,100" (wrong: $5,680 is fair for premium
+        //     comprehensive, real range $4-7K)
+        //   f3 Midstate $1,730 (bare-bones blown-only, NO air-seal, NO
+        //     removal, just R-49 fiberglass + cleanup) -> "UNUSUALLY LOW
+        //     44% below $3,100" (wrong: $1,730 is fair for a bare-bones
+        //     blow-only job, real range $1.5-2.5K)
+        //   f7 mock NC $5,475 (comprehensive: remove + air-seal + blow +
+        //     baffles + permit + 6% tax) -> "OVERPRICED 77% above $3,100"
+        //     (wrong: $5,475 is fair for a comprehensive job, real range
+        //     $4-7K)
+        //
+        // calcBenchmarkRange returns { low, mid, high } -- base perSqft range
+        // PLUS additive scope-breadth add-ons triggered when scopeSignals
+        // mark each item as Included. verdictFromRange buckets price against
+        // the published [low, high] band.
+        var range = calcBenchmarkRange(
+          insType.value,
+          effectiveArea,
+          region,
+          effectiveLocation,
+          scopeSignals
+        );
+        var benchmark = range.mid;
         var ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-        var verdict = verdictFromRatio(ratio);
+        var verdict = verdictFromRange(confirmedPrice, range);
 
         setProgress(100, "Done!");
 
@@ -1097,6 +1239,7 @@ setProgress(90, "Almost done...");
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
           benchmark: benchmark,
+          range: range,
           ratio: ratio,
           verdict: verdict,
           insType: insType,
@@ -1410,11 +1553,31 @@ setProgress(90, "Almost done...");
       var rangeText = "";
 
       if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+        // INS-B1 (mirror foundation / kitchen / painting): show typical
+        // range, not single benchmark. Pre-fix "Market benchmark: $3,100 --
+        // 83% above average" on a fair-priced premium comprehensive job
+        // ($5,680 with 6 add-on line items) made buyers think they were
+        // overcharged when the comprehensive scope legitimately costs that
+        // much. Post-fix: "Typical range: $A - $B -- inside the typical
+        // range" / "X% below typical low" / "Y% above typical high".
+        if (r.range && r.range.low > 0 && r.range.high > 0) {
+          rangeText = "Typical range: " + fmt(r.range.low) + " - " + fmt(r.range.high);
+          if (r.quotePrice >= r.range.low * 0.92 && r.quotePrice <= r.range.high * 1.05) {
+            rangeText += " -- inside the typical range";
+          } else if (r.quotePrice < r.range.low) {
+            var pctLow = Math.round((1 - r.quotePrice / r.range.low) * 100);
+            rangeText += " -- " + pctLow + "% below typical low";
+          } else if (r.quotePrice > r.range.high) {
+            var pctHigh = Math.round((r.quotePrice / r.range.high - 1) * 100);
+            rangeText += " -- " + pctHigh + "% above typical high";
+          }
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " -- " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
