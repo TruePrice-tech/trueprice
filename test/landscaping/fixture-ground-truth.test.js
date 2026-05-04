@@ -186,11 +186,13 @@ const FIXTURES = [
       // disposal $320. Workmanship warranty: 2 years on labor + manufacturer
       // material warranty. 25% deposit. Mock template; mocks 02-10 are
       // identical except contractor name.
+      // Note: NO explicit plant warranty (only workmanship+manufacturer), so
+      // plantWarrantyMonths is correctly null. The hardscape warranty would
+      // need a separate field (Block 3 polish, not Block 1 trust).
       price: 17495,
       contractorRegex: /greenscape\s*designs/i,
       stateCode: "NC",
       jobTypeRegex: /mixed|pavers|retaining_wall/i,
-      plantWarrantyMonths: 24,
       scopeFound: ["excavation", "drainage", "mulchRock", "edging", "plants", "irrigation", "cleanup", "warranty"],
       scopeAbsent: ["sealing", "permits"],
     },

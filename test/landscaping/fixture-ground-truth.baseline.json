@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T01:27:28.047Z",
+  "ts": "2026-05-04T01:36:28.008Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-piedmont-high": {
@@ -32,21 +32,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "PIEDMONT LANDSCAPE DESIGN",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "front yard refresh with sod, shrubs, mulch, irrigation, and landscape lighting",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 24,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /piedmont\\s*landscape\\s*design/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|landscape_design|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~24, got null"
-      ]
+      "failures": []
     },
     "f2-evergreen-mid": {
       "verdictPrice": 3820,
@@ -78,21 +73,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "EVERGREEN GROUNDSKEEPING",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "front yard refresh: bermuda sod, shrub planting, mulch, drip irrigation",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 12,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /evergreen\\s*groundskeeping/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|sod|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~12, got null"
-      ]
+      "failures": []
     },
     "f3-lawn-and-order-low": {
       "verdictPrice": 2080,
@@ -101,14 +91,14 @@
         "pricing": "South regional pricing"
       },
       "scope": {
-        "designPlan": "included",
+        "designPlan": "not included",
         "excavation": "not mentioned",
         "drainage": "not mentioned",
         "baseMaterial": "not mentioned",
         "edging": "not mentioned",
         "mulchRock": "included",
         "plants": "included",
-        "irrigation": "included",
+        "irrigation": "not included",
         "lighting": "not mentioned",
         "sealing": "not mentioned",
         "permits": "not mentioned",
@@ -124,23 +114,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "LAWN & ORDER LANDSCAPING",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "front yard refresh - bermuda sod, shrub planting, mulch installation",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 1,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /lawn\\s*&?\\s*order\\s*landscaping/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|sod|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~1, got null",
-        "scopeExcluded:irrigation: expected NOT \"Included\", got \"included\"",
-        "scopeExcluded:designPlan: expected NOT \"Included\", got \"included\""
-      ]
+      "failures": []
     },
     "f4-piedmont-high-messy": {
       "verdictPrice": 9420,
@@ -172,21 +155,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "PIEDMONT LANDSCAPE DESIGN",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "Front yard refresh with sod, shrub planting, mulch, drip irrigation, and landscape lighting",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 24,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /piedmont\\s*landscape\\s*design/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|landscape_design|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~24, got null"
-      ]
+      "failures": []
     },
     "f5-evergreen-mid-messy": {
       "verdictPrice": 3820,
@@ -218,21 +196,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "EVERGREEN GROUNDSKEEPING",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "Front yard refresh - 1200 sqft bermuda sod, 18 mixed shrubs, premium mulch, drip irrigation, soil prep",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 12,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /evergreen\\s*groundskeeping/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|sod|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~12, got null"
-      ]
+      "failures": []
     },
     "f6-lawn-and-order-low-messy": {
       "verdictPrice": 2080,
@@ -241,14 +214,14 @@
         "pricing": "South regional pricing"
       },
       "scope": {
-        "designPlan": "included",
+        "designPlan": "not included",
         "excavation": "not mentioned",
         "drainage": "not mentioned",
         "baseMaterial": "not mentioned",
         "edging": "not mentioned",
         "mulchRock": "included",
         "plants": "included",
-        "irrigation": "included",
+        "irrigation": "not included",
         "lighting": "not mentioned",
         "sealing": "not mentioned",
         "permits": "not mentioned",
@@ -264,23 +237,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
-      "apiPlantWarrantyMonths": null,
+      "contractor": "LAWN & ORDER LANDSCAPING",
+      "stateCode": "GA",
+      "apiJobType": "mixed",
+      "apiSubScope": "front yard refresh - bermuda sod installation, shrub planting, mulch",
+      "apiSquareFootage": 1200,
+      "apiPlantWarrantyMonths": 1,
       "displayProjectType": "Sod Installation",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /lawn\\s*&?\\s*order\\s*landscaping/, got null",
-        "stateCode: expected \"GA\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|sod|planting/, got \"\"",
-        "plantWarrantyMonths: expected ~1, got null",
-        "scopeExcluded:irrigation: expected NOT \"Included\", got \"included\"",
-        "scopeExcluded:designPlan: expected NOT \"Included\", got \"included\""
-      ]
+      "failures": []
     },
     "mock-01-greenscape-hardscape": {
       "verdictPrice": 17495,
@@ -297,7 +263,7 @@
         "mulchRock": "included",
         "plants": "included",
         "irrigation": "included",
-        "lighting": "included",
+        "lighting": "not mentioned",
         "sealing": "not mentioned",
         "permits": "not mentioned",
         "cleanup": "included",
@@ -312,21 +278,16 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": null,
-      "stateCode": null,
-      "apiJobType": null,
-      "apiSubScope": null,
-      "apiSquareFootage": null,
+      "contractor": "Greenscape Designs",
+      "stateCode": "NC",
+      "apiJobType": "mixed",
+      "apiSubScope": "backyard hardscape project with paver patio, retaining wall, drainage, planting, and irrigation",
+      "apiSquareFootage": 320,
       "apiPlantWarrantyMonths": null,
       "displayProjectType": "Paver Patio",
       "displayProjectSize": null,
       "displayPricing": "South regional pricing",
-      "failures": [
-        "contractor: expected match /greenscape\\s*designs/, got null",
-        "stateCode: expected \"NC\", got no API response (forceAI?)",
-        "jobType: expected match /mixed|pavers|retaining_wall/, got \"\"",
-        "plantWarrantyMonths: expected ~24, got null"
-      ]
+      "failures": []
     }
   }
 }
