@@ -1,0 +1,138 @@
+{
+  "ts": "2026-05-04T02:04:06.954Z",
+  "inflationMult": 1,
+  "results": {
+    "brakes-pads-rotors-std-indep-sc": {
+      "calcMid": 430,
+      "calcLow": 230,
+      "calcHigh": 660,
+      "band": {
+        "low": 250,
+        "high": 700
+      },
+      "label": "Pads + rotors per axle, standard sedan, independent shop, SC",
+      "failures": []
+    },
+    "brakes-pads-rotors-truck-indep-tx": {
+      "calcMid": 510,
+      "calcLow": 280,
+      "calcHigh": 800,
+      "band": {
+        "low": 320,
+        "high": 850
+      },
+      "label": "Pads + rotors per axle, F-150/SUV, independent shop, TX",
+      "failures": []
+    },
+    "oil-synthetic-std-chain-ga": {
+      "calcMid": 90,
+      "calcLow": 50,
+      "calcHigh": 130,
+      "band": {
+        "low": 55,
+        "high": 135
+      },
+      "label": "Full synthetic oil change, standard sedan, chain shop, GA",
+      "failures": []
+    },
+    "trans-rebuild-std-indep-tx": {
+      "calcMid": 2790,
+      "calcLow": 1540,
+      "calcHigh": 4280,
+      "band": {
+        "low": 1700,
+        "high": 4800
+      },
+      "label": "Transmission rebuild, standard sedan, independent shop, TX",
+      "failures": []
+    },
+    "engine-replace-std-indep-sc": {
+      "calcMid": 6150,
+      "calcLow": 3220,
+      "calcHigh": 9400,
+      "band": {
+        "low": 3200,
+        "high": 10000
+      },
+      "label": "Engine replacement, standard sedan, independent shop, SC",
+      "failures": []
+    },
+    "engine-replace-truck-dealer-tx": {
+      "calcMid": 11430,
+      "calcLow": 6030,
+      "calcHigh": 17500,
+      "band": {
+        "low": 6000,
+        "high": 17000
+      },
+      "label": "Engine replacement, F-150/SUV, dealer, TX",
+      "failures": []
+    },
+    "ac-recharge-std-indep-ga": {
+      "calcMid": 210,
+      "calcLow": 100,
+      "calcHigh": 320,
+      "band": {
+        "low": 100,
+        "high": 350
+      },
+      "label": "AC recharge, standard sedan, independent shop, GA",
+      "failures": []
+    },
+    "struts-front-std-dealer-ny": {
+      "calcMid": 1500,
+      "calcLow": 700,
+      "calcHigh": 2460,
+      "band": {
+        "low": 700,
+        "high": 2400
+      },
+      "label": "Front struts (pair), standard sedan, dealer, NY",
+      "failures": []
+    },
+    "battery-std-chain-sc": {
+      "calcMid": 230,
+      "calcLow": 130,
+      "calcHigh": 320,
+      "band": {
+        "low": 130,
+        "high": 360
+      },
+      "label": "Battery replacement (AGM era), standard sedan, chain shop, SC",
+      "failures": []
+    },
+    "alternator-luxury-dealer-asap-ny": {
+      "calcMid": 1810,
+      "calcLow": 850,
+      "calcHigh": 3020,
+      "band": {
+        "low": 800,
+        "high": 3200
+      },
+      "label": "Alternator, luxury (BMW/Audi), dealer, ASAP, NY",
+      "failures": []
+    },
+    "catalytic-evhybrid-dealer-ca": {
+      "calcMid": 4650,
+      "calcLow": 1310,
+      "calcHigh": 8230,
+      "band": {
+        "low": 2000,
+        "high": 9000
+      },
+      "label": "Catalytic converter, EV/hybrid, dealer, CA (CARB-compliant)",
+      "failures": []
+    },
+    "tire-set-std-chain-tx": {
+      "calcMid": 820,
+      "calcLow": 430,
+      "calcHigh": 1220,
+      "band": {
+        "low": 400,
+        "high": 1500
+      },
+      "label": "New tires (set of 4), standard sedan, chain shop, TX",
+      "failures": []
+    }
+  }
+}
