@@ -709,6 +709,7 @@
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "landscaping",
           apiEndpoint: "/api/landscaping-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
