@@ -62,6 +62,35 @@
         "https://www.angi.com/articles/roof-replacement-cost.htm"
       ]
     },
+    "kitchen": {
+      "harnessPath": "test/kitchen/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "midrange-average-quartz-semi-mid",
+          "label": "Mid-range remodel, average size, quartz, semi-custom, mid appliances (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a mid-range kitchen remodel: average size 100-150 sqft, quartz countertops, semi-custom cabinets, mid-range appliances (KitchenAid/Bosch tier). National average. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 45000, "high": 75000 }
+        },
+        {
+          "id": "major-large-custom-premium",
+          "label": "Major upscale, large kitchen, custom cabinets, premium appliances (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a major upscale kitchen remodel with large size 150-200 sqft, custom cabinets, and premium appliances (Sub-Zero/Wolf tier). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 350000, "high": 600000 }
+        },
+        {
+          "id": "cabinet-refacing-average",
+          "label": "Cabinet refacing, average size, semi-custom (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a cabinet refacing project on an average-size kitchen with semi-custom finish (no full cabinet replacement). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 5000, "high": 15000 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/kitchen-remodel-cost",
+        "https://www.forbes.com/home-improvement/remodeling/cost-to-remodel-kitchen/",
+        "https://www.nkba.org/cost-of-kitchen-remodels/",
+        "https://www.angi.com/articles/how-much-does-it-cost-remodel-kitchen.htm"
+      ]
+    },
     "auto-repair": {
       "harnessPath": "test/auto-repair/calculator-spot-check.test.js",
       "pinpoints": [

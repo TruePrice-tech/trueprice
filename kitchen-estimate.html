@@ -355,6 +355,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/kitchen-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -379,68 +381,18 @@
     "use strict";
 
     // ── Kitchen Pricing Model ──
-    var KIT_PRICING = {
-      basePriceByTier: {
-        minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
-        midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
-        major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
-        cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
-      },
-      kitchenSizes: [
-        { label: "Small (< 100 sq ft)",      multiplier: 0.75 },
-        { label: "Average (100-150 sq ft)",   multiplier: 1.0  },
-        { label: "Large (150-200 sq ft)",     multiplier: 1.30 },
-        { label: "Expansive (200+ sq ft)",    multiplier: 1.65 }
-      ],
-      countertopMaterials: [
-        { key: "laminate", label: "Laminate",  multiplier: 0.85 },
-        { key: "butcher_block", label: "Butcher Block", multiplier: 0.90 },
-        { key: "granite",  label: "Granite",   multiplier: 1.0  },
-        { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
-        { key: "marble",   label: "Marble",    multiplier: 1.25 },
-        { key: "quartzite", label: "Quartzite", multiplier: 1.50 }
-      ],
-      cabinetQuality: [
-        { key: "stock", label: "Stock Cabinets", tag: "Pre-made, limited sizes. Hampton Bay, In-Stock.", multiplier: 0.85 },
-        { key: "semicustom", label: "Semi-Custom Cabinets", tag: "More options, 2-4 week lead. KraftMaid, Thomasville, Diamond.", multiplier: 1.00 },
-        { key: "custom", label: "Custom Cabinets", tag: "Built to spec, 6-12 week lead. Local shops, high-end brands.", multiplier: 1.55 }
-      ],
-      applianceTier: [
-        { key: "existing", label: "Keep Existing Appliances", tag: "Reuse what you have. No appliance cost.", multiplier: 0.80 },
-        { key: "basic", label: "Basic / Builder Grade", tag: "Whirlpool, Frigidaire, Amana. $3K-$5K for a set.", multiplier: 0.90 },
-        { key: "midrange", label: "Mid-Range", tag: "KitchenAid, Bosch, Samsung. $5K-$10K for a set.", multiplier: 1.00 },
-        { key: "premium", label: "Premium", tag: "Sub-Zero, Wolf, Viking, Thermador. $15K-$30K+ for a set.", multiplier: 1.40 }
-      ],
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      roundTo: 50,
-      scopeItems: [
-        { key: "demo",         label: "Demolition and removal",       weight: 8  },
-        { key: "cabinets",     label: "Cabinets (supply and install)", weight: 20 },
-        { key: "countertops",  label: "Countertops",                   weight: 14 },
-        { key: "flooring",     label: "Flooring",                      weight: 8  },
-        { key: "backsplash",   label: "Backsplash",                    weight: 6  },
-        { key: "plumbing",     label: "Plumbing (sink, faucet, lines)", weight: 8  },
-        { key: "electrical",   label: "Electrical (outlets, wiring)",  weight: 8  },
-        { key: "appliances",   label: "Appliances",                    weight: 12 },
-        { key: "lighting",     label: "Lighting (under-cabinet, recessed)", weight: 5 },
-        { key: "painting",     label: "Painting and trim",            weight: 4  },
-        { key: "permits",      label: "Permits and inspections",      weight: 3  },
-        { key: "design",       label: "Design and planning",          weight: 5  },
-        { key: "warranty",     label: "Warranty (labor and materials)", weight: 5  }
-      ]
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/kitchen-calc.js (UMD). The spot-check
+    // harness (test/kitchen/calculator-spot-check.test.js) imports the same
+    // module so values can't drift between calc + test. CI fails the build
+    // when any (tier x size x countertop x cabinet x appliance x state) tuple
+    // drifts outside its 2026 industry-anchored band.
+    var _KITCALC = (typeof window !== "undefined" && window.WoogoroKitchenCalc) || null;
+    if (!_KITCALC) {
+      console.error("[kitchen-estimate] /js/kitchen-calc.min.js failed to load");
+      return;
+    }
+    var KIT_PRICING = _KITCALC.KIT_PRICING;
+    var STATE_REGIONS = _KITCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -474,68 +426,55 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _KITCALC.getRegionFromState;
 
-    // City-level multiplier
+    // City-level multiplier + flywheel calibration cache. /api/city-multiplier
+    // returns both per-city svcMult AND a serviceCalibration block from cal:*
+    // aggregates for flywheel-aware blending. See js/flywheel-blend.js.
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=kitchen")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
     function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
+      return cityMultCache[(city || "") + "|" + (stateCode || "")] || null;
+    }
+    function getCityCalData(city, stateCode) {
+      return cityCalCache[(city || "") + "|" + (stateCode || "")] || null;
     }
 
     // Inflation: 3% annual from 2025
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: kitchen remodels peak in spring/summer
-    var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+    // Seasonal: kitchen remodels peak in spring/summer (table lives in /js/kitchen-calc.js)
+    var SEASONAL_MULT = _KITCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
+    // Pure math + table lookups live in /js/kitchen-calc.js. This wrapper
+    // plumbs city/state/inflation/seasonal/calData through to the module.
     function calcBenchmark(tier, sizeIdx, countertopKey, cabinetKey, applianceKey) {
-      var tierData = KIT_PRICING.basePriceByTier[tier];
-      if (!tierData) tierData = KIT_PRICING.basePriceByTier.midrange;
-      var base = tierData.base;
-
-      var sizeMult = 1.0;
-      if (sizeIdx !== null && sizeIdx !== undefined && KIT_PRICING.kitchenSizes[sizeIdx]) {
-        sizeMult = KIT_PRICING.kitchenSizes[sizeIdx].multiplier;
-      }
-
-      var countertopMult = 1.0;
-      if (countertopKey) {
-        var mat = KIT_PRICING.countertopMaterials.find(function(m) { return m.key === countertopKey; });
-        if (mat) countertopMult = mat.multiplier;
-      }
-
-      var cabinetMult = 1.0;
-      if (cabinetKey) {
-        var cab = KIT_PRICING.cabinetQuality.find(function(c) { return c.key === cabinetKey; });
-        if (cab) cabinetMult = cab.multiplier;
-      }
-
-      var applianceMult = 1.0;
-      if (applianceKey) {
-        var app = KIT_PRICING.applianceTier.find(function(a) { return a.key === applianceKey; });
-        if (app) applianceMult = app.multiplier;
-      }
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (KIT_PRICING.laborMultiplierByRegion[region] || 1.0);
-
-      var total = base * sizeMult * countertopMult * cabinetMult * applianceMult * laborMult * INFLATION_MULT * SEASONAL_MULT;
-
-      return roundTo50(total);
+      var out = _KITCALC.calcKitchenEstimate({
+        tier: tier,
+        sizeIdx: sizeIdx,
+        countertopKey: countertopKey,
+        cabinetKey: cabinetKey,
+        applianceKey: applianceKey,
+        region: getRegionFromState(state.address.stateCode),
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT,
+        seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {

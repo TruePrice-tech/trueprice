@@ -1,0 +1,70 @@
+{
+  "ts": "2026-05-04T11:05:20.605Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "minor-small-laminate-stock-existing-ga": {
+      "total": 10050,
+      "band": {
+        "low": 8000,
+        "high": 18000
+      },
+      "label": "Minor cosmetic, small kitchen, laminate, stock cabinets, keep appliances, GA",
+      "failures": []
+    },
+    "midrange-average-granite-semi-mid-il": {
+      "total": 47700,
+      "band": {
+        "low": 42000,
+        "high": 70000
+      },
+      "label": "Mid-range, average size, granite, semi-custom, mid-range appliances, IL",
+      "failures": []
+    },
+    "midrange-average-quartz-semi-mid-nc": {
+      "total": 51000,
+      "band": {
+        "low": 45000,
+        "high": 75000
+      },
+      "label": "Mid-range, average size, quartz, semi-custom, mid-range appliances, NC",
+      "failures": []
+    },
+    "midrange-large-quartz-custom-premium-ny": {
+      "total": 164750,
+      "band": {
+        "low": 130000,
+        "high": 220000
+      },
+      "label": "Mid-range, large kitchen, quartz, custom cabinets, premium appliances, NY",
+      "failures": []
+    },
+    "major-large-quartzite-custom-premium-ny": {
+      "total": 449400,
+      "band": {
+        "low": 350000,
+        "high": 600000
+      },
+      "label": "Major upscale, large, quartzite, custom, premium, NY (NYC luxury)",
+      "failures": []
+    },
+    "major-expansive-marble-custom-premium-ca": {
+      "total": 491400,
+      "band": {
+        "low": 400000,
+        "high": 700000
+      },
+      "label": "Major upscale, expansive (200+ sqft), marble, custom, premium, CA",
+      "failures": []
+    },
+    "refacing-average-granite-semi-existing-tx": {
+      "total": 6800,
+      "band": {
+        "low": 5000,
+        "high": 15000
+      },
+      "label": "Cabinet refacing, average size, granite, semi-custom, keep appliances, TX",
+      "failures": []
+    }
+  }
+}
