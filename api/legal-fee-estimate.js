@@ -98,7 +98,7 @@ export default async function handler(req, res) {
     // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
     // got polluted with stale entries during the gradual deploy window before
     // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v10-noinfer" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v11-firmsize" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -283,9 +283,21 @@ OTHER FIELDS:
   - city / stateCode: from firm letterhead
   - practiceArea: divorce = family_law, DUI = criminal_defense, will = estate_planning, etc.
   - firmSize: solo (1), small (2-10), midsize (11-50), large (51-200), biglaw (200+), null if unknown.
-    Inferring firmSize from the document is encouraged when staff lists, attorney rosters, or
-    letterhead make it unambiguous. Examples:
-      Letterhead names ONE attorney + "Esq." sole signer        -> "solo"
+    DEFAULT IS null. Only classify when the document gives explicit
+    evidence of attorney count: a staff/roster list, "X attorneys"
+    phrase, "& Associates" suffix, multi-floor address with multiple
+    attorneys named, or a recognized AmLaw firm name. The presence of
+    a suite address, professional letterhead, or single-attorney sign-
+    off does NOT imply "small" — that's the model's most common error.
+    DO NOT default to "small" when only one attorney is named without
+    other context; that's "solo" or null, never "small".
+    Examples:
+      Letterhead lists ONE attorney + "Esq."/"PLLC" sole signer,
+        no other attorneys named anywhere in document
+                                                                -> "solo"
+      Letterhead lists ONE attorney, no other attorneys named, but
+        text references "the firm" / "our team" without a roster
+                                                                -> null  (NOT "small")
       Staff list shows 2-10 named attorneys (any mix of Senior/Junior Partner/Associate/
         Of Counsel; Paralegals do NOT count toward attorney count) -> "small"
       Letterhead lists 11-50 named attorneys / "& Associates" with multi-floor address
