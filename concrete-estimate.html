@@ -347,6 +347,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/concrete-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -371,43 +373,11 @@
     "use strict";
 
     // ── Concrete Pricing Model ──
-    var CONC_PRICING = {
-      basePricePerSqft: {
-        standard_driveway: { label: "Standard Driveway", low: 8, high: 15, mid: 11.50 },
-        stamped_concrete: { label: "Stamped Concrete", low: 12, high: 20, mid: 16.00 },
-        concrete_patio: { label: "Concrete Patio", low: 8, high: 16, mid: 12.00 },
-        sidewalk: { label: "Sidewalk", low: 8, high: 14, mid: 11.00 },
-        asphalt_driveway: { label: "Asphalt Driveway", low: 5, high: 10, mid: 7.50 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      scopeItems: [
-        { key: "demolition", label: "Demolition of existing surface", weight: 12 },
-        { key: "grading", label: "Grading and leveling", weight: 10 },
-        { key: "basePrep", label: "Base preparation (gravel/compaction)", weight: 10 },
-        { key: "forms", label: "Formwork", weight: 8 },
-        { key: "rebarMesh", label: "Rebar or wire mesh reinforcement", weight: 10 },
-        { key: "concretePour", label: "Concrete pour and placement", weight: 15 },
-        { key: "finishing", label: "Finishing (broom, smooth, or stamped)", weight: 10 },
-        { key: "sealing", label: "Sealing / curing compound", weight: 6 },
-        { key: "expansionJoints", label: "Expansion joints", weight: 5 },
-        { key: "permits", label: "Permits and inspections", weight: 4 },
-        { key: "cleanup", label: "Site cleanup", weight: 3 },
-        { key: "warranty", label: "Warranty", weight: 5 },
-        { key: "cureTime", label: "Cure time / restrictions noted", weight: 2 }
-      ]
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/concrete-calc.js (UMD).
+    var _CONCCALC = (typeof window !== "undefined" && window.WoogoroConcreteCalc) || null;
+    if (!_CONCCALC) { console.error("[concrete-estimate] /js/concrete-calc.min.js failed to load"); return; }
+    var CONC_PRICING = _CONCCALC.CONC_PRICING;
+    var STATE_REGIONS = _CONCCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -441,49 +411,39 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _CONCCALC.getRegionFromState;
+    var sqftFromSize = _CONCCALC.sqftFromSize;
 
-    // City-level multiplier
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=concrete")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: concrete peaks in summer
-    var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.96, 4:1.00, 5:1.06, 6:1.10, 7:1.12, 8:1.10, 9:1.04, 10:0.98, 11:0.94, 12:0.90 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
-
-    function sqftFromSize(sizeLabel) {
-      var map = { "200": 200, "400": 400, "600": 600, "800": 800, "1000": 1000 };
-      return map[sizeLabel] || 400;
-    }
+    var SEASONAL_MULT = _CONCCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(projectType, sqft, thicknessMult, demoMult) {
-      var proj = CONC_PRICING.basePricePerSqft[projectType];
-      if (!proj) proj = CONC_PRICING.basePricePerSqft.standard_driveway;
-
-      var midPerSqft = proj.mid;
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var region = getRegionFromState(state.address.stateCode);
-      var laborMult = cityMult || (CONC_PRICING.laborMultiplierByRegion[region] || 1.0);
-
-      var total = midPerSqft * sqft * laborMult * thicknessMult * demoMult * INFLATION_MULT * SEASONAL_MULT;
-      return roundTo50(total);
+      var out = _CONCCALC.calcConcreteEstimate({
+        projectType: projectType, sqft: sqft, thicknessMult: thicknessMult, demoMult: demoMult,
+        region: getRegionFromState(state.address.stateCode),
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {

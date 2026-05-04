@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T11:58:55.428Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "std-driveway-600-se": {
+      "total": 7100,
+      "band": {
+        "low": 5000,
+        "high": 9000
+      },
+      "label": "Standard driveway 600 sqft, SE",
+      "failures": []
+    },
+    "stamped-400-w": {
+      "total": 7800,
+      "band": {
+        "low": 5000,
+        "high": 9500
+      },
+      "label": "Stamped concrete 400 sqft, W",
+      "failures": []
+    },
+    "patio-800-demo-ny": {
+      "total": 13600,
+      "band": {
+        "low": 9000,
+        "high": 18000
+      },
+      "label": "Patio 800 sqft + demo, NY",
+      "failures": []
+    },
+    "sidewalk-200-thick-mw": {
+      "total": 2700,
+      "band": {
+        "low": 1500,
+        "high": 3500
+      },
+      "label": "Sidewalk 200 sqft + thicker pour, MW",
+      "failures": []
+    },
+    "asphalt-600-s": {
+      "total": 4500,
+      "band": {
+        "low": 3000,
+        "high": 7000
+      },
+      "label": "Asphalt driveway 600 sqft, S",
+      "failures": []
+    }
+  }
+}
