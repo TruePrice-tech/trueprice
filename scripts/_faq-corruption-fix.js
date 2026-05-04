@@ -84,7 +84,7 @@ const VERTICAL_RULES = {
   concrete: {
     junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
-    cityH1: /<h1>Concrete (?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
+    cityH1: /<h1>Concrete (?:&amp; Driveway )?(?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
 <h2>More questions about concrete in ${city}</h2>
 <div class="faq-list">
@@ -120,10 +120,17 @@ const VERTICAL_RULES = {
 </div>
 </section>`,
   },
+  roof: {
+    junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
+    legitCloseLen: "</section>".length,
+    cityH1: /<h1>[^<]*Roof[^<]+ in ([^,<]+), [A-Z]{2}<\/h1>/,
+    // Drop-only (no replacement), matching Lane's original roof FAQ-drop precedent.
+    replacement: () => "",
+  },
   landscaping: {
     junkStartRegex: /<\/section>[0-9,.\-$/][^<\n]*/,
     legitCloseLen: "</section>".length,
-    cityH1: /<h1>Landscaping (?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
+    cityH1: /<h1>Landscaping (?:&amp; Hardscape )?(?:Cost|Work Cost) in ([^,<]+), [A-Z]{2}<\/h1>/,
     replacement: (city) => `<section class="section">
 <h2>More questions about landscaping in ${city}</h2>
 <div class="faq-list">
@@ -193,8 +200,10 @@ function fixFile(filePath, rule) {
   const fpMatch = html.match(rule.junkStartRegex);
   if (!fpMatch) return { changed: false, reason: "no-fingerprint" };
   const cityMatch = html.match(rule.cityH1);
-  if (!cityMatch) return { changed: false, reason: "no-city-h1" };
-  const city = cityMatch[1].trim();
+  // Drop-only verticals (empty replacement) don't need a city — material/topic pages OK
+  const isDropOnly = rule.replacement("").length === 0;
+  if (!cityMatch && !isDropOnly) return { changed: false, reason: "no-city-h1" };
+  const city = cityMatch ? cityMatch[1].trim() : "";
   // junk starts AFTER the legit </section> close
   const junkStartIdx = fpMatch.index + rule.legitCloseLen;
   const corruptionEndIdx = findCorruptionEndIndex(html, junkStartIdx);
@@ -205,7 +214,8 @@ function fixFile(filePath, rule) {
   if (usesCRLF) replacement = replacement.replace(/\n/g, "\r\n");
   const before = html.slice(0, junkStartIdx);
   const after = html.slice(corruptionEndIdx);
-  const next = before + nl + nl + replacement + nl + nl + after;
+  const sep = replacement ? nl + nl + replacement + nl + nl : nl;
+  const next = before + sep + after;
   if (next === html) return { changed: false, reason: "no-change" };
   if (!DRY_RUN) fs.writeFileSync(filePath, next);
   return { changed: true, city, junkLen: corruptionEndIdx - junkStartIdx };
