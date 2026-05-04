@@ -48,6 +48,11 @@ const FIXTURES = [
       subTypeRegex: /tank/i,             // tank_50_gas
       brandRegex: /rheem/i,
       isUncategorizedBanner: false,
+      // PLUMB-B1 regression guard: $1,380 for budget Rheem 50-gal gas tank
+      // is FAIR for low-end tank install (real range $1,200-$2,700 per
+      // priceRangeBySubType.tank_50_gas). Should verdict BELOW AVERAGE or
+      // FAIR PRICE, NEVER UNUSUALLY LOW.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -76,6 +81,11 @@ const FIXTURES = [
       subTypeRegex: /tankless/i,         // tankless_gas
       brandRegex: /rinnai/i,
       isUncategorizedBanner: false,
+      // PLUMB-B1 regression guard: $7,571 for premier Rinnai RU199iN tankless
+      // gas install is FAIR-to-ABOVE for premium tankless (real range $3,000-
+      // $8,000 per priceRangeBySubType.tankless_gas). Should verdict FAIR
+      // PRICE or ABOVE AVERAGE, NEVER OVERPRICED.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -90,6 +100,7 @@ const FIXTURES = [
       subTypeRegex: /tank/i,
       brandRegex: /rheem/i,
       isUncategorizedBanner: false,
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -116,6 +127,7 @@ const FIXTURES = [
       subTypeRegex: /tankless/i,
       brandRegex: /rinnai/i,
       isUncategorizedBanner: false,
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -132,6 +144,11 @@ const FIXTURES = [
       // Service-call invoices don't fit a clean job category — reasonable to
       // surface either drain_cleaning or uncategorized banner. Assert ONE of:
       isUncategorizedOrDrainCleaning: true,
+      // PLUMB-B1 regression guard: when subType resolves to drain_cleaning
+      // simple_clog, the new range $175-$750 with brand premium 1.6x for
+      // Roto-Rooter brings benchmark to $280-$1,200 -- $893 is FAIR. Pre-fix
+      // hit OVERPRICED 297% vs $225 indie benchmark.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -353,6 +370,23 @@ function compare(label, actual, expected) {
     }
   }
 
+  // PLUMB-B1 regression guard: synthetic in-range or near-range plumbing
+  // quotes should NEVER verdict "Unusually Low" (or "Overpriced") post-fix.
+  // Pre-PLUMB-B1 the analyzer used single-point benchmarks (simple_clog
+  // $200, tankless_gas $4,200, tank_50_gas $2,200) that put many
+  // subTypes at JSON tier-LOW, so:
+  //   f1 budget tank $1,380 -> UNUSUALLY LOW vs $2,900
+  //   f3/f6 premier tankless $7,571 -> OVERPRICED vs $5,525
+  //   f7 Roto-Rooter $893 -> OVERPRICED 297% vs $225 (no brand premium)
+  // Post-fix: range-based verdict + brand premium 1.6x for national chains.
+  // If any future patch reverts this, the harness fires NEW FAILURES.
+  if (expected.verdictNotRegex) {
+    const got = actual.display.verdictLabel || "";
+    if (expected.verdictNotRegex.test(got)) {
+      failures.push(`verdict: expected NOT match /${expected.verdictNotRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   return failures;
 }
 
@@ -408,7 +442,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|serviceType|subType|brand|isUncategorizedBanner|uncategorizedOrDrainCleaning|hardReject):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|serviceType|subType|brand|verdict|isUncategorizedBanner|uncategorizedOrDrainCleaning|hardReject):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

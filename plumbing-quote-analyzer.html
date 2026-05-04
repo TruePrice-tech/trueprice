@@ -428,6 +428,74 @@
           priceByLength: { short_under_20ft: 800, medium_20_50ft: 1500, long_over_50ft: 2500 }
         }
       },
+      // PLUMB-B1 (TRUST-CRITICAL 2026-05-03, mirror foundation FND-B1 /
+      // insulation INS-B1 / kitchen K8 / painting K8): per-subType ranges
+      // {low, mid, high} anchored to data/plumbing-pricing.json published
+      // total ranges + parts/labor breakdown. Pre-fix the analyzer used
+      // single-point benchmarks that put `simple_clog: 200` and
+      // `tankless_gas: 4200` at JSON tier-LOW, which made:
+      //   f1 budget tank $1,380 -> UNUSUALLY LOW vs $2,900 (real $800-$2K)
+      //   f3 premier tankless $7,571 -> OVERPRICED vs $5,525 (real $4-12K)
+      //   f7 Roto-Rooter $893 -> OVERPRICED 297% vs $225 (real $300-$1.5K)
+      // verdictFromRange now buckets price against [low, high], and
+      // brandPremiumMultiplier (1.6x) applies for national-chain service
+      // calls (Roto-Rooter, Mr Rooter, ARS, Benjamin Franklin) which
+      // routinely 1.5-2x independent plumber rates.
+      priceRangeBySubType: {
+        // Water heater: tank vs tankless vs heat-pump (JSON commonJobs total).
+        tank_40_gas:       { low: 1200, mid: 1800, high: 2700 },
+        tank_50_gas:       { low: 1500, mid: 2200, high: 3200 },
+        tank_40_electric:  { low: 1100, mid: 1500, high: 2300 },
+        tank_50_electric:  { low: 1300, mid: 1800, high: 2700 },
+        tankless_gas:      { low: 3000, mid: 4500, high: 8000 },
+        tankless_electric: { low: 2400, mid: 3200, high: 5000 },
+        hybrid_heat_pump:  { low: 2800, mid: 3800, high: 5500 },
+        indirect:          { low: 4500, mid: 5500, high: 9000 },
+        // Repipe (whole house) by material.
+        copper: { low: 6000, mid: 8500,  high: 14000 },
+        pex:    { low: 3500, mid: 5500,  high: 9000  },
+        cpvc:   { low: 3000, mid: 4800,  high: 7500  },
+        // Sewer line by method.
+        traditional_dig: { low: 3500, mid: 5500, high: 12000 },
+        trenchless:      { low: 5000, mid: 7500, high: 13000 },
+        pipe_lining:     { low: 4500, mid: 6500, high: 11000 },
+        // Drain cleaning by scope. JSON $150-$500 simple, plus brand premium.
+        simple_clog:        { low: 175, mid: 350, high: 750  },
+        main_line:          { low: 350, mid: 600, high: 1200 },
+        hydro_jet:          { low: 450, mid: 800, high: 1500 },
+        camera_inspection:  { low: 250, mid: 400, high: 700  },
+        // Bathroom rough-in by scope.
+        half_bath:   { low: 2000, mid: 2800, high: 4500 },
+        full_bath:   { low: 3500, mid: 4500, high: 7000 },
+        master_bath: { low: 5000, mid: 6500, high: 9500 },
+        // Gas line by length.
+        short_under_20ft: { low: 500,  mid: 800,  high: 1300 },
+        medium_20_50ft:   { low: 1000, mid: 1500, high: 2300 },
+        long_over_50ft:   { low: 1800, mid: 2500, high: 4000 }
+      },
+      // Brand premium for national-chain service-call companies. Roto-Rooter,
+      // Mr Rooter, Benjamin Franklin, ARS/Rescue Rooter, Roto-Rooter Plumbing
+      // & Drain charge 1.5-2x what an independent plumber charges for the
+      // same scope (overhead, advertising, dispatch fees). Without this
+      // multiplier, a $893 Roto-Rooter clog reads OVERPRICED 297% vs a
+      // $225 indie-plumber benchmark when it's actually mid-range for
+      // brand-chain pricing.
+      brandPremiumMultiplier: 1.6,
+      brandPremiumPattern: /\b(roto[-\s]?rooter|mr[\.\s]*rooter|benjamin\s*franklin|rescue\s*rooter|ARS\s*rescue)\b/i,
+      // Per-line scope add-ons (additive). Pre-fix was a flat overheadMultiplier
+      // 1.0 on the entire benchmark; post-fix specific line items pad the
+      // range when detected as included in the quote.
+      scopeAddOns: {
+        permits:         { low: 75,  mid: 200, high: 500 },
+        expansion_tank:  { low: 100, mid: 250, high: 400 },
+        supply_lines:    { low: 80,  mid: 150, high: 300 },
+        drain_pan:       { low: 50,  mid: 100, high: 200 },
+        codeCompliance:  { low: 150, mid: 350, high: 800 },
+        drywall:         { low: 200, mid: 400, high: 1200 },
+        testing:         { low: 50,  mid: 150, high: 300 },
+        cleanup:         { low: 50,  mid: 100, high: 250 },
+        disposal:        { low: 50,  mid: 100, high: 250 }
+      },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.05, northeast: 1.20, midwest: 1.08, mountain: 1.12, west: 1.25 },
       overheadMultiplier: 1.0,
       roundTo: 25,
@@ -636,6 +704,104 @@
         if (__blend.applied) return __blend.total;
       }
       return roundTo25(total);
+    }
+
+    // PLUMB-B1 (TRUST-CRITICAL, mirror foundation FND-B1 / insulation INS-B1
+    // / kitchen K8 / painting K8): range-based verdict + per-subType ranges
+    // + national-chain brand premium + scope-breadth add-ons.
+    function verdictFromRange(price, range) {
+      if (!range || !(range.low > 0) || !(range.high > 0)) {
+        var mid = (range && range.mid) || 1;
+        return verdictFromRatio(price / mid);
+      }
+      if (price < range.low * 0.70) return { label: "Unusually Low", css: "low", emoji: "" };
+      if (price < range.low * 0.92) return { label: "Below Average", css: "low", emoji: "" };
+      if (price <= range.high * 1.05) return { label: "Fair Price", css: "fair", emoji: "" };
+      if (price <= range.high * 1.25) return { label: "Above Average", css: "high", emoji: "" };
+      return { label: "Overpriced", css: "high", emoji: "" };
+    }
+
+    // PLUMB-B1 calcBenchmarkRange: returns { low, mid, high } anchored to
+    // PLUMBING_PRICING.priceRangeBySubType + scope-breadth add-ons + brand
+    // premium for national chains. Falls back to point-price ±50% envelope
+    // when a subType doesn't have an explicit range entry yet.
+    function calcBenchmarkRange(serviceType, subType, region, bathrooms, homeAge, scopeSignals, contractorName) {
+      var rangeEntry = PLUMBING_PRICING.priceRangeBySubType[subType];
+      var base;
+      if (rangeEntry) {
+        base = { low: rangeEntry.low, mid: rangeEntry.mid, high: rangeEntry.high };
+      } else {
+        var pt = getBasePrice(serviceType, subType);
+        base = { low: pt * 0.55, mid: pt, high: pt * 1.65 };
+      }
+
+      var cityMult = getCityMult(state.address.city, state.address.stateCode);
+      var regionMult = cityMult || (PLUMBING_PRICING.laborMultiplierByRegion[region] || 1.0);
+      var overheadMult = PLUMBING_PRICING.overheadMultiplier;
+
+      // Brand premium: national-chain service calls (Roto-Rooter, Mr Rooter,
+      // Benjamin Franklin, ARS Rescue Rooter) routinely 1.5-2x independent
+      // plumber rates. f7 Roto-Rooter $893 vs indie-plumber $225 benchmark
+      // was the canonical surface. Apply only when contractorName matches
+      // the chain pattern.
+      var brandMult = 1.0;
+      if (contractorName && PLUMBING_PRICING.brandPremiumPattern.test(contractorName)) {
+        brandMult = PLUMBING_PRICING.brandPremiumMultiplier;
+      }
+
+      var lo = base.low  * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT * brandMult;
+      var mi = base.mid  * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT * brandMult;
+      var hi = base.high * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT * brandMult;
+
+      // Bathroom count adjustment (repipe + bathroom_rough_in).
+      if (serviceType === "repipe" && bathrooms) {
+        var baths = Number(bathrooms) || 2;
+        var bMult = baths >= 3 ? 1.15 : (baths >= 2 ? 1.05 : 1.0);
+        lo *= bMult; mi *= bMult; hi *= bMult;
+      }
+
+      // Home age adjustment (older homes cost more).
+      var ageMult = homeAge === "pre_1970" ? 1.18 : (homeAge === "1970_1990" ? 1.08 : 1.0);
+      lo *= ageMult; mi *= ageMult; hi *= ageMult;
+
+      // Scope-breadth add-ons. Pad benchmark range when buyer's quote
+      // includes permits/expansion_tank/supply_lines/drywall/testing/cleanup
+      // /disposal/codeCompliance as line items.
+      function addOn(key) {
+        var ad = PLUMBING_PRICING.scopeAddOns[key];
+        if (!ad) return;
+        lo += ad.low;
+        mi += ad.mid;
+        hi += ad.high;
+      }
+      var sig = scopeSignals || {};
+      function isIncluded(s) {
+        if (!s) return false;
+        if (s.status) return s.status === "included";
+        return !!s;
+      }
+      if (isIncluded(sig.permits))         addOn("permits");
+      if (isIncluded(sig.expansion_tank))  addOn("expansion_tank");
+      if (isIncluded(sig.supply_lines))    addOn("supply_lines");
+      if (isIncluded(sig.drain_pan))       addOn("drain_pan");
+      if (isIncluded(sig.codeCompliance))  addOn("codeCompliance");
+      if (isIncluded(sig.drywall))         addOn("drywall");
+      if (isIncluded(sig.testing))         addOn("testing");
+      if (isIncluded(sig.cleanup))         addOn("cleanup");
+      if (isIncluded(sig.disposal))        addOn("disposal");
+
+      // Flywheel blend on mid only (range bounds keep mathematical anchor).
+      var __cal = (typeof getCityCal === "function" && state && state.address) ? getCityCal(state.address.city, state.address.stateCode) : null;
+      if (window.FlywheelBlend && __cal) {
+        var __blend = window.FlywheelBlend.blendedBenchmark(mi, __cal, roundTo25);
+        if (__blend.applied) mi = __blend.total;
+      }
+
+      return {
+        low:  roundTo25(lo),
+        mid:  roundTo25(mi),
+        high: roundTo25(hi)
+      };
     }
 
     function verdictFromRatio(ratio) {
@@ -1034,22 +1200,6 @@
 
         renderPriceConfirmation({ extractedPrice: quotePrice }, function(confirmedPrice) {
           var region = getRegionFromState(state.address.stateCode);
-          var benchmark, ratio, verdict;
-          if (uncategorized) {
-            // Couldn't identify the plumbing service. Skip the benchmark
-            // comparison entirely -- a confident verdict against the wrong
-            // service category misleads the user (e.g. a $581 service-call
-            // invoice flagged "68% below water heater average").
-            benchmark = null;
-            ratio = null;
-            verdict = { label: "Needs Review", css: "neutral", emoji: "" };
-          } else {
-            benchmark = calcBenchmark(_serviceType.value, _subType, region, null, null);
-            ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
-            verdict = verdictFromRatio(ratio);
-          }
-          var brandNote = "";
-          if (_brand) brandNote = _brand.brand + " (" + _brand.tier + " tier)";
 
           // Contractor surfaced in details grid for parity with roofing /
           // HVAC / auto-repair. engineResult.contractor comes from regex
@@ -1058,10 +1208,38 @@
                             (engineResult && engineResult.aiData && (engineResult.aiData.contractor || engineResult.aiData.contractorName)) ||
                             null;
 
+          var benchmark, ratio, verdict, range;
+          if (uncategorized) {
+            // Couldn't identify the plumbing service. Skip the benchmark
+            // comparison entirely -- a confident verdict against the wrong
+            // service category misleads the user (e.g. a $581 service-call
+            // invoice flagged "68% below water heater average").
+            benchmark = null;
+            ratio = null;
+            range = null;
+            verdict = { label: "Needs Review", css: "neutral", emoji: "" };
+          } else {
+            // PLUMB-B1 (TRUST-CRITICAL, mirror foundation FND-B1 / insulation
+            // INS-B1 / kitchen K8 / painting K8): range-based verdict + brand
+            // premium for national chains. Pre-fix calcBenchmark + verdictFromRatio
+            // benchmarked f1 budget tank $1,380 vs $2,900 -> UNUSUALLY LOW
+            // (real range $800-$2,000), f3 premier tankless $7,571 vs $5,525
+            // -> OVERPRICED 37% (real range $3-$8K), f7 Roto-Rooter $893 vs
+            // $225 -> OVERPRICED 297% (real range $300-$1,500 with brand
+            // premium 1.6x for national-chain service calls).
+            range = calcBenchmarkRange(_serviceType.value, _subType, region, null, null, _scopeSignals, _contractor);
+            benchmark = range.mid;
+            ratio = confirmedPrice > 0 ? confirmedPrice / benchmark : 1.0;
+            verdict = verdictFromRange(confirmedPrice, range);
+          }
+          var brandNote = "";
+          if (_brand) brandNote = _brand.brand + " (" + _brand.tier + " tier)";
+
           state.result = {
             source: quotePrice > 0 ? "upload" : "manual",
             quotePrice: confirmedPrice,
             benchmark: benchmark,
+            range: range,
             ratio: ratio,
             verdict: verdict,
             uncategorized: uncategorized,
@@ -1395,11 +1573,29 @@
         // No reliable benchmark since service type couldn't be identified.
         rangeText = "We couldn’t identify the specific plumbing service from this quote, so we can’t fairly compare it to a benchmark. Plumbing prices vary widely by service: a service call runs $75&ndash;$200, leak repairs $150&ndash;$2,500, water heater installs $1,200&ndash;$5,500, sewer line replacements $3,000&ndash;$25,000.";
       } else if (isUpload) {
-        rangeText = "Market benchmark: " + fmt(r.benchmark);
-        if (r.quotePrice > 0) {
-          var pct = Math.round((r.ratio - 1) * 100);
-          var dir = pct > 0 ? "above" : "below";
-          rangeText += " &mdash; " + Math.abs(pct) + "% " + dir + " average";
+        // PLUMB-B1 (mirror foundation / insulation / kitchen / painting):
+        // show typical range, not single benchmark. Pre-fix "Market benchmark:
+        // $225 -- 297% above average" on a Roto-Rooter ticket made buyers
+        // think they were grossly overcharged when $893 is mid-range for
+        // national-chain service-call pricing.
+        if (r.range && r.range.low > 0 && r.range.high > 0) {
+          rangeText = "Typical range: " + fmt(r.range.low) + " &ndash; " + fmt(r.range.high);
+          if (r.quotePrice >= r.range.low * 0.92 && r.quotePrice <= r.range.high * 1.05) {
+            rangeText += " &mdash; inside the typical range";
+          } else if (r.quotePrice < r.range.low) {
+            var pctLow = Math.round((1 - r.quotePrice / r.range.low) * 100);
+            rangeText += " &mdash; " + pctLow + "% below typical low";
+          } else if (r.quotePrice > r.range.high) {
+            var pctHigh = Math.round((r.quotePrice / r.range.high - 1) * 100);
+            rangeText += " &mdash; " + pctHigh + "% above typical high";
+          }
+        } else {
+          rangeText = "Market benchmark: " + fmt(r.benchmark);
+          if (r.quotePrice > 0) {
+            var pct = Math.round((r.ratio - 1) * 100);
+            var dir = pct > 0 ? "above" : "below";
+            rangeText += " &mdash; " + Math.abs(pct) + "% " + dir + " average";
+          }
         }
       } else {
         rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
