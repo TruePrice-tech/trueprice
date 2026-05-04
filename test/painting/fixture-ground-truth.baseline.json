@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T00:40:16.074Z",
+  "ts": "2026-05-04T00:54:07.330Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-imessage-exterior": {
@@ -24,8 +24,8 @@
         "coats": "not mentioned",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $6,600 -- 61% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Typical range: $3,300 - $8,800 -- 21% above typical high",
+      "verdictLabel": "ABOVE AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -59,8 +59,8 @@
         "coats": "not mentioned",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $5,200 -- 46% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $2,600 - $7,300 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -94,8 +94,8 @@
         "coats": "not mentioned",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $4,950 -- 83% above average",
-      "verdictLabel": "OVERPRICED",
+      "rangeText": "Typical range: $3,300 - $7,700 -- 17% above typical high",
+      "verdictLabel": "ABOVE AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -135,8 +135,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $8,000 -- 59% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $4,000 - $10,650 -- 18% below typical low",
+      "verdictLabel": "BELOW AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -146,9 +146,7 @@
       },
       "contractor": "BUDGET PAINTERS DENVER",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     },
     "f5-rocky-mountain-mid": {
       "verdictPrice": 6680,
@@ -176,8 +174,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $11,750 -- 43% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $6,550 - $15,700 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -187,9 +185,7 @@
       },
       "contractor": "ROCKY MOUNTAIN PRO PAINTING",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     },
     "f6-front-range-high": {
       "verdictPrice": 12400,
@@ -217,7 +213,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $11,750 -- 6% above average",
+      "rangeText": "Typical range: $6,550 - $15,700 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -228,9 +224,7 @@
       },
       "contractor": "FRONT RANGE FINISHWORKS",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     },
     "f7-budget-low-messy": {
       "verdictPrice": 3280,
@@ -258,8 +252,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,850 -- 58% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $3,900 - $10,450 -- 16% below typical low",
+      "verdictLabel": "BELOW AVERAGE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -269,9 +263,7 @@
       },
       "contractor": "BUDGET PAINTERS DENVER",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     },
     "f8-rocky-mountain-mid-messy": {
       "verdictPrice": 6680,
@@ -299,8 +291,8 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $11,750 -- 43% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Typical range: $6,550 - $15,700 -- inside the typical range",
+      "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -310,9 +302,7 @@
       },
       "contractor": "ROCKY MOUNTAIN PRO PAINTING",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     },
     "f9-front-range-high-messy": {
       "verdictPrice": 12400,
@@ -340,7 +330,7 @@
         "coats": "included",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Market benchmark: $11,750 -- 6% above average",
+      "rangeText": "Typical range: $6,550 - $15,700 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -351,9 +341,7 @@
       },
       "contractor": "FRONT RANGE FINISHWORKs",
       "stateCode": null,
-      "failures": [
-        "stateCode: expected \"CO\", got null"
-      ]
+      "failures": []
     }
   }
 }

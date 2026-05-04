@@ -72,6 +72,11 @@ const FIXTURES = [
       stateCode: null,
       paintTypeRegex: /cabinet/i,
       isUncategorizedBanner: false,
+      // P-K8 regression guard: pre-K8 cabinet f2 verdicted UNUSUALLY LOW
+      // 46% below $5,200 midpoint, but $2,820 is within the JSON cabinet
+      // repaint range $2,200-$6,500. Range-based verdict treats this as
+      // Fair Price (inside [low * 0.92, high * 1.05]).
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -116,6 +121,10 @@ const FIXTURES = [
       // P-K3 UI assertion: post-fix the Pricing Source row should show
       // mountain region or local pricing for an Aurora CO 80016 quote.
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: $3,280 1-coat ext at $1.49/sqft is below
+      // the JSON-published $1.50-$4.00/sqft band low end. Should verdict
+      // "Below Average" with new range-based logic. NEVER UNUSUALLY LOW.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -134,6 +143,10 @@ const FIXTURES = [
       coats: 2,
       isUncategorizedBanner: false,
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: pre-K8 these were UNUSUALLY LOW for in-range
+      // or near-range premium quotes ($6,680 ROCKY 2-coat / $12,400 FRONT
+      // RANGE 2-coat) -- buyer gets falsely told they got a steal.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -153,6 +166,10 @@ const FIXTURES = [
       coats: 2,
       isUncategorizedBanner: false,
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: pre-K8 these were UNUSUALLY LOW for in-range
+      // or near-range premium quotes ($6,680 ROCKY 2-coat / $12,400 FRONT
+      // RANGE 2-coat) -- buyer gets falsely told they got a steal.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -175,6 +192,10 @@ const FIXTURES = [
       // P-K3 UI assertion: post-fix the Pricing Source row should show
       // mountain region or local pricing for an Aurora CO 80016 quote.
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: $3,280 1-coat ext at $1.49/sqft is below
+      // the JSON-published $1.50-$4.00/sqft band low end. Should verdict
+      // "Below Average" with new range-based logic. NEVER UNUSUALLY LOW.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -189,6 +210,10 @@ const FIXTURES = [
       coats: 2,
       isUncategorizedBanner: false,
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: pre-K8 these were UNUSUALLY LOW for in-range
+      // or near-range premium quotes ($6,680 ROCKY 2-coat / $12,400 FRONT
+      // RANGE 2-coat) -- buyer gets falsely told they got a steal.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
   {
@@ -203,6 +228,10 @@ const FIXTURES = [
       coats: 2,
       isUncategorizedBanner: false,
       pricingRegex: /mountain|aurora|denver|colorado|local pricing/i,
+      // P-K8 regression guard: pre-K8 these were UNUSUALLY LOW for in-range
+      // or near-range premium quotes ($6,680 ROCKY 2-coat / $12,400 FRONT
+      // RANGE 2-coat) -- buyer gets falsely told they got a steal.
+      verdictNotRegex: /unusually\s*low|overpriced/i,
     },
   },
 ];
@@ -445,6 +474,19 @@ function compare(label, actual, expected) {
     }
   }
 
+  // P-K8 regression guard: synthetic in-range or near-range painting
+  // quotes should NEVER verdict "Unusually Low" (or worse, "Overpriced")
+  // post-K8. Pre-K8 every f4/f5/f7/f8 fixture verdicted UNUSUALLY LOW
+  // because verdictFromRatio bucketed quote/single-midpoint with thresholds
+  // that didn't reflect the JSON's published 2-3x price spread. If any
+  // future patch reverts the range-based verdict, this assertion fires.
+  if (expected.verdictNotRegex) {
+    const got = actual.display.verdictLabel || "";
+    if (expected.verdictNotRegex.test(got)) {
+      failures.push(`verdict: expected NOT match /${expected.verdictNotRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   return failures;
 }
 
@@ -502,7 +544,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|pricing|paintType|brand|coats|isUncategorizedBanner|hardReject):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|pricing|paintType|brand|coats|verdict|isUncategorizedBanner|hardReject):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
