@@ -789,6 +789,7 @@
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "concrete",
           apiEndpoint: "/api/concrete-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
