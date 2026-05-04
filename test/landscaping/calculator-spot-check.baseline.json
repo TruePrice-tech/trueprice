@@ -1,0 +1,52 @@
+{
+  "ts": "2026-05-04T12:31:11.190Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "paver-400-mod-mid-nc": {
+      "total": 12850,
+      "band": {
+        "low": 8000,
+        "high": 18000
+      },
+      "label": "Paver patio 400 sqft mod mid NC",
+      "failures": []
+    },
+    "sod-5000-basic-mid-tx": {
+      "total": 8750,
+      "band": {
+        "low": 5000,
+        "high": 13000
+      },
+      "label": "Sod 5000 sqft basic mid TX",
+      "failures": []
+    },
+    "outdoor-kitchen-complex-prem-ca": {
+      "total": 45400,
+      "band": {
+        "low": 25000,
+        "high": 60000
+      },
+      "label": "Outdoor kitchen complex prem CA",
+      "failures": []
+    },
+    "retaining-wall-200-mod-prem-ne": {
+      "total": 16700,
+      "band": {
+        "low": 10000,
+        "high": 22000
+      },
+      "label": "Retaining wall 200 sqft face mod prem NE",
+      "failures": []
+    },
+    "tree-removal-basic-budget-mw": {
+      "total": 900,
+      "band": {
+        "low": 500,
+        "high": 2000
+      },
+      "label": "Tree removal basic budget MW",
+      "failures": []
+    }
+  }
+}

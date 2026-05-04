@@ -345,6 +345,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/landscaping-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
   <!-- Vendor libs loaded on-demand when user uploads a quote -->
@@ -369,85 +371,12 @@
     "use strict";
 
     // ── Landscaping Pricing Model ──
-    var LAND_PRICING = {
-      // Pricing aligned to data/landscaping-pricing.json commonJobs (2026)
-      // so the estimator and analyzer paths agree. JSON is authoritative.
-      basePricing: {
-        paver_patio: { label: "Paver Patio", unit: "sqft", low: 18, high: 38, mid: 26 },
-        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 55, mid: 38 },
-        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1.10, high: 2.60, mid: 1.75 },
-        landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000 },
-        french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50 },
-        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000 },
-        artificial_turf: { label: "Artificial Turf", unit: "sqft", low: 8, high: 16, mid: 12 },
-        walkway_path: { label: "Walkway / Path", unit: "sqft", low: 15, high: 35, mid: 25 },
-        outdoor_kitchen: { label: "Outdoor Kitchen", unit: "project", low: 8000, high: 25000, mid: 16000 },
-        fire_pit: { label: "Fire Pit / Fireplace", unit: "project", low: 1500, high: 5000, mid: 3000 },
-        tree_removal: { label: "Tree / Stump Removal", unit: "project", low: 500, high: 2000, mid: 1200 },
-        irrigation_system: { label: "Irrigation System", unit: "project", low: 2500, high: 5000, mid: 3750 },
-        pergola_gazebo: { label: "Pergola / Gazebo", unit: "project", low: 3500, high: 12000, mid: 7500 },
-        planting_beds: { label: "Planting Beds / Garden", unit: "sqft", low: 10, high: 25, mid: 17 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      overheadMultiplier: 1.0,
-      roundTo: 50,
-      scopeItems: [
-        { key: "designPlan", label: "Design plan / layout", weight: 10 },
-        { key: "excavation", label: "Excavation / grading", weight: 12 },
-        { key: "drainage", label: "Drainage solution", weight: 10 },
-        { key: "baseMaterial", label: "Base material (gravel/sand)", weight: 10 },
-        { key: "edging", label: "Edging / borders", weight: 6 },
-        { key: "mulchRock", label: "Mulch / decorative rock", weight: 6 },
-        { key: "plants", label: "Plants / trees / shrubs", weight: 10 },
-        { key: "irrigation", label: "Irrigation / sprinkler", weight: 8 },
-        { key: "lighting", label: "Landscape lighting", weight: 6 },
-        { key: "sealing", label: "Sealing / finishing", weight: 6 },
-        { key: "permits", label: "Permits and inspections", weight: 6 },
-        { key: "cleanup", label: "Site cleanup / haul-off", weight: 4 },
-        { key: "warranty", label: "Warranty (materials + labor)", weight: 6 }
-      ],
-      complexityMultipliers: { basic: 1.0, moderate: 1.20, complex: 1.50 }
-    };
-
-    // Quality / material tier (consistent with windows brand tier pattern)
-    var QUALITY_TIER = {
-      budget: {
-        label: "Budget",
-        tag: "Basic materials, minimal design. Best for functional projects.",
-        mult: 0.70,
-        examples: "Concrete pavers, basic sod, gravel borders, no lighting"
-      },
-      mid: {
-        label: "Mid-Range",
-        tag: "Most popular. Quality materials with some design elements.",
-        mult: 1.00,
-        examples: "Interlocking pavers, native plants, basic edging, mulch beds"
-      },
-      premium: {
-        label: "Premium",
-        tag: "Natural stone, specimen plants, lighting, and water features.",
-        mult: 1.55,
-        examples: "Flagstone/bluestone, curated plantings, low-voltage lighting, drip irrigation"
-      },
-      luxury: {
-        label: "Luxury / Custom",
-        tag: "Architect-designed. Premium everything, outdoor living spaces.",
-        mult: 2.30,
-        examples: "Custom stonework, mature trees, smart irrigation, outdoor kitchen integration"
-      }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/landscaping-calc.js (UMD).
+    var _LNDCALC = (typeof window !== "undefined" && window.WoogoroLandscapingCalc) || null;
+    if (!_LNDCALC) { console.error("[landscaping-estimate] /js/landscaping-calc.min.js failed to load"); return; }
+    var LAND_PRICING = _LNDCALC.LAND_PRICING;
+    var QUALITY_TIER = _LNDCALC.QUALITY_TIER;
+    var STATE_REGIONS = _LNDCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -481,50 +410,38 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _LNDCALC.getRegionFromState;
 
-    // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=landscaping")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
-    // Inflation: 3% annual from 2025
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: landscaping peaks in spring/summer
-    var SEASONAL_MULTS = { 1:0.90, 2:0.92, 3:0.98, 4:1.06, 5:1.10, 6:1.12, 7:1.10, 8:1.06, 9:1.00, 10:0.95, 11:0.90, 12:0.88 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
+    var SEASONAL_MULT = _LNDCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(projectType, size, region, complexity, qualityTier) {
-      var proj = LAND_PRICING.basePricing[projectType];
-      if (!proj) proj = LAND_PRICING.basePricing.paver_patio;
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var laborMult = cityMult || (LAND_PRICING.laborMultiplierByRegion[region] || 1.0);
-      var complexityMult = LAND_PRICING.complexityMultipliers[complexity] || 1.0;
-      var tierMult = (QUALITY_TIER[qualityTier] && QUALITY_TIER[qualityTier].mult) || 1.0;
-
-      var total = 0;
-      if (proj.unit === "project") {
-        total = proj.mid * laborMult * complexityMult * tierMult;
-      } else {
-        total = proj.mid * size * laborMult * complexityMult * tierMult;
-      }
-
-      total = total * LAND_PRICING.overheadMultiplier * INFLATION_MULT * SEASONAL_MULT;
-      return roundTo50(total);
+      var out = _LNDCALC.calcLandscapingEstimate({
+        projectType: projectType, size: size, region: region,
+        complexity: complexity, qualityTier: qualityTier,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT, seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {
