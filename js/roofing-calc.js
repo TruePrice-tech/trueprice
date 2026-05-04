@@ -73,6 +73,10 @@
   // calcRoofEstimate(opts) — opts:
   //   sqft        living-area square footage
   //   material    "asphalt" | "architectural" | "metal" | "tile"
+  //   calData     optional flywheel calibration { avgPrice, quotes, ... } —
+  //               when present and quotes >= 3, the rate-table-derived mid is
+  //               blended toward the real-world avg via FlywheelBlend; the
+  //               band scales with the new mid so verdict ratios stay coherent.
   //
   // Returns { low, mid, high, ratePerSqFt, label } — all numbers rounded to
   // the nearest $10.
@@ -80,12 +84,20 @@
     opts = opts || {};
     var sqft = Number(opts.sqft) || 0;
     var material = String(opts.material || "asphalt").toLowerCase();
+    var calData = opts.calData || null;
 
     var entry = ROOFING_PRICING.materialRates[material]
       || ROOFING_PRICING.materialRates.asphalt;
 
     var rate = entry.midPerLivingSqFt;
     var mid = sqft * rate;
+
+    var FB = (typeof self !== "undefined" ? self : (typeof window !== "undefined" ? window : null));
+    if (calData && FB && FB.FlywheelBlend) {
+      var blended = FB.FlywheelBlend.blendMid(mid, calData);
+      if (blended.applied) mid = blended.mid;
+    }
+
     var low = mid * ROOFING_PRICING.bandLow;
     var high = mid * ROOFING_PRICING.bandHigh;
 

@@ -372,6 +372,7 @@
 
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/plumbing-parser.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/analyzer-engine.min.js" defer></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
@@ -573,18 +574,27 @@
 
     // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
       if (cityMultCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=plumbing")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
     function getCityMult(city, stateCode) {
       var key = city + "|" + stateCode;
       return cityMultCache[key] || null;
+    }
+    function getCityCal(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityCalCache[key] || null;
     }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
@@ -620,6 +630,11 @@
       else if (homeAge === "1970_1990") total *= 1.08;
       // 1990+ no adjustment
 
+      var __cal = (typeof getCityCal === "function" && state && state.address) ? getCityCal(state.address.city, state.address.stateCode) : null;
+      if (window.FlywheelBlend && __cal) {
+        var __blend = window.FlywheelBlend.blendedBenchmark(total, __cal, roundTo25);
+        if (__blend.applied) return __blend.total;
+      }
       return roundTo25(total);
     }
 

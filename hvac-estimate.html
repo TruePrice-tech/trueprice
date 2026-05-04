@@ -436,6 +436,7 @@
 
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/hvac-parser.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
   <script src="/js/hvac-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/home-type-classifier.js"></script>
@@ -510,18 +511,27 @@
 
     // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
       if (cityMultCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=hvac")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
     function getCityMult(city, stateCode) {
       var key = city + "|" + stateCode;
       return cityMultCache[key] || null;
+    }
+    function getCityCal(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityCalCache[key] || null;
     }
     // Inflation: 3% annual from 2025
     var _now = new Date();
@@ -543,7 +553,8 @@
         ductworkCond: ductworkCond,
         cityMult: getCityMult(state.address.city, state.address.stateCode),
         inflationMult: INFLATION_MULT,
-        seasonalMult: SEASONAL_MULT
+        seasonalMult: SEASONAL_MULT,
+        calData: getCityCal(state.address.city, state.address.stateCode)
       });
     }
 

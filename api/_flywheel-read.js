@@ -12,7 +12,7 @@
  * Read calibration data from Redis with city -> state fallback.
  * Returns null if no data or too few quotes.
  */
-async function readCalibration(redis, { city, state, service, repair }) {
+export async function readCalibration(redis, { city, state, service, repair }) {
   if (!state) return null;
   const cityLc = (city || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
   const st = state.toUpperCase();
@@ -39,16 +39,48 @@ async function readCalibration(redis, { city, state, service, repair }) {
 }
 
 /**
+ * Pick blend weight + confidence label from sample count.
+ * Single source of truth for the model<->calibration weighting curve.
+ *
+ * - <3 quotes: don't touch the model (low_data)
+ * - 3-9 quotes: 25% cal / 75% model (low)
+ * - 10-24 quotes: 50/50 (medium)
+ * - 25+ quotes: 70% cal / 30% model (high)
+ */
+export function calBlendWeight(quotes) {
+  if (!quotes || quotes < 3) return { calWeight: 0, confidence: quotes ? "low_data" : "model_only" };
+  if (quotes >= 25) return { calWeight: 0.70, confidence: "high" };
+  if (quotes >= 10) return { calWeight: 0.50, confidence: "medium" };
+  return { calWeight: 0.25, confidence: "low" };
+}
+
+/**
+ * Blend a single model midpoint (e.g. frontend benchmark total) with the
+ * flywheel-calibrated avg. Mirrors `blendEstimate` weighting but returns just
+ * the blended scalar — so any analyzer page can swap its locally-computed
+ * benchmark for a flywheel-aware one without touching range math.
+ *
+ * Returns { mid, confidence, applied }.
+ */
+export function blendMid(modelMid, calData) {
+  if (!Number.isFinite(modelMid) || !calData || !Number.isFinite(calData.avgPrice)) {
+    return { mid: modelMid, confidence: "model_only", applied: false };
+  }
+  const { calWeight, confidence } = calBlendWeight(calData.quotes || 0);
+  if (calWeight === 0) return { mid: modelMid, confidence, applied: false };
+  const blended = modelMid * (1 - calWeight) + calData.avgPrice * calWeight;
+  return { mid: blended, confidence, applied: true };
+}
+
+/**
  * Blend a static model range with calibration data.
  *
- * - With < 3 quotes: show calibration as info only, don't touch the range
- * - With 3-9 quotes: blend 25% calibration, 75% model
- * - With 10-24 quotes: blend 50/50
- * - With 25+ quotes: blend 70% calibration, 30% model
+ * Uses `calBlendWeight` for the weighting curve so the API range path and
+ * the frontend `blendMid` path stay synchronized.
  *
  * Returns { adjustedRange, calibration, confidence }
  */
-function blendEstimate(modelRange, calData) {
+export function blendEstimate(modelRange, calData) {
   if (!calData || !calData.avgPrice) {
     return { adjustedRange: modelRange, calibration: null, confidence: "model_only" };
   }
@@ -64,31 +96,24 @@ function blendEstimate(modelRange, calData) {
     source: calData.source || "calibration"
   };
 
-  // Not enough data to adjust
-  if (quotes < 3 || !modelRange || !modelRange.low || !modelRange.high) {
+  const { calWeight, confidence } = calBlendWeight(quotes);
+
+  // Not enough data, or no model range to blend into
+  if (calWeight === 0 || !modelRange || !modelRange.low || !modelRange.high) {
     return {
       adjustedRange: modelRange,
       calibration,
-      confidence: quotes < 3 ? "low_data" : "model_only"
+      confidence
     };
   }
 
-  // Determine blend weight based on sample size
-  let calWeight;
-  if (quotes >= 25) { calWeight = 0.70; }
-  else if (quotes >= 10) { calWeight = 0.50; }
-  else { calWeight = 0.25; }
-
-  const modelWeight = 1 - calWeight;
   const modelMid = (modelRange.low + modelRange.high) / 2;
   const modelSpread = (modelRange.high - modelRange.low) / 2;
 
-  // Blended midpoint
-  const blendedMid = modelMid * modelWeight + calAvg * calWeight;
+  const blendedMid = modelMid * (1 - calWeight) + calAvg * calWeight;
 
-  // Keep the spread from the model but scale if cal data diverges significantly
+  // If real-world data diverges >30% from model, widen the range slightly.
   const divergence = Math.abs(calAvg - modelMid) / modelMid;
-  // If real-world data diverges >30% from model, widen the range slightly
   const spreadMult = divergence > 0.30 ? 1.15 : 1.0;
   const blendedSpread = modelSpread * spreadMult;
 
@@ -97,11 +122,8 @@ function blendEstimate(modelRange, calData) {
     high: Math.round(blendedMid + blendedSpread)
   };
 
-  // Preserve any extra fields from the original range (seasonal notes, etc.)
   if (modelRange.seasonalMultiplier) adjustedRange.seasonalMultiplier = modelRange.seasonalMultiplier;
   if (modelRange.seasonNote) adjustedRange.seasonNote = modelRange.seasonNote;
-
-  const confidence = quotes >= 25 ? "high" : quotes >= 10 ? "medium" : "low";
 
   return { adjustedRange, calibration, confidence };
 }

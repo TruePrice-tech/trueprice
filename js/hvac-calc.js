@@ -165,6 +165,10 @@
   //   cityMult         optional per-city multiplier (overrides region multiplier when truthy)
   //   inflationMult    optional inflation multiplier (default 1.0)
   //   seasonalMult     optional seasonal multiplier (default 1.0)
+  //   calData          optional flywheel calibration { avgPrice, quotes, ... } —
+  //                    when present and quotes >= 3, the rate-table-derived total
+  //                    is blended toward the real-world avg via FlywheelBlend.
+  //                    (Browser passes this; spot-check tests omit it.)
   function calcBenchmark(opts) {
     opts = opts || {};
     var systemType = opts.systemType;
@@ -175,6 +179,7 @@
     var cityMult = (typeof opts.cityMult === "number" && opts.cityMult > 0) ? opts.cityMult : null;
     var inflationMult = (typeof opts.inflationMult === "number") ? opts.inflationMult : 1.0;
     var seasonalMult = (typeof opts.seasonalMult === "number") ? opts.seasonalMult : 1.0;
+    var calData = opts.calData || null;
 
     var sys = HVAC_PRICING.basePriceBySystem[systemType];
     if (!sys) sys = HVAC_PRICING.basePriceBySystem.central_ac;
@@ -209,6 +214,12 @@
     if (ductworkCond === "repair") total *= 1.12;
     else if (ductworkCond === "none") total *= 1.25;
 
+    // Flywheel blend (when caller supplies cal:* aggregates).
+    var FB = (typeof self !== "undefined" ? self : (typeof window !== "undefined" ? window : null));
+    if (calData && FB && FB.FlywheelBlend) {
+      var blended = FB.FlywheelBlend.blendedBenchmark(total, calData, roundTo50);
+      if (blended.applied) return blended.total;
+    }
     return roundTo50(total);
   }
 
