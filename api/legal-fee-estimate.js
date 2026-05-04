@@ -91,7 +91,7 @@ export default async function handler(req, res) {
     // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
     // got polluted with stale entries during the gradual deploy window before
     // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v8-prompt" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v9-r2" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -223,6 +223,17 @@ PICKING THE HEADLINE FEE — only ONE of these fields gets the primary number:
       "$75 filing fee"                            -> retainerAmount = null
     The retainer must be explicitly described as a deposit, trust deposit,
     IOLTA deposit, or initial retainer — not a one-time service charge.
+
+  Do NOT infer or reverse-engineer the original retainer from a
+    "remaining" / "balance" / "drawn down to" line. If only the current
+    balance is shown and the original deposit amount is not explicitly
+    stated, return null. Examples:
+      "Retainer balance: $900 remaining" (no other retainer line in doc)
+        -> retainerAmount = null   (NOT $5,900 or any inferred starting amount)
+      "Retainer balance: $2,400 of $10,000"
+        -> retainerAmount = 10000  (original is explicitly stated)
+      "Trust drawn down to $500 from initial $5,000 deposit"
+        -> retainerAmount = 5000   (initial is explicitly stated)
 
   contingencyPercent: The lowest tier percentage from a contingency
     agreement. Use this for personal injury, employment, etc. Examples:
@@ -358,13 +369,19 @@ Return ONLY the JSON object, no markdown, no explanation.`
         source: "Clio Legal Trends 2025, LawPay, state bar surveys"
       };
 
-      // Include flat fee comparison if available
+      // Include flat fee comparison if available. LP-A1 (price-sanity round-2,
+      // 2026-05-03): apply firmSizeMult here too — solos charge less than
+      // midsize/biglaw for the same routine matter (e.g. simple will, DUI
+      // first), and the hourly band already applies firmSizeMult. Without
+      // this, a "solo" classification would correctly shrink the hourly
+      // benchmark but leave flat-fee comparison at the default-firm range,
+      // making solo-firm flat fees look high vs. their own peer band.
       if (paData?.flatFees) {
         pricingContext.flatFeeComparison = {};
         for (const [key, range] of Object.entries(paData.flatFees)) {
           pricingContext.flatFeeComparison[key] = [
-            Math.round(range[0] * stateMult),
-            Math.round(range[1] * stateMult)
+            Math.round(range[0] * stateMult * firmSizeMult),
+            Math.round(range[1] * stateMult * firmSizeMult)
           ];
         }
       }

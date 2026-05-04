@@ -400,6 +400,25 @@
       south: 0.88, mountain: 0.95, west: 1.30
     };
 
+    // LP-A4 (price-sanity round-2 2026-05-03): mirror legal-fee-analyzer
+    // STATE_TO_REGION fallback so compare's local-table path doesn't lose
+    // region just because api.region is null. Coarse, intentionally — the
+    // right tool is pricingContext, which now ships from the API.
+    var STATE_TO_REGION = {
+      ME:"northeast", VT:"northeast", NH:"northeast", MA:"northeast", RI:"northeast",
+      CT:"northeast", NY:"northeast", NJ:"northeast", PA:"northeast",
+      DC:"southeast", MD:"southeast", DE:"southeast", VA:"southeast", WV:"southeast",
+      NC:"southeast", SC:"southeast", GA:"southeast", FL:"southeast", TN:"southeast",
+      KY:"southeast",
+      TX:"south", OK:"south", AR:"south", LA:"south", MS:"south", AL:"south",
+      OH:"midwest", IN:"midwest", IL:"midwest", MI:"midwest", WI:"midwest",
+      MN:"midwest", IA:"midwest", MO:"midwest", ND:"midwest", SD:"midwest",
+      NE:"midwest", KS:"midwest",
+      MT:"mountain", ID:"mountain", WY:"mountain", CO:"mountain", UT:"mountain",
+      NM:"mountain", AZ:"mountain", NV:"mountain",
+      CA:"west", OR:"west", WA:"west", AK:"west", HI:"west"
+    };
+
     var PRACTICE_LABELS = {
       family_law: "Family Law", criminal_defense: "Criminal Defense",
       estate_planning: "Estate Planning", real_estate: "Real Estate",
@@ -473,7 +492,9 @@
       if (api && api.data && typeof api.data === "object") api = api.data;
 
       var practiceArea = api.practiceArea || "general_litigation";
-      var region = api.region || null;
+      // LP-A4: derive region from stateCode in fallback path. Used by
+      // getMarketRange ONLY when pricingContext is also absent.
+      var region = api.region || STATE_TO_REGION[(api.stateCode || "").toUpperCase()] || null;
       var hourlyRate = Number(api.hourlyRate) || 0;
       var contingencyPct = api.contingencyPercent != null ? Number(api.contingencyPercent) :
                            (api.contingencyPct != null ? Number(api.contingencyPct) : null);

@@ -473,6 +473,34 @@
       south: 0.88, mountain: 0.95, west: 1.30
     };
 
+    // LP-A4 (price-sanity round-2 2026-05-03): when apiResult.pricingContext
+    // is absent (API enrichment failed — JSON read error, etc.) the local
+    // fallback path used to call detectRegion(text) which scans the raw OCR
+    // text for state names. apiResult.stateCode is more reliable; this map
+    // lets the fallback derive a region from it. Coarse buckets matching
+    // REGION_MULT, intentionally not state-perfect (the right tool for state-
+    // perfect adjustment is pricingContext from the API, which now ships).
+    var STATE_TO_REGION = {
+      // Northeast
+      ME:"northeast", VT:"northeast", NH:"northeast", MA:"northeast", RI:"northeast",
+      CT:"northeast", NY:"northeast", NJ:"northeast", PA:"northeast",
+      // Southeast
+      DC:"southeast", MD:"southeast", DE:"southeast", VA:"southeast", WV:"southeast",
+      NC:"southeast", SC:"southeast", GA:"southeast", FL:"southeast", TN:"southeast",
+      KY:"southeast",
+      // South
+      TX:"south", OK:"south", AR:"south", LA:"south", MS:"south", AL:"south",
+      // Midwest
+      OH:"midwest", IN:"midwest", IL:"midwest", MI:"midwest", WI:"midwest",
+      MN:"midwest", IA:"midwest", MO:"midwest", ND:"midwest", SD:"midwest",
+      NE:"midwest", KS:"midwest",
+      // Mountain
+      MT:"mountain", ID:"mountain", WY:"mountain", CO:"mountain", UT:"mountain",
+      NM:"mountain", AZ:"mountain", NV:"mountain",
+      // West
+      CA:"west", OR:"west", WA:"west", AK:"west", HI:"west"
+    };
+
     var PRACTICE_LABELS = {
       family_law: "Family Law",
       criminal_defense: "Criminal Defense",
@@ -808,7 +836,10 @@
     // strings "flat" | "hourly" | "contingency" (hybrid/unclear → hourly).
     function buildResultFromAPI(api) {
       var practiceArea = api.practiceArea || "general_litigation";
-      var region = api.region || null;
+      // LP-A4: derive region from stateCode when apiResult.region absent.
+      // Used by getMarketRange ONLY when pricingContext is also absent
+      // (API enrichment failed). Pre-A4, fallback path just used null.
+      var region = api.region || STATE_TO_REGION[(api.stateCode || "").toUpperCase()] || null;
       var hourlyRate = Number(api.hourlyRate) || 0;
       var contingencyPct = api.contingencyPercent != null ? Number(api.contingencyPercent) : null;
       var flatFee = api.flatFee != null ? Number(api.flatFee) : null;
