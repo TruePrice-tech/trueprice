@@ -97,6 +97,16 @@ const SCENARIOS = [
   {
     id: "scenario-clean-vs-messy",
     description: "Clean vs messy variants of same firm — verifies OCR-tolerance / compare consistency",
+    // LP-A7 (2026-05-04): cross-slot equality. slots[0] (Brighton clean) and
+    // slots[1] (Brighton messy) MUST produce identical API output on the
+    // listed fields. This is the FENCE-B2 / LP-3 spirit — clean ≠ messy on
+    // the same fixture is a known bug class (e.g. Pine State chain-link
+    // tagline swung the benchmark only in clean OCR). Pre-A7 the scenario
+    // verified each slot in isolation but didn't compare them, leaving the
+    // OCR-divergence bug class uncovered.
+    crossSlotEqual: [
+      { slots: [0, 1], fields: ["feeStructure", "contingencyPercent", "practiceArea", "stateCode"], firmRegex: /brighton/i },
+    ],
     slots: [
       {
         file: "test-quotes/legal-images/comparison-pi-01-firm-a-low.png",
@@ -289,6 +299,41 @@ function compare(scenario, actual) {
     }
     if (expected.stateCode && (data.stateCode || "").toUpperCase() !== expected.stateCode) {
       failures.push(`slot${i}.stateCode: expected ${expected.stateCode}, got ${JSON.stringify(data.stateCode)}`);
+    }
+  }
+
+  // LP-A7 cross-slot equality: same-firm clean vs messy must produce
+  // identical API output on the listed fields. Catches OCR-divergence bugs
+  // where one variant trips a regex/parser branch the other doesn't.
+  if (Array.isArray(scenario.crossSlotEqual)) {
+    for (const eq of scenario.crossSlotEqual) {
+      const [a, b] = eq.slots;
+      const da = actual.apiData[a];
+      const db = actual.apiData[b];
+      if (!da || !db) {
+        failures.push(`crossSlotEqual[${a},${b}]: missing apiData on one or both slots`);
+        continue;
+      }
+      if (eq.firmRegex) {
+        const aFirm = (da.firmName || "");
+        const bFirm = (db.firmName || "");
+        if (!eq.firmRegex.test(aFirm) || !eq.firmRegex.test(bFirm)) {
+          failures.push(`crossSlotEqual[${a},${b}].firmRegex: both slots expected match /${eq.firmRegex.source}/, got slot${a}=${JSON.stringify(aFirm)} slot${b}=${JSON.stringify(bFirm)}`);
+        }
+      }
+      for (const field of eq.fields) {
+        const av = da[field];
+        const bv = db[field];
+        // Numeric tolerance for percent fields (Claude OCR drift can shave
+        // 33.33 to 33.3); string equality for everything else.
+        if (typeof av === "number" || typeof bv === "number") {
+          if (Math.abs(Number(av) - Number(bv)) > 1) {
+            failures.push(`crossSlotEqual[${a},${b}].${field}: slot${a}=${av} slot${b}=${bv} (diff > 1)`);
+          }
+        } else if (String(av || "").toUpperCase() !== String(bv || "").toUpperCase()) {
+          failures.push(`crossSlotEqual[${a},${b}].${field}: slot${a}=${JSON.stringify(av)} slot${b}=${JSON.stringify(bv)}`);
+        }
+      }
     }
   }
 

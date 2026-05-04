@@ -1,0 +1,298 @@
+{
+  "ts": "2026-05-04T11:17:07.170Z",
+  "base": "https://woogoro.com",
+  "results": {
+    "scenario-trio-pi": {
+      "slots": [
+        {
+          "idx": 0,
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "rateDisplay": "33.33% contingency",
+          "uploaded": true
+        },
+        {
+          "idx": 1,
+          "firmName": "KESTREL INJURY LAW",
+          "rateDisplay": "35% contingency",
+          "uploaded": true
+        },
+        {
+          "idx": 2,
+          "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
+          "rateDisplay": "40% contingency",
+          "uploaded": true
+        }
+      ],
+      "tableRendered": true,
+      "tableRowCount": 8,
+      "apiSnapshots": [
+        {
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 33.33,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        },
+        {
+          "firmName": "KESTREL INJURY LAW",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 35,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        },
+        {
+          "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 40,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        }
+      ],
+      "failures": []
+    },
+    "scenario-trio-mixed": {
+      "slots": [
+        {
+          "idx": 0,
+          "firmName": "Blackwood Steel Attorneys",
+          "rateDisplay": "$585/hr",
+          "uploaded": true
+        },
+        {
+          "idx": 1,
+          "firmName": "THE FALCONER LAW FIRM",
+          "rateDisplay": "$3,500 flat",
+          "uploaded": true
+        },
+        {
+          "idx": 2,
+          "firmName": "HENDERSON & COLE, PLLC",
+          "rateDisplay": "$350/hr",
+          "uploaded": true
+        }
+      ],
+      "tableRendered": true,
+      "tableRowCount": 10,
+      "apiSnapshots": [
+        {
+          "firmName": "Blackwood Steel Attorneys",
+          "feeStructure": "hourly",
+          "hourlyRate": 585,
+          "flatFee": null,
+          "contingencyPercent": null,
+          "retainerAmount": 15000,
+          "practiceArea": "general_litigation",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": 328,
+          "contingencyRange": null,
+          "flatFeeComparison": null
+        },
+        {
+          "firmName": "THE FALCONER LAW FIRM",
+          "feeStructure": "flat_fee",
+          "hourlyRate": null,
+          "flatFee": 3500,
+          "contingencyPercent": null,
+          "retainerAmount": null,
+          "practiceArea": "criminal_defense",
+          "stateCode": "AL",
+          "firmSize": "solo",
+          "firmSizeMult": 0.75,
+          "adjustedMarketRate": 190,
+          "contingencyRange": null,
+          "flatFeeComparison": {
+            "misdemeanor": [
+              810,
+              2700
+            ],
+            "dui_first": [
+              1350,
+              2700
+            ],
+            "dui_trial": [
+              2700,
+              8100
+            ],
+            "felony": [
+              2700,
+              13500
+            ],
+            "federal": [
+              5400,
+              27000
+            ],
+            "traffic_ticket": [
+              54,
+              378
+            ],
+            "expungement_misdemeanor": [
+              108,
+              540
+            ],
+            "expungement_felony": [
+              810,
+              1890
+            ]
+          }
+        },
+        {
+          "firmName": "HENDERSON & COLE, PLLC",
+          "feeStructure": "hourly",
+          "hourlyRate": 350,
+          "flatFee": null,
+          "contingencyPercent": null,
+          "retainerAmount": null,
+          "practiceArea": "estate_planning",
+          "stateCode": "TX",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": 322,
+          "contingencyRange": null,
+          "flatFeeComparison": {
+            "simple_will": [
+              276,
+              920
+            ],
+            "living_trust": [
+              1380,
+              2760
+            ],
+            "estate_plan_package": [
+              920,
+              3220
+            ],
+            "power_of_attorney": [
+              138,
+              460
+            ],
+            "healthcare_directive": [
+              138,
+              368
+            ],
+            "probate": [
+              2760,
+              13800
+            ]
+          }
+        }
+      ],
+      "failures": []
+    },
+    "scenario-clean-vs-messy": {
+      "slots": [
+        {
+          "idx": 0,
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "rateDisplay": "33.33% contingency",
+          "uploaded": true
+        },
+        {
+          "idx": 1,
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "rateDisplay": "33.33% contingency",
+          "uploaded": true
+        },
+        {
+          "idx": 2,
+          "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
+          "rateDisplay": "40% contingency",
+          "uploaded": true
+        }
+      ],
+      "tableRendered": true,
+      "tableRowCount": 8,
+      "apiSnapshots": [
+        {
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 33.33,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        },
+        {
+          "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 33.33,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        },
+        {
+          "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
+          "feeStructure": "contingency",
+          "hourlyRate": null,
+          "flatFee": null,
+          "contingencyPercent": 40,
+          "retainerAmount": null,
+          "practiceArea": "personal_injury",
+          "stateCode": "NC",
+          "firmSize": "small",
+          "firmSizeMult": 1,
+          "adjustedMarketRate": null,
+          "contingencyRange": [
+            25,
+            40
+          ],
+          "flatFeeComparison": null
+        }
+      ],
+      "failures": []
+    }
+  }
+}
