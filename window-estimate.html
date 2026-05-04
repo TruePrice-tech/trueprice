@@ -345,99 +345,27 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/window-calc.min.js"></script>
 
   <script>
   (function() {
     "use strict";
 
     // ── Pricing model (per-window installed $) ──
-    var FRAME = {
-      vinyl:      { label: "Vinyl",      low: 400, mid: 600,  high: 800 },
-      fiberglass: { label: "Fiberglass", low: 600, mid: 900,  high: 1200 },
-      "wood-clad":{ label: "Wood-clad",  low: 800, mid: 1150, high: 1500 },
-      composite:  { label: "Composite",  low: 700, mid: 1000, high: 1400 },
-      aluminum:   { label: "Aluminum",   low: 400, mid: 650,  high: 900 }
-    };
-
-    var STYLE_MULT = {
-      "double-hung": 1.00,
-      casement:      1.08,
-      sliding:       0.95,
-      picture:       0.90,
-      "bay-bow":     2.60
-    };
-
-    var GLASS_MULT = {
-      "double-standard": 0.92,
-      "double-lowe":     1.00,
-      "triple":          1.25
-    };
-
-    var INSTALL_MULT = {
-      pocket:    1.00,
-      fullframe: 1.40
-    };
-
-    // Brand quality tiers with per-material pricing (per window installed $)
-    // Derived from windows-pricing.json brand data (13 manufacturers, 40+ lines)
-    var BRAND_TIER = {
-      value: {
-        label: "Value / Budget",
-        tag: "Reliable basics. Best for rentals, flips, or budget-first.",
-        perMat: {
-          vinyl:      { low: 250, mid: 375, high: 550, brands: "Window World, Jeld-Wen Builders, Alside Sheffield" },
-          aluminum:   { low: 350, mid: 500, high: 700, brands: "Jeld-Wen Builders Aluminum" }
-        }
-      },
-      mid: {
-        label: "Mid-Range",
-        tag: "Most popular. Solid performance at a fair price.",
-        perMat: {
-          vinyl:      { low: 400, mid: 675, high: 1000, brands: "Simonton 5500, Pella 250, Milgard Tuscany, Alside Mezzo" },
-          fiberglass: { low: 700, mid: 1050, high: 1600, brands: "Milgard Ultra" },
-          "wood-clad":{ low: 600, mid: 1000, high: 1500, brands: "Jeld-Wen Siteline" },
-          composite:  { low: 400, mid: 650, high: 1500, brands: "Andersen 100 Series" },
-          aluminum:   { low: 400, mid: 650, high: 900, brands: "Standard aluminum frames" }
-        }
-      },
-      premium: {
-        label: "Premium",
-        tag: "Better performance, stronger warranties, proven names.",
-        perMat: {
-          vinyl:      { low: 700, mid: 1200, high: 1800, brands: "ProVia Endure, Soft-Lite Imperial, Pella 350" },
-          fiberglass: { low: 900, mid: 1300, high: 2400, brands: "Marvin Essential, Marvin Elevate" },
-          "wood-clad":{ low: 500, mid: 1200, high: 3000, brands: "Andersen 400 Series, Pella Lifestyle, ProVia Aeris" },
-          composite:  { low: 650, mid: 1000, high: 1800, brands: "Andersen 200 Series" },
-          aluminum:   { low: 600, mid: 900, high: 1400, brands: "Jeld-Wen Premium Atlantic (impact-rated)" }
-        }
-      },
-      luxury: {
-        label: "Luxury / Architectural",
-        tag: "Top-of-line. Custom options, architectural-grade.",
-        perMat: {
-          vinyl:      { low: 1000, mid: 1700, high: 3500, brands: "Renewal by Andersen" },
-          "wood-clad":{ low: 1100, mid: 2000, high: 4000, brands: "Andersen A-Series, Pella Reserve, Marvin Signature" },
-          composite:  { low: 1100, mid: 2200, high: 4000, brands: "Andersen A-Series" }
-        }
-      }
-    };
-
-    var COUNT_MID = {
-      "1-3":   2,
-      "4-8":   6,
-      "9-15":  12,
-      "16+":   20
-    };
-
-    var STATE_REGION = {
-      CT:1.18,MA:1.18,ME:1.15,NH:1.15,NJ:1.18,NY:1.20,PA:1.15,RI:1.15,VT:1.15,
-      CA:1.13,OR:1.10,WA:1.10,
-      CO:1.00,UT:0.98,AZ:1.00,NV:1.00,NM:0.95,ID:0.98,MT:1.00,WY:0.98,
-      IL:1.02,IN:0.97,IA:0.95,KS:0.93,MI:0.98,MN:1.00,MO:0.95,ND:0.95,NE:0.93,OH:0.97,SD:0.92,WI:0.98,
-      AL:0.92,FL:1.08,GA:0.95,KY:0.93,MS:0.90,NC:0.95,SC:0.93,TN:0.93,VA:0.98,WV:0.93,
-      AR:0.88,LA:0.90,OK:0.88,TX:0.92,
-      AK:1.22,HI:1.30,DC:1.18,DE:1.10,MD:1.10
-    };
+    // Single source of truth in /js/window-calc.js (UMD).
+    var _WINCALC = (typeof window !== "undefined" && window.WoogoroWindowCalc) || null;
+    if (!_WINCALC) { console.error("[window-estimate] /js/window-calc.min.js failed to load"); return; }
+    var FRAME = _WINCALC.FRAME;
+    var STYLE_MULT = _WINCALC.STYLE_MULT;
+    var GLASS_MULT = _WINCALC.GLASS_MULT;
+    var INSTALL_MULT = _WINCALC.INSTALL_MULT;
+    var BRAND_TIER = _WINCALC.BRAND_TIER;
+    var COUNT_MID = _WINCALC.COUNT_MID;
+    var STATE_REGION = _WINCALC.STATE_REGION;
+    var STATE_ZONE = _WINCALC.STATE_ZONE;
+    var ZONE_SPECS = _WINCALC.ZONE_SPECS;
+    var REBATES = _WINCALC.REBATES;
 
     // ZIP prefix (first 3) -> state
     var ZIP_STATE = (function(){
@@ -457,40 +385,6 @@
       return m;
     })();
 
-    // State -> ENERGY STAR zone (dominant). N/NC/SC/S
-    var STATE_ZONE = {
-      AK:"N",ME:"N",VT:"N",NH:"N",MA:"N",NY:"N",MI:"N",MN:"N",WI:"N",ND:"N",SD:"N",MT:"N",ID:"N",WY:"N",
-      WA:"N",OR:"N",RI:"N",CT:"N",
-      PA:"NC",NJ:"NC",OH:"NC",IN:"NC",IL:"NC",IA:"NC",MO:"NC",KS:"NC",NE:"NC",CO:"NC",UT:"NC",NV:"NC",
-      WV:"NC",KY:"NC",MD:"NC",DE:"NC",DC:"NC",
-      VA:"SC",NC:"SC",TN:"SC",AR:"SC",OK:"SC",NM:"SC",CA:"SC",AZ:"SC",
-      FL:"S",GA:"S",AL:"S",MS:"S",LA:"S",TX:"S",HI:"S",SC:"S"
-    };
-
-    var ZONE_SPECS = {
-      N:  { label:"Northern",      uMax:0.20, shgcText:"\u2265 0.20 (passive solar)", uFactorEs:0.22 },
-      NC: { label:"North-Central", uMax:0.20, shgcText:"\u2264 0.40",                 uFactorEs:0.25 },
-      SC: { label:"South-Central", uMax:0.20, shgcText:"\u2264 0.23",                 uFactorEs:0.28 },
-      S:  { label:"Southern",      uMax:0.25, shgcText:"\u2264 0.23",                 uFactorEs:0.32 }
-    };
-
-    // Per-window utility rebates by state
-    var REBATES = {
-      MA:{name:"Mass Save",               perWindow:75, note:"Triple-pane ENERGY STAR Northern Most Efficient; single-pane replacement only"},
-      NY:{name:"NYSERDA Comfort Home",    perWindow:65, note:"Bundled weatherization; BPI contractor"},
-      VT:{name:"Efficiency Vermont",      perWindow:40, note:"ENERGY STAR Northern; up to 10 windows"},
-      ME:{name:"Efficiency Maine",        perWindow:65, note:"Tiered by U-factor; triple-pane bonus"},
-      WI:{name:"Focus on Energy",         perWindow:75, note:"ENERGY STAR Northern; max 15 windows"},
-      CO:{name:"Xcel Energy",             perWindow:40, note:"ENERGY STAR Northern / North-Central"},
-      MN:{name:"CenterPoint Energy",      perWindow:25, note:"Gas-heated home only"},
-      MI:{name:"DTE Energy",              perWindow:50, note:"ENERGY STAR Northern; single-pane replacement"},
-      CT:{name:"Eversource CT",           perWindow:50, note:"Electric-heat home; ENERGY STAR"},
-      RI:{name:"Rhode Island Energy",     perWindow:50, note:"Replacing single-pane"},
-      WA:{name:"Puget Sound Energy",      perWindow:50, note:"ENERGY STAR Northern, U \u2264 0.22"},
-      OR:{name:"Energy Trust of Oregon",  perWindow:55, note:"ENERGY STAR Northern; Trade Ally contractor"},
-      IL:{name:"Ameren Illinois",         perWindow:40, note:"Replacing single-pane"},
-      NH:{name:"NHSaves",                 perWindow:40, note:"ENERGY STAR Northern"}
-    };
 
     var CONTRACTOR_QS = [
       "Is this pocket/insert or full-frame replacement? (big price difference)",
@@ -531,24 +425,26 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + Math.round(v).toLocaleString("en-US"); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
     function zipToState(zip) { if (!zip || zip.length < 3) return null; return ZIP_STATE[zip.substring(0, 3)] || null; }
-    function stateToZone(st) { return STATE_ZONE[st] || "NC"; }
-    function stateMult(st) { return STATE_REGION[st] || 1.00; }
+    var stateToZone = _WINCALC.stateToZone;
+    var stateMult = _WINCALC.stateMult;
 
-    // City-level multiplier
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=windows")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
-    function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
-    }
+    function getCityMult(city, stateCode) { return cityMultCache[(city || "") + "|" + (stateCode || "")] || null; }
+    function getCityCalData(city, stateCode) { return cityCalCache[(city || "") + "|" + (stateCode || "")] || null; }
 
     // Inflation: 3% annual from 2025
     var _now = new Date();

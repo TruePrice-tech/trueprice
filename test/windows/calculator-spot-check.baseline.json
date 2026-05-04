@@ -1,0 +1,61 @@
+{
+  "ts": "2026-05-04T11:53:01.837Z",
+  "inflationMult": 1,
+  "results": {
+    "10vinyl-mid-doublehung-lowe-pocket-nc": {
+      "totalMid": 7800,
+      "totalLow": 6600,
+      "totalHigh": 9000,
+      "band": {
+        "low": 5500,
+        "high": 12000
+      },
+      "label": "10 vinyl mid double-hung double-Lowe pocket NC (count 9-15)",
+      "failures": []
+    },
+    "6fiberglass-prem-casement-triple-fullframe-ny": {
+      "totalMid": 17700,
+      "totalLow": 15600,
+      "totalHigh": 20400,
+      "band": {
+        "low": 12000,
+        "high": 25000
+      },
+      "label": "6 fiberglass premium casement triple fullframe NY (count 4-8)",
+      "failures": []
+    },
+    "20vinyl-value-doublehung-std-pocket-tx": {
+      "totalMid": 6000,
+      "totalLow": 5000,
+      "totalHigh": 7000,
+      "band": {
+        "low": 4500,
+        "high": 10000
+      },
+      "label": "20 vinyl value double-hung double-standard pocket TX (count 16+)",
+      "failures": []
+    },
+    "2woodclad-luxury-baybow-triple-fullframe-ma": {
+      "totalMid": 21500,
+      "totalLow": 18900,
+      "totalHigh": 24700,
+      "band": {
+        "low": 14000,
+        "high": 32000
+      },
+      "label": "2 wood-clad luxury bay-bow triple fullframe MA (count 1-3)",
+      "failures": []
+    },
+    "12composite-mid-sliding-lowe-pocket-ca": {
+      "totalMid": 8400,
+      "totalLow": 7200,
+      "totalHigh": 9600,
+      "band": {
+        "low": 7000,
+        "high": 14000
+      },
+      "label": "12 composite mid sliding double-Lowe pocket CA (count 9-15)",
+      "failures": []
+    }
+  }
+}
