@@ -1,0 +1,60 @@
+{
+  "ts": "2026-05-04T11:16:44.975Z",
+  "inflationMult": 1,
+  "results": {
+    "pier-moderate-1990plus-tx": {
+      "total": 9000,
+      "band": {
+        "low": 6000,
+        "high": 14000
+      },
+      "label": "Pier installation, moderate (6 piers), 1990+ home, TX",
+      "failures": []
+    },
+    "crack-minor-1990plus-nc": {
+      "total": 1100,
+      "band": {
+        "low": 600,
+        "high": 2000
+      },
+      "label": "Crack repair, minor (2 cracks), 1990+ home, NC",
+      "failures": []
+    },
+    "slabjacking-moderate-pre1960-il": {
+      "total": 1350,
+      "band": {
+        "low": 1000,
+        "high": 4000
+      },
+      "label": "Slabjacking moderate, pre-1960 home, IL",
+      "failures": []
+    },
+    "wall-stab-major-1960to89-ny": {
+      "total": 18700,
+      "band": {
+        "low": 12000,
+        "high": 25000
+      },
+      "label": "Wall stabilization, major (carbon strap + brace), 1960-89 home, NY",
+      "failures": []
+    },
+    "drainage-moderate-1990plus-ca": {
+      "total": 4900,
+      "band": {
+        "low": 3000,
+        "high": 8000
+      },
+      "label": "Drainage correction, moderate, 1990+ home, CA",
+      "failures": []
+    },
+    "pier-extensive-pre1960-co": {
+      "total": 26400,
+      "band": {
+        "low": 18000,
+        "high": 40000
+      },
+      "label": "Pier installation extensive (16 piers), pre-1960 home, CO",
+      "failures": []
+    }
+  }
+}
