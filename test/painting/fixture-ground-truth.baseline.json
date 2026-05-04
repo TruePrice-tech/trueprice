@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T01:17:02.364Z",
+  "ts": "2026-05-04T11:53:18.117Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-imessage-exterior": {
@@ -73,7 +73,7 @@
       "failures": []
     },
     "f3-primer-notes": {
-      "verdictPrice": 475,
+      "verdictPrice": 550,
       "details": {
         "project type": "Interior / Trim Painting",
         "contractor": "Mask windows",
@@ -94,7 +94,7 @@
         "coats": "not mentioned",
         "colorSamples": "not mentioned"
       },
-      "rangeText": "Typical range: $3,300 - $7,700 -- 86% below typical low",
+      "rangeText": "Typical range: $3,300 - $7,700 -- 83% below typical low",
       "verdictLabel": "UNUSUALLY LOW",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -338,6 +338,45 @@
         "hasHardReject": false
       },
       "contractor": "FRONT RANGE FINISHWORKs",
+      "stateCode": null,
+      "failures": []
+    },
+    "f10-paint-exclusions": {
+      "verdictPrice": 2600,
+      "details": {
+        "project type": "Exterior Painting",
+        "contractor": "SHOESTRING PAINTING CO",
+        "home size": "2,200 sq ft",
+        "paint quality": "Standard (1 coat)",
+        "coats": "1 coat",
+        "condition": "Good (repaint)",
+        "per sq ft cost": "$1.18/sq ft",
+        "paint brand": "Behr (value tier)",
+        "pricing source": "Aurora local pricing"
+      },
+      "scope": {
+        "powerWash": "included",
+        "scraping": "not included",
+        "priming": "not included",
+        "caulking": "not included",
+        "masking": "not mentioned",
+        "trimPainting": "not included",
+        "cleanup": "not mentioned",
+        "warranty": "included",
+        "paintQuality": "included",
+        "coats": "included",
+        "colorSamples": "not mentioned"
+      },
+      "rangeText": "Typical range: $3,900 - $10,450 -- 33% below typical low",
+      "verdictLabel": "UNUSUALLY LOW",
+      "isUncategorizedBanner": false,
+      "isNeedsReview": false,
+      "preConfirm": {
+        "hasConfirmBtn": true,
+        "hasManualBtn": false,
+        "hasHardReject": false
+      },
+      "contractor": "SHOESTRING PAINTING CO",
       "stateCode": null,
       "failures": []
     }
