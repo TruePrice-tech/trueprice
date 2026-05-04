@@ -1624,19 +1624,37 @@
       function safeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
       function cleanCity(s) { return safeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
 
-      // PL-10: AI sometimes hallucinates a city by mis-OCR-ing form-field
-      // text ("Customer Name" → "Ustomer Nal Je" rendered as
-      // "Ustomer Nal Je local pricing"). Reject city values that:
-      //   - contain form-fragment substrings
+      // PL-10 + PLUMB-DT-1: AI sometimes hallucinates a city by mis-OCR-ing
+      // form-field text ("Customer Name" → "Ustomer Nal Je") or by lifting
+      // a sub-type label from the document body ("Indirect Water heater
+      // swap" → city = "Indirect"). Reject city values that:
       //   - aren't 2-50 chars of mostly-letters
+      //   - contain form-fragment substrings (incl. OCR-stripped variants
+      //     where leading char dropped: "Customer" → "ustomer", etc)
+      //   - match the resolved subType label or service-type label, raw
+      //     enum, or humanized form (catches "Indirect" / "Tank" / "Tankless")
       //   - don't appear verbatim in the OCR text we just parsed
       // Rejected city falls through to regional pricing label.
-      function isReasonableCity(s, ocrText) {
+      function isReasonableCity(s, ocrText, badLabels) {
         if (!s) return false;
         var t = String(s).trim();
         if (t.length < 2 || t.length > 50) return false;
-        if (/\b(customer|address|invoice|account|name|date|page|phone|email|signature|estimate|total|subtotal|amount|due|tax|qty|item|description)\b/i.test(t)) return false;
+        // Original form-fragment list + OCR-stripped variants. Real OCR drops
+        // first char fairly often on bold form-field labels: f7 Roto-Rooter
+        // produces "Ustomer Nal Je" from "Customer Name Job ..." with leading
+        // letters dropped. Each pair below covers (full|OCR-stripped):
+        if (/\b(c?ustomer|n?al\s?je|a?ddress|i?nvoice|a?ccount|n?ame|d?ate|p?age|p?hone|e?mail|s?ignature|e?stimate|t?otal|s?ubtotal|a?mount|d?ue|q?ty|i?tem|d?escription)\b/i.test(t)) return false;
         if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        // Subtype/service-type leak guard: if AI returned the document's
+        // sub-type label as a "city" (f8 Indirect WH page 1 → "Indirect
+        // local pricing"), reject. badLabels is the resolved subType +
+        // service-type strings the analyzer already knows.
+        if (badLabels && badLabels.length) {
+          for (var i = 0; i < badLabels.length; i++) {
+            var bl = (badLabels[i] || "").toLowerCase().trim();
+            if (bl && bl === t.toLowerCase()) return false;
+          }
+        }
         // Last-line check: city must appear (case-insensitive) in the OCR
         // text we extracted. AI hallucinations don't survive this — they're
         // invented from form-field labels, not lifted from quote text.
@@ -1664,8 +1682,18 @@
         detailsHtml += '<div class="plumb-detail"><div class="label">Brand</div><div class="value">' + safeText(r.brandNote) + '</div></div>';
       }
       var _pcity = cleanCity(state.address.city);
-      var _pcityOk = isReasonableCity(_pcity, state.extractedText || "");
-      var pricingLabel = (_pcityOk && getCityMult(_pcity, state.address.stateCode)) ? (_pcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // PLUMB-DT-1: pass resolved sub-type + service-type labels as bad-
+      // label list so isReasonableCity can reject "Indirect"/"Tank" etc.
+      var _badCityLabels = [];
+      if (r.subType) _badCityLabels.push(humanizeSubType(r.serviceType.value, r.subType));
+      if (r.subType) _badCityLabels.push(String(r.subType).replace(/_/g, " "));
+      if (r.subLabel) _badCityLabels.push(r.subLabel);
+      if (r.serviceType && r.serviceType.label) _badCityLabels.push(r.serviceType.label);
+      var _pcityOk = isReasonableCity(_pcity, state.extractedText || "", _badCityLabels);
+      // Require stateCode for "<city> local pricing" labeling. Without a
+      // state, getCityMult can't reliably find a per-city multiplier and
+      // any rendered "<x> local pricing" is misleading.
+      var pricingLabel = (_pcityOk && state.address.stateCode && getCityMult(_pcity, state.address.stateCode)) ? (_pcity + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="plumb-detail"><div class="label">Pricing</div><div class="value">' + safeText(pricingLabel) + '</div></div>';
 
       if (r.bathrooms) {
