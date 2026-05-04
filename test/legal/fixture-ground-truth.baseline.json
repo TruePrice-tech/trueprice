@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-03T13:18:53.881Z",
+  "ts": "2026-05-04T01:40:28.524Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-pi-low-brighton": {
@@ -8,7 +8,7 @@
       "details": {
         "contingency": "33.33%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
       "firmName": "Brighton & Sage Injury Lawyers",
@@ -27,7 +27,7 @@
       "details": {
         "contingency": "35%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
       "firmName": "KESTREL INJURY LAW",
@@ -46,7 +46,7 @@
       "details": {
         "contingency": "40%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
       "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
@@ -54,7 +54,7 @@
       "hourlyRate": null,
       "flatFee": null,
       "contingencyPercent": 40,
-      "retainerAmount": null,
+      "retainerAmount": 500,
       "practiceArea": "personal_injury",
       "stateCode": "NC",
       "failures": []
@@ -65,10 +65,10 @@
       "details": {
         "contingency": "33.33%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
-      "firmName": "Brighton & Sage Injury Lawyers",
+      "firmName": "BRIGHTON & SAGE INJURY LAWYERS",
       "feeStructure": "contingency",
       "hourlyRate": null,
       "flatFee": null,
@@ -84,7 +84,7 @@
       "details": {
         "contingency": "35%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
       "firmName": "KESTREL INJURY LAW",
@@ -103,7 +103,7 @@
       "details": {
         "contingency": "40%",
         "practice area": "Personal Injury",
-        "market mid": "$400/hr"
+        "typical range": "25–40%"
       },
       "isHardReject": false,
       "firmName": "STRATTON & CAINE TRIAL ATTORNEYS",
@@ -117,16 +117,16 @@
       "failures": []
     },
     "f7-hourly-retainer-blackwood": {
-      "verdictLabel": "WITHIN TYPICAL RANGE",
-      "verdictTitle": "Based on published data, this rate is within the typical range for this practice area and region",
+      "verdictLabel": "HIGHER THAN TYPICAL RANGE",
+      "verdictTitle": "Based on published data, this rate is above the typical range for this practice area and region",
       "details": {
         "hourly rate": "$583/hr",
         "practice area": "General Litigation",
-        "market mid": "$400/hr"
+        "market mid": "$328/hr"
       },
       "isHardReject": false,
       "firmName": "BLACKWOOD STEEL ATTORNEYS",
-      "feeStructure": "hybrid",
+      "feeStructure": "hourly",
       "hourlyRate": 583,
       "flatFee": null,
       "contingencyPercent": null,
@@ -141,7 +141,7 @@
       "details": {
         "flat fee": "$3,500",
         "practice area": "Criminal Defense",
-        "market mid": "$400/hr"
+        "typical dui first": "$1,800–$3,600"
       },
       "isHardReject": false,
       "firmName": "THE FALCONER LAW FIRM",
@@ -160,10 +160,10 @@
       "details": {
         "hourly rate": "$350/hr",
         "practice area": "Estate Planning",
-        "market mid": "$350/hr"
+        "market mid": "$322/hr"
       },
       "isHardReject": false,
-      "firmName": "HENDERSON & COLE, PLLIC",
+      "firmName": "HENDERSON & COLE, PLLC",
       "feeStructure": "hourly",
       "hourlyRate": 350,
       "flatFee": null,
