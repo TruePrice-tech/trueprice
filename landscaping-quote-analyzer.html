@@ -939,27 +939,61 @@ setProgress(90, "Almost done...");
       return best ? { value: best.value, label: best.label } : { value: "paver_patio", label: "Paver Patio" };
     }
 
+    // LND-2 (2026-05-03): negation-aware. Mirror of siding S2 / insulation
+    // I1+I2 / kitchen K4 / foundation F1. Previously this scanned the whole
+    // text blob for positive matches, so f3-class fixtures ("No irrigation
+    // included." / "No design service.") falsely showed Included for both
+    // irrigation AND designPlan because /irrigat/ and /design/ matched the
+    // negation lines. Now splits text per-line, finds the matching line for
+    // each scope key, then checks for negation tokens on that line before
+    // deciding included/excluded. Decisive trust signal — the bargain
+    // landscaping quote often EXCLUDES irrigation + design + drainage which
+    // are the most common upcharge change-order items.
     function detectLandscapingScopeSignals(text) {
       var t = (text || "").toLowerCase();
-      var signals = {};
-      var patterns = {
-        designPlan: /design|layout|plan|blueprint|render/i,
-        excavation: /excavat|dig|grading|grade|earth\s*work/i,
-        drainage: /drain|french\s*drain|gravel\s*bed|water\s*management/i,
-        baseMaterial: /base\s*material|gravel|sand|aggregate|compacted\s*base/i,
-        edging: /edging|border|edge\s*restraint|curb/i,
-        mulchRock: /mulch|rock|decorative\s*stone|river\s*rock|bark/i,
-        plants: /plant|tree|shrub|flower|perennial|annual|ground\s*cover/i,
-        irrigation: /irrigat|sprinkler|drip\s*line|water\s*system/i,
-        lighting: /light|lighting|low\s*voltage|LED|path\s*light/i,
-        sealing: /seal|sealing|poly\s*sand|joint\s*sand|finish\s*coat/i,
-        permits: /permit|inspection|code|compliance/i,
-        cleanup: /cleanup|clean\s*up|haul|debris|removal|dispose/i,
-        warranty: /warranty|guarantee|workmanship/i
+      var lines = t.split(/\n|(?:\.\s+)/);
+
+      var checks = {
+        designPlan:  /design|\blayout\b|\bplan\b|blueprint|render/i,
+        excavation:  /excavat|\bdig\b|grading|\bgrade\b|earth\s*work/i,
+        drainage:    /\bdrain\b|drainage|french\s*drain|gravel\s*bed|water\s*management/i,
+        baseMaterial:/base\s*material|\bgravel\b|\bsand\b|\baggregate\b|compacted\s*base/i,
+        edging:      /\bedging\b|\bborder/i,
+        mulchRock:   /\bmulch\b|decorative\s*stone|river\s*rock|\bbark\b/i,
+        plants:      /\bplant(?:ing|ed|s)?\b|\btree\b|\bshrub|flower|perennial|annual|ground\s*cover|\bsod\b|\bgrass\b/i,
+        irrigation:  /irrigat|sprinkler|drip\s*line|drip\s*irrigation|water\s*system/i,
+        lighting:    /\blight(?:ing)?\b|low\s*voltage|\bled\b|path\s*light|bollard|uplight/i,
+        sealing:     /\bseal(?:ing|ed|er)?\b|poly\s*sand|joint\s*sand|finish\s*coat/i,
+        permits:     /\bpermit\b|\binspection\b|coordinat/i,
+        cleanup:     /\bcleanup\b|clean[\s-]*up|haul|debris|dispose|disposal/i,
+        warranty:    /\bwarrant\w*|\bguarantee\b|workmanship/i
       };
-      for (var key in patterns) {
-        if (patterns[key].test(t)) {
-          signals[key] = { status: "included" };
+
+      // Negation patterns within the matched line. If present, mark
+      // status:"excluded" so the analyzer renders "Not included" instead
+      // of "Included" for that scope item. Patterns cover the common
+      // contractor-quote phrasings:
+      //   "No irrigation included." / "No design service."
+      //   "Drainage NOT included." / "Sod removal NOT included."
+      //   "X excluded" / "without X" / "X not part of scope"
+      var negationRx = /\bnot\s+(included|provided|covered|in\s+scope|part)\b|\bno\s+(irrigation|sprinkler|design|drainage|plant|warranty|permit|lighting|mulch|edging|cleanup|sealing|removal|grading|excavation|service|guarantee)\b|\bexcluded\b|\bwithout\s+(irrigation|sprinkler|design|drainage|plant|lighting|mulch|edging|warranty|permit)\b/i;
+
+      var signals = {};
+      for (var key in checks) {
+        var rx = checks[key];
+        var matchedLine = null;
+        for (var i = 0; i < lines.length; i++) {
+          if (rx.test(lines[i])) {
+            matchedLine = lines[i];
+            break;
+          }
+        }
+        if (matchedLine) {
+          if (negationRx.test(matchedLine)) {
+            signals[key] = { status: "excluded" };
+          } else {
+            signals[key] = { status: "included" };
+          }
         }
       }
       return signals;
