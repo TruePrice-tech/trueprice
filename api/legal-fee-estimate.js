@@ -98,7 +98,7 @@ export default async function handler(req, res) {
     // cacheNamespace bumped to v6 (legal dive 2026-05-03) — the v5 namespace
     // got polluted with stale entries during the gradual deploy window before
     // L6 fully rolled to all warm Vercel function instances. v6 starts clean.
-    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v9-r2" });
+    const _guard = await runAbuseGuard(req, { vertical: "legal-fee", imageBytes: _imageBuf, cacheNamespace: "legal-fee:v10-noinfer" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -231,16 +231,28 @@ PICKING THE HEADLINE FEE — only ONE of these fields gets the primary number:
     The retainer must be explicitly described as a deposit, trust deposit,
     IOLTA deposit, or initial retainer — not a one-time service charge.
 
-  Do NOT infer or reverse-engineer the original retainer from a
-    "remaining" / "balance" / "drawn down to" line. If only the current
-    balance is shown and the original deposit amount is not explicitly
-    stated, return null. Examples:
+  retainerAmount NEVER comes from arithmetic. Do NOT infer, compute,
+    estimate, or reverse-engineer the original retainer from a
+    "remaining" / "balance" / "drawn down to" line, even when other line
+    items in the document would let you back-solve it. The original
+    deposit MUST be explicitly stated as a number in the document.
+    Examples — read carefully, the f9-Henderson invoice shape is exactly
+    what fails most often:
       "Retainer balance: $900 remaining" (no other retainer line in doc)
-        -> retainerAmount = null   (NOT $5,900 or any inferred starting amount)
+        -> retainerAmount = null   (NOT $5,900, NOT $5,000, NOT any
+                                    inferred or computed starting amount)
+      Invoice shows "11.5 hours @ $350/hr = $4,025 + filing fees $75 =
+        Total Due: $4,100" AND "Retainer balance: $900 remaining"
+        -> retainerAmount = null   (DO NOT compute $4,100 + $900 = $5,000
+                                    or $4,100 + $1,800 = $5,900 or any
+                                    other arithmetic — the original
+                                    deposit is not stated)
       "Retainer balance: $2,400 of $10,000"
         -> retainerAmount = 10000  (original is explicitly stated)
       "Trust drawn down to $500 from initial $5,000 deposit"
         -> retainerAmount = 5000   (initial is explicitly stated)
+      "Initial retainer of $7,500 deposited 3/15"
+        -> retainerAmount = 7500   (initial is explicitly stated)
 
   contingencyPercent: The lowest tier percentage from a contingency
     agreement. Use this for personal injury, employment, etc. Examples:
