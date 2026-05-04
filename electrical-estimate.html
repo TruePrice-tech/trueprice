@@ -344,6 +344,8 @@
   </footer>
 
   <script src="/js/affiliate-links.min.js"></script>
+  <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/electrical-calc.min.js"></script>
   <script src="/js/home-type-classifier.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
 
@@ -369,54 +371,16 @@
     "use strict";
 
     // ── Electrical Pricing Model ──
-    // Ranges sourced from data/electrical-pricing.json commonJobs.
-    // Frontend keys are UI labels; api/electrical-estimate.js jobKeyMap
-    // remaps them to the canonical JSON keys server-side.
-    var ELEC_PRICING = {
-      basePriceByService: {
-        panel_upgrade: { label: "Panel Upgrade (100A to 200A)", low: 1800, high: 4500 },
-        whole_house_rewire: { label: "Whole House Rewire", low: 8000, high: 30000 },
-        ev_charger: { label: "EV Charger Installation", low: 900, high: 3000 },
-        generator: { label: "Generator Installation (Whole Home)", low: 6500, high: 18000 },
-        circuit_addition: { label: "Circuit Addition", low: 180, high: 450 },
-        outlet_switch: { label: "Outlet/Switch Replacement", low: 180, high: 350 }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      overheadMultiplier: 1.0,
-      roundTo: 50,
-      homeSizes: [
-        { label: "1000", sqft: 1000 }, { label: "1500", sqft: 1500 },
-        { label: "2000", sqft: 2000 }, { label: "2500", sqft: 2500 },
-        { label: "3000", sqft: 3000 }, { label: "3500", sqft: 3500 },
-        { label: "4000", sqft: 4000 }
-      ],
-      scopeItems: [
-        { key: "permits", label: "Permits and inspections", weight: 8 },
-        { key: "panel", label: "Electrical panel", weight: 18 },
-        { key: "breakers", label: "Circuit breakers", weight: 10 },
-        { key: "wiring", label: "Wiring / cabling", weight: 16 },
-        { key: "grounding", label: "Grounding system", weight: 8 },
-        { key: "conduit", label: "Conduit / raceway", weight: 6 },
-        { key: "trenching", label: "Trenching (if applicable)", weight: 6 },
-        { key: "testing", label: "Testing and commissioning", weight: 6 },
-        { key: "cleanup", label: "Cleanup and patching", weight: 4 },
-        { key: "warranty", label: "Warranty (parts + labor)", weight: 8 },
-        { key: "codeCompliance", label: "Code compliance / upgrades", weight: 6 },
-        { key: "meterUpgrade", label: "Meter base upgrade", weight: 4 }
-      ]
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/electrical-calc.js (UMD). The spot-check
+    // harness (test/electrical/calculator-spot-check.test.js) imports the
+    // same module so values can't drift; CI fails on band breaks.
+    var _ELECCALC = (typeof window !== "undefined" && window.WoogoroElectricalCalc) || null;
+    if (!_ELECCALC) {
+      console.error("[electrical-estimate] /js/electrical-calc.min.js failed to load");
+      return;
+    }
+    var ELEC_PRICING = _ELECCALC.ELEC_PRICING;
+    var STATE_REGIONS = _ELECCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -451,73 +415,47 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    var getRegionFromState = _ELECCALC.getRegionFromState;
+    var circuitsFromSqFt   = _ELECCALC.circuitsFromSqFt;
 
-    // City-level multiplier + inflation + seasonal
+    // City-level multiplier + flywheel calibration cache.
     var cityMultCache = {};
+    var cityCalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
+      if (cityMultCache[key] || cityCalCache[key]) return;
       fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=electrical")
         .then(function(r) { return r.json(); })
-        .then(function(d) { if (d) cityMultCache[key] = d.svcMult || d.multiplier || 1.0; })
+        .then(function(d) {
+          if (!d) return;
+          cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
+          if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+        })
         .catch(function() {});
     }
     function getCityMult(city, stateCode) {
-      var key = city + "|" + stateCode;
-      return cityMultCache[key] || null;
+      return cityMultCache[(city || "") + "|" + (stateCode || "")] || null;
     }
-    // Inflation: 3% annual from 2025
+    function getCityCalData(city, stateCode) {
+      return cityCalCache[(city || "") + "|" + (stateCode || "")] || null;
+    }
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: electrical work peaks in spring/summer
-    var SEASONAL_MULTS = { 1:0.95, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.97, 11:0.94, 12:0.93 };
-    var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
-
-    function circuitsFromSqFt(sqft) {
-      var n = Number(sqft) || 2000;
-      // Rough estimate: 1 circuit per 400-500 sqft for circuit additions
-      return Math.max(1, Math.round(n / 450));
-    }
+    var SEASONAL_MULT = _ELECCALC.SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(serviceType, homeSqFt, homeAge, region) {
-      var svc = ELEC_PRICING.basePriceByService[serviceType];
-      if (!svc) svc = ELEC_PRICING.basePriceByService.panel_upgrade;
-
-      var low = svc.low;
-      var high = svc.high;
-      var basePrice = 0;
-
-      if (serviceType === "whole_house_rewire") {
-        // Scale by home size relative to 2000 sqft baseline
-        var sqft = Number(homeSqFt) || 2000;
-        var midpoint = (low + high) / 2;
-        basePrice = midpoint * (sqft / 2000);
-      } else if (serviceType === "circuit_addition") {
-        // Multiply by estimated circuits needed based on home size
-        var circuits = circuitsFromSqFt(homeSqFt);
-        var midpoint = (low + high) / 2;
-        basePrice = midpoint * circuits;
-      } else {
-        // panel_upgrade, ev_charger, generator, outlet_switch: use midpoint
-        basePrice = (low + high) / 2;
-      }
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var regionMult = cityMult || (ELEC_PRICING.laborMultiplierByRegion[region] || 1.0);
-      var overheadMult = ELEC_PRICING.overheadMultiplier;
-
-      var total = basePrice * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT;
-
-      // Home age adjustment
-      if (homeAge === "pre1970") total *= 1.25; // knob & tube, more labor
-      else if (homeAge === "1970_1999") total *= 1.10;
-      // 2000+ is baseline, no adjustment
-
-      return roundTo50(total);
+      var out = _ELECCALC.calcElectricalEstimate({
+        serviceType: serviceType,
+        homeSqFt: homeSqFt,
+        homeAge: homeAge,
+        region: region,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT,
+        seasonalMult: SEASONAL_MULT,
+        calData: getCityCalData(state.address.city, state.address.stateCode)
+      });
+      return out ? out.total : 0;
     }
 
     function verdictFromRatio(ratio) {

@@ -62,6 +62,34 @@
         "https://www.angi.com/articles/roof-replacement-cost.htm"
       ]
     },
+    "electrical": {
+      "harnessPath": "test/electrical/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "panel-upgrade-100-200a",
+          "label": "Panel upgrade 100A to 200A, modern home (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for upgrading an electrical panel from 100-amp to 200-amp service in a modern (post-2000) single-family home. Include permits and inspection. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 1800, "high": 4500 }
+        },
+        {
+          "id": "whole-house-rewire-2k-pre1970",
+          "label": "Whole-house rewire, 2,000 sqft, pre-1970 (knob-and-tube)",
+          "askClaude": "Find the typical 2026 cost RANGE for a complete whole-house rewire on a 2,000 sqft pre-1970 home with knob-and-tube or aluminum wiring. Includes permits and patch/paint. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 18000, "high": 40000 }
+        },
+        {
+          "id": "ev-charger-l2-install",
+          "label": "Level 2 EV charger installation (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for installing a Level 2 EV charger at a residential garage, including the unit and the dedicated 240V circuit. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 1500, "high": 4500 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/electrical-panel-replacement-cost",
+        "https://www.forbes.com/home-improvement/electrical/cost-to-rewire-a-house/",
+        "https://www.angi.com/articles/electrical-panel-cost.htm"
+      ]
+    },
     "kitchen": {
       "harnessPath": "test/kitchen/calculator-spot-check.test.js",
       "pinpoints": [

@@ -1,0 +1,61 @@
+{
+  "ts": "2026-05-04T11:11:54.397Z",
+  "inflationMult": 1,
+  "seasonalMult": 1,
+  "results": {
+    "panel-upgrade-2k-2000plus-se": {
+      "total": 3250,
+      "band": {
+        "low": 1800,
+        "high": 4500
+      },
+      "label": "Panel upgrade 100A->200A, 2,000 sqft, 2000+ home, SE",
+      "failures": []
+    },
+    "whole-rewire-2k-pre1970-ne": {
+      "total": 28050,
+      "band": {
+        "low": 18000,
+        "high": 40000
+      },
+      "label": "Whole-house rewire, 2,000 sqft, pre-1970 (knob-and-tube), NE",
+      "failures": []
+    },
+    "ev-charger-2000plus-w": {
+      "total": 2400,
+      "band": {
+        "low": 1500,
+        "high": 4500
+      },
+      "label": "EV charger (Level 2) install, 2000+ home, West (CA)",
+      "failures": []
+    },
+    "generator-whole-2k-2000plus-s": {
+      "total": 12250,
+      "band": {
+        "low": 9000,
+        "high": 20000
+      },
+      "label": "Whole-home generator install, 2000+ home, South",
+      "failures": []
+    },
+    "circuit-addition-2k-2000plus-mw": {
+      "total": 1350,
+      "band": {
+        "low": 750,
+        "high": 2500
+      },
+      "label": "Circuit addition, 2,000 sqft, 2000+ home, Midwest",
+      "failures": []
+    },
+    "outlet-switch-2k-1970_1999-mt": {
+      "total": 300,
+      "band": {
+        "low": 180,
+        "high": 500
+      },
+      "label": "Outlet/switch replacement, 2,000 sqft, 1970-1999 home, Mountain",
+      "failures": []
+    }
+  }
+}
