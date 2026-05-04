@@ -1,20 +1,20 @@
 {
-  "ts": "2026-05-03T21:58:19.308Z",
+  "ts": "2026-05-03T22:09:30.116Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-green-envelope-high": {
       "verdictPrice": 5680,
       "details": {
-        "insulation type": "Spray Foam (Closed Cell)",
+        "insulation type": "Mixed (Blown-In + Spray Foam)",
         "area": "1,500 sq ft",
-        "r-value": "R-49",
+        "r-value": "R-60",
         "location": "Attic",
         "pricing": "South regional pricing"
       },
       "scope": {
         "airSealing": "included",
         "vaporBarrier": "not mentioned",
-        "ventBaffles": "not mentioned",
+        "ventBaffles": "included",
         "oldRemoval": "included",
         "accessCreation": "not mentioned",
         "energyAudit": "included",
@@ -23,8 +23,8 @@
         "warranty": "included",
         "rValueCert": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,800 -- 27% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Market benchmark: $3,100 -- 83% above average",
+      "verdictLabel": "OVERPRICED",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -38,16 +38,14 @@
       "apiRValue": null,
       "apiSquareFootage": null,
       "apiWarranty": null,
-      "displayInsType": "Spray Foam (Closed Cell)",
-      "displayRValue": "R-49",
+      "displayInsType": "Mixed (Blown-In + Spray Foam)",
+      "displayRValue": "R-60",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
       "displayWarranty": null,
       "failures": [
         "contractor: expected match /green\\s*envelope/, got null",
-        "insType: expected match /mixed|blown|cellulose/, got \"Spray Foam (Closed Cell)\"",
-        "warranty: expected match /lifetime/, got \"\"",
-        "scopeFound:ventBaffles: expected \"Included\", got \"not mentioned\""
+        "warranty: expected match /lifetime/, got \"\""
       ]
     },
     "f2-buckeye-mid": {
@@ -106,10 +104,10 @@
         "pricing": "South regional pricing"
       },
       "scope": {
-        "airSealing": "included",
+        "airSealing": "not included",
         "vaporBarrier": "not mentioned",
         "ventBaffles": "not mentioned",
-        "oldRemoval": "included",
+        "oldRemoval": "not included",
         "accessCreation": "not mentioned",
         "energyAudit": "not mentioned",
         "permits": "not mentioned",
@@ -139,24 +137,22 @@
       "displayWarranty": null,
       "failures": [
         "contractor: expected match /midstate\\s*insulation/, got null",
-        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
-        "scopeExcluded:airSealing: expected NOT \"Included\", got \"included\"",
-        "scopeExcluded:oldRemoval: expected NOT \"Included\", got \"included\""
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\""
       ]
     },
     "f4-green-envelope-high-messy": {
       "verdictPrice": 5680,
       "details": {
-        "insulation type": "Spray Foam (Closed Cell)",
+        "insulation type": "Mixed (Blown-In + Spray Foam)",
         "area": "1,500 sq ft",
-        "r-value": "R-49",
+        "r-value": "R-60",
         "location": "Attic",
         "pricing": "South regional pricing"
       },
       "scope": {
         "airSealing": "included",
         "vaporBarrier": "not mentioned",
-        "ventBaffles": "not mentioned",
+        "ventBaffles": "included",
         "oldRemoval": "included",
         "accessCreation": "not mentioned",
         "energyAudit": "included",
@@ -165,8 +161,8 @@
         "warranty": "included",
         "rValueCert": "not mentioned"
       },
-      "rangeText": "Market benchmark: $7,800 -- 27% below average",
-      "verdictLabel": "UNUSUALLY LOW",
+      "rangeText": "Market benchmark: $3,100 -- 83% above average",
+      "verdictLabel": "OVERPRICED",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
       "preConfirm": {
@@ -180,16 +176,14 @@
       "apiRValue": null,
       "apiSquareFootage": null,
       "apiWarranty": null,
-      "displayInsType": "Spray Foam (Closed Cell)",
-      "displayRValue": "R-49",
+      "displayInsType": "Mixed (Blown-In + Spray Foam)",
+      "displayRValue": "R-60",
       "displayArea": "1,500 sq ft",
       "displayLocation": "Attic",
       "displayWarranty": null,
       "failures": [
         "contractor: expected match /green\\s*envelope/, got null",
-        "insType: expected match /mixed|blown|cellulose/, got \"Spray Foam (Closed Cell)\"",
-        "warranty: expected match /lifetime/, got \"\"",
-        "scopeFound:ventBaffles: expected \"Included\", got \"not mentioned\""
+        "warranty: expected match /lifetime/, got \"\""
       ]
     },
     "f5-buckeye-mid-messy": {
@@ -248,10 +242,10 @@
         "pricing": "South regional pricing"
       },
       "scope": {
-        "airSealing": "included",
+        "airSealing": "not included",
         "vaporBarrier": "not mentioned",
         "ventBaffles": "not mentioned",
-        "oldRemoval": "included",
+        "oldRemoval": "not included",
         "accessCreation": "not mentioned",
         "energyAudit": "not mentioned",
         "permits": "not mentioned",
@@ -281,16 +275,14 @@
       "displayWarranty": null,
       "failures": [
         "contractor: expected match /midstate\\s*insulation/, got null",
-        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\"",
-        "scopeExcluded:airSealing: expected NOT \"Included\", got \"included\"",
-        "scopeExcluded:oldRemoval: expected NOT \"Included\", got \"included\""
+        "warranty: expected match /1[-\\s]*year|1\\s*yr/, got \"\""
       ]
     },
     "f7-mock-apex-nc": {
       "verdictPrice": 5475,
       "details": {
         "insulation type": "Blown-In (Attic)",
-        "r-value": "R-19",
+        "r-value": "R-49",
         "location": "Attic",
         "pricing": "South regional pricing"
       },
@@ -322,13 +314,12 @@
       "apiSquareFootage": null,
       "apiWarranty": null,
       "displayInsType": "Blown-In (Attic)",
-      "displayRValue": "R-19",
+      "displayRValue": "R-49",
       "displayArea": null,
       "displayLocation": "Attic",
       "displayWarranty": null,
       "failures": [
         "contractor: expected match /apex\\s*insulation/, got null",
-        "rValue: expected match /R-49/, got \"R-19\"",
         "warranty: expected match /2[-\\s]*year|manufacturer/, got \"\""
       ]
     }
