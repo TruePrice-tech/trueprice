@@ -62,6 +62,28 @@
         "https://www.angi.com/articles/roof-replacement-cost.htm"
       ]
     },
+    "garage-door": {
+      "harnessPath": "test/garage-door/calculator-spot-check.test.js",
+      "pinpoints": [
+        {
+          "id": "single-car-steel-opener",
+          "label": "Single-car steel garage door + opener install (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a single-car (9x7) basic steel garage door installed including a new opener. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 1200, "high": 2200 }
+        },
+        {
+          "id": "double-car-insulated-opener",
+          "label": "Double-car insulated steel garage door + opener (national)",
+          "askClaude": "Find the typical 2026 cost RANGE for a double-car (16x7) insulated steel garage door installed including a new opener. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 2500, "high": 4500 }
+        }
+      ],
+      "sources": [
+        "https://www.homeguide.com/costs/garage-door-installation-cost",
+        "https://www.forbes.com/home-improvement/garage-doors/garage-door-cost/",
+        "https://www.angi.com/articles/garage-door-installation-cost.htm"
+      ]
+    },
     "landscaping": {
       "harnessPath": "test/landscaping/calculator-spot-check.test.js",
       "pinpoints": [

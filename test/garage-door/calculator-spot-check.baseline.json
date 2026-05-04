@@ -1,0 +1,51 @@
+{
+  "ts": "2026-05-04T12:36:05.817Z",
+  "inflationMult": 1,
+  "results": {
+    "single-steel-basic-opener-nc": {
+      "total": 1600,
+      "band": {
+        "low": 1200,
+        "high": 2200
+      },
+      "label": "Single car steel basic +opener NC",
+      "failures": []
+    },
+    "double-steel-insulated-opener-ny": {
+      "total": 3000,
+      "band": {
+        "low": 2500,
+        "high": 4500
+      },
+      "label": "Double car steel insulated +opener NY",
+      "failures": []
+    },
+    "custom-wood-opener-ca": {
+      "total": 6700,
+      "band": {
+        "low": 5000,
+        "high": 9000
+      },
+      "label": "Custom carriage wood +opener CA",
+      "failures": []
+    },
+    "spring-replacement-tx": {
+      "total": 300,
+      "band": {
+        "low": 200,
+        "high": 500
+      },
+      "label": "Spring replacement TX",
+      "failures": []
+    },
+    "opener-only-mw": {
+      "total": 500,
+      "band": {
+        "low": 350,
+        "high": 800
+      },
+      "label": "Opener only MW",
+      "failures": []
+    }
+  }
+}
