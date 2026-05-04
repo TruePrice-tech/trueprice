@@ -1,0 +1,231 @@
+[
+  {
+    "id": "f1-sunset-low",
+    "file": "test-quotes/solar-images/comparison-solar-01-low.png",
+    "expect": {
+      "price": 14940,
+      "systemSizeRegex": "8(\\.0\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "hanwha|q[\\s.]*peak|q\\s*cells",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f2-desert-mid",
+    "file": "test-quotes/solar-images/comparison-solar-02-mid.png",
+    "expect": {
+      "price": 19250,
+      "systemSizeRegex": "8\\.\\d+\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "rec",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f3-apex-premium-battery",
+    "file": "test-quotes/solar-images/comparison-solar-03-high.png",
+    "expect": {
+      "price": 32770,
+      "systemSizeRegex": "8(\\.0)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "sunpower",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase|maxeon",
+      "inverterRegex_flags": "i",
+      "batteryRegex": "powerwall|tesla",
+      "batteryRegex_flags": "i",
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f4-sunset-low-messy",
+    "file": "test-quotes/solar-images/messy-comparison-solar-01-low.jpg",
+    "expect": {
+      "price": 14940,
+      "systemSizeRegex": "8(\\.0\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "hanwha|q[\\s.]*peak|q\\s*cells",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f5-desert-mid-messy",
+    "file": "test-quotes/solar-images/messy-comparison-solar-02-mid.jpg",
+    "expect": {
+      "price": 19250,
+      "systemSizeRegex": "8\\.\\d+\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "rec",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f6-apex-premium-messy",
+    "file": "test-quotes/solar-images/messy-comparison-solar-03-high.jpg",
+    "expect": {
+      "price": 32770,
+      "systemSizeRegex": "8(\\.0)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "sunpower",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase|maxeon",
+      "inverterRegex_flags": "i",
+      "batteryRegex": "powerwall|tesla",
+      "batteryRegex_flags": "i",
+      "stateCode": "NV",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f7-lightreach-lease",
+    "file": "test-quotes/solar-images/03-power-bill-is-ridiculous-talk-me-out-of-a-solar-le.jpeg",
+    "expect": {
+      "price": null,
+      "systemSizeRegex": "8\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "hanwha|q[\\s.]*peak|q\\s*cells",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": null,
+      "isLease": true,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f8-8MSolar-NC-rec",
+    "file": "test-quotes/solar-images/04-how-does-my-solar-quote-look-thx-in-advance-nc-duk.jpg",
+    "expect": {
+      "price": 31993,
+      "systemSizeRegex": "13(\\.1\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "rec",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "optimizer|solaredge",
+      "inverterRegex_flags": "i",
+      "batteryRegex": null,
+      "stateCode": "NC",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f9-sunrun-CA-2pw",
+    "file": "test-quotes/solar-images/05-has-any-seen-huge-differences-in-solar-panel-quote.png",
+    "expect": {
+      "price": 51938,
+      "systemSizeRegex": "15(\\.\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": null,
+      "inverterRegex": null,
+      "batteryRegex": "powerwall|battery",
+      "batteryRegex_flags": "i",
+      "stateCode": "CA",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f10-sunnova-FL-2pw",
+    "file": "test-quotes/solar-images/06-17600kw-system-with-2-powerwalls-98k-central-flori.png",
+    "expect": {
+      "price": 98324,
+      "systemSizeRegex": "17(\\.\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": "hanwha|q[\\s.]*peak|q\\s*cells",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": "microinverter|enphase",
+      "inverterRegex_flags": "i",
+      "batteryRegex": "powerwall|tesla",
+      "batteryRegex_flags": "i",
+      "stateCode": "FL",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f11-alibaba-wholesale",
+    "file": "test-quotes/solar-images/08-a-quote-from-alibabacom-for-solar-panels.jpeg",
+    "expect": {
+      "price": 1779,
+      "systemSizeRegex": null,
+      "panelBrandRegex": "znshine|trina|jinko",
+      "panelBrandRegex_flags": "i",
+      "inverterRegex": null,
+      "batteryRegex": null,
+      "stateCode": "FL",
+      "isLease": false,
+      "isWholesale": true,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f12-cal-sun-WA",
+    "file": "test-quotes/solar-images/09-just-getting-started-heres-my-first-quote-after-pe.jpg",
+    "expect": {
+      "price": 67028,
+      "systemSizeRegex": "13(\\.\\d)?\\s*kw",
+      "systemSizeRegex_flags": "i",
+      "panelBrandRegex": null,
+      "inverterRegex": null,
+      "batteryRegex": null,
+      "stateCode": "WA",
+      "isLease": false,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  },
+  {
+    "id": "f13-sunnova-lease-ipad",
+    "file": "test-quotes/solar-images/10-am-i-getting-ripped-off.jpeg",
+    "expect": {
+      "price": null,
+      "systemSizeRegex": null,
+      "panelBrandRegex": null,
+      "inverterRegex": null,
+      "batteryRegex": null,
+      "stateCode": null,
+      "isLease": true,
+      "isWholesale": false,
+      "isHardReject": false
+    }
+  }
+]
