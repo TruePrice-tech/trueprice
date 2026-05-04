@@ -666,6 +666,60 @@
       return signals;
     }
 
+    // I6 (Block 2 2026-05-03): extract contractor name from quote letterhead
+    // (parity with foundation F4 / kitchen K6 / electrical E2). First non-
+    // empty line that's not an obvious header/skip-token is treated as the
+    // letterhead. Letterhead lines containing insulation-domain keywords win
+    // outright over generic fallbacks.
+    function detectContractor(text) {
+      if (!text) return null;
+      var lines = text.split(/\n/).map(function(l) { return l.trim(); }).filter(Boolean).slice(0, 6);
+      var skipRx = /^(customer|property|job|date|description|amount|subtotal|sales\s*tax|tax|total|quote|valid|address|phone|fax|email|bpi|hic|licensed)\b/i;
+      var fallback = null;
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.length < 4 || line.length > 80) continue;
+        if (skipRx.test(line)) continue;
+        if (/^[$\d.,]/.test(line)) continue;
+        if (/@|\.com|\.net/i.test(line)) continue;
+        if (!/[a-zA-Z]{3,}/.test(line)) continue;
+        if (/insulation|energy|foam|building|thermal|comfort|solutions|services|group|company|envelope|spray|attic|specialists|pro\b/i.test(line)) {
+          return line;
+        }
+        if (!fallback) fallback = line;
+      }
+      return fallback;
+    }
+
+    // I7 (Block 2 2026-05-03): extract warranty terms from quote text.
+    // Insulation warranties typically come in 4 shapes:
+    //   - "Lifetime workmanship warranty" (premium)
+    //   - "X-year workmanship warranty" (mid)
+    //   - "Workmanship warranty: X years on labor" (manufacturer-split)
+    //   - "Manufacturer warranty applies to materials" (split product)
+    // 1-year vs lifetime is a meaningful trust signal (1-year is a red flag
+    // for a major retrofit; lifetime is industry-standard for premium work).
+    function detectInsulationWarranty(text) {
+      var t = text || "";
+      if (/lifetime\s+(?:limited\s+)?workmanship/i.test(t)) {
+        return { label: "Lifetime workmanship", term: "lifetime" };
+      }
+      if (/lifetime\s+warranty/i.test(t)) {
+        return { label: "Lifetime", term: "lifetime" };
+      }
+      var lyrs = t.match(/(\d{1,3})\s+years?\s+on\s+labor/i);
+      if (lyrs) {
+        var manuf = /manufacturer\s+warranty/i.test(t);
+        return { label: lyrs[1] + "-year on labor" + (manuf ? " (+ manufacturer materials)" : ""), term: lyrs[1] + "-year" };
+      }
+      var ywm = t.match(/(\d{1,3})[\-\s]*year\s+(?:limited\s+)?workmanship\s+warranty/i);
+      if (ywm) return { label: ywm[1] + "-year workmanship", term: ywm[1] + "-year" };
+      var ym = t.match(/(\d{1,3})[\-\s]*year\s+warranty/i);
+      if (ym) return { label: ym[1] + "-year", term: ym[1] + "-year" };
+      if (/warranty/i.test(t)) return { label: "Warranty (terms not stated)", term: "unspecified" };
+      return null;
+    }
+
     window.submitFeedback = function(response) {
       var fb = document.getElementById("estimateFeedback");
       if (!fb) return;
@@ -884,6 +938,20 @@
         var detectedRValue = detectRValue(text);
         var scopeSignals = detectInsulationScopeSignals(text);
 
+        // I6 (Block 2 2026-05-03): contractor name. Prefer Claude API result
+        // (server-side, structured) over local letterhead detector — Claude
+        // reads the visual letterhead even when OCR mangles ALL-CAPS company
+        // names. Falls back to engine.contractor and local letterhead pass.
+        var detectedContractor = (apiResult && apiResult.contractor) ||
+                                 (engineResult && engineResult.contractor) ||
+                                 detectContractor(text) ||
+                                 null;
+        // I7 (Block 2 2026-05-03): warranty terms. Local regex only — Claude
+        // prompt currently returns scopeItems.warranty as yes/no/unclear,
+        // not free-text terms. Future enhancement: add warrantyTerms field
+        // to api/insulation-estimate.js prompt + bump cacheNamespace.
+        var detectedWarranty = detectInsulationWarranty(text);
+
         // Location detection from parser
         var location = (parsed && parsed.location) ? parsed.location : null;
         if (location && location.stateCode && !state.address.stateCode) {
@@ -961,7 +1029,9 @@ setProgress(90, "Almost done...");
           scopeSignals: scopeSignals,
           region: region,
           location: location,
-          parsed: parsed
+          parsed: parsed,
+          contractor: detectedContractor,
+          warranty: detectedWarranty
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "insulation" });
@@ -1273,8 +1343,22 @@ setProgress(90, "Almost done...");
         rangeText = "Expected range: " + fmt(r.low) + " - " + fmt(r.high);
       }
 
-      // Build details
+      // Build details.
+      // Inline XSS-strip helper. OCR-extracted contractor/warranty strings
+      // can contain stray tokens; escape before injecting into innerHTML.
+      function _esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
       var detailsHtml = '<div class="ins-details">';
+      // I6: Contractor row (only on upload path; estimator has no contractor).
+      if (isUpload && r.contractor) {
+        detailsHtml += '<div class="ins-detail"><div class="label">Contractor</div><div class="value">' + _esc(r.contractor) + '</div></div>';
+      }
       detailsHtml += '<div class="ins-detail"><div class="label">Insulation Type</div><div class="value">' + r.insType.label + '</div></div>';
 
       if (r.area) {
@@ -1290,6 +1374,10 @@ setProgress(90, "Almost done...");
       }
       if (r.oldRemoval !== undefined && r.oldRemoval !== null) {
         detailsHtml += '<div class="ins-detail"><div class="label">Old Removal</div><div class="value">' + (r.oldRemoval ? "Included" : "Not included") + '</div></div>';
+      }
+      // I7: Warranty row (lifetime / 10-year / 1-year / 2-year on labor / etc.)
+      if (isUpload && r.warranty) {
+        detailsHtml += '<div class="ins-detail"><div class="label">Warranty</div><div class="value">' + _esc(r.warranty.label) + '</div></div>';
       }
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="ins-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
