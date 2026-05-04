@@ -438,7 +438,17 @@
         drainage:   { low: 1500, mid: 2000, high: 2500 }, // drainage tile / diversion / surface drains
         permits:    { low: 300, mid: 450, high: 600 },
         waterproofing: { low: 1000, mid: 2500, high: 5000 },
-        monitoring: { low: 200, mid: 400, high: 700 }
+        monitoring: { low: 200, mid: 400, high: 700 },
+        // FND-B1 followup (post-deploy 2026-05-03): hydraulic-concrete pier
+        // bids routinely bundle excavation/underpinning ($800-$2,000) as a
+        // separate line item that the JSON's per-pier rate ($350-$700/pier)
+        // doesn't capture. Without this add-on, f3 anchor $6,900 (8 piers
+        // @ $650/pier + $1,400 excavation + $300 cleanup) flipped from
+        // pre-fix "Unusually Low" to post-FND-B1 "Overpriced" -- still
+        // wrong direction. Steel push and helical bids include excavation
+        // in the per-pier rate already, so this only meaningfully shifts
+        // concrete-pier verdicts.
+        excavation: { low: 800, mid: 1200, high: 2000 }
       },
       projectSizes: [
         { label: "Minor (1-3 cracks)", multiplier: 0.6 },
@@ -701,6 +711,7 @@
       if (sig.permits && sig.permits.status === "included") addOn("permits");
       if (sig.waterproofing && sig.waterproofing.status === "included") addOn("waterproofing");
       if (sig.monitoring && sig.monitoring.status === "included") addOn("monitoring");
+      if (sig.excavation && sig.excavation.status === "included") addOn("excavation");
 
       return {
         low:  roundTo50(lo),
