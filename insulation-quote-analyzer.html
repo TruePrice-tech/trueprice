@@ -924,9 +924,20 @@
     async function processFile(file) {
       try {
         // ── Shared engine: resize, multi-pass OCR, regex parse, AI backup ──
+        // INS-1 (forceAI cross-vertical audit 2026-05-03): mirrors W1/MV-1.
+        // Insulation needs Claude's structured contractor field for every
+        // quote — local detectContractor misses on letterheads with logo
+        // images or ALL-CAPS names, and the I6 contractor-resolution chain
+        // at line ~983 already reads apiResult.contractor FIRST. Without
+        // forceAI the engine bypassed the API call on every regex-success
+        // fixture, leaving apiResult=null and the resolution chain
+        // falling through to local detect (which returned null for 7/7
+        // baseline fixtures: Green Envelope, Buckeye Energy, Midstate
+        // Insulation, Apex Insulation).
         var engineResult = await TP_Engine.analyzeQuote(file, {
           vertical: "insulation",
           apiEndpoint: "/api/insulation-estimate",
+          forceAI: true,
           onProgress: setProgress
         });
 
