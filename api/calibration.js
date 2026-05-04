@@ -320,10 +320,11 @@ export default async function handler(req, res) {
       await redis.set(key, JSON.stringify(e));
     }
 
-    // Counter + cal:* updates are gated on the same validity criteria.
-    // Per Lane's rule: only valid quotes count AND update pricing. No splitting
-    // the two paths — if a quote is good enough to feed the flywheel, it counts;
-    // if it isn't, it doesn't tick the public counter either.
+    // cal:* updates are gated on validity (any source: scrape, seed, user).
+    // The PUBLIC counter (tp:total_quotes) is gated more strictly: only real
+    // user-attributed uploads count toward the homepage social-proof number.
+    // Scrapes and admin seeds feed the flywheel but never the counter — the
+    // counter is honest about how many humans have used the site.
     const _calIsTest = req.headers["x-woogoro-test"] === "1";
     const _calValid = weight > 0 && score >= 30 && quote.stateCode && quote.price > 0;
 
@@ -341,7 +342,7 @@ export default async function handler(req, res) {
       await bumpAggregate(`cal:metro:${quote.stateCode}:${service}`);
       if (repairKey) await bumpAggregate(`cal:metro:${quote.stateCode}:${service}:${repairKey}`);
 
-      if (!_calIsTest) {
+      if (!_calIsTest && quote.source === "user_submitted_actual") {
         try { await redis.incr("tp:total_quotes"); } catch (err) { /* counter is best-effort */ }
       }
 
