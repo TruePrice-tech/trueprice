@@ -1619,8 +1619,47 @@ setProgress(90, "Almost done...");
       if (isUpload && r.warranty) {
         detailsHtml += '<div class="ins-detail"><div class="label">Warranty</div><div class="value">' + _esc(r.warranty.label) + '</div></div>';
       }
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="ins-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      // INS-DT-1 (mirror PLUMB-DT-1): AI sometimes hallucinates a city by
+      // mis-OCR-ing form-field labels ("Customer Name" -> "Ustomer Nal Je")
+      // or by lifting a sub-type label from the document body
+      // ("Spray foam attic" -> city = "Spray foam"). Reject form-fragment
+      // + OCR-stripped variants, ins-type / location labels, and any value
+      // that doesn't appear verbatim in the OCR text. Also require
+      // stateCode because getCityMult is unreliable without one.
+      function _iSafeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
+      function _iCleanCity(s) { return _iSafeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
+      function _iIsReasonableCity(s, ocrText, badLabels) {
+        if (!s) return false;
+        var t = String(s).trim();
+        if (t.length < 2 || t.length > 50) return false;
+        if (/\b(c?ustomer|n?al\s?je|a?ddress|i?nvoice|a?ccount|n?ame|d?ate|p?age|p?hone|e?mail|s?ignature|e?stimate|t?otal|s?ubtotal|a?mount|d?ue|q?ty|i?tem|d?escription)\b/i.test(t)) return false;
+        if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        if (badLabels && badLabels.length) {
+          for (var _bi = 0; _bi < badLabels.length; _bi++) {
+            var bl = (badLabels[_bi] || "").toLowerCase().trim();
+            if (bl && bl === t.toLowerCase()) return false;
+          }
+        }
+        if (ocrText && t.length >= 3) {
+          var rx = new RegExp("\\b" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+          if (!rx.test(ocrText)) return false;
+        }
+        return true;
+      }
+      var _icity = _iCleanCity(state.address.city);
+      var _iBadLabels = [];
+      if (r.insType) {
+        if (r.insType.label) _iBadLabels.push(r.insType.label);
+        if (r.insType.value) {
+          _iBadLabels.push(r.insType.value);
+          _iBadLabels.push(String(r.insType.value).replace(/_/g, " "));
+        }
+      }
+      if (r.insLocationLabel) _iBadLabels.push(r.insLocationLabel);
+      if (r.insLocation) _iBadLabels.push(String(r.insLocation).replace(/_/g, " "));
+      var _icityOk = _iIsReasonableCity(_icity, state.extractedText || "", _iBadLabels);
+      var pricingLabel = (_icityOk && state.address.stateCode && getCityMult(_icity, state.address.stateCode)) ? (_icity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="ins-detail"><div class="label">Pricing</div><div class="value">' + _iSafeText(pricingLabel) + '</div></div>';
       detailsHtml += '</div>';
 
       // Scope checklist (upload only)
