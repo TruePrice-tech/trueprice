@@ -1048,6 +1048,21 @@
           state.address.stateCode = location.stateCode;
           if (location.city) state.address.city = location.city;
         }
+        // CONC-REGION-2 (2026-05-05, mirror kitchen KMP-1 / K3): the local
+        // analyzer-parser.js often misreads short state codes / city names
+        // on sparse OCR — f1-f6 ("Plano, TX 75025") were silently labeled
+        // "South regional pricing" pre-CONC-REGION-1 because the silent
+        // 'south' fallback masked the parser miss. Post-fix the honest
+        // label flipped to "National typical pricing" even though the
+        // text clearly says TX. Fall back to the Claude API
+        // (apiResult.stateCode / apiResult.city) which is reliable
+        // post-CONC-1 forceAI. Same shape as K3 + KMP-1.
+        if (!state.address.stateCode && apiResult && apiResult.stateCode) {
+          state.address.stateCode = apiResult.stateCode;
+        }
+        if (!state.address.city && apiResult && apiResult.city) {
+          state.address.city = apiResult.city;
+        }
         fetchCityMult(state.address.city, state.address.stateCode);
 
         // Determine price — prefer Claude API result (server-side, structured)

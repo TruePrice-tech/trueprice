@@ -84,6 +84,14 @@ const FIXTURES = [
       // + ignores fiber + ignores sealer/drainage scope, producing a
       // ~$7,500 benchmark and "Overpriced" verdict — the trust-flip target.
       verdictNotMatch: /overpriced/i,
+      // CONC-REGION-2 (2026-05-05) trust guard: Plano TX 75075 letterhead
+      // — buyer must see a regional or local label, not "National typical
+      // pricing". Pre-CONC-REGION-1 the silent 'south' fallback produced
+      // "South regional pricing"; post-CONC-REGION-1 the local parser miss
+      // exposed the gap → "National typical pricing"; post-CONC-REGION-2
+      // the apiResult.stateCode fallback restores "South regional pricing"
+      // (or "Plano local pricing" if cityMult ever covers it).
+      pricingRegex: /(south\s+regional|plano\s+local)\s+pricing/i,
     },
   },
   {
@@ -155,6 +163,8 @@ const FIXTURES = [
       areaSqft: 800,
       scopeFound: ["basePrep", "rebarMesh", "concretePour", "finishing", "sealing", "warranty"],
       verdictNotMatch: /overpriced/i,
+      // CONC-REGION-2 trust guard on the messy variant — same as f1.
+      pricingRegex: /(south\s+regional|plano\s+local)\s+pricing/i,
     },
   },
   {
