@@ -490,8 +490,14 @@
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
+    // FENCE-REGION-1 (mirror CONC-REGION-1 / KIT-REGION-1): drop the silent
+    // "south" fallback when stateCode is missing/unknown. Returning null lets
+    // pricingLabel fall through to honest "National typical pricing" copy
+    // instead of confidently labeling unknown-state quotes "South regional
+    // pricing" with the wrong labor multiplier.
     function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+      var key = (sc || "").toUpperCase();
+      return STATE_REGIONS[key] || null;
     }
 
     // City-level multiplier + inflation + seasonal
@@ -805,13 +811,15 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. FENCE-DEFAULT-TX (mirror concrete/kitchen): drop
+        // the silent "TX" fallback when input doesn't match any state — leave
+        // stateCode empty so downstream renders fall through to honest
+        // "National typical pricing" rather than mis-pricing as Texas.
         var upper = rawState.toUpperCase();
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
-          var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = US_STATES[rawState.toLowerCase()] || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
@@ -1458,7 +1466,17 @@ setProgress(90, "Almost done...");
         }
       }
       var _fcityOk = _fIsReasonableCity(_fcity, state.extractedText || "", _fBadLabels);
-      var pricingLabel = (_fcityOk && state.address.stateCode && getCityMult(_fcity, state.address.stateCode)) ? (_fcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // FENCE-REGION-1: honest "National typical pricing" when region is null
+      // (stateCode missing/unknown). Don't synthesize a confidently-wrong
+      // "South regional pricing" label.
+      var pricingLabel;
+      if (_fcityOk && state.address.stateCode && getCityMult(_fcity, state.address.stateCode)) {
+        pricingLabel = _fcity + " local pricing";
+      } else if (r.region) {
+        pricingLabel = capitalize(r.region) + " regional pricing";
+      } else {
+        pricingLabel = "National typical pricing";
+      }
       detailsHtml += '<div class="fence-detail"><div class="label">Pricing Source</div><div class="value">' + _fSafeText(pricingLabel) + '</div></div>';
       detailsHtml += '</div>';
 
@@ -1563,7 +1581,7 @@ setProgress(90, "Almost done...");
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
+        "Region: " + (r.region ? capitalize(r.region) : "National typical") + "\n\n" +
         "Analyzed by Woogoro - https://woogoro.com/fencing-quote-analyzer.html"
       );
 

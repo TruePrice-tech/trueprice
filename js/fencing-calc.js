@@ -57,7 +57,17 @@
   var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.97, 4:1.04, 5:1.08, 6:1.10, 7:1.10, 8:1.06, 9:1.00, 10:0.96, 11:0.93, 12:0.91 };
 
   function roundTo50(n) { return Math.round(n / 50) * 50; }
-  function getRegionFromState(sc) { return STATE_REGIONS[(sc || "").toUpperCase()] || "south"; }
+  // FENCE-REGION-1 (mirror CONC-REGION-1 / KIT-REGION-1): return null on
+  // unknown stateCode instead of dishonestly claiming "south". Math impact
+  // zero (laborMultiplierByRegion[null] -> undefined -> falls back to 1.0
+  // via `|| 1.0` in calcFencingEstimate); the analyzer + estimator use the
+  // returned value to label pricing source — silent "South regional pricing"
+  // was the user-facing trust bug. Returning null lets callers fall through
+  // to "National typical pricing" copy.
+  function getRegionFromState(sc) {
+    var key = (sc || "").toUpperCase();
+    return STATE_REGIONS[key] || null;
+  }
   function getGateCost(fenceType) {
     var gc = FENCE_PRICING.gateCost[fenceType];
     if (!gc) return 500;

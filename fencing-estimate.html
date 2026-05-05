@@ -656,13 +656,15 @@
         var rawState = document.getElementById("addrState").value.trim();
         state.address.zip = document.getElementById("addrZip").value.trim();
 
-        // Normalize state
+        // Normalize state. FENCE-DEFAULT-TX (mirror concrete/kitchen): drop
+        // the silent "TX" fallback when input doesn't match any state — leave
+        // stateCode empty so downstream renders fall through to honest
+        // "National typical pricing" rather than mis-pricing as Texas.
         var upper = rawState.toUpperCase();
         if (STATE_REGIONS[upper]) {
           state.address.stateCode = upper;
         } else {
-          var lookup = US_STATES[rawState.toLowerCase()];
-          state.address.stateCode = lookup || "TX";
+          state.address.stateCode = US_STATES[rawState.toLowerCase()] || "";
         }
 
         fetchCityMult(state.address.city, state.address.stateCode);
@@ -1206,7 +1208,17 @@
         detailsHtml += '<div class="fence-detail"><div class="label">Per Linear Foot Cost</div><div class="value">' + fmt(r.perLF) + '/lf</div></div>';
       }
 
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // FENCE-REGION-1: honest "National typical pricing" when region is null
+      // (stateCode missing/unknown). Don't synthesize a confidently-wrong
+      // "South regional pricing" label.
+      var pricingLabel;
+      if (getCityMult(state.address.city, state.address.stateCode)) {
+        pricingLabel = state.address.city + " local pricing";
+      } else if (r.region) {
+        pricingLabel = capitalize(r.region) + " regional pricing";
+      } else {
+        pricingLabel = "National typical pricing";
+      }
       detailsHtml += '<div class="fence-detail"><div class="label">Pricing Source</div><div class="value">' + pricingLabel + '</div></div>';
       detailsHtml += '</div>';
 
@@ -1376,7 +1388,7 @@
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
+        "Region: " + (r.region ? capitalize(r.region) : "National typical") + "\n\n" +
         "Analyzed by Woogoro - https://woogoro.com/fencing-quote-analyzer.html"
       );
 
