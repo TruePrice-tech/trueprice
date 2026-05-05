@@ -549,18 +549,31 @@
     // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
     var cityCalCache = {};
+    var cityMultInflight = {};
+    // [HVAC-RACE-1] 2026-05-05: returns a Promise so the analyze flow can
+    // await the city-multiplier API before computing the benchmark. Without
+    // it, the same f5 22-SEER2 Trane Atlanta upload showed bench $13,600
+    // ("Atlanta local pricing") on one render and $14,500 ("Southeast
+    // regional pricing") on another, depending on whether the fire-and-forget
+    // fetch completed before the user clicked "Yes, analyze this price."
+    // Cache hits resolve synchronously; cache misses await the in-flight
+    // request so duplicate calls coalesce.
     function fetchCityMult(city, stateCode) {
-      if (!city || !stateCode) return;
+      if (!city || !stateCode) return Promise.resolve(null);
       var key = city + "|" + stateCode;
-      if (cityMultCache[key]) return;
-      fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=hvac")
+      if (cityMultCache[key]) return Promise.resolve(cityMultCache[key]);
+      if (cityMultInflight[key]) return cityMultInflight[key];
+      var p = fetch("/api/city-multiplier?city=" + encodeURIComponent(city) + "&state=" + encodeURIComponent(stateCode) + "&service=hvac")
         .then(function(r) { return r.json(); })
         .then(function(d) {
-          if (!d) return;
+          if (!d) return null;
           cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
           if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+          return cityMultCache[key];
         })
-        .catch(function() {});
+        .catch(function() { return null; });
+      cityMultInflight[key] = p;
+      return p;
     }
     function getCityMult(city, stateCode) {
       var key = city + "|" + stateCode;
@@ -915,13 +928,19 @@
         setProgress(90, "Almost done...");
         var _origPrice = quotePrice;
         try { window.__TP_LAST_CONFIDENCE = (parsed && parsed.confidence) || "low"; } catch(e) {}
-        renderPriceConfirmation(appRoot, quotePrice, "hvac", function(confirmedPrice) {
+        renderPriceConfirmation(appRoot, quotePrice, "hvac", async function(confirmedPrice) {
 
 
         // Determine effective SEER / efficiency
         var effectiveSeer = seer || 14;
         var effectiveTons = tonnage || 3;
         var region = getRegionFromState(state.address.stateCode);
+
+        // [HVAC-RACE-1] 2026-05-05: await city-multiplier before bench calc.
+        // Cache hits resolve instantly; first hit on a (city,state) waits
+        // ~200-500ms so the same upload doesn't show different benches on
+        // different renders depending on whether the fetch beat the click.
+        try { await fetchCityMult(state.address.city, state.address.stateCode); } catch (e) { /* fall through to regional fallback */ }
 
         // Detect service/repair jobs from OCR text. Install benchmarks ($5k-$15k)
         // don't apply to a $400 capacitor swap or $600 recharge.
@@ -1517,7 +1536,12 @@
       // and "Manual J load calculation" are install-quote concerns and produce
       // false positives + irrelevant nudges on a coil/recharge/repair quote.
       var scopeHtml = "";
-      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0 && !r.isServiceJob) {
+      // F7-COPY-1 deep test 2026-05-05: also hide scope review on low-conf
+      // verdicts. The f7 heat-pump comparison-table fixture extracts a single
+      // brand/warranty out of a 10-row table — surfacing 12 "Not mentioned"
+      // scope rows + a $1,300-$4,850 change-order warning is misleading when
+      // the analyzer just told the user it can't benchmark this document.
+      if (isUpload && r.scopeSignals && Object.keys(r.scopeSignals).length > 0 && !r.isServiceJob && !r.isLowConfidence) {
         scopeHtml = '<div class="hvac-card"><h3 style="margin-bottom:0.75rem;">Scope Review</h3><ul class="hvac-scope">';
         HVAC_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
@@ -1652,7 +1676,12 @@
       // not when they're getting a coil replaced or refrigerant added to an
       // existing one.
       var brandCompHtml = "";
-      if (r.systemType && r.systemType !== "geothermal" && !r.isServiceJob) {
+      // F7-COPY-2 deep test 2026-05-05: also hide TCO calculator on low-conf
+      // verdicts. The f7 table fixture defaulted to "16 SEER 3-ton" specs and
+      // ran 15-yr-cost-of-ownership math for $9,600 Premium / $6,800 Value
+      // tiers on a $30,150 multi-row comparison table — the numbers don't
+      // tie back to anything in the document.
+      if (r.systemType && r.systemType !== "geothermal" && !r.isServiceJob && !r.isLowConfidence) {
         var detectedTonnage = r.tonnage || 3;
         var detectedSeer = r.seer || 16;
         var detectedBrand = String(r.brand || "").toLowerCase();
@@ -1843,9 +1872,14 @@
         warrantyHtml += '</div>';
       }
 
-      // Market context
+      // Market context — install verdicts only. Service/repair quotes can't be
+      // benched against install medians ("within typical market range" reads
+      // as a price endorsement on a $7,944 leak-detection bill the analyzer
+      // explicitly told the user "install benchmarks don't apply" two lines
+      // earlier — F6-COPY-1 deep test 2026-05-05). Same goes for low-conf
+      // verdicts where the bench was zeroed.
       var contextHtml = '';
-      if (isUpload && r.quotePrice > 0) {
+      if (isUpload && r.quotePrice > 0 && !r.isServiceJob && !r.isLowConfidence) {
         var tip = "";
         if (r.verdict.css === "high") {
           tip = "This quote is higher than typical market rates. Consider getting 2-3 additional quotes to compare.";
