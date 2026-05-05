@@ -784,6 +784,15 @@
       // scope item itself.
       var negationRx = /\bnot\s+(?:included|provided|covered|in\s+scope|part)\b|\bno\s+(?:sealer|seal|sealing|permit|permits|warranty|guarantee|rebar|reinforcement|cleanup|disposal|haul|grading|joint|joints|forms|base|prep)\b|\b(?:sealer|seal|sealing|permit|warranty|guarantee|rebar|reinforcement)\s+not\b|\bexcluded\b|\bwithout\s+(?:sealer|sealing|permit|warranty|rebar|reinforcement|grading|joints|forms|base)\b/i;
 
+      // CONC-DT-2 (2026-05-05): "optional"/upcharge qualifier patterns. f2
+      // line "Sealer optional ($380 extra, recommended)." passes positive
+      // /seal/ but is NOT in base price — buyer needs to see Optional, not
+      // Included, since the base $7,800 doesn't cover it. Distinct from
+      // negation: the contractor will provide it, but as a separate charge.
+      // Render as "Optional (extra)" with a distinct icon. Order: negation
+      // first (definitive exclusion), then optional, then included default.
+      var optionalRx = /\boptional\b|\$\d[\d,]*\s*extra\b|\bextra\s*(?:cost|charge|fee|\$)|\b(?:additional|separate)\s*(?:cost|charge|fee)\b|\bavailable\s*(?:for|at)\s*(?:additional|extra|\$)|\bby\s*owner\b|\bupon\s*request\b|\bif\s*(?:requested|desired|wanted)\b/i;
+
       var signals = {};
       for (var key in checks) {
         var rx = checks[key];
@@ -797,6 +806,8 @@
         if (matchedLine) {
           if (negationRx.test(matchedLine)) {
             signals[key] = { status: "excluded" };
+          } else if (optionalRx.test(matchedLine)) {
+            signals[key] = { status: "optional" };
           } else {
             signals[key] = { status: "included" };
           }
@@ -1107,6 +1118,27 @@ setProgress(90, "Almost done...");
 
         setProgress(100, "Done!");
 
+        // CONC-DT-3 (2026-05-05): track whether the area-from-price fallback
+        // overrode the locally-detected area. f7 multi-slab driveway
+        // widening: parser caught only "3'x22'" = 66 sqft (sidewalk), but
+        // 9 dimensions aggregate to ~1,400-3,500 sqft. Pre-fix the Area
+        // detail row showed the misleading 66 even though the benchmark
+        // and per-sqft used the re-estimated value. Now display
+        // effectiveArea with "(estimated)" annotation when overridden so
+        // buyers don't see a $191/sqft per-sqft cost paired with a 66 sqft
+        // area row.
+        var areaWasOverridden = effectiveArea !== area;
+
+        // CONC-DT-4 (2026-05-05): hoist API contractor onto result so
+        // renderResult can surface a Contractor detail row. Mirror foundation
+        // FOUND-B5 / windows W-CONTRACTOR-ROW. apiResult is engineResult.aiData
+        // (line 986), which is the unwrapped json.data from /api/concrete-estimate.
+        // forceAI:true (line 979) ensures this fires for every well-formed
+        // quote, so f1-f6 reliably surface contractor names like
+        // "PRECISION FLATWORK SOLUTIONS" / "LONE STAR CONCRETE WORKS" /
+        // "QUICK POUR CONCRETE". Cropped fixtures (f7) leave it null.
+        var contractorName = (apiResult && apiResult.contractor) || null;
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -1116,6 +1148,8 @@ setProgress(90, "Almost done...");
           verdict: verdict,
           concreteType: concreteType,
           area: area,
+          effectiveArea: effectiveArea,
+          areaWasOverridden: areaWasOverridden,
           thickness: thickness,
           psi: psi,
           fiber: fiber,
@@ -1124,6 +1158,7 @@ setProgress(90, "Almost done...");
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
           location: location,
+          contractor: contractorName,
           parsed: parsed
         };
 
@@ -1439,10 +1474,26 @@ setProgress(90, "Almost done...");
 
       // Build details
       var detailsHtml = '<div class="conc-details">';
+      // CONC-DT-4 (2026-05-05): Contractor detail row (upload only — estimator
+      // doesn't know who's bidding). Mirror foundation FOUND-B5. r.contractor
+      // is set from apiResult.contractor (Claude API) which is reliable
+      // post-CONC-1 forceAI. Hidden for cropped fixtures with no letterhead.
+      if (isUpload && r.contractor) {
+        var _safeContractor = String(r.contractor).replace(/[<>]/g, "").trim();
+        if (_safeContractor) {
+          detailsHtml += '<div class="conc-detail"><div class="label">Contractor</div><div class="value">' + _safeContractor + '</div></div>';
+        }
+      }
       detailsHtml += '<div class="conc-detail"><div class="label">Project Type</div><div class="value">' + r.concreteType.label + '</div></div>';
 
-      if (r.area) {
-        detailsHtml += '<div class="conc-detail"><div class="label">Area</div><div class="value">' + Number(r.area).toLocaleString() + ' sq ft</div></div>';
+      // CONC-DT-3 (2026-05-05): when the area-from-price fallback overrode a
+      // misleading raw detection (f7 multi-slab driveway widening: 66 sqft
+      // raw, ~1,415 sqft re-estimated), show the corrected value with a
+      // "(estimated)" annotation. Otherwise show the raw detected area.
+      var displayArea = r.areaWasOverridden ? (r.effectiveArea || null) : r.area;
+      if (displayArea) {
+        var areaSuffix = r.areaWasOverridden ? ' <span style="font-size:0.8rem;color:#94a3b8;">(estimated)</span>' : '';
+        detailsHtml += '<div class="conc-detail"><div class="label">Area</div><div class="value">' + Number(displayArea).toLocaleString() + ' sq ft' + areaSuffix + '</div></div>';
       }
       if (r.thickness) {
         detailsHtml += '<div class="conc-detail"><div class="label">Thickness</div><div class="value">' + r.thickness.label + '</div></div>';
@@ -1511,9 +1562,14 @@ setProgress(90, "Almost done...");
         CONC_PRICING.scopeItems.forEach(function(item) {
           var sig = r.scopeSignals[item.key];
           var status = sig ? sig.status : "unclear";
+          // CONC-DT-2 (2026-05-05): "optional" renders as a distinct row so the
+          // buyer sees that f2-class "Sealer optional ($380 extra)" lines are
+          // NOT in base price — same trust class as Excluded but the contractor
+          // is willing to add it for an upcharge. Reuses the unclear icon
+          // class to avoid CSS sprawl while still differentiating the label.
           var iconClass = status === "included" ? "scope-included" : status === "excluded" ? "scope-missing" : "scope-unclear";
-          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : "?";
-          var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : "Not mentioned";
+          var iconChar = status === "included" ? "&#10003;" : status === "excluded" ? "&#10007;" : status === "optional" ? "&#43;" : "?";
+          var statusLabel = status === "included" ? "Included" : status === "excluded" ? "Not included" : status === "optional" ? "Optional (extra)" : "Not mentioned";
           scopeHtml += '<li><span class="scope-icon ' + iconClass + '">' + iconChar + '</span><span>' + item.label + '</span><span style="margin-left:auto;font-size:0.8rem;color:#94a3b8;">' + statusLabel + '</span></li>';
         });
         scopeHtml += '</ul>';

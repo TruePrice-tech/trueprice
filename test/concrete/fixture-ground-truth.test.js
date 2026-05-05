@@ -100,6 +100,11 @@ const FIXTURES = [
       // + base + joints, no sealer included. $7,800 / 800 = $9.75/sqft —
       // the canonical "fair" for plain 4" patio per the 4f5e79c2156
       // calibration commit.
+      // CONC-DT-2 (2026-05-05) trust-critical: "Sealer optional ($380 extra,
+      // recommended)" must NOT render as Included. Pre-fix detector matched
+      // /seal/ positively → false-positive Included. Same false-positive
+      // class as f3 "Sealer NOT included" (excluded) but the qualifier here
+      // is "optional", not negation. Buyer must see Optional / extra cost.
       price: 7800,
       contractorRegex: /lone\s*star\s*concrete/i,
       stateCode: "TX",
@@ -108,6 +113,7 @@ const FIXTURES = [
       psiRating: 4000,
       areaSqft: 800,
       scopeFound: ["basePrep", "rebarMesh", "concretePour", "finishing", "expansionJoints", "cleanup", "warranty"],
+      scopeOptional: ["sealing"],
     },
   },
   {
@@ -155,12 +161,15 @@ const FIXTURES = [
     id: "f5-lone-star-mid-messy",
     file: "test-quotes/concrete-images/messy-comparison-conc-mid.jpg",
     expect: {
+      // CONC-DT-2: same trust assertion as f2 on the messy variant. OCR may
+      // mangle "$380" or "extra" but should still catch \boptional\b.
       price: 7800,
       contractorRegex: /lone\s*star\s*concrete/i,
       stateCode: "TX",
       concreteTypeRegex: /patio/i,
       areaSqft: 800,
       scopeFound: ["basePrep", "rebarMesh", "concretePour", "finishing", "warranty"],
+      scopeOptional: ["sealing"],
     },
   },
   {
@@ -194,7 +203,15 @@ const FIXTURES = [
       // Post-CONC-1 forceAI the API picks the tax-inclusive TOTAL
       // ($12,636.56) which is the right buyer-facing bottom-line.
       // Pre-fix the regex-only path picked the subtotal ($11,673.50).
+      // CONC-DT-3 (2026-05-05) trust-critical: pre-fix Area row showed
+      // 66 sq ft (first dimension "3'x22'" = sidewalk slab) while the
+      // benchmark internally used the re-estimated ~1,415 sq ft from
+      // price ÷ $/sqft. Buyer saw $191/sq ft per-sqft cost paired with
+      // 66 sq ft area — incoherent. Post-fix: Area row reflects the
+      // re-estimated value with "(estimated)" annotation when the
+      // area-from-price fallback overrode local detection.
       price: 12637,
+      displayAreaMin: 1000,
       // No contractorRegex — cropped fixture starts at the line items
       // table, contractor letterhead is above the crop.
       // No stateCode — no city/state in cropped fixture.
@@ -468,6 +485,32 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (Array.isArray(expected.scopeOptional)) {
+    for (const key of expected.scopeOptional) {
+      const got = (actual.display.scope || {})[key] || "(missing row)";
+      // CONC-DT-2 (2026-05-05) f2/f5 trust guard: "Sealer optional ($380
+      // extra, recommended)" must render as "Optional (extra)", not
+      // "Included". Buyer must see the upcharge isn't in base price.
+      if (!/optional/i.test(got)) {
+        failures.push(`scopeOptional:${key}: expected match /optional/, got ${JSON.stringify(got)}`);
+      }
+    }
+  }
+
+  if (typeof expected.displayAreaMin === "number") {
+    // CONC-DT-3 (2026-05-05) f7 trust guard: multi-slab fixture aggregates
+    // ~3,500 sq ft. Pre-fix the displayed Area row showed the misleading
+    // first-dimension misread (66 sq ft) even though the benchmark used
+    // the re-estimated value. Post-fix: Area row uses effectiveArea with
+    // "(estimated)" annotation when overridden.
+    const aText = actual.display.details["area"] || "";
+    const aMatch = aText.replace(/,/g, "").match(/\d+/);
+    const got = aMatch ? parseInt(aMatch[0], 10) : null;
+    if (got == null || got < expected.displayAreaMin) {
+      failures.push(`displayAreaMin: expected >= ${expected.displayAreaMin}, got ${JSON.stringify(got)} (display: ${JSON.stringify(aText)})`);
+    }
+  }
+
   return failures;
 }
 
@@ -532,7 +575,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|concreteType|thicknessInches|psiRating|areaSqft|verdictNotMatch|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|concreteType|thicknessInches|psiRating|areaSqft|displayAreaMin|verdictNotMatch|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+|scopeOptional:[a-zA-Z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }
