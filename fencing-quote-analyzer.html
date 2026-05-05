@@ -586,6 +586,12 @@
       if (/vinyl\s*(privacy|fence|panel)/i.test(t) || /pvc\s*fence/i.test(t)) return { value: "vinyl_privacy", label: "Vinyl Privacy" };
       if (/chain\s*link/i.test(t) || /chainlink/i.test(t)) return { value: "chain_link", label: "Chain Link (4ft)" };
       if (/aluminum\s*(fence|panel|picket)/i.test(t)) return { value: "aluminum", label: "Aluminum (4ft)" };
+      // FENCE-WIRE-LOCAL: agricultural / wire / strand / t-post / barbed / barb / livestock / electric. Detect locally so f7-class
+      // wire-fence quotes don't depend on Claude returning material="wire" /
+      // material="steel" reliably (apiMaterial is null on some Claude runs,
+      // which falls through to the wood_privacy default and benchmarks a
+      // 1600lf wire quote against $33.50/lf wood — verdict $67k vs $22k).
+      if (/\b(?:\d+\s*[-\s]*)?strand\s*(?:wire|fence)?/i.test(t) || /barbed?\s*wire/i.test(t) || /\bt[-\s]*post/i.test(t) || /high[-\s]*tensile/i.test(t) || /(?:agricultural|livestock|cattle|farm|pasture|ranch|field)\s*(?:fence|fencing|wire)/i.test(t) || /electric\s*fence/i.test(t)) return { value: "wire_agricultural", label: "Wire / Agricultural" };
       if (/cedar/i.test(t) || /wood\s*(privacy|fence|panel|picket)/i.test(t) || /privacy\s*fence/i.test(t) || /stockade/i.test(t) || /board[\s-]*on[\s-]*board/i.test(t)) return { value: "wood_privacy", label: "Wood Privacy (6ft)" };
       return { value: "wood_privacy", label: "Wood Privacy (6ft)" };
     }
