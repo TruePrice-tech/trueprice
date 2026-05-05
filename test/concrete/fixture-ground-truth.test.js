@@ -210,8 +210,14 @@ const FIXTURES = [
       // 66 sq ft area — incoherent. Post-fix: Area row reflects the
       // re-estimated value with "(estimated)" annotation when the
       // area-from-price fallback overrode local detection.
+      // CONC-REGION-1 (2026-05-05) trust-critical: pre-fix the cropped
+      // f7 fixture (no state) silently rendered "South regional pricing".
+      // Mirror of KIT-REGION-1. Post-fix: r.region null when state
+      // unknown → "National typical pricing" label. Reject any
+      // regression to a confidently-wrong "South regional pricing".
       price: 12637,
       displayAreaMin: 1000,
+      pricingRegex: /^national\s+typical\s+pricing$/i,
       // No contractorRegex — cropped fixture starts at the line items
       // table, contractor letterhead is above the crop.
       // No stateCode — no city/state in cropped fixture.
@@ -511,6 +517,16 @@ function compare(label, actual, expected) {
     }
   }
 
+  if (expected.pricingRegex) {
+    // CONC-REGION-1 (2026-05-05) trust guard: when stateCode unknown the
+    // analyzer must not synthesize a confidently-wrong "South regional
+    // pricing" label. Mirror KIT-REGION-1 / kitchen f4 assertion.
+    const got = actual.display.details["pricing source"] || "";
+    if (!expected.pricingRegex.test(got)) {
+      failures.push(`pricingRegex: expected match /${expected.pricingRegex.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
   return failures;
 }
 
@@ -575,7 +591,7 @@ function compare(label, actual, expected) {
   }
 
   function failureSubject(msg) {
-    const m1 = msg.match(/^(displayPrice|contractor|stateCode|concreteType|thicknessInches|psiRating|areaSqft|displayAreaMin|verdictNotMatch|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+|scopeOptional:[a-zA-Z]+):/);
+    const m1 = msg.match(/^(displayPrice|contractor|stateCode|concreteType|thicknessInches|psiRating|areaSqft|displayAreaMin|pricingRegex|verdictNotMatch|isUncategorizedBanner|hardReject|scopeFound:[a-zA-Z]+|scopeExcluded:[a-zA-Z]+|scopeOptional:[a-zA-Z]+):/);
     if (m1) return m1[1];
     return msg.split("(")[0].trim();
   }

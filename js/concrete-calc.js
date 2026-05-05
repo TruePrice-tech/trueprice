@@ -46,7 +46,18 @@
   var SEASONAL_MULTS = { 1:0.92, 2:0.93, 3:0.96, 4:1.00, 5:1.06, 6:1.10, 7:1.12, 8:1.10, 9:1.04, 10:0.98, 11:0.94, 12:0.90 };
 
   function roundTo50(n) { return Math.round(n / 50) * 50; }
-  function getRegionFromState(sc) { return STATE_REGIONS[(sc || "").toUpperCase()] || "south"; }
+  // CONC-REGION-1 (2026-05-05, mirror KIT-REGION-1 bbd7775aabe): drop
+  // dishonest 'south' fallback when stateCode unknown. Math impact zero
+  // (calcConcreteEstimate falls back to 1.0 labor mult when region is
+  // null), but the analyzer + estimator use the returned value to label
+  // pricing source — dishonest "South regional pricing" was the user-
+  // facing bug. Returning null lets callers fall through to "National
+  // typical pricing" / "Not detected" copy.
+  function getRegionFromState(sc) {
+    var key = (sc || "").toUpperCase();
+    if (!key) return null;
+    return STATE_REGIONS[key] || null;
+  }
   function sqftFromSize(sizeLabel) {
     var map = { "200": 200, "400": 400, "600": 600, "800": 800, "1000": 1000 };
     return map[sizeLabel] || 400;

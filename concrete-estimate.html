@@ -1116,7 +1116,18 @@
         detailsHtml += '<div class="conc-detail"><div class="label">Per Sq Ft Cost</div><div class="value">$' + r.perSqft.toFixed(2) + '</div></div>';
       }
 
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // CONC-REGION-1 (2026-05-05, mirror KIT-REGION-1): drop dishonest
+      // "South regional pricing" label when stateCode unknown. Estimator
+      // path is less likely to hit this (form requires state), but keep
+      // parity with analyzer-side fallback.
+      var pricingLabel;
+      if (getCityMult(state.address.city, state.address.stateCode)) {
+        pricingLabel = state.address.city + " local pricing";
+      } else if (r.region) {
+        pricingLabel = capitalize(r.region) + " regional pricing";
+      } else {
+        pricingLabel = "National typical pricing";
+      }
       detailsHtml += '<div class="conc-detail"><div class="label">Pricing Source</div><div class="value">' + pricingLabel + '</div></div>';
       detailsHtml += '</div>';
 
@@ -1228,7 +1239,7 @@
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
+        "Region: " + (r.region ? capitalize(r.region) : "Not detected") + "\n\n" +
         "Analyzed by Woogoro - https://woogoro.com/concrete-quote-analyzer.html"
       );
 

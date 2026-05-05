@@ -507,7 +507,16 @@
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
     function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+      // CONC-REGION-1 (2026-05-05, mirror KIT-REGION-1 bbd7775aabe): drop
+      // dishonest 'south' fallback when stateCode unknown. Pre-fix f7
+      // (cropped fixture, no state) and any state-less upload silently
+      // showed "South regional pricing" — confidently wrong label even
+      // though math impact is zero (south labor mult = 1.00). Now returns
+      // null; downstream callers fall through to "National typical
+      // pricing" / "Not detected" copy.
+      var key = (sc || "").toUpperCase();
+      if (!key) return null;
+      return STATE_REGIONS[key] || null;
     }
 
     // City-level multiplier (+ flywheel calibration carried in the same payload)
@@ -1551,7 +1560,17 @@ setProgress(90, "Almost done...");
       if (r.thickness && r.thickness.label) _cBadLabels.push(r.thickness.label);
       if (r.psi && r.psi.label) _cBadLabels.push(r.psi.label);
       var _ccityOk = _cIsReasonableCity(_ccity, state.extractedText || "", _cBadLabels);
-      var pricingLabel = (_ccityOk && state.address.stateCode && getCityMult(_ccity, state.address.stateCode)) ? (_ccity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // CONC-REGION-1 (2026-05-05): when r.region is null (state unknown),
+      // fall back to "National typical pricing" instead of synthesizing a
+      // confidently-wrong "South regional pricing" label.
+      var pricingLabel;
+      if (_ccityOk && state.address.stateCode && getCityMult(_ccity, state.address.stateCode)) {
+        pricingLabel = _ccity + " local pricing";
+      } else if (r.region) {
+        pricingLabel = capitalize(r.region) + " regional pricing";
+      } else {
+        pricingLabel = "National typical pricing";
+      }
       detailsHtml += '<div class="conc-detail"><div class="label">Pricing Source</div><div class="value">' + _cSafeText(pricingLabel) + '</div></div>';
       detailsHtml += '</div>';
 
@@ -1668,7 +1687,7 @@ setProgress(90, "Almost done...");
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
+        "Region: " + (r.region ? capitalize(r.region) : "Not detected") + "\n\n" +
         "Analyzed by Woogoro - https://woogoro.com/concrete-quote-analyzer.html"
       );
 
