@@ -9,7 +9,7 @@
     services: {
       divorce: { label: "Divorce", subTypes: {
         uncontested:    { label: "Uncontested divorce", low: 1500, high: 5000 },
-        contested:      { label: "Contested divorce", low: 10000, high: 50000 },
+        contested:      { label: "Contested divorce", low: 8000, high: 30000 },
         with_children:  { label: "Divorce with children (custody)", low: 8000, high: 35000 },
         high_asset:     { label: "High-asset divorce", low: 15000, high: 75000 }
       }},
