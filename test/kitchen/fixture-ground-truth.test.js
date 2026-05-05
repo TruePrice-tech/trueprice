@@ -156,6 +156,16 @@ const FIXTURES = [
       tierRegex: /major|upscale|custom/i,
       countertopRegex: /quartz|granite/i,
       isUncategorizedBanner: false,
+      // KIT-CITY-FUZZY trust-critical tripwire. The contractor's address
+      // line OCRs as "Napervile, IL 60540" (single-L typo). Pre-fix the
+      // analyzer rendered "Napervile local pricing" because state_avg
+      // fallback returned a multiplier and the gate accepted any verbatim
+      // OCR token. The /api/city-multiplier fuzzy-match path now corrects
+      // typos within 2 edits in the same state. This anchored regex
+      // accepts "Naperville local pricing" (matched+corrected) or any of
+      // the honest fallbacks (Midwest/Illinois regional, National typical)
+      // and rejects regressions to the typo'd label.
+      pricingRegex: /^(Naperville|Midwest|Illinois|National)/i,
     },
   },
   {
