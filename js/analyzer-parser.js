@@ -1026,6 +1026,11 @@ function detectContractor(text) {
       .replace(/^\s*pay\s+to\s+the\s+order\s+of\s*/i, "")
       .replace(/^\s*checks?\s+payable\s+to\s*/i, "")
       .replace(/^\s*(contractor|company|roofing company|proposal by|prepared by|submitted by|from|provider|shop|business)\s*[:\-]\s*/i, "")
+      // HVAC-DT-2 (cross-vertical) 2026-05-05: strip leading scope-bullet
+      // markers ("- Compressor and fan motors operating normally."). Without
+      // this strip, the bullet survived cleaning and the f1 hvac service-quote
+      // analyze result rendered the scope sentence as the contractor row.
+      .replace(/^\s*[-•*·]+\s+/, "")
       .replace(/[:\-|,\s]+$/g, "")
       .trim();
 
@@ -1061,6 +1066,33 @@ function detectContractor(text) {
     if (
       /^(licensed|bonded|insured|certified|registered|fully\s*licensed|licensed\s*&\s*insured|licensed\s*and\s*insured|master\s*(electrician|plumber|hvac|roofer))/i.test(normalizedForMatch) ||
       /^(ase|ibew|necr?\s*member|nate\s*certified)/i.test(normalizedForMatch)
+    ) {
+      return false;
+    }
+
+    // HVAC-DT-2 (cross-vertical) 2026-05-05: reject scope-bullet sentences.
+    // Scope bullets describe work performed ("Compressor and fan motors
+    // operating normally", "Recover refrigerant — install new coil") — the
+    // trade-keyword whitelist accepted these because the bullet often
+    // contains a trade word ("motors", "system"). Sentence-shape gerund or
+    // past-participle verbs combined with a 4+-word phrase are the tell —
+    // narrower than bare imperatives so legit names like "Install Pros LLC"
+    // (3 words) still pass.
+    {
+      var _wc = name.split(/\s+/).filter(Boolean).length;
+      if (_wc >= 4 && /\b(operating|operates|recovered|recovering|installed|installing|removed|removing|replaced|replacing|connected|connecting|disconnected|disconnecting|checked|checking|identified|identifying|verified|verifying|tested|testing|vacuumed|vacuuming|reconnected|reconnecting|stabili[zs]ed|stabili[zs]ing|added|adding|purchased|purchasing|completed|completing)\b/i.test(normalizedForMatch)) {
+        return false;
+      }
+    }
+
+    // HVAC-DT-2 (cross-vertical) 2026-05-05: reject form-metadata column
+    // labels lifted with their adjacent value ("Type Repair", "Quote No",
+    // "Created On", "Valid Until", "Doc Type"). These come from quote-form
+    // headers where Tesseract concatenates the column label with the next
+    // capitalized word. The existing form-table-row guard catches
+    // "11 Check main..." but not the no-digit prefix variant.
+    if (
+      /^(type|quote|created|valid|doc|stamp|page|file|reference|ref|order|status|priority|category|class|item|line|row|section|section\s*\d|date|time|location|department|division|brand|model|serial|sku|barcode|number|no|id|code|tag|label|field|attr|attribute|note|notes)\b/i.test(normalizedForMatch)
     ) {
       return false;
     }
@@ -1528,27 +1560,36 @@ function detectLocation(text) {
     }
   }
 
-  const cityStateZipRegex = new RegExp(
+  // Loose match used only on lines that already passed an address/city/property
+  // label filter — the label is the address signal, so comma/zip aren't required.
+  const looseCityStateRegex = new RegExp(
     `\\b([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}(?:\\s+\\d{5}(?:-\\d{4})?)?\\b`,
-    "g"
+    "i"
   );
+
+  // HVAC-DT-2 (cross-vertical) 2026-05-05: stricter pattern for unlabeled
+  // sweeps. Requires comma+state OR state+zip — without that anchor, body text
+  // like "...50/20 quad breaker in main electrical panel..." matches "quad
+  // breaker IN" (Indiana) and surfaces "Quad Breaker local pricing" on the
+  // f1 service-quote analyze result. The labeled-line + labeledPatterns
+  // regexes above stay loose because the address: prefix is the anchor.
+  const strictCityStateRegex = new RegExp(
+    `\\b([A-Za-z][A-Za-z .'-]{1,40}?)(?:\\s*,\\s*${statePattern}(?:\\s+\\d{5}(?:-\\d{4})?)?|\\s+${statePattern}\\s+\\d{5}(?:-\\d{4})?)\\b`,
+    "i"
+  );
+  const strictCityStateRegexG = new RegExp(strictCityStateRegex.source, "gi");
 
   const lines = source
     .split("\n")
     .map(line => normalizeWhitespace(line))
     .filter(Boolean);
 
-  const lineCityStateRegex = new RegExp(
-    `\\b([A-Za-z][A-Za-z .'-]{1,40}?)\\s*,?\\s+${statePattern}(?:\\s+\\d{5}(?:-\\d{4})?)?\\b`,
-    "i"
-  );
-
   for (const line of lines) {
     if (!/\b(address|property address|job address|project address|location|city)\b/i.test(line)) {
       continue;
     }
 
-    const match = line.match(lineCityStateRegex);
+    const match = line.match(looseCityStateRegex);
     if (match) {
       const city = match[1];
       const stateCode = match[2];
@@ -1562,7 +1603,7 @@ function detectLocation(text) {
 
   for (let li = 0; li < lines.length; li++) {
     const line = lines[li];
-    const match = line.match(lineCityStateRegex);
+    const match = line.match(strictCityStateRegex);
     if (match) {
       const result = buildResult(match[1], match[2]);
       if (result) {
@@ -1590,7 +1631,7 @@ function detectLocation(text) {
   }
 
   // Also check all matches in compact text
-  const compactMatches = [...compact.matchAll(cityStateZipRegex)];
+  const compactMatches = [...compact.matchAll(strictCityStateRegexG)];
   for (const match of compactMatches) {
     const result = buildResult(match[1], match[2]);
     if (result) {
