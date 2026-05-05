@@ -58,10 +58,15 @@ const STUB_URLS = [
 // Files allowlisted for the stub-reference check. These mention stubs
 // as data (skip lists, sweep config), not as URLs being emitted.
 const STUB_REF_ALLOWLIST = new Set([
-  "scripts/add_footer_links.py",       // SKIP_FILES intentionally lists stubs
-  "scripts/_sweep-stub-links.js",      // sweep config defines the stubs
-  "scripts/_audit-sitemap-drift.js",   // this file
-  "scripts/_audit-stub-spot-check.js", // spot-check enumerates stubs to detect
+  "scripts/add_footer_links.py",                    // SKIP_FILES intentionally lists stubs
+  "scripts/_sweep-stub-links.js",                   // sweep config defines the stubs
+  "scripts/_audit-sitemap-drift.js",                // this file
+  "scripts/_audit-stub-spot-check.js",              // spot-check enumerates stubs to detect
+  "scripts/_audit-runtime.js",                      // runtime audit lists stub URLs as data
+  "scripts/_seo-rewrite-stub-links-to-canonical.js",// rewrite-config defines stub→canonical pairs
+  "scripts/roofing-pages-walk.js",                  // walk config enumerates redirect-stub paths to test
+  "scripts/eyes-on-walk/runners/auto-repair.js",    // mentions stub in comment, no link emission
+  "scripts/eyes-on-walk/runners/seo.js",            // mentions stub in comment, no link emission
 ]);
 
 // Where to scan for stub references (broader than the sitemap walk).
