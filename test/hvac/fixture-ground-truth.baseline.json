@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-05T14:44:08.492Z",
+  "ts": "2026-05-05T15:10:42.895Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-clean-invoice": {
@@ -8,7 +8,7 @@
         "system type": "Central Air Conditioning",
         "refrigerant": "R-22",
         "contractor": "Not detected",
-        "pricing": "South regional pricing"
+        "pricing": "South regional pricing\nNo address on the quote — using national-South default. Real bench varies by region."
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
       "isServiceJobCopy": true,
@@ -29,7 +29,7 @@
         "refrigerant": "R-410A",
         "parts warranty": "1 yr",
         "contractor": "Not detected",
-        "pricing": "South regional pricing"
+        "pricing": "South regional pricing\nNo address on the quote — using national-South default. Real bench varies by region."
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
       "isServiceJobCopy": true,
@@ -120,7 +120,7 @@
       "details": {
         "system type": "Central Air Conditioning",
         "contractor": "Not detected",
-        "pricing": "South regional pricing"
+        "pricing": "South regional pricing\nNo address on the quote — using national-South default. Real bench varies by region."
       },
       "rangeText": "Service quote — install benchmarks don't apply. Service pricing varies by component: refrigerant recharge ($150–$600), capacitor ($200–$400), evaporator coil ($1,500–$3,500), compressor ($2,000–$3,500",
       "isServiceJobCopy": true,
@@ -138,10 +138,7 @@
       "verdictPrice": 30150,
       "details": {
         "system type": "Central Air Conditioning",
-        "brand": "Mitsubishi (premium tier)",
-        "labor warranty": "1 yr",
-        "contractor": "Not detected",
-        "pricing": "South regional pricing"
+        "pricing": "South regional pricing\nNo address on the quote — using national-South default. Real bench varies by region."
       },
       "rangeText": "We couldn't extract enough HVAC details (system type, SEER, tonnage) to benchmark this quote. The price was detected but we can't compare it to install averages without more context. Verify the docume",
       "isServiceJobCopy": false,
@@ -151,7 +148,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "Not detected",
+      "contractor": null,
       "stateCode": null,
       "failures": []
     }
