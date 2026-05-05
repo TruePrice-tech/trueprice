@@ -43,6 +43,57 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
+// KIT-CITY-FUZZY: Levenshtein with early-exit at threshold. Used to correct
+// OCR-drift typos like "Napervile" -> "Naperville" within the same state
+// before they propagate to the analyzer's "<city> local pricing" label.
+function _levenshtein(a, b, max) {
+  if (a === b) return 0;
+  const al = a.length, bl = b.length;
+  if (Math.abs(al - bl) > max) return max + 1;
+  if (al === 0) return bl;
+  if (bl === 0) return al;
+  let prev = new Array(bl + 1);
+  for (let j = 0; j <= bl; j++) prev[j] = j;
+  for (let i = 1; i <= al; i++) {
+    const curr = [i];
+    let rowMin = i;
+    for (let j = 1; j <= bl; j++) {
+      const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      const v = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+      curr.push(v);
+      if (v < rowMin) rowMin = v;
+    }
+    if (rowMin > max) return max + 1;
+    prev = curr;
+  }
+  return prev[bl];
+}
+
+// Find the closest known city in the same state within `max` edits. Domain
+// is the ~740 cities already in city-cost-multipliers.json (top US cities by
+// population), which is what we'd geocode against anyway. Returns the full
+// "City|ST" key on hit, or null. Distance 0 acts as a case-insensitive
+// canonical-capitalization lookup.
+function findFuzzyCityKey(city, stateUpper, multipliers, max) {
+  if (!city || String(city).length < 3) return null;
+  const target = String(city).toLowerCase();
+  const suffix = '|' + stateUpper;
+  const limit = typeof max === 'number' ? max : 2;
+  let bestKey = null;
+  let bestDist = limit + 1;
+  for (const k of Object.keys(multipliers)) {
+    if (!k.endsWith(suffix)) continue;
+    const candidate = k.slice(0, k.length - suffix.length).toLowerCase();
+    const d = _levenshtein(target, candidate, limit);
+    if (d < bestDist) {
+      bestDist = d;
+      bestKey = k;
+      if (d === 0) break;
+    }
+  }
+  return bestDist <= limit ? bestKey : null;
+}
+
 // Best-effort flywheel lookup. Always resolves; never throws.
 async function lookupServiceCalibration(city, state, service, repair) {
   if (!service) return null;
@@ -97,11 +148,40 @@ export default async (req, res) => {
     return res.status(200).json({
       multiplier: entry.multiplier,
       svcMult,
+      canonicalCity: city,
       rangeLow: entry.rangeLow || 0.85,
       rangeHigh: entry.rangeHigh || 1.18,
       lat: coord?.lat,
       lng: coord?.lng,
       source: entry.source,
+      serviceCalibration
+    });
+  }
+
+  // KIT-CITY-FUZZY: typo correction within the same state. "Napervile|IL"
+  // (OCR drift on a real quote) -> "Naperville|IL" with Lev=1. Treat as a
+  // direct match against the canonical city's multipliers; surface
+  // canonicalCity so downstream UIs can render the corrected name. Skipping
+  // when state was not provided is intentional: fuzzy across all 50 states
+  // would mis-correct legitimate small-town names that happen to be 2 edits
+  // from a major city in another state.
+  const fuzzyKey = findFuzzyCityKey(city, stateUpper, multipliers, 2);
+  if (fuzzyKey) {
+    const fEntry = multipliers[fuzzyKey];
+    const fCanonicalCity = fuzzyKey.slice(0, fuzzyKey.length - ('|' + stateUpper).length);
+    const coords = getCityCoords();
+    const coord = coords[fuzzyKey] || null;
+    const svcMult = service && fEntry.serviceMultipliers?.[service] ? fEntry.serviceMultipliers[service] : null;
+    const serviceCalibration = await calPromise;
+    return res.status(200).json({
+      multiplier: fEntry.multiplier,
+      svcMult,
+      canonicalCity: fCanonicalCity,
+      rangeLow: fEntry.rangeLow || 0.85,
+      rangeHigh: fEntry.rangeHigh || 1.18,
+      lat: coord?.lat,
+      lng: coord?.lng,
+      source: 'fuzzy_match',
       serviceCalibration
     });
   }
@@ -138,6 +218,11 @@ export default async (req, res) => {
             const rangeHigh = bestDist > 80 ? 1.30 : bestDist > 40 ? 1.25 : nearest.rangeHigh || 1.22;
             const svcMult = service && nearest.serviceMultipliers?.[service] ? nearest.serviceMultipliers[service] : null;
             const serviceCalibration = await calPromise;
+            // canonicalCity intentionally omitted: KIT-CITY-FUZZY contract is
+            // "exact OR within 2 edits of a known city". Geocode-nearest is a
+            // useful multiplier signal but isn't the user's actual city, so
+            // callers that key the "<city> local pricing" label off
+            // canonicalCity fall back to region/national here.
             return res.status(200).json({
               multiplier: nearest.multiplier,
               svcMult,

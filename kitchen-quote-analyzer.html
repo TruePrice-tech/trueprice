@@ -522,6 +522,12 @@
     // City-level multiplier
     var cityMultCache = {};
     var cityCalCache = {};
+    // KIT-CITY-FUZZY: canonical city name from the multiplier API. Set when
+    // the API direct-matches OR fuzzy-matches the input within 2 edits in
+    // the same state. Null for geocode-nearest, state_avg, default. Used by
+    // the pricing-label decision so OCR drift like "Napervile" -> "Naperville"
+    // never reaches the buyer's screen.
+    var cityCanonicalCache = {};
     function fetchCityMult(city, stateCode) {
       if (!city || !stateCode) return;
       var key = city + "|" + stateCode;
@@ -532,6 +538,7 @@
           if (!d) return;
           cityMultCache[key] = d.svcMult || d.multiplier || 1.0;
           if (d.serviceCalibration) cityCalCache[key] = d.serviceCalibration;
+          if (d.canonicalCity) cityCanonicalCache[key] = d.canonicalCity;
         })
         .catch(function() {});
     }
@@ -542,6 +549,10 @@
     function getCityCal(city, stateCode) {
       var key = city + "|" + stateCode;
       return cityCalCache[key] || null;
+    }
+    function getCanonicalCity(city, stateCode) {
+      var key = city + "|" + stateCode;
+      return cityCanonicalCache[key] || null;
     }
 
     // Inflation: 3% annual from 2025
@@ -1599,11 +1610,19 @@ setProgress(90, "Almost done...");
       if (r.sizeLabel) _kBadLabels.push(r.sizeLabel);
       if (r.brand && r.brand.brand) _kBadLabels.push(r.brand.brand);
       var _kcityOk = _kIsReasonableCity(_kcity, state.extractedText || "", _kBadLabels);
+      // KIT-CITY-FUZZY: only render "<city> local pricing" when the API
+      // confirmed the input matches a known US city within 2 Levenshtein
+      // edits in the same state. Prefer the canonical capitalization /
+      // typo-corrected name returned by the API. OCR drift like "Napervile"
+      // -> "Naperville" gets corrected; cities >2 edits from any known city
+      // in the state fall through to region / national. Mirrors the spec
+      // ranking: matched+corrected > regional > national.
       // KIT-REGION-1: honest "National typical pricing" when region is null
       // (state code missing/unknown). Don't claim a region we couldn't detect.
+      var _kcanonical = state.address.stateCode ? getCanonicalCity(_kcity, state.address.stateCode) : null;
       var pricingLabel;
-      if (_kcityOk && state.address.stateCode && getCityMult(_kcity, state.address.stateCode)) {
-        pricingLabel = _kcity + " local pricing";
+      if (_kcityOk && state.address.stateCode && _kcanonical && getCityMult(_kcity, state.address.stateCode)) {
+        pricingLabel = _kcanonical + " local pricing";
       } else if (r.region) {
         pricingLabel = capitalize(r.region) + " regional pricing";
       } else {
