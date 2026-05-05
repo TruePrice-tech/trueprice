@@ -460,6 +460,7 @@
 
   <script src="/js/affiliate-links.min.js"></script>
   <script src="/js/hvac-parser.min.js"></script>
+  <script src="/js/hvac-calc.min.js"></script>
   <script src="/js/price-confirm.min.js"></script>
   <script src="/js/vertical-detect.min.js"></script>
   <script src="/js/flywheel-blend.min.js"></script>
@@ -489,75 +490,25 @@
   (function() {
     "use strict";
 
-    // ── HVAC Pricing Model (embedded from hvac-pricing-model.json) ──
-    var HVAC_PRICING = {
-      basePriceBySystem: {
-        central_ac: {
-          label: "Central Air Conditioning",
-          basePrice: { "14_seer": 4400, "16_seer": 5000, "18_seer": 6400, "20_seer": 8000 },
-          tonScale: 0.12
-        },
-        heat_pump: {
-          label: "Heat Pump",
-          basePrice: { "14_seer": 5500, "16_seer": 6400, "18_seer": 8000, "20_seer": 10500 },
-          tonScale: 0.12
-        },
-        furnace: {
-          label: "Gas Furnace",
-          basePrice: { "80_afue": 3200, "90_afue": 4000, "95_afue": 4800, "98_afue": 5800 },
-          tonScale: 0
-        },
-        mini_split: {
-          label: "Ductless Mini-Split",
-          pricePerZone: { single_zone: 3500, two_zone: 5800, three_zone: 8200, four_zone: 10500 }
-        },
-        full_system: {
-          label: "Full HVAC System (AC + Furnace)",
-          basePrice: { "14_seer_80_afue": 7500, "16_seer_90_afue": 9400, "18_seer_95_afue": 11750, "20_seer_98_afue": 15000 },
-          tonScale: 0.12
-        }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      overheadMultiplier: 1.0,
-      roundTo: 50,
-      homeSizes: [
-        { label: "1000", tons: 1.5 }, { label: "1500", tons: 2.0 },
-        { label: "2000", tons: 2.5 }, { label: "2500", tons: 3.0 },
-        { label: "3000", tons: 3.5 }, { label: "3500", tons: 4.0 },
-        { label: "4000", tons: 5.0 }
-      ],
-      scopeItems: [
-        { key: "equipment", label: "Equipment (condenser + air handler)", weight: 20 },
-        { key: "lineSet", label: "Refrigerant line set", weight: 12 },
-        { key: "thermostat", label: "Thermostat", weight: 8 },
-        { key: "ductwork", label: "Ductwork modification", weight: 10 },
-        { key: "electrical", label: "Electrical disconnect/wiring", weight: 10 },
-        { key: "pad", label: "Concrete/composite pad", weight: 4 },
-        { key: "drainLine", label: "Drain line / condensate pump", weight: 6 },
-        { key: "filterRack", label: "Filter rack / return", weight: 4 },
-        { key: "permit", label: "Permits and inspections", weight: 6 },
-        { key: "disposal", label: "Old equipment removal", weight: 4 },
-        { key: "warranty", label: "Warranty (equipment + labor)", weight: 10 },
-        { key: "loadCalc", label: "Manual J load calculation", weight: 8 }
-      ],
-      brands: {
-        premium: ["Carrier", "Trane", "Lennox", "Daikin"],
-        mid: ["Rheem", "Ruud", "York", "American Standard", "Amana"],
-        value: ["Goodman", "Payne", "Heil", "Comfortmaker"]
-      }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // ── HVAC Pricing Model — shared module ─────────────────────────────────
+    // Single source of truth for HVAC_PRICING + STATE_REGIONS + calcBenchmark
+    // lives in /js/hvac-calc.js. The spot-check harness
+    // (test/hvac/calculator-spot-check.test.js) asserts each spec lands inside
+    // an industry-anchored 2026 market band so a value drift here fails CI.
+    //
+    // [HVAC-CALC-2] 2026-05-05: deep test 2026-05-05 walk surfaced f5 22-SEER2
+    // Trane Atlanta $13,457 falsely tagged OVERPRICED 61% because the
+    // analyzer kept a 2019-era inline copy (central_ac 20_seer = $8,000)
+    // long after hvac-estimate.html migrated to the shared module
+    // (2026-05-03 HVAC-CALC-1 / DEEP-TEST-9). This is the same drift class
+    // the calculator-spot-check harness was created to catch — but the
+    // harness only walked the calculator path, not the analyzer.
+    var _HVACCALC = (typeof window !== "undefined" && window.WoogoroHvacCalc) || null;
+    if (!_HVACCALC) {
+      console.error("[hvac-quote-analyzer] /js/hvac-calc.min.js failed to load");
+    }
+    var HVAC_PRICING = _HVACCALC ? _HVACCALC.HVAC_PRICING : null;
+    var STATE_REGIONS = _HVACCALC ? _HVACCALC.STATE_REGIONS : {};
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -659,48 +610,24 @@
       return "80_afue";
     }
 
+    // [HVAC-CALC-2] 2026-05-05: thin wrapper over shared /js/hvac-calc.js so
+    // the analyze + estimate paths can never drift again. All R-454B-era
+    // pricing lives in the shared module.
     function calcBenchmark(systemType, seer, tons, region, ductworkCond) {
-      var sys = HVAC_PRICING.basePriceBySystem[systemType];
-      if (!sys) sys = HVAC_PRICING.basePriceBySystem.central_ac;
-
-      var basePrice = 0;
-      if (systemType === "mini_split") {
-        var zones = Math.max(1, Math.round(tons));
-        var zoneKey = zones >= 4 ? "four_zone" : zones === 3 ? "three_zone" : zones === 2 ? "two_zone" : "single_zone";
-        basePrice = (sys.pricePerZone && sys.pricePerZone[zoneKey]) || 3500;
-      } else if (systemType === "furnace") {
-        var afueKey = afueToKey(seer);
-        var fBase = (sys.basePrice && sys.basePrice[afueKey]) || 4000;
-        basePrice = fBase;
-      } else if (systemType === "full_system") {
-        var fKey = fullSystemEffKey(seer);
-        var fsBase = (sys.basePrice && sys.basePrice[fKey]) || 9400;
-        var fsTonAdj = 1 + ((tons - 3) * (sys.tonScale || 0.12));
-        basePrice = fsBase * fsTonAdj;
-      } else {
-        // central_ac or heat_pump
-        var sk = seerToKey(seer);
-        var acBase = (sys.basePrice && sys.basePrice[sk]) || 5000;
-        var acTonAdj = 1 + ((tons - 3) * (sys.tonScale || 0.12));
-        basePrice = acBase * acTonAdj;
+      if (!_HVACCALC) {
+        return 0;
       }
-
-      var cityMult = getCityMult(state.address.city, state.address.stateCode);
-      var regionMult = cityMult || (HVAC_PRICING.laborMultiplierByRegion[region] || 1.0);
-      var overheadMult = HVAC_PRICING.overheadMultiplier;
-
-      var total = basePrice * regionMult * overheadMult * INFLATION_MULT * SEASONAL_MULT;
-
-      // ductwork condition adjustment
-      if (ductworkCond === "repair") total *= 1.12;
-      else if (ductworkCond === "none") total *= 1.25;
-
-      var __cal = (typeof getCityCal === "function" && state && state.address) ? getCityCal(state.address.city, state.address.stateCode) : null;
-      if (window.FlywheelBlend && __cal) {
-        var __blend = window.FlywheelBlend.blendedBenchmark(total, __cal, roundTo50);
-        if (__blend.applied) return __blend.total;
-      }
-      return roundTo50(total);
+      return _HVACCALC.calcBenchmark({
+        systemType: systemType,
+        seer: seer,
+        tons: tons,
+        region: region,
+        ductworkCond: ductworkCond,
+        cityMult: getCityMult(state.address.city, state.address.stateCode),
+        inflationMult: INFLATION_MULT,
+        seasonalMult: SEASONAL_MULT,
+        calData: getCityCal(state.address.city, state.address.stateCode)
+      });
     }
 
     function verdictFromRatio(ratio) {
