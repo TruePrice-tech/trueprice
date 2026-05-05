@@ -903,12 +903,13 @@
         // Without this, getRegionFromState("") defaulted to "south" and the
         // benchmark used south labor mult (1.00x) for OH fixtures that should
         // be midwest (1.06x). Same pre-fix shape as foundation pre-B1.
-        if (apiResult && apiResult.data) {
-          var _apiD = apiResult.data;
-          if (_apiD.stateCode && !state.address.stateCode) state.address.stateCode = _apiD.stateCode;
-          if (_apiD.location && _apiD.location.stateCode && !state.address.stateCode) state.address.stateCode = _apiD.location.stateCode;
-          if (_apiD.city && !state.address.city) state.address.city = _apiD.city;
-          else if (_apiD.location && _apiD.location.city && !state.address.city) state.address.city = _apiD.location.city;
+        // NOTE: TP_Engine.callAIBackup returns json.data unwrapped, so
+        // apiResult IS the data object — no .data prefix.
+        if (apiResult) {
+          if (apiResult.stateCode && !state.address.stateCode) state.address.stateCode = apiResult.stateCode;
+          if (apiResult.location && apiResult.location.stateCode && !state.address.stateCode) state.address.stateCode = apiResult.location.stateCode;
+          if (apiResult.city && !state.address.city) state.address.city = apiResult.city;
+          else if (apiResult.location && apiResult.location.city && !state.address.city) state.address.city = apiResult.location.city;
         }
         fetchCityMult(state.address.city, state.address.stateCode);
 
@@ -976,9 +977,12 @@ setProgress(90, "Almost done...");
 
         // SID-B1: surface API-derived contractor / warranty / stateCode in
         // detail grid (mirror of foundation B1 / insulation B-detail / kitchen).
-        var _apiContractor = (apiResult && apiResult.data && apiResult.data.contractor) || null;
-        var _apiWarranty = (apiResult && apiResult.data) ?
-          (apiResult.data.warrantyProduct || apiResult.data.warrantyLabor || apiResult.data.warrantyTerms || null) : null;
+        // apiResult is engineResult.aiData (unwrapped json.data).
+        var _apiContractor = (apiResult && apiResult.contractor) || null;
+        // Drop apiResult.warranty fallback — that's a yes/no/unclear flag, not
+        // a duration string (api schema line 158); would leak "yes" into UI.
+        var _apiWarranty = apiResult ?
+          (apiResult.warrantyProduct || apiResult.warrantyLabor || apiResult.warrantyTerms || null) : null;
 
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
