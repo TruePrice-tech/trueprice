@@ -489,8 +489,16 @@ export default async function handler(req, res) {
       const adminKey = req.query.key || "";
       if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
       try {
-        const setValue = parseInt(req.query.value || "0");
-        if (setValue > 0) {
+        // value=N writes the counter to N (incl. 0 for reset). Omit value=
+        // to read the current count without writing. Pre-fix the gate was
+        // setValue > 0, which silently dropped value=0 to a read — the
+        // counter-honest reset memo's curl was a no-op for that reason.
+        const hasValue = req.query.value !== undefined && req.query.value !== "";
+        if (hasValue) {
+          const setValue = parseInt(req.query.value, 10);
+          if (!Number.isFinite(setValue) || setValue < 0) {
+            return res.status(400).json({ error: "value must be a non-negative integer" });
+          }
           await redis.set("tp:total_quotes", setValue);
           return res.status(200).json({ ok: true, totalQuotes: setValue });
         }
