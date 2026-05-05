@@ -508,7 +508,15 @@
     function roundTo50(n) { return Math.round(n / 50) * 50; }
 
     function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
+      // KIT-REGION-1: return null when stateCode missing/unknown instead of
+      // silently labeling unknown quotes as "south". The default rendered
+      // "South regional pricing" on every IL/CA/etc fixture whose OCR failed
+      // to extract state, applying south's labor mult to the math and a
+      // dishonest region label to the UI. Mirrors the K7/K13 honesty rule:
+      // honest "Not detected" beats a confident wrong default. Math callers
+      // (laborMultiplierByRegion[region] || 1.0) already neutralize to 1.0.
+      var key = (sc || "").toUpperCase();
+      return STATE_REGIONS[key] || null;
     }
 
     // City-level multiplier
@@ -1591,7 +1599,16 @@ setProgress(90, "Almost done...");
       if (r.sizeLabel) _kBadLabels.push(r.sizeLabel);
       if (r.brand && r.brand.brand) _kBadLabels.push(r.brand.brand);
       var _kcityOk = _kIsReasonableCity(_kcity, state.extractedText || "", _kBadLabels);
-      var pricingLabel = (_kcityOk && state.address.stateCode && getCityMult(_kcity, state.address.stateCode)) ? (_kcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      // KIT-REGION-1: honest "National typical pricing" when region is null
+      // (state code missing/unknown). Don't claim a region we couldn't detect.
+      var pricingLabel;
+      if (_kcityOk && state.address.stateCode && getCityMult(_kcity, state.address.stateCode)) {
+        pricingLabel = _kcity + " local pricing";
+      } else if (r.region) {
+        pricingLabel = capitalize(r.region) + " regional pricing";
+      } else {
+        pricingLabel = "National typical pricing";
+      }
       detailsHtml += '<div class="kit-detail"><div class="label">Pricing</div><div class="value">' + _kSafeText(pricingLabel) + '</div></div>';
       detailsHtml += '</div>';
 
@@ -1694,7 +1711,7 @@ setProgress(90, "Almost done...");
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +
-        "Region: " + capitalize(r.region) + "\n\n" +
+        "Region: " + (r.region ? capitalize(r.region) : "Not detected") + "\n\n" +
         "Analyzed by Woogoro - https://woogoro.com/kitchen-quote-analyzer.html"
       );
 

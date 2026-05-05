@@ -92,7 +92,13 @@
   var SEASONAL_MULTS = { 1:0.94, 2:0.95, 3:0.98, 4:1.02, 5:1.06, 6:1.08, 7:1.08, 8:1.06, 9:1.02, 10:0.98, 11:0.94, 12:0.92 };
 
   function roundTo50(n) { return Math.round(n / 50) * 50; }
-  function getRegionFromState(sc) { return STATE_REGIONS[(sc || "").toUpperCase()] || "south"; }
+  // KIT-REGION-1: return null when stateCode missing/unknown (mirror analyzer
+  // change). calcKitchenEstimate already neutralizes a missing region to a
+  // 1.0 labor mult via the `|| 1.0` fallback on laborMultiplierByRegion[null].
+  function getRegionFromState(sc) {
+    var key = (sc || "").toUpperCase();
+    return STATE_REGIONS[key] || null;
+  }
 
   // calcKitchenEstimate(opts):
   //   tier            "minor" | "midrange" | "major" | "cabinet_refacing"

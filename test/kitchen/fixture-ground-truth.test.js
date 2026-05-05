@@ -125,6 +125,13 @@ const FIXTURES = [
       tierRegex: /minor|cosmetic|refresh|cabinet\s*refacing/i,
       countertopRegex: /laminate/i,
       isUncategorizedBanner: false,
+      // KIT-REGION-1: messy OCR drops the state code, but the analyzer
+      // must NOT silently relabel an Illinois kitchen as "South regional
+      // pricing" with a south labor multiplier. Accept honest "National
+      // typical pricing" or — if a later parser pass recovers IL — the
+      // proper midwest/local label. Anything containing "south" (other
+      // than legitimate stateful locations) is a regression.
+      pricingRegex: /national|midwest|illinois|naperville|chicago|local pricing/i,
     },
   },
   {
