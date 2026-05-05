@@ -897,6 +897,19 @@
           state.address.stateCode = location.stateCode;
           if (location.city) state.address.city = location.city;
         }
+        // SID-B2: API recovery — Claude is more reliable than the local
+        // analyzer-parser.js for stateCode + city when the document only
+        // mentions the state inside the customer/property address block.
+        // Without this, getRegionFromState("") defaulted to "south" and the
+        // benchmark used south labor mult (1.00x) for OH fixtures that should
+        // be midwest (1.06x). Same pre-fix shape as foundation pre-B1.
+        if (apiResult && apiResult.data) {
+          var _apiD = apiResult.data;
+          if (_apiD.stateCode && !state.address.stateCode) state.address.stateCode = _apiD.stateCode;
+          if (_apiD.location && _apiD.location.stateCode && !state.address.stateCode) state.address.stateCode = _apiD.location.stateCode;
+          if (_apiD.city && !state.address.city) state.address.city = _apiD.city;
+          else if (_apiD.location && _apiD.location.city && !state.address.city) state.address.city = _apiD.location.city;
+        }
         fetchCityMult(state.address.city, state.address.stateCode);
 
         // Determine price — prefer Claude API result (server-side, structured)
@@ -961,6 +974,12 @@ setProgress(90, "Almost done...");
 
         setProgress(100, "Done!");
 
+        // SID-B1: surface API-derived contractor / warranty / stateCode in
+        // detail grid (mirror of foundation B1 / insulation B-detail / kitchen).
+        var _apiContractor = (apiResult && apiResult.data && apiResult.data.contractor) || null;
+        var _apiWarranty = (apiResult && apiResult.data) ?
+          (apiResult.data.warrantyProduct || apiResult.data.warrantyLabor || apiResult.data.warrantyTerms || null) : null;
+
         state.result = {
           source: _origPrice > 0 ? "upload" : "manual",
           quotePrice: confirmedPrice,
@@ -977,7 +996,10 @@ setProgress(90, "Almost done...");
           scopeSignals: scopeSignals,
           region: getRegionFromState(state.address.stateCode),
           location: location,
-          parsed: parsed
+          parsed: parsed,
+          contractor: _apiContractor,
+          warranty: _apiWarranty,
+          stateCode: state.address.stateCode || null
         };
 
         if (typeof tpTrack === "function") tpTrack("funnel_analysis_complete", { service: "siding" });
@@ -1322,6 +1344,20 @@ setProgress(90, "Almost done...");
 
       if (r.brandNote) {
         detailsHtml += '<div class="side-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
+      }
+
+      // SID-B1: surface API-derived Contractor / Warranty / State as detail
+      // rows on upload path (data already returned by /api/siding-estimate
+      // since SID-S1 forceAI fix; rows missing pre-2026-05-05). Mirror of
+      // foundation/insulation post-B1 detail-grid pattern.
+      if (r.contractor) {
+        detailsHtml += '<div class="side-detail"><div class="label">Contractor</div><div class="value">' + _sSafeText(r.contractor) + '</div></div>';
+      }
+      if (r.warranty) {
+        detailsHtml += '<div class="side-detail"><div class="label">Warranty</div><div class="value">' + _sSafeText(r.warranty) + '</div></div>';
+      }
+      if (r.stateCode) {
+        detailsHtml += '<div class="side-detail"><div class="label">State</div><div class="value">' + _sSafeText(r.stateCode) + '</div></div>';
       }
 
       // SID-DT-1 (mirror PLUMB-DT-1): AI sometimes hallucinates a city by
