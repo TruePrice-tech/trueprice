@@ -1,10 +1,11 @@
 {
-  "ts": "2026-05-04T02:29:22.677Z",
+  "ts": "2026-05-05T11:47:06.355Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-precision-flatwork-high": {
       "verdictPrice": 12100,
       "details": {
+        "contractor": "PRECISION FLATWORK SOLUTIONS",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "5 inch (upgraded)",
@@ -53,6 +54,7 @@
     "f2-lone-star-mid": {
       "verdictPrice": 7800,
       "details": {
+        "contractor": "LONE STAR CONCRETE WORKS",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
@@ -69,14 +71,14 @@
         "rebarMesh": "included",
         "concretePour": "included",
         "finishing": "included",
-        "sealing": "included",
+        "sealing": "optional (extra)",
         "expansionJoints": "included",
         "permits": "not mentioned",
         "cleanup": "included",
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Typical range: $5,250 - $13,800 -- inside the typical range",
+      "rangeText": "Typical range: $4,850 - $12,600 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -100,6 +102,7 @@
     "f3-quick-pour-low": {
       "verdictPrice": 4840,
       "details": {
+        "contractor": "Quick Pour Concrete",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
@@ -132,7 +135,7 @@
         "hasManualBtn": false,
         "hasHardReject": false
       },
-      "contractor": "QUICK POUR CONCRETE",
+      "contractor": "Quick Pour Concrete",
       "stateCode": "TX",
       "apiPsiRating": 3000,
       "apiSquareFootage": 800,
@@ -147,6 +150,7 @@
     "f4-precision-flatwork-high-messy": {
       "verdictPrice": 12100,
       "details": {
+        "contractor": "PRECISION FLATWORK SOLUTIONS",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "5 inch (upgraded)",
@@ -195,6 +199,7 @@
     "f5-lone-star-mid-messy": {
       "verdictPrice": 7800,
       "details": {
+        "contractor": "LONE STAR CONCRETE WORKS",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
@@ -211,14 +216,14 @@
         "rebarMesh": "included",
         "concretePour": "included",
         "finishing": "included",
-        "sealing": "included",
+        "sealing": "optional (extra)",
         "expansionJoints": "included",
         "permits": "not mentioned",
         "cleanup": "included",
         "warranty": "included",
         "cureTime": "not mentioned"
       },
-      "rangeText": "Typical range: $5,250 - $13,800 -- inside the typical range",
+      "rangeText": "Typical range: $4,850 - $12,600 -- inside the typical range",
       "verdictLabel": "FAIR PRICE",
       "isUncategorizedBanner": false,
       "isNeedsReview": false,
@@ -242,6 +247,7 @@
     "f6-quick-pour-low-messy": {
       "verdictPrice": 4840,
       "details": {
+        "contractor": "QUICK POUR CONCRETE",
         "project type": "Concrete Patio",
         "area": "800 sq ft",
         "thickness": "4 inch (standard)",
@@ -290,7 +296,7 @@
       "verdictPrice": 12637,
       "details": {
         "project type": "Sidewalk",
-        "area": "66 sq ft",
+        "area": "1,532 sq ft (estimated)",
         "demolition": "Not mentioned",
         "per sq ft cost": "$8.25",
         "pricing source": "South regional pricing"
@@ -322,10 +328,10 @@
       "contractor": null,
       "stateCode": null,
       "apiPsiRating": null,
-      "apiSquareFootage": 1087.5,
+      "apiSquareFootage": 1089.79,
       "apiJobType": null,
       "displayProjectType": "Sidewalk",
-      "displayArea": "66 sq ft",
+      "displayArea": "1,532 sq ft (estimated)",
       "displayThickness": null,
       "displayPerSqft": "$8.25",
       "displayPricing": "South regional pricing",
