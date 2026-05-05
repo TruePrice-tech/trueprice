@@ -1296,8 +1296,46 @@ setProgress(90, "Almost done...");
         var complexLabels = { basic: "Basic", moderate: "Moderate (curves/patterns)", complex: "Complex (multi-level/water features)" };
         detailsHtml += '<div class="land-detail"><div class="label">Complexity</div><div class="value">' + (complexLabels[r.complexity] || r.complexity) + '</div></div>';
       }
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="land-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      // LND-DT-1 (mirror PLUMB-DT-1): AI sometimes hallucinates a city by
+      // mis-OCR-ing form-field labels ("Customer Name" -> "Ustomer Nal Je")
+      // or by lifting a sub-type label from the document body
+      // ("Sod install patio" -> city = "Sod"). Reject form-fragment +
+      // OCR-stripped variants, project-type labels, and any value that
+      // doesn't appear verbatim in the OCR text. Also require stateCode
+      // because getCityMult is unreliable without one.
+      function _lSafeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
+      function _lCleanCity(s) { return _lSafeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
+      function _lIsReasonableCity(s, ocrText, badLabels) {
+        if (!s) return false;
+        var t = String(s).trim();
+        if (t.length < 2 || t.length > 50) return false;
+        if (/\b(c?ustomer|n?al\s?je|a?ddress|i?nvoice|a?ccount|n?ame|d?ate|p?age|p?hone|e?mail|s?ignature|e?stimate|t?otal|s?ubtotal|a?mount|d?ue|q?ty|i?tem|d?escription)\b/i.test(t)) return false;
+        if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        if (badLabels && badLabels.length) {
+          for (var _bi = 0; _bi < badLabels.length; _bi++) {
+            var bl = (badLabels[_bi] || "").toLowerCase().trim();
+            if (bl && bl === t.toLowerCase()) return false;
+          }
+        }
+        if (ocrText && t.length >= 3) {
+          var rx = new RegExp("\\b" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+          if (!rx.test(ocrText)) return false;
+        }
+        return true;
+      }
+      var _lcity = _lCleanCity(state.address.city);
+      var _lBadLabels = [];
+      if (r.projectType) {
+        if (r.projectType.label) _lBadLabels.push(r.projectType.label);
+        if (r.projectType.value) {
+          _lBadLabels.push(r.projectType.value);
+          _lBadLabels.push(String(r.projectType.value).replace(/_/g, " "));
+        }
+      }
+      if (r.complexity) _lBadLabels.push(String(r.complexity));
+      var _lcityOk = _lIsReasonableCity(_lcity, state.extractedText || "", _lBadLabels);
+      var pricingLabel = (_lcityOk && state.address.stateCode && getCityMult(_lcity, state.address.stateCode)) ? (_lcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="land-detail"><div class="label">Pricing</div><div class="value">' + _lSafeText(pricingLabel) + '</div></div>';
       detailsHtml += '</div>';
 
       // Scope checklist (upload only)
