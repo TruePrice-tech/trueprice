@@ -1440,39 +1440,48 @@
         rangeText = "Expected range: " + fmt(r.low) + " &ndash; " + fmt(r.high);
       }
 
-      // Build details
+      // Build details. [F7-PARSER-1] 2026-05-05 round 3: when verdict is
+      // NEEDS REVIEW (low confidence), suppress per-field rows that get
+      // extracted unreliably from comparison tables / multi-quote docs.
+      // f7 heat-pump-table fixture pulled "Brand: Mitsubishi (premium tier)"
+      // and "Labor Warranty: 1 yr" out of a 10-row table where 7 of the 10
+      // rows had different brands and 4 different warranties — a single value
+      // is misleading. Show only System Type + Pricing on low-conf so the
+      // verdict copy ("We couldn't extract enough HVAC details") isn't
+      // contradicted by detail rows showing extracted-but-wrong fields.
+      var _suppressUnreliableDetails = !!r.isLowConfidence;
       var detailsHtml = '<div class="hvac-details">';
       detailsHtml += '<div class="hvac-detail"><div class="label">System Type</div><div class="value">' + r.systemType.label + '</div></div>';
 
-      if (r.seer) {
+      if (r.seer && !_suppressUnreliableDetails) {
         var seerSuffix = r.seerStandard === "SEER2" ? " SEER2" : " SEER";
         detailsHtml += '<div class="hvac-detail"><div class="label">SEER Rating</div><div class="value">' + r.seer + seerSuffix + '</div></div>';
       }
-      if (r.afue) {
+      if (r.afue && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">AFUE Rating</div><div class="value">' + r.afue + '% AFUE</div></div>';
       }
-      if (r.tonnage) {
+      if (r.tonnage && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">System Size</div><div class="value">' + r.tonnage + ' Ton</div></div>';
       }
-      if (r.brandNote) {
+      if (r.brandNote && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Brand</div><div class="value">' + r.brandNote + '</div></div>';
       }
-      if (r.modelNumber) {
+      if (r.modelNumber && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Model</div><div class="value">' + r.modelNumber + '</div></div>';
       }
-      if (r.refrigerantType) {
+      if (r.refrigerantType && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Refrigerant</div><div class="value">' + r.refrigerantType + '</div></div>';
       }
-      if (r.zones) {
+      if (r.zones && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Zones</div><div class="value">' + r.zones + '</div></div>';
       }
-      if (r.warrantyParts) {
+      if (r.warrantyParts && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Parts Warranty</div><div class="value">' + r.warrantyParts + ' yr</div></div>';
       }
-      if (r.warrantyLabor) {
+      if (r.warrantyLabor && !_suppressUnreliableDetails) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Labor Warranty</div><div class="value">' + r.warrantyLabor + ' yr</div></div>';
       }
-      if (r.contractor) {
+      if (r.contractor && !_suppressUnreliableDetails) {
         var safeContractor = String(r.contractor).replace(/[<>]/g, "");
         detailsHtml += '<div class="hvac-detail"><div class="label">Contractor</div><div class="value">' + safeContractor + '</div></div>';
       }
@@ -1520,7 +1529,12 @@
       if (r.jobType) _hBadLabels.push(String(r.jobType));
       var _hcityOk = _hIsReasonableCity(_hcity, state.extractedText || "", _hBadLabels);
       var pricingLabel = (_hcityOk && state.address.stateCode && getCityMult(_hcity, state.address.stateCode)) ? (_hcity + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + _hSafeText(pricingLabel) + '</div></div>';
+      // [W2] 2026-05-05 round 3: when the doc had no address and no state
+      // was detected, the bench falls back to South-region default. Annotate
+      // so the user knows the bench isn't their actual area's pricing.
+      var _isFallbackSouth = !state.address.stateCode && /south/i.test(r.region || "");
+      var _pricingNote = _isFallbackSouth ? '<div class="hvac-detail-note" style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">No address on the quote — using national-South default. Real bench varies by region.</div>' : '';
+      detailsHtml += '<div class="hvac-detail"><div class="label">Pricing</div><div class="value">' + _hSafeText(pricingLabel) + _pricingNote + '</div></div>';
 
       if (r.homeSqFt) {
         detailsHtml += '<div class="hvac-detail"><div class="label">Home Size</div><div class="value">' + Number(r.homeSqFt).toLocaleString() + ' sq ft</div></div>';
@@ -1922,13 +1936,25 @@
       // to new installs and major efficiency upgrades, NOT to repairs. Skip
       // entirely on service/repair quotes to avoid misleading the user into
       // thinking they qualify.
+      // [F5-25C-COPY] 2026-05-05 round 3: only mention the expired Federal
+      // 25C heat-pump credit if the system is actually a heat pump or
+      // mini-split. Surfacing "Federal 25C heat pump credit EXPIRED" on a
+      // central-AC fixture (f5 was 22-SEER2 Trane CONDENSER) reads as a
+      // missed-opportunity nudge for a credit that never applied to that
+      // equipment class. Geothermal 25D shown only when systemType ===
+      // geothermal. State / utility / off-season tips apply universally.
       var rebateHtml = "";
       if (!r.isServiceJob) {
+        var _sysVal = (r.systemType && (r.systemType.value || r.systemType)) || "";
         rebateHtml = '<div class="hvac-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
         rebateHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Potential Savings</h3>';
         rebateHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
-        rebateHtml += '<li>Federal 25C heat pump credit EXPIRED Dec 31, 2025 - no longer available for 2026 installs</li>';
-        rebateHtml += '<li>Geothermal 25D: 30% of cost with no cap, still active through 2034</li>';
+        if (_sysVal === "heat_pump" || _sysVal === "mini_split") {
+          rebateHtml += '<li>Federal 25C heat pump credit EXPIRED Dec 31, 2025 - no longer available for 2026 installs</li>';
+        }
+        if (_sysVal === "geothermal" || _sysVal === "heat_pump") {
+          rebateHtml += '<li>Geothermal 25D: 30% of cost with no cap, still active through 2034 (heat-pump systems only)</li>';
+        }
         rebateHtml += '<li>State/utility rebates: IRA HEAR up to $8,000 (income-qualified), plus state programs via <a href="https://www.dsireusa.org/" target="_blank" rel="noopener">dsireusa.org</a></li>';
         rebateHtml += '<li>Utility rebates: check with your local utility for efficiency upgrade incentives</li>';
         rebateHtml += '<li>Off-season scheduling: HVAC installs in spring or fall can be 5-10% cheaper</li>';

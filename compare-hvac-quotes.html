@@ -59,6 +59,9 @@
     .cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
     .cmp-table th, .cmp-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; }
     .cmp-table th { background: #f8fafc; font-weight: 700; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; }
+    /* [CMP-3] cap dynamic contractor-name column headers so a 30+ char company name doesn't blow out the table width on a 768-1024px viewport. Title attribute carries the full name for accessibility. */
+    .cmp-th-name { display: inline-block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
+    @media (max-width: 768px) { .cmp-th-name { max-width: 130px; } }
     .cmp-table .row-label { font-weight: 600; color: #64748b; background: #f8fafc; white-space: nowrap; width: 180px; }
     .cmp-table .highlight { background: #f0fdf4; font-weight: 700; }
     .cmp-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; background: #dcfce7; color: #15803d; }
@@ -701,12 +704,27 @@
       var spread = bestValue.score.total - Math.min.apply(null, active.map(function(a) { return a.score.total; }));
       var isTight = spread <= 5;
 
+      // [CMP-COPY-1] 2026-05-05 round 3: distinguish "tight scores +
+      // similar prices" from "tight scores + different tiers". A score
+      // tie within 5 points between Goodman 14-SEER $3,456 and Trane
+      // 22-SEER $13,457 is real (composite covers price + scope +
+      // warranty), but rendering "These quotes are closely matched" on a
+      // 4x price differential reads wrong without context.
+      var _validP = active.map(function(a) { return a.data.price; }).filter(function(p) { return p > 0; });
+      var _priceSpreadPct = (_validP.length >= 2)
+        ? Math.round((Math.max.apply(null, _validP) - Math.min.apply(null, _validP)) / Math.min.apply(null, _validP) * 100)
+        : 0;
+      var _bigPriceGap = _priceSpreadPct >= 50;
+
       var html = "";
       html += '<div class="cmp-winner-banner">';
       html += '<img src="' + IRIS + '" alt="Iris" />';
       html += '<div>';
       html += '<p style="font-size:12px;font-weight:700;color:#0891b2;margin:0 0 2px;text-transform:uppercase;letter-spacing:0.05em;">Woogoro Quote Analysis</p>';
-      if (isTight) {
+      if (isTight && _bigPriceGap) {
+        html += '<p class="cmp-winner-title">Different tiers, similar overall value</p>';
+        html += '<p class="cmp-winner-sub">Composite scores are within 5 points despite a ' + _priceSpreadPct + '% price gap — the cheaper quote and the pricier quote balance out across price, scope, and warranty. Pick by which trade-off fits your budget.</p>';
+      } else if (isTight) {
         html += '<p class="cmp-winner-title">These quotes are closely matched</p>';
         html += '<p class="cmp-winner-sub">Scores are within 5 points. Review the details below to make your final call.</p>';
       } else {
@@ -772,7 +790,8 @@
       // Comparison table
       html += '<div class="cmp-table-wrap"><table class="cmp-table"><thead><tr><th></th>';
       active.forEach(function(a) {
-        html += '<th>' + escHtml(a.data.name);
+        var _safeName = escHtml(a.data.name);
+        html += '<th><span class="cmp-th-name" title="' + _safeName + '">' + _safeName + '</span>';
         if (a === bestValue && !isTight) html += ' <span class="cmp-badge">BEST</span>';
         html += '</th>';
       });

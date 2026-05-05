@@ -18,16 +18,26 @@ const FIXTURES_DIR = path.resolve(__dirname, "..", "..");
 const BASELINE_PATH = path.join(__dirname, "fixture-ground-truth.baseline.json");
 const IS_BASELINE = process.argv.includes("--baseline");
 
+// [HARNESS-COVERAGE] 2026-05-05 round 3: assertions extended to include
+// verdictMatches (label regex), pricingMatches (PRICING-row regex), and
+// benchInBand ({low, high} bounds). Round 1's HVAC-CALC-2 bug (analyzer on
+// 2019-era inline pricing producing $8,350 bench on a 22-SEER2 Trane that
+// should be ~$13.5k) hid behind price/contractor/SEER assertions that
+// passed with the wrong bench. Adding these three so the next analyzer
+// drift fails CI before it reaches a user.
 const FIXTURES = [
   {
     id: "f1-clean-invoice",
     file: "test/receipt/ocr-cache/fixtures/hvac-clean-invoice.jpeg",
     expect: {
       price: 610.0,
-      contractorRegex: null,        // no contractor name on document
+      contractorRegex: null,
       stateCode: null,
-      isServiceJob: true,           // recharge + breaker — not an install
-      refrigerantContains: "R-22",  // R-22 phaseout flag should be surfaced
+      isServiceJob: true,
+      refrigerantContains: "R-22",
+      verdictMatches: /service quote/i,
+      pricingMatches: /south\s+regional\s+pricing/i,
+      benchInBand: { low: 0, high: 0 },     // service: bench is zeroed
     },
   },
   {
@@ -37,7 +47,10 @@ const FIXTURES = [
       price: 3810.0,
       contractorRegex: null,
       stateCode: null,
-      isServiceJob: true,           // evaporator coil replacement = repair
+      isServiceJob: true,
+      verdictMatches: /service quote/i,
+      pricingMatches: /south\s+regional\s+pricing/i,
+      benchInBand: { low: 0, high: 0 },
     },
   },
   {
@@ -53,6 +66,11 @@ const FIXTURES = [
       warrantyParts: 10,
       warrantyLabor: 1,
       isServiceJob: false,
+      verdictMatches: /below average|unusually low/i,
+      pricingMatches: /(atlanta\s+local|southeast\s+regional)\s+pricing/i,
+      // 14.3 SEER2 3-ton Atlanta GA — band aligns with calc-spot-check
+      // ac-3ton-14seer-ga ($5500-$9000) plus city-mult headroom.
+      benchInBand: { low: 5000, high: 10000 },
     },
   },
   {
@@ -68,6 +86,10 @@ const FIXTURES = [
       warrantyParts: 10,
       warrantyLabor: 2,
       isServiceJob: false,
+      verdictMatches: /(fair price|below average|above average)/i,
+      pricingMatches: /(atlanta\s+local|southeast\s+regional)\s+pricing/i,
+      // 16 SEER2 3-ton Atlanta — base $7800 × southeast 1.03 + seasonal.
+      benchInBand: { low: 7000, high: 11000 },
     },
   },
   {
@@ -83,6 +105,12 @@ const FIXTURES = [
       warrantyParts: 12,
       warrantyLabor: 5,
       isServiceJob: false,
+      // [HVAC-CALC-2] guard: 2019 inline pricing yielded "$8,650 — 56%
+      // above" / OVERPRICED here. Post-fix bench should be ~$13.6k and
+      // verdict FAIR. If the analyzer ever drifts back, this asserts.
+      verdictMatches: /fair price/i,
+      pricingMatches: /(atlanta\s+local|southeast\s+regional)\s+pricing/i,
+      benchInBand: { low: 11500, high: 16500 },
     },
   },
   {
@@ -90,28 +118,22 @@ const FIXTURES = [
     file: "test-quotes/hvac-images/10-8k-for-mitsubishi-mini-split-leak-detection-just-t.png",
     expect: {
       price: 7943.56,
-      contractorRegex: null,        // contractor redacted on fixture
+      contractorRegex: null,
       stateCode: null,
-      isServiceJob: true,           // leak search only — not an install
-      // Note: Mitsubishi appears only as a watermark/logo image on this
-      // fixture (Reddit-uploaded quote). Tesseract doesn't OCR the logo, so
-      // brand isn't detectable from text alone. Reddit thread title is
-      // "8k for Mitsubishi mini split..." — that's where the brand context
-      // lives, not in the document itself. Keep brand assertion off.
+      isServiceJob: true,
+      verdictMatches: /service quote/i,
+      pricingMatches: /south\s+regional\s+pricing/i,
+      benchInBand: { low: 0, high: 0 },
     },
   },
   {
     id: "f7-heat-pump-table",
     file: "test-quotes/hvac-images/09-every-quote-10-total-ive-gotten-for-a-heat-pump-in.png",
     expect: {
-      // This fixture is a comparison TABLE of 10 different quotes — there is
-      // no single "this is my quote" price. Analyzer should either flag low
-      // confidence or refuse to commit to one price; we accept any extracted
-      // value that's clearly bounded by the table's range OR a low-confidence
-      // signal. We do NOT pin price strictly here — the assertion is that the
-      // analyzer doesn't lie with high confidence about a number that isn't
-      // representative.
       lowConfidenceOrTableDetected: true,
+      verdictMatches: /needs review/i,
+      pricingMatches: /south\s+regional\s+pricing/i,
+      benchInBand: { low: 0, high: 0 },     // bench zeroed on low-conf
     },
   },
 ];
@@ -175,13 +197,15 @@ async function uploadAndCapture(browser, fixture) {
 
   const display = await page.evaluate(() => {
     const text = document.body.innerText;
-    // HVAC analyzer renders the dominant total in <div class="verdict-price">$X,XXX</div>
     const verdictEl = document.querySelector(".verdict-price");
     const verdictText = verdictEl ? verdictEl.innerText : "";
     const verdictMatch = verdictText.match(/\$([\d,]+(?:\.\d+)?)/);
 
-    // Extract details rendered by renderResult — System Type, Brand, Model,
-    // Tonnage, SEER, Refrigerant, Warranty.
+    // [HARNESS-COVERAGE] verdict label lives in .verdict-label
+    // ("Fair Price" / "Service Quote" / "Needs Review" / etc).
+    const verdictLabelEl = document.querySelector(".verdict-label");
+    const verdictLabel = verdictLabelEl ? verdictLabelEl.innerText.trim() : "";
+
     const details = {};
     document.querySelectorAll(".hvac-detail").forEach(d => {
       const label = (d.querySelector(".label") || {}).innerText || "";
@@ -189,19 +213,22 @@ async function uploadAndCapture(browser, fixture) {
       if (label) details[label.trim()] = value.trim();
     });
 
-    // Service-job copy lives in .verdict-range — "Service quote" / "Repair quote" / "Maintenance quote".
     const rangeText = (document.querySelector(".verdict-range") || {}).innerText || "";
     const isServiceJobCopy = /Service quote|Repair quote|Maintenance quote/i.test(rangeText);
     const isLowConfidenceCopy = /couldn't extract enough/i.test(rangeText);
 
-    // Normalize detail keys to lowercase — CSS text-transform: uppercase
-    // makes innerText return "BRAND" instead of "Brand", which broke key
-    // lookup in early harness runs.
+    // [HARNESS-COVERAGE] parse bench dollar from rangeText
+    // "Market benchmark: $13,600 — 1% below average".
+    const benchMatch = rangeText.match(/Market benchmark:\s*\$([\d,]+(?:\.\d+)?)/i);
+    const benchDollar = benchMatch ? parseFloat(benchMatch[1].replace(/,/g, "")) : 0;
+
     const detailsLc = {};
     Object.keys(details).forEach(k => { detailsLc[k.toLowerCase()] = details[k]; });
 
     return {
       verdictPrice: verdictMatch ? parseFloat(verdictMatch[1].replace(/,/g, "")) : null,
+      verdictLabel,
+      benchDollar,
       details: detailsLc,
       rangeText,
       isServiceJobCopy,
@@ -304,12 +331,45 @@ function compare(label, actual, expected) {
   }
 
   if (expected.lowConfidenceOrTableDetected) {
-    // Either the analyzer flagged low confidence, OR the displayed price is
-    // suspicious (extracted a number from the table that lies inside the table
-    // range without flagging confidence). We accept low-confidence copy OR
-    // verdict-price within $15,800–$45,000 + isLowConfidence true.
     if (!actual.display.isLowConfidenceCopy) {
       failures.push(`lowConfidence: expected low-confidence copy on a comparison-table fixture, got rangeText="${(actual.display.rangeText || '').slice(0, 100)}"`);
+    }
+  }
+
+  // [HARNESS-COVERAGE] verdict label assertion. Catches HVAC-CALC-2-class
+  // bench drift that flips a FAIR PRICE verdict to OVERPRICED (or vice
+  // versa) without the price assertion noticing.
+  if (expected.verdictMatches) {
+    const got = actual.display.verdictLabel || "";
+    if (!expected.verdictMatches.test(got)) {
+      failures.push(`verdictLabel: expected match /${expected.verdictMatches.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
+  // [HARNESS-COVERAGE] pricing-row label assertion. Catches HVAC-DT-2-class
+  // city false-positives ("Quad Breaker local pricing") and the parser
+  // race that swapped "Atlanta local" for "Southeast regional".
+  if (expected.pricingMatches) {
+    const got = actual.display.details["pricing"] || "";
+    if (!expected.pricingMatches.test(got)) {
+      failures.push(`pricingLabel: expected match /${expected.pricingMatches.source}/, got ${JSON.stringify(got)}`);
+    }
+  }
+
+  // [HARNESS-COVERAGE] bench-in-band assertion. Catches inline-pricing
+  // drift like the 2019 HVAC_PRICING table that was producing $8,350 bench
+  // on a 22-SEER2 Trane that should be ~$13.5k. Service / low-confidence
+  // fixtures use {low:0, high:0} since their bench is zeroed by design.
+  if (expected.benchInBand) {
+    const got = Number(actual.display.benchDollar) || 0;
+    const lo = expected.benchInBand.low;
+    const hi = expected.benchInBand.high;
+    if (lo === 0 && hi === 0) {
+      if (got !== 0) {
+        failures.push(`benchInBand: expected zero bench (service/low-conf fixture), got $${got}`);
+      }
+    } else if (got < lo || got > hi) {
+      failures.push(`benchInBand: expected $${lo}-$${hi}, got $${got}`);
     }
   }
 
