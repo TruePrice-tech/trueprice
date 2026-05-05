@@ -1625,8 +1625,47 @@ setProgress(90, "Almost done...");
         detailsHtml += '<div class="found-detail"><div class="label">Engineer Report</div><div class="value">' + _esc(r.engineer.label) + '</div></div>';
       }
 
-      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
-      detailsHtml += '<div class="found-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      // FND-DT-1 (mirror PLUMB-DT-1): AI sometimes hallucinates a city by
+      // mis-OCR-ing form-field labels ("Customer Name" -> "Ustomer Nal Je")
+      // or by lifting a sub-type label from the document body
+      // ("Steel push pier install" -> city = "Steel"). Reject form-fragment
+      // + OCR-stripped variants, repair-type / pier-type labels, and any
+      // value that doesn't appear verbatim in the OCR text. Also require
+      // stateCode because getCityMult is unreliable without one.
+      function _fdSafeText(s) { return String(s == null ? "" : s).replace(/[<>]/g, "").trim(); }
+      function _fdCleanCity(s) { return _fdSafeText(s).replace(/^[\s\-·.,:;|]+/, "").trim(); }
+      function _fdIsReasonableCity(s, ocrText, badLabels) {
+        if (!s) return false;
+        var t = String(s).trim();
+        if (t.length < 2 || t.length > 50) return false;
+        if (/\b(c?ustomer|n?al\s?je|a?ddress|i?nvoice|a?ccount|n?ame|d?ate|p?age|p?hone|e?mail|s?ignature|e?stimate|t?otal|s?ubtotal|a?mount|d?ue|q?ty|i?tem|d?escription)\b/i.test(t)) return false;
+        if (!/^[A-Za-z][A-Za-z\s\-'.]*$/.test(t)) return false;
+        if (badLabels && badLabels.length) {
+          for (var _bi = 0; _bi < badLabels.length; _bi++) {
+            var bl = (badLabels[_bi] || "").toLowerCase().trim();
+            if (bl && bl === t.toLowerCase()) return false;
+          }
+        }
+        if (ocrText && t.length >= 3) {
+          var rx = new RegExp("\\b" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+          if (!rx.test(ocrText)) return false;
+        }
+        return true;
+      }
+      var _fdcity = _fdCleanCity(state.address.city);
+      var _fdBadLabels = [];
+      if (r.repairType) {
+        if (r.repairType.label) _fdBadLabels.push(r.repairType.label);
+        if (r.repairType.value) {
+          _fdBadLabels.push(r.repairType.value);
+          _fdBadLabels.push(String(r.repairType.value).replace(/_/g, " "));
+        }
+      }
+      if (r.pierType && r.pierType.label) _fdBadLabels.push(r.pierType.label);
+      if (r.warranty && r.warranty.label) _fdBadLabels.push(r.warranty.label);
+      var _fdcityOk = _fdIsReasonableCity(_fdcity, state.extractedText || "", _fdBadLabels);
+      var pricingLabel = (_fdcityOk && state.address.stateCode && getCityMult(_fdcity, state.address.stateCode)) ? (_fdcity + " local pricing") : (capitalize(r.region) + " regional pricing");
+      detailsHtml += '<div class="found-detail"><div class="label">Pricing</div><div class="value">' + _fdSafeText(pricingLabel) + '</div></div>';
 
       if (r.severity) {
         var sevLabels = { minor: "Minor", moderate: "Moderate", major: "Major", extensive: "Extensive" };
