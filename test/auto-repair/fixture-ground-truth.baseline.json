@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-02T22:06:39.702Z",
+  "ts": "2026-05-06T11:54:06.630Z",
   "base": "https://woogoro.com",
   "results": {
     "f1-honest-wrench-low": {
@@ -7,11 +7,12 @@
       "details": {
         "contractor": "HONEST WRENCH AUTO REPAIR",
         "shop type": "Independent Shop",
+        "state": "NC",
         "region": "Southeast",
         "labor total": "$143",
         "market labor rate (independent shop)": "$76 - $124/hr"
       },
-      "rangeText": "",
+      "rangeText": "31% below average for Southeast\nTypical for this job: $285–$665 in Southeast",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": false,
       "preConfirm": {
@@ -28,11 +29,12 @@
       "details": {
         "contractor": "PRECISION AUTO CARE",
         "shop type": "Independent Shop",
+        "state": "NC",
         "region": "Southeast",
         "labor total": "$230",
         "market labor rate (independent shop)": "$76 - $124/hr"
       },
-      "rangeText": "",
+      "rangeText": "33% above average for Southeast\nTypical for this job: $285–$665 in Southeast",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": false,
       "preConfirm": {
@@ -49,12 +51,13 @@
       "details": {
         "contractor": "PARK AVENUE LUXURY MOTORCARS",
         "shop type": "Dealership",
+        "state": "NC",
         "region": "Southeast",
         "labor total": "$396",
         "parts type": "OEM",
         "market labor rate (dealership)": "$114 - $171/hr"
       },
-      "rangeText": "",
+      "rangeText": "334% above average for Southeast\nTypical for this job: $143–$333 in Southeast",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": false,
       "preConfirm": {
@@ -72,7 +75,7 @@
         "contractor": "Not detected",
         "shop type": "Independent Shop",
         "region": "National",
-        "labor rate": "$55/hr",
+        "body labor rate (mitchell)": "$55/hr\nInsurance book rate, not a mechanic shop rate",
         "labor hours": "4.4 hrs",
         "parts total": "$324",
         "labor total": "$242",
@@ -98,7 +101,7 @@
         "region": "National",
         "market labor rate (independent shop)": "$80 - $130/hr"
       },
-      "rangeText": "",
+      "rangeText": "485% above average for National\nTypical for this job: $500–$1,400 in National",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": true,
       "preConfirm": {
@@ -160,12 +163,13 @@
       "details": {
         "contractor": "PRECISION AUTO CARE",
         "shop type": "Independent Shop",
+        "state": "NC",
         "region": "Southeast",
         "parts total": "$1,229",
         "parts type": "OEM",
         "market labor rate (independent shop)": "$76 - $124/hr"
       },
-      "rangeText": "",
+      "rangeText": "412% above average for Southeast\nTypical for this job: $285–$665 in Southeast",
       "isInsuranceBanner": false,
       "isRecommendationListBanner": false,
       "preConfirm": {
