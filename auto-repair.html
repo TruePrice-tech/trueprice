@@ -2601,7 +2601,10 @@ function initQuoteApp(){
     // qState.stateCode is the canonical source set by address parser / OCR /
     // fallback form per renderUpload + parseQuote flows.
     var _stateForDetails = r.stateCode || qState.stateCode || (r.parsed && r.parsed.stateCode) || "";
-    if(_stateForDetails) detailsHtml+='<div class="ar-detail"><div class="label">State</div><div class="value">'+escHtml(_stateForDetails)+'</div></div>';
+    if(_stateForDetails){
+      var _safeState=String(_stateForDetails).replace(/[<>]/g,"");
+      detailsHtml+='<div class="ar-detail"><div class="label">State</div><div class="value">'+_safeState+'</div></div>';
+    }
     detailsHtml+='<div class="ar-detail"><div class="label">Region</div><div class="value">'+capitalize(r.region)+'</div></div>';
     if(r.laborRate){
       // E9: insurance estimates use Mitchell/CCC/Audatex BODY-LABOR units, not
