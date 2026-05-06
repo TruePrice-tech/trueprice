@@ -190,7 +190,7 @@ Return this exact JSON structure:
 CRITICAL EXTRACTION RULES:
 - ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
 - price: Use the TOTAL/grand total, not line items, deposits, or deductibles. If no explicit total, SUM line items.
-- material: Choose the PRIMARY roofing material being installed, not materials being removed
+- material: Choose the PRIMARY roofing material being installed, not materials being removed. Use "architectural" for any dimensional/architectural shingle (GAF Timberline HDZ, CertainTeed Landmark, OC Duration, Atlas Pinnacle, Malarkey Vista, IKO Dynasty — these are asphalt-based, but the architectural tier matters more than the substrate). Reserve "asphalt" for explicit 3-tab or generic budget asphalt with no dimensional product line. Use "metal" for standing seam / corrugated / screw-down. Use "tile" for clay, concrete, or slate.
 - roofSize: Convert roofing squares to sq ft (1 square = 100 sq ft)
 - scopeItems: Mark "included" only if clearly stated in the quote, "excluded" if explicitly excluded, "unclear" if not mentioned
 - Never return null for price if there are dollar amounts visible anywhere in the document
