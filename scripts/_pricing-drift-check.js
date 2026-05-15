@@ -32,6 +32,15 @@ const SOURCES_PATH = "data/pricing-drift-sources.json";
 const OUT_DIR = "output/pricing-drift";
 const ANTHROPIC_MODEL = "claude-haiku-4-5-20251001";
 
+// Throttle to stay under haiku's 50K input-tokens-per-minute org limit.
+// Each pinpoint with web_search consumes ~15-25K input tokens because
+// search results get fed back into the model as input on subsequent
+// rounds. ~18s spacing keeps us comfortably under the cap.
+const PINPOINT_DELAY_MS = 18_000;
+const MAX_RETRIES_429 = 3;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 const apiKey = process.env.ANTHROPIC_API_KEY;
 if (!apiKey) {
   console.error("ANTHROPIC_API_KEY not set — cannot run drift check.");
@@ -85,28 +94,36 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
 
     let extracted = null;
     let claudeError = null;
-    try {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify({
-          model: ANTHROPIC_MODEL,
-          max_tokens: 1500,
-          tools: [{
-            type: "web_search_20250305",
-            name: "web_search",
-            max_uses: 3,
-          }],
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      if (!r.ok) {
-        claudeError = `Claude ${r.status}: ${(await r.text()).slice(0, 300)}`;
-      } else {
+    for (let attempt = 0; attempt <= MAX_RETRIES_429; attempt++) {
+      try {
+        const r = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01",
+          },
+          body: JSON.stringify({
+            model: ANTHROPIC_MODEL,
+            max_tokens: 1500,
+            tools: [{
+              type: "web_search_20250305",
+              name: "web_search",
+              max_uses: 2,
+            }],
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+        if (r.status === 429 && attempt < MAX_RETRIES_429) {
+          const retryAfter = parseInt(r.headers.get("retry-after") || "30", 10);
+          console.log(`429 on ${pinpoint.id} attempt ${attempt + 1}, sleeping ${retryAfter}s`);
+          await sleep((retryAfter + 2) * 1000);
+          continue;
+        }
+        if (!r.ok) {
+          claudeError = `Claude ${r.status}: ${(await r.text()).slice(0, 300)}`;
+          break;
+        }
         const body = await r.json();
         // With web_search enabled, response has multiple content blocks:
         // tool_use, web_search_tool_result, then text. We want the final text block.
@@ -118,10 +135,16 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
         } else {
           claudeError = `no JSON in response: ${text.slice(0, 200)}`;
         }
+        break;
+      } catch (e) {
+        claudeError = `fetch: ${e.message}`;
+        break;
       }
-    } catch (e) {
-      claudeError = `fetch: ${e.message}`;
     }
+
+    // Throttle: stay under haiku's 50K input-tpm cap. Skip the delay on the
+    // last pinpoint so we don't waste workflow runtime.
+    await sleep(PINPOINT_DELAY_MS);
 
     digest.push(`### ${pinpoint.id} — ${pinpoint.label}`);
     digest.push("");

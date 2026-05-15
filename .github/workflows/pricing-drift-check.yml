@@ -35,7 +35,10 @@ on:
 jobs:
   drift:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 44 pinpoints × 18s throttle + per-call work ≈ 16-20 min. Bumped from
+    # 10 in PRICE-DRIFT-FIX-2 after PRICE-DRIFT-FIX-1 unblocked real calls
+    # and they tripped haiku's 50K input-tpm org limit at pinpoint #4.
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
 
