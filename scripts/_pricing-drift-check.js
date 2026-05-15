@@ -10,8 +10,13 @@
 // Layer 3 (this): catches when industry MOVED while our static bands didn't.
 //
 // Wired to .github/workflows/pricing-drift-check.yml monthly cron. Uses
-// claude-haiku-4-5 (cheap, ~$0.001 per pinpoint) so a 9-pinpoint run costs
-// ~$0.01. Even quarterly with 50 pinpoints stays under $0.10/yr.
+// claude-haiku-4-5 with the web_search server tool so the model can actually
+// read the source URLs (~$0.011/pinpoint = $0.001 token + $0.01 search).
+// Full 44-pinpoint catalog runs at ~$0.50/month = ~$6/yr.
+//
+// Fixed 2026-05-15: original ship sent URLs in the prompt body without
+// enabling any browsing tool, so every pinpoint returned "I can't read URLs"
+// and the digest read "0/N over threshold ✓". See PRICE-DRIFT-FIX-1.
 //
 // Output: writes a markdown digest to output/pricing-drift/<date>.md and
 // emails it via Resend (same pipeline as regression-gate.yml). When drift
@@ -90,7 +95,12 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
         },
         body: JSON.stringify({
           model: ANTHROPIC_MODEL,
-          max_tokens: 400,
+          max_tokens: 1500,
+          tools: [{
+            type: "web_search_20250305",
+            name: "web_search",
+            max_uses: 3,
+          }],
           messages: [{ role: "user", content: prompt }],
         }),
       });
@@ -98,8 +108,11 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
         claudeError = `Claude ${r.status}: ${(await r.text()).slice(0, 300)}`;
       } else {
         const body = await r.json();
-        const text = body?.content?.[0]?.text || "";
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        // With web_search enabled, response has multiple content blocks:
+        // tool_use, web_search_tool_result, then text. We want the final text block.
+        const textBlocks = (body?.content || []).filter((c) => c.type === "text");
+        const text = textBlocks.length ? textBlocks[textBlocks.length - 1].text : "";
+        const jsonMatch = text.match(/\{[\s\S]*?"low"[\s\S]*?"high"[\s\S]*?\}/);
         if (jsonMatch) {
           try { extracted = JSON.parse(jsonMatch[0]); } catch (e) { claudeError = `parse: ${e.message}`; }
         } else {

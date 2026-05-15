@@ -8,9 +8,10 @@ name: Pricing Drift Check (monthly)
 # against the bands hard-coded in our calculator-spot-check harnesses, and
 # emails Lane when industry has moved more than 15% outside any band.
 #
-# Cost: ~$0.01 per run with the seed catalog (9 pinpoints across 3 verticals
-# in data/pricing-drift-sources.json). When the catalog grows to all 20
-# verticals it'll be ~$0.05/run = ~$0.60/yr at monthly cadence.
+# Cost: ~$0.50/run with the full 44-pinpoint catalog (claude-haiku-4-5 tokens
+# + Anthropic web_search at $10/1k searches × ~3 uses/pinpoint). Monthly
+# cadence = ~$6/yr. Was advertised as ~$0.05/run pre-PRICE-DRIFT-FIX-1, but
+# that figure was for a no-op script that never browsed anything.
 #
 # Output: output/pricing-drift/<date>.md + email digest via Resend (only
 # fires when drift > threshold). Informational by default — does NOT fail
