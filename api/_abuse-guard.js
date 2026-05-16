@@ -55,7 +55,13 @@ const BURST_MAX = 15;
 const BLOCKLIST_TTL_SEC = 300; // 5 minutes
 
 // Image hash cache: how long to remember a previous parse for the same image.
-const IMAGE_CACHE_TTL_SEC = 24 * 3600; // 24 hours
+// Bumped 24h -> 30d on 2026-05-15: with ~zero real end-user traffic the cache
+// is effectively a test-fixture cassette. 30d means repeat fixture runs
+// across the typical QA cadence (weekly deep tests, follow-up verifications,
+// nightly walks before they moved to weekly) don't re-bill Claude. Real-user
+// risk if traffic returns: an unlucky parse stays cached longer; flush via
+// `redis-cli DEL tp:imgcache:<hash>` or wipe the namespace.
+const IMAGE_CACHE_TTL_SEC = 30 * 24 * 3600; // 30 days
 
 // ============================================================
 // Helpers

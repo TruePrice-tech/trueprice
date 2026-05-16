@@ -9,7 +9,13 @@ const fs = require("fs");
 const path = require("path");
 
 const ENDPOINT = "https://api.anthropic.com/v1/messages";
-const DEFAULT_MODEL = process.env.EYES_MODEL || "claude-sonnet-4-6";
+// Switched 2026-05-15 from claude-sonnet-4-6 to claude-haiku-4-5 -- the
+// task here (flag $0/NaN/oversized-mascot/duplicate-image/copy-mismatch
+// in screenshots against a rules list) is structured pattern-matching,
+// not open-ended reasoning. Haiku handles it well at ~1/12 the per-token
+// cost. EYES_MODEL env var still wins if a specific run needs sonnet.
+// See project_api_spend_drivers_2026_05_15 in memory.
+const DEFAULT_MODEL = process.env.EYES_MODEL || "claude-haiku-4-5-20251001";
 
 // Hard rules baked into the system prompt. These match Lane's standing
 // memories: feedback_always_look_at_images, feedback_rainbow_is_iris_only,
