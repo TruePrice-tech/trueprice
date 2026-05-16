@@ -64,8 +64,16 @@ const digest = [
   "",
 ];
 
+// Floor below which the run is considered untrustworthy. Two prior ship
+// regressions (web_search disabled, then no-credit 400s) both reported
+// "0/N over threshold ✓" while every single pinpoint had silently failed.
+// Anything below this success rate is louder than a drift flag — the
+// instrument itself is broken.
+const EXTRACTION_SUCCESS_FLOOR = 0.8;
+
 let totalPinpoints = 0;
 let totalDriftFlags = 0;
+let totalExtracted = 0;
 const verticalSummaries = [];
 
 for (const [vertical, vData] of Object.entries(sources.verticals)) {
@@ -160,6 +168,7 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
       digest.push("");
       continue;
     }
+    totalExtracted++;
     const indMid = (extracted.low + extracted.high) / 2;
     const ourMid = (pinpoint.currentBand.low + pinpoint.currentBand.high) / 2;
     const driftPct = Math.round(((indMid - ourMid) / ourMid) * 100);
@@ -182,20 +191,37 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
   verticalSummaries.push({ vertical, drifted: verticalDrift });
 }
 
+const extractionRate = totalPinpoints ? totalExtracted / totalPinpoints : 0;
+const instrumentBroken = extractionRate < EXTRACTION_SUCCESS_FLOOR;
+
 digest.unshift("");
-digest.unshift(
-  `**Summary**: ${totalDriftFlags}/${totalPinpoints} pinpoints over ${driftThresholdPct}% drift threshold.` +
-  (totalDriftFlags ? " 🚩" : " ✓")
-);
+if (instrumentBroken) {
+  digest.unshift(
+    `**🚨 INSTRUMENT FAILURE**: only ${totalExtracted}/${totalPinpoints} pinpoints extracted (${Math.round(extractionRate * 100)}%, floor ${Math.round(EXTRACTION_SUCCESS_FLOOR * 100)}%). Drift findings below are NOT trustworthy — investigate API key, rate limits, web_search tool, and source-page reachability before acting on any flagged band.`,
+  );
+} else {
+  digest.unshift(
+    `**Summary**: ${totalDriftFlags}/${totalPinpoints} pinpoints over ${driftThresholdPct}% drift threshold (${totalExtracted}/${totalPinpoints} extracted).` +
+    (totalDriftFlags ? " 🚩" : " ✓"),
+  );
+}
 
 fs.writeFileSync(digestPath, digest.join("\n"));
 console.log("Digest written:", digestPath);
 
-// Email digest if Resend key present and there's drift to report.
-if (process.env.RESEND_API_KEY && totalDriftFlags > 0) {
+// Email digest if Resend key present AND (drift to report OR instrument
+// failure). Silent runs are now impossible: broken-instrument emails fire
+// even with zero drift, ensuring we hear about extraction collapse.
+if (process.env.RESEND_API_KEY && (totalDriftFlags > 0 || instrumentBroken)) {
+  const subject = instrumentBroken
+    ? `[Woogoro] 🚨 Pricing-drift instrument failure ${today} (${totalExtracted}/${totalPinpoints} extracted)`
+    : `[Woogoro] Pricing drift detected on ${today} (${totalDriftFlags}/${totalPinpoints})`;
+  const headline = instrumentBroken
+    ? `<strong>🚨 INSTRUMENT FAILURE</strong>: only ${totalExtracted}/${totalPinpoints} pinpoints extracted (${Math.round(extractionRate * 100)}%, floor ${Math.round(EXTRACTION_SUCCESS_FLOOR * 100)}%). Drift findings are NOT trustworthy.`
+    : `<strong>${totalDriftFlags}/${totalPinpoints}</strong> pinpoints over ${driftThresholdPct}% drift. Verticals affected: ${verticalSummaries.filter(v => v.drifted.length).map(v => `${v.vertical} (${v.drifted.length})`).join(", ") || "none"}.`;
   const html = `<div style="font-family:sans-serif;max-width:900px;padding:20px;">
     <h2>Pricing-drift report &mdash; ${today}</h2>
-    <p style="color:#475569;"><strong>${totalDriftFlags}/${totalPinpoints}</strong> pinpoints over ${driftThresholdPct}% drift. Verticals affected: ${verticalSummaries.filter(v => v.drifted.length).map(v => `${v.vertical} (${v.drifted.length})`).join(", ") || "none"}.</p>
+    <p style="color:#475569;">${headline}</p>
     <pre style="background:#f8fafc;border:1px solid #e2e8f0;padding:10px;font-size:11px;white-space:pre-wrap;max-height:800px;overflow:auto;">${digest.join("\n").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</pre>
     <p style="color:#475569;font-size:12px;">Source catalog: data/pricing-drift-sources.json. Update bands by editing test/&lt;v&gt;/calculator-spot-check.test.js or rate tables in js/&lt;v&gt;-calc.js.</p>
   </div>`;
@@ -208,16 +234,22 @@ if (process.env.RESEND_API_KEY && totalDriftFlags > 0) {
     body: JSON.stringify({
       from: "Woogoro Pricing Drift <noreply@woogoro.com>",
       to: ["hello@woogoro.com"],
-      subject: `[Woogoro] Pricing drift detected on ${today} (${totalDriftFlags}/${totalPinpoints})`,
+      subject,
       html,
     }),
   });
-  if (r.ok) console.log("Drift digest emailed.");
+  if (r.ok) console.log(instrumentBroken ? "Instrument-failure alert emailed." : "Drift digest emailed.");
   else console.error("Resend error:", r.status, await r.text());
 }
 
-// Exit non-zero only if drift fires AND we're in CI hard-mode. By default
-// this is informational — it fills an inbox, not a build.
+// Loud failure: workflow goes red whenever the instrument can't read its
+// sources, so silent no-op runs (the 2026-05-04→05-15 regression) become
+// impossible to ship past. Drift findings remain informational unless
+// PRICING_DRIFT_HARD_FAIL=1.
+if (instrumentBroken) {
+  console.error(`Instrument failure: extraction rate ${Math.round(extractionRate * 100)}% below floor ${Math.round(EXTRACTION_SUCCESS_FLOOR * 100)}%.`);
+  process.exit(2);
+}
 if (process.env.PRICING_DRIFT_HARD_FAIL === "1" && totalDriftFlags > 0) {
   console.error(`Hard fail: ${totalDriftFlags} drift findings.`);
   process.exit(1);

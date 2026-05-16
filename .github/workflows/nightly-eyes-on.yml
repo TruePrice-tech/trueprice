@@ -1,20 +1,21 @@
-name: Nightly Eyes-On Walk
+name: Weekly Eyes-On Walk
 
-# Runs every night at 04:30 UTC (00:30 Eastern). Picks 2 verticals via
+# Runs every Monday at 04:30 UTC (00:30 Eastern). Picks 2 verticals via
 # day-of-month rotation, walks all 3 paths (estimate / analyze / compare)
 # with puppeteer + real fixtures, then runs each screenshot batch through
 # Claude vision to flag what HTML diffs miss (oversized mascots, duplicate
 # images, ranges too wide, missing buttons, copy mismatches, brand
 # violations, undefined / NaN / $0 -- per Lane's standing memories).
 #
-# Sends a single email digest with the FINDINGS.md from each vertical and
-# pings ntfy if any HIGH-severity issue is flagged. Lives entirely on
-# GitHub Actions free tier (~30 min/run x 30 runs/mo = 900 min, well under
-# the 2000 min/mo budget for private repos). Zero Vercel cron impact.
+# Cadence note: dropped from nightly to weekly on 2026-05-15 after API
+# spend audit -- nightly cron + analyzer paths calling Claude were a
+# meaningful chunk of monthly burn against effectively zero end-user
+# traffic. Weekly still catches drift; coupled with the workflow_dispatch
+# trigger for ad-hoc runs after deploys.
 
 on:
   schedule:
-    - cron: '30 4 * * *'
+    - cron: '30 4 * * 1'
   workflow_dispatch:
     inputs:
       verticals:
