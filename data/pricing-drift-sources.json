@@ -90,14 +90,14 @@
         {
           "id": "er-moderate-insured-in",
           "label": "ER moderate visit, in-network insured patient OOP (national)",
-          "askClaude": "Find the typical 2026 patient out-of-pocket cost RANGE for a moderate emergency room visit (stitches/fracture, not trauma) for someone with in-network insurance after deductible/copay/coinsurance. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 200, "high": 1500 }
+          "askClaude": "Find the typical 2026 TOTAL patient out-of-pocket cost RANGE for a moderate emergency room visit (stitches, fracture treatment, or similar — NOT trauma, NOT just a copay) for someone with in-network commercial insurance. TOTAL patient responsibility across ER copay + facility coinsurance + imaging/labs + deductible portion combined, NOT just the flat ER copay alone. Anchor to KFF / Peterson-KFF / HealthSystemTracker 2026 commercially-insured ER visit OOP medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 300, "high": 1200 }
         },
         {
           "id": "knee-replacement-medicare",
           "label": "Knee replacement on Medicare patient cost-sharing (national)",
-          "askClaude": "Find the typical 2026 patient cost-sharing RANGE for a knee replacement surgery covered by Medicare Part A/B. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 2500, "high": 11000 }
+          "askClaude": "Find the typical 2026 TOTAL patient cost-sharing RANGE for a complete knee replacement EPISODE OF CARE on traditional Medicare Part A/B WITHOUT Medigap supplemental insurance. TOTAL patient OOP across all services combined: Part A inpatient deductible ($1,676 2026) + Part B 20% coinsurance on surgeon/anesthesia/imaging + skilled nursing facility days 21+ ($209.50/day 2026) + outpatient physical therapy 20% coinsurance + DME. NOT just the Part A deductible alone, NOT outpatient-only knee replacement. Anchor to Medicare.gov / KFF / AHIP 2026 traditional-Medicare-no-Medigap typical-OOP medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 2500, "high": 8000 }
         }
       ],
       "sources": [

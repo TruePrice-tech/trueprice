@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-04T12:57:50.995Z",
+  "ts": "2026-05-20T23:34:48.666Z",
   "inflationMult": 1,
   "results": {
     "er-moderate-insured-in-ne": {
       "patientLow": 458,
       "patientHigh": 1220,
       "band": {
-        "low": 200,
-        "high": 1500
+        "low": 300,
+        "high": 1300
       },
       "label": "ER moderate visit, in-network insured, NE",
       "failures": []
@@ -17,7 +17,7 @@
       "patientHigh": 9500,
       "band": {
         "low": 2500,
-        "high": 11000
+        "high": 10000
       },
       "label": "Knee replacement, Medicare, MW",
       "failures": []
