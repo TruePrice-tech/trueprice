@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T12:36:05.817Z",
+  "ts": "2026-05-20T23:59:05.894Z",
   "inflationMult": 1,
   "results": {
     "single-steel-basic-opener-nc": {
@@ -14,8 +14,8 @@
     "double-steel-insulated-opener-ny": {
       "total": 3000,
       "band": {
-        "low": 2500,
-        "high": 4500
+        "low": 2100,
+        "high": 5000
       },
       "label": "Double car steel insulated +opener NY",
       "failures": []

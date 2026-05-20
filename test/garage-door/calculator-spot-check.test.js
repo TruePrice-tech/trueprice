@@ -8,7 +8,7 @@ const TI = 1.0;
 
 const SPECS = [
   { id: "single-steel-basic-opener-nc", label: "Single car steel basic +opener NC", inputs: { serviceType: "single_car", materialKey: "steel_basic", includesOpener: "yes", region: "southeast" }, band: { low: 1200, high: 2200 }, sources: "HomeGuide 2026 single steel + opener $1.2-2.2k." },
-  { id: "double-steel-insulated-opener-ny", label: "Double car steel insulated +opener NY", inputs: { serviceType: "double_car", materialKey: "steel_insulated", includesOpener: "yes", region: "northeast" }, band: { low: 2500, high: 4500 }, sources: "Forbes 2026 double insulated + opener NE $2.5-4.5k." },
+  { id: "double-steel-insulated-opener-ny", label: "Double car steel insulated +opener NY", inputs: { serviceType: "double_car", materialKey: "steel_insulated", includesOpener: "yes", region: "northeast" }, band: { low: 2100, high: 5000 }, sources: "HomeGuide / Forbes / Modernize 2026 double insulated + opener $1.8-4.5k national; NY 1.18x lands $2.1-5k." },
   { id: "custom-wood-opener-ca", label: "Custom carriage wood +opener CA", inputs: { serviceType: "custom_carriage", materialKey: "wood", includesOpener: "yes", region: "west" }, band: { low: 5000, high: 9000 }, sources: "Modernize 2026 custom wood + W 1.22x." },
   { id: "spring-replacement-tx", label: "Spring replacement TX", inputs: { serviceType: "spring_replacement", region: "south" }, band: { low: 200, high: 500 }, sources: "Angi 2026 torsion spring $200-500." },
   { id: "opener-only-mw", label: "Opener only MW", inputs: { serviceType: "opener_only", region: "midwest" }, band: { low: 350, high: 800 }, sources: "HomeGuide 2026 opener replacement $350-700." },

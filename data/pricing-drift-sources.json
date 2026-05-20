@@ -141,7 +141,7 @@
           "id": "double-car-insulated-opener",
           "label": "Double-car insulated steel garage door + opener (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a double-car (16x7) insulated steel garage door installed including a new opener. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 2500, "high": 4500 }
+          "currentBand": { "low": 1800, "high": 4500 }
         }
       ],
       "sources": [
