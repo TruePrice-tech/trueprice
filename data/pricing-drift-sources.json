@@ -18,14 +18,14 @@
         {
           "id": "heat_pump-3ton-16seer",
           "label": "3-ton 16 SEER heat pump, fully installed (national avg)",
-          "askClaude": "Find the typical installed cost RANGE for a 3-ton 16 SEER R-454B heat pump including labor, permits, and standard accessories. Single-family home national average. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 15500 }
+          "askClaude": "Find the typical 2026 NATIONAL AVERAGE installed cost RANGE for a 3-ton 16 SEER2 / R-454B residential heat pump including labor, permits, and standard accessories. Anchor to HomeGuide / Forbes / Modernize 2026 national medians ACROSS mid-tier brands (Carrier, Trane, Lennox, Bryant, Goodman, Rheem, Daikin) — NOT a single brand-specific quote. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 8000, "high": 15000 }
         },
         {
           "id": "full_system-4ton-16seer-90afue",
           "label": "Full HVAC system AC + furnace 16 SEER / 90 AFUE 4-ton (national)",
-          "askClaude": "Find the typical installed cost RANGE for a complete HVAC system replacement (16 SEER central AC + 90 AFUE gas furnace) for an average 2,500 sqft home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 11500, "high": 19500 }
+          "askClaude": "Find the typical 2026 NATIONAL AVERAGE installed cost RANGE for a complete HVAC system replacement: 4-TON (48,000 BTU) 16 SEER2 central AC + 90% AFUE gas furnace, fully installed including ductwork tie-ins, permits, and standard accessories. For an average 2,500-2,700 sqft home requiring 4-ton cooling sizing (NOT 3-ton sizing for smaller homes). Anchor to HomeGuide / Forbes / Modernize 2026 national medians for the 4-ton config across mid-tier brands. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 11000, "high": 16000 }
         }
       ],
       "sources": [

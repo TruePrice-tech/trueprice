@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T01:08:33.676Z",
+  "ts": "2026-05-20T23:20:00.272Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -33,7 +33,7 @@
     "hp-3ton-16seer-ny": {
       "price": 12400,
       "band": {
-        "low": 11500,
+        "low": 10000,
         "high": 17500
       },
       "label": "3-ton 16 SEER heat pump, New York (cold climate, Northeast labor)",
@@ -60,8 +60,8 @@
     "full-4ton-16-90-tx": {
       "price": 15950,
       "band": {
-        "low": 14000,
-        "high": 21000
+        "low": 11000,
+        "high": 17000
       },
       "label": "Full system 4-ton 16 SEER + 90 AFUE, Texas",
       "failures": []

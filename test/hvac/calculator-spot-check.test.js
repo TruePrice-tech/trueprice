@@ -72,8 +72,8 @@ const SPECS = [
     id: "hp-3ton-16seer-ny",
     label: "3-ton 16 SEER heat pump, New York (cold climate, Northeast labor)",
     inputs: { systemType: "heat_pump", seer: 16, tons: 3, region: "northeast", ductworkCond: "good" },
-    band: { low: 11500, high: 17500 },
-    sources: "Forbes Home 2026 HP NE; HomeGuide 2026 16 SEER HP $11k-17k installed.",
+    band: { low: 10000, high: 17500 },
+    sources: "HomeGuide / Forbes / Modernize 2026 3-ton 16 SEER HP $8-15k national x NE 1.18x lands $9.4-17.7k; spec band $10-17.5k holds.",
   },
   {
     id: "furnace-95afue-il",
@@ -93,8 +93,8 @@ const SPECS = [
     id: "full-4ton-16-90-tx",
     label: "Full system 4-ton 16 SEER + 90 AFUE, Texas",
     inputs: { systemType: "full_system", seer: 16, tons: 4, region: "south", ductworkCond: "good" },
-    band: { low: 14000, high: 21000 },
-    sources: "HomeGuide 2026 full-system 4-ton mid-eff $14k-20k installed.",
+    band: { low: 11000, high: 17000 },
+    sources: "HomeGuide / Forbes / Modernize 2026 full-system 4-ton 16+90 $11-17k national; TX 1.0x = national equivalent. Calc $15,950 sits in upper-middle of band (mid-tier 4-ton runs slightly above national median).",
   },
 ];
 
