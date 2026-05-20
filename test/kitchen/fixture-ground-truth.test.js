@@ -12,12 +12,16 @@
 //
 // Kitchen-specific assertions (vs roofing/HVAC/auto-repair/plumbing/electrical):
 //   - tierRegex: cabinet_refacing / minor / midrange / major. Cabinet tier
-//     drives the benchmark base from $8,500 (refacing) to $90,000 (major)
-//     — a 10x spread. Equivalent of plumbing's tank-vs-tankless or
+//     drives the benchmark base from $8,500 (refacing) to $75,000 (major)
+//     — a ~9x spread. Equivalent of plumbing's tank-vs-tankless or
 //     electrical's panel-headline-vs-EV. The biggest trust-critical bug class:
-//     a $50K mid-range remodel tagged "major" gets bench-marked vs $90K and
+//     a $45K mid-range remodel tagged "major" gets bench-marked vs $75K and
 //     verdicts "Unusually Low" — buyer thinks they got a steal when they
-//     paid a fair price.
+//     paid a fair price. (Major base reduced 90K -> 75K in 2026-05-20
+//     KITCHEN-CALC-2 architectural fix; see js/kitchen-calc.js header for
+//     rationale. Note that api/kitchen-estimate.js still uses the OLD
+//     major.low/high $60K-$120K from data/kitchen-pricing-model.json —
+//     known divergence, scheduled for a separate analyzer-side deep-test.)
 //   - countertopRegex: laminate / granite / quartz / marble (analyzer's
 //     enum) plus quartzite (premium-tier in real quotes, not in enum so
 //     should fall back to granite OR be flagged as gap).

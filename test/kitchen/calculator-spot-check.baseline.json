@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T11:05:20.605Z",
+  "ts": "2026-05-20T20:16:30.783Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -31,28 +31,28 @@
       "failures": []
     },
     "midrange-large-quartz-custom-premium-ny": {
-      "total": 164750,
+      "total": 128150,
       "band": {
-        "low": 130000,
+        "low": 120000,
         "high": 220000
       },
       "label": "Mid-range, large kitchen, quartz, custom cabinets, premium appliances, NY",
       "failures": []
     },
     "major-large-quartzite-custom-premium-ny": {
-      "total": 449400,
+      "total": 252400,
       "band": {
-        "low": 350000,
-        "high": 600000
+        "low": 200000,
+        "high": 400000
       },
-      "label": "Major upscale, large, quartzite, custom, premium, NY (NYC luxury)",
+      "label": "Major upscale, large, quartzite, custom, premium, NY (NYC luxury full custom)",
       "failures": []
     },
     "major-expansive-marble-custom-premium-ca": {
-      "total": 491400,
+      "total": 318450,
       "band": {
-        "low": 400000,
-        "high": 700000
+        "low": 250000,
+        "high": 500000
       },
       "label": "Major upscale, expansive (200+ sqft), marble, custom, premium, CA",
       "failures": []

@@ -11,8 +11,19 @@
 //   countertopMaterials.quartzite  1.30 -> 1.50
 //   cabinetQuality.custom          1.40 -> 1.55
 //   applianceTier.premium          1.25 -> 1.40
-// Single-upgrade scenarios unchanged; multi-premium combinations now reflect
-// 2026 metro-luxury reality.
+// Re-tuned 2026-05-20 (KITCHEN-CALC-2): the 2026-05-04 bumps + the
+// $90K major base compounded multiplicatively to 5.0x base on the
+// large+quartzite+custom+premium+NE stack ($449K calc output), and
+// the spot-check bands were stretched ($350K-$600K NY / $400K-$700K CA)
+// to absorb that. Layer-3 drift check on 2026-05-18 flagged the
+// national pinpoint at -66% mid drift because the bands no longer
+// reflected the national Major Upscale industry consensus ($150K-$165K
+// per Cost vs Value / NKBA 2024-25 / HomeGuide 2026). Reverted the
+// three luxury multipliers to their pre-2026-05-04 values and dropped
+// the major tier base from $90K to $75K so the all-luxury stack now
+// lands at NYC-Luxury reality ($200K-$400K per Corniel 2026 Manhattan
+// guide) instead of past-luxury reality. Single-upgrade scenarios
+// (quartz only, premium only, etc.) still unchanged.
 //
 // Pure math + constants — no DOM, no fetch. Browser passes its city-mult /
 // inflation / seasonal / flywheel-calData in; tests pass deterministic stubs.
@@ -30,7 +41,7 @@
     basePriceByTier: {
       minor:            { label: "Minor Remodel (Cosmetic)",  low: 15000, high: 30000,  base: 22500 },
       midrange:         { label: "Mid-Range Remodel",         low: 30000, high: 60000,  base: 45000 },
-      major:            { label: "Major/Upscale Remodel",     low: 60000, high: 120000, base: 90000 },
+      major:            { label: "Major/Upscale Remodel",     low: 50000, high: 100000, base: 75000 },
       cabinet_refacing: { label: "Cabinet Refacing",          low: 5000,  high: 12000,  base: 8500  }
     },
     kitchenSizes: [
@@ -45,18 +56,18 @@
       { key: "granite",  label: "Granite",   multiplier: 1.0  },
       { key: "quartz",   label: "Quartz",    multiplier: 1.10 },
       { key: "marble",   label: "Marble",    multiplier: 1.25 },
-      { key: "quartzite", label: "Quartzite", multiplier: 1.50 }
+      { key: "quartzite", label: "Quartzite", multiplier: 1.30 }
     ],
     cabinetQuality: [
       { key: "stock", label: "Stock Cabinets", tag: "Pre-made, limited sizes. Hampton Bay, In-Stock.", multiplier: 0.85 },
       { key: "semicustom", label: "Semi-Custom Cabinets", tag: "More options, 2-4 week lead. KraftMaid, Thomasville, Diamond.", multiplier: 1.00 },
-      { key: "custom", label: "Custom Cabinets", tag: "Built to spec, 6-12 week lead. Local shops, high-end brands.", multiplier: 1.55 }
+      { key: "custom", label: "Custom Cabinets", tag: "Built to spec, 6-12 week lead. Local shops, high-end brands.", multiplier: 1.35 }
     ],
     applianceTier: [
       { key: "existing", label: "Keep Existing Appliances", tag: "Reuse what you have. No appliance cost.", multiplier: 0.80 },
       { key: "basic", label: "Basic / Builder Grade", tag: "Whirlpool, Frigidaire, Amana. $3K-$5K for a set.", multiplier: 0.90 },
       { key: "midrange", label: "Mid-Range", tag: "KitchenAid, Bosch, Samsung. $5K-$10K for a set.", multiplier: 1.00 },
-      { key: "premium", label: "Premium", tag: "Sub-Zero, Wolf, Viking, Thermador. $15K-$30K+ for a set.", multiplier: 1.40 }
+      { key: "premium", label: "Premium", tag: "Sub-Zero, Wolf, Viking, Thermador. $15K-$30K+ for a set.", multiplier: 1.25 }
     ],
     laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
     roundTo: 50,
