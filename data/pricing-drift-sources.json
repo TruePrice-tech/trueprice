@@ -1,7 +1,7 @@
 {
   "metadata": {
     "purpose": "Source URLs the monthly pricing-drift check fetches to detect when 2026 industry pricing has moved beyond our spot-check bands. See scripts/_pricing-drift-check.js.",
-    "lastUpdated": "2026-05-04",
+    "lastUpdated": "2026-05-20",
     "driftThresholdPct": 15,
     "notes": "Each vertical lists 3-5 representative industry pricing pages. Claude haiku-4-5 reads each, extracts the typical-installed-cost range it cites, and the script compares against the per-vertical calculator-spot-check baseline. Add or replace URLs when sources go stale or paywall."
   },
@@ -416,8 +416,8 @@
         {
           "id": "major-large-custom-premium",
           "label": "Major upscale, large kitchen, custom cabinets, premium appliances (national)",
-          "askClaude": "Find the typical 2026 cost RANGE for a major upscale kitchen remodel with large size 150-200 sqft, custom cabinets, and premium appliances (Sub-Zero/Wolf tier). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 350000, "high": 600000 }
+          "askClaude": "Find the typical 2026 NATIONAL AVERAGE cost RANGE (not metro-specific, not luxury-custom) for a Major Upscale tier kitchen remodel — large size 150-200 sqft, custom cabinets, premium appliances (KitchenAid Built-In / Thermador / Wolf / Sub-Zero professional tier). Anchor to Cost vs Value / NKBA / HomeGuide-style national medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 120000, "high": 220000 }
         },
         {
           "id": "cabinet-refacing-average",
