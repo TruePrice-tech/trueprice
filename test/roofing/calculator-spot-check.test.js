@@ -57,8 +57,8 @@ const SPECS = [
     id: "architectural-2000sqft",
     label: "2,000 sqft typical home, architectural shingles (most popular case)",
     inputs: { sqft: 2000, material: "architectural" },
-    band: { low: 7500, high: 16500 },
-    sources: "Forbes Home 2026 2000-sqft architectural $7.5-16k; This Old House 2026.",
+    band: { low: 8500, high: 15000 },
+    sources: "Forbes Home / HomeGuide / This Old House 2026 architectural 2k sqft $8.5-15k; industry has tightened since 2026-05-03 calibration.",
   },
   {
     id: "architectural-2500sqft",
@@ -71,8 +71,8 @@ const SPECS = [
     id: "metal-2000sqft",
     label: "2,000 sqft home, metal roofing (mix of corrugated + standing seam)",
     inputs: { sqft: 2000, material: "metal" },
-    band: { low: 14000, high: 28000 },
-    sources: "HomeGuide 2026 2000-sqft metal $14-28k; Forbes Home 2026 metal avg.",
+    band: { low: 16000, high: 30000 },
+    sources: "HomeGuide / Forbes / This Old House 2026 metal 2k sqft mix corrugated+standing seam $16-30k; industry has moved up from 2026-05-03 baseline.",
   },
   {
     id: "metal-2500sqft",

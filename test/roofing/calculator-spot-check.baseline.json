@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T01:19:47.229Z",
+  "ts": "2026-05-20T22:36:02.183Z",
   "results": {
     "asphalt-1200sqft": {
       "calcMid": 4800,
@@ -28,8 +28,8 @@
       "calcLow": 8400,
       "calcHigh": 16200,
       "band": {
-        "low": 7500,
-        "high": 16500
+        "low": 8500,
+        "high": 15000
       },
       "label": "2,000 sqft typical home, architectural shingles (most popular case)",
       "failures": []
@@ -50,8 +50,8 @@
       "calcLow": 14000,
       "calcHigh": 27000,
       "band": {
-        "low": 14000,
-        "high": 28000
+        "low": 16000,
+        "high": 30000
       },
       "label": "2,000 sqft home, metal roofing (mix of corrugated + standing seam)",
       "failures": []

@@ -41,19 +41,19 @@
           "id": "asphalt-2000sqft",
           "label": "Asphalt 3-tab shingle roof, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete 3-tab asphalt shingle roof replacement on a 2,000 sqft single-family home, including tear-off of one layer, underlayment, and standard accessories. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5500, "high": 11000 }
+          "currentBand": { "low": 7000, "high": 11000 }
         },
         {
           "id": "architectural-2000sqft",
           "label": "Architectural shingle roof, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete architectural (dimensional) asphalt shingle roof replacement on a 2,000 sqft home, including tear-off and standard installation. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 7500, "high": 16500 }
+          "currentBand": { "low": 8500, "high": 15000 }
         },
         {
           "id": "metal-2000sqft",
           "label": "Metal roof installation, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete metal roof replacement (mix of corrugated and standing seam) on a 2,000 sqft home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 14000, "high": 28000 }
+          "currentBand": { "low": 16000, "high": 30000 }
         }
       ],
       "sources": [
