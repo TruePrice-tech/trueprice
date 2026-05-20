@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-04T12:31:11.190Z",
+  "ts": "2026-05-20T23:55:05.039Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
     "paver-400-mod-mid-nc": {
       "total": 12850,
       "band": {
-        "low": 8000,
-        "high": 18000
+        "low": 6000,
+        "high": 14000
       },
       "label": "Paver patio 400 sqft mod mid NC",
       "failures": []
@@ -24,8 +24,8 @@
     "outdoor-kitchen-complex-prem-ca": {
       "total": 45400,
       "band": {
-        "low": 25000,
-        "high": 60000
+        "low": 30000,
+        "high": 80000
       },
       "label": "Outdoor kitchen complex prem CA",
       "failures": []

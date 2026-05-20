@@ -157,13 +157,13 @@
           "id": "paver-patio-400",
           "label": "Paver patio 400 sqft, moderate complexity, mid-tier (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 400 sqft paver patio with moderate complexity (curves, edging) using mid-tier interlocking pavers. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 18000 }
+          "currentBand": { "low": 6000, "high": 14000 }
         },
         {
           "id": "outdoor-kitchen-premium",
           "label": "Outdoor kitchen premium tier (national)",
-          "askClaude": "Find the typical 2026 cost RANGE for a premium outdoor kitchen with masonry, gas grill, sink, and counter space. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 20000, "high": 50000 }
+          "askClaude": "Find the typical 2026 cost RANGE for a PREMIUM-TIER outdoor kitchen with luxury appliances (high-end grill, refrigerator, sink), extensive masonry/stone work, professional design, and dedicated gas/electric routing. NOT base/mid-tier outdoor kitchens (those run $5K-$25K). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 25000, "high": 80000 }
         }
       ],
       "sources": [
