@@ -311,13 +311,13 @@
           "id": "8kw-mid-string-no-battery",
           "label": "8 kW mid-tier solar, string inverter, no battery (national)",
           "askClaude": "Find the typical 2026 cost RANGE (gross, before federal ITC) for an 8 kW residential solar system with mid-tier panels (Q Cells / LONGi / REC), string inverter, no battery storage. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 22000, "high": 38000 }
+          "currentBand": { "low": 20000, "high": 28000 }
         },
         {
           "id": "11kw-premium-with-powerwall",
           "label": "11 kW premium solar with Tesla Powerwall (national)",
-          "askClaude": "Find the typical 2026 cost RANGE (gross, before federal ITC) for an 11 kW residential solar system with premium panels (SunPower / LG / Panasonic), microinverters, and one Tesla Powerwall battery. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 50000, "high": 80000 }
+          "askClaude": "Find the typical 2026 NATIONAL AVERAGE cost RANGE (gross, before federal ITC) for an 11 kW residential solar system with premium panels (SunPower / LG / Panasonic), microinverters, and one Tesla Powerwall 3 battery. Anchor to NREL 2026 benchmark + EnergySage marketplace medians, not high-cost-metro luxury. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 45000, "high": 65000 }
         }
       ],
       "sources": [

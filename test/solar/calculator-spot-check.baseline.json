@@ -1,12 +1,12 @@
 {
-  "ts": "2026-05-04T11:27:51.600Z",
+  "ts": "2026-05-20T20:46:29.245Z",
   "inflationMult": 1,
   "results": {
     "8kw-mid-string-none-ca-good": {
       "total": 30700,
       "band": {
-        "low": 22000,
-        "high": 38000
+        "low": 24000,
+        "high": 33000
       },
       "label": "8kW mid-tier, string inverter, no battery, CA, good roof",
       "failures": []
@@ -14,8 +14,8 @@
     "11kw-prem-micro-powerwall-ny": {
       "total": 66700,
       "band": {
-        "low": 50000,
-        "high": 80000
+        "low": 55000,
+        "high": 78000
       },
       "label": "11kW premium, microinverters, Tesla Powerwall, NY",
       "failures": []
