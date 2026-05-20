@@ -40,8 +40,8 @@ const SPECS = [
     id: "midrange-average-quartz-semi-mid-nc",
     label: "Mid-range, average size, quartz, semi-custom, mid-range appliances, NC",
     inputs: { tier: "midrange", sizeIdx: 1, countertopKey: "quartz", cabinetKey: "semicustom", applianceKey: "midrange", region: "southeast" },
-    band: { low: 45000, high: 75000 },
-    sources: "Forbes Home 2026 midrange + quartz upgrade $50-75k typical.",
+    band: { low: 35000, high: 70000 },
+    sources: "HomeGuide 2026 midrange $27-35k avg + quartz upgrade; US mid-range range $22-55k; component sum (cabinets+counters+appliances+flooring) $20-50k for avg-size.",
   },
   {
     id: "midrange-large-quartz-custom-premium-ny",
@@ -68,8 +68,8 @@ const SPECS = [
     id: "refacing-average-granite-semi-existing-tx",
     label: "Cabinet refacing, average size, granite, semi-custom, keep appliances, TX",
     inputs: { tier: "cabinet_refacing", sizeIdx: 1, countertopKey: "granite", cabinetKey: "semicustom", applianceKey: "existing", region: "south" },
-    band: { low: 5000, high: 15000 },
-    sources: "HomeGuide 2026 cabinet refacing $5-15k typical.",
+    band: { low: 4000, high: 10000 },
+    sources: "HomeGuide 2026 cabinet refacing $4-9.5k typical; Fixr 2026 $3-13.5k range avg $8.25k; Modernize $100-$250/lf × 25-35 avg-size linear feet.",
   },
 ];
 

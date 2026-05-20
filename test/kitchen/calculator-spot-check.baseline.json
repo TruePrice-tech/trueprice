@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-20T20:16:30.783Z",
+  "ts": "2026-05-20T20:32:03.732Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -24,8 +24,8 @@
     "midrange-average-quartz-semi-mid-nc": {
       "total": 51000,
       "band": {
-        "low": 45000,
-        "high": 75000
+        "low": 35000,
+        "high": 70000
       },
       "label": "Mid-range, average size, quartz, semi-custom, mid-range appliances, NC",
       "failures": []
@@ -60,8 +60,8 @@
     "refacing-average-granite-semi-existing-tx": {
       "total": 6800,
       "band": {
-        "low": 5000,
-        "high": 15000
+        "low": 4000,
+        "high": 10000
       },
       "label": "Cabinet refacing, average size, granite, semi-custom, keep appliances, TX",
       "failures": []

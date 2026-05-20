@@ -247,6 +247,23 @@ Rules:
     }
 
     // --- Server-side enrichment from pricing data ---
+    //
+    // data/kitchen-pricing-model.json deliberately diverges from
+    // js/kitchen-calc.js — the two serve different paths:
+    //   - kitchen-calc.js drives /kitchen-estimate.html where the user
+    //     explicitly picks tier × size × countertop × cabinet × appliance,
+    //     so the calc applies all 5 multiplier dimensions on a smaller base.
+    //   - this analyzer (OCR/quote-upload flow) only extracts tier + size +
+    //     region from the quote text — countertop/cabinet/appliance level
+    //     is too lossy to detect reliably from PDFs/photos, so the analyzer
+    //     uses 3-dimensional expectedRange (tier × region × size) with a
+    //     WIDER tier.low/high to absorb upgrade variance the calc would
+    //     otherwise stack multiplicatively.
+    // Net: kitchen-pricing-model.json keeps tier ranges aligned to
+    // Cost-vs-Value bracket widths ($60K-$120K for major covers typical-to-
+    // upscale at default-options-baseline). Touching it shifts verdicts on
+    // every real major-tier quote and warrants its own analyzer-side
+    // deep-test, separate from the 2026-05-20 KITCHEN-CALC-2 calc fix.
     try {
       const pricingData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'kitchen-pricing-model.json'), 'utf-8'));
 
