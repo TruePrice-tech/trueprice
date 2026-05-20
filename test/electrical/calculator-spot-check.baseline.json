@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-04T11:11:54.397Z",
+  "ts": "2026-05-20T21:05:11.004Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
     "panel-upgrade-2k-2000plus-se": {
-      "total": 3250,
+      "total": 2450,
       "band": {
-        "low": 1800,
-        "high": 4500
+        "low": 1300,
+        "high": 3500
       },
       "label": "Panel upgrade 100A->200A, 2,000 sqft, 2000+ home, SE",
       "failures": []
@@ -16,7 +16,7 @@
       "total": 28050,
       "band": {
         "low": 18000,
-        "high": 40000
+        "high": 36000
       },
       "label": "Whole-house rewire, 2,000 sqft, pre-1970 (knob-and-tube), NE",
       "failures": []
@@ -25,7 +25,7 @@
       "total": 2400,
       "band": {
         "low": 1500,
-        "high": 4500
+        "high": 4000
       },
       "label": "EV charger (Level 2) install, 2000+ home, West (CA)",
       "failures": []

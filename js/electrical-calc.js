@@ -9,7 +9,7 @@
 
   var ELEC_PRICING = {
     basePriceByService: {
-      panel_upgrade:      { label: "Panel Upgrade (100A to 200A)",     low: 1800, high: 4500 },
+      panel_upgrade:      { label: "Panel Upgrade (100A to 200A)",     low: 1300, high: 3500 },
       whole_house_rewire: { label: "Whole House Rewire",                low: 8000, high: 30000 },
       ev_charger:         { label: "EV Charger Installation",           low: 900,  high: 3000 },
       generator:          { label: "Generator Installation (Whole Home)", low: 6500, high: 18000 },
