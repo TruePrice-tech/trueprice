@@ -354,20 +354,20 @@
         {
           "id": "pier-moderate-6piers",
           "label": "Foundation pier installation, moderate scope (6 piers), modern home",
-          "askClaude": "Find the typical 2026 cost RANGE for a foundation pier (push pier or helical) installation with about 6 piers on a modern (1990+) single-family home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 6000, "high": 14000 }
+          "askClaude": "Find the typical 2026 TOTAL project cost RANGE for foundation pier installation with about 6 piers on a modern (1990+) single-family home. Anchor to MIXED pier types (hydraulic concrete + steel push + helical) national medians per HomeGuide / Forbes / Angi 2026, NOT helical-only or single-type pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 8000, "high": 18000 }
         },
         {
           "id": "wall-stabilization-major",
           "label": "Foundation wall stabilization, major scope, mid-century home",
-          "askClaude": "Find the typical 2026 cost RANGE for major foundation wall stabilization (carbon fiber straps + lateral braces) on a 1960-1989 single-family home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 12000, "high": 25000 }
+          "askClaude": "Find the typical 2026 TOTAL project cost RANGE for MAJOR-SCOPE foundation wall stabilization on a 1960-1989 single-family home — anchor to a comprehensive multi-technique retrofit (carbon fiber straps + steel I-beam braces + helical tiebacks + drainage) per HomeGuide / Forbes / Angi 2026, NOT single-technique carbon-fiber-only pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 8000, "high": 22000 }
         },
         {
           "id": "crack-repair-minor",
           "label": "Foundation crack repair, minor (2 cracks), modern home",
-          "askClaude": "Find the typical 2026 cost RANGE for repairing 1-3 minor foundation cracks (epoxy/polyurethane injection) on a modern home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 600, "high": 2000 }
+          "askClaude": "Find the typical 2026 TOTAL project cost RANGE for repairing 2-3 minor non-structural foundation cracks (epoxy/polyurethane injection) on a modern home. Total project cost across all cracks combined, NOT per-crack pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 400, "high": 1500 }
         }
       ],
       "sources": [

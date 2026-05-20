@@ -1,12 +1,12 @@
 {
-  "ts": "2026-05-04T11:16:44.975Z",
+  "ts": "2026-05-20T22:16:36.836Z",
   "inflationMult": 1,
   "results": {
     "pier-moderate-1990plus-tx": {
       "total": 9000,
       "band": {
-        "low": 6000,
-        "high": 14000
+        "low": 7000,
+        "high": 13000
       },
       "label": "Pier installation, moderate (6 piers), 1990+ home, TX",
       "failures": []
@@ -14,8 +14,8 @@
     "crack-minor-1990plus-nc": {
       "total": 1100,
       "band": {
-        "low": 600,
-        "high": 2000
+        "low": 500,
+        "high": 1500
       },
       "label": "Crack repair, minor (2 cracks), 1990+ home, NC",
       "failures": []
@@ -32,8 +32,8 @@
     "wall-stab-major-1960to89-ny": {
       "total": 18700,
       "band": {
-        "low": 12000,
-        "high": 25000
+        "low": 13000,
+        "high": 24000
       },
       "label": "Wall stabilization, major (carbon strap + brace), 1960-89 home, NY",
       "failures": []
