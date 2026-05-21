@@ -16,6 +16,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    # Catch drift introduced outside CI (manual edits, Vercel deploys, etc.).
+    # Cron events deliberately skip the Resend digest step below per
+    # `feedback_no_paid_services_in_automation` — failures are still visible
+    # in the Actions tab + the workflow still fails the run on HIGH issues.
+    - cron: '0 7 * * *'   # 02:00 ET / 07:00 UTC daily
   workflow_dispatch:
 
 jobs:
@@ -57,7 +63,9 @@ jobs:
           if-no-files-found: warn
 
       - name: Email digest if HIGH issues
-        if: always()
+        # Resend is a paid third-party API; per repo policy it must not run
+        # on cron-triggered events. Push / PR / manual dispatch still send.
+        if: always() && github.event_name != 'schedule'
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |

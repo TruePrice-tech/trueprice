@@ -20,3 +20,7 @@ scripts/_qa-full-audit.js
 .vercel
 .env*.local
 tmp-email-preview/
+
+# Local rollback/audit backups (e.g. chattanooga-tn-painting-cost.html.bak-2026-05-20)
+*.bak
+*.bak-*
