@@ -510,6 +510,19 @@ window.loadVendorLibs=function(){
 <script src="/js/analyzer-ocr.js" defer></script>
 
 <script>
+// GSC 2026-05-21: city/state/path now arrive via hash fragment (e.g.
+// /auto-repair.html#city=Phoenix&state=AZ&path=quote) rather than query
+// string. Hash fragments aren't crawled, which keeps Google from
+// indexing 311+ parameterized variants that all consolidate to the bare
+// canonical anyway. Search-string form still accepted for back-compat
+// with old bookmarks and shared links.
+function _tpGetUrlParams(){
+  var h = (window.location.hash || "").replace(/^#/, "");
+  var ph = new URLSearchParams(h);
+  if (ph.toString()) return ph;
+  return new URLSearchParams(window.location.search);
+}
+
 // =============================================
 // REPAIR PICKER
 var selectedRepairs = {};
@@ -731,7 +744,7 @@ window.prefillEstimateFromQuote = function() {
 // otherwise switchPath('quote') triggers initQuoteApp → qRender → qState.step crash
 // because qState is declared ~1000 lines below.
 function _tpApplyUrlPath(){
-  var _urlPath = new URLSearchParams(window.location.search).get("path");
+  var _urlPath = _tpGetUrlParams().get("path");
   if(_urlPath === "quote") switchPath("quote", true);
   else if(_urlPath === "estimate") switchPath("estimate", true);
 }
@@ -1301,7 +1314,7 @@ function renderReportActions(){
 }
 
 function shareReport(){
-  var url=window.location.href.split("?")[0];
+  var url=window.location.href.split(/[?#]/)[0];
   var inp=lastEstimateInputs||{};
   var params=new URLSearchParams();
   if(inp.year) params.set("year",inp.year);
@@ -1309,7 +1322,8 @@ function shareReport(){
   if(inp.model) params.set("model",inp.model);
   if(inp.zip) params.set("zip",inp.zip);
   if(inp.state) params.set("state",inp.state);
-  var shareUrl=url+"?"+params.toString();
+  // Hash form so shared links don't become Google-indexable param variants.
+  var shareUrl=url+"#"+params.toString();
   if(navigator.share){
     navigator.share({title:"Woogoro Auto Repair Estimate",text:"My auto repair estimate from Woogoro — checked by Iris",url:shareUrl}).catch(function(){});
   } else {
@@ -1775,8 +1789,8 @@ document.getElementById("zipInput").addEventListener("input",function(){
   });
 })();
 
-// URL params for estimate path
-var p=new URLSearchParams(window.location.search);
+// URL params for estimate path (hash-first per _tpGetUrlParams)
+var p=_tpGetUrlParams();
 if(p.get("state")) document.getElementById("stateSelect").value=p.get("state").toUpperCase();
 if(p.get("zip")) {
   document.getElementById("zipInput").value=p.get("zip");

@@ -206,7 +206,7 @@
           <p class="amq-name">Garage Door</p>
           <p class="amq-desc">Upload a garage door quote</p>
         </a>
-        <a class="amq-card" href="/auto-repair.html?path=quote">
+        <a class="amq-card" href="/auto-repair.html#path=quote">
           <picture><source srcset="/images/Worker%20Woogoro/Auto%20worker.webp?v=3" type="image/webp"/><img class="amq-icon" src="/images/Worker%20Woogoro/Auto%20worker.png?v=3" alt="Rex the Auto Repair Woogoro" loading="lazy" /></picture>
           <p class="amq-name">Auto Repair</p>
           <p class="amq-desc">Upload a mechanic quote</p>
@@ -324,9 +324,28 @@
   <script>
   (function() {
     try {
-      var params = new URLSearchParams(window.location.search);
+      // GSC 2026-05-20: city/state are passed via hash fragment, not query
+      // string, to keep Google from indexing 311+ parameterized variants of
+      // this page (all consolidating to the bare canonical anyway). Hash
+      // fragments are never sent to the server or crawled. Search-string
+      // form is still accepted as a back-compat path for old bookmarks /
+      // shared links — but if a visitor lands on the search form, we
+      // history.replaceState into the hash form so future shares propagate
+      // the hash variant.
+      var hashRaw = (window.location.hash || "").replace(/^#/, "");
+      var paramsHash = new URLSearchParams(hashRaw);
+      var paramsSearch = new URLSearchParams(window.location.search);
+      var params = paramsHash.toString() ? paramsHash : paramsSearch;
       var city = (params.get("city") || "").trim();
       var state = (params.get("state") || "").trim();
+      if (params === paramsSearch && (city || state)) {
+        try {
+          var cleanQs = new URLSearchParams(window.location.search);
+          cleanQs.delete("city"); cleanQs.delete("state");
+          var newSearch = cleanQs.toString() ? "?" + cleanQs.toString() : "";
+          history.replaceState(null, "", window.location.pathname + newSearch + "#" + paramsSearch.toString());
+        } catch (e) { /* old browsers — leave URL alone */ }
+      }
       var cards = document.querySelectorAll("a[href^='/']");
       cards.forEach(function(a) {
         var href = a.getAttribute("href");
