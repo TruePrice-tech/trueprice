@@ -42,8 +42,8 @@ const SPECS = [
     id: "brakes-pads-rotors-std-indep-sc",
     label: "Pads + rotors per axle, standard sedan, independent shop, SC",
     inputs: { repairType: "brakes", subType: "pads_rotors", vehicleCat: "standard", shopType: "independent", urgency: "this_week", stateCode: "SC" },
-    band: { low: 250, high: 700 },
-    sources: "RepairPal 2026 indep $250-500/axle; AAA 2026 $300-600.",
+    band: { low: 250, high: 600 },
+    sources: "RepairPal 2026 indep $250-500/axle; AAA 2026 $300-600. SC ~= national. Calc mid $430 inside.",
   },
   {
     id: "brakes-pads-rotors-truck-indep-tx",
@@ -98,8 +98,8 @@ const SPECS = [
     id: "battery-std-chain-sc",
     label: "Battery replacement (AGM era), standard sedan, chain shop, SC",
     inputs: { repairType: "electrical", subType: "battery", vehicleCat: "standard", shopType: "chain", urgency: "this_week", stateCode: "SC" },
-    band: { low: 130, high: 360 },
-    sources: "AAA 2026 AGM battery installed $200-350; conventional $130-200.",
+    band: { low: 200, high: 360 },
+    sources: "AAA / RepairPal / Walmart / Costco 2026 AGM battery installed $200-$350 national; conventional $130-$200 (excluded). Calc mid $230 inside — calc-side may be averaging conventional+AGM rather than AGM-specific.",
   },
   {
     id: "alternator-luxury-dealer-asap-ny",

@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T02:04:06.954Z",
+  "ts": "2026-05-21T00:11:10.493Z",
   "inflationMult": 1,
   "results": {
     "brakes-pads-rotors-std-indep-sc": {
@@ -8,7 +8,7 @@
       "calcHigh": 660,
       "band": {
         "low": 250,
-        "high": 700
+        "high": 600
       },
       "label": "Pads + rotors per axle, standard sedan, independent shop, SC",
       "failures": []
@@ -95,7 +95,7 @@
       "calcLow": 130,
       "calcHigh": 320,
       "band": {
-        "low": 130,
+        "low": 200,
         "high": 360
       },
       "label": "Battery replacement (AGM era), standard sedan, chain shop, SC",

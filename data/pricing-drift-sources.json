@@ -440,7 +440,7 @@
           "id": "brakes_pads_rotors-std-indep",
           "label": "Brake pads + rotors per axle, standard sedan, independent shop (national)",
           "askClaude": "Find the typical RepairPal/AAA cost RANGE for replacing front brake pads AND rotors per axle on a standard sedan (Camry/Accord-class) at an independent shop. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 250, "high": 700 }
+          "currentBand": { "low": 250, "high": 550 }
         },
         {
           "id": "engine_replace-std-indep",
@@ -451,8 +451,8 @@
         {
           "id": "battery-std-chain",
           "label": "AGM battery replacement, standard sedan, chain shop (national)",
-          "askClaude": "Find the typical installed cost RANGE for an AGM battery replacement on a standard modern sedan at a chain shop (Pep Boys / Firestone / Midas). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 130, "high": 360 }
+          "askClaude": "Find the typical installed cost RANGE for an AGM battery replacement on a standard modern sedan at a chain shop (Pep Boys / Firestone / Midas). NOT conventional flooded lead-acid (those run $130-$200) — anchor specifically to AGM-tier batteries which start at $200+ for entry AGM and run $250-$350 for premium AGM brands. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
+          "currentBand": { "low": 220, "high": 350 }
         }
       ],
       "sources": [
