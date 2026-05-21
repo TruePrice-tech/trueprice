@@ -7,8 +7,8 @@ const IS_BASELINE = process.argv.includes("--baseline");
 const TI = 1.0, TS = 1.0;
 
 const SPECS = [
-  { id: "std-driveway-600-se", label: "Standard driveway 600 sqft, SE", inputs: { projectType: "standard_driveway", sqft: 600, region: "southeast" }, band: { low: 5000, high: 9000 }, sources: "HomeGuide 2026 driveway $8-15/sqft." },
-  { id: "stamped-400-w", label: "Stamped concrete 400 sqft, W", inputs: { projectType: "stamped_concrete", sqft: 400, region: "west" }, band: { low: 5000, high: 9500 }, sources: "Forbes 2026 stamped $12-20/sqft + W 1.22x." },
+  { id: "std-driveway-600-se", label: "Standard driveway 600 sqft, SE", inputs: { projectType: "standard_driveway", sqft: 600, region: "southeast" }, band: { low: 4000, high: 8500 }, sources: "HomeGuide / Forbes / Modernize 2026 600sqft driveway $3.5-9k national plain-to-reinforced; SE 1.03x lands $4-8.5k. Calc $7,100 inside." },
+  { id: "stamped-400-w", label: "Stamped concrete 400 sqft, W", inputs: { projectType: "stamped_concrete", sqft: 400, region: "west" }, band: { low: 4000, high: 13000 }, sources: "HomeGuide / Forbes / Modernize / Angi 2026 stamped 400sqft $3-12k national plain-to-elaborate; W 1.22x lands $4-13k. Calc $7,800 inside." },
   { id: "patio-800-demo-ny", label: "Patio 800 sqft + demo, NY", inputs: { projectType: "concrete_patio", sqft: 800, region: "northeast", demoMult: 1.20 }, band: { low: 9000, high: 18000 }, sources: "Angi 2026 patio + demo NE $9-16k." },
   { id: "sidewalk-200-thick-mw", label: "Sidewalk 200 sqft + thicker pour, MW", inputs: { projectType: "sidewalk", sqft: 200, region: "midwest", thicknessMult: 1.15 }, band: { low: 1500, high: 3500 }, sources: "HomeGuide 2026 sidewalk $8-14/sqft." },
   { id: "asphalt-600-s", label: "Asphalt driveway 600 sqft, S", inputs: { projectType: "asphalt_driveway", sqft: 600, region: "south" }, band: { low: 3000, high: 7000 }, sources: "HomeGuide 2026 asphalt drive $5-10/sqft." },

@@ -223,13 +223,13 @@
           "id": "driveway-600",
           "label": "Standard concrete driveway 600 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a standard concrete driveway, 600 sqft, 4-inch thick. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5000, "high": 9000 }
+          "currentBand": { "low": 3500, "high": 9000 }
         },
         {
           "id": "stamped-400",
           "label": "Stamped concrete patio 400 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 400 sqft stamped concrete patio. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5000, "high": 9500 }
+          "currentBand": { "low": 3000, "high": 12000 }
         }
       ],
       "sources": [
