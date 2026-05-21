@@ -1,0 +1,43 @@
+{
+  "flagship": "chattanooga-tn-painting-cost.html",
+  "baselineDate": "2026-05-20",
+  "checkpoints": {
+    "6_week": "2026-07-01",
+    "12_week": "2026-08-12"
+  },
+  "source": "scripts/keyword-research/output/chattanooga-painting-pilot-clusters.json",
+  "method": "topOverall filtered to geo='chattanooga' AND phrase contains 'paint'",
+  "notes": "Contractor-trust intent dominates (24/30). Matches the locked flagship-research finding: real intent is verify-your-painter, NOT cost-in-chattanooga. Track impressions + clicks against this set in GSC; head-term queries (DA gap to Angi/HA/TT 50+) are not winnable from a single page -- target is long-tail trust-cluster surfacing.",
+  "queries": [
+    { "phrase": "chattanooga painting contractors reviews",   "intent": "contractor",           "autocomplete_count": 582 },
+    { "phrase": "chattanooga house painting services",         "intent": "contractor",           "autocomplete_count": 575 },
+    { "phrase": "chattanooga house painters quality",          "intent": "contractor",           "autocomplete_count": 565 },
+    { "phrase": "chattanooga house painters ratings",          "intent": "contractor",           "autocomplete_count": 556 },
+    { "phrase": "chattanooga painting contractors near me",    "intent": "contractor",           "autocomplete_count": 555 },
+    { "phrase": "chattanooga house painting reviews",          "intent": "contractor",           "autocomplete_count": 549 },
+    { "phrase": "chattanooga painting contractors quality",    "intent": "contractor",           "autocomplete_count": 547 },
+    { "phrase": "chattanooga house painting contractors",      "intent": "contractor",           "autocomplete_count": 546 },
+    { "phrase": "chattanooga painting contractors services",   "intent": "contractor",           "autocomplete_count": 537 },
+    { "phrase": "chattanooga painting contractors bbb",        "intent": "contractor",           "autocomplete_count": 532 },
+    { "phrase": "chattanooga house painters reviews",          "intent": "contractor",           "autocomplete_count": 526 },
+    { "phrase": "painting contractors chattanooga tn",         "intent": "contractor",           "autocomplete_count": 503 },
+    { "phrase": "chattanooga house painters cost",             "intent": "cost+contractor",      "autocomplete_count": 502 },
+    { "phrase": "chattanooga house painters near me",          "intent": "contractor",           "autocomplete_count": 492 },
+    { "phrase": "chattanooga painting contractors cost",       "intent": "cost+contractor",      "autocomplete_count": 492 },
+    { "phrase": "chattanooga house painters services",         "intent": "contractor",           "autocomplete_count": 484 },
+    { "phrase": "chattanooga paint and decorating",            "intent": "general",              "autocomplete_count": 459 },
+    { "phrase": "chattanooga house painters estimates",        "intent": "cost+contractor",      "autocomplete_count": 406 },
+    { "phrase": "painters in chattanooga tn",                  "intent": "contractor",           "autocomplete_count": 404 },
+    { "phrase": "chattanooga painting contractors coupons",    "intent": "contractor",           "autocomplete_count": 348 },
+    { "phrase": "cabinet painters in chattanooga area",        "intent": "contractor+cabinet",   "autocomplete_count": 313 },
+    { "phrase": "chattanooga house painting cost",             "intent": "cost",                 "autocomplete_count": 306 },
+    { "phrase": "chattanooga house painters coupons",          "intent": "contractor",           "autocomplete_count": 298 },
+    { "phrase": "chattanooga house painting estimates",        "intent": "cost",                 "autocomplete_count": 276 },
+    { "phrase": "chattanooga painting contractors license",    "intent": "contractor",           "autocomplete_count": 225 },
+    { "phrase": "chattanooga painting contractors jobs",       "intent": "contractor",           "autocomplete_count": 184 },
+    { "phrase": "chattanooga house painting ideas",            "intent": "general",              "autocomplete_count": 131 },
+    { "phrase": "exterior painters chattanooga tn",            "intent": "project_exterior",     "autocomplete_count": 10 },
+    { "phrase": "cabinet refinishing chattanooga tn",          "intent": "project_cabinet",      "autocomplete_count": 53 },
+    { "phrase": "chattanooga house painting tips",             "intent": "how_to",               "autocomplete_count": 102 }
+  ]
+}
