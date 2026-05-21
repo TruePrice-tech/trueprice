@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T13:01:57.793Z",
+  "ts": "2026-05-21T00:02:02.727Z",
   "inflationMult": 1,
   "results": {
     "uncontested-divorce-simple-se": {
@@ -8,7 +8,7 @@
       "isContingency": false,
       "band": {
         "low": 1000,
-        "high": 5500
+        "high": 4000
       },
       "label": "Uncontested divorce simple SE",
       "failures": []
@@ -41,7 +41,7 @@
       "isContingency": false,
       "band": {
         "low": 1000,
-        "high": 4500
+        "high": 2000
       },
       "label": "Chapter 7 bankruptcy simple S",
       "failures": []

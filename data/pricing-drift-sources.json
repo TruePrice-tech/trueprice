@@ -69,13 +69,13 @@
           "id": "uncontested-divorce",
           "label": "Uncontested divorce attorney fees (national)",
           "askClaude": "Find the typical 2026 attorney fee RANGE for an uncontested divorce in the US. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 5500 }
+          "currentBand": { "low": 1000, "high": 4000 }
         },
         {
           "id": "chapter-7-bankruptcy",
           "label": "Chapter 7 bankruptcy attorney fees (national)",
           "askClaude": "Find the typical 2026 attorney fee RANGE for a Chapter 7 personal bankruptcy filing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 4500 }
+          "currentBand": { "low": 1000, "high": 2000 }
         }
       ],
       "sources": [

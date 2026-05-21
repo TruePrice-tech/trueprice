@@ -8,10 +8,10 @@ const IS_BASELINE = process.argv.includes("--baseline");
 const TI = 1.0;
 
 const SPECS = [
-  { id: "uncontested-divorce-simple-se", label: "Uncontested divorce simple SE", inputs: { serviceType: "divorce", subType: "uncontested", complexity: "simple", region: "southeast" }, band: { low: 1000, high: 5500 }, sources: "Martindale 2026 uncontested divorce $1.5-5k." },
+  { id: "uncontested-divorce-simple-se", label: "Uncontested divorce simple SE", inputs: { serviceType: "divorce", subType: "uncontested", complexity: "simple", region: "southeast" }, band: { low: 1000, high: 4000 }, sources: "Martindale / LegalZoom / ABA / Avvo / Justia 2026 uncontested divorce $1-4k national typical; SE 1.0x ~= national." },
   { id: "auto-accident-contingency", label: "Auto accident contingency (% band)", inputs: { serviceType: "personal_injury", subType: "auto_accident", complexity: "simple", region: "south" }, isPct: true, band: { low: 30, high: 45 }, sources: "ABA 2026 personal injury 33-40% contingency." },
   { id: "basic-will-simple-se", label: "Basic will simple SE", inputs: { serviceType: "estate_planning", subType: "basic_will", complexity: "simple", region: "southeast" }, band: { low: 350, high: 2500 }, sources: "LegalZoom/Avvo 2026 basic will $500-1.5k." },
-  { id: "chapter-7-simple-s", label: "Chapter 7 bankruptcy simple S", inputs: { serviceType: "bankruptcy", subType: "chapter_7", complexity: "simple", region: "south" }, band: { low: 1000, high: 4500 }, sources: "Justia 2026 Chapter 7 attorney fees $1.2-3.5k." },
+  { id: "chapter-7-simple-s", label: "Chapter 7 bankruptcy simple S", inputs: { serviceType: "bankruptcy", subType: "chapter_7", complexity: "simple", region: "south" }, band: { low: 1000, high: 2000 }, sources: "Justia / Nolo / LegalZoom / ABA / Avvo 2026 Chapter 7 typical $1-2k national central tendency; S 1.0x = national." },
   { id: "dui-moderate-mw", label: "DUI defense moderate MW", inputs: { serviceType: "criminal_defense", subType: "dui", complexity: "moderate", region: "midwest" }, band: { low: 2500, high: 20000 }, sources: "Avvo 2026 DUI moderate defense $3-15k." },
   { id: "llc-formation-simple-w", label: "LLC formation simple W", inputs: { serviceType: "business_formation", subType: "llc", complexity: "simple", region: "west" }, band: { low: 500, high: 3000 }, sources: "LegalZoom 2026 LLC formation CA $500-2.5k." },
 ];
