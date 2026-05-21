@@ -12,8 +12,8 @@ const SPECS = [
     id: "ext-std-2000-mid-good-nc",
     label: "Exterior standard 2,000 sqft, mid-range paint, good condition, NC",
     inputs: { projectType: "exterior", sqft: 2000, paintQuality: "standard", condition: "good", brandTier: "mid", region: "southeast" },
-    band: { low: 4000, high: 9000 },
-    sources: "HomeGuide 2026 exterior 2k sqft $4-9k.",
+    band: { low: 4000, high: 7000 },
+    sources: "HomeGuide / Forbes / Modernize / Angi 2026 exterior 2k mid-range $4-7k national; SE 1.03x = national equivalent.",
   },
   {
     id: "int-prem-2500-ultra-fair-ny",
