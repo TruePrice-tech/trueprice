@@ -113,13 +113,13 @@
           "id": "local-2br-under-50mi",
           "label": "Local 2BR move under 50 miles (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a local move (under 50 miles) of a 2-bedroom home with no packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1200, "high": 2500 }
+          "currentBand": { "low": 800, "high": 1500 }
         },
         {
           "id": "ld-3br-cross-country",
           "label": "Long-distance 3BR cross-country move 1000+ mi (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a long-distance move (1,000+ miles, cross-country) of a 3-bedroom home with partial packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 12000, "high": 25000 }
+          "currentBand": { "low": 8000, "high": 14000 }
         }
       ],
       "sources": [
