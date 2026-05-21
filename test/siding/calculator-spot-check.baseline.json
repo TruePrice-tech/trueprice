@@ -1,12 +1,12 @@
 {
-  "ts": "2026-05-04T11:32:11.542Z",
+  "ts": "2026-05-21T00:09:47.735Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
     "vinyl-1500-1story-good-nc": {
       "total": 9250,
       "band": {
-        "low": 6000,
+        "low": 5000,
         "high": 12000
       },
       "label": "Vinyl 1,500 sqft 1-story good, NC",
@@ -15,8 +15,8 @@
     "hardie-2000-2story-fair-mw": {
       "total": 30850,
       "band": {
-        "low": 22000,
-        "high": 40000
+        "low": 20000,
+        "high": 36000
       },
       "label": "Fiber cement (Hardie) 2,000 sqft 2-story fair, MW",
       "failures": []
