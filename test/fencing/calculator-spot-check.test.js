@@ -7,9 +7,9 @@ const IS_BASELINE = process.argv.includes("--baseline");
 const TI = 1.0, TS = 1.0;
 
 const SPECS = [
-  { id: "wood-150-6ft-gate-nc", label: "Wood privacy 150 lf 6ft +gate, NC", inputs: { fenceType: "wood_privacy", linearFeet: 150, height: "6", includesGate: true, region: "southeast" }, band: { low: 4000, high: 8000 }, sources: "HomeGuide 2026 wood privacy $22-45/lf." },
+  { id: "wood-150-6ft-gate-nc", label: "Wood privacy 150 lf 6ft +gate, NC", inputs: { fenceType: "wood_privacy", linearFeet: 150, height: "6", includesGate: true, region: "southeast" }, band: { low: 3500, high: 6500 }, sources: "HomeGuide / Forbes / Modernize / Angi / This Old House 2026 wood privacy 6ft $15-45/lf = $2.25-6.75k for 150lf + gate $300-600; SE 1.03x lands NC at $3.5-6.5k. Calc $5,650 inside." },
   { id: "chain-200-4ft-tx", label: "Chain link 200 lf 4ft no gate, TX", inputs: { fenceType: "chain_link", linearFeet: 200, height: "4", includesGate: false, region: "south" }, band: { low: 1500, high: 5000 }, sources: "HomeGuide 2026 chain link $8-25/lf." },
-  { id: "vinyl-100-6ft-gate-ny", label: "Vinyl privacy 100 lf 6ft +gate, NY", inputs: { fenceType: "vinyl_privacy", linearFeet: 100, height: "6", includesGate: true, region: "northeast" }, band: { low: 4500, high: 9500 }, sources: "Forbes Home 2026 vinyl privacy $35-80/lf + NY 1.18x." },
+  { id: "vinyl-100-6ft-gate-ny", label: "Vinyl privacy 100 lf 6ft +gate, NY", inputs: { fenceType: "vinyl_privacy", linearFeet: 100, height: "6", includesGate: true, region: "northeast" }, band: { low: 5500, high: 9000 }, sources: "HomeGuide / Forbes / Modernize / This Old House 2026 vinyl 6ft $25-60/lf = $2.5-6k for 100lf + gate $1k; NY 1.18x lands $5.5-9k." },
   { id: "iron-80-6ft-gate-ca", label: "Wrought iron 80 lf 6ft +gate, CA", inputs: { fenceType: "wrought_iron", linearFeet: 80, height: "6", includesGate: true, region: "west" }, band: { low: 5000, high: 11000 }, sources: "Modernize 2026 wrought iron $42-100/lf + W 1.22x." },
   { id: "cedar-120-8ft-gate-mw", label: "Cedar privacy 120 lf 8ft +gate, MW", inputs: { fenceType: "cedar", linearFeet: 120, height: "8", includesGate: true, region: "midwest" }, band: { low: 5000, high: 11000 }, sources: "Angi 2026 cedar 8ft $30-60/lf x 1.25 height." },
 ];

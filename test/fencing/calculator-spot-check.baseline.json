@@ -1,13 +1,13 @@
 {
-  "ts": "2026-05-04T12:21:08.786Z",
+  "ts": "2026-05-21T00:06:11.546Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
     "wood-150-6ft-gate-nc": {
       "total": 5650,
       "band": {
-        "low": 4000,
-        "high": 8000
+        "low": 3500,
+        "high": 6500
       },
       "label": "Wood privacy 150 lf 6ft +gate, NC",
       "failures": []
@@ -24,8 +24,8 @@
     "vinyl-100-6ft-gate-ny": {
       "total": 6450,
       "band": {
-        "low": 4500,
-        "high": 9500
+        "low": 5500,
+        "high": 9000
       },
       "label": "Vinyl privacy 100 lf 6ft +gate, NY",
       "failures": []

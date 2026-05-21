@@ -201,13 +201,13 @@
           "id": "wood-150-6ft-gate",
           "label": "Wood privacy fence 150 lf, 6ft, with gate (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 150-linear-foot wood privacy fence (PT pine), 6 feet tall, including one gate. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 4000, "high": 8000 }
+          "currentBand": { "low": 2500, "high": 5500 }
         },
         {
           "id": "vinyl-100-6ft-gate",
           "label": "Vinyl privacy fence 100 lf, 6ft, with gate (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 100-linear-foot vinyl/PVC privacy fence, 6 feet tall, including one gate. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 4500, "high": 9500 }
+          "currentBand": { "low": 5000, "high": 7500 }
         }
       ],
       "sources": [
