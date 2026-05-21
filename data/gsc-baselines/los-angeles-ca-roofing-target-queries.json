@@ -1,0 +1,51 @@
+{
+  "flagship": "los-angeles-ca-roof-cost.html",
+  "baselineDate": "2026-05-21",
+  "checkpoints": {
+    "6_week": "2026-07-02",
+    "12_week": "2026-08-13"
+  },
+  "source": "scripts/keyword-research/output/los-angeles-roofing-pilot-clusters.json",
+  "method": "Top LA-tagged phrases across contractor, project_repair, cost, code_permit, code_title24, trust_review intent clusters. Curated to 30 representative queries spanning the cost/repair/contractor/trust/code intent shape that drove the section recipe.",
+  "notes": "INTENT SHAPE DIFFERS FROM PAINTING. LA roofing autocomplete shows repair > replacement (~750 vs ~600 weighted signal), large contractor/trust block (144 LA phrases), and material_tile/solar/permit/title24 as secondary clusters. GSC (246 site-wide imp / 0 clicks / pos 28.5 over 90d, May 2026) confirms cost-pattern phrases are where current rank exists (LA dominates top queries). Track impressions + clicks + avg position against this set; head-term queries (DA gap to Angi/HA/TT/Yelp 50+) not winnable from one page. Target: surfacing on long-tail repair + Title 24 + permit queries first.",
+  "preBaselineGSC": {
+    "siteRoofing90d_impressions": 246,
+    "siteRoofing90d_clicks": 0,
+    "siteRoofing90d_avgPosition": 28.5,
+    "laVisibleInTop10": "6 of 10 (los angeles or california)",
+    "laSpecificImpressionsTop10": "~22 (roof replacement cost LA 4, tile roof cost LA 4, new roof cost LA 3, solar roof cost LA 2, tile roof cost CA 2, slate roof cost LA 2, average roof replacement cost LA 2, roof replacement cost CA 3)",
+    "screenshot": "data/gsc-baselines/site-roofing-2026-05-21.png"
+  },
+  "queries": [
+    { "phrase": "new roof cost los angeles",                       "intent": "cost",                  "autocomplete_count": 260 },
+    { "phrase": "best los angeles roofing prices",                 "intent": "contractor+cost",       "autocomplete_count": 231 },
+    { "phrase": "roof replacement cost los angeles",               "intent": "cost",                  "autocomplete_count": 227 },
+    { "phrase": "best los angeles roof replacement",               "intent": "contractor+replacement","autocomplete_count": 218 },
+    { "phrase": "los angeles roof repair cost",                    "intent": "repair+cost",           "autocomplete_count": 197 },
+    { "phrase": "los angeles roof repair and replacement",         "intent": "repair+replacement",    "autocomplete_count": 154 },
+    { "phrase": "roofing services on offer in los angeles",        "intent": "contractor",            "autocomplete_count": 145 },
+    { "phrase": "roof repair los angeles",                         "intent": "repair",                "autocomplete_count": 143 },
+    { "phrase": "roofers los angeles california",                  "intent": "contractor",            "autocomplete_count": 141 },
+    { "phrase": "roofing company los angeles ca",                  "intent": "contractor",            "autocomplete_count": 139 },
+    { "phrase": "roof repair los angeles ca",                      "intent": "repair",                "autocomplete_count": 139 },
+    { "phrase": "roofers los angeles ca",                          "intent": "contractor",            "autocomplete_count": 134 },
+    { "phrase": "roofing company los angeles",                     "intent": "contractor",            "autocomplete_count": 120 },
+    { "phrase": "roofing repair los angeles",                      "intent": "repair",                "autocomplete_count": 116 },
+    { "phrase": "yelp roofers los angeles",                        "intent": "contractor+trust",      "autocomplete_count": 107 },
+    { "phrase": "los angeles roof repair reviews",                 "intent": "repair+trust",          "autocomplete_count": 100 },
+    { "phrase": "roofers in los angeles",                          "intent": "contractor",            "autocomplete_count": 89 },
+    { "phrase": "los angeles roof repair contractors",             "intent": "repair+contractor",     "autocomplete_count": 89 },
+    { "phrase": "los angeles roof repair companies",               "intent": "repair+contractor",     "autocomplete_count": 88 },
+    { "phrase": "best los angeles roofing reviews",                "intent": "contractor+trust",      "autocomplete_count": 86 },
+    { "phrase": "top rated roofing services in los angeles",       "intent": "contractor+trust",      "autocomplete_count": 82 },
+    { "phrase": "roofing contractors los angeles reviews",         "intent": "contractor+trust",      "autocomplete_count": 73 },
+    { "phrase": "roof repair los angeles emergency",               "intent": "repair",                "autocomplete_count": 68 },
+    { "phrase": "los angeles roof repair near me",                 "intent": "repair+contractor",     "autocomplete_count": 68 },
+    { "phrase": "cool roof technical la county",                   "intent": "code_title24",          "autocomplete_count": 54 },
+    { "phrase": "roof leak repair los angeles free estimate",      "intent": "repair+cost",           "autocomplete_count": 36 },
+    { "phrase": "how much does a new roof cost in los angeles",    "intent": "cost",                  "autocomplete_count": 33 },
+    { "phrase": "city of los angeles roofing permit",              "intent": "code_permit",           "autocomplete_count": 27 },
+    { "phrase": "los angeles county roofing permit",               "intent": "code_permit",           "autocomplete_count": 27 },
+    { "phrase": "los angeles climate zone title 24",               "intent": "code_title24",          "autocomplete_count": 25 }
+  ]
+}

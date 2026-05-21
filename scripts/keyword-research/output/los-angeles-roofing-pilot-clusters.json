@@ -1,0 +1,6324 @@
+{
+  "meta": {
+    "sourceFile": "los-angeles-roofing-pilot.json",
+    "harvestedAt": "2026-05-21T21:18:36.409Z",
+    "analyzedAt": "2026-05-21T21:32:52.999Z",
+    "totalRawSuggestions": 17496,
+    "totalUnique": 1316,
+    "geoBreakdown": {
+      "los_angeles": 384,
+      "ca_other_city": 76,
+      "ca_state": 109,
+      "state_near": 9,
+      "other_city": 24,
+      "no_geo": 714
+    },
+    "intentBreakdown": {
+      "cost": 393,
+      "contractor": 506,
+      "material_asphalt": 49,
+      "material_tile": 86,
+      "material_metal": 72,
+      "material_slate": 38,
+      "material_solar": 47,
+      "material_flat": 56,
+      "material_wood": 0,
+      "project_repair": 176,
+      "project_replacement": 141,
+      "project_storm": 54,
+      "project_commercial": 18,
+      "code_title24": 45,
+      "code_fire": 22,
+      "code_permit": 91,
+      "code_hoa": 0,
+      "code_license": 88,
+      "insurance": 4,
+      "trust_review": 47,
+      "brand": 14,
+      "scope_addon": 24,
+      "how_to": 10,
+      "timing": 6,
+      "comparison": 13,
+      "question": 11,
+      "paid_rebate": 2
+    }
+  },
+  "topOverall": [
+    {
+      "phrase": "roof replacement los angeles",
+      "count": 302,
+      "geo": "los_angeles",
+      "intents": [
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "new roof cost los angeles",
+      "count": 260,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roofing in los angeles",
+      "count": 239,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "best los angeles roofing prices",
+      "count": 231,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost los angeles",
+      "count": 227,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "best los angeles roof replacement",
+      "count": 218,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roofing los angeles ca",
+      "count": 218,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "los angeles roof repair cost",
+      "count": 197,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "la roofing company cost",
+      "count": 180,
+      "geo": "no_geo",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "los angeles roof repair and replacement",
+      "count": 154,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "yelp roofing los angeles",
+      "count": 147,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "roofing services on offer in los angeles",
+      "count": 145,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles",
+      "count": 143,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost california",
+      "count": 141,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roofers los angeles california",
+      "count": 141,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles ca",
+      "count": 139,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing company los angeles ca",
+      "count": 139,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers los angeles ca",
+      "count": 134,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing company los angeles",
+      "count": 120,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing repair los angeles",
+      "count": 116,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "cost to replace roof california",
+      "count": 114,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost san francisco",
+      "count": 112,
+      "geo": "ca_other_city",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "yelp roofers los angeles",
+      "count": 107,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "new roof cost california",
+      "count": 106,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "repairing a roof los angeles",
+      "count": 103,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "average roof replacement cost california",
+      "count": 102,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roof repair california cost",
+      "count": 102,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "los angeles roof repair reviews",
+      "count": 100,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_repair",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "roofers in los angeles",
+      "count": 89,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "los angeles roof repair contractors",
+      "count": 89,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "los angeles roof repair companies",
+      "count": 88,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "los angeles convertible roof replacement",
+      "count": 87,
+      "geo": "los_angeles",
+      "intents": [
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "best los angeles roofing reviews",
+      "count": 86,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "best los angeles roofing options",
+      "count": 83,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "average cost for roof replacement in calif",
+      "count": 82,
+      "geo": "no_geo",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "top rated roofing services in los angeles",
+      "count": 82,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "best los angeles roofing",
+      "count": 78,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "la roofing company ratings",
+      "count": 77,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "roofing contractors los angeles reviews",
+      "count": 73,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "los angeles roof repair near me",
+      "count": 68,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "best los angeles roofing company",
+      "count": 68,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles emergency",
+      "count": 68,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost bay area",
+      "count": 66,
+      "geo": "no_geo",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roof contractors los angeles",
+      "count": 65,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "average cost of roof repair in california",
+      "count": 64,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "average cost of new roof in california",
+      "count": 62,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "best los angeles roof repair",
+      "count": 62,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "best los angeles roofing services",
+      "count": 58,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "los angeles roofing companies",
+      "count": 56,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "licensed roofing contractors los angeles",
+      "count": 55,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    }
+  ],
+  "bothEngines": [
+    {
+      "phrase": "roof replacement los angeles",
+      "count": 302,
+      "geo": "los_angeles",
+      "intents": [
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "new roof cost los angeles",
+      "count": 260,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost los angeles",
+      "count": 227,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles",
+      "count": 143,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles ca",
+      "count": 139,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing company los angeles ca",
+      "count": 139,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "average roof replacement cost california",
+      "count": 102,
+      "geo": "ca_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roofers san fernando valley",
+      "count": 49,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "scope_addon"
+      ]
+    },
+    {
+      "phrase": "roofers pasadena ca",
+      "count": 33,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair los angeles cost",
+      "count": 29,
+      "geo": "los_angeles",
+      "intents": [
+        "cost",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "ladbs roof permit",
+      "count": 28,
+      "geo": "no_geo",
+      "intents": [
+        "code_permit"
+      ]
+    },
+    {
+      "phrase": "roofing contractors los angeles",
+      "count": 28,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "cslb contractor license check",
+      "count": 28,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "roofing long beach ca",
+      "count": 28,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "roof repair san fernando valley",
+      "count": 28,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair",
+        "scope_addon"
+      ]
+    },
+    {
+      "phrase": "cslb contractor license search",
+      "count": 26,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "roof repair long beach ca",
+      "count": 26,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing companies in los angeles",
+      "count": 25,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing contractors san fernando valley",
+      "count": 23,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "scope_addon"
+      ]
+    },
+    {
+      "phrase": "storm damage roof repair near me",
+      "count": 20,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "project_repair",
+        "project_storm"
+      ]
+    },
+    {
+      "phrase": "roofing pasadena",
+      "count": 20,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "economy roofing santa monica",
+      "count": 19,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "roofing long beach",
+      "count": 12,
+      "geo": "los_angeles",
+      "intents": []
+    },
+    {
+      "phrase": "roof leak repair los angeles",
+      "count": 11,
+      "geo": "los_angeles",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing companies los angeles",
+      "count": 10,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers long beach ca",
+      "count": 8,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "commercial roofing contractors los angeles",
+      "count": 6,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofers in long beach ca",
+      "count": 6,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers in long beach",
+      "count": 5,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers in pasadena md",
+      "count": 4,
+      "geo": "los_angeles",
+      "intents": [
+        "contractor"
+      ]
+    }
+  ],
+  "laByIntent": {
+    "cost": [
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 260,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing prices",
+        "count": 231,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost los angeles",
+        "count": 227,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair cost",
+        "count": 197,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof leak repair los angeles free estimate",
+        "count": 36,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost in los angeles",
+        "count": 33,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof leak repair los angeles cost",
+        "count": 33,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles cost",
+        "count": 29,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles cheap",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofers long beach cost",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles free estimate",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing price comparison in long beach",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles solar installation cost",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles solar installers cost",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "solar companies los angeles cost",
+        "count": 16,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost los angeles reddit",
+        "count": 8,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average cost of roof replacement in los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "best los angeles roofing prices",
+        "count": 231,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roof replacement",
+        "count": 218,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing services on offer in los angeles",
+        "count": 145,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofers los angeles california",
+        "count": 141,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing company los angeles ca",
+        "count": 139,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofers los angeles ca",
+        "count": 134,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing company los angeles",
+        "count": 120,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "yelp roofers los angeles",
+        "count": 107,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofers in los angeles",
+        "count": 89,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair contractors",
+        "count": 89,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair companies",
+        "count": 88,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing reviews",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing options",
+        "count": 83,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "top rated roofing services in los angeles",
+        "count": 82,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing",
+        "count": 78,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing contractors los angeles reviews",
+        "count": 73,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair near me",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing company",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof contractors los angeles",
+        "count": 65,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_asphalt": [
+      {
+        "phrase": "asphalt paving los angeles",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "superior asphalt services los angeles",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city of los angeles asphalt plant",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_tile": [
+      {
+        "phrase": "mexican tile los angeles",
+        "count": 11,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores los angeles ca",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile roof repair los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "material_metal": [
+      {
+        "phrase": "residential metal roof in los angeles",
+        "count": 37,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing los angeles california",
+        "count": 28,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roof services in santa monica",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roof los angeles",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roof near santa monica",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roof cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "material_slate": [
+      {
+        "phrase": "slate roof repair los angeles",
+        "count": 28,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "slate z los angeles",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_solar": [
+      {
+        "phrase": "los angeles solar installation cost",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles solar installers cost",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "solar companies los angeles cost",
+        "count": 16,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "solar companies los angeles prices",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "solar installers los angeles free estimate",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles solar installers comparison",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_flat": [
+      {
+        "phrase": "cool roof technical la county",
+        "count": 54,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles county cool roof requirements",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cool roof rebate los angeles",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles county cool roof ordinance",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cool roof los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof ordinance",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof program",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof requirements",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "flat roof repair los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "material_wood": [],
+    "project_repair": [
+      {
+        "phrase": "los angeles roof repair cost",
+        "count": 197,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair and replacement",
+        "count": 154,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles",
+        "count": 143,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles ca",
+        "count": 139,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing repair los angeles",
+        "count": 116,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair contractors",
+        "count": 89,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair companies",
+        "count": 88,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair near me",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles emergency",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roof repair",
+        "count": 62,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing repair",
+        "count": 48,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof leak repair los angeles free estimate",
+        "count": 36,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof leak repair los angeles cost",
+        "count": 33,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles cost",
+        "count": 29,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "slate roof repair los angeles",
+        "count": 28,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair san fernando valley",
+        "count": 28,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair financing",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles cheap",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles county",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_replacement": [
+      {
+        "phrase": "roof replacement los angeles",
+        "count": 302,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 260,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost los angeles",
+        "count": 227,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "best los angeles roof replacement",
+        "count": 218,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair and replacement",
+        "count": 154,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles convertible roof replacement",
+        "count": 87,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost in los angeles",
+        "count": 33,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost los angeles reddit",
+        "count": 8,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average cost of roof replacement in los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average cost of new roof in los angeles",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement los angeles cost",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost in los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cost of roof replacement los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "new roof cost in los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cost of new roof los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "do i need a permit to replace my roof in los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement near los angeles ca",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_storm": [
+      {
+        "phrase": "los angeles storm damage",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles storm news",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles storm update",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles storm news today",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "storm in los angeles",
+        "count": 6,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles storm today",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair storm damage los angeles",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles wind storm",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "upcoming storm in los angeles",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial roofers los angeles",
+        "count": 41,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors los angeles",
+        "count": 6,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles permit office",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing business for sale los angeles",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing company los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roof repair los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair & commercial roofing",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing santa monica",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "code_title24": [
+      {
+        "phrase": "cool roof technical la county",
+        "count": 54,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles climate zone title 24",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles county cool roof requirements",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cool roof rebate los angeles",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles county cool roof ordinance",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cool roof los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof ordinance",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof program",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles cool roof requirements",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "code_fire": [],
+    "code_permit": [
+      {
+        "phrase": "city of los angeles roofing permit",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles county roofing permit",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "local renovation permit los angeles",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "location renovation los angeles permits",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "home renovation los angeles permit",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hillside ave los angeles ca",
+        "count": 19,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof permit los angeles",
+        "count": 17,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing permit los angeles",
+        "count": 17,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles foundation repair permit",
+        "count": 16,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof permit",
+        "count": 11,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles permit building",
+        "count": 8,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roofing permit",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles construction division permits",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles permit office",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hillside avenue los angeles",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof permit cost los angeles",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "hollywood roof permit search",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hillside villa los angeles",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles bathroom remodeling permit",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hillside area los angeles",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "code_hoa": [],
+    "code_license": [
+      {
+        "phrase": "licensed roofing contractors los angeles",
+        "count": 55,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles licensed insured roofers",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "encino ca licensed roofers",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "insurance": [],
+    "trust_review": [
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing reviews",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing contractors los angeles reviews",
+        "count": 73,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles reviews",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofers long beach reviews",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof leak repair los angeles reviews",
+        "count": 8,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles iso fire rating",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best choice roofing los angeles sherman oaks reviews",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof los angeles reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "los angeles fire department iso rating",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair warranty",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "a+ roofing pasadena reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "trc roofing long beach reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "adept roofing long beach reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "bartlett roofing long beach reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "brand": [],
+    "scope_addon": [
+      {
+        "phrase": "roofers san fernando valley",
+        "count": 49,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair san fernando valley",
+        "count": 28,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing contractors san fernando valley",
+        "count": 23,
+        "engines": [
+          "google",
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies in san fernando valley ca",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies san fernando valley",
+        "count": 5,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing supply san fernando valley",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing materials san fernando valley",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "best roofers in san fernando valley",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing san fernando valley",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofers in san fernando valley",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "how_to": [
+      {
+        "phrase": "los angeles roof repair tips",
+        "count": 6,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "timing": [
+      {
+        "phrase": "rain damage in los angeles",
+        "count": 11,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "comparison": [
+      {
+        "phrase": "roofing price comparison in long beach",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "los angeles solar installers comparison",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "question": [
+      {
+        "phrase": "do i need a permit to replace my roof in los angeles",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "paid_rebate": [
+      {
+        "phrase": "los angeles roof repair financing",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cool roof rebate los angeles",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      }
+    ]
+  },
+  "byIntent": {
+    "cost": [
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 260,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing prices",
+        "count": 231,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof replacement cost los angeles",
+        "count": 227,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair cost",
+        "count": 197,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la roofing company cost",
+        "count": 180,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost california",
+        "count": 141,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cost to replace roof california",
+        "count": 114,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof replacement cost san francisco",
+        "count": 112,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "new roof cost california",
+        "count": 106,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "average roof replacement cost california",
+        "count": 102,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof repair california cost",
+        "count": 102,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "average cost for roof replacement in calif",
+        "count": 82,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost bay area",
+        "count": 66,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of roof repair in california",
+        "count": 64,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "average cost of new roof in california",
+        "count": 62,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof repair california estimates",
+        "count": 39,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof leak repair los angeles free estimate",
+        "count": 36,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "how much does a new roof cost in los angeles",
+        "count": 33,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof leak repair los angeles cost",
+        "count": 33,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles cost",
+        "count": 29,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "spanish roof tiles prices",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of roof replacement bay area",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing services california cost",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "flat roof replacement near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price for flat roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost to replace tile roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "replacement roof tiles near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of clay roof tiles",
+        "count": 27,
+        "geo": "no_geo"
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "best los angeles roofing prices",
+        "count": 231,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roof replacement",
+        "count": 218,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la roofing company cost",
+        "count": 180,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing services on offer in los angeles",
+        "count": 145,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers los angeles california",
+        "count": 141,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing company los angeles ca",
+        "count": 139,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers los angeles ca",
+        "count": 134,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing company los angeles",
+        "count": 120,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "yelp roofers los angeles",
+        "count": 107,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers in los angeles",
+        "count": 89,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair contractors",
+        "count": 89,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair companies",
+        "count": 88,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing reviews",
+        "count": 86,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing options",
+        "count": 83,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "top rated roofing services in los angeles",
+        "count": 82,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing",
+        "count": 78,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la roofing company ratings",
+        "count": 77,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors los angeles reviews",
+        "count": 73,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair near me",
+        "count": 68,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing company",
+        "count": 68,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof contractors los angeles",
+        "count": 65,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roof repair",
+        "count": 62,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing services",
+        "count": 58,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roofing companies",
+        "count": 56,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "licensed roofing contractors los angeles",
+        "count": 55,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers santa ana ca",
+        "count": 49,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "roofers san fernando valley",
+        "count": 49,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing repair",
+        "count": 48,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "top roofing contractors los angeles",
+        "count": 48,
+        "geo": "los_angeles"
+      }
+    ],
+    "material_asphalt": [
+      {
+        "phrase": "asphalt paving los angeles",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cost of asphalt roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt roof installed",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt cost per sf",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is an asphalt roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roofing cost per square",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof price per square foot",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roofing prices per square",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof repair near me cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does asphalt roofing cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof repair near me free estimate",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does a asphalt roof cost",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof cost per square foot",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof cost per sq ft",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of asphalt roof",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roofing cost per square foot",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof replacement cost estimator",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost per square asphalt",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost for asphalt roof",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt companies in california",
+        "count": 5,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "asphalt roof replacement cost wlfvzccwr",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "superior asphalt services los angeles",
+        "count": 3,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "asphalt shingle roof valley",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of a asphalt roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt supply san francisco",
+        "count": 2,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "asphalt roofing cost per square ft",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "city of los angeles asphalt plant",
+        "count": 2,
+        "geo": "los_angeles"
+      }
+    ],
+    "material_tile": [
+      {
+        "phrase": "cost to replace tile roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "clay tile roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof repair near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof price",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof cost per sq ft",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay roof tile in canada",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "us clay roof tile",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish s tile roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof companies",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish roof tile manufacturers",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roofers near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish roof tile suppliers",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof repair",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof repair near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof details",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay roof tile cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of roof tile",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is spanish tile roofing",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile metal roofing",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "us clay tile roofing",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof tile price near me",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof section",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof cost",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof tile price near me comparison",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is a tile roof",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is a roof tile",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "mexican tile los angeles",
+        "count": 11,
+        "geo": "los_angeles"
+      }
+    ],
+    "material_metal": [
+      {
+        "phrase": "residential metal roof in los angeles",
+        "count": 37,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "metal roofing los angeles california",
+        "count": 28,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cost of metal roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "metal roof cost per sf",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "us metal roof cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "how much is the metal roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof services in santa monica",
+        "count": 26,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "metal roof los angeles",
+        "count": 25,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "metal roof cost canada",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof estimates near me cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof near me cost",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile metal roofing",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof company near me cost",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof near santa monica",
+        "count": 23,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "metal roof company near me free estimate",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local metal roofing cost",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof san diego",
+        "count": 12,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "metal roof price estimate",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof port angeles",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofs cost estimate",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing canada prices",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof estimated cost",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof estimates near me",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing southern california",
+        "count": 6,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "metal roof orange county california",
+        "count": 6,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "metal roof replacement near me free estimate",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof metal roofing",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof cost los angeles",
+        "count": 4,
+        "geo": "los_angeles"
+      }
+    ],
+    "material_slate": [
+      {
+        "phrase": "slate roof repair los angeles",
+        "count": 28,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "slate roof cost per square",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is a slate roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roofing near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price of a new slate roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does slate roof cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of a slate roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof installation cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of slate roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof repair cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof cost per square foot",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost estimates for slate roof repair",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roofing companies near me cost",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof repair near me free estimate",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roofing companies near me free estimate",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof cost per m2",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof repair near me cost",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roofers near me cost",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof cost per square metre",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is slate roof expensive",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof price per m2",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "natural slate roof near me cost",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roofing contractors near me cost",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish slate roof tiles",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of a slate roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does a slate roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof repair bay area",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate near me roofing",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "simulated slate roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "material_solar": [
+      {
+        "phrase": "cost to install solar roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "solar roof cost estimate",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar on roof cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is solar roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much rooftop solar in california",
+        "count": 24,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "los angeles solar installation cost",
+        "count": 23,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles solar installers cost",
+        "count": 23,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing and solar cost near me",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price of solar roof",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar roofing company cost",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar companies los angeles cost",
+        "count": 16,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "solar roofing company in california",
+        "count": 14,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cost of installed solar roof",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roof cost estimate",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of solar roof",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar roof system cost",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "best solar company roof cost",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does solar roofing cost",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is tesla solar roof cost",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar roofing companies near me cost",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solar companies los angeles prices",
+        "count": 4,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "solar installers los angeles free estimate",
+        "count": 4,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "solar roof installers near me cost",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of tesla solar roof",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles solar installers comparison",
+        "count": 3,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "solar roof in canada",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of tesla solar roof",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost for tesla solar roof",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost to install solar shingles in california",
+        "count": 2,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "tesla solar roofing cost",
+        "count": 2,
+        "geo": "no_geo"
+      }
+    ],
+    "material_flat": [
+      {
+        "phrase": "la county cool roof",
+        "count": 54,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof technical la county",
+        "count": 54,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "california cool roof code",
+        "count": 28,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "flat roof replacement near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price for flat roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof san antonio",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof installation bay area",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "title 24 cool roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california title 24 part 6 cool roof",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 cool roof requirements ca",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california title 24 cool roof requirements",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "class a fire rated flat roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof replacement cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is a flat roof replacement",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof replacement estimate",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost replace flat roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california cool roof council",
+        "count": 25,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "flat roof repair company cost",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof storm damage",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "owens corning title 24 cool roof shingles",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of replacing flat roof",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is cool roof",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cool roof in california",
+        "count": 13,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cool roof examples",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "nyc cool roof program",
+        "count": 11,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "cost of flat roof repair in canada",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "compare prices flat roof repair",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof repair price",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof repair cost",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles county cool roof requirements",
+        "count": 7,
+        "geo": "los_angeles"
+      }
+    ],
+    "material_wood": [],
+    "project_repair": [
+      {
+        "phrase": "los angeles roof repair cost",
+        "count": 197,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair and replacement",
+        "count": 154,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles",
+        "count": 143,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles ca",
+        "count": 139,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing repair los angeles",
+        "count": 116,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair california cost",
+        "count": 102,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair contractors",
+        "count": 89,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair companies",
+        "count": 88,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair near me",
+        "count": 68,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles emergency",
+        "count": 68,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "average cost of roof repair in california",
+        "count": 64,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "best los angeles roof repair",
+        "count": 62,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing repair",
+        "count": 48,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair california estimates",
+        "count": 39,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof leak repair los angeles free estimate",
+        "count": 36,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof leak repair los angeles cost",
+        "count": 33,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles cost",
+        "count": 29,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "slate roof repair los angeles",
+        "count": 28,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair san fernando valley",
+        "count": 28,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair financing",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "clay tile roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof repair near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof repair",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair los angeles cheap",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair los angeles county",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "residential storm damage roof repair",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair san francisco",
+        "count": 27,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "roof leak repair toronto",
+        "count": 27,
+        "geo": "no_geo"
+      }
+    ],
+    "project_replacement": [
+      {
+        "phrase": "roof replacement los angeles",
+        "count": 302,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 260,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof replacement cost los angeles",
+        "count": 227,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roof replacement",
+        "count": 218,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair and replacement",
+        "count": 154,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof replacement cost california",
+        "count": 141,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cost to replace roof california",
+        "count": 114,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof replacement cost san francisco",
+        "count": 112,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "new roof cost california",
+        "count": 106,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "average roof replacement cost california",
+        "count": 102,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "los angeles convertible roof replacement",
+        "count": 87,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "average cost for roof replacement in calif",
+        "count": 82,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost bay area",
+        "count": 66,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of new roof in california",
+        "count": 62,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "how much does a new roof cost in los angeles",
+        "count": 33,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cost of roof replacement bay area",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof replacement near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price for flat roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost to replace tile roof in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "replacement roof tiles near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clay tile roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "spanish tile roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "slate roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "permit for roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "building permit for roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof replacement cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is a flat roof replacement",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get a roof replacement permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "permit required for roof replacement",
+        "count": 26,
+        "geo": "no_geo"
+      }
+    ],
+    "project_storm": [
+      {
+        "phrase": "los angeles storm damage",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la storm damage latest news",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "residential storm damage roof repair",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage to roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roof repair",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles storm news",
+        "count": 24,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "flat roof storm damage",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage repair services roof",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles storm update",
+        "count": 23,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "california storm damage today",
+        "count": 22,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "storm damage roof repair near me",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage in southern california",
+        "count": 15,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof damage due to storm",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing companies near me for storm damage",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roof repair near me cost",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof estimate",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "top rated storm damage roofing services",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damages in house roof",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles storm news today",
+        "count": 7,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof report for storm damage repair",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roof repair near me reviews",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm in los angeles",
+        "count": 6,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof report for storm damage",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles storm today",
+        "count": 5,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair storm damage los angeles",
+        "count": 4,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "storm during roof replacement",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "northern california storm damage",
+        "count": 3,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof report for storm damage restoration",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roofing ads",
+        "count": 3,
+        "geo": "no_geo"
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial roofers los angeles",
+        "count": 41,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "certified licensed commercial roofer",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local commercial roofing companies license",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofing contractors los angeles",
+        "count": 6,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles permit office",
+        "count": 5,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing business for sale los angeles",
+        "count": 4,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "commercial flat roof replacement near me cost",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roof leak repair near me",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local commercial roofing quotes",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local commercial roofing companies quotes",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofer san jose",
+        "count": 2,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "commercial tile roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofing company los angeles",
+        "count": 1,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "commercial metal roofing contractors license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roof repair los angeles",
+        "count": 1,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles roof repair & commercial roofing",
+        "count": 1,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "commercial roofing santa monica",
+        "count": 1,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "commercial roofers san diego",
+        "count": 1,
+        "geo": "ca_other_city"
+      }
+    ],
+    "code_title24": [
+      {
+        "phrase": "la county cool roof",
+        "count": 54,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof technical la county",
+        "count": 54,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "california cool roof code",
+        "count": 28,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cool roof san antonio",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cool roof installation bay area",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "title 24 cool roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california title 24 part 6 cool roof",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 cool roof requirements ca",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california title 24 cool roof requirements",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california title 24 roofing",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 roof shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "title 24 california hvac",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "what is title 24 compliant roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california title 24 requirements for roofing",
+        "count": 26,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california title 24 roofing code requirements",
+        "count": 26,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california cool roof council",
+        "count": 25,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "los angeles climate zone title 24",
+        "count": 25,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "title 24 roof insulation requirements",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "title 24 lighting california",
+        "count": 22,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 insulation requirements ca",
+        "count": 22,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california building and safety title 24",
+        "count": 21,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "owens corning title 24 cool roof shingles",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "title 24 compliant roof shingles",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is cool roof",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cool roof in california",
+        "count": 13,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 california windows",
+        "count": 12,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cool roof examples",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "nyc cool roof program",
+        "count": 11,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "california title 24 2019 refrigeration pdf",
+        "count": 11,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "title 24 roofing requirements",
+        "count": 10,
+        "geo": "no_geo"
+      }
+    ],
+    "code_fire": [
+      {
+        "phrase": "class a fire rated roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated flat roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof material",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire related roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a rated roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roofing material",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a roof assembly california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "class a fire rating roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roof",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating canada",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof shingles",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fire rated class a",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a fire rating",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ul class a fire rating roofing",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a or b",
+        "count": 1,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "class a and b fire",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a vs class c fire rating",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof underlayment",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "code_permit": [
+      {
+        "phrase": "ladbs roof permit",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "city of los angeles roofing permit",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "los angeles county roofing permit",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la county roof permit",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "permit for roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "building permit for roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local renovation permit los angeles",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing permits in california",
+        "count": 27,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "how to get a roof replacement permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "permit required for roof replacement",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement permit requirements",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement permit cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs check a permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs building permit lookup",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs building permit search",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs permit look up",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs building permit records",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs building permit application form",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs online services permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs temp power permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "location renovation los angeles permits",
+        "count": 25,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "ladbs permit and inspection report",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs permit log in",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs check permit status",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs application for plumbing permit",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs online permit search",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "home renovation los angeles permit",
+        "count": 24,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "ladbs pay for permit",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs permit status lookup",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ladbs online permit status",
+        "count": 23,
+        "geo": "no_geo"
+      }
+    ],
+    "code_hoa": [],
+    "code_license": [
+      {
+        "phrase": "licensed roofing contractors los angeles",
+        "count": 55,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la roofing company license",
+        "count": 34,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cslb contractor license check",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles licensed insured roofers",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "what is a licensed roofer",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cslb contractor license search",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california roofing contractors license",
+        "count": 26,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "state of california roofing license",
+        "count": 26,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roofing services california license",
+        "count": 25,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cslb contractors license lookup",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "certified licensed commercial roofer",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractor license california",
+        "count": 24,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roof contractor license california",
+        "count": 24,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cslb renew contractors license",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local commercial roofing companies license",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new construction roofer license",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cslb check a licensed contractor",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cslb contractors license application",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "trusted local roofers license",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "christian brothers roofing license",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california roofer license check",
+        "count": 19,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roofing license in california",
+        "count": 19,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "cslb general contractor license",
+        "count": 18,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "san diego licensed roofer",
+        "count": 17,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "roofing c-39 state specialty license",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "license for roofing contractor",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "licensed local roofing repair certification",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cslb license lookup by contractor name",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "california roofing contractor license lookup",
+        "count": 12,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "california licensed insured roofers",
+        "count": 11,
+        "geo": "ca_state"
+      }
+    ],
+    "insurance": [
+      {
+        "phrase": "does insurance cover storm damage to roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "will insurance cover a metal roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof claim",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof repair claim",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "trust_review": [
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best los angeles roofing reviews",
+        "count": 86,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "la roofing company ratings",
+        "count": 77,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors los angeles reviews",
+        "count": 73,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "class c roof fire rating",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof system fire rating class",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair los angeles reviews",
+        "count": 26,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers long beach reviews",
+        "count": 26,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "class a fire rating roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roof",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating canada",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "long roofing reviews yelp",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 1 roof rating",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair los angeles reviews",
+        "count": 8,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cool roof rating",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roof repair near me reviews",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing services california reviews",
+        "count": 7,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "los angeles iso fire rating",
+        "count": 5,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "long roofing company reviews",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a fire rating",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ul class a fire rating roofing",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "best choice roofing los angeles sherman oaks reviews",
+        "count": 4,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cool roofing products reviews",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in orange county reviews",
+        "count": 3,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "j and j roofing reviews",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof estimates near me reviews",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "usa roof quotes reviews",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof review",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair houston reviews",
+        "count": 2,
+        "geo": "other_city"
+      }
+    ],
+    "brand": [
+      {
+        "phrase": "owens corning title 24 cool roof shingles",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roof cost estimate",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is tesla solar roof cost",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of tesla solar roof",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of tesla solar roof",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost for tesla solar roof",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roofing cost",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roof cost per sq ft",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does gaf solar roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gaf energy solar roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roof price per square foot",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tesla solar roof estimate",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is the tesla solar roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "solarcity tesla roof cost",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "scope_addon": [
+      {
+        "phrase": "roofers san fernando valley",
+        "count": 49,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof repair san fernando valley",
+        "count": 28,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers in garden valley",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors san fernando valley",
+        "count": 23,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers in moreno valley",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing company in spring valley ca",
+        "count": 7,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "roofing companies in san fernando valley ca",
+        "count": 7,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing companies san fernando valley",
+        "count": 5,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers in cherry valley ca",
+        "count": 5,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "asphalt shingle roof valley",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof valley leak repair",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in simi valley ca",
+        "count": 2,
+        "geo": "ca_other_city"
+      },
+      {
+        "phrase": "roofing supply san fernando valley",
+        "count": 2,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing materials san fernando valley",
+        "count": 2,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "best roofers in san fernando valley",
+        "count": 2,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "class a fire rated roof underlayment",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "repair leaking roof valley",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to shingle a valley with architectural shingles video",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter and roofing repair near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing san fernando valley",
+        "count": 1,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofers in san gabriel valley",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors san gabriel valley",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing companies san gabriel valley",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in san fernando valley",
+        "count": 1,
+        "geo": "los_angeles"
+      }
+    ],
+    "how_to": [
+      {
+        "phrase": "how to get a roof replacement permit",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to become a licensed roofing contractor",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to patch repair a roof",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles roof repair tips",
+        "count": 6,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "how to become a roofer in california",
+        "count": 3,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "how to get a cslb license",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how do roofing contractors get paid",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to find a reputable roofer",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to become a licensed roofer",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to shingle a valley with architectural shingles video",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "timing": [
+      {
+        "phrase": "rain damage in los angeles",
+        "count": 11,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roofing company in spring valley ca",
+        "count": 7,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "how long do roofers guarantee their work",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how long does it take roofers to replace roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how long do roofers work in a day",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how long is a roofing contract good for",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "comparison": [
+      {
+        "phrase": "roofing price comparison in long beach",
+        "count": 24,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "roof tile price near me comparison",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "compare prices flat roof repair",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "los angeles solar installers comparison",
+        "count": 3,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "usa roof quotes comparison",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "typical roof replacement cost comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of flat roof repair vs replacement",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof replacement cost comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a or b",
+        "count": 1,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "class a vs class c fire rating",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "licensed local roofing repair comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement quote comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof repair comparison",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "question": [
+      {
+        "phrase": "what is title 24 compliant roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a licensed roofer",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is spanish tile roofing",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is cool roof",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cool roof in california",
+        "count": 13,
+        "geo": "ca_state"
+      },
+      {
+        "phrase": "what is roof replacement cost",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cslb license",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is considered storm damage to roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what are spanish roof tiles called",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is spanish tile roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "do i need a permit to replace my roof in los angeles",
+        "count": 1,
+        "geo": "los_angeles"
+      }
+    ],
+    "paid_rebate": [
+      {
+        "phrase": "los angeles roof repair financing",
+        "count": 27,
+        "geo": "los_angeles"
+      },
+      {
+        "phrase": "cool roof rebate los angeles",
+        "count": 2,
+        "geo": "los_angeles"
+      }
+    ]
+  },
+  "byGeo": {
+    "los_angeles": [
+      {
+        "phrase": "roof replacement los angeles",
+        "count": 302,
+        "intents": [
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 260,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofing in los angeles",
+        "count": 239,
+        "intents": []
+      },
+      {
+        "phrase": "best los angeles roofing prices",
+        "count": 231,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost los angeles",
+        "count": 227,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "best los angeles roof replacement",
+        "count": 218,
+        "intents": [
+          "contractor",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofing los angeles ca",
+        "count": 218,
+        "intents": []
+      },
+      {
+        "phrase": "los angeles roof repair cost",
+        "count": 197,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair and replacement",
+        "count": 154,
+        "intents": [
+          "project_repair",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "yelp roofing los angeles",
+        "count": 147,
+        "intents": []
+      },
+      {
+        "phrase": "roofing services on offer in los angeles",
+        "count": 145,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles",
+        "count": 143,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers los angeles california",
+        "count": 141,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair los angeles ca",
+        "count": 139,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing company los angeles ca",
+        "count": 139,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers los angeles ca",
+        "count": 134,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing company los angeles",
+        "count": 120,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing repair los angeles",
+        "count": 116,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "yelp roofers los angeles",
+        "count": 107,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "repairing a roof los angeles",
+        "count": 103,
+        "intents": []
+      },
+      {
+        "phrase": "los angeles roof repair reviews",
+        "count": 100,
+        "intents": [
+          "contractor",
+          "project_repair",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "roofers in los angeles",
+        "count": 89,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair contractors",
+        "count": 89,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "los angeles roof repair companies",
+        "count": 88,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "los angeles convertible roof replacement",
+        "count": 87,
+        "intents": [
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing reviews",
+        "count": 86,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing options",
+        "count": 83,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "top rated roofing services in los angeles",
+        "count": 82,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "best los angeles roofing",
+        "count": 78,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing contractors los angeles reviews",
+        "count": 73,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      }
+    ],
+    "ca_other_city": [
+      {
+        "phrase": "roof replacement cost san francisco",
+        "count": 112,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofers santa ana ca",
+        "count": 49,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in san francisco",
+        "count": 31,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers san diego ca",
+        "count": 30,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in san jose ca",
+        "count": 29,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in san jose",
+        "count": 28,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof leak repair san francisco",
+        "count": 27,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair san diego",
+        "count": 27,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers in santa barbara ca",
+        "count": 27,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in san diego",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing services availability in riverside ca",
+        "count": 25,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in santa barbara",
+        "count": 24,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in sacramento california",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in orange county ca",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost san diego",
+        "count": 20,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofing services on offer in riverside ca",
+        "count": 19,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "san diego licensed roofer",
+        "count": 17,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "roof leak repair sacramento",
+        "count": 16,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers in orange county california",
+        "count": 16,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roof san diego",
+        "count": 12,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "roofers huntington beach ca",
+        "count": 10,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in orange county",
+        "count": 8,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "spanish tile san diego",
+        "count": 6,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "metal roof orange county california",
+        "count": 6,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "roof tiles san jose",
+        "count": 5,
+        "intents": []
+      },
+      {
+        "phrase": "residential roofer san jose",
+        "count": 5,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roof san jose ca",
+        "count": 4,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "california roof experts riverside ca",
+        "count": 4,
+        "intents": []
+      },
+      {
+        "phrase": "residential roofer san diego",
+        "count": 4,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof replacement san jose",
+        "count": 3,
+        "intents": [
+          "project_replacement"
+        ]
+      }
+    ],
+    "ca_state": [
+      {
+        "phrase": "roof replacement cost california",
+        "count": 141,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "cost to replace roof california",
+        "count": 114,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "new roof cost california",
+        "count": 106,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost california",
+        "count": 102,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roof repair california cost",
+        "count": 102,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "average cost of roof repair in california",
+        "count": 64,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "average cost of new roof in california",
+        "count": 62,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofing services california near me",
+        "count": 40,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair california estimates",
+        "count": 39,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers in san bernardino ca",
+        "count": 33,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers san rafael ca",
+        "count": 32,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "california cool roof code",
+        "count": 28,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "roofing services california cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "cost to replace tile roof in california",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_tile",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "cost of metal roof in california",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "metal roof in california",
+        "count": 27,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "metal roofing in california",
+        "count": 27,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "cost to install solar roof in california",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_solar"
+        ]
+      },
+      {
+        "phrase": "california title 24 part 6 cool roof",
+        "count": 27,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "title 24 cool roof requirements ca",
+        "count": 27,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "california title 24 cool roof requirements",
+        "count": 27,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "california title 24 roofing",
+        "count": 27,
+        "intents": [
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "title 24 california hvac",
+        "count": 27,
+        "intents": [
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "class a roof assembly california",
+        "count": 27,
+        "intents": [
+          "code_fire"
+        ]
+      },
+      {
+        "phrase": "roofing permits in california",
+        "count": 27,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "roofing west hills ca",
+        "count": 27,
+        "intents": []
+      },
+      {
+        "phrase": "california title 24 requirements for roofing",
+        "count": 26,
+        "intents": [
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "california title 24 roofing code requirements",
+        "count": 26,
+        "intents": [
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "roof repair el dorado hills ca",
+        "count": 26,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "california roofing contractors license",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      }
+    ],
+    "state_near": [
+      {
+        "phrase": "fernando roofing phoenix az",
+        "count": 20,
+        "intents": []
+      },
+      {
+        "phrase": "tile roof repair cost las vegas nv",
+        "count": 2,
+        "intents": [
+          "cost",
+          "material_tile",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "las vegas roof tile",
+        "count": 2,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "cost of tile roof replacement in phoenix",
+        "count": 1,
+        "intents": [
+          "cost",
+          "material_tile",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "j and j asphalt las vegas",
+        "count": 1,
+        "intents": [
+          "material_asphalt"
+        ]
+      },
+      {
+        "phrase": "roof class a or b",
+        "count": 1,
+        "intents": [
+          "code_fire",
+          "comparison"
+        ]
+      },
+      {
+        "phrase": "arizona jlc roofing license",
+        "count": 1,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "roofers in las vegas nevada",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in fernley nv",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ],
+    "other_city": [
+      {
+        "phrase": "nyc cool roof program",
+        "count": 11,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost kansas city",
+        "count": 6,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "houston emergency roof damage",
+        "count": 3,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston",
+        "count": 2,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston reviews",
+        "count": 2,
+        "intents": [
+          "contractor",
+          "project_repair",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "roof repair kansas city cost",
+        "count": 1,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "kansas city roof replacement",
+        "count": 1,
+        "intents": [
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofing repair kansas city cost",
+        "count": 1,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "slate roofing seattle cost",
+        "count": 1,
+        "intents": [
+          "cost",
+          "material_slate"
+        ]
+      },
+      {
+        "phrase": "solar roof new york",
+        "count": 1,
+        "intents": [
+          "material_solar"
+        ]
+      },
+      {
+        "phrase": "city of houston roof replacement permit",
+        "count": 1,
+        "intents": [
+          "project_replacement",
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "roofing contractors in kansas city area",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing contractors kansas city ks",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing contractors kansas city",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "dallas roof repair quote",
+        "count": 1,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "denver storm damage roof repair",
+        "count": 1,
+        "intents": [
+          "project_repair",
+          "project_storm"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston texas",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston contractors",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston services",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston tx",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair kansas city",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers in kansas city",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in queens new york",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers tampa bay area",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ],
+    "no_geo": [
+      {
+        "phrase": "la roofing company cost",
+        "count": 180,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "average cost for roof replacement in calif",
+        "count": 82,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "la roofing company ratings",
+        "count": 77,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost bay area",
+        "count": 66,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "la county cool roof",
+        "count": 54,
+        "intents": [
+          "material_flat",
+          "code_title24"
+        ]
+      },
+      {
+        "phrase": "la roofing company near me",
+        "count": 34,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "la roofing company license",
+        "count": 34,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "spanish roof tiles prices",
+        "count": 28,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "ladbs roof permit",
+        "count": 28,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "cslb contractor license check",
+        "count": 28,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "cost of roof replacement bay area",
+        "count": 27,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "flat roof replacement near me cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor",
+          "material_flat",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "price for flat roof replacement",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_flat",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "replacement roof tiles near me cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "clay tile roof replacement cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_tile",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "clay tile roof repair cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_tile",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "cost of clay roof tiles",
+        "count": 27,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "clay tile roof repair near me cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor",
+          "material_tile",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "clay tile roof price",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "clay tile roof cost per sq ft",
+        "count": 27,
+        "intents": [
+          "cost",
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "clay roof tile in canada",
+        "count": 27,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "clay roof tiles near me prices",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof clay tiles prices",
+        "count": 27,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "us clay roof tile",
+        "count": 27,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "clay roofing tiles price",
+        "count": 27,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "spanish tile roof near me",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "spanish s tile roof",
+        "count": 27,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "spanish tile roof companies",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "spanish roof tile manufacturers",
+        "count": 27,
+        "intents": [
+          "material_tile"
+        ]
+      },
+      {
+        "phrase": "spanish roofing tiles near me",
+        "count": 27,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ]
+  },
+  "noIntentClassified": [
+    {
+      "phrase": "repairing a roof los angeles",
+      "count": 103,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "roofing packages on offer in los angeles",
+      "count": 17,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "los angeles convertible roof",
+      "count": 51,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "one roof los angeles",
+      "count": 21,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "roofing in los angeles",
+      "count": 239,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "yelp roofing los angeles",
+      "count": 147,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "roofing los angeles ca",
+      "count": 218,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "red roof los angeles",
+      "count": 25,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "l and j roofing",
+      "count": 4,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "l and j roofing san angelo tx",
+      "count": 4,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "jj roofing riverside ca",
+      "count": 3,
+      "geo": "ca_other_city"
+    },
+    {
+      "phrase": "k and l roofing",
+      "count": 4,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "la roofing materials los angeles",
+      "count": 8,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "roof tiles san jose",
+      "count": 5,
+      "geo": "ca_other_city"
+    },
+    {
+      "phrase": "used roof tiles san jose ca",
+      "count": 2,
+      "geo": "ca_other_city"
+    },
+    {
+      "phrase": "clay roof tiles purchase",
+      "count": 26,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish roof tiles for sale",
+      "count": 27,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish style roof tiles",
+      "count": 27,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish style roofing tiles",
+      "count": 27,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish roof tiles home depot",
+      "count": 23,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish roof tiles los angeles",
+      "count": 1,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "clay roof tiles los angeles",
+      "count": 1,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "spanish concrete roof tiles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish designer floor tiles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "spanish floor tiles kitchen",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "red spanish roof tiles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "lightweight spanish roof tiles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "rooftop in los angeles",
+      "count": 26,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "the cool los angeles",
+      "count": 25,
+      "geo": "los_angeles"
+    },
+    {
+      "phrase": "the cool los angeles ca",
+      "count": 26,
+      "geo": "los_angeles"
+    }
+  ]
+}
