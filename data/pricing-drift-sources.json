@@ -179,13 +179,13 @@
           "id": "aluminum-seamless-150-1story",
           "label": "Aluminum seamless gutters 150 lf, 1-story (national)",
           "askClaude": "Find the typical 2026 cost RANGE for aluminum seamless K-style gutters (5-inch), 150 linear feet, 1-story home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 2500 }
+          "currentBand": { "low": 1000, "high": 1800 }
         },
         {
           "id": "copper-80-2story",
           "label": "Copper gutters 80 lf, 2-story home (national)",
           "askClaude": "Find the typical 2026 cost RANGE for copper gutters, 80 linear feet, 2-story home, including hidden hangers and downspouts. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 4500, "high": 9000 }
+          "currentBand": { "low": 2000, "high": 6000 }
         }
       ],
       "sources": [

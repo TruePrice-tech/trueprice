@@ -7,10 +7,10 @@ const IS_BASELINE = process.argv.includes("--baseline");
 const TI = 1.0, TS = 1.0;
 
 const SPECS = [
-  { id: "alum-seamless-150-1story-se", label: "Aluminum seamless 150lf 1-story, SE", inputs: { gutterType: "aluminum_seamless", linearFeet: 150, stories: "1", addGuards: false, region: "southeast" }, band: { low: 1000, high: 2500 }, sources: "HomeGuide 2026 alum seamless 5\" $6-12/lf." },
+  { id: "alum-seamless-150-1story-se", label: "Aluminum seamless 150lf 1-story, SE", inputs: { gutterType: "aluminum_seamless", linearFeet: 150, stories: "1", addGuards: false, region: "southeast" }, band: { low: 1000, high: 1800 }, sources: "HomeGuide / Forbes / Modernize / Angi 2026 alum seamless 5\" $6-12/lf = $900-1.8k for 150lf; SE 1.03x ~= national." },
   { id: "alum-6inch-200-2story-ne-guards", label: "Aluminum 6\" 200lf 2-story, NE, +guards", inputs: { gutterType: "aluminum_6inch", linearFeet: 200, stories: "2", addGuards: true, region: "northeast" }, band: { low: 5500, high: 12000 }, sources: "Forbes 2026 6\" alum + guards 200lf 2-story NE." },
   { id: "vinyl-100-1story-tx", label: "Vinyl 100lf 1-story, TX, no guards", inputs: { gutterType: "vinyl", linearFeet: 100, stories: "1", addGuards: false, region: "south" }, band: { low: 400, high: 1000 }, sources: "HomeGuide 2026 vinyl gutters $4-8/lf." },
-  { id: "copper-80-2story-ca-guards", label: "Copper 80lf 2-story, CA, +guards", inputs: { gutterType: "copper", linearFeet: 80, stories: "2", addGuards: true, region: "west" }, band: { low: 4500, high: 9000 }, sources: "Modernize 2026 copper $25-50/lf + guards + W 1.22x." },
+  { id: "copper-80-2story-ca-guards", label: "Copper 80lf 2-story, CA, +guards", inputs: { gutterType: "copper", linearFeet: 80, stories: "2", addGuards: true, region: "west" }, band: { low: 3500, high: 8000 }, sources: "HomeGuide / Forbes / Modernize 2026 copper $25-74/lf = $2-6k national 80lf; CA 1.22x + 2-story + guards add-ons land $3.5-8k." },
   { id: "steel-150-1story-mw-guards", label: "Steel 150lf 1-story, MW, +guards", inputs: { gutterType: "steel", linearFeet: 150, stories: "1", addGuards: true, region: "midwest" }, band: { low: 2500, high: 5500 }, sources: "Angi 2026 steel + guards 150lf MW." },
 ];
 
