@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-04T11:22:21.239Z",
+  "ts": "2026-05-21T00:00:39.855Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -15,7 +15,7 @@
     "spray-foam-closed-1000-walls-ne": {
       "total": 5450,
       "band": {
-        "low": 3000,
+        "low": 3500,
         "high": 7000
       },
       "label": "Closed-cell spray foam in walls, 1,000 sqft, NE",

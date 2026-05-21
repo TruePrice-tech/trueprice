@@ -21,8 +21,8 @@ const SPECS = [
     id: "spray-foam-closed-1000-walls-ne",
     label: "Closed-cell spray foam in walls, 1,000 sqft, NE",
     inputs: { insType: "spray_foam_closed", sqft: 1000, region: "northeast", locationKey: "walls", removalIncluded: false },
-    band: { low: 3000, high: 7000 },
-    sources: "HomeGuide 2026 closed-cell foam $2.50-5.50/sqft; NE labor 1.18x; walls 1.15x.",
+    band: { low: 3500, high: 7000 },
+    sources: "HomeGuide / Forbes / Energy.gov / Modernize 2026 closed-cell foam $3-5.5k national 1k sqft walls; NE 1.18x x walls 1.15x lands $3.5-7k.",
   },
   {
     id: "batts-2000-attic-mw-with-removal",

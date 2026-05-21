@@ -339,7 +339,7 @@
           "id": "spray-foam-closed-1000-walls",
           "label": "Closed-cell spray foam in walls, 1,000 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for closed-cell spray foam insulation in 1,000 sqft of wall area. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 3000, "high": 7000 }
+          "currentBand": { "low": 3000, "high": 5500 }
         }
       ],
       "sources": [
