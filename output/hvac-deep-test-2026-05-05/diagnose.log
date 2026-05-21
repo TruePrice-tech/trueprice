@@ -1,0 +1,16 @@
+== EST-2: /hvac-estimate console + network ==
+Console errors/warnings:
+  (none)
+Network 4xx+:
+  (none)
+
+== COMPARE: time parse pipeline ==
+  [3.9s] uploaded both
+  [3.9s btn] Still parsing... 0 of 2 ready
+  [12.9s console log] [TP_Engine] vertical=hvac price=3456 source=regex ocrChars=578 ocrConf=88% aiCalled=false
+  [14.7s btn] Still parsing... 1 of 2 ready
+  [22.7s console log] [TP_Engine] vertical=hvac price=13457 source=regex ocrChars=770 ocrConf=87% aiCalled=false
+  [23.7s btn] Compare 2 quotes
+  total parse time before clickable: 23.7s
+
+DONE

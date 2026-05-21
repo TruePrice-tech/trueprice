@@ -1,0 +1,15 @@
+  f1-redding-panel-low ... OK
+  f2-spartan-panel-mid ... OK
+  f3-meridian-panel-ev ... OK
+  f4-redding-panel-messy ... FAIL
+     - contractor: expected match /redding\s*electric/, got "Not detected"
+  f5-spartan-panel-messy ... OK
+  f6-meridian-panel-messy ... OK
+  f7-service-form-9432 ... OK
+  f8-recessed-lights-3487 ... OK
+  f9-handwritten-side-job ... OK
+
+=== vs baseline ===
+No deltas vs baseline.
+
+Total failures: 1

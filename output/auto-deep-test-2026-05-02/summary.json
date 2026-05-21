@@ -1,0 +1,248 @@
+{
+  "ts": "2026-05-02T19:21:36.721Z",
+  "base": "https://woogoro.com",
+  "analyze": {
+    "f2-precision-mid": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$2,450",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Dealership"
+        },
+        {
+          "label": "REGION",
+          "value": "Southeast"
+        },
+        {
+          "label": "LABOR TOTAL",
+          "value": "$2"
+        },
+        {
+          "label": "MARKET LABOR RATE (DEALERSHIP)",
+          "value": "$114 - $171/hr"
+        }
+      ],
+      "tableRowCount": 10,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f1-honest-wrench": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$328",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Dealership"
+        },
+        {
+          "label": "REGION",
+          "value": "Southeast"
+        },
+        {
+          "label": "LABOR TOTAL",
+          "value": "$1"
+        },
+        {
+          "label": "MARKET LABOR RATE (DEALERSHIP)",
+          "value": "$114 - $171/hr"
+        }
+      ],
+      "tableRowCount": 7,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f3-park-avenue": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$1,032",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Dealership"
+        },
+        {
+          "label": "REGION",
+          "value": "Southeast"
+        },
+        {
+          "label": "LABOR TOTAL",
+          "value": "$2"
+        },
+        {
+          "label": "PARTS TYPE",
+          "value": "OEM"
+        },
+        {
+          "label": "MARKET LABOR RATE (DEALERSHIP)",
+          "value": "$114 - $171/hr"
+        }
+      ],
+      "tableRowCount": 9,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f4-jeep-insurance": {
+      "verdictLabel": "FAIR PRICE",
+      "verdictPrice": "$732",
+      "verdictRange": "Right at the market average for _national",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Independent Shop"
+        },
+        {
+          "label": "REGION",
+          "value": "_national"
+        },
+        {
+          "label": "LABOR RATE",
+          "value": "$55/hr"
+        },
+        {
+          "label": "LABOR HOURS",
+          "value": "4.4 hrs"
+        },
+        {
+          "label": "PARTS TOTAL",
+          "value": "$324"
+        },
+        {
+          "label": "LABOR TOTAL",
+          "value": "$242"
+        },
+        {
+          "label": "MARKET LABOR RATE (INDEPENDENT SHOP)",
+          "value": "$80 - $130/hr"
+        }
+      ],
+      "tableRowCount": 4,
+      "hasInsuranceBanner": true,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f5-audi-recs": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$5,557",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Independent Shop"
+        },
+        {
+          "label": "REGION",
+          "value": "_national"
+        },
+        {
+          "label": "MARKET LABOR RATE (INDEPENDENT SHOP)",
+          "value": "$80 - $130/hr"
+        }
+      ],
+      "tableRowCount": 7,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": true,
+      "consoleErrors": 0
+    },
+    "f6-equinox": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$586",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Dealership"
+        },
+        {
+          "label": "REGION",
+          "value": "_national"
+        },
+        {
+          "label": "PARTS TOTAL",
+          "value": "$386"
+        },
+        {
+          "label": "LABOR TOTAL",
+          "value": "$161"
+        },
+        {
+          "label": "MARKET LABOR RATE (DEALERSHIP)",
+          "value": "$120 - $180/hr"
+        }
+      ],
+      "tableRowCount": 7,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f7-honda-cr-v": {
+      "verdictLabel": "FAIR PRICE",
+      "verdictPrice": "$2,055",
+      "verdictRange": "Right at the market average for _national",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Independent Shop"
+        },
+        {
+          "label": "REGION",
+          "value": "_national"
+        },
+        {
+          "label": "LABOR HOURS",
+          "value": "1.5 hrs"
+        },
+        {
+          "label": "MARKET LABOR RATE (INDEPENDENT SHOP)",
+          "value": "$80 - $130/hr"
+        }
+      ],
+      "tableRowCount": 2,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    },
+    "f8-bmw-x3": {
+      "verdictLabel": "COULDN'T COMPARE TO MARKET",
+      "verdictPrice": "$2,431",
+      "verdictRange": "",
+      "details": [
+        {
+          "label": "SHOP TYPE",
+          "value": "Dealership"
+        },
+        {
+          "label": "REGION",
+          "value": "Southeast"
+        },
+        {
+          "label": "PARTS TOTAL",
+          "value": "$1,229"
+        },
+        {
+          "label": "PARTS TYPE",
+          "value": "OEM"
+        },
+        {
+          "label": "MARKET LABOR RATE (DEALERSHIP)",
+          "value": "$114 - $171/hr"
+        }
+      ],
+      "tableRowCount": 15,
+      "hasInsuranceBanner": false,
+      "hasRecommendationBanner": false,
+      "consoleErrors": 0
+    }
+  },
+  "walks": {
+    "estimate": "ok",
+    "compare": "ok",
+    "mobile": "ok",
+    "unhappy": "ok"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "url": "https://woogoro.com/gutters-cost.html",
+  "template": "hub",
+  "parsed": {
+    "title": "Gutter Installation Cost Guide (2026) | Woogoro",
+    "description": "Compare gutter installation costs by material, size, and city. Aluminum seamless, vinyl, copper, steel, and gutter guard pricing for 700+ U.S. cities.",
+    "canonical": "https://woogoro.com/gutters-cost.html",
+    "robots": "index,follow",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "Gutter Installation Cost Guide | Woogoro",
+      "og:description": "Compare aluminum, vinyl, copper, and steel gutter prices across 700+ U.S. cities.",
+      "og:type": "article",
+      "og:url": "https://woogoro.com/gutters-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Gutter Installation Cost Guide | Woogoro"
+    },
+    "twitterTags": {},
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        "name": "Gutter Installation Cost Data (2026)",
+        "description": "City-specific gutter installation cost ranges across 739 U.S. cities, derived from Bureau of Labor Statistics wage data and Bureau of Economic Analysis regional cost-of-living indices. Updated for 2026.",
+        "url": "https://woogoro.com/gutters-cost.html",
+        "creator": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        },
+        "license": "https://woogoro.com/terms.html",
+        "datePublished": "2026-01-01",
+        "dateModified": "2026-04-20",
+        "variableMeasured": "Gutter Installation Cost (USD)",
+        "spatialCoverage": {
+          "@type": "Place",
+          "name": "United States"
+        },
+        "temporalCoverage": "2026",
+        "keywords": [
+          "gutter cost",
+          "gutter replacement cost",
+          "gutter guard cost"
+        ],
+        "isAccessibleForFree": true,
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "text/html",
+            "contentUrl": "https://woogoro.com/gutters-cost.html"
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 21
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/gutters-cost.html",
+      "summary": "JSON-LD missing required type (Article|FAQPage|WebPage)",
+      "detail": "Found 1 block(s); none had @type matching Article|FAQPage|WebPage."
+    },
+    {
+      "severity": "low",
+      "screenshot": "seo:/gutters-cost.html",
+      "summary": "missing Twitter tag(s): twitter:card, twitter:title",
+      "detail": ""
+    }
+  ]
+}

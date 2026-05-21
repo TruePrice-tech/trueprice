@@ -1,0 +1,122 @@
+{
+  "url": "https://woogoro.com/fencing-estimate.html",
+  "template": "toolNoindex",
+  "parsed": {
+    "title": "Fence Cost Calculator 2026 — Free Estimate by City | Woogoro",
+    "description": "Free fence cost calculator. See typical wood, vinyl, chain link, and aluminum fence pricing in your city. Real data from 12,000+ US cities. No email required.",
+    "canonical": "https://woogoro.com/fencing-estimate.html",
+    "robots": "index,follow",
+    "h1Count": 5,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "Fence Cost Calculator 2026 — Free Estimate by City | Woogoro",
+      "og:description": "Free fence cost calculator. See typical wood, vinyl, chain link, and aluminum fence pricing in your city. Real data from 12,000+ US cities. No email required.",
+      "og:type": "website",
+      "og:url": "https://woogoro.com/fencing-estimate.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Fence Cost Calculator 2026 — Free Estimate by City | Woogoro"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Fence Cost Calculator 2026 — Free Estimate by City | Woogoro",
+      "twitter:description": "Free fence cost calculator. See typical wood, vinyl, chain link, and aluminum fence pricing in your city. Real data from 12,000+ US cities. No email required.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Woogoro Fencing Cost Estimator",
+        "url": "https://woogoro.com/fencing-estimate.html",
+        "description": "Free fencing cost estimator. Get a city-level estimate by material, length, and gates. No email, no phone, no lead-selling.",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "provider": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Fencing",
+            "item": "https://woogoro.com/fencing-estimate.html"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does fence installation cost on average?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a typical 150-foot backyard residential fence, expect $2,500 to $9,000 installed. Wood is the cheapest at $2,250-$6,750, vinyl runs $3,750-$9,000, and chain link comes in lowest at $1,200-$3,750."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is cheaper, wood or vinyl fencing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Wood is cheaper upfront ($15-$45/ft vs $25-$60/ft for vinyl), but vinyl wins on lifetime cost. Over 25 years, wood needs staining every 3-5 years and replacement around year 20."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a permit to install a fence?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most cities require a permit for fences over 6 feet tall, fences in front yards, fences near sidewalks or property lines, and any fence in a flood zone or HOA-managed community. Permits typically cost $50-$400."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does fence installation take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard 150-foot residential fence takes 2-4 days for a 2-person crew. Wood and chain link install fastest. Vinyl and aluminum require more precise post setting."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I install a fence myself to save money?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DIY fence installation can save 40-60% on labor. The trade-off requires post-hole digging, concrete setting, and accurate measurement. Most people find chain link and pre-fab wood panels DIY-friendly."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 61
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/fencing-estimate.html",
+      "summary": "tool page MUST be noindex but isn't",
+      "detail": "robots=\"index,follow\""
+    }
+  ]
+}

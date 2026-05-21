@@ -1,0 +1,94 @@
+
+=== ESTIMATE: est-A-civic-brake-front ===
+  shot: est-A-civic-brake-front-01-landing
+  shot: est-A-civic-brake-front-02-picker-open
+  shot: est-A-civic-brake-front-03-picker-closed
+  shot: est-A-civic-brake-front-04-form-filled
+  shot (full): est-A-civic-brake-front-05-result
+  dump: est-A-civic-brake-front-05-result.txt (2605 chars)
+  [est-A-civic-brake-front] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-A-civic-brake-front-06-result-oem
+  [est-A-civic-brake-front] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-A-civic-brake-front-07-result-diy
+  dump: est-A-civic-brake-front-07-result-diy.txt (1709 chars)
+  shot (full): est-A-civic-brake-front-08-print-view
+  [est-A-civic-brake-front] log AI estimate unavailable: ReferenceError: est is not defined
+  share URL: https://woogoro.com/auto-repair.html?year=2018&make=HONDA&model=Civic&zip=29707&state=SC
+
+=== ESTIMATE: est-B-f150-trans ===
+  shot: est-B-f150-trans-01-landing
+  shot: est-B-f150-trans-02-picker-open
+  shot: est-B-f150-trans-03-picker-closed
+  shot: est-B-f150-trans-04-form-filled
+  shot (full): est-B-f150-trans-05-result
+  dump: est-B-f150-trans-05-result.txt (2590 chars)
+  [est-B-f150-trans] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-B-f150-trans-06-result-oem
+  [est-B-f150-trans] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-B-f150-trans-07-result-diy
+  dump: est-B-f150-trans-07-result-diy.txt (1655 chars)
+  shot (full): est-B-f150-trans-08-print-view
+  [est-B-f150-trans] log AI estimate unavailable: ReferenceError: est is not defined
+  share URL: https://woogoro.com/auto-repair.html?year=2015&make=FORD&model=F-150&zip=29707&state=SC
+
+=== ESTIMATE: est-C-tesla-evbattery ===
+  shot: est-C-tesla-evbattery-01-landing
+  shot: est-C-tesla-evbattery-02-picker-open
+  shot: est-C-tesla-evbattery-03-picker-closed
+  shot: est-C-tesla-evbattery-04-form-filled
+  shot (full): est-C-tesla-evbattery-05-result
+  dump: est-C-tesla-evbattery-05-result.txt (2676 chars)
+  [est-C-tesla-evbattery] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-C-tesla-evbattery-06-result-oem
+  [est-C-tesla-evbattery] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-C-tesla-evbattery-07-result-diy
+  dump: est-C-tesla-evbattery-07-result-diy.txt (1751 chars)
+  shot (full): est-C-tesla-evbattery-08-print-view
+  share URL: https://woogoro.com/auto-repair.html?year=2022&make=TESLA&model=Model+3&zip=29707&state=SC
+
+=== ESTIMATE: est-D-old-camry-alt-chain ===
+  shot: est-D-old-camry-alt-chain-01-landing
+  shot: est-D-old-camry-alt-chain-02-picker-open
+  shot: est-D-old-camry-alt-chain-03-picker-closed
+  shot: est-D-old-camry-alt-chain-04-form-filled
+  [est-D-old-camry-alt-chain] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-D-old-camry-alt-chain-05-result
+  dump: est-D-old-camry-alt-chain-05-result.txt (2527 chars)
+  shot (full): est-D-old-camry-alt-chain-06-result-oem
+  [est-D-old-camry-alt-chain] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-D-old-camry-alt-chain-07-result-diy
+  dump: est-D-old-camry-alt-chain-07-result-diy.txt (1649 chars)
+  shot (full): est-D-old-camry-alt-chain-08-print-view
+  share URL: https://woogoro.com/auto-repair.html?year=1995&make=TOYOTA&model=Camry&zip=29707&state=SC
+
+=== ESTIMATE: est-E-audi-multi-dealer ===
+  shot: est-E-audi-multi-dealer-01-landing
+  shot: est-E-audi-multi-dealer-02-picker-open
+  shot: est-E-audi-multi-dealer-03-picker-closed
+  shot: est-E-audi-multi-dealer-04-form-filled
+  [est-E-audi-multi-dealer] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-E-audi-multi-dealer-05-result
+  dump: est-E-audi-multi-dealer-05-result.txt (2811 chars)
+  [est-E-audi-multi-dealer] log AI estimate unavailable: ReferenceError: est is not defined
+  shot (full): est-E-audi-multi-dealer-06-result-oem
+  shot (full): est-E-audi-multi-dealer-07-result-diy
+  dump: est-E-audi-multi-dealer-07-result-diy.txt (1820 chars)
+  shot (full): est-E-audi-multi-dealer-08-print-view
+  [est-E-audi-multi-dealer] log AI estimate unavailable: ReferenceError: est is not defined
+  share URL: https://woogoro.com/auto-repair.html?year=2019&make=AUDI&model=A4&zip=29707&state=SC
+
+=== ANALYZE: ana-real-07-jeep-body (07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg) ===
+  shot: ana-real-07-jeep-body-01-upload-page
+  uploaded 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+  shot: ana-real-07-jeep-body-02-uploading
+  [ana-real-07-jeep-body] log [TP_Engine] vertical=auto price=2019 source=regex ocrChars=816 ocrConf=85% aiCalled=false
+WALK ERROR: TimeoutError: Waiting failed: 90000ms exceeded
+    at new WaitTask (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\common\WaitTask.js:49:34)
+    at IsolatedWorld.waitForFunction (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Realm.js:25:26)
+    at CdpFrame.waitForFunction (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Frame.js:583:43)
+    at CdpFrame.<anonymous> (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\util\decorators.js:109:27)
+    at CdpPage.waitForFunction (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:1451:37)
+    at runAnalyze (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\scripts\auto-repair-walk.js:220:14)
+    at async C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\scripts\auto-repair-walk.js:385:5
+
+DONE. screenshots in c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\auto-dive-2026-04-27

@@ -1,0 +1,835 @@
+{
+  "startedAt": "2026-04-28T23:55:48.209Z",
+  "base": "https://woogoro.com",
+  "results": [
+    {
+      "slug": "roofing",
+      "url": "/roofing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": {
+        "rendered": true,
+        "hasResultContainer": true,
+        "resultContainerKids": 7,
+        "hasInlineUpsell": true,
+        "upsellHasButton": true,
+        "proSectionCount": 0,
+        "bodyIsPremium": false,
+        "pass": true
+      }
+    },
+    {
+      "slug": "hvac",
+      "url": "/hvac-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "plumbing",
+      "url": "/plumbing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "electrical",
+      "url": "/electrical-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "windows",
+      "url": "/window-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "siding",
+      "url": "/siding-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "insulation",
+      "url": "/insulation-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "painting",
+      "url": "/painting-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "fencing",
+      "url": "/fencing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "concrete",
+      "url": "/concrete-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "landscaping",
+      "url": "/landscaping-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "garage_door",
+      "url": "/garage-door-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "solar",
+      "url": "/solar-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "foundation",
+      "url": "/foundation-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "kitchen",
+      "url": "/kitchen-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "gutters",
+      "url": "/gutters-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "moving",
+      "url": "/moving-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "auto_repair",
+      "url": "/auto-repair.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "medical",
+      "url": "/medical-bill-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "legal",
+      "url": "/legal-fee-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780012548684,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    }
+  ]
+}

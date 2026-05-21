@@ -1,0 +1,79 @@
+
+=== ESTIMATE: default-5in-150lf-1story-noguards ({"gutterType":"aluminum_seamless","linearFeet":150,"stories":"1","guards":"no"}) ===
+  shot: est-default-5in-150lf-1story-noguards-address
+  shot: est-default-5in-150lf-1story-noguards-step1
+  shot: est-default-5in-150lf-1story-noguards-step2
+  shot: est-default-5in-150lf-1story-noguards-step3
+  shot: est-default-5in-150lf-1story-noguards-step4
+  [default-5in-150lf-1story-noguards console] error Failed to load resource: the server responded with a status of 400 ()
+  shot (full): est-default-5in-150lf-1story-noguards-result
+  dump: est-default-5in-150lf-1story-noguards-result.txt (1862 chars)
+
+=== ESTIMATE: lane-6in-200lf-2story-noguards ({"gutterType":"aluminum_6inch","linearFeet":200,"stories":"2","guards":"no"}) ===
+  shot: est-lane-6in-200lf-2story-noguards-address
+  shot: est-lane-6in-200lf-2story-noguards-step1
+  shot: est-lane-6in-200lf-2story-noguards-step2
+  shot: est-lane-6in-200lf-2story-noguards-step3
+  shot: est-lane-6in-200lf-2story-noguards-step4
+  [lane-6in-200lf-2story-noguards console] error Failed to load resource: the server responded with a status of 400 ()
+  shot (full): est-lane-6in-200lf-2story-noguards-result
+  dump: est-lane-6in-200lf-2story-noguards-result.txt (1865 chars)
+
+=== ESTIMATE: copper-200lf-2story-guards ({"gutterType":"copper","linearFeet":200,"stories":"2","guards":"yes"}) ===
+  shot: est-copper-200lf-2story-guards-address
+  shot: est-copper-200lf-2story-guards-step1
+  shot: est-copper-200lf-2story-guards-step2
+  shot: est-copper-200lf-2story-guards-step3
+  shot: est-copper-200lf-2story-guards-step4
+  [copper-200lf-2story-guards console] error Failed to load resource: the server responded with a status of 400 ()
+  shot (full): est-copper-200lf-2story-guards-result
+  dump: est-copper-200lf-2story-guards-result.txt (1860 chars)
+
+=== ESTIMATE: vinyl-100lf-1story-noguards ({"gutterType":"vinyl","linearFeet":100,"stories":"1","guards":"no"}) ===
+  shot: est-vinyl-100lf-1story-noguards-address
+  shot: est-vinyl-100lf-1story-noguards-step1
+  shot: est-vinyl-100lf-1story-noguards-step2
+  shot: est-vinyl-100lf-1story-noguards-step3
+  shot: est-vinyl-100lf-1story-noguards-step4
+  [vinyl-100lf-1story-noguards console] error Failed to load resource: the server responded with a status of 400 ()
+  shot (full): est-vinyl-100lf-1story-noguards-result
+  dump: est-vinyl-100lf-1story-noguards-result.txt (1849 chars)
+
+=== ESTIMATE: steel-250lf-3story-guards ({"gutterType":"steel","linearFeet":250,"stories":"3","guards":"yes"}) ===
+  shot: est-steel-250lf-3story-guards-address
+  shot: est-steel-250lf-3story-guards-step1
+  shot: est-steel-250lf-3story-guards-step2
+  shot: est-steel-250lf-3story-guards-step3
+  shot: est-steel-250lf-3story-guards-step4
+  [steel-250lf-3story-guards console] error Failed to load resource: the server responded with a status of 400 ()
+  shot (full): est-steel-250lf-3story-guards-result
+  dump: est-steel-250lf-3story-guards-result.txt (1858 chars)
+
+=== ANALYZE: real-05 (real-05-fl-hip-roof-quote-discrepancy-22k-vs-28k-the-expen.jpeg) — expected: $4,100 seamless gutters line item ===
+  shot: anl-real-05-landing
+  rendered: true
+  shot (full): anl-real-05-result
+  dump: anl-real-05-result.txt (273 chars)
+
+=== ANALYZE: real-09 (real-09-another-estimate-im-going-broke-from-just-reading.jpeg) — expected: $18,692 total roof+gutter ===
+  shot: anl-real-09-landing
+  rendered: false
+  shot (full): anl-real-09-result
+  dump: anl-real-09-result.txt (312 chars)
+
+=== ANALYZE: real-10 (real-10-help-me-pick-a-quote.jpeg) — expected: table of 6 quotes, gutter cost $1,900-$3,024 ===
+  shot: anl-real-10-landing
+  rendered: true
+  shot (full): anl-real-10-result
+  dump: anl-real-10-result.txt (144 chars)
+
+=== COMPARE: comparison-gutters-low.png, comparison-gutters-mid.png, comparison-gutters-high.png ===
+  shot: cmp-landing
+  uploaded slot 0: comparison-gutters-low.png
+  uploaded slot 1: comparison-gutters-mid.png
+  uploaded slot 2: comparison-gutters-high.png
+  shot (full): cmp-uploaded
+  shot (full): cmp-results
+  dump: cmp-results.txt (1370 chars)
+
+DONE — output dir: c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\gutters-walk-2026-04-27

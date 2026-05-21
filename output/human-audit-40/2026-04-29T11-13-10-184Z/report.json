@@ -1,0 +1,427 @@
+{
+  "startedAt": "2026-04-29T11:13:11.782Z",
+  "analyzers": [
+    {
+      "slug": "roofing",
+      "ok": true,
+      "state": {
+        "h1": "",
+        "bodyLen": 15340,
+        "hasReject": false,
+        "hasUpsell": true
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": false
+    },
+    {
+      "slug": "hvac",
+      "ok": true,
+      "state": {
+        "h1": "We found your quote total",
+        "bodyLen": 92075,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "hvac-clean-invoice.jpeg",
+      "expectingReject": false
+    },
+    {
+      "slug": "plumbing",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Plumbing quote",
+        "bodyLen": 73318,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "electrical",
+      "ok": true,
+      "state": {
+        "h1": "Analyzing your electrical quote...",
+        "bodyLen": 65879,
+        "hasReject": false,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "windows",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Windows quote",
+        "bodyLen": 60738,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "siding",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Siding quote",
+        "bodyLen": 61074,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "insulation",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Insulation quote",
+        "bodyLen": 60618,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "painting",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Painting quote",
+        "bodyLen": 62078,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "fencing",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Fencing quote",
+        "bodyLen": 61013,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "concrete",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Concrete quote",
+        "bodyLen": 59920,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "landscaping",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Landscaping quote",
+        "bodyLen": 63406,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "garage_door",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Garage-door quote",
+        "bodyLen": 63712,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "solar",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Solar quote",
+        "bodyLen": 77498,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "foundation",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Foundation quote",
+        "bodyLen": 58242,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "kitchen",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Kitchen quote",
+        "bodyLen": 60406,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "gutters",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Gutters quote",
+        "bodyLen": 61021,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "moving",
+      "ok": true,
+      "state": {
+        "h1": "Moving Quote Analysis",
+        "bodyLen": 136734,
+        "hasReject": false,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "auto_repair",
+      "ok": true,
+      "state": {
+        "h1": "Auto Repair Pricing",
+        "bodyLen": 162850,
+        "hasReject": false,
+        "hasUpsell": false
+      },
+      "fixture": "auto-equinox-quote.jpeg",
+      "expectingReject": false
+    },
+    {
+      "slug": "medical",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Medical quote",
+        "bodyLen": 34809,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    },
+    {
+      "slug": "legal",
+      "ok": true,
+      "state": {
+        "h1": "This is not a Legal quote",
+        "bodyLen": 45118,
+        "hasReject": true,
+        "hasUpsell": false
+      },
+      "fixture": "roofing-gaf-quote.jpeg",
+      "expectingReject": true
+    }
+  ],
+  "compares": [
+    {
+      "slug": "roofing",
+      "ok": true,
+      "state": {
+        "h1": "Compare your roofing quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "hvac",
+      "ok": true,
+      "state": {
+        "h1": "Compare your HVAC quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "plumbing",
+      "ok": true,
+      "state": {
+        "h1": "Compare your plumbing quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "electrical",
+      "ok": true,
+      "state": {
+        "h1": "Compare your electrical quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "windows",
+      "ok": true,
+      "state": {
+        "h1": "Compare your window quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "siding",
+      "ok": true,
+      "state": {
+        "h1": "Compare your siding quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "insulation",
+      "ok": true,
+      "state": {
+        "h1": "Compare your insulation quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "painting",
+      "ok": true,
+      "state": {
+        "h1": "Compare your painting quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "fencing",
+      "ok": true,
+      "state": {
+        "h1": "Compare your fence quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "concrete",
+      "ok": true,
+      "state": {
+        "h1": "Compare your concrete quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "landscaping",
+      "ok": true,
+      "state": {
+        "h1": "Compare your landscaping quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "garage_door",
+      "ok": true,
+      "state": {
+        "h1": "Compare your garage door quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "solar",
+      "ok": true,
+      "state": {
+        "h1": "Compare your solar quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "foundation",
+      "ok": true,
+      "state": {
+        "h1": "Compare your foundation repair quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "kitchen",
+      "ok": true,
+      "state": {
+        "h1": "Compare your kitchen remodel quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "gutters",
+      "ok": true,
+      "state": {
+        "h1": "Compare your gutter quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "moving",
+      "ok": true,
+      "state": {
+        "h1": "Compare your moving quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "auto",
+      "ok": true,
+      "state": {
+        "h1": "Compare your mechanic quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "medical",
+      "ok": true,
+      "state": {
+        "h1": "Compare your medical bills",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    },
+    {
+      "slug": "legal",
+      "ok": true,
+      "state": {
+        "h1": "Compare attorney quotes",
+        "hasResultsContent": true,
+        "hasReject": false
+      }
+    }
+  ]
+}

@@ -4040,6 +4040,51 @@
       "source": "/concrete-roof-cost-hattiesburg-ok.html",
       "destination": "/concrete-roof-cost-hattiesburg-ms.html",
       "permanent": true
+    },
+    {
+      "source": "/dc-medical-cost.html",
+      "destination": "/medical-cities.html",
+      "permanent": true
+    },
+    {
+      "source": "/district-of-columbia-fence-cost.html",
+      "destination": "/fence-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/district-of-columbia-painting-cost.html",
+      "destination": "/painting-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/district-of-columbia-foundation-cost.html",
+      "destination": "/foundation-cities.html",
+      "permanent": true
+    },
+    {
+      "source": "/gutters-cost-guide.html",
+      "destination": "/gutters-cost.html",
+      "permanent": true
+    },
+    {
+      "source": "/how-to-compare-auto-repair-quotes.html",
+      "destination": "/auto-repair-cost-guide.html",
+      "permanent": true
+    },
+    {
+      "source": "/yr",
+      "destination": "/404.html",
+      "statusCode": 410
+    },
+    {
+      "source": "/hr",
+      "destination": "/404.html",
+      "statusCode": 410
+    },
+    {
+      "source": "/modelyear/:path*",
+      "destination": "/404.html",
+      "statusCode": 410
     }
   ]
 }

@@ -1,0 +1,2824 @@
+{
+  "meta": {
+    "sourceFile": "chattanooga-painting-pilot.json",
+    "harvestedAt": "2026-05-20T13:25:31.012Z",
+    "analyzedAt": "2026-05-20T13:37:03.225Z",
+    "totalRawSuggestions": 16594,
+    "totalUnique": 390,
+    "geoBreakdown": {
+      "chattanooga": 166,
+      "tn_other": 44,
+      "state_near": 13,
+      "other_city": 1,
+      "no_geo": 166
+    },
+    "intentBreakdown": {
+      "cost": 43,
+      "contractor": 216,
+      "project_exterior": 74,
+      "project_interior": 15,
+      "project_cabinet": 29,
+      "project_deck": 58,
+      "project_commercial": 5,
+      "paint_brand": 1,
+      "prep_repair": 0,
+      "how_to": 5,
+      "timing": 0,
+      "comparison": 0,
+      "question": 1,
+      "paid_rebate": 0
+    }
+  },
+  "topOverall": [
+    {
+      "phrase": "chattanooga painting contractors reviews",
+      "count": 582,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting services",
+      "count": 575,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters quality",
+      "count": 565,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters ratings",
+      "count": 556,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors near me",
+      "count": 555,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting reviews",
+      "count": 549,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors quality",
+      "count": 547,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting contractors",
+      "count": 546,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors services",
+      "count": 537,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors bbb",
+      "count": 532,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters reviews",
+      "count": 526,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "painting contractors chattanooga tn",
+      "count": 503,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters cost",
+      "count": 502,
+      "geo": "chattanooga",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters near me",
+      "count": 492,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors cost",
+      "count": 492,
+      "geo": "chattanooga",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters services",
+      "count": 484,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga paint and decorating",
+      "count": 459,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga house painters estimates",
+      "count": 406,
+      "geo": "chattanooga",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "painters in chattanooga tn",
+      "count": 404,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors coupons",
+      "count": 348,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "cabinet painters in chattanooga area",
+      "count": 313,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_cabinet"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting cost",
+      "count": 306,
+      "geo": "chattanooga",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painters coupons",
+      "count": 298,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting estimates",
+      "count": 276,
+      "geo": "chattanooga",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "painter 1 of chattanooga",
+      "count": 235,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors license",
+      "count": 225,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "painting classes in chattanooga tn",
+      "count": 210,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "that 1 painter chattanooga",
+      "count": 197,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors jobs",
+      "count": 184,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting ideas",
+      "count": 131,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga house painters portfolio",
+      "count": 111,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga house painting tips",
+      "count": 102,
+      "geo": "chattanooga",
+      "intents": [
+        "how_to"
+      ]
+    },
+    {
+      "phrase": "chattanooga painting contractors warranty",
+      "count": 91,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "automotive paint chattanooga tn",
+      "count": 68,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "painters in knoxville tn",
+      "count": 59,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga paint and decorating hixson tn",
+      "count": 55,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "house painters knoxville tn",
+      "count": 54,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "cabinet refinishing chattanooga tn",
+      "count": 53,
+      "geo": "chattanooga",
+      "intents": [
+        "project_cabinet"
+      ]
+    },
+    {
+      "phrase": "painters in jackson tn",
+      "count": 53,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga exteriors chattanooga tn",
+      "count": 52,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "cabinet shops in chattanooga tn",
+      "count": 52,
+      "geo": "chattanooga",
+      "intents": [
+        "project_cabinet"
+      ]
+    },
+    {
+      "phrase": "painters in nashville tn",
+      "count": 52,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "painters in nashville tennessee",
+      "count": 52,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "painters johnson city tn",
+      "count": 51,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "cabinets in chattanooga tn",
+      "count": 50,
+      "geo": "chattanooga",
+      "intents": [
+        "project_cabinet"
+      ]
+    },
+    {
+      "phrase": "professional painters madisonville tn",
+      "count": 50,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "interior painters knoxville tn",
+      "count": 49,
+      "geo": "tn_other",
+      "intents": [
+        "contractor",
+        "project_interior"
+      ]
+    },
+    {
+      "phrase": "painters in memphis tn",
+      "count": 41,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "commercial painting contractors knoxville tn",
+      "count": 37,
+      "geo": "tn_other",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "house painters athens tn",
+      "count": 35,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    }
+  ],
+  "bothEngines": [
+    {
+      "phrase": "deck staining near me",
+      "count": 27,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "project_exterior",
+        "project_deck"
+      ]
+    }
+  ],
+  "chattByIntent": {
+    "cost": [
+      {
+        "phrase": "chattanooga house painters cost",
+        "count": 502,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors cost",
+        "count": 492,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters estimates",
+        "count": 406,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting cost",
+        "count": 306,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting estimates",
+        "count": 276,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cost of construction paper chattanooga area",
+        "count": 19,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cost of construction paper chattanooga online",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cost of construction paper chattanooga tn",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "chattanooga painting contractors reviews",
+        "count": 582,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting services",
+        "count": 575,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters quality",
+        "count": 565,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters ratings",
+        "count": 556,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors near me",
+        "count": 555,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting reviews",
+        "count": 549,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors quality",
+        "count": 547,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting contractors",
+        "count": 546,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors services",
+        "count": 537,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors bbb",
+        "count": 532,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters reviews",
+        "count": 526,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "painting contractors chattanooga tn",
+        "count": 503,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters cost",
+        "count": 502,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters near me",
+        "count": 492,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors cost",
+        "count": 492,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters services",
+        "count": 484,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters estimates",
+        "count": 406,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "painters in chattanooga tn",
+        "count": 404,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors coupons",
+        "count": 348,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinet painters in chattanooga area",
+        "count": 313,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_exterior": [
+      {
+        "phrase": "chattanooga interior trim and supply",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga trim and supply",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior trim supply chattanooga",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior trim and supply chattanooga tn",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "exterior painters chattanooga tn",
+        "count": 10,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "exterior painting chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "deck staining chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "grants auto trim chattanooga",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_interior": [
+      {
+        "phrase": "chattanooga interior trim and supply",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior trim supply chattanooga",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior trim and supply chattanooga tn",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior design chattanooga tn",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior designers in chattanooga tn",
+        "count": 22,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "interior painters chattanooga tn",
+        "count": 10,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "interior painting chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "interior designers chattanooga tn",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_cabinet": [
+      {
+        "phrase": "cabinet painters in chattanooga area",
+        "count": 313,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinet refinishing chattanooga tn",
+        "count": 53,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinet shops in chattanooga tn",
+        "count": 52,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinets in chattanooga tn",
+        "count": 50,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga cabinets and floors",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga cabinets and floors reviews",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga cabinets and floors chattanooga",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "custom cabinets chattanooga tn",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinet makers in chattanooga tn",
+        "count": 14,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinets to go chattanooga",
+        "count": 10,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "kitchen cabinets chattanooga tn",
+        "count": 7,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinets to go chattanooga tn",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "cabinet painting chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cabinet refinishing chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_deck": [
+      {
+        "phrase": "quality fence chattanooga tn",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "quality fence company chattanooga tn",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "patriot fence company chattanooga tennessee",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "fence masters chattanooga tn",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "brown fence company chattanooga tn",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "fence company in chattanooga tn",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "top rail fence chattanooga",
+        "count": 6,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "fence company chattanooga tn",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "capitol fence chattanooga tn",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "deck staining chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "action fence chattanooga tn",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial painters chattanooga tn",
+        "count": 5,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial painters in chattanooga tn",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "paint_brand": [
+      {
+        "phrase": "benjamin moore paint chattanooga",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "prep_repair": [],
+    "how_to": [
+      {
+        "phrase": "chattanooga house painting tips",
+        "count": 102,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "timing": [],
+    "comparison": [],
+    "question": [
+      {
+        "phrase": "what is lookout mountain",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "paid_rebate": []
+  },
+  "byIntent": {
+    "cost": [
+      {
+        "phrase": "chattanooga house painters cost",
+        "count": 502,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors cost",
+        "count": 492,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters estimates",
+        "count": 406,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painting cost",
+        "count": 306,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painting estimates",
+        "count": 276,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "exterior painting greensboro cost",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining services near me free quote",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of construction paper chattanooga area",
+        "count": 19,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "how much to paint house",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro cost",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "house paint services near me cost",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "painting estimates near me online",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much do contractors charge to paint",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of construction paper chattanooga online",
+        "count": 5,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "how much does it cost to do exterior painting",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "exterior painting cost",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painter near me free quote",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "home painting estimate online",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "paint the house cost",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "painting house near me cost",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "exterior painting greensboro estimates",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro free estimate",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does it cost to hire house painters",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "painting estimate cost near me online",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of construction paper chattanooga tn",
+        "count": 2,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "painting estimates montgomery county",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "painting estimates montgomery il",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "painting estimates near me",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "house painting estimate near me online",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much to paint a house",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "chattanooga painting contractors reviews",
+        "count": 582,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painting services",
+        "count": 575,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters quality",
+        "count": 565,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters ratings",
+        "count": 556,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors near me",
+        "count": 555,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painting reviews",
+        "count": 549,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors quality",
+        "count": 547,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painting contractors",
+        "count": 546,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors services",
+        "count": 537,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors bbb",
+        "count": 532,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters reviews",
+        "count": 526,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "painting contractors chattanooga tn",
+        "count": 503,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters cost",
+        "count": 502,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters near me",
+        "count": 492,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors cost",
+        "count": 492,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters services",
+        "count": 484,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters estimates",
+        "count": 406,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "painters in chattanooga tn",
+        "count": 404,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors coupons",
+        "count": 348,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painters in chattanooga area",
+        "count": 313,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters coupons",
+        "count": 298,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "painter 1 of chattanooga",
+        "count": 235,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors license",
+        "count": 225,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "that 1 painter chattanooga",
+        "count": 197,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors jobs",
+        "count": 184,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga house painters portfolio",
+        "count": 111,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga painting contractors warranty",
+        "count": 91,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "painters in knoxville tn",
+        "count": 59,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "house painters knoxville tn",
+        "count": 54,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "painters in jackson tn",
+        "count": 53,
+        "geo": "tn_other"
+      }
+    ],
+    "project_exterior": [
+      {
+        "phrase": "deck staining near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte area",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte north carolina",
+        "count": 26,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "deck staining charlotte mi",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining company near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "professional deck staining near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlottesville va",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painting company near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painting near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "chattanooga interior trim and supply",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga trim and supply",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior trim supply chattanooga",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior trim and supply chattanooga tn",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "wood deck staining near me",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlottesville virginia",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painting service near me",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "exterior painting greensboro cost",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte services",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining services near me free quote",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "exterior painting greensboro ga",
+        "count": 23,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "exterior house painting nashville tn",
+        "count": 23,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "deck staining services near me reviews",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte reviews",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining richmond ky",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "garden fence painting service",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining near me reviews",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining companies near me reviews",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "exterior trim painting near me",
+        "count": 18,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "house trim painters near me",
+        "count": 18,
+        "geo": "no_geo"
+      }
+    ],
+    "project_interior": [
+      {
+        "phrase": "interior painters knoxville tn",
+        "count": 49,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "chattanooga interior trim and supply",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior trim supply chattanooga",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior trim and supply chattanooga tn",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior painters clarksville tn",
+        "count": 26,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "interior design chattanooga tn",
+        "count": 25,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior designers in chattanooga tn",
+        "count": 22,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior painting smyrna tn",
+        "count": 20,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "interior trim painters near me",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "interior painters chattanooga tn",
+        "count": 10,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior painting near me",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "interior painting service near me",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "interior painting services near me",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "interior painting chattanooga",
+        "count": 1,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "interior designers chattanooga tn",
+        "count": 1,
+        "geo": "chattanooga"
+      }
+    ],
+    "project_cabinet": [
+      {
+        "phrase": "cabinet painters in chattanooga area",
+        "count": 313,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet refinishing chattanooga tn",
+        "count": 53,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet shops in chattanooga tn",
+        "count": 52,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinets in chattanooga tn",
+        "count": 50,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro tennessee",
+        "count": 29,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "chattanooga cabinets and floors",
+        "count": 27,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga cabinets and floors reviews",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga cabinets and floors chattanooga",
+        "count": 23,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "custom cabinets chattanooga tn",
+        "count": 21,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro cost",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet makers in chattanooga tn",
+        "count": 14,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinets to go chattanooga",
+        "count": 10,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro reviews",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "kitchen cabinets chattanooga tn",
+        "count": 7,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro services",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro best",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro quality",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro free estimate",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "the cabinet painting company",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinets to go chattanooga tn",
+        "count": 1,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting chattanooga",
+        "count": 1,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet refinishing chattanooga",
+        "count": 1,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "cabinet painting cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting services near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "can any cabinet be painted",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "houston tx cabinet painting",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting murfreesboro gallery",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cabinet painting columbus ohio",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "project_deck": [
+      {
+        "phrase": "deck staining near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte area",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte north carolina",
+        "count": 26,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "deck staining charlotte mi",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining company near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "professional deck staining near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlottesville va",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painting company near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "quality fence chattanooga tn",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "quality fence company chattanooga tn",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "patriot fence company chattanooga tennessee",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "fence painting near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence masters chattanooga tn",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "fence painter near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "wood deck staining near me",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlottesville virginia",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painting service near me",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "brown fence company chattanooga tn",
+        "count": 25,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "fence painter near me reviews",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte services",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining services near me free quote",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence company in chattanooga tn",
+        "count": 24,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "deck staining services near me reviews",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining charlotte reviews",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining richmond ky",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "staining services near me for decks",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "fence painters in my area",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "knoxville deck repair and staining",
+        "count": 22,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "garden fence painting service",
+        "count": 22,
+        "geo": "no_geo"
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial painting contractors knoxville tn",
+        "count": 37,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "commercial painting inc nashville tn",
+        "count": 23,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "commercial painters chattanooga tn",
+        "count": 5,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial painters in chattanooga tn",
+        "count": 4,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "atlanta ga commercial painting contractors",
+        "count": 1,
+        "geo": "state_near"
+      }
+    ],
+    "paint_brand": [
+      {
+        "phrase": "benjamin moore paint chattanooga",
+        "count": 3,
+        "geo": "chattanooga"
+      }
+    ],
+    "prep_repair": [],
+    "how_to": [
+      {
+        "phrase": "chattanooga house painting tips",
+        "count": 102,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "deck staining charlotte how to",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to paint trim professionally",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "deck staining san antonio tx how to",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to paint pain",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "timing": [],
+    "comparison": [],
+    "question": [
+      {
+        "phrase": "what is lookout mountain",
+        "count": 1,
+        "geo": "chattanooga"
+      }
+    ],
+    "paid_rebate": []
+  },
+  "byGeo": {
+    "chattanooga": [
+      {
+        "phrase": "chattanooga painting contractors reviews",
+        "count": 582,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting services",
+        "count": 575,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters quality",
+        "count": 565,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters ratings",
+        "count": 556,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors near me",
+        "count": 555,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting reviews",
+        "count": 549,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors quality",
+        "count": 547,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting contractors",
+        "count": 546,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors services",
+        "count": 537,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors bbb",
+        "count": 532,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters reviews",
+        "count": 526,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painting contractors chattanooga tn",
+        "count": 503,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters cost",
+        "count": 502,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters near me",
+        "count": 492,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors cost",
+        "count": 492,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters services",
+        "count": 484,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga paint and decorating",
+        "count": 459,
+        "intents": []
+      },
+      {
+        "phrase": "chattanooga house painters estimates",
+        "count": 406,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in chattanooga tn",
+        "count": 404,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors coupons",
+        "count": 348,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "cabinet painters in chattanooga area",
+        "count": 313,
+        "intents": [
+          "contractor",
+          "project_cabinet"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting cost",
+        "count": 306,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painters coupons",
+        "count": 298,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting estimates",
+        "count": 276,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "painter 1 of chattanooga",
+        "count": 235,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors license",
+        "count": 225,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painting classes in chattanooga tn",
+        "count": 210,
+        "intents": []
+      },
+      {
+        "phrase": "that 1 painter chattanooga",
+        "count": 197,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga painting contractors jobs",
+        "count": 184,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga house painting ideas",
+        "count": 131,
+        "intents": []
+      }
+    ],
+    "tn_other": [
+      {
+        "phrase": "painters in knoxville tn",
+        "count": 59,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "house painters knoxville tn",
+        "count": 54,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in jackson tn",
+        "count": 53,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in nashville tn",
+        "count": 52,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in nashville tennessee",
+        "count": 52,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters johnson city tn",
+        "count": 51,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "professional painters madisonville tn",
+        "count": 50,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "interior painters knoxville tn",
+        "count": 49,
+        "intents": [
+          "contractor",
+          "project_interior"
+        ]
+      },
+      {
+        "phrase": "painters in memphis tn",
+        "count": 41,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "commercial painting contractors knoxville tn",
+        "count": 37,
+        "intents": [
+          "contractor",
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "house painters athens tn",
+        "count": 35,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "house painters in nashville tn",
+        "count": 34,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in oneida tn",
+        "count": 34,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in clarksville tn",
+        "count": 31,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "cabinet painting murfreesboro tennessee",
+        "count": 29,
+        "intents": [
+          "project_cabinet"
+        ]
+      },
+      {
+        "phrase": "contractor memphis tn hickory ridge-painting",
+        "count": 29,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painting companies in knoxville tn",
+        "count": 28,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in cleveland tn",
+        "count": 28,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "interior painters clarksville tn",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_interior"
+        ]
+      },
+      {
+        "phrase": "reputable painters nashville tn",
+        "count": 25,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in maryville tn",
+        "count": 25,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "commercial painting inc nashville tn",
+        "count": 23,
+        "intents": [
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "exterior house painting nashville tn",
+        "count": 23,
+        "intents": [
+          "project_exterior"
+        ]
+      },
+      {
+        "phrase": "painters in kingsport tn",
+        "count": 23,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "interior painting smyrna tn",
+        "count": 20,
+        "intents": [
+          "project_interior"
+        ]
+      },
+      {
+        "phrase": "house painters in cleveland tn",
+        "count": 19,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "house painters in kingsport tn",
+        "count": 18,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "house painters in crossville tn",
+        "count": 16,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "riggins painting memphis tn",
+        "count": 14,
+        "intents": []
+      },
+      {
+        "phrase": "paint stores in jackson tn",
+        "count": 8,
+        "intents": []
+      }
+    ],
+    "state_near": [
+      {
+        "phrase": "deck staining charlotte north carolina",
+        "count": 26,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "exterior painting greensboro ga",
+        "count": 23,
+        "intents": [
+          "project_exterior"
+        ]
+      },
+      {
+        "phrase": "painters in hickory nc",
+        "count": 21,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in lexington nc",
+        "count": 6,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painting contractors atlanta ga",
+        "count": 3,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in raleigh nc",
+        "count": 3,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "atlanta ga commercial painting contractors",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "exterior painting greensboro nc",
+        "count": 1,
+        "intents": [
+          "project_exterior"
+        ]
+      },
+      {
+        "phrase": "residential painting estimates woodstock ga",
+        "count": 1,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "painters in greensboro nc",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painters in jacksonville nc",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "house painters in jacksonville nc",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "painter raleigh nc near me",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ],
+    "other_city": [
+      {
+        "phrase": "knoxville deck repair and staining",
+        "count": 22,
+        "intents": [
+          "project_deck"
+        ]
+      }
+    ],
+    "no_geo": [
+      {
+        "phrase": "deck staining near me",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlotte area",
+        "count": 26,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlotte mi",
+        "count": 26,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlotte near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining company near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "professional deck staining near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlottesville va",
+        "count": 26,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painting company near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painting near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painter near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "wood deck staining near me",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlottesville virginia",
+        "count": 25,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painting service near me",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painter near me reviews",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "exterior painting greensboro cost",
+        "count": 24,
+        "intents": [
+          "cost",
+          "project_exterior"
+        ]
+      },
+      {
+        "phrase": "deck staining charlotte services",
+        "count": 24,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining services near me free quote",
+        "count": 24,
+        "intents": [
+          "cost",
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining services near me reviews",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining charlotte reviews",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "deck staining richmond ky",
+        "count": 23,
+        "intents": [
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "staining services near me for decks",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence painters in my area",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "garden fence painting service",
+        "count": 22,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "professional fence painters near me",
+        "count": 22,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "wood fence painters near me",
+        "count": 22,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "fence spray painter near me",
+        "count": 22,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "painters in missoula mt",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "contractors in eastridge painting",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "deck staining near me reviews",
+        "count": 21,
+        "intents": [
+          "contractor",
+          "project_exterior",
+          "project_deck"
+        ]
+      },
+      {
+        "phrase": "lexington fence paint company",
+        "count": 20,
+        "intents": [
+          "contractor",
+          "project_deck"
+        ]
+      }
+    ]
+  },
+  "noIntentClassified": [
+    {
+      "phrase": "painting classes in chattanooga tn",
+      "count": 210,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga paint and decorating",
+      "count": 459,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "painting with a twist chattanooga tn",
+      "count": 27,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "painting with a twist chattanooga",
+      "count": 30,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga house painting ideas",
+      "count": 131,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "pottery painting chattanooga tn",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "art printing chattanooga tn",
+      "count": 7,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "automotive paint chattanooga tn",
+      "count": 68,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "paint your own pottery chattanooga",
+      "count": 14,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga exteriors chattanooga tn",
+      "count": 52,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "econo auto painting chattanooga tn",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga paint and decorating hixson tn",
+      "count": 55,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga paint and sip",
+      "count": 12,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "nippon paint chattanooga tn",
+      "count": 3,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "paint and sip chattanooga",
+      "count": 7,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "house painting chattanooga",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "house painting chattanooga tn",
+      "count": 8,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "art shops in chattanooga",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga art jobs",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "peachtree auto painting chattanooga tn",
+      "count": 8,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "art in chattanooga tn",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "painting and craft expo chattanooga tn",
+      "count": 15,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "the battle of lookout mountain painting",
+      "count": 15,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "explore the scenic beauty of lookout mountain",
+      "count": 18,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "pictures of lookout mountain",
+      "count": 8,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "lookout mountain real estate",
+      "count": 6,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "cabin rentals lookout mountain",
+      "count": 8,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "lookout mountain rental properties",
+      "count": 7,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "lookout mountain vacation rentals",
+      "count": 4,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "lookout mountain rentals homes",
+      "count": 7,
+      "geo": "chattanooga"
+    }
+  ]
+}

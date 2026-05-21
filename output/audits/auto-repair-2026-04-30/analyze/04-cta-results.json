@@ -1,0 +1,45 @@
+[
+  {
+    "case": "roof",
+    "rejectSeen": true,
+    "ctaFound": true,
+    "ctaText": "Analyze as Roofing instead",
+    "ctaHref": "https://woogoro.com/roofing-quote-analyzer.html?path=quote",
+    "landedUrl": "https://woogoro.com/roofing-quote-analyzer.html?path=quote",
+    "landedHeader": "Is your roofing quote fair?",
+    "urlMatch": true,
+    "headerMatch": true
+  },
+  {
+    "case": "hvac",
+    "rejectSeen": true,
+    "ctaFound": true,
+    "ctaText": "Analyze as HVAC instead",
+    "ctaHref": "https://woogoro.com/hvac-quote-analyzer.html?path=quote",
+    "landedUrl": "https://woogoro.com/hvac-quote-analyzer.html?path=quote",
+    "landedHeader": "Is your HVAC quote fair?",
+    "urlMatch": true,
+    "headerMatch": true
+  },
+  {
+    "case": "auto",
+    "rejectSeen": false,
+    "ctaFound": false,
+    "ctaText": null,
+    "ctaHref": null,
+    "landedUrl": null,
+    "landedHeader": null,
+    "urlMatch": false,
+    "headerMatch": false
+  },
+  {
+    "case": "upload-different",
+    "after": {
+      "url": "https://woogoro.com/auto-repair.html?path=quote",
+      "isInitial": false,
+      "isReject": false,
+      "hasFileInput": true,
+      "header": "Auto Repair Pricing"
+    }
+  }
+]

@@ -1,0 +1,45 @@
+[
+  {
+    "case": "roof",
+    "rejectSeen": false,
+    "ctaFound": true,
+    "ctaText": "Analyze as Roofing instead",
+    "ctaHref": "https://woogoro.com/roofing-quote-analyzer.html?path=quote",
+    "landedUrl": "https://woogoro.com/roofing-quote-analyzer.html?path=quote",
+    "landedHeader": "Is your roofing quote fair?",
+    "urlMatch": true,
+    "headerMatch": true
+  },
+  {
+    "case": "hvac",
+    "rejectSeen": false,
+    "ctaFound": true,
+    "ctaText": "Analyze as HVAC instead",
+    "ctaHref": "https://woogoro.com/hvac-quote-analyzer.html?path=quote",
+    "landedUrl": "https://woogoro.com/hvac-quote-analyzer.html?path=quote",
+    "landedHeader": "Is your HVAC quote fair?",
+    "urlMatch": true,
+    "headerMatch": true
+  },
+  {
+    "case": "auto",
+    "rejectSeen": false,
+    "ctaFound": true,
+    "ctaText": "Analyze as Auto Repair instead",
+    "ctaHref": "https://woogoro.com/auto-repair.html?path=quote",
+    "landedUrl": "https://woogoro.com/auto-repair.html?path=quote",
+    "landedHeader": "Auto Repair Pricing",
+    "urlMatch": true,
+    "headerMatch": true
+  },
+  {
+    "case": "upload-different",
+    "after": {
+      "url": "https://woogoro.com/gutters-quote-analyzer.html",
+      "isInitial": true,
+      "isReject": false,
+      "hasFileInput": true,
+      "header": "Is your gutter quote fair?"
+    }
+  }
+]

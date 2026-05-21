@@ -1,0 +1,30 @@
+[
+  {
+    "tag": "BUTTON",
+    "text": "Back to Gutters",
+    "href": "",
+    "id": "",
+    "onclick": true
+  },
+  {
+    "tag": "BUTTON",
+    "text": "Save as PDF",
+    "href": "",
+    "id": "",
+    "onclick": true
+  },
+  {
+    "tag": "BUTTON",
+    "text": "Share link",
+    "href": "",
+    "id": "",
+    "onclick": false
+  },
+  {
+    "tag": "A",
+    "text": "Home",
+    "href": "/",
+    "id": "",
+    "onclick": false
+  }
+]

@@ -1,0 +1,535 @@
+{
+  "url": "https://woogoro.com/moving-quote-analyzer.html",
+  "title": "Moving Quote Analyzer - Is Your Moving Quote Fair? | Woogoro",
+  "bodyTextStart": "Skip to main content\n✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nMethodology\nHow much should your move cost?\n\nGet a fair estimate or check a quote you already have.\n\nOff-peak\n🔎 I Need an Estimate\n\nSee fair moving prices for your move\n\n📄 I Have a Quote\n\nUpload, snap, or paste your mover's quote\n\n⚖ Compare 2-3 Quotes\n\nSide by side: rate, scope, valuation, fees\n\nTell Iris about your move\n\nNo quote needed. Iris compares DIY truck rentals, labor-only help, full-service movers, and container shipping for your route.\n\nWhere are you moving?\nFrom City\nFrom State\nTo City\nTo State\nHome Size\nStudio\n1 Bedroom\n2 Bedroom\n3 Bedroom\n4 Bedroom\n5+ Bedroom\nMove Date (optional)\nRefine your estimate (optional)\nGet my estimate\nAnalyze quotes for other services\nRoofing\nHVAC\nPlumbing\nElectrical\nSolar\nAuto Repair\nPainting\nSiding\nFencing\nConcrete\nLandscaping\nGarage Doors\nFoundation\nKitchen\nInsulation\nGutters\nAuto Repair\nMedical Bills\nLegal Fees\nWhat to look for on",
+  "interactive": [
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "skip-link",
+      "href": "https://woogoro.com/moving-quote-analyzer.html#main",
+      "text": "Skip to main content",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "logo",
+      "href": "https://woogoro.com/",
+      "text": "Woogoro",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/guides.html",
+      "text": "Guides",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/methodology.html",
+      "text": "Methodology",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "mv-path-compare",
+      "href": "https://woogoro.com/compare-moving-quotes.html",
+      "text": "⚖ Compare 2-3 Quotes\n\nSide by side: rate, scope, valuation, fees",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "text",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "placeholder": "e.g. Charlotte"
+    },
+    {
+      "tag": "INPUT",
+      "type": "text",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "placeholder": "NC"
+    },
+    {
+      "tag": "INPUT",
+      "type": "text",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "placeholder": "e.g. Atlanta"
+    },
+    {
+      "tag": "INPUT",
+      "type": "text",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "placeholder": "GA"
+    },
+    {
+      "tag": "SELECT",
+      "type": "select-one",
+      "cls": "",
+      "href": null,
+      "text": "Studio\n1 Bedroom\n2 Bedroom\n3 Bedroom\n4 Bedroom\n5+ Bedroom",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "date",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "SELECT",
+      "type": "select-one",
+      "cls": "",
+      "href": null,
+      "text": "none",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "piano",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "safe",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "hotTub",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "poolTable",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "treadmill",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "appliance",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "motorcycle",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "antique",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "INPUT",
+      "type": "checkbox",
+      "cls": "",
+      "href": null,
+      "text": "on",
+      "placeholder": null
+    },
+    {
+      "tag": "BUTTON",
+      "type": "submit",
+      "cls": "mv-btn mv-btn-primary mv-btn-full",
+      "href": null,
+      "text": "Get my estimate",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html",
+      "text": "Roofing",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/hvac-quote-analyzer.html",
+      "text": "HVAC",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/plumbing-quote-analyzer.html",
+      "text": "Plumbing",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/electrical-quote-analyzer.html",
+      "text": "Electrical",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/solar-quote-analyzer.html",
+      "text": "Solar",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/auto-repair.html",
+      "text": "Auto Repair",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/painting-quote-analyzer.html",
+      "text": "Painting",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/siding-quote-analyzer.html",
+      "text": "Siding",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/fencing-quote-analyzer.html",
+      "text": "Fencing",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/concrete-quote-analyzer.html",
+      "text": "Concrete",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/landscaping-quote-analyzer.html",
+      "text": "Landscaping",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/garage-door-quote-analyzer.html",
+      "text": "Garage Doors",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/foundation-quote-analyzer.html",
+      "text": "Foundation",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/kitchen-quote-analyzer.html",
+      "text": "Kitchen",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/insulation-quote-analyzer.html",
+      "text": "Insulation",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/gutters-quote-analyzer.html",
+      "text": "Gutters",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/auto-repair.html",
+      "text": "Auto Repair",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/medical-bill-analyzer.html",
+      "text": "Medical Bills",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/legal-fee-analyzer.html",
+      "text": "Legal Fees",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/get-an-estimate.html",
+      "text": "Get an estimate",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/analyze-my-quote.html",
+      "text": "Analyze a quote",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/compare-quotes-picker.html",
+      "text": "Compare quotes",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html?mode=estimator",
+      "text": "Roof estimate",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/all-cities.html",
+      "text": "All cities",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/guides.html",
+      "text": "Cost guides",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/find-contractors.html",
+      "text": "Find contractors",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/medical-cost-lookup.html",
+      "text": "Medical cost lookup",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html",
+      "text": "Roofing",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/hvac-quote-analyzer.html",
+      "text": "HVAC",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/plumbing-quote-analyzer.html",
+      "text": "Plumbing",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/electrical-quote-analyzer.html",
+      "text": "Electrical",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/solar-quote-analyzer.html",
+      "text": "Solar",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/auto-repair.html",
+      "text": "Auto repair",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/about.html",
+      "text": "About Woogoro",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/methodology.html",
+      "text": "Methodology",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/accessibility.html",
+      "text": "Accessibility",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/privacy.html",
+      "text": "Privacy",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/terms.html",
+      "text": "Terms",
+      "placeholder": null
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "cls": "",
+      "href": "https://woogoro.com/privacy.html",
+      "text": "Privacy",
+      "placeholder": null
+    }
+  ]
+}

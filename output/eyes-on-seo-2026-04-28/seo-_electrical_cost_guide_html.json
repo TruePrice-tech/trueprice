@@ -1,0 +1,143 @@
+{
+  "url": "https://woogoro.com/electrical-cost-guide.html",
+  "template": "hub",
+  "parsed": {
+    "title": "Electrical Cost Guide (2026) | Woogoro",
+    "description": "Comprehensive electrical project cost guide for 2026. Compare prices for panel upgrades, whole-house rewiring, EV charger installation.",
+    "canonical": "https://woogoro.com/electrical-cost.html",
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:type": "article",
+      "og:title": "Electrical Cost Guide (2026)",
+      "og:description": "Comprehensive electrical project cost guide for 2026. Compare prices for panel upgrades, whole-house rewiring, EV charger installation.",
+      "og:url": "https://woogoro.com/electrical-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Electrical Cost Guide (2026)"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Electrical Cost Guide (2026)",
+      "twitter:description": "Comprehensive electrical project cost guide for 2026. Compare prices for panel upgrades, whole-house rewiring, EV charger installation.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Electrical Cost Guide",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/authors/geoff-lane.html",
+          "image": "https://woogoro.com/images/geoff-lane.jpg"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://woogoro.com/images/Iris/Iris%20happy.png"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21",
+        "description": "Comprehensive electrical project cost guide for 2026. Compare prices for panel upgrades, whole-house rewiring, EV charger installation.",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://woogoro.com/electrical-cost-guide.html"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://woogoro.com/guides.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Electrical Cost Guide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does an electrical panel upgrade cost in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Upgrading from 100A to 200A costs $1,800 to $3,500 in most markets. Upgrading to 400A costs $3,500 to $6,500. These prices include the new panel, breakers, labor, permit, and utility coordination."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does it cost to rewire a house?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A whole-house rewire for a 1,500-sq-ft home costs $8,000 to $15,000. For a 2,500-sq-ft home, expect $12,000 to $22,000. The main cost drivers are home size, number of circuits, wall construction, and access to wiring paths."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does EV charger installation cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Level 2 (240V, 50A) EV charger installation costs $800 to $2,200, including the charger unit, dedicated circuit, wiring, and permit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a permit for electrical work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In most jurisdictions, yes, for anything beyond replacing a device in an existing box. Panel upgrades, new circuits, rewiring, and generator installations all require an electrical permit and inspection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does a whole-house rewire take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A typical rewire takes 5 to 10 days of on-site work, depending on home size and complexity. Total project timeline from start to finish is often 2 to 4 weeks."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I upgrade to a 400-amp panel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If you are adding or planning to add solar, an EV charger, a heat pump, and a water heater, a 400A panel provides headroom for all of these loads. For homes that are fully electrifying, 400A is increasingly the recommended choice."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 23
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/electrical-cost-guide.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /electrical-cost-guide.html, got /electrical-cost.html"
+    }
+  ]
+}

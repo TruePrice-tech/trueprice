@@ -1,0 +1,79 @@
+
+=== PATH 1: CONCRETE ESTIMATE — Lane (Fort Mill SC), 800sqft patio 4" no-demo ===
+  shot: 01-estimate-landing
+  shot: 02-estimate-address-filled
+  shot: 03-estimate-step1-project-type
+  shot: 04-estimate-step2-size
+  shot: 05-estimate-step3-thickness
+  shot: 06-estimate-step4-demolition
+  [estimate console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: 07-estimate-result-top
+  shot (full): 08-estimate-result-full
+  dump: 08-estimate-result.txt (1882 chars)
+
+=== PATH 2.03: ANALYZE — $20,400 unlicensed install 2000 sqft conc + 800 turf ===
+  uploaded: 03-2000-sqft-of-concrete-amp-800-sqft-of-turf.jpeg
+  [analyze-03 console] warn [TP_Engine] Image resize failed: Failed to read file
+  [analyze-03 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-03 console] warn [TP_Engine] OCR pass failed 1/3 Preprocess failed
+  [analyze-03 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-03 console] warn [TP_Engine] OCR pass failed 2/3 Preprocess failed
+  [analyze-03 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-03 console] warn [TP_Engine] OCR pass failed 3/3 Preprocess failed
+  [analyze-03 console] error Failed to load resource: the server responded with a status of 400 ()
+  [analyze-03 console] warn [TP_Engine] AI backup HTTP 400
+  [analyze-03 console] log [TP_Engine] vertical=concrete price=NONE source=none ocrChars=0 ocrConf=0% aiCalled=true
+  shot (full): analyze-03-result
+  dump: analyze-03-result.txt (144 chars)
+
+=== PATH 2.06: ANALYZE — $12,636.56 multi-pour driveway/sidewalk/shed pad ===
+  uploaded: 06-quote-to-widen-driveway-pour-cement-pad-for-shed-p.png
+  [analyze-06 console] log [TP_Engine] vertical=concrete price=12636.56 source=regex ocrChars=592 ocrConf=88% aiCalled=false
+  shot (full): analyze-06-result
+  dump: analyze-06-result.txt (183 chars)
+  [06] timed out waiting for result
+
+=== PATH 2.08: ANALYZE — image-only, no readable text ===
+  uploaded: 08-new-concrete-or-mud-jack.jpeg
+  [analyze-08 console] warn [TP_Engine] Image resize failed: Failed to read file
+  [analyze-08 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-08 console] warn [TP_Engine] OCR pass failed 1/3 Preprocess failed
+  [analyze-08 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-08 console] warn [TP_Engine] OCR pass failed 2/3 Preprocess failed
+  [analyze-08 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-08 console] warn [TP_Engine] OCR pass failed 3/3 Preprocess failed
+  [analyze-08 console] error Failed to load resource: the server responded with a status of 400 ()
+  [analyze-08 console] warn [TP_Engine] AI backup HTTP 400
+  [analyze-08 console] log [TP_Engine] vertical=concrete price=NONE source=none ocrChars=0 ocrConf=0% aiCalled=true
+  shot (full): analyze-08-result
+  dump: analyze-08-result.txt (144 chars)
+
+=== PATH 2.09: ANALYZE — Tupac meme garbage ===
+  uploaded: 09-concrete-tupac-quote.jpg
+  [analyze-09 console] warn [TP_Engine] Image resize failed: Failed to read file
+  [analyze-09 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-09 console] warn [TP_Engine] OCR pass failed 1/3 Preprocess failed
+  [analyze-09 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-09 console] warn [TP_Engine] OCR pass failed 2/3 Preprocess failed
+  [analyze-09 console] error Failed to load resource: the server responded with a status of 404 ()
+  [analyze-09 console] warn [TP_Engine] OCR pass failed 3/3 Preprocess failed
+  [analyze-09 console] error Failed to load resource: the server responded with a status of 400 ()
+  [analyze-09 console] warn [TP_Engine] AI backup HTTP 400
+  [analyze-09 console] log [TP_Engine] vertical=concrete price=NONE source=none ocrChars=0 ocrConf=0% aiCalled=true
+  shot (full): analyze-09-result
+  dump: analyze-09-result.txt (144 chars)
+
+=== PATH 3: COMPARE — comparison-conc-low/mid/high ===
+  shot: compare-01-landing
+  uploaded slot 0: comparison-conc-low.png
+  uploaded slot 1: comparison-conc-mid.png
+  uploaded slot 2: comparison-conc-high.png
+  shot (full): compare-02-after-uploads
+  [compare console] log [TP_Engine] vertical=concrete price=4840 source=regex ocrChars=502 ocrConf=94% aiCalled=false
+  [compare console] log [TP_Engine] vertical=concrete price=7800 source=regex ocrChars=668 ocrConf=94% aiCalled=false
+  clicked compare button
+  [compare console] log [TP_Engine] vertical=concrete price=12100 source=regex ocrChars=856 ocrConf=93% aiCalled=false
+  shot (full): compare-03-results
+  dump: compare-03-results.txt (2291 chars)
+
+DONE — output: c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\concrete-walk-2026-04-27

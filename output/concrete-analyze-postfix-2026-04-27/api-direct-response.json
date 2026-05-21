@@ -1,0 +1,118 @@
+{
+  "success": true,
+  "source": "claude-haiku",
+  "data": {
+    "totalPrice": 7800,
+    "laborTotal": null,
+    "materialsTotal": null,
+    "jobType": "patio",
+    "squareFootage": 800,
+    "thickness": 4,
+    "finish": "broom",
+    "reinforcement": "rebar",
+    "psiRating": 4000,
+    "basePrep": true,
+    "formWork": true,
+    "demolition": null,
+    "sealerIncluded": false,
+    "stateCode": "TX",
+    "lineItems": [
+      {
+        "description": "4 inch concrete pour, 800 sqft, 4000 PSI",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 4800
+      },
+      {
+        "description": "#3 rebar grid, 18 on center",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 640
+      },
+      {
+        "description": "Compacted gravel base, 4 inches deep",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 680
+      },
+      {
+        "description": "Form work and broom finish",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 1200
+      },
+      {
+        "description": "Control joints (sawcut at 24-hour cure)",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 240
+      },
+      {
+        "description": "Site cleanup and haul-off",
+        "laborCost": null,
+        "materialCost": null,
+        "lineTotal": 240
+      }
+    ],
+    "scopeItems": {
+      "laborRate": "no",
+      "partsItemized": "yes",
+      "permit": "unclear",
+      "warranty": "yes",
+      "cleanup": "yes",
+      "timeline": "no",
+      "thickness": "yes",
+      "rebar": "yes",
+      "gradePrep": "yes",
+      "sealer": "no",
+      "curing": "yes",
+      "drainage": "no"
+    },
+    "warrantyProduct": "5-year workmanship warranty",
+    "costPerSqFt": 9.75,
+    "possibleUpsells": [
+      "Concrete sealer ($380 recommended)",
+      "Stamped or colored finish upgrade",
+      "Additional sealer coats for enhanced protection",
+      "Radiant heating system",
+      "Decorative border or pattern work"
+    ],
+    "redFlags": [
+      "Sealer not included but explicitly recommended ($380 upsell); unsealed concrete will deteriorate faster, especially in Texas weather",
+      "Labor costs not itemized separately; unclear breakdown between labor and materials",
+      "No drainage or slope grading mentioned; critical for patio longevity to prevent water pooling",
+      "No permit mentioned; check local Plano requirements for 800 sqft patio",
+      "Curing time mentioned (24-hour for control joints) but no full curing protocol or traffic restrictions specified",
+      "No timeline provided for project completion or weather contingencies"
+    ],
+    "summary": "Quote of $7,800 for 800 sqft broom-finish patio ($9.75/sqft) is fair and well-detailed. Includes proper 4-inch 4000 PSI concrete, #3 rebar reinforcement, compacted gravel base, formwork, and control joints—all essential structural elements. The 5-year warranty is solid. However, sealer is optional ($380 extra) despite being recommended; in Texas heat and humidity, sealing concrete extends life significantly and should likely be included. Labor/material split is not disclosed, making it harder to assess if pricing is competitive. No drainage solution or slope grading mentioned, which is important for a patio's longevity. Overall a competent, transparent quote with good inclusions but gaps on finishing protection and site logistics.",
+    "pricingContext": {
+      "state": "TX",
+      "stateMultiplier": 0.92,
+      "jobType": "patio",
+      "finish": "broom",
+      "squareFootage": 800,
+      "expectedRange": {
+        "low": 3709,
+        "high": 11069
+      },
+      "costPerSqFt": 9.75,
+      "scopeScore": 23,
+      "scopeMax": 100,
+      "scopeGrade": "D",
+      "source": "ACI 318 / ACI 332, RSMeans residential 2026, NRMCA 2026 ready-mix pricing, BBB concrete complaint patterns, ICRI concrete contractor surveys",
+      "modelRange": {
+        "low": 5152,
+        "high": 12512
+      },
+      "calibrationApplied": true
+    },
+    "calibration": {
+      "avgPrice": 6771,
+      "quotes": 51,
+      "lastUpdated": 1777339508929,
+      "source": "cal:metro:TX:concrete",
+      "confidence": "high"
+    }
+  }
+}

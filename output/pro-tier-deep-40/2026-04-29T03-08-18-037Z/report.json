@@ -1,0 +1,607 @@
+{
+  "startedAt": "2026-04-29T03:08:19.463Z",
+  "analyzers": [
+    {
+      "slug": "roofing",
+      "expect": "happy",
+      "ok": false,
+      "verdict": "FAIL",
+      "state": {
+        "h1": "",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": true,
+        "hasFakePrice": true,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "hvac",
+      "expect": "happy",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "We found your quote total",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": true,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "auto_repair",
+      "expect": "happy",
+      "ok": false,
+      "verdict": "FAIL",
+      "state": {
+        "h1": "Auto Repair Pricing",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "plumbing",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Plumbing quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "electrical",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Electrical quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "windows",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Windows quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "siding",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Siding quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "insulation",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Insulation quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "painting",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Painting quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "fencing",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Fencing quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "concrete",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Concrete quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "landscaping",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Landscaping quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "garage_door",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Garage-door quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "solar",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Solar quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "foundation",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Foundation quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "kitchen",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Kitchen quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "gutters",
+      "expect": "reject",
+      "ok": true,
+      "verdict": "PASS",
+      "state": {
+        "h1": "This is not a Gutters quote",
+        "isReject": true,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "moving",
+      "expect": "reject",
+      "ok": false,
+      "verdict": "FAIL (no reject)",
+      "state": {
+        "h1": "Moving Quote Analysis",
+        "isReject": false,
+        "isVerdict": true,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": true,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "medical",
+      "expect": "reject",
+      "ok": false,
+      "verdict": "FAIL (no reject)",
+      "state": {
+        "h1": "",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": true,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "legal",
+      "expect": "reject",
+      "ok": false,
+      "verdict": "FAIL (no reject)",
+      "state": {
+        "h1": "",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": true,
+        "errors": 0
+      }
+    }
+  ],
+  "compares": [
+    {
+      "slug": "cmp_roofing",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_hvac",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_auto",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_plumbing",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_electrical",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_windows",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_siding",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_insulation",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_painting",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_fencing",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_concrete",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_landscaping",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_garage_door",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_solar",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_foundation",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_kitchen",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_gutters",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_moving",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_medical",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    },
+    {
+      "slug": "cmp_legal",
+      "ok": true,
+      "state": {
+        "h1": "Compare 2 to 3 quotes side by side",
+        "isReject": false,
+        "isVerdict": false,
+        "isConfirm": false,
+        "isAnalyzing": false,
+        "hasUpsell": false,
+        "hasFakePrice": false,
+        "errors": 0
+      }
+    }
+  ]
+}

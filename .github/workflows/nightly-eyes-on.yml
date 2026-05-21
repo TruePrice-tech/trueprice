@@ -8,14 +8,12 @@ name: Weekly Eyes-On Walk
 # violations, undefined / NaN / $0 -- per Lane's standing memories).
 #
 # Cadence note: dropped from nightly to weekly on 2026-05-15 after API
-# spend audit -- nightly cron + analyzer paths calling Claude were a
-# meaningful chunk of monthly burn against effectively zero end-user
-# traffic. Weekly still catches drift; coupled with the workflow_dispatch
-# trigger for ad-hoc runs after deploys.
+# spend audit. Disabled entirely on 2026-05-16 (cron removed) -- even on
+# weekly + haiku-4-5 the run was burning into Haiku's 50K input-TPM cap
+# alongside pricing-drift, triggering org-wide rate-limit emails. Kept
+# the workflow_dispatch trigger for manual ad-hoc runs after big deploys.
 
 on:
-  schedule:
-    - cron: '30 4 * * 1'
   workflow_dispatch:
     inputs:
       verticals:

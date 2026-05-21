@@ -1,0 +1,143 @@
+{
+  "url": "https://woogoro.com/plumbing-cost-guide.html",
+  "template": "hub",
+  "parsed": {
+    "title": "Plumbing Cost Guide (2026) | Woogoro",
+    "description": "Comprehensive plumbing cost guide for 2026. Compare prices for water heaters, whole-house repipes, sewer line replacement, and bathroom rough-ins.",
+    "canonical": "https://woogoro.com/plumbing-cost.html",
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:type": "article",
+      "og:title": "Plumbing Cost Guide (2026)",
+      "og:description": "Comprehensive plumbing cost guide for 2026. Compare prices for water heaters, whole-house repipes, sewer line replacement.",
+      "og:url": "https://woogoro.com/plumbing-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Plumbing Cost Guide (2026)"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Plumbing Cost Guide (2026)",
+      "twitter:description": "Comprehensive plumbing cost guide for 2026. Compare prices for water heaters, whole-house repipes, sewer line replacement.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Plumbing Cost Guide",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/authors/geoff-lane.html",
+          "image": "https://woogoro.com/images/geoff-lane.jpg"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://woogoro.com/images/Iris/Iris%20happy.png"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21",
+        "description": "Comprehensive plumbing cost guide for 2026. Compare prices for water heaters, whole-house repipes, sewer line replacement, and bathroom rough-ins.",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://woogoro.com/plumbing-cost-guide.html"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://woogoro.com/guides.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Plumbing Cost Guide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does a water heater replacement cost in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard 50-gallon gas tank water heater costs $1,200 to $2,500 installed. Electric tanks run $1,000 to $2,200. Tankless gas units cost $3,000 to $5,500, and heat pump water heaters cost $2,500 to $4,500 (the 25C federal tax credit expired Dec 31 2025; state utility rebates may still apply)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much does a whole-house repipe cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A PEX repipe for a typical 2,000-sq-ft home runs $4,500 to $10,000. Copper repipes cost $8,000 to $16,000 for the same size home. The main cost drivers are home size, number of fixtures, access (slab vs. basement), and pipe material."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is PEX piping as good as copper?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For most residential applications, yes. PEX is flexible, freeze-resistant, corrosion-proof, and significantly less expensive than copper. It has been used in Europe since the 1970s and in the US since the 1990s with an excellent track record."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does a sewer line replacement take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Traditional open-trench sewer line replacement takes 2 to 4 days. Trenchless methods (pipe bursting or pipe lining) can often be completed in 1 to 2 days with minimal yard disruption."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a permit for plumbing work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In most jurisdictions, yes, for anything beyond a simple fixture swap. Water heater replacements, repipes, sewer work, and new drain lines almost always require a plumbing permit and inspection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I switch from a tank to a tankless water heater?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on your household. Tankless heaters provide unlimited hot water and last 20+ years, but they cost more upfront and may require gas line or electrical upgrades. For households with high hot water demand or limited space, tankless is often worth the investment."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 23
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/plumbing-cost-guide.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /plumbing-cost-guide.html, got /plumbing-cost.html"
+    }
+  ]
+}

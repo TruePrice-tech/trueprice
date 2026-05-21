@@ -1,0 +1,178 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "parse_bill",
+        "description": "Analyze a medical bill, hospital bill, EOB (Explanation of Benefits), or healthcare invoice. Identifies CPT codes, charges, insurance applications, potential errors (duplicate charges, upcoding, unbundling, balance billing, No Surprises Act violations), and dispute opportunities. Accepts the bill as either pasted text or one or more base64-encoded image data URLs (format: 'data:image/png;base64,...'). Returns structured analysis including red flags and specific dispute actions.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "bill_text": {
+              "type": "string",
+              "description": "The full text of the bill, pasted from a PDF or typed by the user. Optional if bill_images is provided."
+            },
+            "bill_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Up to 3 base64-encoded image data URLs of the bill. Format: 'data:image/png;base64,iVBORw0KG...' or similar for jpeg/webp. Optional if bill_text is provided."
+            }
+          }
+        }
+      },
+      {
+        "name": "check_errors",
+        "description": "Check a previously-parsed medical bill (or fresh bill text/images) specifically for billing errors: duplicate charges, upcoding, unbundling violations (NCCI rules), balance billing, facility fees, No Surprises Act violations, and potential overcharges vs Medicare rates. Returns only the errors and dispute opportunities, focused output for users who already have the bill parsed.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "bill_text": {
+              "type": "string",
+              "description": "Bill text (if not already parsed)"
+            },
+            "bill_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Bill image data URLs (if not already parsed)"
+            },
+            "parsed_bill": {
+              "type": "object",
+              "description": "Previously-parsed bill object from parse_bill. If provided, skips re-parsing."
+            }
+          }
+        }
+      },
+      {
+        "name": "lookup_average_price",
+        "description": "Look up the typical Medicare and commercial price for a CPT/HCPCS code, optionally adjusted for state and facility type. Useful for benchmarking specific charges against fair-price ranges. Covers ~146 of the most common medical codes (office visits, ER, imaging, lab, common procedures). Returns base Medicare rate, state-adjusted rate, commercial estimate, and a fair-price range.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "cpt_code": {
+              "type": "string",
+              "description": "CPT or HCPCS code (e.g., '99213', '70450', 'G0438')"
+            },
+            "state_code": {
+              "type": "string",
+              "description": "Two-letter US state code for GPCI geographic adjustment (e.g., 'CA', 'NY'). Optional."
+            },
+            "facility_type": {
+              "type": "string",
+              "enum": [
+                "hospital_outpatient",
+                "hospital_inpatient",
+                "emergency_room",
+                "physician_office",
+                "ambulatory_surgery_center",
+                "lab",
+                "imaging_center",
+                "freestanding_imaging",
+                "freestanding_lab",
+                "urgent_care"
+              ],
+              "description": "Facility type for facility-multiplier adjustment. ASC saves ~42% vs hospital outpatient. Optional."
+            }
+          },
+          "required": [
+            "cpt_code"
+          ]
+        }
+      },
+      {
+        "name": "draft_dispute",
+        "description": "Draft a dispute letter for a medical bill error. Generates formal language with relevant statute citations (No Surprises Act, ACA preventive care, NCCI bundling rules) for the patient to send to the billing department or insurance company. Returns letter text, recipient guidance, and follow-up steps.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "error_type": {
+              "type": "string",
+              "enum": [
+                "unbundling",
+                "balance_billing",
+                "upcoding",
+                "duplicate_charge",
+                "no_surprises_act",
+                "facility_fee",
+                "out_of_network",
+                "preventive_care_violation",
+                "general"
+              ],
+              "description": "Type of billing error being disputed"
+            },
+            "bill_summary": {
+              "type": "string",
+              "description": "Brief summary of the bill (provider, service date, total amount, what's disputed)"
+            },
+            "patient_name": {
+              "type": "string",
+              "description": "Patient's full name"
+            },
+            "account_number": {
+              "type": "string",
+              "description": "Account or invoice number on the bill"
+            },
+            "service_date": {
+              "type": "string",
+              "description": "Date of service (YYYY-MM-DD or readable format)"
+            },
+            "specific_charges": {
+              "type": "string",
+              "description": "Specific charges, CPT codes, or amounts being disputed"
+            },
+            "provider_name": {
+              "type": "string",
+              "description": "Name of the provider, hospital, or facility"
+            }
+          },
+          "required": [
+            "error_type",
+            "bill_summary"
+          ]
+        }
+      },
+      {
+        "name": "negotiation_script",
+        "description": "Generate a phone negotiation script for the patient to call the billing department. Includes opening framing, specific asks (cash discount, charity care, payment plan), responses to common pushback, and follow-up steps. Tailored to the bill amount, ability to pay, and facility type.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "bill_amount": {
+              "type": "number",
+              "description": "Total amount the patient owes"
+            },
+            "ability_to_pay": {
+              "type": "string",
+              "enum": [
+                "cannot_pay",
+                "partial_payment",
+                "full_payment_for_discount"
+              ],
+              "description": "Patient's financial position going into the call"
+            },
+            "hardship_situation": {
+              "type": "string",
+              "description": "Brief description of any financial hardship to mention (optional)"
+            },
+            "facility_type": {
+              "type": "string",
+              "description": "Hospital, physician office, etc. (affects what programs may be available)"
+            },
+            "provider_name": {
+              "type": "string",
+              "description": "Name of the billing provider/facility (optional)"
+            }
+          },
+          "required": [
+            "bill_amount",
+            "ability_to_pay"
+          ]
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}

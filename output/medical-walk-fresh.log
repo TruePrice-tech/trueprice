@@ -1,0 +1,102 @@
+
+=== ANALYZER: rw-02 :: ER level III 99283 — $3,737 charge, $1,725 patient (after $2,012 ins adj) ===
+  shot: rw-02-01-landing
+  uploaded: 02-2000-hospital-bill-for-a-10-minute-visit-to-er-the.jpeg
+  shot: rw-02-02-verdict-top
+  shot (full): rw-02-03-result-full
+  dump: rw-02-03-result.txt (5216 chars)
+
+=== ANALYZER: rw-04 :: Multi-X-ray + 99205 + 99244 — $988 encounter, possible double bill ===
+  shot: rw-04-01-landing
+  uploaded: 04-need-advice-doctor-trying-to-double-bill-for-the-s.jpeg
+  shot: rw-04-02-verdict-top
+  shot (full): rw-04-03-result-full
+  dump: rw-04-03-result.txt (5796 chars)
+
+=== ANALYZER: rw-05 :: ENT surgery 30520/30140/30465/20912 — $11,250 charges, denied medical necessity ===
+  shot: rw-05-01-landing
+  uploaded: 05-just-got-the-bill-doctor-waited-to-send-stuff-unti.jpeg
+  shot: rw-05-02-verdict-top
+  shot (full): rw-05-03-result-full
+  dump: rw-05-03-result.txt (6072 chars)
+
+=== ANALYZER: rw-07 :: Labcorp delinquency notice — $451 balance only, no CPTs (edge) ===
+  shot: rw-07-01-landing
+  uploaded: 07-help-complicated-medical-bill-conundrum.jpeg
+  shot: rw-07-02-verdict-top
+  shot (full): rw-07-03-result-full
+  dump: rw-07-03-result.txt (3428 chars)
+
+=== ANALYZER: rw-08 :: Pharmacy/IV Therapy itemized — $2,090 subtotal, many HCPCS lines ===
+  shot: rw-08-01-landing
+  uploaded: 08-itemized-medical-bill.png
+  [rw-08 console] error: Failed to load resource: the server responded with a status of 502 ()
+  [rw-08 console] warn: Medical API responded 502
+  shot: rw-08-02-verdict-top
+  shot (full): rw-08-03-result-full
+  dump: rw-08-03-result.txt (336 chars)
+
+=== ANALYZER: rw-09 :: Office visits + collections — $535 charges, $-27 credit balance ===
+  shot: rw-09-01-landing
+  uploaded: 09-asked-for-itemized-bill.jpg
+  shot: rw-09-02-verdict-top
+  shot (full): rw-09-03-result-full
+  dump: rw-09-03-result.txt (4192 chars)
+
+=== ANALYZER: rw-10 :: Myomectomy CPT 58146 — $6,138 billed, $1,992.77 patient ===
+  shot: rw-10-01-landing
+  uploaded: 10-help-international-student-with-1990-surgery-bill.jpeg
+  shot: rw-10-02-verdict-top
+  shot (full): rw-10-03-result-full
+  dump: rw-10-03-result.txt (4859 chars)
+
+=== ANALYZER: syn-ct-low :: Synthetic Valley Diagnostic CT abd/pelvis — $1,225 billed, $390 patient ===
+  shot: syn-ct-low-01-landing
+  uploaded: comparison-ct-01-low.png
+  shot: syn-ct-low-02-verdict-top
+  shot (full): syn-ct-low-03-result-full
+  dump: syn-ct-low-03-result.txt (3975 chars)
+
+=== ANALYZER: syn-ct-mid :: Synthetic Banner Outpatient CT abd/pelvis — $2,200 billed, $355 patient ===
+  shot: syn-ct-mid-01-landing
+  uploaded: comparison-ct-02-mid.png
+  shot: syn-ct-mid-02-verdict-top
+  shot (full): syn-ct-mid-03-result-full
+  dump: syn-ct-mid-03-result.txt (4244 chars)
+
+=== ANALYZER: syn-ct-high :: Synthetic Mayo Clinic CT abd/pelvis — $5,930 billed, $579 patient ===
+  shot: syn-ct-high-01-landing
+  uploaded: comparison-ct-03-high.png
+  shot: syn-ct-high-02-verdict-top
+  shot (full): syn-ct-high-03-result-full
+  dump: syn-ct-high-03-result.txt (5455 chars)
+
+=== BUTTONS: rw-02 result-footer + result actions ===
+  uploaded: 02-2000-hospital-bill-for-a-10-minute-visit-to-er-the.jpeg
+  detected buttons: 13
+  pdf err: Timed out after waiting 30000ms
+  shot: buttons-after-startover
+
+=== COST GUIDE — read every section ===
+  shot: guide-01-top
+  shot (full): guide-02-full
+  dump: guide-text.txt (8000 chars)
+
+=== COST LOOKUP — search MRI brain + strep + 99213 + state SC ===
+  shot: lookup-01-landing
+  shot: lookup-02-99213
+  shot: lookup-03-99213-SC
+  shot: lookup-04-mri-brain
+  shot: lookup-05-strep
+  dump: lookup-05-strep-results.txt (223 chars)
+  shot: lookup-06-broken-arm
+  dump: lookup-06-broken-arm-results.txt (1834 chars)
+  shot: lookup-07-empty
+
+=== MOBILE 390x844 — analyzer + cost-guide + lookup ===
+  shot: mobile-01-analyzer-landing
+  shot (full): mobile-02-analyzer-result
+  shot (full): mobile-03-guide
+  shot (full): mobile-04-lookup-99213
+
+DONE. Output dir: c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\medical-walk-2026-04-27

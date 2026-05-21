@@ -1,0 +1,143 @@
+{
+  "url": "https://woogoro.com/foundation-repair-cost-guide.html",
+  "template": "hub",
+  "parsed": {
+    "title": "Foundation Repair Cost Guide (2026) | Woogoro",
+    "description": "Comprehensive foundation repair cost guide for 2026. Learn average prices for piering, slabjacking, crack repair, waterproofing, and drainage.",
+    "canonical": "https://woogoro.com/foundation-repair-cost.html",
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:type": "article",
+      "og:title": "Foundation Repair Cost Guide (2026)",
+      "og:description": "Foundation repair cost guide for 2026. Compare prices for crack repair, underpinning, pier installation, and waterproofing.",
+      "og:url": "https://woogoro.com/foundation-repair-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Foundation Repair Cost Guide (2026)"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Foundation Repair Cost Guide (2026)",
+      "twitter:description": "Foundation repair cost guide for 2026. Compare prices for crack repair, underpinning, pier installation, and waterproofing.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Foundation Repair Cost Guide",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/authors/geoff-lane.html",
+          "image": "https://woogoro.com/images/geoff-lane.jpg"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://woogoro.com/images/Iris/Iris%20happy.png"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21",
+        "description": "Comprehensive foundation repair cost guide for 2026. Learn average prices for piering, slabjacking, crack repair, waterproofing, and drainage.",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://woogoro.com/foundation-repair-cost-guide.html"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://woogoro.com/guides.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Foundation Repair Cost Guide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does foundation repair cost in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The average homeowner pays $4,500-$15,000 for foundation repair. Minor crack repairs start at $250-$800, while full piering projects range from $8,000-$30,000 depending on the number of piers needed and soil conditions. Waterproofing adds $3,000-$25,000 depending on the method used."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if I need foundation repair?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Common signs include cracks in walls or ceilings (especially diagonal cracks near doors and windows), doors and windows that stick or do not close properly, uneven floors, gaps between walls and the ceiling or floor, and visible cracks in the exterior foundation. If you notice any of these, get a professional inspection."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is piering and how does it work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Piering involves driving steel or helical piers through the foundation to stable soil or bedrock below. Hydraulic jacks then lift the foundation back to its original position. Steel push piers are most common for heavier structures, while helical piers work well for lighter loads and new construction. Each pier supports 5,000-10,000 pounds."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does foundation repair affect home value?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unrepaired foundation problems can reduce a home's value by 10-15% or more and scare away buyers entirely. A completed repair with a transferable warranty actually restores value and can be a selling point, showing that the issue was addressed professionally."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does foundation repair take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most piering projects take 1-3 days to complete. Crack injection takes a few hours. Interior waterproofing with drain tile runs 2-4 days. Exterior waterproofing with full excavation takes 3-7 days depending on the perimeter length and access conditions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does homeowners insurance cover foundation repair?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Standard homeowners insurance typically does not cover foundation repair caused by settling, shifting soil, or poor drainage. However, it may cover foundation damage caused by a sudden event like a burst plumbing pipe or an earthquake (if you have earthquake coverage). Check your policy and consider adding supplemental coverage if you live in an area with expansive clay soils."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 22
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/foundation-repair-cost-guide.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /foundation-repair-cost-guide.html, got /foundation-repair-cost.html"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+  f1-honest-wrench-low ... OK
+  f2-precision-mid ... OK
+  f3-park-avenue-dealer ... OK
+  f4-jeep-insurance ... OK
+  f5-audi-recommendations ... FAIL
+     - contractor: expected match /audi/, got "Not detected"
+  f6-equinox-quote ... OK
+  f7-honda-fuel-injector ... OK
+  f8-bmw-x3 ... OK
+
+=== vs baseline ===
+No deltas vs baseline.
+
+Total failures: 1

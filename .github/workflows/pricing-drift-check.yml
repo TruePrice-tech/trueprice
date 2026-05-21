@@ -19,12 +19,10 @@ name: Pricing Drift Check (monthly)
 # drift findings (not recommended without first widening bands once).
 
 on:
-  schedule:
-    # First Monday of every month, 06:00 UTC. Cadence: monthly is enough —
-    # industry pricing data publishers (HomeGuide, Forbes, RepairPal, etc.)
-    # don't update faster than that, and we don't want to burn Claude
-    # tokens chasing noise.
-    - cron: '0 6 1-7 * 1'
+  # Schedule removed 2026-05-16 -- Lane's standing rule: no paid services
+  # in testing or automated runs. Claude haiku-4-5 + web_search tool burn
+  # was triggering org-wide Haiku rate-limit emails alongside eyes-on.
+  # workflow_dispatch retained for manual one-off runs only.
   workflow_dispatch:
     inputs:
       hard_fail:

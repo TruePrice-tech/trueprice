@@ -1,0 +1,7 @@
+{
+  "ocrLen": 449,
+  "rootHtmlStart": "<div style=\"padding:24px 16px;text-align:center;\"><h1 style=\"font-size:22px;color:#991b1b;\">This is not a Roofing quote</h1></div><div style=\"text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;\"><picture><source srcset=\"/images/Iris/Iris%20concerned.webp\" type=\"image/webp\"><img src=\"/images/Iris/Iris%20concerned.png\" alt=\"Iris is concerned\" style=\"margin-bottom:12px;width:120px;height:120px;\" width=\"120\" height=\"120\"></picture><p style=\"font-size:17px;font-weight:600;color:#991b1b;margin:0 0 10px;\">The document you uploaded looks like an <strong>auto quote</strong>.</p><p style=\"font-size:14px;color:#7f1d1d;margin:0 0 20px;line-height:1.5;\">We could try to analyze it as a roofing quote anyway, but the result woul",
+  "rootTextStart": "This is not a Roofing quote\n\nThe document you uploaded looks like an auto quote.\n\nWe could try to analyze it as a roofing quote anyway, but the result would be unreliable. We would rather refuse than give you a confident answer based on the wrong inputs.\n\nAnalyze as Auto Repair insteadUpload a different file\n\nDetection confidence: 7 Auto Repair keywords vs 0 Roofing keywords",
+  "bodyHasReject": true,
+  "bodyHasPriceConfirm": false
+}

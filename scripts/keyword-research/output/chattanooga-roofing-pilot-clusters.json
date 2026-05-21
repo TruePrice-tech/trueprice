@@ -1,0 +1,3717 @@
+{
+  "meta": {
+    "sourceFile": "chattanooga-roofing-pilot.json",
+    "vertical": "roofing",
+    "city": "chattanooga",
+    "harvestedAt": "2026-05-20T16:41:37.480Z",
+    "analyzedAt": "2026-05-20T16:53:07.531Z",
+    "totalRawSuggestions": 16783,
+    "totalUnique": 728,
+    "geoBreakdown": {
+      "chattanooga": 199,
+      "tn_other": 88,
+      "state_near": 22,
+      "other_city": 7,
+      "no_geo": 412
+    },
+    "intentBreakdown": {
+      "cost": 81,
+      "contractor": 432,
+      "project_shingle": 27,
+      "project_metal": 65,
+      "project_flat": 6,
+      "project_tile": 17,
+      "project_repair": 83,
+      "project_hail": 33,
+      "project_gutter": 89,
+      "project_inspection": 17,
+      "project_commercial": 17,
+      "roof_brand": 0,
+      "prep_repair": 0,
+      "how_to": 0,
+      "timing": 1,
+      "comparison": 4,
+      "question": 6,
+      "insurance": 3
+    }
+  },
+  "topOverall": [
+    {
+      "phrase": "chattanooga roofing company reviews",
+      "count": 695,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing services availability in chattanooga",
+      "count": 694,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair chattanooga tn",
+      "count": 615,
+      "geo": "chattanooga",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing replacement chattanooga tn",
+      "count": 579,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "roofing companies in chattanooga",
+      "count": 565,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair services chattanooga tn",
+      "count": 519,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract services",
+      "count": 488,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractors ratings",
+      "count": 465,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing companies chattanooga tn",
+      "count": 439,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "affordable roofing chattanooga tn",
+      "count": 437,
+      "geo": "chattanooga",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "roofers in chattanooga tn",
+      "count": 433,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractors cost",
+      "count": 418,
+      "geo": "chattanooga",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractors reviews",
+      "count": 372,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing supply company",
+      "count": 370,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "contractor chattanooga tn roofing",
+      "count": 362,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractors services",
+      "count": 358,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "commercial roofing chattanooga tn",
+      "count": 356,
+      "geo": "chattanooga",
+      "intents": [
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofing and supply chattanooga",
+      "count": 350,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga roofing contract reviews",
+      "count": 335,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractor near me",
+      "count": 328,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractor reviews",
+      "count": 292,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing supply chattanooga tn",
+      "count": 256,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga roofing contractors near me",
+      "count": 256,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract estimate",
+      "count": 245,
+      "geo": "chattanooga",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract cost",
+      "count": 220,
+      "geo": "chattanooga",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractor ratings",
+      "count": 175,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "independent local roofer chattanooga",
+      "count": 157,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "the roofing and supply company chattanooga",
+      "count": 102,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing companies in chattanooga tn",
+      "count": 101,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract insurance",
+      "count": 81,
+      "geo": "chattanooga",
+      "intents": [
+        "insurance"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract dispute",
+      "count": 73,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga roofing contractors insurance",
+      "count": 73,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "insurance"
+      ]
+    },
+    {
+      "phrase": "best buy metal roofing chattanooga tn",
+      "count": 73,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract renewal",
+      "count": 65,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "metal roofing chattanooga tn",
+      "count": 65,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing company contractor group",
+      "count": 64,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "the roof doctor chattanooga",
+      "count": 63,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "metal roofing chattanooga tennessee",
+      "count": 59,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractor services",
+      "count": 58,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "discount metal roofing chattanooga tn",
+      "count": 58,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "storm damage chattanooga tn",
+      "count": 54,
+      "geo": "chattanooga",
+      "intents": [
+        "project_hail"
+      ]
+    },
+    {
+      "phrase": "storm damage in chattanooga",
+      "count": 51,
+      "geo": "chattanooga",
+      "intents": [
+        "project_hail"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contract terms",
+      "count": 48,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "chattanooga storm damage today",
+      "count": 48,
+      "geo": "chattanooga",
+      "intents": [
+        "project_hail"
+      ]
+    },
+    {
+      "phrase": "metal roofing east tennessee",
+      "count": 44,
+      "geo": "tn_other",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "commercial roofers chattanooga tn",
+      "count": 38,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofers in mountain home",
+      "count": 38,
+      "geo": "no_geo",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing contractors chattanooga tn",
+      "count": 36,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "shingle roofing near me",
+      "count": 35,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "project_shingle"
+      ]
+    },
+    {
+      "phrase": "chattanooga roofing contractor referral",
+      "count": 34,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    }
+  ],
+  "bothEngines": [
+    {
+      "phrase": "chattanooga roofing company reviews",
+      "count": 695,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair chattanooga tn",
+      "count": 615,
+      "geo": "chattanooga",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing companies in chattanooga",
+      "count": 565,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing companies chattanooga tn",
+      "count": 439,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers in chattanooga tn",
+      "count": 433,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "commercial roofing chattanooga tn",
+      "count": 356,
+      "geo": "chattanooga",
+      "intents": [
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofing supply chattanooga tn",
+      "count": 256,
+      "geo": "chattanooga",
+      "intents": []
+    },
+    {
+      "phrase": "best buy metal roofing chattanooga tn",
+      "count": 73,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "metal roofing chattanooga tn",
+      "count": 65,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "metal roofing chattanooga tennessee",
+      "count": 59,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "commercial roofers chattanooga tn",
+      "count": 38,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofing contractors chattanooga tn",
+      "count": 36,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers chattanooga tn",
+      "count": 29,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "best choice roofing chattanooga tn",
+      "count": 28,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof repair chattanooga",
+      "count": 27,
+      "geo": "chattanooga",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing companies in tennessee",
+      "count": 26,
+      "geo": "tn_other",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "metal roofing chattanooga",
+      "count": 26,
+      "geo": "chattanooga",
+      "intents": [
+        "project_metal"
+      ]
+    },
+    {
+      "phrase": "roofing companies chattanooga",
+      "count": 25,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "american roofing company chattanooga tn",
+      "count": 9,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "american roofing company chattanooga",
+      "count": 3,
+      "geo": "chattanooga",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "scenic commercial roofing chattanooga",
+      "count": 3,
+      "geo": "chattanooga",
+      "intents": [
+        "project_commercial"
+      ]
+    }
+  ],
+  "chattByIntent": {
+    "cost": [
+      {
+        "phrase": "affordable roofing chattanooga tn",
+        "count": 437,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors cost",
+        "count": 418,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract estimate",
+        "count": 245,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract cost",
+        "count": 220,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga prices",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "lifetime guttering chattanooga cost",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "lifetime guttering chattanooga prices",
+        "count": 17,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "lifetime guttering chattanooga estimate",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga free estimates",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor cost",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "flat in chattanooga cheap",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "chattanooga roofing company reviews",
+        "count": 695,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing services availability in chattanooga",
+        "count": 694,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies in chattanooga",
+        "count": 565,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair services chattanooga tn",
+        "count": 519,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract services",
+        "count": 488,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors ratings",
+        "count": 465,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies chattanooga tn",
+        "count": 439,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofers in chattanooga tn",
+        "count": 433,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors cost",
+        "count": 418,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors reviews",
+        "count": 372,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing supply company",
+        "count": 370,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "contractor chattanooga tn roofing",
+        "count": 362,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors services",
+        "count": 358,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract reviews",
+        "count": 335,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor near me",
+        "count": 328,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor reviews",
+        "count": 292,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors near me",
+        "count": 256,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor ratings",
+        "count": 175,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "independent local roofer chattanooga",
+        "count": 157,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "the roofing and supply company chattanooga",
+        "count": 102,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_shingle": [],
+    "project_metal": [
+      {
+        "phrase": "best buy metal roofing chattanooga tn",
+        "count": 73,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "metal roofing chattanooga tn",
+        "count": 65,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "metal roofing chattanooga tennessee",
+        "count": 59,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "discount metal roofing chattanooga tn",
+        "count": 58,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing chattanooga",
+        "count": 26,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "metal roof repair chattanooga",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "metal roofing supply chattanooga",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "metal roofing in chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_flat": [],
+    "project_tile": [
+      {
+        "phrase": "tile stores in chattanooga",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga area",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga prices",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga near me",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga quality",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores in chattanooga tn",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga reviews",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga tn",
+        "count": 22,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga best",
+        "count": 22,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga services",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga free estimates",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile installers chattanooga coupons",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_repair": [
+      {
+        "phrase": "roof repair chattanooga tn",
+        "count": 615,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair services chattanooga tn",
+        "count": 519,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair chattanooga",
+        "count": 27,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair harrison tn",
+        "count": 19,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roof repair chattanooga",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "gutter repair chattanooga tn",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "residential roof repair chattanooga",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "water leak detection chattanooga tn",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "ceiling repair chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "gutter repair chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof repair hixson tn",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_hail": [
+      {
+        "phrase": "storm damage chattanooga tn",
+        "count": 54,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "storm damage in chattanooga",
+        "count": 51,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga storm damage today",
+        "count": 48,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_gutter": [
+      {
+        "phrase": "gutter cleaning chattanooga tn",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "gutter companies chattanooga tn",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "anderson gutter and tree chattanooga",
+        "count": 20,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "gutter repair chattanooga tn",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "gutter installation chattanooga tn",
+        "count": 4,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "gutter repair chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "gutter installation chattanooga",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_inspection": [
+      {
+        "phrase": "home inspection services in chattanooga",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "home inspection chattanooga tn",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city of chattanooga inspection office",
+        "count": 14,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city of chattanooga inspection department",
+        "count": 10,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "inspection masters of chattanooga",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial roofing chattanooga tn",
+        "count": 356,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofers chattanooga tn",
+        "count": 38,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "city of chattanooga inspection office",
+        "count": 14,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors chattanooga tn",
+        "count": 13,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing specialties chattanooga tn",
+        "count": 6,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "scenic commercial roofing chattanooga",
+        "count": 3,
+        "engines": [
+          "google",
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing supply chattanooga",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "roof_brand": [],
+    "prep_repair": [],
+    "how_to": [],
+    "timing": [
+      {
+        "phrase": "chattanooga area weather damage",
+        "count": 30,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "comparison": [],
+    "question": [],
+    "insurance": [
+      {
+        "phrase": "chattanooga roofing contract insurance",
+        "count": 81,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors insurance",
+        "count": 73,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor insurance",
+        "count": 28,
+        "engines": [
+          "bing"
+        ]
+      }
+    ]
+  },
+  "byIntent": {
+    "cost": [
+      {
+        "phrase": "affordable roofing chattanooga tn",
+        "count": 437,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors cost",
+        "count": 418,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contract estimate",
+        "count": 245,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contract cost",
+        "count": 220,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roof company near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile installers chattanooga prices",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof replacement nashville cost",
+        "count": 25,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "cost of shingle roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof company near me free estimate",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of shingle roof",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "lifetime guttering chattanooga cost",
+        "count": 21,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roofing company near me cost",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof near me cost",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "lifetime guttering chattanooga prices",
+        "count": 17,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "shingle roof repair near me free estimate",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of roof replacement in tennessee",
+        "count": 13,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "new roof near me cost",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair cost nashville tn",
+        "count": 9,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "price of shingle roof",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing prices in ky",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much do commercial roofers make",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement nashville free estimate",
+        "count": 6,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "metal roofing company near me free estimate",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter replacement cost near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "lifetime guttering chattanooga estimate",
+        "count": 5,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "shingle roof estimated price",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof repair near me cost",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof manufacturer near me prices",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new roof cost indianapolis",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new roof cost chicago",
+        "count": 3,
+        "geo": "no_geo"
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "chattanooga roofing company reviews",
+        "count": 695,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofing services availability in chattanooga",
+        "count": 694,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofing companies in chattanooga",
+        "count": 565,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof repair services chattanooga tn",
+        "count": 519,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contract services",
+        "count": 488,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors ratings",
+        "count": 465,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofing companies chattanooga tn",
+        "count": 439,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofers in chattanooga tn",
+        "count": 433,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors cost",
+        "count": 418,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors reviews",
+        "count": 372,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing supply company",
+        "count": 370,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "contractor chattanooga tn roofing",
+        "count": 362,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors services",
+        "count": 358,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contract reviews",
+        "count": 335,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractor near me",
+        "count": 328,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractor reviews",
+        "count": 292,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors near me",
+        "count": 256,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractor ratings",
+        "count": 175,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "independent local roofer chattanooga",
+        "count": 157,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "the roofing and supply company chattanooga",
+        "count": 102,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofing companies in chattanooga tn",
+        "count": 101,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors insurance",
+        "count": 73,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "best buy metal roofing chattanooga tn",
+        "count": 73,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing company contractor group",
+        "count": 64,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractor services",
+        "count": 58,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofers chattanooga tn",
+        "count": 38,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roofers in mountain home",
+        "count": 38,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors chattanooga tn",
+        "count": 36,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "shingle roofing near me",
+        "count": 35,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "chattanooga roofing contractor referral",
+        "count": 34,
+        "geo": "chattanooga"
+      }
+    ],
+    "project_shingle": [
+      {
+        "phrase": "shingle roofing near me",
+        "count": 35,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of shingle roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof shingle company ratings",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of shingle roof",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roofing companies near me",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof repair near me free estimate",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price of shingle roof",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is there a metal roof that looks like shingles",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "can you put a metal roof over 3 layers of shingles",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof estimated price",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof repair near me cost",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does shingle roof cost",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof tucson cost",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing shingles utah cost",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofs georgia georgia shingles",
+        "count": 2,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "shingle roof tucson az",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of a shingle roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "high roof shingle cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roofing cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof shingle near me cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing shingles utah comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof shingle ratings and reviews",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof tucson reviews",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof shingles near me prices",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingles curling on new roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "family roofing shingle company llc",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "can you put a metal roof over one layer of shingles",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "project_metal": [
+      {
+        "phrase": "best buy metal roofing chattanooga tn",
+        "count": 73,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roofing chattanooga tn",
+        "count": 65,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roofing chattanooga tennessee",
+        "count": 59,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "discount metal roofing chattanooga tn",
+        "count": 58,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roofing east tennessee",
+        "count": 44,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roof company near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing chattanooga",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roof company near me free estimate",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing knoxville tn",
+        "count": 25,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing knoxville tennessee",
+        "count": 24,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing nashville tn",
+        "count": 21,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing company near me cost",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof near me cost",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing friendsville tn",
+        "count": 17,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing in cleveland tn",
+        "count": 14,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing murfreesboro tn",
+        "count": 11,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing manufacturers in tennessee",
+        "count": 9,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing prices in ky",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is there a metal roof that looks like shingles",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "can you put a metal roof over 3 layers of shingles",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing atlanta tx",
+        "count": 8,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "metal roofing company near me free estimate",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing in ga",
+        "count": 6,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "metal roofing manchester tn",
+        "count": 6,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing fayetteville tn",
+        "count": 6,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roof lebanon tn",
+        "count": 5,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roof manufacturer near me prices",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof repair chattanooga",
+        "count": 4,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "metal roofing memphis tn",
+        "count": 4,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "metal roofing in georgia",
+        "count": 3,
+        "geo": "state_near"
+      }
+    ],
+    "project_flat": [
+      {
+        "phrase": "flat roof company llc",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "the flat roof company",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof company near me",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "flat roof company reviews and ratings",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "chicago flat roof company",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "project_tile": [
+      {
+        "phrase": "tile stores in chattanooga",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga area",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga prices",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga near me",
+        "count": 25,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga quality",
+        "count": 24,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile stores in chattanooga tn",
+        "count": 23,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga reviews",
+        "count": 23,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga tn",
+        "count": 22,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile installers chattanooga best",
+        "count": 22,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile roof hail damage",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile installers chattanooga services",
+        "count": 4,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof tile company near me",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile installers chattanooga free estimates",
+        "count": 2,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "tile roof shingle near me cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof company near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roofing company near me",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile installers chattanooga coupons",
+        "count": 1,
+        "geo": "chattanooga"
+      }
+    ],
+    "project_repair": [
+      {
+        "phrase": "roof repair chattanooga tn",
+        "count": 615,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof repair services chattanooga tn",
+        "count": 519,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof repair chattanooga",
+        "count": 27,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof leak repair atlanta",
+        "count": 27,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair atlanta ga",
+        "count": 26,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "roof leak specialist nashville tn",
+        "count": 26,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "roof leakage repair near me",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "home gutters tennessee repair",
+        "count": 25,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "roof leakage repair near me reviews",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter repair knoxville tn",
+        "count": 23,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "leaking roof repair service company",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair service company",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter repair service nashville",
+        "count": 19,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "roof repair harrison tn",
+        "count": 19,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof leak repair memphis tn",
+        "count": 18,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "leaking roof repair service near me",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair near me",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle roof repair near me free estimate",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair service",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roof leak repair atlanta",
+        "count": 15,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "mountain roof repair show low az",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection and repair",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "leaking roof repair companies near me",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair cost nashville tn",
+        "count": 9,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "hail damage roof repair near me reviews",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection and repair services",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair louisville ky",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof leak repair company",
+        "count": 8,
+        "geo": "no_geo"
+      }
+    ],
+    "project_hail": [
+      {
+        "phrase": "storm damage chattanooga tn",
+        "count": 54,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "storm damage in chattanooga",
+        "count": 51,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga storm damage today",
+        "count": 48,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "hail damage near me roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage photos",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof with hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage images",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in my area for hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "storm damage roofers marietta ga",
+        "count": 27,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing companies near me for hail damage",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof pictures",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roofing contractors",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged roof pictures",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm roof damage contractors",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "small hail damage roof",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair near me",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair service",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm roof damage",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof hail damage",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair near me reviews",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage scams",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof inspection near me",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage repair killeen roof",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "chatham il storm damage",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage reports illinois",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "good roofing companies for hail damage",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "can .75 hail damage a roof",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "project_gutter": [
+      {
+        "phrase": "gutter replacement knoxville tn",
+        "count": 26,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter cleaning chattanooga tn",
+        "count": 25,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "gutter replacement contractors nashville tn",
+        "count": 25,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter replacement company near me",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "home gutters tennessee repair",
+        "count": 25,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter companies cleveland tn",
+        "count": 24,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter companies chattanooga tn",
+        "count": 23,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "gutter repair knoxville tn",
+        "count": 23,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "anderson gutter and tree chattanooga",
+        "count": 20,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "gutter repair service nashville",
+        "count": 19,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "home gutters tennessee service",
+        "count": 13,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "home gutters tennessee near me",
+        "count": 13,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter replacement near me",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter installation canton ga",
+        "count": 11,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "home gutters tennessee companies",
+        "count": 8,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "home gutters tennessee reviews",
+        "count": 8,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter replacement services near me",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter replacement kennesaw ga",
+        "count": 7,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "the gutter company near me",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter installation knoxville tn",
+        "count": 6,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter replacement options",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter change near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter replacement cost near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "home gutters tennessee maintenance",
+        "count": 5,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "gutter replacement indianapolis near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof gutter replacement near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter repair company near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gutter replacement service near me",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof and gutter replacement near me",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "clearing gutter brentwood tn",
+        "count": 4,
+        "geo": "tn_other"
+      }
+    ],
+    "project_inspection": [
+      {
+        "phrase": "home inspection services in chattanooga",
+        "count": 26,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "home inspection chattanooga tn",
+        "count": 25,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof inspection company near me",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "city of chattanooga inspection office",
+        "count": 14,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof inspection and repair",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "city of chattanooga inspection department",
+        "count": 10,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof inspection services near me",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection and repair services",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection near me",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing inspection near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof inspection near me",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "inspection masters of chattanooga",
+        "count": 3,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "roof inspection nationwide reviews",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection in gwinnett",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "houston roofing roof inspection",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection nationwide company",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof inspection nationwide service",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "commercial roofing chattanooga tn",
+        "count": 356,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofers chattanooga tn",
+        "count": 38,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roof leak repair atlanta",
+        "count": 15,
+        "geo": "other_city"
+      },
+      {
+        "phrase": "city of chattanooga inspection office",
+        "count": 14,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofing contractors chattanooga tn",
+        "count": 13,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofing knoxville tn",
+        "count": 9,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "how much do commercial roofers make",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofing specialties chattanooga tn",
+        "count": 6,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofing company nashville tn",
+        "count": 5,
+        "geo": "tn_other"
+      },
+      {
+        "phrase": "scenic commercial roofing chattanooga",
+        "count": 3,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "commercial roofing supply chattanooga",
+        "count": 2,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "bbb rated commercial metal roofing",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a commercial roofer",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is commercial roofing hard",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofing atlanta ga",
+        "count": 1,
+        "geo": "state_near"
+      },
+      {
+        "phrase": "common commercial roof types",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofers in chicago",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "roof_brand": [],
+    "prep_repair": [],
+    "how_to": [],
+    "timing": [
+      {
+        "phrase": "chattanooga area weather damage",
+        "count": 30,
+        "geo": "chattanooga"
+      }
+    ],
+    "comparison": [
+      {
+        "phrase": "roofers in or near me",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in or near me reviews",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing shingles utah comparison",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged roof pictures comparison chart",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "question": [
+      {
+        "phrase": "questions to ask roofing contractor",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a lookout in roofing",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "top 10 questions to ask a roofer",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "important questions to ask a roofing contractor",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "when should a metal roof be replaced",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a commercial roofer",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "insurance": [
+      {
+        "phrase": "chattanooga roofing contract insurance",
+        "count": 81,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractors insurance",
+        "count": 73,
+        "geo": "chattanooga"
+      },
+      {
+        "phrase": "chattanooga roofing contractor insurance",
+        "count": 28,
+        "geo": "chattanooga"
+      }
+    ]
+  },
+  "byGeo": {
+    "chattanooga": [
+      {
+        "phrase": "chattanooga roofing company reviews",
+        "count": 695,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing services availability in chattanooga",
+        "count": 694,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair chattanooga tn",
+        "count": 615,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing replacement chattanooga tn",
+        "count": 579,
+        "intents": []
+      },
+      {
+        "phrase": "roofing companies in chattanooga",
+        "count": 565,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair services chattanooga tn",
+        "count": 519,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract services",
+        "count": 488,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors ratings",
+        "count": 465,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing companies chattanooga tn",
+        "count": 439,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "affordable roofing chattanooga tn",
+        "count": 437,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "roofers in chattanooga tn",
+        "count": 433,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors cost",
+        "count": 418,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors reviews",
+        "count": 372,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing supply company",
+        "count": 370,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "contractor chattanooga tn roofing",
+        "count": 362,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractors services",
+        "count": 358,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "commercial roofing chattanooga tn",
+        "count": 356,
+        "intents": [
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "roofing and supply chattanooga",
+        "count": 350,
+        "intents": []
+      },
+      {
+        "phrase": "chattanooga roofing contract reviews",
+        "count": 335,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor near me",
+        "count": 328,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor reviews",
+        "count": 292,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing supply chattanooga tn",
+        "count": 256,
+        "intents": []
+      },
+      {
+        "phrase": "chattanooga roofing contractors near me",
+        "count": 256,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract estimate",
+        "count": 245,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract cost",
+        "count": 220,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contractor ratings",
+        "count": 175,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "independent local roofer chattanooga",
+        "count": 157,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "the roofing and supply company chattanooga",
+        "count": 102,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing companies in chattanooga tn",
+        "count": 101,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "chattanooga roofing contract insurance",
+        "count": 81,
+        "intents": [
+          "insurance"
+        ]
+      }
+    ],
+    "tn_other": [
+      {
+        "phrase": "metal roofing east tennessee",
+        "count": 44,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "roofers in knoxville tn",
+        "count": 30,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing companies in tennessee",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof leak specialist nashville tn",
+        "count": 26,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "gutter replacement knoxville tn",
+        "count": 26,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "roofers in jackson tn",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in dickson tn",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing contractors jackson tn",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing companies in dickson tn",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer rx franklin tn",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roofing knoxville tn",
+        "count": 25,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutter replacement contractors nashville tn",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "home gutters tennessee repair",
+        "count": 25,
+        "intents": [
+          "project_repair",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "metal roofing knoxville tennessee",
+        "count": 24,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutter companies cleveland tn",
+        "count": 24,
+        "intents": [
+          "contractor",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "gutter repair knoxville tn",
+        "count": 23,
+        "intents": [
+          "project_repair",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "roofing companies in tn",
+        "count": 23,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in nashville tn",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roofing nashville tn",
+        "count": 21,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "roofers in franklin tn",
+        "count": 20,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing companies knoxville tn",
+        "count": 20,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in hendersonville tn",
+        "count": 19,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof leak repair memphis tn",
+        "count": 18,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing companies jackson tn",
+        "count": 18,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers near clinton tn",
+        "count": 18,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roofing friendsville tn",
+        "count": 17,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "roofing contractors knoxville tn",
+        "count": 17,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing contractors knoxville tn area",
+        "count": 16,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roofing in cleveland tn",
+        "count": 14,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "average cost of roof replacement in tennessee",
+        "count": 13,
+        "intents": [
+          "cost"
+        ]
+      }
+    ],
+    "state_near": [
+      {
+        "phrase": "storm damage roofers marietta ga",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof leak repair atlanta ga",
+        "count": 26,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "gutter installation canton ga",
+        "count": 11,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "gutter replacement kennesaw ga",
+        "count": 7,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "metal roofing in ga",
+        "count": 6,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutter company thomaston ga",
+        "count": 4,
+        "intents": [
+          "contractor",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "gutter replacement kennesaw georgia",
+        "count": 4,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "roofers in rocky mount nc",
+        "count": 4,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roofing in georgia",
+        "count": 3,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "metal roofing cleveland ga",
+        "count": 3,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutter repair atlanta ga",
+        "count": 3,
+        "intents": [
+          "project_repair",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "gutter repair blue ridge georgia",
+        "count": 3,
+        "intents": [
+          "project_repair",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "roofers in mt airy nc",
+        "count": 3,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofs georgia georgia shingles",
+        "count": 2,
+        "intents": [
+          "project_shingle"
+        ]
+      },
+      {
+        "phrase": "gutter replacement charlotte nc",
+        "count": 2,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost in georgia",
+        "count": 1,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "best roofers in georgia",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "commercial roofing atlanta ga",
+        "count": 1,
+        "intents": [
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "metal roofing companies in georgia",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutters blue ridge ga",
+        "count": 1,
+        "intents": [
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "roofing georgia ga estimates",
+        "count": 1,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "hixon roofing augusta ga",
+        "count": 1,
+        "intents": []
+      }
+    ],
+    "other_city": [
+      {
+        "phrase": "roof leak repair atlanta",
+        "count": 27,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof replacement nashville cost",
+        "count": 25,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "gutter repair service nashville",
+        "count": 19,
+        "intents": [
+          "contractor",
+          "project_repair",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "commercial roof leak repair atlanta",
+        "count": 15,
+        "intents": [
+          "project_repair",
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "metal roofing atlanta tx",
+        "count": 8,
+        "intents": [
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "roof replacement nashville free estimate",
+        "count": 6,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "roof replacement atlanta cost",
+        "count": 1,
+        "intents": [
+          "cost"
+        ]
+      }
+    ],
+    "no_geo": [
+      {
+        "phrase": "roofers in mountain home",
+        "count": 38,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "shingle roofing near me",
+        "count": 35,
+        "intents": [
+          "contractor",
+          "project_shingle"
+        ]
+      },
+      {
+        "phrase": "metal roof company near me cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "contractor",
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "hail damage near me roof",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 27,
+        "intents": [
+          "project_repair",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof hail damage photos",
+        "count": 27,
+        "intents": [
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof with hail damage",
+        "count": 27,
+        "intents": [
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof hail damage images",
+        "count": 27,
+        "intents": [
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roofers in my area for hail damage",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roof leakage repair near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 26,
+        "intents": [
+          "project_repair",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roofing companies near me for hail damage",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "hail damage roof pictures",
+        "count": 26,
+        "intents": [
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "hail damage roofing contractors",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "cost of shingle roofing",
+        "count": 25,
+        "intents": [
+          "cost",
+          "project_shingle"
+        ]
+      },
+      {
+        "phrase": "roof shingle company ratings",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_shingle"
+        ]
+      },
+      {
+        "phrase": "metal roof company near me free estimate",
+        "count": 25,
+        "intents": [
+          "cost",
+          "contractor",
+          "project_metal"
+        ]
+      },
+      {
+        "phrase": "gutter replacement company near me",
+        "count": 25,
+        "intents": [
+          "contractor",
+          "project_gutter"
+        ]
+      },
+      {
+        "phrase": "hail damaged roof pictures",
+        "count": 24,
+        "intents": [
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "flat roof company llc",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_flat"
+        ]
+      },
+      {
+        "phrase": "roof leakage repair near me reviews",
+        "count": 23,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers near me bbb",
+        "count": 23,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in braintree ma",
+        "count": 23,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof builders near me reviews",
+        "count": 23,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "hail storm roof damage contractors",
+        "count": 22,
+        "intents": [
+          "contractor",
+          "project_hail"
+        ]
+      },
+      {
+        "phrase": "roofers and builders near me",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing builders near me reviews",
+        "count": 22,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "cost of shingle roof",
+        "count": 21,
+        "intents": [
+          "cost",
+          "project_shingle"
+        ]
+      },
+      {
+        "phrase": "leaking roof repair service company",
+        "count": 21,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers mountain home ar",
+        "count": 21,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ]
+  },
+  "noIntentClassified": [
+    {
+      "phrase": "roofing replacement chattanooga tn",
+      "count": 579,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract renewal",
+      "count": 65,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "roofing supply chattanooga tn",
+      "count": 256,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "roofing and supply chattanooga",
+      "count": 350,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "the roof doctor chattanooga",
+      "count": 63,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract terms",
+      "count": 48,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract sample",
+      "count": 16,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "red roof plus chattanooga",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "red roof chattanooga tn",
+      "count": 3,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract law",
+      "count": 33,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract cancellation",
+      "count": 28,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract dispute",
+      "count": 73,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract agreement",
+      "count": 21,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "chattanooga roofing contract warranty",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "the roof doctor chattanooga tn",
+      "count": 25,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "roofing chattanooga tn",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "radiant roofing chattanooga tn",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "roofing jobs chattanooga tn",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "american roofing chattanooga tn",
+      "count": 12,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "roofing contract examples",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "chattanooga roofing contract license",
+      "count": 17,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "rooftop restaurants in chattanooga",
+      "count": 13,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flat chattanooga real estate",
+      "count": 5,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flat in chattanooga furnished",
+      "count": 4,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flat in chattanooga tn",
+      "count": 2,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flat in chattanooga downtown",
+      "count": 3,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flats apartments in chattanooga",
+      "count": 4,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "rooftop bars chattanooga tn",
+      "count": 3,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "flat in chattanooga for sale",
+      "count": 1,
+      "geo": "chattanooga"
+    },
+    {
+      "phrase": "can a roof be repaired",
+      "count": 1,
+      "geo": "no_geo"
+    }
+  ]
+}

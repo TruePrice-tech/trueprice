@@ -1,0 +1,200 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "parse_quote",
+        "description": "Analyze a roofing contractor quote (full replacement or repair). Extracts price, material, roof size, contractor, scope of work (tear-off, underlayment, flashing, ice shield, drip edge, ventilation, decking, disposal, permit, warranty), and runs an audit against industry standards. Flags scope gaps, price concerns vs Medicare-style state-adjusted benchmarks, and warranty issues. Accepts text or one or more base64-encoded image data URLs (format: 'data:image/png;base64,...'). Returns parsed structured data plus a list of audit findings the user can dispute.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "quote_text": {
+              "type": "string",
+              "description": "The full text of the roofing quote, pasted by the user. Optional if quote_images is provided."
+            },
+            "quote_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Up to 3 base64-encoded image data URLs of the quote. Format: 'data:image/png;base64,iVBORw0KGgo...' or similar for jpeg/webp. Optional if quote_text is provided."
+            }
+          }
+        }
+      },
+      {
+        "name": "check_errors",
+        "description": "Audit a roofing quote for scope gaps, price concerns, warranty issues, and documentation problems. Returns a list of findings ranked by severity (high/medium/low) with specific dispute actions. Accepts either a previously-parsed quote object (from parse_quote) OR raw quote text/images for a fresh parse. Use this when you've already run parse_quote and want to re-extract findings, OR when the user wants only the issue list without the structured parse.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "parsed_quote": {
+              "type": "object",
+              "description": "Previously-parsed quote object from parse_quote. If provided, skips re-parsing."
+            },
+            "quote_text": {
+              "type": "string",
+              "description": "Raw quote text. Used if parsed_quote is not provided."
+            },
+            "quote_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Up to 3 base64-encoded image data URLs of the quote. Used if parsed_quote is not provided."
+            }
+          }
+        }
+      },
+      {
+        "name": "lookup_average_price",
+        "description": "Look up the typical per-square ($/100 sqft installed) and total price for a roofing job, adjusted by state, pitch, complexity, and tear-off layers. Useful for benchmarking specific contractor quotes against market rates. Covers the most common materials: 3-tab asphalt, architectural shingles, designer/luxury shingles, standing-seam metal, and corrugated/exposed-fastener metal. Includes brand recommendations and product tier guidance.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "material": {
+              "type": "string",
+              "enum": [
+                "three_tab",
+                "architectural",
+                "asphalt",
+                "designer",
+                "metal_standing_seam",
+                "metal",
+                "metal_corrugated",
+                "corrugated"
+              ],
+              "description": "Roofing material. 'architectural' = standard 30-year asphalt (most popular). Use 'asphalt' as alias for architectural."
+            },
+            "state_code": {
+              "type": "string",
+              "description": "Two-letter US state code (e.g., 'CA', 'TX'). Used for state cost-of-living adjustment."
+            },
+            "pitch": {
+              "type": "string",
+              "enum": [
+                "low",
+                "standard",
+                "steep",
+                "very_steep"
+              ],
+              "description": "Roof pitch (slope). 'standard' = 6/12 to 8/12 (most homes)."
+            },
+            "complexity": {
+              "type": "string",
+              "enum": [
+                "simple",
+                "moderate",
+                "complex"
+              ],
+              "description": "Roof complexity. 'moderate' = hips, valleys, 1-2 dormers (most homes)."
+            },
+            "layers": {
+              "type": "string",
+              "enum": [
+                "one",
+                "two",
+                "overlay"
+              ],
+              "description": "Tear-off layers. 'one' = single layer tear-off (most common). 'overlay' = no tear-off (cheaper but reduces lifespan)."
+            },
+            "squares": {
+              "type": "number",
+              "description": "Roof size in squares (1 square = 100 sq ft). If provided, returns total project price estimate too."
+            }
+          },
+          "required": [
+            "material"
+          ]
+        }
+      },
+      {
+        "name": "draft_dispute",
+        "description": "Draft a written dispute or scope-clarification letter to a roofing contractor. Use this when the customer wants to formally request changes, demand missing scope items, dispute pricing, or push back on a specific issue identified by check_errors. The letter is firm but professional and references industry standards.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "issue_type": {
+              "type": "string",
+              "enum": [
+                "missing_scope_item",
+                "price_disputed",
+                "warranty_inadequate",
+                "material_mismatch",
+                "permit_responsibility",
+                "decking_change_order",
+                "lien_waiver_required",
+                "general"
+              ],
+              "description": "Type of issue being disputed"
+            },
+            "contractor_name": {
+              "type": "string",
+              "description": "Name of the contractor or company"
+            },
+            "customer_name": {
+              "type": "string",
+              "description": "Customer's full name"
+            },
+            "project_address": {
+              "type": "string",
+              "description": "Address of the property"
+            },
+            "quote_amount": {
+              "type": "number",
+              "description": "The quote amount in dollars"
+            },
+            "issue_detail": {
+              "type": "string",
+              "description": "Brief description of the specific issue"
+            }
+          },
+          "required": [
+            "issue_type",
+            "issue_detail"
+          ]
+        }
+      },
+      {
+        "name": "negotiation_script",
+        "description": "Generate a phone or in-person negotiation script for a roofing contractor conversation. Tailored to common scenarios: leveraging multiple quotes for a price match, negotiating after a higher quote came back lower elsewhere, asking for warranty extension, or negotiating decking change-order caps. Includes opening framing, specific asks, common pushback responses, and closing/follow-up steps.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "scenario": {
+              "type": "string",
+              "enum": [
+                "multi_quote_leverage",
+                "price_match_request",
+                "warranty_extension",
+                "decking_cap_negotiation",
+                "scope_addition_no_extra_charge"
+              ],
+              "description": "Negotiation scenario type"
+            },
+            "contractor_name": {
+              "type": "string",
+              "description": "Name of the contractor or company"
+            },
+            "quote_amount": {
+              "type": "number",
+              "description": "The quote amount in dollars"
+            },
+            "competing_quote_amount": {
+              "type": "number",
+              "description": "Lower competing quote amount in dollars (for price match scenarios)"
+            },
+            "target_price": {
+              "type": "number",
+              "description": "Target price you want to negotiate down to"
+            }
+          },
+          "required": [
+            "scenario"
+          ]
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}

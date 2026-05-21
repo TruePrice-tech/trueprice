@@ -1,0 +1,143 @@
+{
+  "url": "https://woogoro.com/hvac-replacement-cost-guide.html",
+  "template": "hub",
+  "parsed": {
+    "title": "HVAC Replacement Cost Guide (2026) | Woogoro",
+    "description": "Comprehensive HVAC replacement cost guide for 2026. Compare prices for central AC, heat pumps, furnaces, and mini-splits.",
+    "canonical": "https://woogoro.com/hvac-cost.html",
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:type": "article",
+      "og:title": "HVAC Replacement Cost Guide (2026)",
+      "og:description": "HVAC replacement cost guide for 2026. Compare central AC, heat pump, furnace, and mini-split system prices.",
+      "og:url": "https://woogoro.com/hvac-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "HVAC Replacement Cost Guide (2026)"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "HVAC Replacement Cost Guide (2026)",
+      "twitter:description": "HVAC replacement cost guide for 2026. Compare central AC, heat pump, furnace, and mini-split system prices.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "HVAC Replacement Cost Guide",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/authors/geoff-lane.html",
+          "image": "https://woogoro.com/images/geoff-lane.jpg"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://woogoro.com/images/Iris/Iris%20happy.png"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21",
+        "description": "Comprehensive HVAC replacement cost guide for 2026. Compare prices for central AC, heat pumps, furnaces, and mini-splits.",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://woogoro.com/hvac-replacement-cost-guide.html"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://woogoro.com/guides.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HVAC Replacement Cost Guide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does it cost to replace an HVAC system in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A central AC and furnace combo runs $7,500 to $14,000 installed. A ducted heat pump costs $5,500 to $12,000. Ductless mini-splits range from $3,000 for a single zone to $16,000 for a multi-zone setup. Geothermal systems start around $18,000."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is a heat pump worth the extra cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In most climates, yes. Heat pumps provide both heating and cooling from a single system, and modern cold-climate models work efficiently down to -15F. Operating costs are typically 30-50% lower than gas furnace and AC combos. Note: the $2,000 federal 25C heat pump tax credit expired Dec 31 2025, but state and utility rebates may still apply."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does HVAC installation take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A straightforward like-for-like replacement typically takes one day. If ductwork modifications, electrical upgrades, or fuel type changes are involved, expect two to three days. Geothermal installations with ground loop drilling can take a full week."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What size HVAC system do I need?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "System size depends on your home's square footage, insulation levels, window area, climate zone, and more. A Manual J load calculation is the industry-standard method for determining the correct size. Avoid contractors who size based on square footage alone."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I replace my furnace and AC at the same time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "If both units are the same age and one has failed, replacing both at once is usually more cost-effective. You save on labor since the crew is already on site, and matched equipment runs more efficiently. If one unit is significantly newer, replacing just the failed unit is reasonable."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What HVAC tax credits are available in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The federal 25C energy efficiency tax credit EXPIRED December 31 2025 and is not available for 2026 installs. The only federal HVAC credit still active is 25D for geothermal (30% of cost, no cap, through 2034). State and utility rebates including IRA HEAR are still active - check dsireusa.org."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 23
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/hvac-replacement-cost-guide.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /hvac-replacement-cost-guide.html, got /hvac-cost.html"
+    }
+  ]
+}

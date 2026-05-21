@@ -1,0 +1,130 @@
+ISSUES FOUND
+Potential Issues Found: 6
+TOTAL BILLED
+$988
+INSURANCE PAID
+$808
+YOU OWE
+$180
+This analysis is AI-generated and may contain errors. It is not a substitute for professional medical billing advice. Always verify findings with your insurance provider and healthcare facility.
+Line Items
+SERVICE	CPT	CHARGED	MEDICARE	FAIR PRICE	RATIO	FLAG
+X-RAY EXAM NECK SPINE 4/5VWS	72050	$122.75	--	--	--	
+X-RAY EXAM THORACOLMB 2/> VW	72080	$79.75	--	--	--	
+X-RAY EXAM L-S SPINE COMP INCL BENDING	72114	$143.00	--	--	--	
+OFFICE/OUTPATIENT VISIT NEW	99205	$468.00	$323.00	$323.00-$904.00	1.4x	
+OFFICE CONSULTATION	99244	$510.00	--	--	--	
+Bill Check Results
+✓
+CPT codes listed
+✓
+Charges itemized
+✗
+Facility vs professional fees separated
+✓
+Insurance adjustments applied
+✓
+In-network provider
+✗
+No duplicate charges
+✓
+Dates match visit
+✗
+No unbundled charges
+✗
+No upcoding
+✓
+Patient responsibility clear
+Red Flags (6)
+
+Two office visit codes (99205 new patient + 99244 consultation) billed same date (04/28/25); confirm whether both are separately billable or if one should be removed as unbundling
+
+CPT 72050 (cervical spine X-ray) shows $122.75 charged vs $10.09 patient responsibility, suggesting large insurance adjustment; verify correct allowed amount applied
+
+CPT 72080 (thoracic/lumbar X-ray) charged $79.75 with BCBS adjustment of -$79.75 on 05/21/25, resulting in $0.00 payment; unclear if this was a denial or contractual write-off
+
+Three separate spine X-rays (cervical 72050, thoracic/lumbar 72080, lumbar complete 72114) on same date; verify medical necessity and whether imaging was regional or comprehensive to rule out overbilling
+
+Patient balance due shown as $180.00 current aging vs $988.00 encounter total; discrepancy suggests some line items were not patient responsibility; unclear final patient responsibility
+
+Multiple BCBS payment/adjustment/reversal entries on 05/21/25 (4 separate transactions) with transfers; billing appears disorganized and increases error risk
+
+No Surprises Act Violations
+
+The No Surprises Act (2022) protects patients from surprise medical bills. These potential violations were detected:
+
+Patient billed $85.00 above insurance allowed amount on CPT 99244 (office consultation); verify in-network status and whether provider is contracted
+Multiple BCBS adjustments and reversals noted (05/21/25 BCBS Adjustment -$62.24, -$79.75, -$58.09); unclear whether all adjustments were credited to patient or if balance is final
+
+File a complaint at cms.gov/nosurprises or call 1-800-985-3059.
+
+This is an automated assessment. Actual violation determination requires review of all circumstances including consent forms and network agreements.
+
+Potential Savings at Other Facilities
+
+The same procedures may cost significantly less at a different facility type.
+
+FREESTANDING IMAGING CENTER
+Save $48
+Same equipment, 40-60% less
+Unbundling Issues Detected
+
+These codes should not be billed together according to CMS NCCI Edits:
+
+CPT 99205 + 99244: Two office visit codes (new patient visit 99205 + consultation 99244) billed on same date may constitute unbundling if both services are billable separately; typically only one should be billed unless distinct, independently significant services provided
+Pricing Context
+
+Based on CA pricing data. Commercial rates in this state average 310% of Medicare. Medicare rates adjusted by geographic factor of 1.22x.
+
+Source: CMS MPFS 2026 + RAND 2024
+
+Recommended Actions
+Call provider billing at 805-484-2783 Opt 1 (per statement) and request itemized explanation of benefits (EOB) showing which CPT codes were paid, denied, or adjusted by BCBS
+Request clarification on CPT 99205 vs 99244 bundling: ask whether both office visit codes should have been billed or if this is an unbundling error requiring corrected claim submission
+Request written documentation explaining the $79.75 write-off on CPT 72080; confirm whether this was in-network adjustment or insurance denial
+File appeal with BCBS for CPT 99244 if patient is in-network; challenge the $85.00 balance billing (charged $510, allowed $425) as potential contract violation
+Request comparison of charges for the three spine X-rays (72050, 72080, 72114) to Medicare rates (approximately: 72050=$27, 72080=$28, 72114=$32 nationally); patient was billed $345.50 total vs ~$87 Medicare equivalent; if out-of-network, negotiate self-pay discount of 40-50%
+Request itemized breakdown of the 05/21/25 BCBS adjustment transactions to confirm all credits were applied and balance due of $180.00 is accurate
+If three spine X-rays were billed for single episode of care, request medical records review by independent radiologist to verify medical necessity (potential overutilization)
+General Dispute Tips
+Request an itemized bill with all CPT codes and descriptions.
+Charges over 3x Medicare rate are worth questioning.
+Call billing and reference specific line items flagged above benchmark rates.
+File a formal appeal with insurance if services were denied or underpaid.
+Contact your state insurance commissioner if unresponsive.
+Ask for cash-pay or self-pay discount if uninsured.
+If bill exceeds a good faith estimate by $400+, dispute under the No Surprises Act.
+
+Was this analysis helpful?
+
+Yes, helpful
+Not really
+Look Up Any Procedure Cost
+Read Medical Cost Guide
+Was this helpful?
+👍
+👎
+Got a real quote? Share it anonymously
+
+Help neighbors in your area get fair prices
+
+WHAT DID YOU PAY?
+CONTRACTOR (OPTIONAL)
+CITY
+STATE
+Share anonymously
+Never shared with contractors.
+Get notified if medical prices change in your area
+
+A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe.
+
+Notify me
+
+We never sell, share, or rent your email. See our privacy policy.
+
+Back to Medical
+Save as PDF
+Share link
+Home
+Powered by
+Woogoro

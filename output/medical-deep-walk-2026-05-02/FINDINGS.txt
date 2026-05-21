@@ -1,0 +1,38 @@
+=== WALK 1: medical-cost-lookup.html ===
+  query="broken arm" rows=0 noMatch=false
+  query="ct scan" rows=0 noMatch=false
+  query="mri" rows=0 noMatch=false
+  query="blood test" rows=0 noMatch=false
+  query="uti" rows=0 noMatch=false
+  query="appendix" rows=0 noMatch=false
+  query="knee replacement" rows=0 noMatch=false
+  query="c-section" rows=0 noMatch=false
+  query="broken collarbone" rows=0 noMatch=false
+  query="vasectomy" rows=0 noMatch=false
+  query="mole removal" rows=0 noMatch=false
+  query="ozempic" rows=0 noMatch=false
+  query="tooth extraction" rows=0 noMatch=false
+
+=== WALK 2: medical-cost-guide.html ===
+  title: Medical Cost Guide 2026 - What Common Procedures Should Cost | Woogoro
+  H1: Medical Cost Guide 2026
+  sections (18): Emergency & Urgent Care Costs | Imaging Costs | Lab Work Costs | Surgery Costs | Same Procedure, Different Price: Facility Comparison | Maternity Costs | How to Read Your Medical Bill | Red Flags on Your Medical Bill | How to Dispute a Medical Bill | Think Your Medical Bill Has Errors? | Frequently Asked Questions | How do I know if my medical bill has errors? | What is the No Surprises Act? | Can I negotiate my medical bill? | What is the difference between billed amount and allowed amount? | Should I pay my medical bill right away? | What is a CPT code? | What is the No Surprises Act and how does it protect me?
+  links: 32, broken (#/javascript): 0
+  body chars: 14358
+  mentions Iris: false | Woogoro: true
+
+=== WALK 3: compare-medical-quotes.html ===
+  compare button state: {"exists":true,"disabled":false,"text":"Compare 2 quotes"}
+  compare result text (first 1500): WOOGORO QUOTE ANALYSIS |  | Provider 2 shows the best overall value |  | Based on price, scope transparency, and red flags. |  | Provider 1 is $116,570 (1966%) more than Provider 2. A higher price doesn’t always indicate above-market pricing — check the scope and warranty before deciding. |  | Provider 1 | 34 | Provider 2 BEST VALUE | 54 | 	PROVIDER 1	PROVIDER 2 BEST | Total Price	$122,500	$5,930 | Transparency Checklist | Scope Score	1/7 confirmed	2/7 confirmed | CPT codes listed	? Unclear	? Unclear | Itemized charges	? Unclear	✓ Yes | Insurance adjustments	✓ Yes	✓ Yes | Patient responsibility	? Unclear	? Unclear | Facility fee	? Unclear	? Unclear | Provider fee	? Unclear	? Unclear | Payment plan	? Unclear	? Unclear | Was this helpful? | 👍 | 👎 | Got a real quote? Share it anonymously |  | Help neighbors in your area get fair prices |  | WHAT DID YOU PAY? | CONTRACTOR (OPTIONAL) | CITY | STATE | Share anonymously | Never shared with contractors. | Get notified if medical prices change in your area |  | A few emails a year, only when pricing moves enough to matter. Opt-in only, one-click unsubscribe. |  | Notify me |  | We never sell, share, or rent your email. See our privacy policy. |  | Back to Medical | Save as PDF | Share link | Home | Powered by | Woogoro
+  [POTENTIAL BUG] compare displays unexpectedly high prices: $116,570, $122,500
+  apiResponses: 
+
+=== WALK 4: mobile bill-analyzer landing ===
+  H1: Is your medical bill correct?
+  upload zone visible: true
+  hero img: 322x322 (overflows 390: false)
+  body scrollWidth=390 viewport=390 (horizontal scroll: false)
+
+=== WALK 5: wrong-vertical hard-reject ===
+  isHardReject: true | hasVerdict: false | isUnreadable: false
+  H1: This is not a Medical bill

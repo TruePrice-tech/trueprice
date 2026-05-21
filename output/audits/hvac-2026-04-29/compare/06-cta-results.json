@@ -1,0 +1,46 @@
+[
+  {
+    "name": "upload-different",
+    "text": "Upload different quotes",
+    "before": "https://woogoro.com/compare-hvac-quotes.html",
+    "after": "https://woogoro.com/compare-hvac-quotes.html",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro",
+    "clicked": {
+      "ok": true,
+      "href": null
+    }
+  },
+  {
+    "name": "back-to-hvac",
+    "text": "Back to HVAC",
+    "before": "https://woogoro.com/compare-hvac-quotes.html",
+    "after": "https://woogoro.com/compare-hvac-quotes.html",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro",
+    "clicked": {
+      "ok": true,
+      "href": null
+    }
+  },
+  {
+    "name": "home",
+    "text": "Home",
+    "before": "https://woogoro.com/compare-hvac-quotes.html",
+    "after": "https://woogoro.com/",
+    "title": "Woogoro: Free Contractor Quote Analyzer for 20 Trades",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/"
+    }
+  },
+  {
+    "name": "see-pro-example",
+    "text": "See an example Pro report",
+    "before": "https://woogoro.com/compare-hvac-quotes.html",
+    "after": "https://woogoro.com/compare-hvac-quotes.html",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/pro-example.html"
+    }
+  }
+]

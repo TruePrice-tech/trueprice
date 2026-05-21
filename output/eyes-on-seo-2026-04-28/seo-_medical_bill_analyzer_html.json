@@ -1,0 +1,223 @@
+{
+  "url": "https://woogoro.com/medical-bill-analyzer.html",
+  "template": "toolNoindex",
+  "parsed": {
+    "title": "Medical Bill Analyzer - Is Your Hospital Bill Correct? | Woogoro",
+    "description": "Upload your medical bill or EOB to check for billing errors and charges that exceed published benchmark rates. Compares 146 procedures against Medicare rates with state-level pricing.",
+    "canonical": "https://woogoro.com/medical-bill-analyzer.html",
+    "robots": "index,follow",
+    "h1Count": 4,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "Medical Bill Analyzer | Woogoro",
+      "og:description": "Upload your medical bill or EOB to check for potential billing errors and charges that exceed published benchmark rates. Flags items you may want to question with your provider.",
+      "og:type": "website",
+      "og:url": "https://woogoro.com/medical-bill-analyzer.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Medical Bill Analyzer | Woogoro"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Medical Bill Analyzer | Woogoro",
+      "twitter:description": "Upload your medical bill or EOB to check for potential billing errors and charges that exceed published benchmark rates. Flags items you may want to question with your provider.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Woogoro Medical Bill Analyzer",
+        "url": "https://woogoro.com/medical-bill-analyzer.html",
+        "description": "Free AI-powered medical bill analysis. Compares 146 procedures against state-adjusted Medicare rates. Detects unbundling (NCCI edits), upcoding, duplicate charges, and No Surprises Act violations. Calculates savings at alternative facilities.",
+        "applicationCategory": "UtilityApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "operatingSystem": "Web",
+        "provider": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Medical Bill Analyzer"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does Woogoro check my medical bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Woogoro uses AI to extract line items, CPT codes, and charges from your bill, then compares each charge against 146 Medicare benchmark rates adjusted for your state. It checks for duplicate charges, unbundling violations (NCCI edits), upcoding, and No Surprises Act violations."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my medical bill data stored?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Your bill is processed in real-time and not saved. Only anonymized aggregate data (amounts, CPT codes, state) is captured to improve pricing benchmarks. No patient names, dates of birth, or document contents are retained."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the No Surprises Act?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The No Surprises Act (2022) protects patients from surprise medical bills. Emergency services must be billed at in-network rates, out-of-network providers at in-network facilities cannot balance bill without consent, and bills exceeding a good faith estimate by $400+ can be disputed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I save money by going to a different facility?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Often yes. The same MRI costs 40-60% less at a freestanding imaging center vs a hospital. Ambulatory surgery centers save an average of 42% vs hospital outpatient departments for the same procedures."
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Woogoro Medical Bill Quote Analyzer",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Quote Analyzer",
+        "operatingSystem": "Web Browser",
+        "url": "https://woogoro.com/medical-bill-analyzer.html",
+        "description": "Free analyzer for medical bill quotes. Upload your quote and check the price, scope, and red flags. No email or signup required.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to check if your medical bill quote is fair",
+        "description": "Use the Woogoro analyzer to compare a contractor quote against city-specific medical bill pricing in under a minute.",
+        "totalTime": "PT1M",
+        "estimatedCost": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": "0"
+        },
+        "tool": [
+          {
+            "@type": "HowToTool",
+            "name": "Your medical bill contractor quote (PDF, photo, or text)"
+          }
+        ],
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Upload your quote",
+            "text": "Drag your medical bill quote into the analyzer or paste the text. PDFs, photos, and screenshots all work."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Enter your city",
+            "text": "Choose your city so pricing is benchmarked against local cost-of-living and labor rates."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Review the price check",
+            "text": "See where your quote falls in the local price range, what scope items may be missing, and any red flags in the fine print."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "Use the questions to push back",
+            "text": "Take the contractor follow-up questions Woogoro generates into your conversation with the contractor."
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What should be on a legitimate medical bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Itemized services with CPT/HCPCS codes, diagnosis codes (ICD-10), modifiers, place of service code, provider NPI, chargemaster amount, insurance allowed amount, insurance paid, your responsibility, and date of service. You're entitled to itemized billing under HIPAA."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if a medical bill is accurate?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Request itemized bill. Cross-reference against EOB from your insurance. Check for duplicate charges, unbundling, and upcoding. Verify procedure codes match your treatment records. Compare \"allowed amount\" to FAIR Health or Healthcare Bluebook benchmarks for your area."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are red flags in a medical bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Balance billing from in-network hospital (No Surprises Act violation), duplicate charges, unbundled codes, upcoded visits, phantom charges, facility + professional fee duplication for same service, out-of-network services not disclosed, and no itemized bill provided."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I dispute a medical bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Step 1: Request itemized bill in writing. Step 2: Compare to EOB. Step 3: Request medical records for date of service. Step 4: Call provider billing (ask for supervisor). Step 5: Dispute with insurance if coverage issue. Step 6: File complaint with state insurance commissioner or CFPB for persistent errors."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I negotiate a medical bill?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, often. Hospitals write off 20-60% of self-pay bills regularly. Charity care applies for under 400% of FPL in many hospitals. Payment plans are nearly always available interest-free. Never ignore the bill - it hurts credit after 120 days."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 31
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/medical-bill-analyzer.html",
+      "summary": "tool page MUST be noindex but isn't",
+      "detail": "robots=\"index,follow\""
+    }
+  ]
+}

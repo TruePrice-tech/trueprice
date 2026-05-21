@@ -1,0 +1,22 @@
+
+[estimate] /foundation-estimate.html
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\01-estimate-load.png
+  body sample: Skip to main content | ✓ Free · No email · No phone · No signup · We never sell or share your data | Woogoro | Guides | Methodology | You are getting an estimate. | Already have a quote? Analyze it → | Multiple quo
+  options seen: []
+
+[compare] /compare-foundation-quotes.html
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\10-compare-load.png
+  found 3 file inputs
+  multi-upload failed, trying per-input: Multiple file uploads only work with <input type=file multiple>
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\11-compare-uploaded.png
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\12-compare-result.png
+  compare winner: {"winner":"","sub":""}
+  compare body sample: Skip to main content | ✓ Free · No email · No phone · No signup · We never sell or share your data | Woogoro | Guides | Methodology | You are comparing quotes. | Want a free estimate first? → | Have a single quote? Analyze → | Compare your foundation repair quotes |  | Upload 2 or 3 foundation repair quotes and we'll show you which is the best deal for the repair method, pier count, and warranty terms. |  | × | ✓ | × | ✓ | × | ✓ | C
+
+[analyze] /foundation-quote-analyzer.html
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\20-analyze-load.png
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\21-analyze-pre-confirm.png
+  → screenshot: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\foundation-walk-2026-05-03\22-analyze-result.png
+  analyze result: {"price":"$12,800","label":"OVERPRICED","range":"Market benchmark: $9,350 -- 37% above average","details":["REPAIR TYPE:Pier Installation","PRICING:South regional pricing"],"ctas":["Get a foundation estimate","Compare 2-3 quotes side by side","Foundation Repair Cost Guide","How we calculate estimates"]}
+
+[unhappy] estimate refresh mid-flow

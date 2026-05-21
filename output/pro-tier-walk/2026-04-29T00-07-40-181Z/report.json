@@ -1,0 +1,1655 @@
+{
+  "startedAt": "2026-04-29T00:07:42.499Z",
+  "base": "https://woogoro.com",
+  "results": [
+    {
+      "slug": "roofing",
+      "url": "/roofing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": {
+        "rendered": true,
+        "hasResultContainer": true,
+        "resultContainerKids": 7,
+        "hasInlineUpsell": true,
+        "upsellHasButton": true,
+        "proSectionCount": 0,
+        "bodyIsPremium": false,
+        "pass": true
+      }
+    },
+    {
+      "slug": "hvac",
+      "url": "/hvac-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "plumbing",
+      "url": "/plumbing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "electrical",
+      "url": "/electrical-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "windows",
+      "url": "/window-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "siding",
+      "url": "/siding-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "insulation",
+      "url": "/insulation-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "painting",
+      "url": "/painting-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "fencing",
+      "url": "/fencing-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "concrete",
+      "url": "/concrete-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "landscaping",
+      "url": "/landscaping-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "garage_door",
+      "url": "/garage-door-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "solar",
+      "url": "/solar-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "foundation",
+      "url": "/foundation-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "kitchen",
+      "url": "/kitchen-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "gutters",
+      "url": "/gutters-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "moving",
+      "url": "/moving-quote-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "auto_repair",
+      "url": "/auto-repair.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "medical",
+      "url": "/medical-bill-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "legal",
+      "url": "/legal-fee-analyzer.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_roofing",
+      "url": "/compare-roofing-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_hvac",
+      "url": "/compare-hvac-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_plumbing",
+      "url": "/compare-plumbing-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_electrical",
+      "url": "/compare-electrical-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_windows",
+      "url": "/compare-windows-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_siding",
+      "url": "/compare-siding-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_insulation",
+      "url": "/compare-insulation-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_painting",
+      "url": "/compare-painting-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_fencing",
+      "url": "/compare-fencing-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_concrete",
+      "url": "/compare-concrete-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_landscaping",
+      "url": "/compare-landscaping-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_garage_door",
+      "url": "/compare-garage-door-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_solar",
+      "url": "/compare-solar-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_foundation",
+      "url": "/compare-foundation-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_kitchen",
+      "url": "/compare-kitchen-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": false
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_gutters",
+      "url": "/compare-gutters-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_moving",
+      "url": "/compare-moving-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_auto",
+      "url": "/compare-auto-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_medical",
+      "url": "/compare-medical-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    },
+    {
+      "slug": "cmp_legal",
+      "url": "/compare-legal-quotes.html",
+      "free": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": false,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": false,
+            "expiresAt": null,
+            "daysRemaining": null
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "inspected": {
+          "checks": {
+            "hasWoogoroPro": true,
+            "hasToken": true,
+            "bodyHasIsPremium": true,
+            "proStatusFn": true
+          },
+          "statusJson": {
+            "isPro": true,
+            "expiresAt": 1780013262964,
+            "daysRemaining": 30
+          }
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "sample": null
+    }
+  ]
+}

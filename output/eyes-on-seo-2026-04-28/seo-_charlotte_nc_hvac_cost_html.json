@@ -1,0 +1,144 @@
+{
+  "url": "https://woogoro.com/charlotte-nc-hvac-cost.html",
+  "template": "metroCity",
+  "parsed": {
+    "title": "HVAC Replacement Cost in Charlotte, NC (2026) | Woogoro",
+    "description": "How much does HVAC replacement cost in Charlotte, NC? Real 2026 price range: $3,563 to $11,075, plus city-specific labor rates, permits, rebates, and red flags to watch for. Free analysis, no email required.",
+    "canonical": "https://woogoro.com/charlotte-nc-hvac-cost.html",
+    "robots": "index,follow",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "HVAC Replacement Cost in Charlotte, NC | Woogoro",
+      "og:description": "How much does HVAC replacement cost in Charlotte, NC? Real 2026 price range: $3,563 to $11,075, plus city-specific labor rates, permits, rebates, and red flags to watch for. Free analysis, no email required.",
+      "og:type": "article",
+      "og:url": "https://woogoro.com/charlotte-nc-hvac-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "HVAC Replacement Cost in Charlotte, NC | Woogoro"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "HVAC Replacement Cost in Charlotte, NC | Woogoro",
+      "twitter:description": "How much does HVAC replacement cost in Charlotte, NC? Real 2026 price range: $3,563 to $11,075, plus city-specific labor rates, permits, rebates, and red flags to watch for. Free analysis, no email required."
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "HVAC Replacement Cost in Charlotte, NC",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/about.html",
+          "jobTitle": "Founder",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Woogoro",
+            "url": "https://woogoro.com/"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro"
+        },
+        "datePublished": "2026-03-01",
+        "dateModified": "2026-04-25"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "HVAC Replacement Cost in Charlotte, NC",
+        "areaServed": {
+          "@type": "City",
+          "name": "Charlotte, NC"
+        },
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "USD",
+          "lowPrice": "3563",
+          "highPrice": "11075"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "HVAC",
+            "item": "https://woogoro.com/hvac-cost.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Charlotte"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does a new HVAC system cost in Charlotte?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most homeowners in Charlotte pay between $3,563 and $11,075 for HVAC replacement, depending on system type and efficiency"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I replace my AC and furnace at the same time?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Replacing both at once is usually more cost-effective than separate replacements. Matched systems run more efficiently and most contractors offer bundle pricing"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What SEER rating should I choose?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "14 SEER is the minimum federal requirement. 16 SEER offers a good balance of efficiency and cost. 18-20+ SEER provides the best energy savings but costs significantly more upfront"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Place",
+        "name": "Charlotte, NC",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 35.2269,
+          "longitude": -80.8433
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Charlotte",
+          "addressRegion": "NC",
+          "addressCountry": "US"
+        }
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 57
+  },
+  "issues": [
+    {
+      "severity": "medium",
+      "screenshot": "seo:/charlotte-nc-hvac-cost.html",
+      "summary": "description longer than 175 chars",
+      "detail": "len=207"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "url": "https://woogoro.com/roof-replacement-cost-calculator.html",
+  "template": "calculator",
+  "parsed": {
+    "title": "Roof Replacement Cost Calculator | Woogoro",
+    "description": "Roof replacement cost calculator redirecting to the main calculator.",
+    "canonical": "https://woogoro.com/roof-cost-calculator.html",
+    "robots": "noindex,follow",
+    "h1Count": 0,
+    "skipLink": false,
+    "ogTags": {},
+    "twitterTags": {},
+    "jsonLdBlocks": [],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 1
+  },
+  "issues": [
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "description shorter than 110 chars",
+      "detail": "len=68"
+    },
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "no <h1> on page",
+      "detail": "h1Count=0"
+    },
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /roof-replacement-cost-calculator.html, got /roof-cost-calculator.html"
+    },
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "JSON-LD missing required type (SoftwareApplication|WebApplication)",
+      "detail": "Found 0 block(s); none had @type matching SoftwareApplication|WebApplication."
+    },
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "missing OG tag(s): og:title, og:description, og:url",
+      "detail": "Affects link previews on social + AI search snippets."
+    },
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "internal-link count below floor (1 < 3)",
+      "detail": "Hub/metro pages need internal-link density to rank."
+    },
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "skip-to-main-content link missing",
+      "detail": "A11y + Lighthouse checkpoint; also a recently-regressed flagship template item."
+    },
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-replacement-cost-calculator.html",
+      "summary": "page is noindex but template requires indexable",
+      "detail": "robots=\"noindex,follow\""
+    }
+  ]
+}

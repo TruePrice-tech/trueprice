@@ -1,0 +1,23 @@
+  f1-gaf ... FAIL
+     - displayPrice: expected ~16765.79, got null
+     - contractor: expected match /green\s*ladder/, got null
+     - scopeFound missing: "drip edge" (have: <none>)
+     - scopeFound missing: "ridge cap" (have: <none>)
+     - scopeFound missing: "disposal" (have: <none>)
+     - scopeFound missing: "permit" (have: <none>)
+  f2-scope-doc ... OK
+  f3-budget ... OK
+  f4-heritage ... OK
+  f5-pinnacle ... OK
+  f6-metal-136k ... OK
+  f7-handwritten ... OK
+
+=== vs baseline ===
+NEW FAILURES (regressions):
+  - f1-gaf: displayPrice
+  - f1-gaf: scopeFound:drip edge
+  - f1-gaf: scopeFound:ridge cap
+  - f1-gaf: scopeFound:disposal
+  - f1-gaf: scopeFound:permit
+
+Total failures: 6

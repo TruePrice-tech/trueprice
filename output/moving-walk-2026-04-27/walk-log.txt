@@ -1,0 +1,151 @@
+
+=== ESTIMATE: local-2br ===
+  shot: est-local-2br-01-landing
+  shot: est-local-2br-02-step1-movetype
+  shot: est-local-2br-03-step2-homesize
+  shot: est-local-2br-04-step3-distance
+  shot: est-local-2br-05-step-packing
+  shot: est-local-2br-06-step-special
+  [local-2br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-local-2br-07-result-top
+  shot (full): est-local-2br-08-result-full
+  dump: est-local-2br-08-result.txt (1747 chars)
+
+=== ESTIMATE: ld-3br ===
+  shot: est-ld-3br-01-landing
+  shot: est-ld-3br-02-step1-movetype
+  shot: est-ld-3br-03-step2-homesize
+  shot: est-ld-3br-04-step3-distance
+  shot: est-ld-3br-05-step-packing
+  shot: est-ld-3br-06-step-special
+  [ld-3br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-ld-3br-07-result-top
+  shot (full): est-ld-3br-08-result-full
+  dump: est-ld-3br-08-result.txt (1793 chars)
+
+=== ESTIMATE: same-building-1br ===
+  shot: est-same-building-1br-01-landing
+  shot: est-same-building-1br-02-step1-movetype
+  shot: est-same-building-1br-03-step2-homesize
+  shot: est-same-building-1br-05-step-packing
+  shot: est-same-building-1br-06-step-special
+  [same-building-1br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-same-building-1br-07-result-top
+  shot (full): est-same-building-1br-08-result-full
+  dump: est-same-building-1br-08-result.txt (1793 chars)
+
+=== ESTIMATE: office-4br ===
+  shot: est-office-4br-01-landing
+  shot: est-office-4br-02-step1-movetype
+  shot: est-office-4br-03-step2-homesize
+  shot: est-office-4br-04-step3-distance
+  shot: est-office-4br-05-step-packing
+  shot: est-office-4br-06-step-special
+  [office-4br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-office-4br-07-result-top
+  shot (full): est-office-4br-08-result-full
+  dump: est-office-4br-08-result.txt (1755 chars)
+
+=== ANALYZE: real-01-atlanta-dc (01-atlanta-dc-3k-estimate.jpeg) ===
+  shot: an-real-01-atlanta-dc-01-landing
+  shot: an-real-01-atlanta-dc-02-uploading
+  [real-01-atlanta-dc console] log [TP_Engine] vertical=moving price=3070.58 source=regex ocrChars=730 ocrConf=94% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-01-atlanta-dc-04-result-top
+  shot (full): an-real-01-atlanta-dc-05-result-full
+  dump: an-real-01-atlanta-dc-05-result.txt (4161 chars)
+  [an] summary: WOOGORO MOVING VERDICT | BELOW AVERAGE | 20% below average for your area (typical range: $2,125 - $5,950) | MOVE TYPE | Long Distance / Interstate | HOME SIZE | MARKET RANGE | No USDOT or license number found. Licensed movers are required to display this. | USDOT or state license number shown | Ask your mover about: bi
+
+=== ANALYZE: real-02-thoughts (02-thoughts-on-quote.jpeg) ===
+  shot: an-real-02-thoughts-01-landing
+  shot: an-real-02-thoughts-02-uploading
+  [real-02-thoughts console] log [TP_Engine] vertical=moving price=6563 source=regex ocrChars=1300 ocrConf=93% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-02-thoughts-04-result-top
+  shot (full): an-real-02-thoughts-05-result-full
+  dump: an-real-02-thoughts-05-result.txt (4349 chars)
+  [an] summary: 🚚 Expected transit time: 2–4 business days | WOOGORO MOVING VERDICT | HIGHER THAN EXPECTED | 46% above average for your area (typical range: $2,500 - $7,000) | MOVE TYPE | Long Distance / Interstate | HOME SIZE | DISTANCE | $25/hrBelow market | MARKET RANGE | No USDOT or license number found. Licensed movers are requi
+
+=== ANALYZE: real-03-two-men (03-two-men-truck-doubled.jpg) ===
+  shot: an-real-03-two-men-01-landing
+  shot: an-real-03-two-men-02-uploading
+  [real-03-two-men console] log [TP_Engine] vertical=moving price=22715.02 source=regex ocrChars=1650 ocrConf=93% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-03-two-men-04-result-top
+  shot (full): an-real-03-two-men-05-result-full
+  dump: an-real-03-two-men-05-result.txt (4560 chars)
+  [an] summary: WOOGORO MOVING VERDICT | HIGHER THAN EXPECTED | 494% above average for your area (typical range: $2,125 - $5,950) | USDOT #: 4126766 | MOVE TYPE | Long Distance / Interstate | HOME SIZE | MARKET RANGE | No USDOT or license number found. Licensed movers are required to display this. | Quote is significantly above market
+
+=== ANALYZE: real-04-allied-18k (04-allied-socal-denver-18k.jpeg) ===
+  shot: an-real-04-allied-18k-01-landing
+  shot: an-real-04-allied-18k-02-uploading
+  [real-04-allied-18k console] log [TP_Engine] vertical=moving price=12259.59 source=regex ocrChars=4980 ocrConf=83% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-04-allied-18k-04-result-top
+  shot (full): an-real-04-allied-18k-05-result-full
+  dump: an-real-04-allied-18k-05-result.txt (4897 chars)
+  [an] summary: 🚚 Expected transit time: 3–7 business days | WOOGORO MOVING VERDICT | HIGHER THAN EXPECTED | 127% above average for Englewood, CO (typical range: $2,996 - $8,388) | The mover commits to the price for the services and weight described. They cannot legally charge more for those services even if the move takes longer tha
+
+=== ANALYZE: real-05-brightside (05-brightside-quote.jpeg) ===
+  shot: an-real-05-brightside-01-landing
+  shot: an-real-05-brightside-02-uploading
+  [real-05-brightside console] log [TP_Engine] vertical=moving price=2030.25 source=regex ocrChars=2387 ocrConf=91% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-05-brightside-04-result-top
+  shot (full): an-real-05-brightside-05-result-full
+  dump: an-real-05-brightside-05-result.txt (4484 chars)
+  [an] summary: 🚚 Expected transit time: 3–7 business days | WOOGORO MOVING VERDICT | 61% below average for your area (typical range: $2,875 - $8,050) | MOVE TYPE | Long Distance / Interstate | HOME SIZE | DISTANCE | MARKET RANGE | No USDOT or license number found. Licensed movers are required to display this. | Quote is significantl
+
+=== ANALYZE: real-06-united-vs-may (06-united-vs-mayflower.jpeg) ===
+  shot: an-real-06-united-vs-may-01-landing
+  shot: an-real-06-united-vs-may-02-uploading
+  [real-06-united-vs-may console] log [TP_Engine] vertical=moving price=28.01 source=regex ocrChars=569 ocrConf=95% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-06-united-vs-may-04-result-top
+  shot (full): an-real-06-united-vs-may-05-result-full
+  dump: an-real-06-united-vs-may-05-result.txt (5008 chars)
+  [an] summary: WOOGORO MOVING VERDICT | HIGHER THAN EXPECTED | 3013% above average for your area (typical range: $600 - $1,200) | The mover commits to the price for the services and weight described. They cannot legally charge more for those services even if the move takes longer than expected. | USDOT #: 4270982 | MOVE TYPE | HOME S
+
+=== ANALYZE: real-07-mayflower (07-mayflower-quote.jpeg) ===
+  shot: an-real-07-mayflower-01-landing
+  shot: an-real-07-mayflower-02-uploading
+  [real-07-mayflower console] log [TP_Engine] vertical=moving price=5717 source=regex ocrChars=3241 ocrConf=90% aiCalled=false
+  [an] clicked confirm-price (yes-analyze)
+  shot: an-real-07-mayflower-04-result-top
+  shot (full): an-real-07-mayflower-05-result-full
+  dump: an-real-07-mayflower-05-result.txt (4858 chars)
+  [an] summary: WOOGORO MOVING VERDICT | HIGHER THAN EXPECTED | 49% above average for your area (typical range: $2,125 - $5,950) | Detected mover: mayflower. Looking up the federal carrier record... | Legal name: AA MAYFLOWER LLC | USDOT #: 4066372 | MOVE TYPE | Long Distance / Interstate | HOME SIZE | MARKET RANGE | No USDOT or licen
+
+=== COMPARE: real-triplet ===
+  shot: cmp-real-triplet-01-landing
+  [cmp] uploaded slot 0: 01-atlanta-dc-3k-estimate.jpeg
+  [cmp] uploaded slot 1: 03-two-men-truck-doubled.jpg
+  [cmp] uploaded slot 2: 07-mayflower-quote.jpeg
+  [real-triplet console] log [TP_Engine] vertical=moving price=3070.58 source=regex ocrChars=730 ocrConf=94% aiCalled=false
+  [real-triplet console] log [TP_Engine] vertical=moving price=22715.02 source=regex ocrChars=1650 ocrConf=93% aiCalled=false
+  [real-triplet console] log [TP_Engine] vertical=moving price=5717 source=regex ocrChars=3241 ocrConf=90% aiCalled=false
+  shot: cmp-real-triplet-02-uploaded
+  shot: cmp-real-triplet-03-results-top
+  shot (full): cmp-real-triplet-04-results-full
+  dump: cmp-real-triplet-04-results.txt (1587 chars)
+
+=== COMPARE: synthetic-triplet ===
+  shot: cmp-synthetic-triplet-01-landing
+  [cmp] uploaded slot 0: comparison-move-low.png
+  [cmp] uploaded slot 1: comparison-move-mid.png
+  [cmp] uploaded slot 2: comparison-move-high.png
+  [synthetic-triplet console] log [TP_Engine] vertical=moving price=990 source=regex ocrChars=614 ocrConf=94% aiCalled=false
+  [synthetic-triplet console] log [TP_Engine] vertical=moving price=1860 source=regex ocrChars=695 ocrConf=93% aiCalled=false
+  [synthetic-triplet console] log [TP_Engine] vertical=moving price=4040 source=regex ocrChars=831 ocrConf=94% aiCalled=false
+  shot: cmp-synthetic-triplet-02-uploaded
+  shot: cmp-synthetic-triplet-03-results-top
+  shot (full): cmp-synthetic-triplet-04-results-full
+  dump: cmp-synthetic-triplet-04-results.txt (1468 chars)
+
+=== MOBILE ESTIMATE ===
+  shot: mob-01-landing
+  [mobile console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: mob-02-result-top
+  shot (full): mob-03-result-full
+
+Done. Screenshots in c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\moving-walk-2026-04-27

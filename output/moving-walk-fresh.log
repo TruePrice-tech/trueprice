@@ -1,0 +1,64 @@
+
+=== ESTIMATE: local-2br ===
+  shot: est-local-2br-01-landing
+  shot: est-local-2br-02-step1-movetype
+  shot: est-local-2br-03-step2-homesize
+  shot: est-local-2br-04-step3-distance
+  shot: est-local-2br-05-step-packing
+  shot: est-local-2br-06-step-special
+  [local-2br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-local-2br-07-result-top
+  shot (full): est-local-2br-08-result-full
+  dump: est-local-2br-08-result.txt (1747 chars)
+
+=== ESTIMATE: ld-3br ===
+  shot: est-ld-3br-01-landing
+  shot: est-ld-3br-02-step1-movetype
+  shot: est-ld-3br-03-step2-homesize
+  shot: est-ld-3br-04-step3-distance
+  shot: est-ld-3br-05-step-packing
+  shot: est-ld-3br-06-step-special
+  [ld-3br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-ld-3br-07-result-top
+  shot (full): est-ld-3br-08-result-full
+  dump: est-ld-3br-08-result.txt (1793 chars)
+
+=== ESTIMATE: same-building-1br ===
+  shot: est-same-building-1br-01-landing
+  shot: est-same-building-1br-02-step1-movetype
+  shot: est-same-building-1br-03-step2-homesize
+  shot: est-same-building-1br-05-step-packing
+  shot: est-same-building-1br-06-step-special
+  [same-building-1br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-same-building-1br-07-result-top
+  shot (full): est-same-building-1br-08-result-full
+  dump: est-same-building-1br-08-result.txt (1793 chars)
+
+=== ESTIMATE: office-4br ===
+  shot: est-office-4br-01-landing
+  shot: est-office-4br-02-step1-movetype
+  shot: est-office-4br-03-step2-homesize
+  shot: est-office-4br-04-step3-distance
+  shot: est-office-4br-05-step-packing
+  shot: est-office-4br-06-step-special
+  [office-4br console] error Failed to load resource: the server responded with a status of 400 ()
+  shot: est-office-4br-07-result-top
+  shot (full): est-office-4br-08-result-full
+  dump: est-office-4br-08-result.txt (1755 chars)
+
+=== ANALYZE: real-01-atlanta-dc (01-atlanta-dc-3k-estimate.jpeg) ===
+  shot: an-real-01-atlanta-dc-01-landing
+  shot: an-real-01-atlanta-dc-02-uploading
+Walk error: ProtocolError: Page.captureScreenshot timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+    at <instance_members_initializer> (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\common\CallbackRegistry.js:103:14)
+    at new Callback (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\common\CallbackRegistry.js:107:16)
+    at CallbackRegistry.create (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\common\CallbackRegistry.js:25:26)
+    at Connection._rawSend (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Connection.js:108:26)
+    at CdpCDPSession.send (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\CdpSession.js:74:33)
+    at CdpPage._screenshot (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\cdp\Page.js:844:62)
+    at CdpPage.screenshot (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\api\Page.js:1083:41)
+    at async CdpPage.<anonymous> (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\node_modules\puppeteer-core\lib\cjs\puppeteer\util\decorators.js:172:24)
+    at async shot (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\scripts\moving-walk.js:17:3)
+    at async uploadAndAnalyze (C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\scripts\moving-walk.js:151:5)
+
+Done. Screenshots in c:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\output\moving-walk-2026-04-27

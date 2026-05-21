@@ -1,0 +1,86 @@
+[
+  {
+    "name": "subnav-estimate",
+    "text": "Want a free estimate first",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/hvac-estimate.html",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/hvac-estimate.html",
+    "title": "HVAC Cost Calculator 2026 — Free Estimate by City | Woogoro"
+  },
+  {
+    "name": "subnav-compare",
+    "text": "Multiple quotes",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/compare-hvac-quotes.html",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/compare-hvac-quotes.html",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro"
+  },
+  {
+    "name": "btn-get-estimate",
+    "text": "Get an HVAC estimate",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/hvac-estimate.html",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/hvac-estimate.html",
+    "title": "HVAC Cost Calculator 2026 — Free Estimate by City | Woogoro"
+  },
+  {
+    "name": "btn-compare",
+    "text": "Compare 2-3 quotes",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/compare-hvac-quotes.html",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/compare-hvac-quotes.html",
+    "title": "Compare HVAC Quotes Side by Side | Woogoro"
+  },
+  {
+    "name": "btn-methodology",
+    "text": "How we calculate",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/methodology.html",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/methodology.html",
+    "title": "How We Calculate Estimates | Woogoro"
+  },
+  {
+    "name": "btn-back-hvac",
+    "text": "Back to HVAC",
+    "clicked": {
+      "ok": true,
+      "href": null,
+      "isButton": true
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/hvac-quote-analyzer.html",
+    "title": "HVAC Quote Analyzer - Is Your HVAC Quote Fair? | Woogoro"
+  },
+  {
+    "name": "btn-home",
+    "text": "Home",
+    "clicked": {
+      "ok": true,
+      "href": "https://woogoro.com/",
+      "isButton": false
+    },
+    "before": "https://woogoro.com/hvac-quote-analyzer.html",
+    "after": "https://woogoro.com/",
+    "title": "Woogoro: Free Contractor Quote Analyzer for 20 Trades"
+  }
+]

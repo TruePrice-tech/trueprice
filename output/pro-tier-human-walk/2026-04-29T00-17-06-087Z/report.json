@@ -1,0 +1,165 @@
+{
+  "startedAt": "2026-04-29T00:17:07.153Z",
+  "base": "https://woogoro.com",
+  "results": [
+    {
+      "slug": "roofing",
+      "url": "/roofing-quote-analyzer.html",
+      "fixture": "roofing-gaf-quote.jpeg",
+      "free": {
+        "mode": "free",
+        "slug": "roofing",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": true
+        },
+        "wait": {
+          "ready": true,
+          "container": "resultContainer",
+          "ms": 35296
+        },
+        "body": {
+          "bodyClasses": [],
+          "isPremium": false,
+          "proUpsell": true,
+          "proSections": 0,
+          "title": "Roofing Quote Analyzer | Woogoro",
+          "h1": ""
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "mode": "pro",
+        "slug": "roofing",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": true
+        },
+        "wait": {
+          "ready": true,
+          "container": "resultContainer",
+          "ms": 24821
+        },
+        "body": {
+          "bodyClasses": [
+            "is-premium"
+          ],
+          "isPremium": true,
+          "proUpsell": false,
+          "proSections": 0,
+          "title": "Roofing Quote Analyzer | Woogoro",
+          "h1": ""
+        },
+        "consoleErrors": [
+          "Failed to load resource: the server responded with a status of 429 ()"
+        ],
+        "networkErrors": [
+          "429 https://woogoro.com/api/calibration"
+        ],
+        "pass": false
+      }
+    },
+    {
+      "slug": "hvac",
+      "url": "/hvac-quote-analyzer.html",
+      "fixture": "hvac-clean-invoice.jpeg",
+      "free": {
+        "mode": "free",
+        "slug": "hvac",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": true
+        },
+        "wait": {
+          "ready": false,
+          "ms": 60000
+        },
+        "body": {
+          "bodyClasses": [],
+          "isPremium": false,
+          "proUpsell": false,
+          "proSections": 0,
+          "title": "HVAC Quote Analyzer - Is Your HVAC Quote Fair? | Woogoro",
+          "h1": "We found your quote total"
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": false
+      },
+      "pro": {
+        "mode": "pro",
+        "slug": "hvac",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": true
+        },
+        "wait": {
+          "ready": false,
+          "ms": 60000
+        },
+        "body": {
+          "bodyClasses": [
+            "is-premium"
+          ],
+          "isPremium": true,
+          "proUpsell": false,
+          "proSections": 0,
+          "title": "HVAC Quote Analyzer - Is Your HVAC Quote Fair? | Woogoro",
+          "h1": "We found your quote total"
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      }
+    },
+    {
+      "slug": "auto_repair",
+      "url": "/auto-repair.html",
+      "fixture": "auto-equinox-quote.jpeg",
+      "free": {
+        "mode": "free",
+        "slug": "auto_repair",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": false,
+          "reason": "no_file_input"
+        },
+        "body": {
+          "bodyClasses": [],
+          "isPremium": false,
+          "proUpsell": false,
+          "proSections": 0,
+          "title": "Auto Repair Pricing | Woogoro",
+          "h1": "Auto Repair Pricing"
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      },
+      "pro": {
+        "mode": "pro",
+        "slug": "auto_repair",
+        "uploadStateCaptured": true,
+        "upload": {
+          "uploaded": false,
+          "reason": "no_file_input"
+        },
+        "body": {
+          "bodyClasses": [
+            "is-premium"
+          ],
+          "isPremium": true,
+          "proUpsell": false,
+          "proSections": 0,
+          "title": "Auto Repair Pricing | Woogoro",
+          "h1": "Auto Repair Pricing"
+        },
+        "consoleErrors": [],
+        "networkErrors": [],
+        "pass": true
+      }
+    }
+  ]
+}

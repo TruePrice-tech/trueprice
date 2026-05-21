@@ -1,0 +1,143 @@
+{
+  "url": "https://woogoro.com/fencing-cost-guide.html",
+  "template": "hub",
+  "parsed": {
+    "title": "Fence Installation Cost Guide (2026) | Woogoro",
+    "description": "Complete fence installation cost guide for 2026. Compare wood, vinyl, chain link, aluminum, and composite fence prices.",
+    "canonical": "https://woogoro.com/fence-cost.html",
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:type": "article",
+      "og:title": "Fencing Cost Guide (2026)",
+      "og:description": "Comprehensive fence cost guide for 2026. Compare wood, vinyl, chain link, and aluminum fence pricing by linear foot.",
+      "og:url": "https://woogoro.com/fence-cost.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Fencing Cost Guide (2026)"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Fencing Cost Guide (2026)",
+      "twitter:description": "Comprehensive fence cost guide for 2026. Compare wood, vinyl, chain link, and aluminum fence pricing by linear foot.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Fence Installation Cost Guide",
+        "author": {
+          "@type": "Person",
+          "name": "Geoff Lane",
+          "url": "https://woogoro.com/authors/geoff-lane.html",
+          "image": "https://woogoro.com/images/geoff-lane.jpg"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://woogoro.com/images/Iris/Iris%20happy.png"
+          }
+        },
+        "datePublished": "2026-04-21",
+        "dateModified": "2026-04-21",
+        "description": "Complete fence installation cost guide for 2026. Compare wood, vinyl, chain link, aluminum, and composite fence prices.",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://woogoro.com/fencing-cost-guide.html"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Guides",
+            "item": "https://woogoro.com/guides.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Fence Installation Cost Guide"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How much does it cost to fence a backyard in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For a typical suburban backyard (150 linear feet), expect $2,700-$7,500 for wood, $4,500-$9,000 for vinyl, and $1,800-$3,750 for chain link. The exact cost depends on fence height, material grade, terrain, and your local labor market."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the cheapest fence to install?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chain link is the least expensive option at $12-$25 per linear foot installed. Pressure-treated pine is the cheapest privacy fence option at $18-$35 per linear foot. Both are durable and practical, though they offer different aesthetics."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does a wood fence last?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A cedar fence typically lasts 15-25 years. Pressure-treated pine lasts 12-20 years. Lifespan depends heavily on climate, ground contact, and maintenance. Staining every 2-4 years and keeping the bottom rail off the ground can significantly extend the life of a wood fence."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is vinyl fencing worth the extra cost?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For homeowners who want zero maintenance, vinyl is an excellent choice. It never needs painting or staining, will not rot, and resists insects. It costs more upfront than wood, but over a 25-year lifespan, the total cost of ownership is often lower when you factor in wood staining and repairs."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a permit to build a fence?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most municipalities require a permit for fences over 4 feet tall (sometimes 6 feet). Permits typically cost $50-$200 and ensure the fence meets setback, height, and safety requirements. Your HOA may have additional rules about material, style, and color. Always check before starting."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does fence installation take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A standard 150-linear-foot fence takes 1-3 days for a crew of 2-3 installers. Chain link is the fastest to install. Wood and vinyl take slightly longer. Rocky soil, slopes, or old fence removal can extend the timeline by a day or more."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 23
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/fencing-cost-guide.html",
+      "summary": "canonical does not point to self",
+      "detail": "expected /fencing-cost-guide.html, got /fence-cost.html"
+    }
+  ]
+}

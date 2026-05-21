@@ -1,0 +1,17 @@
+[
+  {
+    "opts": {
+      "vertical": "roofing",
+      "apiEndpoint": "/api/parse-quote"
+    },
+    "price": 16765.79,
+    "ocrLen": 1484,
+    "ocrSample": "Description\n\nGAF Timberline HDZ Shingle Overlay (Title 24 Complaint)\n\nThis proposal is based on the assumption of 1 layer - if your roof has more than one layer we will not be able to preform this\ninstallation per city code.\n\nThoroughly inspect wood members for deficiencies.\n\nWhere deficiencies are ",
+    "priceSourceClues": {
+      "hasMaterial": true,
+      "hasContractor": true
+    },
+    "material": "architectural",
+    "materialLabel": "Architectural shingles"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "t": 1777512757750,
+    "kind": "RESP",
+    "status": 200,
+    "url": "https://woogoro.com/garage-door-estimate.html"
+  },
+  {
+    "t": 1777512758999,
+    "kind": "RESP",
+    "status": 200,
+    "url": "https://woogoro.com/api/analytics"
+  },
+  {
+    "t": 1777512766667,
+    "kind": "RESP",
+    "status": 200,
+    "url": "https://woogoro.com/api/geocode-suggest?q=123%20Maple%20St%20Fort%20Mill%20SC"
+  },
+  {
+    "t": 1777512768338,
+    "kind": "RESP",
+    "status": 200,
+    "url": "https://woogoro.com/api/analytics"
+  },
+  {
+    "t": 1777512779737,
+    "kind": "RESP",
+    "status": 400,
+    "url": "https://woogoro.com/api/community-quote"
+  }
+]

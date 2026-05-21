@@ -1,0 +1,693 @@
+{
+  "url": "https://woogoro.com/hvac-quote-analyzer.html",
+  "title": "HVAC Quote Analyzer - Is Your HVAC Quote Fair? | Woogoro",
+  "bodyTextStart": "Skip to main content\n✓ Free · No email · No phone · No signup · We never sell or share your data\nWoogoro\nGuides\nMethodology\nYou are analyzing a quote.\nWant a free estimate first? →\nMultiple quotes? Compare →\nWe found your quote total\n$3,810\n\nIs this your quote total?\n\nYes, analyze this price\n\nNot right? Enter the correct amount:\n\n$\nAnalyze corrected price\nStart over with a different file\nAnalyze quotes for other services\nRoofing\nPlumbing\nElectrical\nSolar\nWindows\nPainting\nSiding\nFencing\nConcrete\nLandscaping\nGarage Doors\nFoundation\nKitchen\nInsulation\nGutters\nAuto Repair\nMedical Bills\nLegal Fees\n",
+  "interactive": [
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "skip-link",
+      "href": "https://woogoro.com/hvac-quote-analyzer.html#main",
+      "text": "Skip to main content",
+      "rect": {
+        "x": 0,
+        "y": -40,
+        "w": 183,
+        "h": 46
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "logo",
+      "href": "https://woogoro.com/",
+      "text": "Woogoro",
+      "rect": {
+        "x": 124,
+        "y": 50,
+        "w": 125,
+        "h": 32
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/guides.html",
+      "text": "Guides",
+      "rect": {
+        "x": 972,
+        "y": 49,
+        "w": 68,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/methodology.html",
+      "text": "Methodology",
+      "rect": {
+        "x": 1046,
+        "y": 49,
+        "w": 110,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/hvac-estimate.html",
+      "text": "Want a free estimate first? →",
+      "rect": {
+        "x": 551,
+        "y": 134,
+        "w": 169,
+        "h": 21
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/compare-hvac-quotes.html",
+      "text": "Multiple quotes? Compare →",
+      "rect": {
+        "x": 744,
+        "y": 134,
+        "w": 171,
+        "h": 21
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "type": "submit",
+      "id": "tpConfirmPriceBtn",
+      "cls": "hvac-btn hvac-btn-primary",
+      "href": null,
+      "text": "Yes, analyze this price",
+      "rect": {
+        "x": 523,
+        "y": 625,
+        "w": 234,
+        "h": 46
+      }
+    },
+    {
+      "tag": "INPUT",
+      "type": "number",
+      "id": "tpEditPrice",
+      "cls": "",
+      "href": null,
+      "text": "",
+      "rect": {
+        "x": 561,
+        "y": 741,
+        "w": 180,
+        "h": 43
+      }
+    },
+    {
+      "tag": "BUTTON",
+      "type": "submit",
+      "id": "tpEditPriceBtn",
+      "cls": "hvac-btn hvac-btn-secondary",
+      "href": null,
+      "text": "Analyze corrected price",
+      "rect": {
+        "x": 537,
+        "y": 796,
+        "w": 206,
+        "h": 40
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": "tpStartOver",
+      "cls": "",
+      "href": "javascript:void(0)",
+      "text": "Start over with a different file",
+      "rect": {
+        "x": 557,
+        "y": 857,
+        "w": 166,
+        "h": 17
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html",
+      "text": "Roofing",
+      "rect": {
+        "x": 104,
+        "y": 1038,
+        "w": 75,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/plumbing-quote-analyzer.html",
+      "text": "Plumbing",
+      "rect": {
+        "x": 187,
+        "y": 1038,
+        "w": 85,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/electrical-quote-analyzer.html",
+      "text": "Electrical",
+      "rect": {
+        "x": 280,
+        "y": 1038,
+        "w": 80,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/solar-quote-analyzer.html",
+      "text": "Solar",
+      "rect": {
+        "x": 368,
+        "y": 1038,
+        "w": 59,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/window-quote-analyzer.html",
+      "text": "Windows",
+      "rect": {
+        "x": 435,
+        "y": 1038,
+        "w": 83,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/painting-quote-analyzer.html",
+      "text": "Painting",
+      "rect": {
+        "x": 526,
+        "y": 1038,
+        "w": 77,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/siding-quote-analyzer.html",
+      "text": "Siding",
+      "rect": {
+        "x": 610,
+        "y": 1038,
+        "w": 66,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/fencing-quote-analyzer.html",
+      "text": "Fencing",
+      "rect": {
+        "x": 684,
+        "y": 1038,
+        "w": 75,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/concrete-quote-analyzer.html",
+      "text": "Concrete",
+      "rect": {
+        "x": 767,
+        "y": 1038,
+        "w": 82,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/landscaping-quote-analyzer.html",
+      "text": "Landscaping",
+      "rect": {
+        "x": 856,
+        "y": 1038,
+        "w": 102,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/garage-door-quote-analyzer.html",
+      "text": "Garage Doors",
+      "rect": {
+        "x": 966,
+        "y": 1038,
+        "w": 109,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/foundation-quote-analyzer.html",
+      "text": "Foundation",
+      "rect": {
+        "x": 104,
+        "y": 1082,
+        "w": 95,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/kitchen-quote-analyzer.html",
+      "text": "Kitchen",
+      "rect": {
+        "x": 207,
+        "y": 1082,
+        "w": 73,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/insulation-quote-analyzer.html",
+      "text": "Insulation",
+      "rect": {
+        "x": 288,
+        "y": 1082,
+        "w": 86,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/gutters-quote-analyzer.html",
+      "text": "Gutters",
+      "rect": {
+        "x": 382,
+        "y": 1082,
+        "w": 72,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/auto-repair.html",
+      "text": "Auto Repair",
+      "rect": {
+        "x": 462,
+        "y": 1082,
+        "w": 100,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/medical-bill-analyzer.html",
+      "text": "Medical Bills",
+      "rect": {
+        "x": 570,
+        "y": 1082,
+        "w": 104,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/legal-fee-analyzer.html",
+      "text": "Legal Fees",
+      "rect": {
+        "x": 681,
+        "y": 1082,
+        "w": 91,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/moving-quote-analyzer.html",
+      "text": "Moving",
+      "rect": {
+        "x": 780,
+        "y": 1082,
+        "w": 75,
+        "h": 35
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/get-an-estimate.html",
+      "text": "Get an estimate",
+      "rect": {
+        "x": 148,
+        "y": 4106,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/analyze-my-quote.html",
+      "text": "Analyze a quote",
+      "rect": {
+        "x": 148,
+        "y": 4137,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/compare-quotes-picker.html",
+      "text": "Compare quotes",
+      "rect": {
+        "x": 148,
+        "y": 4168,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html?mode=estimator",
+      "text": "Roof estimate",
+      "rect": {
+        "x": 148,
+        "y": 4199,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/all-cities.html",
+      "text": "All cities",
+      "rect": {
+        "x": 402,
+        "y": 4106,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/guides.html",
+      "text": "Cost guides",
+      "rect": {
+        "x": 402,
+        "y": 4137,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/find-contractors.html",
+      "text": "Find contractors",
+      "rect": {
+        "x": 402,
+        "y": 4168,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/medical-cost-lookup.html",
+      "text": "Medical cost lookup",
+      "rect": {
+        "x": 402,
+        "y": 4199,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/roofing-quote-analyzer.html",
+      "text": "Roofing",
+      "rect": {
+        "x": 656,
+        "y": 4106,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/hvac-quote-analyzer.html",
+      "text": "HVAC",
+      "rect": {
+        "x": 656,
+        "y": 4137,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/plumbing-quote-analyzer.html",
+      "text": "Plumbing",
+      "rect": {
+        "x": 656,
+        "y": 4168,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/electrical-quote-analyzer.html",
+      "text": "Electrical",
+      "rect": {
+        "x": 656,
+        "y": 4199,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/solar-quote-analyzer.html",
+      "text": "Solar",
+      "rect": {
+        "x": 656,
+        "y": 4230,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/auto-repair.html",
+      "text": "Auto repair",
+      "rect": {
+        "x": 656,
+        "y": 4261,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/about.html",
+      "text": "About Woogoro",
+      "rect": {
+        "x": 910,
+        "y": 4106,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/methodology.html",
+      "text": "Methodology",
+      "rect": {
+        "x": 910,
+        "y": 4137,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/accessibility.html",
+      "text": "Accessibility",
+      "rect": {
+        "x": 910,
+        "y": 4168,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/privacy.html",
+      "text": "Privacy",
+      "rect": {
+        "x": 910,
+        "y": 4199,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/terms.html",
+      "text": "Terms",
+      "rect": {
+        "x": 910,
+        "y": 4230,
+        "w": 222,
+        "h": 31
+      }
+    },
+    {
+      "tag": "A",
+      "type": null,
+      "id": null,
+      "cls": "",
+      "href": "https://woogoro.com/privacy.html",
+      "text": "Privacy",
+      "rect": {
+        "x": 958,
+        "y": 4318,
+        "w": 40,
+        "h": 17
+      }
+    }
+  ]
+}

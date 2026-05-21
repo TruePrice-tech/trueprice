@@ -1,0 +1,6048 @@
+{
+  "meta": {
+    "generatedAt": "2026-05-20T14:25:49.226Z",
+    "mode": "patch",
+    "sampleSize": null,
+    "referenceYear": 2024,
+    "acsVintage": "acs5 2023 release (covers 2019-2023)"
+  },
+  "summary": {
+    "citiesAudited": 739,
+    "populationMatched": 739,
+    "ageMatched": 739,
+    "populationDiscrepancies": 388,
+    "ageDiscrepancies": 528,
+    "unmatched": 0
+  },
+  "discrepancies": {
+    "population": [
+      {
+        "key": "Buckeye|AZ",
+        "stored": 56683,
+        "census": 99844,
+        "diffPct": 76.1
+      },
+      {
+        "key": "Macon|GA",
+        "stored": 89981,
+        "census": 156543,
+        "diffPct": 74
+      },
+      {
+        "key": "Apex|NC",
+        "stored": 42214,
+        "census": 67765,
+        "diffPct": 60.5
+      },
+      {
+        "key": "Frisco|TX",
+        "stored": 136791,
+        "census": 210238,
+        "diffPct": 53.7
+      },
+      {
+        "key": "Meridian|ID",
+        "stored": 83596,
+        "census": 124865,
+        "diffPct": 49.4
+      },
+      {
+        "key": "Lehi|UT",
+        "stored": 54382,
+        "census": 81039,
+        "diffPct": 49
+      },
+      {
+        "key": "Castle Rock|CO",
+        "stored": 53063,
+        "census": 76614,
+        "diffPct": 44.4
+      },
+      {
+        "key": "Marana|AZ",
+        "stored": 38290,
+        "census": 54487,
+        "diffPct": 42.3
+      },
+      {
+        "key": "Goodyear|AZ",
+        "stored": 72864,
+        "census": 102891,
+        "diffPct": 41.2
+      },
+      {
+        "key": "Bentonville|AR",
+        "stored": 40167,
+        "census": 56326,
+        "diffPct": 40.2
+      },
+      {
+        "key": "Maricopa|AZ",
+        "stored": 45508,
+        "census": 62986,
+        "diffPct": 38.4
+      },
+      {
+        "key": "Bozeman|MT",
+        "stored": 39860,
+        "census": 55042,
+        "diffPct": 38.1
+      },
+      {
+        "key": "Ankeny|IA",
+        "stored": 51567,
+        "census": 70542,
+        "diffPct": 36.8
+      },
+      {
+        "key": "McKinney|TX",
+        "stored": 148559,
+        "census": 202314,
+        "diffPct": 36.2
+      },
+      {
+        "key": "South Jordan|UT",
+        "stored": 59366,
+        "census": 80331,
+        "diffPct": 35.3
+      },
+      {
+        "key": "Murfreesboro|TN",
+        "stored": 117044,
+        "census": 157547,
+        "diffPct": 34.6
+      },
+      {
+        "key": "Fort Myers|FL",
+        "stored": 68190,
+        "census": 91730,
+        "diffPct": 34.5
+      },
+      {
+        "key": "Auburn|AL",
+        "stored": 58582,
+        "census": 78738,
+        "diffPct": 34.4
+      },
+      {
+        "key": "Sammamish|WA",
+        "stored": 50169,
+        "census": 66375,
+        "diffPct": 32.3
+      },
+      {
+        "key": "Redmond|WA",
+        "stored": 57530,
+        "census": 75721,
+        "diffPct": 31.6
+      },
+      {
+        "key": "Sugar Land|TX",
+        "stored": 83860,
+        "census": 109735,
+        "diffPct": 30.9
+      },
+      {
+        "key": "Irvine|CA",
+        "stored": 236716,
+        "census": 308160,
+        "diffPct": 30.2
+      },
+      {
+        "key": "Commerce City|CO",
+        "stored": 49799,
+        "census": 64640,
+        "diffPct": 29.8
+      },
+      {
+        "key": "Caldwell|ID",
+        "stored": 48957,
+        "census": 63465,
+        "diffPct": 29.6
+      },
+      {
+        "key": "St. George|UT",
+        "stored": 76817,
+        "census": 99184,
+        "diffPct": 29.1
+      },
+      {
+        "key": "Port St. Lucie|FL",
+        "stored": 171016,
+        "census": 220453,
+        "diffPct": 28.9
+      },
+      {
+        "key": "Smyrna|TN",
+        "stored": 43060,
+        "census": 55066,
+        "diffPct": 27.9
+      },
+      {
+        "key": "Concord|NC",
+        "stored": 83506,
+        "census": 106518,
+        "diffPct": 27.6
+      },
+      {
+        "key": "Santa Clarita|CA",
+        "stored": 179590,
+        "census": 229021,
+        "diffPct": 27.5
+      },
+      {
+        "key": "Madison|AL",
+        "stored": 45799,
+        "census": 58335,
+        "diffPct": 27.4
+      },
+      {
+        "key": "Kannapolis|NC",
+        "stored": 44359,
+        "census": 56470,
+        "diffPct": 27.3
+      },
+      {
+        "key": "Noblesville|IN",
+        "stored": 56540,
+        "census": 71940,
+        "diffPct": 27.2
+      },
+      {
+        "key": "Lacey|WA",
+        "stored": 44919,
+        "census": 57088,
+        "diffPct": 27.1
+      },
+      {
+        "key": "Lewisville|TX",
+        "stored": 101074,
+        "census": 128313,
+        "diffPct": 26.9
+      },
+      {
+        "key": "Broomfield|CO",
+        "stored": 59471,
+        "census": 75110,
+        "diffPct": 26.3
+      },
+      {
+        "key": "League City|TX",
+        "stored": 90983,
+        "census": 114885,
+        "diffPct": 26.3
+      },
+      {
+        "key": "Santa Fe|NM",
+        "stored": 69976,
+        "census": 88224,
+        "diffPct": 26.1
+      },
+      {
+        "key": "Homestead|FL",
+        "stored": 64079,
+        "census": 80725,
+        "diffPct": 26
+      },
+      {
+        "key": "Pearland|TX",
+        "stored": 100065,
+        "census": 125983,
+        "diffPct": 25.9
+      },
+      {
+        "key": "Bend|OR",
+        "stored": 81236,
+        "census": 101472,
+        "diffPct": 24.9
+      },
+      {
+        "key": "Cape Coral|FL",
+        "stored": 165831,
+        "census": 206387,
+        "diffPct": 24.5
+      },
+      {
+        "key": "Franklin|TN",
+        "stored": 68886,
+        "census": 85575,
+        "diffPct": 24.2
+      },
+      {
+        "key": "Lakeville|MN",
+        "stored": 58562,
+        "census": 72480,
+        "diffPct": 23.8
+      },
+      {
+        "key": "Huntersville|NC",
+        "stored": 50458,
+        "census": 62458,
+        "diffPct": 23.8
+      },
+      {
+        "key": "Parker|CO",
+        "stored": 48608,
+        "census": 60115,
+        "diffPct": 23.7
+      },
+      {
+        "key": "Mount Pleasant|SC",
+        "stored": 74885,
+        "census": 92662,
+        "diffPct": 23.7
+      },
+      {
+        "key": "Fayetteville|AR",
+        "stored": 78960,
+        "census": 97227,
+        "diffPct": 23.1
+      },
+      {
+        "key": "Nampa|ID",
+        "stored": 86518,
+        "census": 106289,
+        "diffPct": 22.9
+      },
+      {
+        "key": "College Station|TX",
+        "stored": 100050,
+        "census": 122280,
+        "diffPct": 22.2
+      },
+      {
+        "key": "Kissimmee|FL",
+        "stored": 65173,
+        "census": 79504,
+        "diffPct": 22
+      },
+      {
+        "key": "Orlando|FL",
+        "stored": 255483,
+        "census": 311732,
+        "diffPct": 22
+      },
+      {
+        "key": "Daytona Beach|FL",
+        "stored": 62316,
+        "census": 75924,
+        "diffPct": 21.8
+      },
+      {
+        "key": "Surprise|AZ",
+        "stored": 123546,
+        "census": 149519,
+        "diffPct": 21
+      },
+      {
+        "key": "Prescott Valley|AZ",
+        "stored": 39791,
+        "census": 48048,
+        "diffPct": 20.8
+      },
+      {
+        "key": "Clarksville|TN",
+        "stored": 142357,
+        "census": 171897,
+        "diffPct": 20.8
+      },
+      {
+        "key": "Frederick|MD",
+        "stored": 66893,
+        "census": 80617,
+        "diffPct": 20.5
+      },
+      {
+        "key": "Fishers|IN",
+        "stored": 83891,
+        "census": 100918,
+        "diffPct": 20.3
+      },
+      {
+        "key": "Sioux Falls|SD",
+        "stored": 164676,
+        "census": 197642,
+        "diffPct": 20
+      },
+      {
+        "key": "Bellevue|NE",
+        "stored": 53663,
+        "census": 64355,
+        "diffPct": 19.9
+      },
+      {
+        "key": "Palm Coast|FL",
+        "stored": 78740,
+        "census": 94362,
+        "diffPct": 19.8
+      },
+      {
+        "key": "Bowling Green|KY",
+        "stored": 61488,
+        "census": 73638,
+        "diffPct": 19.8
+      },
+      {
+        "key": "Henderson|NV",
+        "stored": 270811,
+        "census": 324523,
+        "diffPct": 19.8
+      },
+      {
+        "key": "Coeur d'Alene|ID",
+        "stored": 46402,
+        "census": 55558,
+        "diffPct": 19.7
+      },
+      {
+        "key": "Greenwood|IN",
+        "stored": 53665,
+        "census": 64237,
+        "diffPct": 19.7
+      },
+      {
+        "key": "Peoria|AZ",
+        "stored": 162592,
+        "census": 194338,
+        "diffPct": 19.5
+      },
+      {
+        "key": "Palm Bay|FL",
+        "stored": 104898,
+        "census": 125273,
+        "diffPct": 19.4
+      },
+      {
+        "key": "Denton|TX",
+        "stored": 123099,
+        "census": 146987,
+        "diffPct": 19.4
+      },
+      {
+        "key": "North Las Vegas|NV",
+        "stored": 226877,
+        "census": 270773,
+        "diffPct": 19.3
+      },
+      {
+        "key": "Flint|MI",
+        "stored": 99763,
+        "census": 80835,
+        "diffPct": -19
+      },
+      {
+        "key": "Rogers|AR",
+        "stored": 60112,
+        "census": 71411,
+        "diffPct": 18.8
+      },
+      {
+        "key": "Charleston|SC",
+        "stored": 127999,
+        "census": 152014,
+        "diffPct": 18.8
+      },
+      {
+        "key": "Fort Worth|TX",
+        "stored": 792727,
+        "census": 941311,
+        "diffPct": 18.7
+      },
+      {
+        "key": "Spanish Fork|UT",
+        "stored": 36956,
+        "census": 43632,
+        "diffPct": 18.1
+      },
+      {
+        "key": "Richland|WA",
+        "stored": 52413,
+        "census": 61912,
+        "diffPct": 18.1
+      },
+      {
+        "key": "Blaine|MN",
+        "stored": 60407,
+        "census": 71261,
+        "diffPct": 18
+      },
+      {
+        "key": "Gilbert|AZ",
+        "stored": 229972,
+        "census": 271118,
+        "diffPct": 17.9
+      },
+      {
+        "key": "Goose Creek|SC",
+        "stored": 39823,
+        "census": 46964,
+        "diffPct": 17.9
+      },
+      {
+        "key": "Huntsville|AL",
+        "stored": 186254,
+        "census": 218814,
+        "diffPct": 17.5
+      },
+      {
+        "key": "Durham|NC",
+        "stored": 245475,
+        "census": 288465,
+        "diffPct": 17.5
+      },
+      {
+        "key": "Woodbury|MN",
+        "stored": 65656,
+        "census": 76945,
+        "diffPct": 17.2
+      },
+      {
+        "key": "Carmel|IN",
+        "stored": 85927,
+        "census": 100501,
+        "diffPct": 17
+      },
+      {
+        "key": "Sparks|NV",
+        "stored": 93282,
+        "census": 109106,
+        "diffPct": 17
+      },
+      {
+        "key": "Allen|TX",
+        "stored": 92020,
+        "census": 107684,
+        "diffPct": 17
+      },
+      {
+        "key": "Cary|NC",
+        "stored": 151088,
+        "census": 176686,
+        "diffPct": 16.9
+      },
+      {
+        "key": "Greenville|SC",
+        "stored": 61397,
+        "census": 71755,
+        "diffPct": 16.9
+      },
+      {
+        "key": "West Palm Beach|FL",
+        "stored": 102436,
+        "census": 119508,
+        "diffPct": 16.7
+      },
+      {
+        "key": "Layton|UT",
+        "stored": 70790,
+        "census": 82512,
+        "diffPct": 16.6
+      },
+      {
+        "key": "Springdale|AR",
+        "stored": 75229,
+        "census": 87388,
+        "diffPct": 16.2
+      },
+      {
+        "key": "Lakeland|FL",
+        "stored": 100710,
+        "census": 117030,
+        "diffPct": 16.2
+      },
+      {
+        "key": "Pasco|WA",
+        "stored": 67599,
+        "census": 78446,
+        "diffPct": 16
+      },
+      {
+        "key": "Rio Rancho|NM",
+        "stored": 91956,
+        "census": 106533,
+        "diffPct": 15.9
+      },
+      {
+        "key": "Meridian|MS",
+        "stored": 40921,
+        "census": 34466,
+        "diffPct": -15.8
+      },
+      {
+        "key": "Twin Falls|ID",
+        "stored": 45981,
+        "census": 53219,
+        "diffPct": 15.7
+      },
+      {
+        "key": "Spokane Valley|WA",
+        "stored": 91113,
+        "census": 105460,
+        "diffPct": 15.7
+      },
+      {
+        "key": "Hendersonville|TN",
+        "stored": 54068,
+        "census": 62390,
+        "diffPct": 15.4
+      },
+      {
+        "key": "Reno|NV",
+        "stored": 233294,
+        "census": 268959,
+        "diffPct": 15.3
+      },
+      {
+        "key": "Prescott|AZ",
+        "stored": 40590,
+        "census": 46744,
+        "diffPct": 15.2
+      },
+      {
+        "key": "Lenexa|KS",
+        "stored": 50344,
+        "census": 57986,
+        "diffPct": 15.2
+      },
+      {
+        "key": "Vancouver|WA",
+        "stored": 167405,
+        "census": 192696,
+        "diffPct": 15.1
+      },
+      {
+        "key": "Avondale|AZ",
+        "stored": 78822,
+        "census": 90644,
+        "diffPct": 15
+      },
+      {
+        "key": "Olympia|WA",
+        "stored": 48338,
+        "census": 55583,
+        "diffPct": 15
+      },
+      {
+        "key": "Casa Grande|AZ",
+        "stored": 50111,
+        "census": 57590,
+        "diffPct": 14.9
+      },
+      {
+        "key": "Shakopee|MN",
+        "stored": 39167,
+        "census": 45002,
+        "diffPct": 14.9
+      },
+      {
+        "key": "Everett|MA",
+        "stored": 42935,
+        "census": 49236,
+        "diffPct": 14.7
+      },
+      {
+        "key": "Idaho Falls|ID",
+        "stored": 58292,
+        "census": 66672,
+        "diffPct": 14.4
+      },
+      {
+        "key": "Oro Valley|AZ",
+        "stored": 41627,
+        "census": 47595,
+        "diffPct": 14.3
+      },
+      {
+        "key": "Novi|MI",
+        "stored": 57960,
+        "census": 66224,
+        "diffPct": 14.3
+      },
+      {
+        "key": "Auburn|WA",
+        "stored": 74860,
+        "census": 85455,
+        "diffPct": 14.2
+      },
+      {
+        "key": "Jacksonville|FL",
+        "stored": 842583,
+        "census": 961739,
+        "diffPct": 14.1
+      },
+      {
+        "key": "West Des Moines|IA",
+        "stored": 61255,
+        "census": 69893,
+        "diffPct": 14.1
+      },
+      {
+        "key": "Bremerton|WA",
+        "stored": 39056,
+        "census": 44531,
+        "diffPct": 14
+      },
+      {
+        "key": "Killeen|TX",
+        "stored": 137147,
+        "census": 156144,
+        "diffPct": 13.9
+      },
+      {
+        "key": "Tamarac|FL",
+        "stored": 63155,
+        "census": 71887,
+        "diffPct": 13.8
+      },
+      {
+        "key": "Burlington|NC",
+        "stored": 51510,
+        "census": 58599,
+        "diffPct": 13.8
+      },
+      {
+        "key": "Lawrence|MA",
+        "stored": 77657,
+        "census": 88297,
+        "diffPct": 13.7
+      },
+      {
+        "key": "Fargo|ND",
+        "stored": 113658,
+        "census": 129064,
+        "diffPct": 13.6
+      },
+      {
+        "key": "Seattle|WA",
+        "stored": 652405,
+        "census": 741440,
+        "diffPct": 13.6
+      },
+      {
+        "key": "Moorhead|MN",
+        "stored": 39398,
+        "census": 44706,
+        "diffPct": 13.5
+      },
+      {
+        "key": "Boynton Beach|FL",
+        "stored": 71097,
+        "census": 80601,
+        "diffPct": 13.4
+      },
+      {
+        "key": "Huber Heights|OH",
+        "stored": 38142,
+        "census": 43266,
+        "diffPct": 13.4
+      },
+      {
+        "key": "Greeley|CO",
+        "stored": 96539,
+        "census": 109421,
+        "diffPct": 13.3
+      },
+      {
+        "key": "Jackson|MS",
+        "stored": 172638,
+        "census": 149827,
+        "diffPct": -13.2
+      },
+      {
+        "key": "Richardson|TX",
+        "stored": 104475,
+        "census": 118269,
+        "diffPct": 13.2
+      },
+      {
+        "key": "Round Rock|TX",
+        "stored": 109821,
+        "census": 124288,
+        "diffPct": 13.2
+      },
+      {
+        "key": "Madison|WI",
+        "stored": 243344,
+        "census": 275568,
+        "diffPct": 13.2
+      },
+      {
+        "key": "Brookhaven|GA",
+        "stored": 50603,
+        "census": 57224,
+        "diffPct": 13.1
+      },
+      {
+        "key": "Brentwood|TN",
+        "stored": 40021,
+        "census": 45272,
+        "diffPct": 13.1
+      },
+      {
+        "key": "Marysville|WA",
+        "stored": 63269,
+        "census": 71570,
+        "diffPct": 13.1
+      },
+      {
+        "key": "Tuscaloosa|AL",
+        "stored": 95334,
+        "census": 107699,
+        "diffPct": 13
+      },
+      {
+        "key": "North Charleston|SC",
+        "stored": 104054,
+        "census": 117460,
+        "diffPct": 12.9
+      },
+      {
+        "key": "Aurora|CO",
+        "stored": 345803,
+        "census": 390201,
+        "diffPct": 12.8
+      },
+      {
+        "key": "Saginaw|MI",
+        "stored": 50303,
+        "census": 43879,
+        "diffPct": -12.8
+      },
+      {
+        "key": "Oklahoma City|OK",
+        "stored": 610613,
+        "census": 688693,
+        "diffPct": 12.8
+      },
+      {
+        "key": "Bellevue|WA",
+        "stored": 133992,
+        "census": 151199,
+        "diffPct": 12.8
+      },
+      {
+        "key": "Cleveland|TN",
+        "stored": 42774,
+        "census": 48185,
+        "diffPct": 12.7
+      },
+      {
+        "key": "Suffolk|VA",
+        "stored": 85728,
+        "census": 96638,
+        "diffPct": 12.7
+      },
+      {
+        "key": "Gainesville|FL",
+        "stored": 127488,
+        "census": 143611,
+        "diffPct": 12.6
+      },
+      {
+        "key": "Gary|IN",
+        "stored": 78450,
+        "census": 68604,
+        "diffPct": -12.6
+      },
+      {
+        "key": "Worcester|MA",
+        "stored": 182544,
+        "census": 205501,
+        "diffPct": 12.6
+      },
+      {
+        "key": "Jersey City|NJ",
+        "stored": 257342,
+        "census": 289691,
+        "diffPct": 12.6
+      },
+      {
+        "key": "Dearborn|MI",
+        "stored": 95884,
+        "census": 107846,
+        "diffPct": 12.5
+      },
+      {
+        "key": "Omaha|NE",
+        "stored": 434353,
+        "census": 488197,
+        "diffPct": 12.4
+      },
+      {
+        "key": "Dublin|OH",
+        "stored": 43607,
+        "census": 49031,
+        "diffPct": 12.4
+      },
+      {
+        "key": "Pine Bluff|AR",
+        "stored": 46094,
+        "census": 40436,
+        "diffPct": -12.3
+      },
+      {
+        "key": "Bakersfield|CA",
+        "stored": 363630,
+        "census": 408366,
+        "diffPct": 12.3
+      },
+      {
+        "key": "Warner Robins|GA",
+        "stored": 72531,
+        "census": 81438,
+        "diffPct": 12.3
+      },
+      {
+        "key": "Thornton|CO",
+        "stored": 127359,
+        "census": 142878,
+        "diffPct": 12.2
+      },
+      {
+        "key": "Grand Junction|CO",
+        "stored": 59778,
+        "census": 67027,
+        "diffPct": 12.1
+      },
+      {
+        "key": "Broken Arrow|OK",
+        "stored": 103500,
+        "census": 115919,
+        "diffPct": 12
+      },
+      {
+        "key": "O'Fallon|MO",
+        "stored": 82809,
+        "census": 92697,
+        "diffPct": 11.9
+      },
+      {
+        "key": "Charlotte|NC",
+        "stored": 792862,
+        "census": 886283,
+        "diffPct": 11.8
+      },
+      {
+        "key": "Bellingham|WA",
+        "stored": 82631,
+        "census": 92367,
+        "diffPct": 11.8
+      },
+      {
+        "key": "Brockton|MA",
+        "stored": 94089,
+        "census": 105080,
+        "diffPct": 11.7
+      },
+      {
+        "key": "Chandler|AZ",
+        "stored": 249146,
+        "census": 278123,
+        "diffPct": 11.6
+      },
+      {
+        "key": "Fort Collins|CO",
+        "stored": 152061,
+        "census": 169705,
+        "diffPct": 11.6
+      },
+      {
+        "key": "Columbus|IN",
+        "stored": 45775,
+        "census": 51104,
+        "diffPct": 11.6
+      },
+      {
+        "key": "Grove City|OH",
+        "stored": 37490,
+        "census": 41831,
+        "diffPct": 11.6
+      },
+      {
+        "key": "Tampa|FL",
+        "stored": 352957,
+        "census": 393389,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Atlanta|GA",
+        "stored": 447841,
+        "census": 499287,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Revere|MA",
+        "stored": 53756,
+        "census": 59933,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Blue Springs|MO",
+        "stored": 53294,
+        "census": 59416,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Gastonia|NC",
+        "stored": 73209,
+        "census": 81632,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Eugene|OR",
+        "stored": 159190,
+        "census": 177520,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Irving|TX",
+        "stored": 228653,
+        "census": 255036,
+        "diffPct": 11.5
+      },
+      {
+        "key": "Summerville|SC",
+        "stored": 46074,
+        "census": 51262,
+        "diffPct": 11.3
+      },
+      {
+        "key": "Flagstaff|AZ",
+        "stored": 68667,
+        "census": 76333,
+        "diffPct": 11.2
+      },
+      {
+        "key": "Deerfield Beach|FL",
+        "stored": 78041,
+        "census": 86742,
+        "diffPct": 11.1
+      },
+      {
+        "key": "Las Cruces|NM",
+        "stored": 101324,
+        "census": 112612,
+        "diffPct": 11.1
+      },
+      {
+        "key": "Hoboken|NJ",
+        "stored": 52575,
+        "census": 58340,
+        "diffPct": 11
+      },
+      {
+        "key": "Mesa|AZ",
+        "stored": 457587,
+        "census": 507478,
+        "diffPct": 10.9
+      },
+      {
+        "key": "Deltona|FL",
+        "stored": 86290,
+        "census": 95682,
+        "diffPct": 10.9
+      },
+      {
+        "key": "Apple Valley|MN",
+        "stored": 50201,
+        "census": 55696,
+        "diffPct": 10.9
+      },
+      {
+        "key": "Tempe|AZ",
+        "stored": 168228,
+        "census": 186419,
+        "diffPct": 10.8
+      },
+      {
+        "key": "Albany|GA",
+        "stored": 76185,
+        "census": 67939,
+        "diffPct": -10.8
+      },
+      {
+        "key": "Draper|UT",
+        "stored": 45285,
+        "census": 50159,
+        "diffPct": 10.8
+      },
+      {
+        "key": "Jonesboro|AR",
+        "stored": 71551,
+        "census": 79187,
+        "diffPct": 10.7
+      },
+      {
+        "key": "Miami Beach|FL",
+        "stored": 91026,
+        "census": 81319,
+        "diffPct": -10.7
+      },
+      {
+        "key": "Melbourne|FL",
+        "stored": 77508,
+        "census": 85718,
+        "diffPct": 10.6
+      },
+      {
+        "key": "Bismarck|ND",
+        "stored": 67034,
+        "census": 74146,
+        "diffPct": 10.6
+      },
+      {
+        "key": "Boca Raton|FL",
+        "stored": 89407,
+        "census": 98833,
+        "diffPct": 10.5
+      },
+      {
+        "key": "Mankato|MN",
+        "stored": 40641,
+        "census": 44882,
+        "diffPct": 10.4
+      },
+      {
+        "key": "Medford|OR",
+        "stored": 77677,
+        "census": 85794,
+        "diffPct": 10.4
+      },
+      {
+        "key": "Puyallup|WA",
+        "stored": 38609,
+        "census": 42642,
+        "diffPct": 10.4
+      },
+      {
+        "key": "Lake Charles|LA",
+        "stored": 74024,
+        "census": 81679,
+        "diffPct": 10.3
+      },
+      {
+        "key": "Barnstable Town|MA",
+        "stored": 44641,
+        "census": 49232,
+        "diffPct": 10.3
+      },
+      {
+        "key": "Columbia|MO",
+        "stored": 115276,
+        "census": 127200,
+        "diffPct": 10.3
+      },
+      {
+        "key": "Newark|NJ",
+        "stored": 278427,
+        "census": 307188,
+        "diffPct": 10.3
+      },
+      {
+        "key": "Urbandale|IA",
+        "stored": 41776,
+        "census": 46026,
+        "diffPct": 10.2
+      },
+      {
+        "key": "Lynn|MA",
+        "stored": 91589,
+        "census": 100905,
+        "diffPct": 10.2
+      },
+      {
+        "key": "Columbus|OH",
+        "stored": 822553,
+        "census": 906480,
+        "diffPct": 10.2
+      },
+      {
+        "key": "Logan|UT",
+        "stored": 48913,
+        "census": 53923,
+        "diffPct": 10.2
+      },
+      {
+        "key": "Elk Grove|CA",
+        "stored": 161007,
+        "census": 177221,
+        "diffPct": 10.1
+      },
+      {
+        "key": "Longmont|CO",
+        "stored": 89919,
+        "census": 98958,
+        "diffPct": 10.1
+      },
+      {
+        "key": "Lee's Summit|MO",
+        "stored": 93184,
+        "census": 102583,
+        "diffPct": 10.1
+      },
+      {
+        "key": "Albany|OR",
+        "stored": 51583,
+        "census": 56773,
+        "diffPct": 10.1
+      },
+      {
+        "key": "Arvada|CO",
+        "stored": 111707,
+        "census": 122835,
+        "diffPct": 10
+      },
+      {
+        "key": "Boise City|ID",
+        "stored": 214237,
+        "census": 235701,
+        "diffPct": 10
+      },
+      {
+        "key": "Aurora|IL",
+        "stored": 199963,
+        "census": 179867,
+        "diffPct": -10
+      },
+      {
+        "key": "Salem|OR",
+        "stored": 160614,
+        "census": 176666,
+        "diffPct": 10
+      },
+      {
+        "key": "Waco|TX",
+        "stored": 129030,
+        "census": 141925,
+        "diffPct": 10
+      },
+      {
+        "key": "Denver|CO",
+        "stored": 649495,
+        "census": 713734,
+        "diffPct": 9.9
+      },
+      {
+        "key": "Davie|FL",
+        "stored": 96830,
+        "census": 106412,
+        "diffPct": 9.9
+      },
+      {
+        "key": "Edmond|OK",
+        "stored": 87004,
+        "census": 95618,
+        "diffPct": 9.9
+      },
+      {
+        "key": "Hillsboro|OR",
+        "stored": 97368,
+        "census": 107050,
+        "diffPct": 9.9
+      },
+      {
+        "key": "Kennewick|WA",
+        "stored": 76762,
+        "census": 84389,
+        "diffPct": 9.9
+      },
+      {
+        "key": "Hoover|AL",
+        "stored": 84126,
+        "census": 92401,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Lake Havasu City|AZ",
+        "stored": 52844,
+        "census": 58037,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Colorado Springs|CO",
+        "stored": 439886,
+        "census": 483099,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Cambridge|MA",
+        "stored": 107289,
+        "census": 117794,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Rochester|MN",
+        "stored": 110742,
+        "census": 121638,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Tigard|OR",
+        "stored": 50444,
+        "census": 55395,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Riverton|UT",
+        "stored": 40921,
+        "census": 44944,
+        "diffPct": 9.8
+      },
+      {
+        "key": "Dearborn Heights|MI",
+        "stored": 56620,
+        "census": 62099,
+        "diffPct": 9.7
+      },
+      {
+        "key": "Johnson City|TN",
+        "stored": 65123,
+        "census": 71455,
+        "diffPct": 9.7
+      },
+      {
+        "key": "Plainfield|IL",
+        "stored": 41734,
+        "census": 45705,
+        "diffPct": 9.5
+      },
+      {
+        "key": "Brookfield|WI",
+        "stored": 37999,
+        "census": 41592,
+        "diffPct": 9.5
+      },
+      {
+        "key": "Sacramento|CA",
+        "stored": 479686,
+        "census": 524802,
+        "diffPct": 9.4
+      },
+      {
+        "key": "Biloxi|MS",
+        "stored": 44820,
+        "census": 49011,
+        "diffPct": 9.4
+      },
+      {
+        "key": "Missoula|MT",
+        "stored": 69122,
+        "census": 75600,
+        "diffPct": 9.4
+      },
+      {
+        "key": "Methuen|MA",
+        "stored": 48514,
+        "census": 53043,
+        "diffPct": 9.3
+      },
+      {
+        "key": "Corvallis|OR",
+        "stored": 55298,
+        "census": 60424,
+        "diffPct": 9.3
+      },
+      {
+        "key": "Austin|TX",
+        "stored": 885400,
+        "census": 967862,
+        "diffPct": 9.3
+      },
+      {
+        "key": "Jeffersonville|IN",
+        "stored": 45929,
+        "census": 50176,
+        "diffPct": 9.2
+      },
+      {
+        "key": "Olathe|KS",
+        "stored": 131885,
+        "census": 143720,
+        "diffPct": 9
+      },
+      {
+        "key": "Raleigh|NC",
+        "stored": 431746,
+        "census": 470763,
+        "diffPct": 9
+      },
+      {
+        "key": "Lubbock|TX",
+        "stored": 239538,
+        "census": 261078,
+        "diffPct": 9
+      },
+      {
+        "key": "Southaven|MS",
+        "stored": 50997,
+        "census": 55531,
+        "diffPct": 8.9
+      },
+      {
+        "key": "Norman|OK",
+        "stored": 118197,
+        "census": 128714,
+        "diffPct": 8.9
+      },
+      {
+        "key": "Chesapeake|VA",
+        "stored": 230571,
+        "census": 251153,
+        "diffPct": 8.9
+      },
+      {
+        "key": "Overland Park|KS",
+        "stored": 181260,
+        "census": 197199,
+        "diffPct": 8.8
+      },
+      {
+        "key": "Kansas City|MO",
+        "stored": 467007,
+        "census": 508233,
+        "diffPct": 8.8
+      },
+      {
+        "key": "Spokane|WA",
+        "stored": 210721,
+        "census": 229228,
+        "diffPct": 8.8
+      },
+      {
+        "key": "Lincoln|NE",
+        "stored": 268738,
+        "census": 291932,
+        "diffPct": 8.6
+      },
+      {
+        "key": "Youngstown|OH",
+        "stored": 65184,
+        "census": 59605,
+        "diffPct": -8.6
+      },
+      {
+        "key": "Haverhill|MA",
+        "stored": 62088,
+        "census": 67387,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Billings|MT",
+        "stored": 109059,
+        "census": 118321,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Rapid City|SD",
+        "stored": 70812,
+        "census": 76836,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Kent|WA",
+        "stored": 124435,
+        "census": 135015,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Kirkland|WA",
+        "stored": 84430,
+        "census": 91614,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Renton|WA",
+        "stored": 97003,
+        "census": 105279,
+        "diffPct": 8.5
+      },
+      {
+        "key": "Loveland|CO",
+        "stored": 71334,
+        "census": 77350,
+        "diffPct": 8.4
+      },
+      {
+        "key": "Shreveport|LA",
+        "stored": 200327,
+        "census": 183483,
+        "diffPct": -8.4
+      },
+      {
+        "key": "Quincy|MA",
+        "stored": 93494,
+        "census": 101361,
+        "diffPct": 8.4
+      },
+      {
+        "key": "Bayonne|NJ",
+        "stored": 65028,
+        "census": 70468,
+        "diffPct": 8.4
+      },
+      {
+        "key": "Hickory|NC",
+        "stored": 40361,
+        "census": 43747,
+        "diffPct": 8.4
+      },
+      {
+        "key": "Tacoma|WA",
+        "stored": 203446,
+        "census": 220482,
+        "diffPct": 8.4
+      },
+      {
+        "key": "Dunwoody|GA",
+        "stored": 47591,
+        "census": 51563,
+        "diffPct": 8.3
+      },
+      {
+        "key": "Malden|MA",
+        "stored": 60509,
+        "census": 65509,
+        "diffPct": 8.3
+      },
+      {
+        "key": "Grand Prairie|TX",
+        "stored": 183372,
+        "census": 198564,
+        "diffPct": 8.3
+      },
+      {
+        "key": "Asheville|NC",
+        "stored": 87236,
+        "census": 94369,
+        "diffPct": 8.2
+      },
+      {
+        "key": "Rock Hill|SC",
+        "stored": 69103,
+        "census": 74769,
+        "diffPct": 8.2
+      },
+      {
+        "key": "Collierville|TN",
+        "stored": 47333,
+        "census": 51212,
+        "diffPct": 8.2
+      },
+      {
+        "key": "Shoreline|WA",
+        "stored": 54790,
+        "census": 59280,
+        "diffPct": 8.2
+      },
+      {
+        "key": "Midland|TX",
+        "stored": 123933,
+        "census": 133998,
+        "diffPct": 8.1
+      },
+      {
+        "key": "Alexandria|LA",
+        "stored": 48426,
+        "census": 44566,
+        "diffPct": -8
+      },
+      {
+        "key": "Paterson|NJ",
+        "stored": 145948,
+        "census": 157660,
+        "diffPct": 8
+      },
+      {
+        "key": "Lima|OH",
+        "stored": 38355,
+        "census": 35304,
+        "diffPct": -8
+      },
+      {
+        "key": "Urbana|IL",
+        "stored": 41752,
+        "census": 38447,
+        "diffPct": -7.9
+      },
+      {
+        "key": "Muncie|IN",
+        "stored": 70316,
+        "census": 64739,
+        "diffPct": -7.9
+      },
+      {
+        "key": "St. Louis|MO",
+        "stored": 318416,
+        "census": 293109,
+        "diffPct": -7.9
+      },
+      {
+        "key": "Carson City|NV",
+        "stored": 54080,
+        "census": 58364,
+        "diffPct": 7.9
+      },
+      {
+        "key": "Las Vegas|NV",
+        "stored": 603488,
+        "census": 650873,
+        "diffPct": 7.9
+      },
+      {
+        "key": "Moore|OK",
+        "stored": 58414,
+        "census": 63045,
+        "diffPct": 7.9
+      },
+      {
+        "key": "Reading|PA",
+        "stored": 87893,
+        "census": 94836,
+        "diffPct": 7.9
+      },
+      {
+        "key": "Nashville|TN",
+        "stored": 634464,
+        "census": 684298,
+        "diffPct": 7.9
+      },
+      {
+        "key": "Oakland|CA",
+        "stored": 406253,
+        "census": 438072,
+        "diffPct": 7.8
+      },
+      {
+        "key": "Maple Grove|MN",
+        "stored": 65415,
+        "census": 70539,
+        "diffPct": 7.8
+      },
+      {
+        "key": "Plainfield|NJ",
+        "stored": 50588,
+        "census": 54515,
+        "diffPct": 7.8
+      },
+      {
+        "key": "DeKalb|IL",
+        "stored": 43849,
+        "census": 40464,
+        "diffPct": -7.7
+      },
+      {
+        "key": "Kentwood|MI",
+        "stored": 50233,
+        "census": 54114,
+        "diffPct": 7.7
+      },
+      {
+        "key": "Detroit|MI",
+        "stored": 688701,
+        "census": 636644,
+        "diffPct": -7.6
+      },
+      {
+        "key": "Brooklyn Park|MN",
+        "stored": 78373,
+        "census": 84349,
+        "diffPct": 7.6
+      },
+      {
+        "key": "Edina|MN",
+        "stored": 49376,
+        "census": 53125,
+        "diffPct": 7.6
+      },
+      {
+        "key": "Wilkes-Barre|PA",
+        "stored": 41108,
+        "census": 44217,
+        "diffPct": 7.6
+      },
+      {
+        "key": "Stockton|CA",
+        "stored": 298118,
+        "census": 320470,
+        "diffPct": 7.5
+      },
+      {
+        "key": "Pompano Beach|FL",
+        "stored": 104410,
+        "census": 112212,
+        "diffPct": 7.5
+      },
+      {
+        "key": "Plymouth|MN",
+        "stored": 73987,
+        "census": 79526,
+        "diffPct": 7.5
+      },
+      {
+        "key": "Tyler|TX",
+        "stored": 100223,
+        "census": 107718,
+        "diffPct": 7.5
+      },
+      {
+        "key": "Phoenix|AZ",
+        "stored": 1513367,
+        "census": 1624832,
+        "diffPct": 7.4
+      },
+      {
+        "key": "Stamford|CT",
+        "stored": 126456,
+        "census": 135806,
+        "diffPct": 7.4
+      },
+      {
+        "key": "Sandy Springs|GA",
+        "stored": 99770,
+        "census": 107198,
+        "diffPct": 7.4
+      },
+      {
+        "key": "St. Joseph|MO",
+        "stored": 77147,
+        "census": 71542,
+        "diffPct": -7.3
+      },
+      {
+        "key": "Lake Oswego|OR",
+        "stored": 37610,
+        "census": 40367,
+        "diffPct": 7.3
+      },
+      {
+        "key": "Sunrise|FL",
+        "stored": 90116,
+        "census": 96633,
+        "diffPct": 7.2
+      },
+      {
+        "key": "Baltimore|MD",
+        "stored": 622104,
+        "census": 577193,
+        "diffPct": -7.2
+      },
+      {
+        "key": "East Orange|NJ",
+        "stored": 64544,
+        "census": 69183,
+        "diffPct": 7.2
+      },
+      {
+        "key": "Grand Forks|ND",
+        "stored": 54932,
+        "census": 58882,
+        "diffPct": 7.2
+      },
+      {
+        "key": "Bullhead City|AZ",
+        "stored": 39383,
+        "census": 42193,
+        "diffPct": 7.1
+      },
+      {
+        "key": "Yuma|AZ",
+        "stored": 91923,
+        "census": 98461,
+        "diffPct": 7.1
+      },
+      {
+        "key": "Chula Vista|CA",
+        "stored": 256780,
+        "census": 275030,
+        "diffPct": 7.1
+      },
+      {
+        "key": "Tallahassee|FL",
+        "stored": 186411,
+        "census": 199696,
+        "diffPct": 7.1
+      },
+      {
+        "key": "Hagerstown|MD",
+        "stored": 40612,
+        "census": 43490,
+        "diffPct": 7.1
+      },
+      {
+        "key": "Camden|NJ",
+        "stored": 76903,
+        "census": 71471,
+        "diffPct": -7.1
+      },
+      {
+        "key": "Apache Junction|AZ",
+        "stored": 37130,
+        "census": 39746,
+        "diffPct": 7
+      },
+      {
+        "key": "Ames|IA",
+        "stored": 61792,
+        "census": 66112,
+        "diffPct": 7
+      },
+      {
+        "key": "Valley Stream|NY",
+        "stored": 37659,
+        "census": 40278,
+        "diffPct": 7
+      },
+      {
+        "key": "High Point|NC",
+        "stored": 107741,
+        "census": 115263,
+        "diffPct": 7
+      },
+      {
+        "key": "Federal Way|WA",
+        "stored": 92734,
+        "census": 99232,
+        "diffPct": 7
+      },
+      {
+        "key": "Miami|FL",
+        "stored": 417650,
+        "census": 446663,
+        "diffPct": 6.9
+      },
+      {
+        "key": "Providence|RI",
+        "stored": 177994,
+        "census": 190214,
+        "diffPct": 6.9
+      },
+      {
+        "key": "Santa Ana|CA",
+        "stored": 334227,
+        "census": 311639,
+        "diffPct": -6.8
+      },
+      {
+        "key": "Greensboro|NC",
+        "stored": 279639,
+        "census": 298564,
+        "diffPct": 6.8
+      },
+      {
+        "key": "Scottsdale|AZ",
+        "stored": 226918,
+        "census": 242169,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Modesto|CA",
+        "stored": 204933,
+        "census": 218614,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Clearwater|FL",
+        "stored": 109703,
+        "census": 117075,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Minneapolis|MN",
+        "stored": 400070,
+        "census": 426845,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Trenton|NJ",
+        "stored": 84349,
+        "census": 89966,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Buffalo|NY",
+        "stored": 258959,
+        "census": 276397,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Lawton|OK",
+        "stored": 97151,
+        "census": 90662,
+        "diffPct": -6.7
+      },
+      {
+        "key": "Lakewood|WA",
+        "stored": 59097,
+        "census": 63034,
+        "diffPct": 6.7
+      },
+      {
+        "key": "Glendale|AZ",
+        "stored": 234632,
+        "census": 250193,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Fresno|CA",
+        "stored": 509924,
+        "census": 543615,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Lancaster|CA",
+        "stored": 159523,
+        "census": 170013,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Cedar Rapids|IA",
+        "stored": 128429,
+        "census": 136859,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Leominster|MA",
+        "stored": 41002,
+        "census": 43697,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Salt Lake City|UT",
+        "stored": 191180,
+        "census": 203888,
+        "diffPct": 6.6
+      },
+      {
+        "key": "Ontario|CA",
+        "stored": 167500,
+        "census": 178347,
+        "diffPct": 6.5
+      },
+      {
+        "key": "Alpharetta|GA",
+        "stored": 62298,
+        "census": 66355,
+        "diffPct": 6.5
+      },
+      {
+        "key": "Champaign|IL",
+        "stored": 83424,
+        "census": 88822,
+        "diffPct": 6.5
+      },
+      {
+        "key": "Taunton|MA",
+        "stored": 56069,
+        "census": 59719,
+        "diffPct": 6.5
+      },
+      {
+        "key": "East Lansing|MI",
+        "stored": 48554,
+        "census": 45394,
+        "diffPct": -6.5
+      },
+      {
+        "key": "Elizabeth|NJ",
+        "stored": 127558,
+        "census": 135887,
+        "diffPct": 6.5
+      },
+      {
+        "key": "Erie|PA",
+        "stored": 100671,
+        "census": 94156,
+        "diffPct": -6.5
+      },
+      {
+        "key": "Jacksonville|NC",
+        "stored": 69079,
+        "census": 73507,
+        "diffPct": 6.4
+      },
+      {
+        "key": "Florence|SC",
+        "stored": 37792,
+        "census": 40205,
+        "diffPct": 6.4
+      },
+      {
+        "key": "Perth Amboy|NJ",
+        "stored": 51982,
+        "census": 55278,
+        "diffPct": 6.3
+      },
+      {
+        "key": "Mount Vernon|NY",
+        "stored": 68224,
+        "census": 72528,
+        "diffPct": 6.3
+      },
+      {
+        "key": "Richmond|VA",
+        "stored": 214114,
+        "census": 227595,
+        "diffPct": 6.3
+      },
+      {
+        "key": "Lakewood|CO",
+        "stored": 147214,
+        "census": 156309,
+        "diffPct": 6.2
+      },
+      {
+        "key": "Fort Lauderdale|FL",
+        "stored": 172389,
+        "census": 183032,
+        "diffPct": 6.2
+      },
+      {
+        "key": "Mishawaka|IN",
+        "stored": 47989,
+        "census": 50907,
+        "diffPct": 6.1
+      },
+      {
+        "key": "St. Peters|MO",
+        "stored": 54842,
+        "census": 58200,
+        "diffPct": 6.1
+      },
+      {
+        "key": "Winston-Salem|NC",
+        "stored": 236441,
+        "census": 250887,
+        "diffPct": 6.1
+      },
+      {
+        "key": "Huntington|WV",
+        "stored": 49177,
+        "census": 46189,
+        "diffPct": -6.1
+      },
+      {
+        "key": "Birmingham|AL",
+        "stored": 212113,
+        "census": 199322,
+        "diffPct": -6
+      },
+      {
+        "key": "Shawnee|KS",
+        "stored": 64323,
+        "census": 68175,
+        "diffPct": 6
+      },
+      {
+        "key": "Attleboro|MA",
+        "stored": 43886,
+        "census": 46499,
+        "diffPct": 6
+      },
+      {
+        "key": "Lauderhill|FL",
+        "stored": 69813,
+        "census": 73961,
+        "diffPct": 5.9
+      },
+      {
+        "key": "New Bedford|MA",
+        "stored": 95078,
+        "census": 100731,
+        "diffPct": 5.9
+      },
+      {
+        "key": "Lincoln Park|MI",
+        "stored": 37313,
+        "census": 39511,
+        "diffPct": 5.9
+      },
+      {
+        "key": "Abilene|TX",
+        "stored": 120099,
+        "census": 127130,
+        "diffPct": 5.9
+      },
+      {
+        "key": "Orem|UT",
+        "stored": 91648,
+        "census": 97048,
+        "diffPct": 5.9
+      },
+      {
+        "key": "Coral Springs|FL",
+        "stored": 126604,
+        "census": 133962,
+        "diffPct": 5.8
+      },
+      {
+        "key": "Athens-Clarke County|GA",
+        "stored": 119980,
+        "census": 126987,
+        "diffPct": 5.8
+      },
+      {
+        "key": "Decatur|IL",
+        "stored": 74710,
+        "census": 70368,
+        "diffPct": -5.8
+      },
+      {
+        "key": "Hempstead|NY",
+        "stored": 55361,
+        "census": 58569,
+        "diffPct": 5.8
+      },
+      {
+        "key": "Wilmington|NC",
+        "stored": 112067,
+        "census": 118578,
+        "diffPct": 5.8
+      },
+      {
+        "key": "Cleveland|OH",
+        "stored": 390113,
+        "census": 367523,
+        "diffPct": -5.8
+      },
+      {
+        "key": "Pawtucket|RI",
+        "stored": 71172,
+        "census": 75280,
+        "diffPct": 5.8
+      },
+      {
+        "key": "Dover|DE",
+        "stored": 37366,
+        "census": 39491,
+        "diffPct": 5.7
+      },
+      {
+        "key": "Fall River|MA",
+        "stored": 88697,
+        "census": 93764,
+        "diffPct": 5.7
+      },
+      {
+        "key": "Holyoke|MA",
+        "stored": 40249,
+        "census": 37949,
+        "diffPct": -5.7
+      },
+      {
+        "key": "Allentown|PA",
+        "stored": 118577,
+        "census": 125320,
+        "diffPct": 5.7
+      },
+      {
+        "key": "Knoxville|TN",
+        "stored": 183270,
+        "census": 193721,
+        "diffPct": 5.7
+      },
+      {
+        "key": "Charleston|WV",
+        "stored": 50821,
+        "census": 47918,
+        "diffPct": -5.7
+      },
+      {
+        "key": "Linden|NJ",
+        "stored": 41301,
+        "census": 43614,
+        "diffPct": 5.6
+      },
+      {
+        "key": "West Jordan|UT",
+        "stored": 110077,
+        "census": 116277,
+        "diffPct": 5.6
+      },
+      {
+        "key": "Burlington|VT",
+        "stored": 42284,
+        "census": 44649,
+        "diffPct": 5.6
+      },
+      {
+        "key": "Lowell|MA",
+        "stored": 108861,
+        "census": 114799,
+        "diffPct": 5.5
+      },
+      {
+        "key": "St. Cloud|MN",
+        "stored": 66297,
+        "census": 69926,
+        "diffPct": 5.5
+      },
+      {
+        "key": "Newark|OH",
+        "stored": 47777,
+        "census": 50393,
+        "diffPct": 5.5
+      },
+      {
+        "key": "Portland|OR",
+        "stored": 609456,
+        "census": 642715,
+        "diffPct": 5.5
+      },
+      {
+        "key": "Chattanooga|TN",
+        "stored": 173366,
+        "census": 182832,
+        "diffPct": 5.5
+      },
+      {
+        "key": "Gaithersburg|MD",
+        "stored": 65690,
+        "census": 69225,
+        "diffPct": 5.4
+      },
+      {
+        "key": "Woburn|MA",
+        "stored": 39083,
+        "census": 41205,
+        "diffPct": 5.4
+      },
+      {
+        "key": "Troy|MI",
+        "stored": 82821,
+        "census": 87307,
+        "diffPct": 5.4
+      },
+      {
+        "key": "Kingsport|TN",
+        "stored": 52962,
+        "census": 55807,
+        "diffPct": 5.4
+      },
+      {
+        "key": "Everett|WA",
+        "stored": 105370,
+        "census": 111083,
+        "diffPct": 5.4
+      },
+      {
+        "key": "Palmdale|CA",
+        "stored": 157161,
+        "census": 165487,
+        "diffPct": 5.3
+      },
+      {
+        "key": "Peachtree Corners|GA",
+        "stored": 40059,
+        "census": 42184,
+        "diffPct": 5.3
+      },
+      {
+        "key": "Smyrna|GA",
+        "stored": 53438,
+        "census": 56285,
+        "diffPct": 5.3
+      },
+      {
+        "key": "Bossier City|LA",
+        "stored": 66333,
+        "census": 62832,
+        "diffPct": -5.3
+      },
+      {
+        "key": "Muskogee|OK",
+        "stored": 38863,
+        "census": 36819,
+        "diffPct": -5.3
+      },
+      {
+        "key": "Keizer|OR",
+        "stored": 37064,
+        "census": 39013,
+        "diffPct": 5.3
+      },
+      {
+        "key": "Alexandria|VA",
+        "stored": 148892,
+        "census": 156788,
+        "diffPct": 5.3
+      },
+      {
+        "key": "Largo|FL",
+        "stored": 78409,
+        "census": 82506,
+        "diffPct": 5.2
+      },
+      {
+        "key": "Pocatello|ID",
+        "stored": 54350,
+        "census": 57152,
+        "diffPct": 5.2
+      },
+      {
+        "key": "Annapolis|MD",
+        "stored": 38722,
+        "census": 40744,
+        "diffPct": 5.2
+      },
+      {
+        "key": "McAllen|TX",
+        "stored": 136639,
+        "census": 143789,
+        "diffPct": 5.2
+      },
+      {
+        "key": "Pembroke Pines|FL",
+        "stored": 162329,
+        "census": 170557,
+        "diffPct": 5.1
+      },
+      {
+        "key": "Iowa City|IA",
+        "stored": 71591,
+        "census": 75264,
+        "diffPct": 5.1
+      },
+      {
+        "key": "Lawrence|KS",
+        "stored": 90811,
+        "census": 95459,
+        "diffPct": 5.1
+      },
+      {
+        "key": "Monroe|LA",
+        "stored": 49761,
+        "census": 47241,
+        "diffPct": -5.1
+      },
+      {
+        "key": "St. Charles|MO",
+        "stored": 67569,
+        "census": 71048,
+        "diffPct": 5.1
+      },
+      {
+        "key": "Mobile|AL",
+        "stored": 194899,
+        "census": 185097,
+        "diffPct": -5
+      },
+      {
+        "key": "Hayward|CA",
+        "stored": 151574,
+        "census": 159201,
+        "diffPct": 5
+      },
+      {
+        "key": "Marlborough|MA",
+        "stored": 39414,
+        "census": 41398,
+        "diffPct": 5
+      },
+      {
+        "key": "Edmonds|WA",
+        "stored": 40727,
+        "census": 42783,
+        "diffPct": 5
+      }
+    ],
+    "avgHomeAge": [
+      {
+        "key": "Berwyn|IL",
+        "stored": 40,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 46
+      },
+      {
+        "key": "Cicero|IL",
+        "stored": 41,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 45
+      },
+      {
+        "key": "Cleveland Heights|OH",
+        "stored": 42,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 44
+      },
+      {
+        "key": "Lakewood|OH",
+        "stored": 43,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 43
+      },
+      {
+        "key": "Wilmington|DE",
+        "stored": 38,
+        "censusMedianYearBuilt": 1946,
+        "expectedAge": 78,
+        "diff": 40
+      },
+      {
+        "key": "Covington|KY",
+        "stored": 38,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 39
+      },
+      {
+        "key": "Huntington|WV",
+        "stored": 31,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 39
+      },
+      {
+        "key": "Oak Park|IL",
+        "stored": 48,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 38
+      },
+      {
+        "key": "Troy|NY",
+        "stored": 48,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 38
+      },
+      {
+        "key": "Somerville|MA",
+        "stored": 49,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 37
+      },
+      {
+        "key": "Scranton|PA",
+        "stored": 49,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 37
+      },
+      {
+        "key": "Reading|PA",
+        "stored": 51,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 35
+      },
+      {
+        "key": "Rochester|NY",
+        "stored": 52,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 34
+      },
+      {
+        "key": "Roanoke|VA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 34
+      },
+      {
+        "key": "Everett|MA",
+        "stored": 53,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 33
+      },
+      {
+        "key": "Passaic|NJ",
+        "stored": 53,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 33
+      },
+      {
+        "key": "York|PA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1941,
+        "expectedAge": 83,
+        "diff": 33
+      },
+      {
+        "key": "Canton|OH",
+        "stored": 44,
+        "censusMedianYearBuilt": 1948,
+        "expectedAge": 76,
+        "diff": 32
+      },
+      {
+        "key": "Altoona|PA",
+        "stored": 48,
+        "censusMedianYearBuilt": 1944,
+        "expectedAge": 80,
+        "diff": 32
+      },
+      {
+        "key": "New Bedford|MA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 31
+      },
+      {
+        "key": "St. Paul|MN",
+        "stored": 41,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 31
+      },
+      {
+        "key": "St. Louis|MO",
+        "stored": 55,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 31
+      },
+      {
+        "key": "Great Falls|MT",
+        "stored": 28,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 31
+      },
+      {
+        "key": "Schenectady|NY",
+        "stored": 55,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 31
+      },
+      {
+        "key": "Lancaster|PA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 31
+      },
+      {
+        "key": "Providence|RI",
+        "stored": 55,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 31
+      },
+      {
+        "key": "Hollywood|FL",
+        "stored": 25,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 30
+      },
+      {
+        "key": "Chelsea|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 30
+      },
+      {
+        "key": "Newton|MA",
+        "stored": 54,
+        "censusMedianYearBuilt": 1940,
+        "expectedAge": 84,
+        "diff": 30
+      },
+      {
+        "key": "Salem|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 30
+      },
+      {
+        "key": "Danville|VA",
+        "stored": 33,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 30
+      },
+      {
+        "key": "Spokane|WA",
+        "stored": 33,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 30
+      },
+      {
+        "key": "Charleston|WV",
+        "stored": 38,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 30
+      },
+      {
+        "key": "Minneapolis|MN",
+        "stored": 45,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 29
+      },
+      {
+        "key": "Cleveland|OH",
+        "stored": 55,
+        "censusMedianYearBuilt": 1940,
+        "expectedAge": 84,
+        "diff": 29
+      },
+      {
+        "key": "Harrisburg|PA",
+        "stored": 48,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 29
+      },
+      {
+        "key": "Ogden|UT",
+        "stored": 30,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 29
+      },
+      {
+        "key": "Racine|WI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 29
+      },
+      {
+        "key": "Miami Beach|FL",
+        "stored": 27,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 28
+      },
+      {
+        "key": "Dearborn|MI",
+        "stored": 44,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 28
+      },
+      {
+        "key": "Binghamton|NY",
+        "stored": 50,
+        "censusMedianYearBuilt": 1946,
+        "expectedAge": 78,
+        "diff": 28
+      },
+      {
+        "key": "Buffalo|NY",
+        "stored": 58,
+        "censusMedianYearBuilt": 1938,
+        "expectedAge": 86,
+        "diff": 28
+      },
+      {
+        "key": "Utica|NY",
+        "stored": 55,
+        "censusMedianYearBuilt": 1941,
+        "expectedAge": 83,
+        "diff": 28
+      },
+      {
+        "key": "Springfield|OH",
+        "stored": 44,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 28
+      },
+      {
+        "key": "San Francisco|CA",
+        "stored": 52,
+        "censusMedianYearBuilt": 1945,
+        "expectedAge": 79,
+        "diff": 27
+      },
+      {
+        "key": "Pueblo|CO",
+        "stored": 31,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 27
+      },
+      {
+        "key": "Muskegon|MI",
+        "stored": 48,
+        "censusMedianYearBuilt": 1949,
+        "expectedAge": 75,
+        "diff": 27
+      },
+      {
+        "key": "Warren|OH",
+        "stored": 42,
+        "censusMedianYearBuilt": 1955,
+        "expectedAge": 69,
+        "diff": 27
+      },
+      {
+        "key": "Pittsburgh|PA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1942,
+        "expectedAge": 82,
+        "diff": 27
+      },
+      {
+        "key": "Burien|WA",
+        "stored": 32,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 27
+      },
+      {
+        "key": "Battle Creek|MI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 26
+      },
+      {
+        "key": "Portsmouth|VA",
+        "stored": 32,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 26
+      },
+      {
+        "key": "Shoreline|WA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 26
+      },
+      {
+        "key": "West Allis|WI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 26
+      },
+      {
+        "key": "Long Beach|CA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 25
+      },
+      {
+        "key": "Pittsfield|MA",
+        "stored": 49,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 25
+      },
+      {
+        "key": "Detroit|MI",
+        "stored": 52,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 25
+      },
+      {
+        "key": "Saginaw|MI",
+        "stored": 50,
+        "censusMedianYearBuilt": 1949,
+        "expectedAge": 75,
+        "diff": 25
+      },
+      {
+        "key": "Duluth|MN",
+        "stored": 48,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 25
+      },
+      {
+        "key": "Plainfield|NJ",
+        "stored": 49,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 25
+      },
+      {
+        "key": "Cincinnati|OH",
+        "stored": 48,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 25
+      },
+      {
+        "key": "Lima|OH",
+        "stored": 46,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 25
+      },
+      {
+        "key": "Erie|PA",
+        "stored": 49,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 25
+      },
+      {
+        "key": "Spartanburg|SC",
+        "stored": 30,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 25
+      },
+      {
+        "key": "Wichita Falls|TX",
+        "stored": 28,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 25
+      },
+      {
+        "key": "Alexandria|LA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 24
+      },
+      {
+        "key": "Cambridge|MA",
+        "stored": 52,
+        "censusMedianYearBuilt": 1948,
+        "expectedAge": 76,
+        "diff": 24
+      },
+      {
+        "key": "Malden|MA",
+        "stored": 57,
+        "censusMedianYearBuilt": 1943,
+        "expectedAge": 81,
+        "diff": 24
+      },
+      {
+        "key": "Medford|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1944,
+        "expectedAge": 80,
+        "diff": 24
+      },
+      {
+        "key": "Grand Rapids|MI",
+        "stored": 47,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 24
+      },
+      {
+        "key": "Euclid|OH",
+        "stored": 44,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 24
+      },
+      {
+        "key": "Wilkes-Barre|PA",
+        "stored": 57,
+        "censusMedianYearBuilt": 1943,
+        "expectedAge": 81,
+        "diff": 24
+      },
+      {
+        "key": "Salt Lake City|UT",
+        "stored": 37,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 24
+      },
+      {
+        "key": "Beloit|WI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 24
+      },
+      {
+        "key": "Sheboygan|WI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 24
+      },
+      {
+        "key": "Wauwatosa|WI",
+        "stored": 46,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 24
+      },
+      {
+        "key": "Lauderhill|FL",
+        "stored": 25,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 23
+      },
+      {
+        "key": "Miami Gardens|FL",
+        "stored": 32,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 23
+      },
+      {
+        "key": "Pompano Beach|FL",
+        "stored": 27,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 23
+      },
+      {
+        "key": "Decatur|IL",
+        "stored": 41,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 23
+      },
+      {
+        "key": "Evanston|IL",
+        "stored": 49,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 23
+      },
+      {
+        "key": "Moline|IL",
+        "stored": 44,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 23
+      },
+      {
+        "key": "Hammond|IN",
+        "stored": 49,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 23
+      },
+      {
+        "key": "Sioux City|IA",
+        "stored": 45,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 23
+      },
+      {
+        "key": "Kansas City|KS",
+        "stored": 40,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 23
+      },
+      {
+        "key": "Portland|ME",
+        "stored": 55,
+        "censusMedianYearBuilt": 1946,
+        "expectedAge": 78,
+        "diff": 23
+      },
+      {
+        "key": "Fall River|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1945,
+        "expectedAge": 79,
+        "diff": 23
+      },
+      {
+        "key": "Springfield|MA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 23
+      },
+      {
+        "key": "Dearborn Heights|MI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 23
+      },
+      {
+        "key": "Lincoln Park|MI",
+        "stored": 47,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 23
+      },
+      {
+        "key": "Dayton|OH",
+        "stored": 50,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 23
+      },
+      {
+        "key": "Hamilton|OH",
+        "stored": 45,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 23
+      },
+      {
+        "key": "Woonsocket|RI",
+        "stored": 51,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 23
+      },
+      {
+        "key": "Charlottesville|VA",
+        "stored": 34,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 23
+      },
+      {
+        "key": "Lynchburg|VA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 23
+      },
+      {
+        "key": "St. Petersburg|FL",
+        "stored": 33,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 22
+      },
+      {
+        "key": "Chicago|IL",
+        "stored": 50,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 22
+      },
+      {
+        "key": "Evansville|IN",
+        "stored": 42,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 22
+      },
+      {
+        "key": "Council Bluffs|IA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 22
+      },
+      {
+        "key": "Waterloo|IA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 22
+      },
+      {
+        "key": "Boston|MA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 22
+      },
+      {
+        "key": "Holyoke|MA",
+        "stored": 54,
+        "censusMedianYearBuilt": 1948,
+        "expectedAge": 76,
+        "diff": 22
+      },
+      {
+        "key": "Lynn|MA",
+        "stored": 57,
+        "censusMedianYearBuilt": 1945,
+        "expectedAge": 79,
+        "diff": 22
+      },
+      {
+        "key": "Pontiac|MI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 22
+      },
+      {
+        "key": "Roswell|NM",
+        "stored": 34,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 22
+      },
+      {
+        "key": "Niagara Falls|NY",
+        "stored": 54,
+        "censusMedianYearBuilt": 1948,
+        "expectedAge": 76,
+        "diff": 22
+      },
+      {
+        "key": "Syracuse|NY",
+        "stored": 55,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 22
+      },
+      {
+        "key": "Parma|OH",
+        "stored": 44,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 22
+      },
+      {
+        "key": "Allentown|PA",
+        "stored": 51,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 22
+      },
+      {
+        "key": "Pawtucket|RI",
+        "stored": 55,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 22
+      },
+      {
+        "key": "Bountiful|UT",
+        "stored": 30,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 22
+      },
+      {
+        "key": "Bremerton|WA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 22
+      },
+      {
+        "key": "Edmonds|WA",
+        "stored": 29,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 22
+      },
+      {
+        "key": "Milwaukee|WI",
+        "stored": 50,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 22
+      },
+      {
+        "key": "Tucson|AZ",
+        "stored": 24,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 21
+      },
+      {
+        "key": "Oakland|CA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 21
+      },
+      {
+        "key": "Terre Haute|IN",
+        "stored": 45,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 21
+      },
+      {
+        "key": "Dubuque|IA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 21
+      },
+      {
+        "key": "Hutchinson|KS",
+        "stored": 42,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 21
+      },
+      {
+        "key": "Baltimore|MD",
+        "stored": 55,
+        "censusMedianYearBuilt": 1948,
+        "expectedAge": 76,
+        "diff": 21
+      },
+      {
+        "key": "Worcester|MA",
+        "stored": 52,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 21
+      },
+      {
+        "key": "Royal Oak|MI",
+        "stored": 47,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 21
+      },
+      {
+        "key": "Bayonne|NJ",
+        "stored": 48,
+        "censusMedianYearBuilt": 1955,
+        "expectedAge": 69,
+        "diff": 21
+      },
+      {
+        "key": "Portland|OR",
+        "stored": 37,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 21
+      },
+      {
+        "key": "Lakewood|WA",
+        "stored": 29,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 21
+      },
+      {
+        "key": "Tacoma|WA",
+        "stored": 36,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 21
+      },
+      {
+        "key": "Yakima|WA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 21
+      },
+      {
+        "key": "Pine Bluff|AR",
+        "stored": 33,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 20
+      },
+      {
+        "key": "Santa Ana|CA",
+        "stored": 36,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 20
+      },
+      {
+        "key": "Albany|GA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 20
+      },
+      {
+        "key": "Belleville|IL",
+        "stored": 44,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 20
+      },
+      {
+        "key": "Plainfield|IL",
+        "stored": 41,
+        "censusMedianYearBuilt": 2003,
+        "expectedAge": 21,
+        "diff": -20
+      },
+      {
+        "key": "Skokie|IL",
+        "stored": 45,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 20
+      },
+      {
+        "key": "Lawrence|IN",
+        "stored": 51,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": -20
+      },
+      {
+        "key": "Lawrence|MA",
+        "stored": 57,
+        "censusMedianYearBuilt": 1947,
+        "expectedAge": 77,
+        "diff": 20
+      },
+      {
+        "key": "Camden|NJ",
+        "stored": 55,
+        "censusMedianYearBuilt": 1949,
+        "expectedAge": 75,
+        "diff": 20
+      },
+      {
+        "key": "Albany|NY",
+        "stored": 55,
+        "censusMedianYearBuilt": 1949,
+        "expectedAge": 75,
+        "diff": 20
+      },
+      {
+        "key": "Mount Vernon|NY",
+        "stored": 52,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 20
+      },
+      {
+        "key": "Valley Stream|NY",
+        "stored": 53,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 20
+      },
+      {
+        "key": "Middletown|OH",
+        "stored": 42,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 20
+      },
+      {
+        "key": "Odessa|TX",
+        "stored": 26,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 20
+      },
+      {
+        "key": "Alexandria|VA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 20
+      },
+      {
+        "key": "Richmond|VA",
+        "stored": 45,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 20
+      },
+      {
+        "key": "Birmingham|AL",
+        "stored": 40,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 19
+      },
+      {
+        "key": "Hartford|CT",
+        "stored": 52,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 19
+      },
+      {
+        "key": "Fort Lauderdale|FL",
+        "stored": 33,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 19
+      },
+      {
+        "key": "Anderson|IN",
+        "stored": 44,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 19
+      },
+      {
+        "key": "Louisville|KY",
+        "stored": 35,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 19
+      },
+      {
+        "key": "Shreveport|LA",
+        "stored": 32,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 19
+      },
+      {
+        "key": "Lansing|MI",
+        "stored": 45,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 19
+      },
+      {
+        "key": "Blaine|MN",
+        "stored": 48,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": -19
+      },
+      {
+        "key": "Florissant|MO",
+        "stored": 42,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 19
+      },
+      {
+        "key": "Elizabeth|NJ",
+        "stored": 50,
+        "censusMedianYearBuilt": 1955,
+        "expectedAge": 69,
+        "diff": 19
+      },
+      {
+        "key": "Paterson|NJ",
+        "stored": 52,
+        "censusMedianYearBuilt": 1953,
+        "expectedAge": 71,
+        "diff": 19
+      },
+      {
+        "key": "Cuyahoga Falls|OH",
+        "stored": 46,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 19
+      },
+      {
+        "key": "Toledo|OH",
+        "stored": 50,
+        "censusMedianYearBuilt": 1955,
+        "expectedAge": 69,
+        "diff": 19
+      },
+      {
+        "key": "Hampton|VA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 19
+      },
+      {
+        "key": "Norfolk|VA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 19
+      },
+      {
+        "key": "Florence|AL",
+        "stored": 34,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 18
+      },
+      {
+        "key": "Garden Grove|CA",
+        "stored": 42,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 18
+      },
+      {
+        "key": "Irvine|CA",
+        "stored": 41,
+        "censusMedianYearBuilt": 2001,
+        "expectedAge": 23,
+        "diff": -18
+      },
+      {
+        "key": "Torrance|CA",
+        "stored": 43,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 18
+      },
+      {
+        "key": "Lakewood|CO",
+        "stored": 29,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 18
+      },
+      {
+        "key": "Bridgeport|CT",
+        "stored": 52,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 18
+      },
+      {
+        "key": "Miami|FL",
+        "stored": 28,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 18
+      },
+      {
+        "key": "Muncie|IN",
+        "stored": 44,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 18
+      },
+      {
+        "key": "South Bend|IN",
+        "stored": 51,
+        "censusMedianYearBuilt": 1955,
+        "expectedAge": 69,
+        "diff": 18
+      },
+      {
+        "key": "Des Moines|IA",
+        "stored": 46,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 18
+      },
+      {
+        "key": "Fitchburg|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 18
+      },
+      {
+        "key": "Flint|MI",
+        "stored": 52,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 18
+      },
+      {
+        "key": "Roseville|MI",
+        "stored": 45,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 18
+      },
+      {
+        "key": "Linden|NJ",
+        "stored": 49,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 18
+      },
+      {
+        "key": "Perth Amboy|NJ",
+        "stored": 49,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 18
+      },
+      {
+        "key": "Freeport|NY",
+        "stored": 54,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 18
+      },
+      {
+        "key": "Akron|OH",
+        "stored": 52,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 18
+      },
+      {
+        "key": "Youngstown|OH",
+        "stored": 55,
+        "censusMedianYearBuilt": 1951,
+        "expectedAge": 73,
+        "diff": 18
+      },
+      {
+        "key": "Amarillo|TX",
+        "stored": 34,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 18
+      },
+      {
+        "key": "Tyler|TX",
+        "stored": 28,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 18
+      },
+      {
+        "key": "Waco|TX",
+        "stored": 29,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 18
+      },
+      {
+        "key": "Spokane Valley|WA",
+        "stored": 28,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 18
+      },
+      {
+        "key": "La Crosse|WI",
+        "stored": 40,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 18
+      },
+      {
+        "key": "Casper|WY",
+        "stored": 32,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 18
+      },
+      {
+        "key": "Cheyenne|WY",
+        "stored": 31,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 18
+      },
+      {
+        "key": "Tempe|AZ",
+        "stored": 24,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 17
+      },
+      {
+        "key": "New Haven|CT",
+        "stored": 55,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 17
+      },
+      {
+        "key": "Deerfield Beach|FL",
+        "stored": 30,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 17
+      },
+      {
+        "key": "Pocatello|ID",
+        "stored": 36,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 17
+      },
+      {
+        "key": "Hagerstown|MD",
+        "stored": 45,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 17
+      },
+      {
+        "key": "Livonia|MI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 17
+      },
+      {
+        "key": "Novi|MI",
+        "stored": 49,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": -17
+      },
+      {
+        "key": "Taylor|MI",
+        "stored": 44,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 17
+      },
+      {
+        "key": "Warren|MI",
+        "stored": 42,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 17
+      },
+      {
+        "key": "Trenton|NJ",
+        "stored": 57,
+        "censusMedianYearBuilt": 1950,
+        "expectedAge": 74,
+        "diff": 17
+      },
+      {
+        "key": "New Rochelle|NY",
+        "stored": 53,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 17
+      },
+      {
+        "key": "Grove City|OH",
+        "stored": 48,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": -17
+      },
+      {
+        "key": "Kettering|OH",
+        "stored": 46,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 17
+      },
+      {
+        "key": "Lorain|OH",
+        "stored": 46,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 17
+      },
+      {
+        "key": "Mansfield|OH",
+        "stored": 48,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 17
+      },
+      {
+        "key": "Newark|OH",
+        "stored": 44,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 17
+      },
+      {
+        "key": "Philadelphia|PA",
+        "stored": 58,
+        "censusMedianYearBuilt": 1949,
+        "expectedAge": 75,
+        "diff": 17
+      },
+      {
+        "key": "Chattanooga|TN",
+        "stored": 32,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 17
+      },
+      {
+        "key": "Memphis|TN",
+        "stored": 37,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 17
+      },
+      {
+        "key": "Burlington|VT",
+        "stored": 50,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 17
+      },
+      {
+        "key": "Yuma|AZ",
+        "stored": 18,
+        "censusMedianYearBuilt": 1990,
+        "expectedAge": 34,
+        "diff": 16
+      },
+      {
+        "key": "Glendale|CA",
+        "stored": 43,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 16
+      },
+      {
+        "key": "Norwich|CT",
+        "stored": 50,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 16
+      },
+      {
+        "key": "Largo|FL",
+        "stored": 30,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 16
+      },
+      {
+        "key": "Honolulu|HI",
+        "stored": 35,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 16
+      },
+      {
+        "key": "Twin Falls|ID",
+        "stored": 28,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 16
+      },
+      {
+        "key": "Rockford|IL",
+        "stored": 46,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 16
+      },
+      {
+        "key": "Chicopee|MA",
+        "stored": 51,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 16
+      },
+      {
+        "key": "St. Clair Shores|MI",
+        "stored": 51,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 16
+      },
+      {
+        "key": "St. Louis Park|MN",
+        "stored": 43,
+        "censusMedianYearBuilt": 1965,
+        "expectedAge": 59,
+        "diff": 16
+      },
+      {
+        "key": "Jackson|MS",
+        "stored": 39,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 16
+      },
+      {
+        "key": "Kansas City|MO",
+        "stored": 40,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 16
+      },
+      {
+        "key": "Kearny|NJ",
+        "stored": 56,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 16
+      },
+      {
+        "key": "Clovis|NM",
+        "stored": 33,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 16
+      },
+      {
+        "key": "Hempstead|NY",
+        "stored": 51,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 16
+      },
+      {
+        "key": "Albany|OR",
+        "stored": 28,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 16
+      },
+      {
+        "key": "Cranston|RI",
+        "stored": 51,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 16
+      },
+      {
+        "key": "East Providence|RI",
+        "stored": 50,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 16
+      },
+      {
+        "key": "Abilene|TX",
+        "stored": 34,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 16
+      },
+      {
+        "key": "Seattle|WA",
+        "stored": 34,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 16
+      },
+      {
+        "key": "Mobile|AL",
+        "stored": 35,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 15
+      },
+      {
+        "key": "North Little Rock|AR",
+        "stored": 34,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 15
+      },
+      {
+        "key": "Denver|CO",
+        "stored": 35,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 15
+      },
+      {
+        "key": "Meriden|CT",
+        "stored": 49,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 15
+      },
+      {
+        "key": "Melbourne|FL",
+        "stored": 25,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 15
+      },
+      {
+        "key": "Columbus|GA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 15
+      },
+      {
+        "key": "Bartlett|IL",
+        "stored": 47,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": -15
+      },
+      {
+        "key": "Des Plaines|IL",
+        "stored": 43,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 15
+      },
+      {
+        "key": "Oak Lawn|IL",
+        "stored": 42,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 15
+      },
+      {
+        "key": "Waukegan|IL",
+        "stored": 42,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 15
+      },
+      {
+        "key": "Salina|KS",
+        "stored": 45,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 15
+      },
+      {
+        "key": "New Orleans|LA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 15
+      },
+      {
+        "key": "Lowell|MA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1954,
+        "expectedAge": 70,
+        "diff": 15
+      },
+      {
+        "key": "Kalamazoo|MI",
+        "stored": 50,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 15
+      },
+      {
+        "key": "St. Joseph|MO",
+        "stored": 47,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 15
+      },
+      {
+        "key": "Clifton|NJ",
+        "stored": 57,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 15
+      },
+      {
+        "key": "Gastonia|NC",
+        "stored": 30,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 15
+      },
+      {
+        "key": "Dublin|OH",
+        "stored": 43,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": -15
+      },
+      {
+        "key": "Muskogee|OK",
+        "stored": 38,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 15
+      },
+      {
+        "key": "Kingsport|TN",
+        "stored": 35,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 15
+      },
+      {
+        "key": "Garland|TX",
+        "stored": 31,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 15
+      },
+      {
+        "key": "Newport News|VA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 15
+      },
+      {
+        "key": "Wausau|WI",
+        "stored": 48,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 15
+      },
+      {
+        "key": "Auburn|AL",
+        "stored": 38,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": -14
+      },
+      {
+        "key": "Phoenix|AZ",
+        "stored": 26,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 14
+      },
+      {
+        "key": "Anaheim|CA",
+        "stored": 37,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 14
+      },
+      {
+        "key": "Los Angeles|CA",
+        "stored": 46,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 14
+      },
+      {
+        "key": "Commerce City|CO",
+        "stored": 34,
+        "censusMedianYearBuilt": 2004,
+        "expectedAge": 20,
+        "diff": -14
+      },
+      {
+        "key": "New Britain|CT",
+        "stored": 54,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 14
+      },
+      {
+        "key": "Clearwater|FL",
+        "stored": 32,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 14
+      },
+      {
+        "key": "Deltona|FL",
+        "stored": 22,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": 14
+      },
+      {
+        "key": "Plantation|FL",
+        "stored": 27,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 14
+      },
+      {
+        "key": "Peachtree Corners|GA",
+        "stored": 22,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": 14
+      },
+      {
+        "key": "Caldwell|ID",
+        "stored": 36,
+        "censusMedianYearBuilt": 2002,
+        "expectedAge": 22,
+        "diff": -14
+      },
+      {
+        "key": "Greenwood|IN",
+        "stored": 43,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": -14
+      },
+      {
+        "key": "Davenport|IA",
+        "stored": 44,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 14
+      },
+      {
+        "key": "Baton Rouge|LA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 14
+      },
+      {
+        "key": "Meridian|MS",
+        "stored": 40,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 14
+      },
+      {
+        "key": "Columbia|MO",
+        "stored": 45,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": -14
+      },
+      {
+        "key": "Union City|NJ",
+        "stored": 52,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 14
+      },
+      {
+        "key": "Yonkers|NY",
+        "stored": 52,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 14
+      },
+      {
+        "key": "Enid|OK",
+        "stored": 40,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 14
+      },
+      {
+        "key": "Eugene|OR",
+        "stored": 31,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 14
+      },
+      {
+        "key": "Salem|OR",
+        "stored": 30,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 14
+      },
+      {
+        "key": "Collierville|TN",
+        "stored": 41,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": -14
+      },
+      {
+        "key": "Knoxville|TN",
+        "stored": 36,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 14
+      },
+      {
+        "key": "Arlington|TX",
+        "stored": 25,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 14
+      },
+      {
+        "key": "Beaumont|TX",
+        "stored": 32,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 14
+      },
+      {
+        "key": "Olympia|WA",
+        "stored": 29,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 14
+      },
+      {
+        "key": "Sammamish|WA",
+        "stored": 16,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": 14
+      },
+      {
+        "key": "Fond du Lac|WI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 14
+      },
+      {
+        "key": "Elk Grove|CA",
+        "stored": 37,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": -13
+      },
+      {
+        "key": "Salinas|CA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 13
+      },
+      {
+        "key": "Northglenn|CO",
+        "stored": 37,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 13
+      },
+      {
+        "key": "Daytona Beach|FL",
+        "stored": 31,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 13
+      },
+      {
+        "key": "Hialeah|FL",
+        "stored": 36,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 13
+      },
+      {
+        "key": "Edina|MN",
+        "stored": 40,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 13
+      },
+      {
+        "key": "Maple Grove|MN",
+        "stored": 20,
+        "censusMedianYearBuilt": 1991,
+        "expectedAge": 33,
+        "diff": 13
+      },
+      {
+        "key": "White Plains|NY",
+        "stored": 51,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 13
+      },
+      {
+        "key": "Raleigh|NC",
+        "stored": 41,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": -13
+      },
+      {
+        "key": "Lancaster|OH",
+        "stored": 49,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 13
+      },
+      {
+        "key": "Columbia|SC",
+        "stored": 33,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 13
+      },
+      {
+        "key": "Sioux Falls|SD",
+        "stored": 45,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": -13
+      },
+      {
+        "key": "Lubbock|TX",
+        "stored": 28,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 13
+      },
+      {
+        "key": "San Angelo|TX",
+        "stored": 34,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 13
+      },
+      {
+        "key": "Everett|WA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 13
+      },
+      {
+        "key": "Glendale|AZ",
+        "stored": 26,
+        "censusMedianYearBuilt": 1986,
+        "expectedAge": 38,
+        "diff": 12
+      },
+      {
+        "key": "Marana|AZ",
+        "stored": 29,
+        "censusMedianYearBuilt": 2007,
+        "expectedAge": 17,
+        "diff": -12
+      },
+      {
+        "key": "Sierra Vista|AZ",
+        "stored": 23,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": 12
+      },
+      {
+        "key": "Pomona|CA",
+        "stored": 46,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 12
+      },
+      {
+        "key": "Boulder|CO",
+        "stored": 34,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 12
+      },
+      {
+        "key": "Lakeland|FL",
+        "stored": 31,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 12
+      },
+      {
+        "key": "Elkhart|IN",
+        "stored": 45,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 12
+      },
+      {
+        "key": "Gary|IN",
+        "stored": 55,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 12
+      },
+      {
+        "key": "Topeka|KS",
+        "stored": 45,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 12
+      },
+      {
+        "key": "Owensboro|KY",
+        "stored": 40,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 12
+      },
+      {
+        "key": "Kenner|LA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 12
+      },
+      {
+        "key": "Monroe|LA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 12
+      },
+      {
+        "key": "Beverly|MA",
+        "stored": 55,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 12
+      },
+      {
+        "key": "Quincy|MA",
+        "stored": 54,
+        "censusMedianYearBuilt": 1958,
+        "expectedAge": 66,
+        "diff": 12
+      },
+      {
+        "key": "Revere|MA",
+        "stored": 49,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 12
+      },
+      {
+        "key": "Southfield|MI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 12
+      },
+      {
+        "key": "Westland|MI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 12
+      },
+      {
+        "key": "Wyoming|MI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 12
+      },
+      {
+        "key": "East Orange|NJ",
+        "stored": 55,
+        "censusMedianYearBuilt": 1957,
+        "expectedAge": 67,
+        "diff": 12
+      },
+      {
+        "key": "Albuquerque|NM",
+        "stored": 30,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 12
+      },
+      {
+        "key": "New York|NY",
+        "stored": 60,
+        "censusMedianYearBuilt": 1952,
+        "expectedAge": 72,
+        "diff": 12
+      },
+      {
+        "key": "Keizer|OR",
+        "stored": 29,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 12
+      },
+      {
+        "key": "Hilton Head Island|SC",
+        "stored": 25,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 12
+      },
+      {
+        "key": "Corpus Christi|TX",
+        "stored": 31,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 12
+      },
+      {
+        "key": "Pasadena|TX",
+        "stored": 36,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 12
+      },
+      {
+        "key": "Bellevue|WA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 12
+      },
+      {
+        "key": "Federal Way|WA",
+        "stored": 28,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 12
+      },
+      {
+        "key": "Janesville|WI",
+        "stored": 40,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 12
+      },
+      {
+        "key": "Riverside|CA",
+        "stored": 37,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 11
+      },
+      {
+        "key": "San Diego|CA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 11
+      },
+      {
+        "key": "San Jose|CA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 11
+      },
+      {
+        "key": "Arvada|CO",
+        "stored": 34,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 11
+      },
+      {
+        "key": "Boca Raton|FL",
+        "stored": 30,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 11
+      },
+      {
+        "key": "Fort Myers|FL",
+        "stored": 34,
+        "censusMedianYearBuilt": 2001,
+        "expectedAge": 23,
+        "diff": -11
+      },
+      {
+        "key": "Sunrise|FL",
+        "stored": 31,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 11
+      },
+      {
+        "key": "Johns Creek|GA",
+        "stored": 18,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": 11
+      },
+      {
+        "key": "Elmhurst|IL",
+        "stored": 49,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 11
+      },
+      {
+        "key": "Springfield|IL",
+        "stored": 42,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 11
+      },
+      {
+        "key": "Fort Wayne|IN",
+        "stored": 42,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 11
+      },
+      {
+        "key": "Cedar Falls|IA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 11
+      },
+      {
+        "key": "West Des Moines|IA",
+        "stored": 20,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": 11
+      },
+      {
+        "key": "Lawrence|KS",
+        "stored": 47,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -11
+      },
+      {
+        "key": "Lenexa|KS",
+        "stored": 22,
+        "censusMedianYearBuilt": 1991,
+        "expectedAge": 33,
+        "diff": 11
+      },
+      {
+        "key": "Bossier City|LA",
+        "stored": 34,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 11
+      },
+      {
+        "key": "Woodbury|MN",
+        "stored": 16,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": 11
+      },
+      {
+        "key": "Independence|MO",
+        "stored": 46,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 11
+      },
+      {
+        "key": "Missoula|MT",
+        "stored": 32,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 11
+      },
+      {
+        "key": "Atlantic City|NJ",
+        "stored": 51,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 11
+      },
+      {
+        "key": "Greensboro|NC",
+        "stored": 30,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 11
+      },
+      {
+        "key": "Rocky Mount|NC",
+        "stored": 35,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 11
+      },
+      {
+        "key": "Bethlehem|PA",
+        "stored": 57,
+        "censusMedianYearBuilt": 1956,
+        "expectedAge": 68,
+        "diff": 11
+      },
+      {
+        "key": "Provo|UT",
+        "stored": 31,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 11
+      },
+      {
+        "key": "Kent|WA",
+        "stored": 28,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 11
+      },
+      {
+        "key": "Decatur|AL",
+        "stored": 37,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 10
+      },
+      {
+        "key": "Hoover|AL",
+        "stored": 40,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": -10
+      },
+      {
+        "key": "Montgomery|AL",
+        "stored": 37,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 10
+      },
+      {
+        "key": "Anchorage|AK",
+        "stored": 32,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 10
+      },
+      {
+        "key": "Mesa|AZ",
+        "stored": 26,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": 10
+      },
+      {
+        "key": "Fayetteville|AR",
+        "stored": 38,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": -10
+      },
+      {
+        "key": "Springdale|AR",
+        "stored": 40,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": -10
+      },
+      {
+        "key": "Corona|CA",
+        "stored": 43,
+        "censusMedianYearBuilt": 1991,
+        "expectedAge": 33,
+        "diff": -10
+      },
+      {
+        "key": "Sacramento|CA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 10
+      },
+      {
+        "key": "Shelton|CT",
+        "stored": 57,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": -10
+      },
+      {
+        "key": "Waterbury|CT",
+        "stored": 55,
+        "censusMedianYearBuilt": 1959,
+        "expectedAge": 65,
+        "diff": 10
+      },
+      {
+        "key": "West Haven|CT",
+        "stored": 53,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 10
+      },
+      {
+        "key": "Tamarac|FL",
+        "stored": 33,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 10
+      },
+      {
+        "key": "Brookhaven|GA",
+        "stored": 22,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": 10
+      },
+      {
+        "key": "Dunwoody|GA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 10
+      },
+      {
+        "key": "Roswell|GA",
+        "stored": 25,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": 10
+      },
+      {
+        "key": "Boise City|ID",
+        "stored": 29,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 10
+      },
+      {
+        "key": "Idaho Falls|ID",
+        "stored": 37,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 10
+      },
+      {
+        "key": "Arlington Heights|IL",
+        "stored": 41,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 10
+      },
+      {
+        "key": "Orland Park|IL",
+        "stored": 46,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -10
+      },
+      {
+        "key": "Overland Park|KS",
+        "stored": 25,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": 10
+      },
+      {
+        "key": "Frederick|MD",
+        "stored": 44,
+        "censusMedianYearBuilt": 1990,
+        "expectedAge": 34,
+        "diff": -10
+      },
+      {
+        "key": "Haverhill|MA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 10
+      },
+      {
+        "key": "Apple Valley|MN",
+        "stored": 44,
+        "censusMedianYearBuilt": 1990,
+        "expectedAge": 34,
+        "diff": -10
+      },
+      {
+        "key": "Rochester|MN",
+        "stored": 47,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": -10
+      },
+      {
+        "key": "Carson City|NV",
+        "stored": 34,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 10
+      },
+      {
+        "key": "West New York|NJ",
+        "stored": 51,
+        "censusMedianYearBuilt": 1963,
+        "expectedAge": 61,
+        "diff": 10
+      },
+      {
+        "key": "Edmond|OK",
+        "stored": 22,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": 10
+      },
+      {
+        "key": "Medford|OR",
+        "stored": 32,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 10
+      },
+      {
+        "key": "Springfield|OR",
+        "stored": 38,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 10
+      },
+      {
+        "key": "Brentwood|TN",
+        "stored": 18,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": 10
+      },
+      {
+        "key": "Germantown|TN",
+        "stored": 31,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 10
+      },
+      {
+        "key": "Mesquite|TX",
+        "stored": 31,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 10
+      },
+      {
+        "key": "Sugar Land|TX",
+        "stored": 20,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": 10
+      },
+      {
+        "key": "Taylorsville|UT",
+        "stored": 33,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 10
+      },
+      {
+        "key": "Blacksburg|VA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 10
+      },
+      {
+        "key": "Kennewick|WA",
+        "stored": 34,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 10
+      },
+      {
+        "key": "Kirkland|WA",
+        "stored": 31,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 10
+      },
+      {
+        "key": "Apache Junction|AZ",
+        "stored": 22,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": 9
+      },
+      {
+        "key": "Rogers|AR",
+        "stored": 18,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": 9
+      },
+      {
+        "key": "Modesto|CA",
+        "stored": 37,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 9
+      },
+      {
+        "key": "Ontario|CA",
+        "stored": 35,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 9
+      },
+      {
+        "key": "San Bernardino|CA",
+        "stored": 42,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 9
+      },
+      {
+        "key": "Littleton|CO",
+        "stored": 34,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 9
+      },
+      {
+        "key": "Milford|CT",
+        "stored": 49,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 9
+      },
+      {
+        "key": "Boynton Beach|FL",
+        "stored": 31,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 9
+      },
+      {
+        "key": "Delray Beach|FL",
+        "stored": 32,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 9
+      },
+      {
+        "key": "Weston|FL",
+        "stored": 20,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": 9
+      },
+      {
+        "key": "Peoria|IL",
+        "stored": 49,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 9
+      },
+      {
+        "key": "Kokomo|IN",
+        "stored": 49,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 9
+      },
+      {
+        "key": "Lafayette|LA",
+        "stored": 34,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 9
+      },
+      {
+        "key": "Annapolis|MD",
+        "stored": 41,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 9
+      },
+      {
+        "key": "Bloomington|MN",
+        "stored": 44,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 9
+      },
+      {
+        "key": "Southaven|MS",
+        "stored": 36,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": -9
+      },
+      {
+        "key": "Billings|MT",
+        "stored": 36,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 9
+      },
+      {
+        "key": "Omaha|NE",
+        "stored": 43,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 9
+      },
+      {
+        "key": "Reno|NV",
+        "stored": 26,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": 9
+      },
+      {
+        "key": "Burlington|NC",
+        "stored": 38,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 9
+      },
+      {
+        "key": "Durham|NC",
+        "stored": 39,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": -9
+      },
+      {
+        "key": "Greenville|NC",
+        "stored": 38,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": -9
+      },
+      {
+        "key": "Tulsa|OK",
+        "stored": 43,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 9
+      },
+      {
+        "key": "Lake Oswego|OR",
+        "stored": 33,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 9
+      },
+      {
+        "key": "Irving|TX",
+        "stored": 29,
+        "censusMedianYearBuilt": 1986,
+        "expectedAge": 38,
+        "diff": 9
+      },
+      {
+        "key": "Roy|UT",
+        "stored": 30,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 9
+      },
+      {
+        "key": "St. George|UT",
+        "stored": 15,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 9
+      },
+      {
+        "key": "Conway|AR",
+        "stored": 35,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": -8
+      },
+      {
+        "key": "Bakersfield|CA",
+        "stored": 43,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -8
+      },
+      {
+        "key": "Orange|CA",
+        "stored": 44,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 8
+      },
+      {
+        "key": "Rancho Cucamonga|CA",
+        "stored": 44,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -8
+      },
+      {
+        "key": "Sunnyvale|CA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 8
+      },
+      {
+        "key": "Aurora|CO",
+        "stored": 31,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 8
+      },
+      {
+        "key": "Greeley|CO",
+        "stored": 32,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 8
+      },
+      {
+        "key": "Gainesville|FL",
+        "stored": 33,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 8
+      },
+      {
+        "key": "Alpharetta|GA",
+        "stored": 20,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": 8
+      },
+      {
+        "key": "Savannah|GA",
+        "stored": 45,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 8
+      },
+      {
+        "key": "Tinley Park|IL",
+        "stored": 45,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": -8
+      },
+      {
+        "key": "Columbus|IN",
+        "stored": 51,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": -8
+      },
+      {
+        "key": "Olathe|KS",
+        "stored": 22,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": 8
+      },
+      {
+        "key": "Brockton|MA",
+        "stored": 56,
+        "censusMedianYearBuilt": 1960,
+        "expectedAge": 64,
+        "diff": 8
+      },
+      {
+        "key": "Peabody|MA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 8
+      },
+      {
+        "key": "Waltham|MA",
+        "stored": 54,
+        "censusMedianYearBuilt": 1962,
+        "expectedAge": 62,
+        "diff": 8
+      },
+      {
+        "key": "Midland|MI",
+        "stored": 45,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 8
+      },
+      {
+        "key": "Lakeville|MN",
+        "stored": 18,
+        "censusMedianYearBuilt": 1998,
+        "expectedAge": 26,
+        "diff": 8
+      },
+      {
+        "key": "Shakopee|MN",
+        "stored": 18,
+        "censusMedianYearBuilt": 1998,
+        "expectedAge": 26,
+        "diff": 8
+      },
+      {
+        "key": "Lee's Summit|MO",
+        "stored": 22,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": 8
+      },
+      {
+        "key": "Springfield|MO",
+        "stored": 40,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 8
+      },
+      {
+        "key": "Asheville|NC",
+        "stored": 36,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 8
+      },
+      {
+        "key": "Jacksonville|NC",
+        "stored": 40,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": -8
+      },
+      {
+        "key": "Moore|OK",
+        "stored": 44,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -8
+      },
+      {
+        "key": "Florence|SC",
+        "stored": 34,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 8
+      },
+      {
+        "key": "Dallas|TX",
+        "stored": 36,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 8
+      },
+      {
+        "key": "San Antonio|TX",
+        "stored": 32,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 8
+      },
+      {
+        "key": "Riverton|UT",
+        "stored": 16,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 8
+      },
+      {
+        "key": "West Jordan|UT",
+        "stored": 37,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": -8
+      },
+      {
+        "key": "Greenfield|WI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1973,
+        "expectedAge": 51,
+        "diff": 8
+      },
+      {
+        "key": "Madison|AL",
+        "stored": 31,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": -7
+      },
+      {
+        "key": "Gilbert|AZ",
+        "stored": 15,
+        "censusMedianYearBuilt": 2002,
+        "expectedAge": 22,
+        "diff": 7
+      },
+      {
+        "key": "Maricopa|AZ",
+        "stored": 10,
+        "censusMedianYearBuilt": 2007,
+        "expectedAge": 17,
+        "diff": 7
+      },
+      {
+        "key": "Fort Smith|AR",
+        "stored": 41,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 7
+      },
+      {
+        "key": "Jonesboro|AR",
+        "stored": 41,
+        "censusMedianYearBuilt": 1990,
+        "expectedAge": 34,
+        "diff": -7
+      },
+      {
+        "key": "Fremont|CA",
+        "stored": 39,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 7
+      },
+      {
+        "key": "Hayward|CA",
+        "stored": 45,
+        "censusMedianYearBuilt": 1972,
+        "expectedAge": 52,
+        "diff": 7
+      },
+      {
+        "key": "Huntington Beach|CA",
+        "stored": 43,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 7
+      },
+      {
+        "key": "Pembroke Pines|FL",
+        "stored": 25,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": 7
+      },
+      {
+        "key": "West Palm Beach|FL",
+        "stored": 30,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 7
+      },
+      {
+        "key": "Athens-Clarke County|GA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 7
+      },
+      {
+        "key": "Macon|GA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1976,
+        "expectedAge": 48,
+        "diff": 7
+      },
+      {
+        "key": "Mount Prospect|IL",
+        "stored": 48,
+        "censusMedianYearBuilt": 1969,
+        "expectedAge": 55,
+        "diff": 7
+      },
+      {
+        "key": "Naperville|IL",
+        "stored": 42,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -7
+      },
+      {
+        "key": "Normal|IL",
+        "stored": 42,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -7
+      },
+      {
+        "key": "Carmel|IN",
+        "stored": 20,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": 7
+      },
+      {
+        "key": "Taunton|MA",
+        "stored": 53,
+        "censusMedianYearBuilt": 1964,
+        "expectedAge": 60,
+        "diff": 7
+      },
+      {
+        "key": "Eden Prairie|MN",
+        "stored": 43,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -7
+      },
+      {
+        "key": "Plymouth|MN",
+        "stored": 44,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": -7
+      },
+      {
+        "key": "Nashua|NH",
+        "stored": 57,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": -7
+      },
+      {
+        "key": "Rio Rancho|NM",
+        "stored": 31,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": -7
+      },
+      {
+        "key": "Wilson|NC",
+        "stored": 34,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 7
+      },
+      {
+        "key": "Elyria|OH",
+        "stored": 51,
+        "censusMedianYearBuilt": 1966,
+        "expectedAge": 58,
+        "diff": 7
+      },
+      {
+        "key": "Strongsville|OH",
+        "stored": 50,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": -7
+      },
+      {
+        "key": "Lawton|OK",
+        "stored": 43,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 7
+      },
+      {
+        "key": "Norman|OK",
+        "stored": 43,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": -7
+      },
+      {
+        "key": "Corvallis|OR",
+        "stored": 39,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 7
+      },
+      {
+        "key": "Tigard|OR",
+        "stored": 29,
+        "censusMedianYearBuilt": 1988,
+        "expectedAge": 36,
+        "diff": 7
+      },
+      {
+        "key": "Rock Hill|SC",
+        "stored": 22,
+        "censusMedianYearBuilt": 1995,
+        "expectedAge": 29,
+        "diff": 7
+      },
+      {
+        "key": "Summerville|SC",
+        "stored": 16,
+        "censusMedianYearBuilt": 2001,
+        "expectedAge": 23,
+        "diff": 7
+      },
+      {
+        "key": "Clarksville|TN",
+        "stored": 35,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": -7
+      },
+      {
+        "key": "Johnson City|TN",
+        "stored": 34,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 7
+      },
+      {
+        "key": "El Paso|TX",
+        "stored": 34,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 7
+      },
+      {
+        "key": "Houston|TX",
+        "stored": 36,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 7
+      },
+      {
+        "key": "Richardson|TX",
+        "stored": 32,
+        "censusMedianYearBuilt": 1985,
+        "expectedAge": 39,
+        "diff": 7
+      },
+      {
+        "key": "Murray|UT",
+        "stored": 39,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 7
+      },
+      {
+        "key": "Sandy|UT",
+        "stored": 33,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 7
+      },
+      {
+        "key": "Harrisonburg|VA",
+        "stored": 30,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 7
+      },
+      {
+        "key": "Virginia Beach|VA",
+        "stored": 33,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": 7
+      },
+      {
+        "key": "Pasco|WA",
+        "stored": 31,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": -7
+      },
+      {
+        "key": "Eau Claire|WI",
+        "stored": 43,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 7
+      },
+      {
+        "key": "Green Bay|WI",
+        "stored": 46,
+        "censusMedianYearBuilt": 1971,
+        "expectedAge": 53,
+        "diff": 7
+      },
+      {
+        "key": "Kenosha|WI",
+        "stored": 49,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 7
+      },
+      {
+        "key": "Dothan|AL",
+        "stored": 37,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 6
+      },
+      {
+        "key": "Bullhead City|AZ",
+        "stored": 27,
+        "censusMedianYearBuilt": 1991,
+        "expectedAge": 33,
+        "diff": 6
+      },
+      {
+        "key": "Chandler|AZ",
+        "stored": 21,
+        "censusMedianYearBuilt": 1997,
+        "expectedAge": 27,
+        "diff": 6
+      },
+      {
+        "key": "Oro Valley|AZ",
+        "stored": 22,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": 6
+      },
+      {
+        "key": "Surprise|AZ",
+        "stored": 14,
+        "censusMedianYearBuilt": 2004,
+        "expectedAge": 20,
+        "diff": 6
+      },
+      {
+        "key": "Little Rock|AR",
+        "stored": 40,
+        "censusMedianYearBuilt": 1978,
+        "expectedAge": 46,
+        "diff": 6
+      },
+      {
+        "key": "Santa Rosa|CA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1980,
+        "expectedAge": 44,
+        "diff": 6
+      },
+      {
+        "key": "Stockton|CA",
+        "stored": 39,
+        "censusMedianYearBuilt": 1979,
+        "expectedAge": 45,
+        "diff": 6
+      },
+      {
+        "key": "Centennial|CO",
+        "stored": 36,
+        "censusMedianYearBuilt": 1982,
+        "expectedAge": 42,
+        "diff": 6
+      },
+      {
+        "key": "Thornton|CO",
+        "stored": 22,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": 6
+      },
+      {
+        "key": "Westminster|CO",
+        "stored": 31,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 6
+      },
+      {
+        "key": "Bristol|CT",
+        "stored": 51,
+        "censusMedianYearBuilt": 1967,
+        "expectedAge": 57,
+        "diff": 6
+      },
+      {
+        "key": "Coral Springs|FL",
+        "stored": 31,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": 6
+      },
+      {
+        "key": "Kissimmee|FL",
+        "stored": 26,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": 6
+      },
+      {
+        "key": "Miramar|FL",
+        "stored": 22,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": 6
+      },
+      {
+        "key": "Palm Coast|FL",
+        "stored": 16,
+        "censusMedianYearBuilt": 2002,
+        "expectedAge": 22,
+        "diff": 6
+      },
+      {
+        "key": "Nampa|ID",
+        "stored": 20,
+        "censusMedianYearBuilt": 1998,
+        "expectedAge": 26,
+        "diff": 6
+      },
+      {
+        "key": "Glenview|IL",
+        "stored": 41,
+        "censusMedianYearBuilt": 1977,
+        "expectedAge": 47,
+        "diff": 6
+      },
+      {
+        "key": "Bloomington|IN",
+        "stored": 46,
+        "censusMedianYearBuilt": 1984,
+        "expectedAge": 40,
+        "diff": -6
+      },
+      {
+        "key": "Lafayette|IN",
+        "stored": 48,
+        "censusMedianYearBuilt": 1970,
+        "expectedAge": 54,
+        "diff": 6
+      },
+      {
+        "key": "Ames|IA",
+        "stored": 39,
+        "censusMedianYearBuilt": 1991,
+        "expectedAge": 33,
+        "diff": -6
+      },
+      {
+        "key": "Urbandale|IA",
+        "stored": 38,
+        "censusMedianYearBuilt": 1992,
+        "expectedAge": 32,
+        "diff": -6
+      },
+      {
+        "key": "Lexington-Fayette|KY",
+        "stored": 35,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": 6
+      },
+      {
+        "key": "Gaithersburg|MD",
+        "stored": 41,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -6
+      },
+      {
+        "key": "Methuen|MA",
+        "stored": 50,
+        "censusMedianYearBuilt": 1968,
+        "expectedAge": 56,
+        "diff": 6
+      },
+      {
+        "key": "Kentwood|MI",
+        "stored": 47,
+        "censusMedianYearBuilt": 1983,
+        "expectedAge": 41,
+        "diff": -6
+      },
+      {
+        "key": "Eagan|MN",
+        "stored": 43,
+        "censusMedianYearBuilt": 1987,
+        "expectedAge": 37,
+        "diff": -6
+      },
+      {
+        "key": "Cape Girardeau|MO",
+        "stored": 43,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 6
+      },
+      {
+        "key": "O'Fallon|MO",
+        "stored": 18,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 6
+      },
+      {
+        "key": "Bozeman|MT",
+        "stored": 20,
+        "censusMedianYearBuilt": 1998,
+        "expectedAge": 26,
+        "diff": 6
+      },
+      {
+        "key": "Henderson|NV",
+        "stored": 18,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 6
+      },
+      {
+        "key": "Las Vegas|NV",
+        "stored": 36,
+        "censusMedianYearBuilt": 1994,
+        "expectedAge": 30,
+        "diff": -6
+      },
+      {
+        "key": "North Las Vegas|NV",
+        "stored": 16,
+        "censusMedianYearBuilt": 2002,
+        "expectedAge": 22,
+        "diff": 6
+      },
+      {
+        "key": "Huber Heights|OH",
+        "stored": 43,
+        "censusMedianYearBuilt": 1975,
+        "expectedAge": 49,
+        "diff": 6
+      },
+      {
+        "key": "Broken Arrow|OK",
+        "stored": 25,
+        "censusMedianYearBuilt": 1993,
+        "expectedAge": 31,
+        "diff": 6
+      },
+      {
+        "key": "Midwest City|OK",
+        "stored": 44,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 6
+      },
+      {
+        "key": "Oklahoma City|OK",
+        "stored": 37,
+        "censusMedianYearBuilt": 1981,
+        "expectedAge": 43,
+        "diff": 6
+      },
+      {
+        "key": "Bend|OR",
+        "stored": 18,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 6
+      },
+      {
+        "key": "Warwick|RI",
+        "stored": 57,
+        "censusMedianYearBuilt": 1961,
+        "expectedAge": 63,
+        "diff": 6
+      },
+      {
+        "key": "Mount Pleasant|SC",
+        "stored": 18,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 6
+      },
+      {
+        "key": "Hendersonville|TN",
+        "stored": 41,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -6
+      },
+      {
+        "key": "League City|TX",
+        "stored": 16,
+        "censusMedianYearBuilt": 2002,
+        "expectedAge": 22,
+        "diff": 6
+      },
+      {
+        "key": "Lewisville|TX",
+        "stored": 34,
+        "censusMedianYearBuilt": 1996,
+        "expectedAge": 28,
+        "diff": -6
+      },
+      {
+        "key": "Midland|TX",
+        "stored": 32,
+        "censusMedianYearBuilt": 1986,
+        "expectedAge": 38,
+        "diff": 6
+      },
+      {
+        "key": "Draper|UT",
+        "stored": 15,
+        "censusMedianYearBuilt": 2003,
+        "expectedAge": 21,
+        "diff": 6
+      },
+      {
+        "key": "Spanish Fork|UT",
+        "stored": 18,
+        "censusMedianYearBuilt": 2000,
+        "expectedAge": 24,
+        "diff": 6
+      },
+      {
+        "key": "Chesapeake|VA",
+        "stored": 41,
+        "censusMedianYearBuilt": 1989,
+        "expectedAge": 35,
+        "diff": -6
+      },
+      {
+        "key": "Brookfield|WI",
+        "stored": 44,
+        "censusMedianYearBuilt": 1974,
+        "expectedAge": 50,
+        "diff": 6
+      }
+    ],
+    "unmatched": []
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"found\": true,\n  \"material\": \"architectural\",\n  \"materialLabel\": \"Architectural Shingles\",\n  \"materialTag\": \"Most popular. 25-30 year warranty. Dimensional look.\",\n  \"brands\": \"GAF Timberline HDZ, OC Duration, CertainTeed Landmark, Malarkey Vista\",\n  \"stateCode\": \"NC\",\n  \"pitch\": \"standard\",\n  \"complexity\": \"moderate\",\n  \"layers\": \"one\",\n  \"multipliers\": {\n    \"state\": 0.92,\n    \"pitch\": 1,\n    \"complexity\": 1.15,\n    \"layers\": 1,\n    \"total\": 1.058\n  },\n  \"perSquareBaseline\": {\n    \"low\": 400,\n    \"mid\": 525,\n    \"high\": 650\n  },\n  \"perSquareAdjusted\": {\n    \"low\": 423,\n    \"mid\": 555,\n    \"high\": 688\n  },\n  \"methodology\": \"Baseline per-square cost for Architectural Shingles adjusted by state (0.92x), pitch (1x), complexity (1.15x), and layers (1x).\"\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 3
+}

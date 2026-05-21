@@ -1,0 +1,65 @@
+
+=== ANALYZE: ana-real-07-jeep-body (07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg) ===
+  shot: ana-real-07-jeep-body-01-upload-page
+  uploaded 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+  [ana-real-07-jeep-body] log [TP_Engine] vertical=auto price=2019 source=regex ocrChars=816 ocrConf=85% aiCalled=false
+  shot (full): ana-real-07-jeep-body-02-after-parse
+  dump: ana-real-07-jeep-body-02-after-parse.txt (180 chars)
+  detected price: $686
+  ocr 816 chars: WOrKime 1: Estimate of Record | 2019 JEEP Grand Cherokee Limited 4WD 4D UTV 6-3.6L Gasoline Sequential MP! Slate Blue Pearlcoat ESTIMATE TOTALS Category Basis Rate Cost § Parts 324.08 Body Labor 4...
+  clicked confirm
+  shot (full): ana-real-07-jeep-body-04-result
+  dump: ana-real-07-jeep-body-04-result.txt (1934 chars)
+
+=== ANALYZE: ana-real-09-audi-recommends (09-am-i-crazy-or-is-this-quote.jpg) ===
+  shot: ana-real-09-audi-recommends-01-upload-page
+  uploaded 09-am-i-crazy-or-is-this-quote.jpg
+  [ana-real-09-audi-recommends] log [TP_Engine] vertical=auto price=2543.94 source=regex ocrChars=281 ocrConf=93% aiCalled=false
+  shot (full): ana-real-09-audi-recommends-02-after-parse
+  dump: ana-real-09-audi-recommends-02-after-parse.txt (182 chars)
+  detected price: $2,544
+  ocr 281 chars: Services $0.00 Additional Service Recommendations Pollen Filter - Replace $234.25 Oil and Filter - Change $189.52 MOUNT AND BALANCE 4 TIRES $1335.11 PERFORM ALL WHEEL DRIVE $299.99 FRONT AND REAR...
+  clicked confirm
+  shot (full): ana-real-09-audi-recommends-04-result
+  dump: ana-real-09-audi-recommends-04-result.txt (1839 chars)
+
+=== COMPARE: cmp-3way-brake ===
+  shot: cmp-3way-brake-01-upload-page
+  uploaded slot 0: comparison-brake-01-shop-a-low.png
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=327.6 source=regex ocrChars=587 ocrConf=91% aiCalled=false
+  uploaded slot 1: comparison-brake-02-shop-b-mid.png
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=564 source=regex ocrChars=547 ocrConf=91% aiCalled=false
+  uploaded slot 2: comparison-brake-03-shop-c-high.png
+  [cmp-3way-brake] log [TP_Engine] vertical=auto price=919 source=regex ocrChars=699 ocrConf=90% aiCalled=false
+  shot (full): cmp-3way-brake-02-after-uploads
+  compare button enabled: true
+  shot (full): cmp-3way-brake-03-results
+  dump: cmp-3way-brake-03-results.txt (2686 chars)
+
+=== COMPARE: cmp-2way-real-mix ===
+  shot: cmp-2way-real-mix-01-upload-page
+  uploaded slot 0: 07-our-estimate-was-just-under-4900-this-is-just-ridi.jpeg
+  [cmp-2way-real-mix] log [TP_Engine] vertical=auto price=2019 source=regex ocrChars=816 ocrConf=85% aiCalled=false
+  uploaded slot 1: 09-am-i-crazy-or-is-this-quote.jpg
+  [cmp-2way-real-mix] log [TP_Engine] vertical=auto price=2543.94 source=regex ocrChars=281 ocrConf=93% aiCalled=false
+  shot (full): cmp-2way-real-mix-02-after-uploads
+  compare button enabled: true
+  shot (full): cmp-2way-real-mix-03-results
+  dump: cmp-2way-real-mix-03-results.txt (2439 chars)
+
+=== MOBILE ===
+  shot (full): mobile-01-landing
+  shot (full): mobile-02-estimate-path
+  shot (full): mobile-03-quote-path
+  shot (full): mobile-04-cost-guide
+  shot (full): mobile-05-cost-estimate
+  shot (full): mobile-06-compare
+
+=== LANDING PAGES ===
+  shot (full): landing-01-cost-guide
+  shot (full): landing-02-cost-estimate
+  shot (full): landing-03-charlotte-nc
+  shot (full): landing-03-san-francisco-ca
+  shot (full): landing-03-tampa-fl
+
+DONE walk2.

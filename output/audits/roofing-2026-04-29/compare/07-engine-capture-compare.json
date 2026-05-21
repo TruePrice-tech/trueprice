@@ -1,0 +1,24 @@
+[
+  {
+    "opts": {
+      "vertical": "roofing",
+      "apiEndpoint": "/api/parse-quote"
+    },
+    "price": 14800,
+    "material": "asphalt",
+    "materialLabel": "Unknown",
+    "contractor": "Not detected",
+    "ocrLen": 826
+  },
+  {
+    "opts": {
+      "vertical": "roofing",
+      "apiEndpoint": "/api/parse-quote"
+    },
+    "price": 16765.79,
+    "material": "metal",
+    "materialLabel": "Metal roofing",
+    "contractor": "Not detected",
+    "ocrLen": 1484
+  }
+]

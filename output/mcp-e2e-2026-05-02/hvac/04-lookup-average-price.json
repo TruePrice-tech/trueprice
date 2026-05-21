@@ -1,0 +1,12 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"found\": true,\n  \"systemType\": \"heat_pump\",\n  \"systemLabel\": \"Heat Pump (Heating + Cooling)\",\n  \"efficiencyTier\": \"16_seer\",\n  \"stateCode\": \"NC\",\n  \"stateMultiplier\": 0.92,\n  \"baselineTotal\": [\n    4800,\n    8000\n  ],\n  \"adjustedTotal\": [\n    4416,\n    7360\n  ],\n  \"equipmentBaseline\": [\n    3000,\n    5000\n  ],\n  \"laborBaseline\": [\n    1800,\n    3000\n  ],\n  \"notes\": \"Heats and cools. Federal 25C tax credit expired Dec 31, 2025 - state/utility rebates may still apply. Best for moderate climates. 2026 installs must use A2L refrigerant (R-454B or R-32), not R-410A.\",\n  \"methodology\": \"Baseline total for Heat Pump (Heating + Cooling) at 16_seer efficiency, adjusted by state multiplier 0.92x.\"\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 3
+}

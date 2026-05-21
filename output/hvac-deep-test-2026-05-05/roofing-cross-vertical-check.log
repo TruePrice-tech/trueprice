@@ -1,0 +1,13 @@
+  f1-gaf ... FAIL
+     - contractor: expected match /green\s*ladder/, got "Not detected"
+  f2-scope-doc ... OK
+  f3-budget ... OK
+  f4-heritage ... OK
+  f5-pinnacle ... OK
+  f6-metal-136k ... OK
+  f7-handwritten ... OK
+
+=== vs baseline ===
+No deltas vs baseline.
+
+Total failures: 1

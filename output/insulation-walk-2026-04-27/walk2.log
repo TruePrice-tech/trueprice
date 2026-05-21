@@ -1,0 +1,39 @@
+
+=== ANALYZE (mock-01.png) ===
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] log Error
+  no file input
+
+=== ANALYZE (mock-05.png) ===
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] log Error
+  no file input
+
+=== ANALYZE (mock-09.png) ===
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] error Failed to load resource: the server responded with a status of 403 ()
+  [analyze console] log Error
+  no file input
+
+=== COMPARE PATH ===
+  [compare console] error Failed to load resource: the server responded with a status of 403 ()
+  [compare console] error Failed to load resource: the server responded with a status of 403 ()
+  [compare console] log Error
+  shot (full): c-01-landing
+  file inputs found: 0
+  shot (full): c-02-after-uploads
+  compare button clicked: null
+  shot (full): c-03-result
+  HEADINGS: []
+  BODY (first 60 lines):
+    Failed to verify your browser
+    
+    Code 21
+    
+    Vercel Security Checkpoint
+    
+    |
+    
+    iad1::1777335867-ZhleCuRhw4K8pUC1eB7oIehPpXKlqF4c

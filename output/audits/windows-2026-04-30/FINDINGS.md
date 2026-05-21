@@ -1,0 +1,17 @@
+# Windows — Audit Findings (2026-04-30 / REDO)
+
+Status: **CLOSED at depth (REDO)** — re-tested live post-fix
+
+## Fixes (commit `ce726bfe10`)
+- Inline guard added to window-quote-analyzer.html (windows/window alias)
+- SEO-hide added to compare-windows-quotes.html
+
+## Live re-test (post-deploy)
+| Path | H1 | Body | Trust | SEO hidden |
+|---|---|---|---|---|
+| analyze/roof | "This is not a Windows quote" ✓ | "looks like a roofing quote" ✓ | ✓ | 3/3 ✓ |
+| analyze/HVAC | same ✓ | "looks like an HVAC quote" ✓ | ✓ | 3/3 ✓ |
+| analyze/auto | same ✓ | "looks like an auto repair quote" ✓ | ✓ | 3/3 ✓ |
+| compare/roof | same ✓ | "looks like a roofing quote" ✓ | ✓ | 3/3 ✓ |
+
+Coverage gaps: 01-initial, 04-cta×4, 05-unhappy×3, estimate. **Closed.**

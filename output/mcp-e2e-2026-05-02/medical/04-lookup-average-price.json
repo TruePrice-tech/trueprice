@@ -1,0 +1,12 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"success\": true,\n  \"found\": true,\n  \"cpt_code\": \"99284\",\n  \"description\": \"ER visit (L4)\",\n  \"category\": \"emergency\",\n  \"notes\": \"Urgent\",\n  \"base_medicare_rate\": 250,\n  \"adjusted_medicare_rate\": 238,\n  \"commercial_estimate\": 606,\n  \"fair_price_range\": [\n    238,\n    666\n  ],\n  \"state_applied\": \"NC\",\n  \"state_multiplier\": 0.95,\n  \"facility_applied\": \"hospital_outpatient\",\n  \"facility_multiplier\": 1,\n  \"commercial_multiplier\": 2.55,\n  \"methodology\": \"Medicare base rate 250 adjusted by state GPCI (0.95x) and facility (1x). Commercial estimate uses 2.55x Medicare benchmark.\"\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 3
+}

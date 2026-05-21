@@ -1,0 +1,186 @@
+{
+  "url": "https://woogoro.com/roofing-quote-analyzer.html",
+  "template": "toolNoindex",
+  "parsed": {
+    "title": "Roofing Quote Analyzer | Woogoro",
+    "description": "Upload your roofing quote and get a free price check, scope analysis, and red flag detection in 30 seconds.",
+    "canonical": "https://woogoro.com/roofing-quote-analyzer.html",
+    "robots": "index,follow",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "Roofing Quote Analyzer | Woogoro",
+      "og:description": "Upload your roofing quote and get a free price check, scope analysis, and red flag detection in 30 seconds.",
+      "og:type": "website",
+      "og:url": "https://woogoro.com/roofing-quote-analyzer.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Roofing Quote Analyzer | Woogoro"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Roofing Quote Analyzer | Woogoro",
+      "twitter:description": "Upload your roofing quote and get a free price check, scope analysis, and red flag detection in 30 seconds.",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Woogoro Roofing Quote Analyzer",
+        "url": "https://woogoro.com/roofing-quote-analyzer.html",
+        "description": "Upload any roofing contractor quote to check if the price is fair. AI-powered analysis with local pricing data.",
+        "applicationCategory": "UtilityApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "operatingSystem": "Web",
+        "provider": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://woogoro.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Roofing",
+            "item": "https://woogoro.com/roofing-quote-analyzer.html"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Woogoro Roofing Quote Analyzer",
+        "applicationCategory": "UtilitiesApplication",
+        "applicationSubCategory": "Quote Analyzer",
+        "operatingSystem": "Web Browser",
+        "url": "https://woogoro.com/roofing-quote-analyzer.html",
+        "description": "Free analyzer for roofing quotes. Upload your quote and check the price, scope, and red flags. No email or signup required.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to check if your roofing quote is fair",
+        "description": "Use the Woogoro analyzer to compare a contractor quote against city-specific roofing pricing in under a minute.",
+        "totalTime": "PT1M",
+        "estimatedCost": {
+          "@type": "MonetaryAmount",
+          "currency": "USD",
+          "value": "0"
+        },
+        "tool": [
+          {
+            "@type": "HowToTool",
+            "name": "Your roofing contractor quote (PDF, photo, or text)"
+          }
+        ],
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Upload your quote",
+            "text": "Drag your roofing quote into the analyzer or paste the text. PDFs, photos, and screenshots all work."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Enter your city",
+            "text": "Choose your city so pricing is benchmarked against local cost-of-living and labor rates."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Review the price check",
+            "text": "See where your quote falls in the local price range, what scope items may be missing, and any red flags in the fine print."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "Use the questions to push back",
+            "text": "Take the contractor follow-up questions Woogoro generates into your conversation with the contractor."
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What should be on a legitimate roofing quote?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Total installed cost, roof size in squares, shingle brand + product line, underlayment type, ice and water shield coverage, flashing replacement scope, drip edge and starter strip, ridge vent specs, decking repair allowance, permit details, and warranty terms (manufacturer + workmanship)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I know if my roofing quote is a fair price?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Compare the per-square or per-square-foot price against local benchmarks for the same shingle tier and scope. A typical architectural shingle job runs $4.50-$8.50/sq ft installed. Lower than that usually means skipped tear-off, cheap underlayment, or reused flashing. Higher than $10/sq ft should include premium shingles or complex pitch/access."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are red flags in a roofing quote?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Roof-over instead of tear-off, missing underlayment brand, no drip edge or starter strip listed, no decking repair rate, mixed-brand materials claiming a \"lifetime\" warranty, vague \"standard\" workmanship warranty, and missing permit details."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What's the difference between workmanship and manufacturer warranty?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Manufacturer warranty covers defective shingles (25 years to lifetime from GAF, Owens Corning, etc.) but often excludes labor to replace them. Workmanship warranty (2-10 years from contractor) covers install errors, leaks, and labor. Both matter - a cheap contractor with a 1-year workmanship warranty is a risk."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I accept a verbal quote or emailed number?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Every legitimate roofing contract should be itemized in writing with scope, materials, warranty terms, timeline, payment schedule, and license/insurance details. Verbal agreements are effectively unenforceable when problems arise."
+            }
+          }
+        ]
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 34
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/roofing-quote-analyzer.html",
+      "summary": "tool page MUST be noindex but isn't",
+      "detail": "robots=\"index,follow\""
+    }
+  ]
+}

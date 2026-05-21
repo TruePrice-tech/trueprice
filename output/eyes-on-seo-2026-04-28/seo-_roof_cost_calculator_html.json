@@ -1,0 +1,43 @@
+{
+  "url": "https://woogoro.com/roof-cost-calculator.html",
+  "template": "calculator",
+  "parsed": {
+    "title": "Roof Cost Calculator | Woogoro",
+    "description": "Estimate your roof replacement cost by square footage and material type. Use the Woogoro roof cost calculator to benchmark your quote.",
+    "canonical": null,
+    "robots": "",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {},
+    "twitterTags": {},
+    "jsonLdBlocks": [],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 1
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-cost-calculator.html",
+      "summary": "canonical link tag missing",
+      "detail": ""
+    },
+    {
+      "severity": "high",
+      "screenshot": "seo:/roof-cost-calculator.html",
+      "summary": "JSON-LD missing required type (SoftwareApplication|WebApplication)",
+      "detail": "Found 0 block(s); none had @type matching SoftwareApplication|WebApplication."
+    },
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-cost-calculator.html",
+      "summary": "missing OG tag(s): og:title, og:description, og:url",
+      "detail": "Affects link previews on social + AI search snippets."
+    },
+    {
+      "severity": "medium",
+      "screenshot": "seo:/roof-cost-calculator.html",
+      "summary": "internal-link count below floor (1 < 3)",
+      "detail": "Hub/metro pages need internal-link density to rank."
+    }
+  ]
+}

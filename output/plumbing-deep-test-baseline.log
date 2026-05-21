@@ -1,0 +1,20 @@
+  f1-budget-tank-low ... FAIL
+     - contractor: expected match /budget\s*plumbing/, got null
+  f2-westside-tank-mid ... FAIL
+     - contractor: expected match /westside\s*plumbing/, got null
+  f3-premier-tankless-high ... FAIL
+     - contractor: expected match /premier\s*home\s*plumbing/, got null
+  f4-budget-tank-messy ... FAIL
+     - contractor: expected match /budget\s*plumbing/, got null
+  f5-westside-tank-messy ... FAIL
+     - contractor: expected match /westside\s*plumbing/, got null
+  f6-premier-tankless-messy ... FAIL
+     - contractor: expected match /premier\s*home\s*plumbing/, got null
+  f7-roto-rooter-redacted ... FAIL
+     - stateCode: expected null, got "IN"
+  f8-indirect-wh-page1 ... FAIL
+     - subType: expected match /indirect/, got ""
+
+Baseline written: C:\Users\lanea\OneDrive\Desktop\TrueP Misc\trueprice\test\plumbing\fixture-ground-truth.baseline.json
+
+Total failures: 8

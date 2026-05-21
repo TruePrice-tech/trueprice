@@ -1,0 +1,30 @@
+{
+  "analyze_roof": {
+    "h1": "This is not a Medical bill",
+    "bodyText": "The document you uploaded looks like a roofing quote.",
+    "trustBannerVisible": true,
+    "seoAnyVisible": false,
+    "seoCount": 0
+  },
+  "analyze_hvac": {
+    "h1": "This is not a Medical bill",
+    "bodyText": "The document you uploaded looks like an HVAC quote.",
+    "trustBannerVisible": true,
+    "seoAnyVisible": false,
+    "seoCount": 0
+  },
+  "analyze_auto": {
+    "h1": "This is not a Medical bill",
+    "bodyText": "The document you uploaded looks like an auto repair quote.",
+    "trustBannerVisible": true,
+    "seoAnyVisible": false,
+    "seoCount": 0
+  },
+  "compareReject": {
+    "h1": "This is not a Medical bill",
+    "bodyText": "The document you uploaded looks like a roofing quote.",
+    "trustBannerVisible": true,
+    "seoAnyVisible": false,
+    "seoCount": 3
+  }
+}

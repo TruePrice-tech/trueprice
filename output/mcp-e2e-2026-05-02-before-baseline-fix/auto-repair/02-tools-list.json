@@ -1,0 +1,152 @@
+{
+  "result": {
+    "tools": [
+      {
+        "name": "parse_quote",
+        "description": "Analyze an auto repair / mechanic shop quote or invoice. Extracts shop name, shop type (dealer/independent/chain), total price, labor rate, labor hours, parts vs labor breakdown, vehicle (year/make/model + mileage), individual repair line items with urgency ranking (critical/soon/can_wait/maintenance), parts type (OEM/aftermarket/reman), and possible upsells. Detects red flags like inflated labor hours vs Mitchell/AllData book time, suspicious 'while you're here' add-ons, missing parts warranty disclosure, and dealer-only-required repairs that an independent can do.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "quote_text": {
+              "type": "string",
+              "description": "The full text of the auto repair quote/invoice. Optional if quote_images is provided."
+            },
+            "quote_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Up to 3 base64-encoded image data URLs of the quote."
+            }
+          }
+        }
+      },
+      {
+        "name": "check_errors",
+        "description": "Audit an auto repair quote and return ranked findings: red flags from the analyzer, scope/transparency gaps, urgency-mismatch (critical-vs-can-wait), and possible upsells. Useful when the user wants the issue list without re-extracting structured data.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "parsed_quote": {
+              "type": "object",
+              "description": "Previously-parsed auto repair quote object from parse_quote."
+            },
+            "quote_text": {
+              "type": "string"
+            },
+            "quote_images": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "lookup_average_price",
+        "description": "Look up typical hourly labor rates for auto repair shops by shop type (dealer, independent, chain) and state. Useful for benchmarking the labor rate on a specific quote against the market. Dealerships are typically 30-50% more per hour than independents but may be required for warranty work.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "shop_type": {
+              "type": "string",
+              "enum": [
+                "dealer",
+                "independent",
+                "chain"
+              ],
+              "description": "Type of repair shop. 'independent' = mom-and-pop, 'chain' = Midas/Firestone/Pep Boys, 'dealer' = OEM dealership."
+            },
+            "state_code": {
+              "type": "string",
+              "description": "Two-letter US state code (e.g., 'CA', 'TX')."
+            }
+          },
+          "required": [
+            "shop_type"
+          ]
+        }
+      },
+      {
+        "name": "draft_dispute",
+        "description": "Draft a written dispute letter to an auto repair shop or dealer. Tailored to common auto repair disputes: inflated labor hours, unauthorized work, diagnostic fee not credited, parts type mismatch (OEM billed but aftermarket installed), Magnuson-Moss warranty issues (manufacturer voiding warranty over aftermarket parts), recall/TSB work charged when it should be free, and general shop billing concerns.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "issue_type": {
+              "type": "string",
+              "enum": [
+                "labor_hours_inflated",
+                "unauthorized_work",
+                "diagnostic_fee_not_credited",
+                "parts_type_mismatch",
+                "warranty_void_threat",
+                "recall_or_tsb",
+                "shop_supplies_fee",
+                "general"
+              ]
+            },
+            "shop_name": {
+              "type": "string"
+            },
+            "customer_name": {
+              "type": "string"
+            },
+            "vehicle": {
+              "type": "string",
+              "description": "Year/make/model and VIN if known"
+            },
+            "quote_amount": {
+              "type": "number"
+            },
+            "issue_detail": {
+              "type": "string",
+              "description": "Brief description of the specific issue"
+            }
+          },
+          "required": [
+            "issue_type",
+            "issue_detail"
+          ]
+        }
+      },
+      {
+        "name": "negotiation_script",
+        "description": "Generate a phone or in-person negotiation script for an auto repair conversation. Tailored to common scenarios: leveraging a second-opinion quote, negotiating after the diagnostic, requesting independent shop alternative to dealer-only quote, asking for OEM part coverage, and disputing inflated labor hours. Includes opening, asks, common pushbacks, closing.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "scenario": {
+              "type": "string",
+              "enum": [
+                "second_opinion_leverage",
+                "labor_hours_pushback",
+                "independent_vs_dealer",
+                "diagnostic_credit_request",
+                "warranty_extension"
+              ]
+            },
+            "shop_name": {
+              "type": "string"
+            },
+            "quote_amount": {
+              "type": "number"
+            },
+            "competing_quote_amount": {
+              "type": "number"
+            },
+            "target_price": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "scenario"
+          ]
+        }
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}

@@ -1,0 +1,8 @@
+=== ANALYZE only (extended 5min timeout) ===
+  frame nav: https://woogoro.com/window-quote-analyzer.html
+  [error]: Failed to load resource: the server responded with a status of 403 ()
+  [error]: Failed to load resource: the server responded with a status of 403 ()
+  [log]: Error
+FATAL: Cannot read properties of null (reading 'uploadFile')
+ERROR: The process with PID 22912 (child process of PID 26792) could not be terminated.
+Reason: There is no running instance of the task.

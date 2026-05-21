@@ -1,0 +1,58 @@
+{
+  "url": "https://woogoro.com/compare-fencing-quotes.html",
+  "template": "toolNoindex",
+  "parsed": {
+    "title": "Compare Fence Installation Quotes Side by Side | Woogoro",
+    "description": "Upload 2 or 3 fence install quotes and we",
+    "canonical": "https://woogoro.com/compare-fencing-quotes.html",
+    "robots": "index,follow",
+    "h1Count": 1,
+    "skipLink": true,
+    "ogTags": {
+      "og:title": "Compare Fence Installation Quotes Side by Side | Woogoro",
+      "og:description": "Upload 2 or 3 fence install quotes and we",
+      "og:type": "website",
+      "og:url": "https://woogoro.com/compare-fencing-quotes.html",
+      "og:site_name": "Woogoro",
+      "og:image": "https://woogoro.com/images/woogoro-social.png",
+      "og:image:alt": "Compare Fence Installation Quotes Side by Side | Woogoro"
+    },
+    "twitterTags": {
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Compare Fence Installation Quotes Side by Side | Woogoro",
+      "twitter:description": "Upload 2 or 3 fence install quotes and we",
+      "twitter:image": "https://woogoro.com/images/woogoro-social.png"
+    },
+    "jsonLdBlocks": [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Woogoro Compare Fence Installation Quotes Side by Side",
+        "url": "https://woogoro.com/compare-fencing-quotes.html",
+        "description": "Upload 2 or 3 fence install quotes and we'll show you which is the best $/linear foot for the material, height, and post type.",
+        "applicationCategory": "UtilityApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "operatingSystem": "Web",
+        "provider": {
+          "@type": "Organization",
+          "name": "Woogoro",
+          "url": "https://woogoro.com"
+        }
+      }
+    ],
+    "jsonLdParseErrors": [],
+    "internalLinkCount": 22
+  },
+  "issues": [
+    {
+      "severity": "high",
+      "screenshot": "seo:/compare-fencing-quotes.html",
+      "summary": "tool page MUST be noindex but isn't",
+      "detail": "robots=\"index,follow\""
+    }
+  ]
+}

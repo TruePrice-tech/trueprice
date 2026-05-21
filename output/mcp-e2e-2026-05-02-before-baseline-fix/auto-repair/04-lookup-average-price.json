@@ -1,0 +1,12 @@
+{
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"found\": true,\n  \"shopType\": \"independent\",\n  \"shopTypeLabel\": \"Independent Shop\",\n  \"stateCode\": \"NC\",\n  \"stateMultiplier\": 0.88,\n  \"nationalMedianLaborRate\": 140,\n  \"laborRatePerHour\": {\n    \"baseline\": {\n      \"low\": 80,\n      \"mid\": 105,\n      \"high\": 130\n    },\n    \"adjusted\": {\n      \"low\": 70,\n      \"mid\": 92,\n      \"high\": 114\n    }\n  },\n  \"methodology\": \"Hourly labor rate range for Independent Shop, adjusted by state cost multiplier (0.88x).\",\n  \"notes\": [\n    \"Dealerships are typically 30-50% more expensive per hour than independents but may be required for warranty work or complex models.\",\n    \"Chains (Midas, Firestone, Pep Boys) sit between dealer and independent on labor rate but often charge for unnecessary upsells.\",\n    \"Always ask for the hourly labor rate AND the labor hours billed — both should be on the invoice.\"\n  ]\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 3
+}

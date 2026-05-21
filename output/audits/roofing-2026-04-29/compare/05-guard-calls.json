@@ -1,0 +1,40 @@
+[
+  {
+    "vertical": "roofing",
+    "ocrLen": 449,
+    "ocrSample": "— oo oo\nI Created By i\nRE —— Created: oe\n)\nModified By.\n0 Modified: <a\nQuote\n2014 Chevrolet Equinox\n| Item Price [on Item Total |\nMCA SCBS50540 $193.19 1 $193.19\nMasterPro Control Arms Control Arm And",
+    "detected": {
+      "top": "auto",
+      "score": 7,
+      "all": [
+        {
+          "vertical": "auto",
+          "score": 7,
+          "label": "Auto Repair",
+          "url": "/auto-repair.html?path=quote"
+        }
+      ]
+    },
+    "returnValue": true,
+    "cardHtmlAfter": "<div style=\"padding:24px 16px;text-align:center;\"><h1 style=\"font-size:22px;color:#991b1b;\">This is not a Roofing quote</h1></div><div style=\"text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;\"><picture><source srcset=\"/images/Iris/Iris%20concerned.webp\" type=\"image/webp\"><img src=\"/images/Iris/Iris%20concerned.png\" alt"
+  },
+  {
+    "vertical": "roofing",
+    "ocrLen": 1484,
+    "ocrSample": "Description\n\nGAF Timberline HDZ Shingle Overlay (Title 24 Complaint)\n\nThis proposal is based on the assumption of 1 layer - if your roof has more than one layer we will not be able to preform this\nins",
+    "detected": {
+      "top": "roofing",
+      "score": 4,
+      "all": [
+        {
+          "vertical": "roofing",
+          "score": 4,
+          "label": "Roofing",
+          "url": "/roofing-quote-analyzer.html?path=quote"
+        }
+      ]
+    },
+    "returnValue": false,
+    "cardHtmlAfter": "<div style=\"padding:24px 16px;text-align:center;\"><h1 style=\"font-size:22px;color:#991b1b;\">This is not a Roofing quote</h1></div><div style=\"text-align:center;max-width:540px;margin:0 auto;padding:32px 24px;border:2px solid #fecaca;background:#fef2f2;border-radius:14px;\"><picture><source srcset=\"/images/Iris/Iris%20concerned.webp\" type=\"image/webp\"><img src=\"/images/Iris/Iris%20concerned.png\" alt"
+  }
+]
