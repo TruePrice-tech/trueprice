@@ -47,6 +47,7 @@ function buildPageFilename(city, stateCode) {
 
 
 const {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -73,6 +74,7 @@ function getInsulationFAQContext(city, stateCode) {
 // forcing the question would manufacture false per-city specificity.
 function buildInsulationFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getInsulationFAQContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -97,13 +99,16 @@ function buildInsulationFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "insulation type and R-value",
     materialOrSystemNote: ctx.materialTip,
-    climateLeadIn: true ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: true ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: "insulation contractor",
     redFlagNote: ctx.redFlagNote,
+  hoaPrevalence: shared.hoaPrevalence,
+  growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\n\n");

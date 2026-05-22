@@ -25,26 +25,25 @@ const SAMPLE = 60;
 const SEED = 20260522;
 
 // Phase 5 regression floors — initial set 2026-05-22 after Phase 3 shipped,
-// ratcheted same day after Phase 4 body-wrap pass. NON-aspirational; they
-// protect the Phase 3 FAQ-binding work + Phase 4 body-aside work from
-// regression. Ratchet up when a phase ships a meaningful lift; do NOT
-// ratchet from short-term noise.
+// ratcheted same day twice: once after Phase 4 body-wrap pass, again after
+// Phase 4 Q-stem variation. NON-aspirational; they protect the
+// data-binding + Q-stem work from regression. Ratchet up when a phase
+// ships a meaningful lift; do NOT ratchet from short-term noise.
 //
-//   Per-vertical FAQ-slice composite >= 55%.
-//     Current Tier B min: roof 58% (3pp buffer).
-//   Page-weighted FAQ-slice composite >= 68% (ratcheted up from 65%).
-//     Current: 70% (2pp buffer post-Phase-3).
-//   Page-weighted FULL-body composite >= 64% (ratcheted up from 60%).
-//     Current: 68% (4pp buffer post-Phase-4).
+//   Per-vertical FAQ-slice composite >= 60%.
+//     Current Tier B min: roof 64%, garage-door 67% (4pp / 7pp buffer).
+//   Page-weighted FAQ-slice composite >= 73% (ratcheted from 68%).
+//     Current: 78% (5pp buffer post-Q-stem variation).
+//   Page-weighted FULL-body composite >= 67% (ratcheted from 64%).
+//     Current: 71% (4pp buffer).
 //
 // Tier A verticals (auto-repair/medical/legal/moving) are excluded from
 // the per-vertical FAQ-floor check — they pre-date this remediation and
-// score 86-100%, so any drop is also a regression worth flagging through
-// the page-weighted gate.
+// score 86-100%, so any drop is flagged through the page-weighted gate.
 const GATE_FLOORS = {
-  perVerticalFAQMin: 55,
-  pageWeightedFAQMin: 68,
-  pageWeightedFullMin: 64,
+  perVerticalFAQMin: 60,
+  pageWeightedFAQMin: 73,
+  pageWeightedFullMin: 67,
 };
 const TIER_A_VERTICALS = new Set(["auto-repair", "medical", "legal", "moving"]);
 

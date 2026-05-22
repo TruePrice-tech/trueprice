@@ -169,10 +169,33 @@ function faqWhyCostDiffers({ vertical, displayLabel, city, framing, costDriverNo
 }
 
 // Q3 — "What X works best for {city}?" — direct render of materialTip/systemTip.
-function faqBestForCity({ city, productKindLabel, materialOrSystemNote, climateLeadIn }) {
+// When climateZone is supplied, the QUESTION wording itself varies by zone
+// (hot_humid / hot_dry / cold / mixed → 4 distinct Q stems). This is a
+// structural-diversity lever: same answer body, but per-page Q text
+// stops normalizing to a single hash across the corpus, lifting the FAQ
+// slice's "Structural" sub-score from ~10% toward ~40%+.
+function faqBestForCity({ city, productKindLabel, materialOrSystemNote, climateLeadIn, climateZone }) {
   const tip = materialOrSystemNote || `For ${city} homes, work with a contractor who can match selection to the local climate and code.`;
+  let question;
+  switch (climateZone) {
+    case "hot_humid":
+      question = `How does ${city}'s humidity affect ${productKindLabel} choice?`;
+      break;
+    case "hot_dry":
+      question = `How does ${city}'s desert climate affect ${productKindLabel} selection?`;
+      break;
+    case "cold":
+    case "very_cold":
+      question = `How does ${city}'s winter climate affect ${productKindLabel} selection?`;
+      break;
+    case "mixed":
+      question = `What ${productKindLabel} fits ${city}'s mixed climate?`;
+      break;
+    default:
+      question = `What ${productKindLabel} works best in ${city}?`;
+  }
   return faqBlock(
-    `What ${productKindLabel} works best in ${city}?`,
+    question,
     climateLeadIn ? `${climateLeadIn}: ${tip}` : tip
   );
 }
@@ -187,13 +210,23 @@ function faqBestTime({ city, workLabel, seasonNote }) {
 }
 
 // Q5 — "What red flags should I watch for hiring X in {city}?" — direct render of redFlagNote.
-function faqRedFlags({ city, contractorLabel, redFlagNote }) {
+// When hoaPrevalence is supplied, the question varies along that dimension
+// (high → "...in HOA neighborhoods", growth-rate moderate→ "...in a growing
+// market"). 3-4 Q-stem variants per vertical lifts structural diversity.
+function faqRedFlags({ city, contractorLabel, redFlagNote, hoaPrevalence, growthRate }) {
   const note = redFlagNote || `Watch out for high-pressure tactics, large upfront deposits (>30%), and missing license/insurance proof. Get three written quotes and verify the contractor's status with the ${city} building department.`;
   const article = articleFor(contractorLabel);
-  return faqBlock(
-    `What red flags should I watch for hiring ${article} ${contractorLabel} in ${city}?`,
-    note
-  );
+  let question;
+  if (hoaPrevalence === "high") {
+    question = `What pitfalls should I watch for hiring ${article} ${contractorLabel} in ${city}'s HOA neighborhoods?`;
+  } else if (growthRate === "high") {
+    question = `What red flags are common when hiring ${article} ${contractorLabel} in ${city}'s growing market?`;
+  } else if (growthRate === "low" || growthRate === "very_low") {
+    question = `What signs of a bad ${contractorLabel} should ${city} homeowners watch for?`;
+  } else {
+    question = `What red flags should I watch for hiring ${article} ${contractorLabel} in ${city}?`;
+  }
+  return faqBlock(question, note);
 }
 
 module.exports = {

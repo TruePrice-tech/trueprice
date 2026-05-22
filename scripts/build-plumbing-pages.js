@@ -47,6 +47,7 @@ function formatCurrency(v) { return "$" + Math.round(v).toLocaleString(); }
 
 
 const {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -73,6 +74,7 @@ function getPlumbingFAQContext(city, stateCode) {
 // forcing the question would manufacture false per-city specificity.
 function buildPlumbingFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getPlumbingFAQContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -97,13 +99,16 @@ function buildPlumbingFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "approach to local water conditions",
     materialOrSystemNote: ctx.waterNote,
-    climateLeadIn: false ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: false ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: "plumber",
     redFlagNote: ctx.redFlagNote,
+  hoaPrevalence: shared.hoaPrevalence,
+  growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\n\n");

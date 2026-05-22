@@ -3,6 +3,7 @@ const path = require("path");
 require("./_handwritten-guard.js");
 const { buildIndexes, renderWidget } = require("./lib/city-nav-widget");
 const {
+  getSharedCityContext,
   naturalCostFraming,
   faqBlock,
   faqCostInCity,
@@ -39,6 +40,7 @@ function getGutterContext(city, stateCode) {
 // Phase 1 gap-list). No Q for permits — gutters rarely require them.
 function buildGutterFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getGutterContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -66,7 +68,8 @@ function buildGutterFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "gutter setup",
     materialOrSystemNote: ctx.climateNote,
-    climateLeadIn: null, // climateNote already names the climate
+    climateLeadIn: null,
+    climateZone: shared.climateZone,
   });
 
   // Q4 — material/pricing tiers from materialTip (2 distinct templates
@@ -82,6 +85,8 @@ function buildGutterFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     contractorLabel: "gutter installer",
     redFlagNote: ctx.redFlagNote,
+    hoaPrevalence: shared.hoaPrevalence,
+    growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q4, q5].join("\n\n");

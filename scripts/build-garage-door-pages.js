@@ -11,7 +11,6 @@ const {
   faqCostInCity,
   faqWhyCostDiffers,
   faqBestForCity,
-  faqBestTime,
   faqRedFlags,
 } = require("./lib/faq-helpers");
 
@@ -68,7 +67,8 @@ function buildGarageDoorFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "garage door style",
     materialOrSystemNote: ctx.climateNote,
-    climateLeadIn: null, // climateNote already mentions the climate; no extra lead-in needed
+    climateLeadIn: null,
+    climateZone: shared.climateZone,
   });
 
   // Q4 dropped intentionally: garage-door installation isn't a strongly
@@ -82,6 +82,8 @@ function buildGarageDoorFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     contractorLabel: "garage-door installer",
     redFlagNote: ctx.redFlagNote,
+    hoaPrevalence: shared.hoaPrevalence,
+    growthRate: shared.growthRate,
   });
 
   // Q6 — HOA + style restrictions, driven by hoaPrevalence from shared

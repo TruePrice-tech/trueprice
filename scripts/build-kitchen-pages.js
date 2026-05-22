@@ -43,6 +43,7 @@ function buildFilename(city, stateCode) {
 
 
 const {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -69,6 +70,7 @@ function getKitchenFAQContext(city, stateCode) {
 // forcing the question would manufacture false per-city specificity.
 function buildKitchenFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getKitchenFAQContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -93,13 +95,16 @@ function buildKitchenFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "kitchen-remodel scope",
     materialOrSystemNote: ctx.materialTip,
-    climateLeadIn: true ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: true ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: "kitchen contractor",
     redFlagNote: ctx.redFlagNote,
+  hoaPrevalence: shared.hoaPrevalence,
+  growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\n\n");

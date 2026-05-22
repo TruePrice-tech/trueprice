@@ -43,6 +43,7 @@ function buildFilename(city, stateCode) {
 
 
 const {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -69,6 +70,7 @@ function getSolarFAQContext(city, stateCode) {
 // forcing the question would manufacture false per-city specificity.
 function buildSolarFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getSolarFAQContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -93,13 +95,16 @@ function buildSolarFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "solar system size and configuration",
     materialOrSystemNote: ctx.materialTip,
-    climateLeadIn: false ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: false ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: "solar installer",
     redFlagNote: ctx.redFlagNote,
+  hoaPrevalence: shared.hoaPrevalence,
+  growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\n\n");

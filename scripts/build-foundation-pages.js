@@ -43,6 +43,7 @@ function buildFilename(city, stateCode) {
 
 
 const {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -69,6 +70,7 @@ function getFoundationFAQContext(city, stateCode) {
 // forcing the question would manufacture false per-city specificity.
 function buildFoundationFAQ({ city, stateCode, multiplier, priceRange }) {
   const ctx = getFoundationFAQContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -93,13 +95,16 @@ function buildFoundationFAQ({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: "foundation repair method",
     materialOrSystemNote: ctx.materialTip,
-    climateLeadIn: true ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: true ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: "foundation contractor",
     redFlagNote: ctx.redFlagNote,
+  hoaPrevalence: shared.hoaPrevalence,
+  growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\n\n");

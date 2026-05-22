@@ -168,6 +168,7 @@ const VERTICALS = [
 
 function buildBuilderInsertion(cfg) {
   return `\nconst {
+  getSharedCityContext,
   naturalCostFraming,
   climateZoneLeadIn,
   faqCostInCity,
@@ -186,14 +187,19 @@ function ${cfg.ctxFn}(city, stateCode) {
   return ${cfg.varName}[\`\${city}|\${stateCode}\`] || null;
 }
 
-// Phase 3 city-aware FAQ block. Replaces the 3 hardcoded <details> blocks
-// that previously appeared identically across ~740 city pages with 4 FAQs
-// that interpolate per-city slot data from data/${cfg.ctxFile.split("/").pop()}.
+// Phase 3 city-aware FAQ block (with Phase 4 Q-stem variation). Replaces
+// the 3 hardcoded <details> blocks that previously appeared identically
+// across ~740 city pages with 4 FAQs that interpolate per-city slot data
+// from data/${cfg.ctxFile.split("/").pop()} AND vary the Q3/Q5 question
+// wording by climate-zone + hoaPrevalence + growthRate so per-page Q
+// stems stop normalizing to a single hash across the corpus.
+//
 // The seasonal FAQ from the Phase 1 gap-list is intentionally dropped:
 // seasonNote slot has only 2-3 normalized templates across the corpus, so
 // forcing the question would manufacture false per-city specificity.
 function ${cfg.buildFn}({ city, stateCode, multiplier, priceRange }) {
   const ctx = ${cfg.ctxFn}(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
   const framing = naturalCostFraming(multiplier);
 
   const q1 = faqCostInCity({
@@ -218,13 +224,16 @@ function ${cfg.buildFn}({ city, stateCode, multiplier, priceRange }) {
     city,
     productKindLabel: ${JSON.stringify(cfg.productKindQ3)},
     materialOrSystemNote: ctx.${cfg.q3Slot},
-    climateLeadIn: ${cfg.q3UsesLeadIn} ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+    climateLeadIn: ${cfg.q3UsesLeadIn} ? climateZoneLeadIn((shared.climateZone || ""), city) : null,
+    climateZone: shared.climateZone,
   });
 
   const q5 = faqRedFlags({
     city,
     contractorLabel: ${JSON.stringify(cfg.contractorLabel)},
     redFlagNote: ctx.redFlagNote,
+    hoaPrevalence: shared.hoaPrevalence,
+    growthRate: shared.growthRate,
   });
 
   return [q1, q2, q3, q5].join("\\n\\n");
@@ -235,10 +244,54 @@ function ${cfg.buildFn}({ city, stateCode, multiplier, priceRange }) {
 function patchBuilder(cfg) {
   const builderPath = path.join(ROOT, "scripts", cfg.builder);
   let src = fs.readFileSync(builderPath, "utf8");
+  const force = process.argv.includes("--force");
 
-  // Idempotence: skip if already patched
-  if (src.includes(cfg.buildFn)) {
-    return { skipped: true, reason: "already patched" };
+  // Idempotence: skip if already patched, unless --force is set
+  if (src.includes(cfg.buildFn) && !force) {
+    return { skipped: true, reason: "already patched (use --force to re-patch)" };
+  }
+
+  // Strip prior insertion when --force, then fall through to normal
+  // re-insertion. Three separate strip steps to avoid removing the
+  // surrounding code (esp. the `let html = template\n  .replaceAll` chain
+  // that lives between the two insertion sites).
+  if (force && src.includes(cfg.buildFn)) {
+    // 1) Strip the imports + loader + buildFn function block. Anchored at
+    //    `\nconst {\n  getSharedCityContext,` OR `\nconst {\n  naturalCostFraming,`
+    //    (the first identifier inserted), ending at the closing `}\n` of
+    //    the buildFn function (`return [...].join("\\n\\n");\n}`).
+    const startRe = /\nconst \{\s*\n\s*(getSharedCityContext|naturalCostFraming),/;
+    const startMatch = startRe.exec(src);
+    if (startMatch) {
+      const fnCloseRe = /return \[q1, q2, q3, q5\]\.join\("\\n\\n"\);\s*\n\}\n/;
+      const closeMatch = fnCloseRe.exec(src.slice(startMatch.index));
+      if (closeMatch) {
+        const endIdx = startMatch.index + closeMatch.index + closeMatch[0].length;
+        src = src.slice(0, startMatch.index) + src.slice(endIdx);
+      }
+    }
+
+    // 2) Strip ONLY the __faqServiceMult/__faqBlockHtml setup block
+    //    (3-7 lines starting `const __faqServiceMult =`, ending at the
+    //    `});` that closes the buildFn() call). Stops BEFORE the
+    //    `let html = template` chain.
+    const wireSetupRe =
+      /\n\s+const __faqServiceMult =[\s\S]*?\n\s+\}\);\n/;
+    const wireSetup = wireSetupRe.exec(src);
+    if (wireSetup) {
+      src =
+        src.slice(0, wireSetup.index) +
+        src.slice(wireSetup.index + wireSetup[0].length);
+    }
+
+    // 3) Strip ONLY the inserted `.replaceAll("{{<placeholder>}}", __faqBlockHtml)`
+    //    line from inside the chain. Single-line removal.
+    const placeholderLineRe = new RegExp(
+      "\\n\\s+\\.replaceAll\\(\"\\{\\{" + cfg.placeholder + "\\}\\}\", __faqBlockHtml\\)"
+    );
+    src = src.replace(placeholderLineRe, "");
+
+    fs.writeFileSync(builderPath, src);
   }
 
   // 1) Insert imports + helpers BEFORE `function main()`. That gives the

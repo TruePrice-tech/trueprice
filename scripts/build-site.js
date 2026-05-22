@@ -552,18 +552,49 @@ function buildRoofBaseFAQ(cityPricing, cityMultipliers) {
 </details>`;
 
   // Q3 — best material for climate (uses materialTip directly — already 100% per-city)
+  // Q3 — best material for climate (uses materialTip directly, 100% per-city).
+  // Q stem varies by climate zone so structural diversity lifts beyond
+  // what per-city answer body alone delivers.
+  let q3Question;
+  switch (climateZone) {
+    case "hot_humid":
+      q3Question = `How does ${city}'s humidity shape roofing material choice?`;
+      break;
+    case "hot_dry":
+      q3Question = `How does ${city}'s desert climate shape roofing material choice?`;
+      break;
+    case "cold":
+    case "very_cold":
+      q3Question = `How does ${city}'s winter climate shape roofing material choice?`;
+      break;
+    case "mixed":
+      q3Question = `What roofing material fits ${city}'s mixed climate?`;
+      break;
+    default:
+      q3Question = `What roofing material works best in ${city}?`;
+  }
   const q3 = `<details class="faq-item">
-<summary>What roofing material works best in ${city}?</summary>
+<summary>${q3Question}</summary>
 <div class="faq-answer">
 <p>${materialTip}</p>
 </div>
 </details>`;
 
-  // Q4 — permits and inspections (uses permitNote directly)
+  // Q4 — permits and inspections (uses permitNote directly). Q stem
+  // varies by hoaPrevalence so HOA-heavy markets get a distinct phrasing.
+  const ctxShared = ctx || {};
+  const q4Question =
+    ctxShared.hoaPrevalence === "high"
+      ? `What permits, inspections, and HOA approvals does ${city} require for a new roof?`
+      : `What permits and inspections does ${city} require for a new roof?`;
+  const q4Tail =
+    ctxShared.hoaPrevalence === "high"
+      ? ` In ${city}'s HOA-heavy neighborhoods, factor in 2-4 weeks for architectural-committee approval of color and material — start that process before signing the contract.`
+      : "";
   const q4 = `<details class="faq-item">
-<summary>What permits and inspections does ${city} require for a new roof?</summary>
+<summary>${q4Question}</summary>
 <div class="faq-answer">
-<p>${permitNote}. Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents permit-flipping disputes.</p>
+<p>${permitNote}. Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents permit-flipping disputes.${q4Tail}</p>
 </div>
 </details>`;
 
