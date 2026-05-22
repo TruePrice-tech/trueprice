@@ -62,6 +62,70 @@ function buildHvacPageFilename(city, stateCode) {
   return `${slugifyCity(city)}-${stateCode.toLowerCase()}-hvac-cost.html`;
 }
 
+
+const {
+  naturalCostFraming,
+  climateZoneLeadIn,
+  faqCostInCity,
+  faqWhyCostDiffers,
+  faqBestForCity,
+  faqRedFlags,
+} = require("./lib/faq-helpers");
+
+const CITY_FAQ_CONTEXT_PATH = path.join(ROOT, "data/hvac-city-context.json");
+let _hvacFAQContext = null;
+function getHvacFAQContext(city, stateCode) {
+  if (!_hvacFAQContext) {
+    try { _hvacFAQContext = JSON.parse(fs.readFileSync(CITY_FAQ_CONTEXT_PATH, "utf8")); }
+    catch (e) { _hvacFAQContext = {}; }
+  }
+  return _hvacFAQContext[`${city}|${stateCode}`] || null;
+}
+
+// Phase 3 city-aware FAQ block. Replaces the 3 hardcoded <details> blocks
+// that previously appeared identically across ~740 city pages with 4 FAQs
+// that interpolate per-city slot data from data/hvac-city-context.json.
+// The seasonal FAQ from the Phase 1 gap-list is intentionally dropped:
+// seasonNote slot has only 2-3 normalized templates across the corpus, so
+// forcing the question would manufacture false per-city specificity.
+function buildHvacFAQ({ city, stateCode, multiplier, priceRange }) {
+  const ctx = getHvacFAQContext(city, stateCode) || {};
+  const framing = naturalCostFraming(multiplier);
+
+  const q1 = faqCostInCity({
+    workLabel: "hvac installation",
+    productLabel: "An HVAC system",
+    city,
+    priceRange,
+    framing,
+    weatherNote: ctx.climateNote || ctx.waterNote,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q2 = faqWhyCostDiffers({
+    vertical: "hvac",
+    displayLabel: "HVAC installation",
+    city,
+    framing,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q3 = faqBestForCity({
+    city,
+    productKindLabel: "HVAC system",
+    materialOrSystemNote: ctx.systemTip,
+    climateLeadIn: false ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+  });
+
+  const q5 = faqRedFlags({
+    city,
+    contractorLabel: "HVAC contractor",
+    redFlagNote: ctx.redFlagNote,
+  });
+
+  return [q1, q2, q3, q5].join("\n\n");
+}
+
 function main() {
   const pricingModel = readJson(PRICING_MODEL_PATH);
   const stateRegions = readJson(STATE_REGIONS_PATH);
@@ -129,6 +193,17 @@ function main() {
       const full = formatCurrency(Math.round(mid(fullRange) * scale * mult / 50) * 50);
       return `<tr><td>${size.label} sq ft (${tons} ton)</td><td>${ac}</td><td>${hp}</td><td>${full}</td></tr>`;
     }).join("\n");
+    const __faqServiceMult =
+      cityMultipliers[cityKey] && cityMultipliers[cityKey].serviceMultipliers
+        ? cityMultipliers[cityKey].serviceMultipliers["hvac"]
+        : cityMult;
+    const __faqBlockHtml = buildHvacFAQ({
+      city: cityName,
+      stateCode,
+      multiplier: __faqServiceMult,
+      priceRange: `${avgLow} to ${avgHigh}`,
+    });
+
 
     let html = template
       .replaceAll("{{CITY}}", cityName)
@@ -147,7 +222,8 @@ function main() {
       .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildHvacLocalContext(cityName, stateCode))
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
-      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw)
+      .replaceAll("{{HVAC_FAQ_BLOCK}}", __faqBlockHtml);
 
     const navWidget = renderWidget({
       city: cityName,

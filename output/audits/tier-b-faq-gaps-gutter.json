@@ -1,0 +1,119 @@
+{
+  "vertical": "gutter",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 5,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 5,
+    "dataGapsNeedingFill": 0,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 96% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": "Existing FAQ #3 'How long does a wood gutter last?' is the fence FAQ pasted in — wood gutters are not a real residential product. Fix as part of Phase 3 template rewrite.",
+  "currentFAQs": [
+    {
+      "q": "How much does a gutter cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for gutter installation, depending on material and yard size."
+    },
+    {
+      "q": "What is the cheapest gutter material?",
+      "a": "Aluminum gutters are the most affordable option at $6-$12 per linear foot installed. Vinyl is comparable at $5-$11 per linear foot but less durable in extreme climates."
+    },
+    {
+      "q": "How long does a wood gutter last?",
+      "a": "A well-maintained wood gutter typically lasts 15-20 years. Regular staining and sealing every 2-3 years can significantly extend its lifespan. Cedar and redwood last longer than pine."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much do gutters cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why are gutters more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.gutter"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "material-for-climate",
+      "qTemplate": "What gutter material works best for {{CITY}}'s rainfall + freeze?",
+      "slots": [
+        "materialTip",
+        "climateNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Replaces the buggy 'wood gutter' FAQ with a real climate-driven question."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to install gutters in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a gutter installer in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/gutter-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 406,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/gutter-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 435,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": null,
+    "scope": "NONE — gutters rarely require permits; 5 FAQs sufficient and all city-aware",
+    "deferrable": "n/a"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/gutters-city-page-template.html with {{GUTTER_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildgutterFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-5 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

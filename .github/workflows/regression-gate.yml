@@ -174,6 +174,21 @@ jobs:
           echo "thin_count=$THIN_COUNT" >> $GITHUB_OUTPUT
           echo "worst=$WORST" >> $GITHUB_OUTPUT
 
+      # ---- Phase 5 hard gate: FAQ-slice + body composite floors ----
+      # Locked 2026-05-22 after Phase 3 of the Tier B uniqueness remediation
+      # (see memory/project_tier_b_uniqueness_remediation_2026_05_22.md).
+      # Floors live in scripts/audit-uniqueness-google-faq.js#GATE_FLOORS:
+      #   - per-vertical FAQ-slice composite >= 55% (Tier B only)
+      #   - page-weighted FAQ-slice composite >= 65%
+      #   - page-weighted FULL-body composite >= 60%
+      # Hard fail (no continue-on-error) — a regression below these floors
+      # blocks the build. To intentionally lower a floor, edit GATE_FLOORS
+      # in the same PR with a rationale.
+      - name: Phase 5 uniqueness gate
+        id: uniqueness_gate
+        run: |
+          node scripts/audit-uniqueness-google-faq.js --gate 2>&1 | tee /tmp/uniqueness-gate.log
+
       # ---- Email digest on any failure ----
       - name: Email digest if anything failed
         if: always()

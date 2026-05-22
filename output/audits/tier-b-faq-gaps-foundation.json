@@ -1,0 +1,130 @@
+{
+  "vertical": "foundation",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 98% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does foundation repair cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for foundation repair, depending on the type and extent of damage."
+    },
+    {
+      "q": "How many piers does a typical foundation repair need?",
+      "a": "Most homes need 8 to 12 piers for a typical foundation repair. Each pier costs {{RATE_PIER}} installed in {{CITY_STATE}}. The exact number depends on the extent of settlement and your home's footprint."
+    },
+    {
+      "q": "Does foundation repair come with a warranty?",
+      "a": "Most reputable foundation repair companies offer a transferable lifetime warranty on pier installations. Always confirm warranty terms and transferability before signing a contract."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does foundation repair cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is foundation repair more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.foundation"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "soil-climate-issues",
+      "qTemplate": "What foundation issues are most common in {{CITY}}?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Foundation issues are 100% city-soil-driven: TX clay = heave, FL sand = subsidence, North = frost heave. Distinct signal."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time for foundation repair in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a foundation contractor in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "engineering-permit",
+      "qTemplate": "Does {{CITY}}, {{STATE}} require an engineer's report for foundation work?",
+      "slots": [
+        "STATE_FOUNDATION_ENGINEER_REQ",
+        "STATE_PERMIT_INTRO"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "Engineer-stamp requirement varies by state — TX/FL/CA require for major repairs, others don't. High-value FAQ."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/foundation-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 443,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/foundation-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 427,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/foundation-state-data.json",
+    "scope": "50 state entries — engineer-stamp requirement, structural permit threshold, common warranty terms",
+    "deferrable": "yes — high-value for buyer trust"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/foundation-city-page-template.html with {{FOUNDATION_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildfoundationFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

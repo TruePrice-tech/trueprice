@@ -1,0 +1,130 @@
+{
+  "vertical": "electrical",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 2,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 99% unique)",
+      "materialTip (739/739, 99% unique)",
+      "seasonNote (739/739, 97% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a panel upgrade cost in {{CITY}}?",
+      "a": "A 200-amp panel upgrade in {{CITY}} typically costs {{RATE_PANEL}}, including the panel, breakers, permits, and labor."
+    },
+    {
+      "q": "How much does it cost to rewire a house in {{CITY}}?",
+      "a": "Whole house rewiring in {{CITY}} ranges from {{AVG_LOW}} to {{AVG_HIGH}} depending on home size, number of circuits, and accessibility of wiring."
+    },
+    {
+      "q": "How much does EV charger installation cost?",
+      "a": "Level 2 EV charger installation in {{CITY_STATE}} costs {{RATE_EV}} on average, including the charger unit, dedicated circuit, and permit."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does electrical work cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is electrical more expensive | cheaper in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.electrical"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "infrastructure",
+      "qTemplate": "What {{CITY}} infrastructure issues drive electrical demand?",
+      "slots": [
+        "climateNote",
+        "localInsight"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "climateNote for electrical talks about cooling load + EV adoption + summer peak — strong city signal."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time for electrical work in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring an electrician in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit-nec",
+      "qTemplate": "What NEC code year and permits apply in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_NEC_ADOPTION",
+        "STATE_PERMIT_INTRO"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": null
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/electrical-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 437,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/electrical-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 441,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/electrical-state-data.json",
+    "scope": "50 state entries (NEC code year, state licensing body, permit/inspection workflow)",
+    "deferrable": "yes — overlaps with HVAC mechanical permit research; consolidate state contractor board file"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/electrical-city-page-template.html with {{ELECTRICAL_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildelectricalFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

@@ -348,6 +348,20 @@ function getCityContext(city, stateCode) {
   return _cityContextData[`${city}|${stateCode}`] || null;
 }
 
+// Lazy-load city-cost-multipliers.json the same way as city-context. Used by
+// the roof FAQ generator for the natural-language pricing differential.
+let _cityMultipliersData = null;
+function getCityMultipliers() {
+  if (!_cityMultipliersData) {
+    try {
+      _cityMultipliersData = readJson(CITY_MULTIPLIERS_PATH);
+    } catch (e) {
+      _cityMultipliersData = {};
+    }
+  }
+  return _cityMultipliersData;
+}
+
 function buildLocalContextSection(cityPricing) {
   const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
   if (!ctx) return "";
@@ -411,6 +425,174 @@ function buildExtraCostFactors(cityPricing) {
   if (ctx.growthRate === "high") factors.push("<li>High demand for contractors in this fast-growing market</li>");
 
   return factors.join("\n");
+}
+
+// First sentence of a multi-sentence note, used to give the cost FAQ a
+// 1-clause city-specific intro without dumping the entire weather note.
+function firstSentence(s) {
+  if (!s) return "";
+  const m = s.match(/^[^.!?]*[.!?]/);
+  return (m ? m[0] : s).trim();
+}
+
+// Climate-zone-aware quote-include checklist. The base list is universal;
+// the bonus items vary by zone so that the FAQ's final paragraph differs
+// across climate zones (4 distinct variants for the climate slot, plus
+// city-name interpolation).
+function quoteIncludeAddendum(climateZone) {
+  switch (climateZone) {
+    case "hot_humid":
+      return "Given the humidity, your quote should also list ridge ventilation and algae-resistant (AR) shingle granules — algae streaking is a regional defect, not an aesthetic one.";
+    case "hot_dry":
+      return "In a desert climate, your quote should call out radiant barrier or reflective underlayment and tile/metal fastening patterns rated for high temperatures.";
+    case "cold":
+    case "very_cold":
+      return "In a cold climate, your quote should explicitly include ice and water shield at all eaves and valleys, a balanced ridge-and-soffit ventilation plan, and decking inspection — ice-dam damage is hidden until the next thaw.";
+    case "mixed":
+    default:
+      return "Mixed-climate quotes should still call out ice and water shield in the lowest-temperature months and ridge ventilation for summer attic heat.";
+  }
+}
+
+// Natural-language framing for the city-vs-national pricing differential.
+// Reads cityMultipliers[city|state].serviceMultipliers.roofing if available;
+// falls back to the architectural-shingle price comparison used elsewhere.
+function roofingCostFraming(cityPricing, cityMultipliers) {
+  const key = `${cityPricing.city}|${cityPricing.state_code}`;
+  const entry = cityMultipliers && cityMultipliers[key];
+  if (entry && entry.serviceMultipliers && entry.serviceMultipliers.roofing) {
+    const m = entry.serviceMultipliers.roofing;
+    const pct = Math.round((m - 1) * 100);
+    if (m >= 1.1) return { wordPair: "higher than", pct: Math.abs(pct), direction: "above" };
+    if (m <= 0.9) return { wordPair: "lower than", pct: Math.abs(pct), direction: "below" };
+    return { wordPair: "close to", pct: Math.abs(pct), direction: "near" };
+  }
+  const vs = buildCityVsNational(cityPricing);
+  if (vs === "near") return { wordPair: "close to", pct: 0, direction: "near" };
+  const m = vs.match(/^(\d+)% (above|below)$/);
+  if (!m) return { wordPair: "close to", pct: 0, direction: "near" };
+  const pct = parseInt(m[1], 10);
+  const dir = m[2];
+  return {
+    wordPair: dir === "above" ? "higher than" : "lower than",
+    pct,
+    direction: dir,
+  };
+}
+
+// City-aware base FAQ block for roof pages. Replaces the 5 hardcoded
+// <details> blocks that were appearing identically on 805 city pages.
+// All 5 outputs interpolate per-city slot data from data/city-context.json.
+//
+// FAQs (5):
+//   1. Cost in {City} — weatherNote first clause + price range
+//   2. Why pricing {higher|lower|close} in {City} — multiplier + age + weatherNote
+//   3. Best roofing material for {City} — materialTip (100% per-city)
+//   4. Permits + inspections in {City} — permitNote (100% per-city, already roofing-worded)
+//   5. What should a quote include in {City} — climate-zone-aware checklist
+//
+// {{EXTRA_FAQ_ITEMS}} continues to render 0-4 conditional extras
+// (hail/hurricane/snow/age) below these 5 — total per city 5-9 FAQs.
+function buildRoofBaseFAQ(cityPricing, cityMultipliers) {
+  const ctx = getCityContext(cityPricing.city, cityPricing.state_code);
+  const city = cityPricing.city;
+  const stateCode = cityPricing.state_code;
+
+  // Pricing summary used by Q1
+  const sum = summarizeCityPricing(cityPricing);
+  const priceRange = `$${sum.low} to $${sum.high}`;
+
+  // Fallback context (rare — only for cities not in city-context.json)
+  const weatherNote = (ctx && ctx.weatherNote) || `${city}, ${stateCode} sits in a climate that affects roofing material lifespan and contractor scheduling.`;
+  const materialTip = (ctx && ctx.materialTip) || `For ${city} homes, work with a contractor who can match shingle or tile selection to the local climate and code.`;
+  const permitNote = (ctx && ctx.permitNote) || `Check with the ${city} building department for current permit and inspection requirements.`;
+  const climateZone = (ctx && ctx.climateZone) || "mixed";
+  const avgHomeAge = ctx && ctx.avgHomeAge;
+
+  const framing = roofingCostFraming(cityPricing, cityMultipliers);
+
+  // Q1 — cost in city (prefix varies by city-vs-national framing to avoid an
+  // identical-after-normalization sentence appearing on every page)
+  let q1Prefix;
+  if (framing.direction === "above") {
+    q1Prefix = `${city} roof replacement runs above national norms — most homeowners spend ${priceRange}`;
+  } else if (framing.direction === "below") {
+    q1Prefix = `Roof replacement in ${city} is more affordable than the national median, with most homeowners spending ${priceRange}`;
+  } else {
+    q1Prefix = `Most ${city} homeowners pay between ${priceRange} for a new roof`;
+  }
+  const q1 = `<details class="faq-item">
+<summary>How much does a new roof cost in ${city}?</summary>
+<div class="faq-answer">
+<p>${q1Prefix}, depending on size, material, and pitch. ${firstSentence(weatherNote)}</p>
+</div>
+</details>`;
+
+  // Q2 — why pricing differs
+  let q2Body;
+  if (framing.direction === "near") {
+    q2Body = `Roofing in ${city} runs close to the national average for a comparable home — labor rates, material availability, and code requirements all sit near the middle of the range.`;
+  } else {
+    q2Body = `Roofing in ${city} runs roughly ${framing.pct}% ${framing.direction} the national average.`;
+  }
+  if (avgHomeAge) {
+    if (avgHomeAge >= 50) {
+      q2Body += ` ${city}'s housing stock averages about ${avgHomeAge} years, so most quotes include line items for decking repair, updated ventilation, and code-catch-up work that newer homes wouldn't need.`;
+    } else if (avgHomeAge >= 35) {
+      q2Body += ` ${city}'s housing stock averages about ${avgHomeAge} years — old enough that decking repair and ventilation upgrades appear on a meaningful share of quotes.`;
+    } else {
+      q2Body += ` ${city}'s housing stock averages about ${avgHomeAge} years, which keeps decking-repair and ventilation-upgrade surprises relatively rare.`;
+    }
+  }
+  const q2 = `<details class="faq-item">
+<summary>Is roofing more expensive in ${city} than the national average?</summary>
+<div class="faq-answer">
+<p>${q2Body}</p>
+</div>
+</details>`;
+
+  // Q3 — best material for climate (uses materialTip directly — already 100% per-city)
+  const q3 = `<details class="faq-item">
+<summary>What roofing material works best in ${city}?</summary>
+<div class="faq-answer">
+<p>${materialTip}</p>
+</div>
+</details>`;
+
+  // Q4 — permits and inspections (uses permitNote directly)
+  const q4 = `<details class="faq-item">
+<summary>What permits and inspections does ${city} require for a new roof?</summary>
+<div class="faq-answer">
+<p>${permitNote}. Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents permit-flipping disputes.</p>
+</div>
+</details>`;
+
+  // Q5 — climate-aware quote-include checklist. The opening clause varies
+  // by climate zone so the "complete quote should include…" sentence
+  // doesn't normalize to the same hash on every page.
+  let q5Opening;
+  switch (climateZone) {
+    case "hot_humid":
+      q5Opening = `For a ${city} home, the quote should cover tear-off, underlayment, flashing, drip edge, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit.`;
+      break;
+    case "hot_dry":
+      q5Opening = `${city} quotes should list tear-off, underlayment (reflective preferred), flashing, drip edge, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit.`;
+      break;
+    case "cold":
+    case "very_cold":
+      q5Opening = `In ${city}, a roofing quote should call out tear-off, underlayment, flashing, drip edge, starter strip, ridge cap, decking inspection, ice and water shield, disposal/cleanup, and the permit.`;
+      break;
+    default:
+      q5Opening = `A complete quote in ${city} should include tear-off, underlayment, flashing, drip edge, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit.`;
+  }
+  const q5 = `<details class="faq-item">
+<summary>What should a roofing quote in ${city} include?</summary>
+<div class="faq-answer">
+<p>${q5Opening} ${quoteIncludeAddendum(climateZone)} If your ${city} quote leaves any of these unlisted, ask the contractor to itemize the omission before signing — that's where change-order surprises come from.</p>
+</div>
+</details>`;
+
+  return [q1, q2, q3, q4, q5].join("\n\n");
 }
 
 function buildExtraFaqItems(cityPricing) {
@@ -819,6 +1001,7 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   // Unique per-city content from city-context.json
   template = template.replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildLocalContextSection(cityPricing));
   template = template.replaceAll("{{EXTRA_COST_FACTORS}}", buildExtraCostFactors(cityPricing));
+  template = template.replaceAll("{{ROOF_BASE_FAQ_BLOCK}}", buildRoofBaseFAQ(cityPricing, getCityMultipliers()));
   template = template.replaceAll("{{EXTRA_FAQ_ITEMS}}", buildExtraFaqItems(cityPricing));
 
   // Cross-linking sections for SEO crawl depth

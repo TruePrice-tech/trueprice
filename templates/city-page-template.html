@@ -174,7 +174,7 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 <main class="container" style="padding-top:32px; padding-bottom:32px;">
 
 <!-- 2. Dual CTA -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+<aside class="dual-cta" aria-label="Quote actions" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
 <div class="cta-box" style="text-align:center;">
 <h3 style="margin-top:0;font-size:18px;">I have a quote</h3>
 <p style="font-size:14px;color:var(--text-secondary);">Upload it and Iris checks every line item against {{CITY}} market data.</p>
@@ -185,14 +185,14 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 <p style="font-size:14px;color:var(--text-secondary);">Use the calculator below to see fair prices for your roof in {{CITY}}.</p>
 <a class="btn" href="#calcResult" style="background:#16a34a;">See Fair Prices</a>
 </div>
-</div>
-<p style="text-align:center;font-size:14px;"><a href="/compare-quotes-picker.html" style="color:var(--brand);">Compare multiple quotes side by side</a> &bull; <a href="/find-contractors.html?state={{STATE_CODE}}" style="color:var(--brand);">Find contractors in {{STATE_CODE}}</a></p>
+</aside>
+<aside aria-label="Quote shortcuts" style="text-align:center;font-size:14px;"><a href="/compare-quotes-picker.html" style="color:var(--brand);">Compare multiple quotes side by side</a> &bull; <a href="/find-contractors.html?state={{STATE_CODE}}" style="color:var(--brand);">Find contractors in {{STATE_CODE}}</a></aside>
 
 <!-- 2b. Instant Calculator -->
 <section class="section">
 <h2>Instant Roof Cost Calculator</h2>
 <p>Enter your roof size and pick a material to see your estimated cost in {{CITY}}.</p>
-<div style="display:flex;flex-wrap:wrap;gap:16px;margin:16px 0;">
+<form class="city-calc-form" onsubmit="return false;" style="display:flex;flex-wrap:wrap;gap:16px;margin:16px 0;">
 <div style="flex:1;min-width:200px;">
 <label style="font-size:13px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px;">Roof Size (sq ft)</label>
 <input type="range" id="calcSize" min="800" max="4000" value="2000" step="100" style="width:100%;" oninput="updateCalc()" />
@@ -211,7 +211,7 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 <option value="concrete">Concrete Tile</option>
 </select>
 </div>
-</div>
+</form>
 <div id="calcResult" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
 <div style="font-size:14px;color:var(--text-muted);">Estimated Cost in {{CITY}}</div>
 <div style="font-size:36px;font-weight:800;color:var(--brand);" id="calcPrice">$12,150</div>
@@ -221,12 +221,12 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 </section>
 
 <!-- 2c. Live Widget -->
-<section class="section">
+<aside class="widget-promo section" aria-label="Embeddable pricing widget for {{CITY}}">
 <h2>Live Pricing Widget</h2>
 <p>Interactive pricing data for {{CITY}}. This same widget can be embedded on any website.</p>
 <script src="https://woogoro.com/widget/tp-widget.js" data-service="roofing" data-city="{{CITY}}" data-state="{{STATE_CODE}}" async></script>
 <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">Want this on your site? <a href="/widget.html" style="color:var(--brand);">Get the embed code</a></p>
-</section>
+</aside>
 
 <!-- 3. Price comparison bar chart -->
 <section class="section">
@@ -315,7 +315,7 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 </section>
 
 <!-- 12. Other services -->
-<section class="section">
+<aside class="related-services" aria-label="Other services in {{CITY}}">
 <h2>Other Services in {{CITY}}</h2>
 <p>Compare contractor costs for other home services in {{CITY_STATE}}.</p>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -335,65 +335,14 @@ Full range: ${{AVG_LOW}} to ${{AVG_HIGH}} depending on size and materials
 <a href="/{{SLUG_LC}}-insulation-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Insulation</a>
 <a href="/{{SLUG_LC}}-gutter-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Gutters</a>
 </div>
-</section>
+</aside>
 
 <!-- 13. FAQ -->
 <section class="section">
 <h2>Frequently Asked Questions</h2>
 <div class="faq-list">
 
-<details class="faq-item">
-<summary>How much does a new roof cost in {{CITY}}?</summary>
-<div class="faq-answer">
-<p>
-Most homeowners in {{CITY}} pay around {{MOST_COMMON_PRICE}} for a new roof.
-The full range is ${{AVG_LOW}} to ${{AVG_HIGH}} depending on roof size and materials.
-</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Is roofing more expensive in {{CITY}} than average?</summary>
-<div class="faq-answer">
-<p>
-Roofing in {{CITY}} is {{CITY_VS_NATIONAL}} the national average. Local labor rates,
-material availability, and building code requirements all influence pricing.
-</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Why do roofing quotes vary so much?</summary>
-<div class="faq-answer">
-<p>
-Roofing estimates vary depending on labor assumptions,
-material brands, flashing work, ventilation upgrades,
-and warranty coverage included in the proposal.
-</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Should I always choose the lowest roofing quote?</summary>
-<div class="faq-answer">
-<p>
-Not always. Lower bids sometimes exclude items like flashing,
-ventilation upgrades, or disposal costs that appear later as
-change orders.
-</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>What should a roofing quote include?</summary>
-<div class="faq-answer">
-<p>
-A complete quote should include tear-off, underlayment, flashing, ice and water shield,
-drip edge, ventilation, ridge vent, starter strip, ridge cap, decking inspection,
-disposal/cleanup, and the permit. If any of these are missing, ask your contractor why.
-</p>
-</div>
-</details>
+{{ROOF_BASE_FAQ_BLOCK}}
 
 {{EXTRA_FAQ_ITEMS}}
 
@@ -413,7 +362,7 @@ disposal/cleanup, and the permit. If any of these are missing, ask your contract
 
 <!-- 16. Email signup -->
 <section class="section" style="max-width:520px; margin:0 auto 40px;">
-<div class="cta-box" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
+<aside class="cta-box cta-box-newsletter" aria-label="Newsletter signup" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
 <h3 style="margin-top:0;">Get free roofing pricing guides</h3>
 <p style="font-size:14px; color:var(--text-secondary);">Local pricing data for {{CITY}} and 700+ other cities. No spam, unsubscribe anytime.</p>
 <form class="city-email-form" style="display:flex; gap:8px; max-width:400px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
@@ -422,7 +371,7 @@ disposal/cleanup, and the permit. If any of these are missing, ask your contract
 <button type="submit" class="btn" style="padding:10px 20px; font-size:14px;">Send guides</button>
 </form>
 <div class="city-email-status" role="status" aria-live="polite" style="margin-top:8px; font-size:13px;"></div>
-</div>
+</aside>
 </section>
 
 </main>

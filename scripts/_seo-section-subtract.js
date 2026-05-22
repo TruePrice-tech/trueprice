@@ -49,7 +49,7 @@ const SECTIONS = [
   },
   {
     name: "tp-city-nav (footer link grid)",
-    re: /<section class="tp-city-nav"[\s\S]*?<\/section>/g,
+    re: /<(section|nav) class="tp-city-nav"[\s\S]*?<\/\1>/g,
   },
   {
     name: "What affects ... cost (factor-list section)",

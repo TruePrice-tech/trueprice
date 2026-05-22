@@ -1,0 +1,130 @@
+{
+  "vertical": "fence",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 97% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a fence cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for fence installation, depending on material and yard size."
+    },
+    {
+      "q": "What is the cheapest fence material?",
+      "a": "Chain link is the most affordable fencing option at $15-$25 per linear foot installed. Wood privacy fencing is the next most affordable at $25-$50 per linear foot."
+    },
+    {
+      "q": "How long does a wood fence last?",
+      "a": "A well-maintained wood fence typically lasts 15-20 years. Regular staining and sealing every 2-3 years can significantly extend its lifespan. Cedar and redwood last longer than pine."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does a fence cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is fencing more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.fencing"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "material-for-climate",
+      "qTemplate": "What fence material lasts best in {{CITY}}?",
+      "slots": [
+        "materialTip",
+        "climateNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to install a fence in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a fence contractor in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit-setback",
+      "qTemplate": "What fence height + setback rules apply in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_FENCE_RULES",
+        "hoaPrevalence"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "Fence height/setback varies dramatically by state + city — likely the highest variation FAQ in Tier B."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/fence-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 446,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/fence-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 447,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/fence-state-data.json",
+    "scope": "50 state entries — typical max height for front vs. rear fence, setback requirements, permit thresholds. State-level is sufficient because most municipal codes follow the state pattern with small overrides.",
+    "deferrable": "yes — but high-value, this is a question buyers actually search"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/fencing-city-page-template.html with {{FENCE_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildfenceFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

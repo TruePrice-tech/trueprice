@@ -1,0 +1,129 @@
+{
+  "vertical": "plumbing",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "waterNote (739/739, 97% unique)",
+      "freezeRisk (739/739, 98% unique)",
+      "materialTip (739/739, 97% unique)",
+      "localInsight (739/739, 96% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": "plumbing has waterNote+freezeRisk instead of climateNote+seasonNote (better signal for plumbing).",
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a plumber cost in {{CITY}}?",
+      "a": "Plumber rates in {{CITY}} typically range from $85-$150/hour. Total project costs depend on the scope — a simple drain cleaning may cost $200-$450 while a water heater replacement runs $1,500-$4,500."
+    },
+    {
+      "q": "Should I repair or replace my water heater?",
+      "a": "If your water heater is over 10 years old or the repair cost exceeds 50% of replacement, replacing is usually the better investment. Tankless water heaters last 20+ years and can reduce energy costs."
+    },
+    {
+      "q": "Is PEX or copper better for repiping?",
+      "a": "PEX is 30-40% cheaper than copper and faster to install. Copper lasts longer (50+ years vs 25-30 for PEX) and has higher resale value. Both are code-compliant in most areas."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does a plumber cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is plumbing more expensive | cheaper in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.plumbing"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "water-quality",
+      "qTemplate": "What should I know about {{CITY}} water quality before plumbing work?",
+      "slots": [
+        "waterNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "waterNote is plumbing-specific and 100% unused — strong city signal (hard water, well vs municipal, mineral content)."
+    },
+    {
+      "id": "freeze-prevention",
+      "qTemplate": "What freeze prevention does {{CITY}} require for plumbing?",
+      "slots": [
+        "freezeRisk"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "freezeRisk is plumbing-specific. For warm-climate cities the answer becomes 'minimal' which is still city-distinct vs. cold-climate cities."
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a plumber in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit-licensing",
+      "qTemplate": "Do I need a permit for plumbing work in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_PLUMBING_PERMIT",
+        "STATE_LICENSING_BODY"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": null
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/plumbing-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 431,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/plumbing-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 451,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/plumbing-state-data.json",
+    "scope": "50 state entries (plumbing permit intro, licensing body name, sales tax on labor)",
+    "deferrable": "yes — drop to 5 FAQs if state data isn't built"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/plumbing-city-page-template.html with {{PLUMBING_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildplumbingFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

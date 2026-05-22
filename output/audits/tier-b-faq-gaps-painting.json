@@ -1,0 +1,130 @@
+{
+  "vertical": "painting",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 99% unique)",
+      "materialTip (739/739, 99% unique)",
+      "seasonNote (739/739, 97% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does it cost to paint a house exterior in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for exterior painting, depending on home size and paint quality."
+    },
+    {
+      "q": "How many coats of paint does an exterior need?",
+      "a": "Most exterior painting jobs require at least two coats for proper coverage and durability. A single coat may work for touch-ups or if the existing paint is in good condition with a similar color."
+    },
+    {
+      "q": "How long does exterior paint last?",
+      "a": "Quality exterior paint typically lasts 5-10 years depending on climate, sun exposure, and paint quality. Premium paints like Sherwin-Williams Duration can last 10-15 years."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does exterior painting cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is painting more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.painting"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "paint-for-climate",
+      "qTemplate": "What paint type holds up best in {{CITY}}'s climate?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "UV index + humidity + freeze-thaw drive paint chemistry choice. Climate-distinct."
+    },
+    {
+      "id": "best-season",
+      "qTemplate": "When is the best season to paint a {{CITY}} home?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Painting has the tightest temperature/humidity window of any trade — seasonNote is highest-impact here."
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a painter in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "lead-paint",
+      "qTemplate": "Does my {{CITY}} home need EPA RRP lead-paint precautions?",
+      "slots": [
+        "STATE_RRP_NOTE",
+        "avgHomeAge"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "EPA RRP rule applies to pre-1978 homes. With avgHomeAge from city-context.json, we can give a city-distinct yes/no/probably."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/painting-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 443,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/painting-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 447,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/painting-state-data.json",
+    "scope": "50 state entries — state RRP enforcement, state contractor licensing for painting (some states require, most don't)",
+    "deferrable": "yes — RRP FAQ is the lowest-value of the 6; ship 5 if needed"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/painting-city-page-template.html with {{PAINTING_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildpaintingFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

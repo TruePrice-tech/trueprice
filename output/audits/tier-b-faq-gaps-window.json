@@ -1,0 +1,130 @@
+{
+  "vertical": "window",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 99% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does it cost to replace windows in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for a full-home window replacement, depending on window type and quantity."
+    },
+    {
+      "q": "Are vinyl or wood windows better?",
+      "a": "Vinyl windows are the most affordable and low-maintenance option. Wood windows offer a premium look and better insulation but cost more and require periodic maintenance."
+    },
+    {
+      "q": "How many windows does a typical home have?",
+      "a": "Most homes have between 15 and 25 windows. A standard 3-bedroom home typically has around 15-20 windows."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much do replacement windows cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why are windows more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.window"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "type-for-climate",
+      "qTemplate": "What window type fits {{CITY}}'s climate?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Climate-driven U-factor + SHGC targets — strong signal because Energy Star zones map to climate zones."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to replace windows in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a window installer in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "rebates",
+      "qTemplate": "What window rebates + tax credits apply in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_WINDOW_REBATES",
+        "FEDERAL_25C_INFO"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": null
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/window-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 446,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/window-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 429,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/window-state-data.json (or shared utility-rebate-data.json)",
+    "scope": "50 state entries — utility window rebate summary, 25C federal credit reminder, state Energy Star adoption",
+    "deferrable": "yes; overlap with insulation + HVAC utility rebate research"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/window-city-page-template.html with {{WINDOW_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildwindowFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

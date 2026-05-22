@@ -124,16 +124,16 @@ depending on the type of work, home size, and complexity.
 
 <main class="container" style="padding-top:32px; padding-bottom:32px;">
 
-<div class="cta-box">
+<aside class="cta-box cta-box-instant" aria-label="Instant estimate CTA">
 <h2>Get a free cost estimate for {{CITY}}</h2>
 <p>Compare costs and find the right contractor for your project.</p>
 <div style="display:flex; gap:10px; flex-wrap:wrap;">
 <a class="btn" href="/analyze-my-quote.html">Browse pricing</a>
 <a class="btn-outline" href="/analyze-my-quote.html">Get started</a>
 </div>
-</div>
+</aside>
 
-<div class="cta-box" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
+<aside class="cta-box cta-box-newsletter" aria-label="Newsletter signup" style="background:var(--bg-subtle,#f8fafc); border:1px solid var(--border,#e2e8f0); text-align:center;">
 <h3 style="margin-top:0;">Get free pricing guides</h3>
 <p style="font-size:14px; color:var(--text-secondary);">Local pricing data for {{CITY}} and 700+ other cities. No spam, unsubscribe anytime.</p>
 <form class="city-email-form" style="display:flex; gap:8px; max-width:400px; margin:0 auto; flex-wrap:wrap; justify-content:center;">
@@ -142,7 +142,7 @@ depending on the type of work, home size, and complexity.
 <button type="submit" class="btn" style="padding:10px 20px; font-size:14px;">Send guides</button>
 </form>
 <div class="city-email-status" role="status" aria-live="polite" style="margin-top:8px; font-size:13px;"></div>
-</div>
+</aside>
 
 <section class="section">
 <h2>Electrical Service Costs in {{CITY}}</h2>
@@ -176,32 +176,13 @@ depending on the type of work, home size, and complexity.
 <h2>Frequently Asked Questions</h2>
 <div class="faq-list">
 
-<details class="faq-item">
-<summary>How much does a panel upgrade cost in {{CITY}}?</summary>
-<div class="faq-answer">
-<p>A 200-amp panel upgrade in {{CITY}} typically costs {{RATE_PANEL}}, including the panel, breakers, permits, and labor.</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>How much does it cost to rewire a house in {{CITY}}?</summary>
-<div class="faq-answer">
-<p>Whole house rewiring in {{CITY}} ranges from {{AVG_LOW}} to {{AVG_HIGH}} depending on home size, number of circuits, and accessibility of wiring.</p>
-</div>
-</details>
-
-<details class="faq-item">
-<summary>How much does EV charger installation cost?</summary>
-<div class="faq-answer">
-<p>Level 2 EV charger installation in {{CITY_STATE}} costs {{RATE_EV}} on average, including the charger unit, dedicated circuit, and permit.</p>
-</div>
-</details>
+{{ELECTRICAL_FAQ_BLOCK}}
 
 </div>
 </section>
 
 
-<section class="section">
+<aside class="related-services" aria-label="Other services in {{CITY}}">
 <h2>Other Services in {{CITY}}</h2>
 <p>Compare contractor costs for other home services in {{CITY_STATE}}.</p>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -220,7 +201,7 @@ depending on the type of work, home size, and complexity.
 <a href="/{{SLUG_LC}}-kitchen-remodel-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Kitchen</a>
 <a href="/{{SLUG_LC}}-insulation-cost.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Insulation</a>
 </div>
-</section>
+</aside>
 
 </main>
 {{TP_CITY_NAV_WIDGET}}

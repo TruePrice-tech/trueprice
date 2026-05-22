@@ -1,0 +1,130 @@
+{
+  "vertical": "siding",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 98% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does new siding cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for siding replacement, depending on material and home size."
+    },
+    {
+      "q": "Is fiber cement siding worth the extra cost?",
+      "a": "Fiber cement (like James Hardie) costs more than vinyl but lasts 30-50 years, resists fire and termites, and adds more resale value. It is a popular mid-range upgrade."
+    },
+    {
+      "q": "How long does siding replacement take?",
+      "a": "Most siding projects take 1-2 weeks depending on home size and material. Vinyl installs fastest, while fiber cement and wood take longer."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does siding cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is siding more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.siding"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "material-for-climate",
+      "qTemplate": "What siding material works best for {{CITY}}?",
+      "slots": [
+        "materialTip",
+        "climateNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Climate-driven: termite zones favor fiber cement; salt-air coastal favors fiber cement or vinyl; freeze-thaw markets favor engineered wood."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to install siding in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a siding contractor in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit-hoa",
+      "qTemplate": "Do I need permits or HOA approval for siding in {{CITY}}?",
+      "slots": [
+        "STATE_PERMIT_INTRO",
+        "hoaPrevalence"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "hoaPrevalence already in city-context.json but not currently used. Adding state permit info enables a strong FAQ."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/siding-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 446,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/siding-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 434,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "shared-state-permit-data.json (see kitchen)",
+    "scope": "50 state entries — building permit threshold for siding (square footage)",
+    "deferrable": "yes; consolidate with kitchen/painting"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/siding-city-page-template.html with {{SIDING_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildsidingFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "vertical": "insulation",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 99% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does attic insulation cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for attic insulation, depending on type and coverage area."
+    },
+    {
+      "q": "Is spray foam insulation worth the extra cost?",
+      "a": "Spray foam provides the highest R-value per inch and also acts as an air barrier. Closed-cell foam is best for moisture-prone areas, while blown-in is often the most cost-effective for attic coverage."
+    },
+    {
+      "q": "How much insulation do I need?",
+      "a": "The DOE recommends R-38 to R-60 for attics in most climate zones. An energy audit can determine the exact R-value target for your home in {{CITY_STATE}}."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does attic insulation cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is insulation more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.insulation"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "r-value-target",
+      "qTemplate": "What R-value does {{CITY}}'s climate need?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "DOE climate zone maps directly to R-value recommendations — 100% deterministic per city."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to add insulation in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring an insulation contractor in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "rebates-tax-credit",
+      "qTemplate": "What insulation rebates + 25C credit applies in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_UTILITY_REBATES",
+        "FEDERAL_25C_INFO"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "Utility rebates vary heavily by state + utility — shares research scope with HVAC + window."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/insulation-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 417,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/insulation-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 447,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/utility-rebate-data.json (shared across HVAC/window/insulation)",
+    "scope": "50 state entries — top utility rebate program summary per state, IRA 25C reminder, state weatherization assistance program",
+    "deferrable": "yes; build once, used by 3 verticals"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/insulation-city-page-template.html with {{INSULATION_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildinsulationFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "vertical": "concrete",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 1,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 98% unique)",
+      "seasonNote (739/739, 96% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 100% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a concrete driveway cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for a concrete driveway, depending on size and finish type."
+    },
+    {
+      "q": "Is stamped concrete worth the extra cost?",
+      "a": "Stamped concrete costs 30-50% more than plain concrete but can mimic the look of pavers, brick, or natural stone at a fraction of the cost. It adds significant curb appeal and value."
+    },
+    {
+      "q": "How long does a concrete driveway last?",
+      "a": "A properly installed and sealed concrete driveway typically lasts 25-30 years. Regular sealing every 2-3 years and prompt crack repair can extend its lifespan further."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does a concrete driveway cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is concrete more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.concrete"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "mix-for-climate",
+      "qTemplate": "What concrete mix handles {{CITY}}'s freeze-thaw cycle?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Air-entrained concrete is needed in freeze-thaw zones; not needed in mild climates. Strong climate-distinct signal."
+    },
+    {
+      "id": "best-season",
+      "qTemplate": "When can concrete be poured in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Concrete has hard temp constraints (40-90°F ideal). seasonNote will give honest per-city answers."
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a concrete contractor in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit",
+      "qTemplate": "Do I need a permit for concrete work in {{CITY}}, {{STATE}}?",
+      "slots": [
+        "STATE_CONCRETE_PERMIT"
+      ],
+      "priorState": "new",
+      "deferrable": true,
+      "note": "Driveway permits vary by municipality but state code sets the baseline (typically required for area > some sqft or any street curb cut)."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/concrete-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 400,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/concrete-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 437,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "shared-state-permit-data.json",
+    "scope": "Same as kitchen/siding/painting — share one file across building-trades verticals",
+    "deferrable": "yes"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/concrete-city-page-template.html with {{CONCRETE_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildconcreteFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 5-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

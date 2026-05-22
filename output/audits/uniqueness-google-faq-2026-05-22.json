@@ -1,0 +1,1661 @@
+{
+  "sampledAt": "2026-05-22",
+  "sampleSize": 60,
+  "results": [
+    {
+      "name": "hvac",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 554,
+        "templateScore": 84,
+        "semanticScore": 84,
+        "infoScore": 100,
+        "structScore": 15,
+        "composite": 73,
+        "avgJaccard": 0.1579,
+        "maxJaccard": 0.7333,
+        "minJaccard": 0,
+        "templateRatio": 16,
+        "avgEntities": 31.9,
+        "topBoilerplate": [
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "What HVAC system works best in Shoreline?"
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an HVAC contractor in Shoreline?"
+          },
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "What affects HVAC cost in Shoreline System type (AC only, heat pump, furnace, full system) SEER efficiency rating (14-20+) Home size and ton"
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "Most Camden homeowners pay between $7,085 to $21,255 for an HVAC system, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "What drives HVAC installation pricing in Camden?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 273,
+        "templateScore": 76,
+        "semanticScore": 77,
+        "infoScore": 100,
+        "structScore": 25,
+        "composite": 71,
+        "avgJaccard": 0.2324,
+        "maxJaccard": 0.8571,
+        "minJaccard": 0,
+        "templateRatio": 24,
+        "avgEntities": 8,
+        "topBoilerplate": [
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "How much does an HVAC system cost in Shoreline?"
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "What HVAC system works best in Shoreline?"
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an HVAC contractor in Shoreline?"
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "Most Camden homeowners pay between $7,085 to $21,255 for an HVAC system, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "What drives HVAC installation pricing in Camden?"
+          }
+        ]
+      },
+      "exactQDupePct": 15
+    },
+    {
+      "name": "roof",
+      "total": 805,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 854,
+        "templateScore": 53,
+        "semanticScore": 71,
+        "infoScore": 100,
+        "structScore": 12,
+        "composite": 60,
+        "avgJaccard": 0.2881,
+        "maxJaccard": 0.8889,
+        "minJaccard": 0,
+        "templateRatio": 47,
+        "avgEntities": 84.3,
+        "topBoilerplate": [
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "Missing any could mean surprise costs later."
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "Tear-off of old roof Underlayment (synthetic preferred) Flashing at all penetrations Ice & water shield Drip edge on all eaves Ridge ventila"
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "Upload it and Iris will check all 12 items for you."
+          },
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "If your Clarksville quote leaves any of these unlisted, ask the contractor to itemize the omission before signing — that's where change-orde"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "Estimated Cost in Clarksville $12,150 Range: $9,800 - $14,500 $6.08 per sq ft How Clarksville Compares Average roof replacement cost in Clar"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 313,
+        "templateScore": 51,
+        "semanticScore": 69,
+        "infoScore": 100,
+        "structScore": 8,
+        "composite": 58,
+        "avgJaccard": 0.3051,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 49,
+        "avgEntities": 10.7,
+        "topBoilerplate": [
+          {
+            "count": 55,
+            "ofPages": 60,
+            "example": "If your Clarksville quote leaves any of these unlisted, ask the contractor to itemize the omission before signing — that's where change-orde"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "How much does a new roof cost in Clarksville?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What roofing material works best in Clarksville?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents per"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What should a roofing quote in Clarksville include?"
+          }
+        ]
+      },
+      "exactQDupePct": 40
+    },
+    {
+      "name": "plumbing",
+      "total": 742,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 557,
+        "templateScore": 78,
+        "semanticScore": 80,
+        "infoScore": 100,
+        "structScore": 12,
+        "composite": 70,
+        "avgJaccard": 0.199,
+        "maxJaccard": 0.7241,
+        "minJaccard": 0,
+        "templateRatio": 22,
+        "avgEntities": 36.2,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Plumbing Cost Shelton Plumbing Cost in Shelton, CT Average plumbing costs in Shelton, CT range from $450 to $8,500 depending on the ser"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What affects plumbing cost in Shelton Service type (repair vs replacement vs new installation) Equipment brand and quality Pipe material (co"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What approach to local water conditions works best in Shelton?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a plumber in Shelton?"
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "Most Shelton homeowners pay between $450 to $8,500 for plumbing work, depending on scope, materials, and finish level."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 275,
+        "templateScore": 70,
+        "semanticScore": 74,
+        "infoScore": 100,
+        "structScore": 13,
+        "composite": 66,
+        "avgJaccard": 0.2566,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 30,
+        "avgEntities": 8,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does plumbing work cost in Shelton?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What approach to local water conditions works best in Shelton?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a plumber in Shelton?"
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "Most Shelton homeowners pay between $450 to $8,500 for plumbing work, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 34,
+            "ofPages": 60,
+            "example": "What drives plumbing work pricing in Shelton?"
+          }
+        ]
+      },
+      "exactQDupePct": 29
+    },
+    {
+      "name": "electrical",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 413,
+        "templateScore": 71,
+        "semanticScore": 79,
+        "infoScore": 100,
+        "structScore": 29,
+        "composite": 71,
+        "avgJaccard": 0.2125,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 29,
+        "avgEntities": 30.5,
+        "topBoilerplate": [
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "Panel Upgrade $2,500 Whole House Rewire $10,800 EV Charger $1,550 Generator $7,250 Electrical Service Costs in Kettering Service Low High Pa"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What electrical service strategy works best in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an electrician in Kettering?"
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "Legitimate contractors expect you to get competing bids and will hold their price for 30 days."
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "High-pressure sales tactics correlate with inflated pricing."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 280,
+        "templateScore": 69,
+        "semanticScore": 77,
+        "infoScore": 100,
+        "structScore": 20,
+        "composite": 68,
+        "avgJaccard": 0.228,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 31,
+        "avgEntities": 9.3,
+        "topBoilerplate": [
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "How much does electrical work cost in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What electrical service strategy works best in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an electrician in Kettering?"
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "Legitimate contractors expect you to get competing bids and will hold their price for 30 days."
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "High-pressure sales tactics correlate with inflated pricing."
+          }
+        ]
+      },
+      "exactQDupePct": 13
+    },
+    {
+      "name": "solar",
+      "total": 741,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 475,
+        "templateScore": 71,
+        "semanticScore": 65,
+        "infoScore": 100,
+        "structScore": 21,
+        "composite": 65,
+        "avgJaccard": 0.3493,
+        "maxJaccard": 1,
+        "minJaccard": 0.0169,
+        "templateRatio": 29,
+        "avgEntities": 32.3,
+        "topBoilerplate": [
+          {
+            "count": 60,
+            "ofPages": 60,
+            "example": "premium efficiency) Roof condition, angle, and shading Inverter type (string vs."
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "Home Solar Cost Taylorsville, UT Solar Installation Cost in Taylorsville, UT The average solar panel installation in Taylorsville, UT costs "
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "microinverters) Battery storage (Tesla Powerwall, Enphase, etc.) Local labor rates in Taylorsville, UT Net metering and local incentive avai"
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "Design and engineering Permits and inspections Solar panels and racking/mounting Inverter (string or microinverters) Electrical wiring and c"
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "What solar system size and configuration works best in Taylorsville?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 281,
+        "templateScore": 85,
+        "semanticScore": 73,
+        "infoScore": 100,
+        "structScore": 16,
+        "composite": 71,
+        "avgJaccard": 0.271,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 15,
+        "avgEntities": 7.8,
+        "topBoilerplate": [
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "How much does a solar installation cost in Taylorsville?"
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "What solar system size and configuration works best in Taylorsville?"
+          },
+          {
+            "count": 57,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a solar installer in Taylorsville?"
+          }
+        ]
+      },
+      "exactQDupePct": 21
+    },
+    {
+      "name": "kitchen",
+      "total": 741,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 451,
+        "templateScore": 66,
+        "semanticScore": 68,
+        "infoScore": 100,
+        "structScore": 21,
+        "composite": 64,
+        "avgJaccard": 0.3161,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 34,
+        "avgEntities": 39.7,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Kitchen Remodel Cost Roswell, GA Kitchen Remodel Cost in Roswell, GA The average kitchen remodel in Roswell, GA costs between $18,700 a"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Minor Remodel $22,000 Mid-Range $44,500 Major/Upscale $88,500 Cabinet Refacing $8,500 Kitchen Remodel Cost by Size in Roswell Kitchen Size M"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What kitchen-remodel scope works best in Roswell?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a kitchen contractor in Roswell?"
+          },
+          {
+            "count": 53,
+            "ofPages": 60,
+            "example": "full gut renovation) Cabinet type (stock, semi-custom, custom) Countertop material (laminate, granite, quartz, marble) Appliance tier (basic"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 281,
+        "templateScore": 75,
+        "semanticScore": 74,
+        "infoScore": 100,
+        "structScore": 13,
+        "composite": 67,
+        "avgJaccard": 0.2641,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 25,
+        "avgEntities": 7.7,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does a kitchen remodel cost in Roswell?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What kitchen-remodel scope works best in Roswell?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a kitchen contractor in Roswell?"
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "Most Carmel homeowners pay between $19,550 to $106,950 for a kitchen remodel, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 34,
+            "ofPages": 60,
+            "example": "What drives kitchen remodel pricing in Roswell?"
+          }
+        ]
+      },
+      "exactQDupePct": 29
+    },
+    {
+      "name": "window",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 401,
+        "templateScore": 66,
+        "semanticScore": 68,
+        "infoScore": 100,
+        "structScore": 75,
+        "composite": 75,
+        "avgJaccard": 0.3184,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 34,
+        "avgEntities": 27.6,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $6,050 to $18,100 for window replacement, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Vinyl $600/win Wood $1,000/win Fiberglass $900/win Entry Door $2,750 Window Cost by Home Size in Binghamton Project Size Vinyl Wood Fibergla"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What drives window replacement pricing in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Window replacement in Binghamton runs close to the national average."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What window type works best in Binghamton?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 280,
+        "templateScore": 64,
+        "semanticScore": 66,
+        "infoScore": 100,
+        "structScore": 100,
+        "composite": 79,
+        "avgJaccard": 0.3418,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 36,
+        "avgEntities": 8.6,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $6,050 to $18,100 for window replacement, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "How much does window replacement cost in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What drives window replacement pricing in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Window replacement in Binghamton runs close to the national average."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What window type works best in Binghamton?"
+          }
+        ]
+      },
+      "exactQDupePct": 50
+    },
+    {
+      "name": "siding",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 411,
+        "templateScore": 70,
+        "semanticScore": 73,
+        "infoScore": 100,
+        "structScore": 75,
+        "composite": 78,
+        "avgJaccard": 0.2732,
+        "maxJaccard": 0.8889,
+        "minJaccard": 0,
+        "templateRatio": 30,
+        "avgEntities": 24.4,
+        "topBoilerplate": [
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Vinyl $6.04/sqft Fiber Cement $11.07/sqft Wood $9.56/sqft Engineered Wood $8.05/sqft Siding Cost by Home Size in Binghamton Exterior Area Vi"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What siding material works best in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a siding contractor in Binghamton?"
+          },
+          {
+            "count": 37,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $6,050 to $21,150 for siding replacement, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "What drives siding replacement pricing in Binghamton?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 281,
+        "templateScore": 69,
+        "semanticScore": 71,
+        "infoScore": 100,
+        "structScore": 100,
+        "composite": 82,
+        "avgJaccard": 0.2931,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 31,
+        "avgEntities": 7.4,
+        "topBoilerplate": [
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "How much does siding replacement cost in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What siding material works best in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a siding contractor in Binghamton?"
+          },
+          {
+            "count": 37,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $6,050 to $21,150 for siding replacement, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "What drives siding replacement pricing in Binghamton?"
+          }
+        ]
+      },
+      "exactQDupePct": 40
+    },
+    {
+      "name": "painting",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 455,
+        "templateScore": 69,
+        "semanticScore": 71,
+        "infoScore": 100,
+        "structScore": 20,
+        "composite": 66,
+        "avgJaccard": 0.2905,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 31,
+        "avgEntities": 36.7,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Painting Cost Altoona, PA Exterior Painting Cost in Altoona, PA The average exterior painting job in Altoona, PA costs between $4,650 a"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Standard (1 Coat) $3/sqft Premium (2 Coats) $4/sqft Cabinet Painting $4,600 Exterior Painting Cost by Home Size in Altoona Exterior Sq Ft St"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Power washing Scraping and sanding Priming Caulking Masking and protection Trim painting Cleanup Warranty Paint quality/brand specified Numb"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What paint type and prep approach works best in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a painter in Altoona?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 286,
+        "templateScore": 76,
+        "semanticScore": 75,
+        "infoScore": 100,
+        "structScore": 9,
+        "composite": 67,
+        "avgJaccard": 0.2517,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 24,
+        "avgEntities": 10,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does exterior painting cost in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What paint type and prep approach works best in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a painter in Altoona?"
+          },
+          {
+            "count": 41,
+            "ofPages": 60,
+            "example": "Most Altoona homeowners pay between $4,650 to $9,450 for exterior painting, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 38,
+            "ofPages": 60,
+            "example": "What drives exterior painting pricing in Altoona?"
+          }
+        ]
+      },
+      "exactQDupePct": 40
+    },
+    {
+      "name": "garage-door",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 518,
+        "templateScore": 54,
+        "semanticScore": 59,
+        "infoScore": 100,
+        "structScore": 22,
+        "composite": 58,
+        "avgJaccard": 0.4075,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 46,
+        "avgEntities": 41,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Before signing with an installer, confirm the door panel style, color, and window inserts match your covenants — many HOAs allow steel and c"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Garage Door Cost Weston, FL Garage Door Cost in Weston, FL The average garage door installation in Weston, FL costs between $914 and $3"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Single Car (8x7) $1,075 Double Car (16x7) $1,700 Custom/Carriage $3,250 Opener Only $425 Garage Door Cost by Material in Weston Material Sin"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "custom) Material (steel, wood, aluminum, composite) Insulation level (R-value) Opener type (chain, belt, screw, wall-mount) Window inserts a"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Most Weston homeowners pay between $914 to $3,737 for a new garage door, depending on scope, materials, and finish level."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 344,
+        "templateScore": 60,
+        "semanticScore": 64,
+        "infoScore": 100,
+        "structScore": 7,
+        "composite": 59,
+        "avgJaccard": 0.3636,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 40,
+        "avgEntities": 12,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Before signing with an installer, confirm the door panel style, color, and window inserts match your covenants — many HOAs allow steel and c"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does a new garage door cost in Weston?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Most Weston homeowners pay between $914 to $3,737 for a new garage door, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What drives garage door installation pricing in Weston?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Garage door installation in Weston runs close to the national average."
+          }
+        ]
+      },
+      "exactQDupePct": 20
+    },
+    {
+      "name": "fence",
+      "total": 742,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 435,
+        "templateScore": 69,
+        "semanticScore": 68,
+        "infoScore": 100,
+        "structScore": 21,
+        "composite": 65,
+        "avgJaccard": 0.3179,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 31,
+        "avgEntities": 33.4,
+        "topBoilerplate": [
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Home Fence Cost Honolulu, HI Fence Installation Cost in Honolulu, HI The average fence installation in Honolulu, HI costs between $5,150 and"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Wood Privacy $48/LF Vinyl Privacy $58/LF Chain Link $26/LF Wrought Iron $74/LF Fence Cost by Yard Size in Honolulu Yard Size (LF) Wood Priva"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Post holes Concrete footings Posts Rails Pickets/panels Gate and hardware Removal of old fence Permits Grading Staining/sealing Warranty Fre"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What fence material works best in Honolulu?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a fence contractor in Honolulu?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 282,
+        "templateScore": 76,
+        "semanticScore": 72,
+        "infoScore": 100,
+        "structScore": 21,
+        "composite": 69,
+        "avgJaccard": 0.2765,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 24,
+        "avgEntities": 9.2,
+        "topBoilerplate": [
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "How much does fence installation cost in Honolulu?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What fence material works best in Honolulu?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a fence contractor in Honolulu?"
+          },
+          {
+            "count": 39,
+            "ofPages": 60,
+            "example": "Most Niagara Falls homeowners pay between $4,100 to $11,850 for fence installation, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 38,
+            "ofPages": 60,
+            "example": "What drives fence installation pricing in Niagara Falls?"
+          }
+        ]
+      },
+      "exactQDupePct": 40
+    },
+    {
+      "name": "concrete",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 456,
+        "templateScore": 60,
+        "semanticScore": 68,
+        "infoScore": 100,
+        "structScore": 20,
+        "composite": 62,
+        "avgJaccard": 0.3182,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 40,
+        "avgEntities": 32.3,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Concrete Cost Altoona, PA Concrete Driveway Cost in Altoona, PA The average concrete project in Altoona, PA costs between $4,100 and $8"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Standard Driveway $11/sqft Stamped Concrete $15/sqft Patio $11/sqft Asphalt Driveway $7/sqft Concrete Cost by Project Size in Altoona Projec"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Demolition/removal of existing surface Grading Base preparation Forms Rebar/mesh reinforcement Concrete pour Finishing Sealing Expansion joi"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What concrete mix and prep works best in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a concrete contractor in Altoona?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 292,
+        "templateScore": 66,
+        "semanticScore": 72,
+        "infoScore": 100,
+        "structScore": 11,
+        "composite": 64,
+        "avgJaccard": 0.28,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 34,
+        "avgEntities": 9.1,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does concrete work cost in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What concrete mix and prep works best in Altoona?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a concrete contractor in Altoona?"
+          },
+          {
+            "count": 37,
+            "ofPages": 60,
+            "example": "Most Altoona homeowners pay between $4,100 to $8,800 for concrete work, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 34,
+            "ofPages": 60,
+            "example": "What drives concrete work pricing in Altoona?"
+          }
+        ]
+      },
+      "exactQDupePct": 40
+    },
+    {
+      "name": "landscaping",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 461,
+        "templateScore": 68,
+        "semanticScore": 69,
+        "infoScore": 100,
+        "structScore": 20,
+        "composite": 65,
+        "avgJaccard": 0.3077,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 32,
+        "avgEntities": 41.5,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Home Landscaping Cost Weston, FL Landscaping Hardscape Cost in Weston, FL The average landscaping project in Weston, FL costs between $5,600"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Paver Patio $21/sqft Retaining Wall $35/sqft Sod Install $1/sqft Full Design + Install $9,250 Paver Patio Cost by Size in Weston Project Siz"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "Design plan Excavation Drainage Base material Edging Mulch/rock Plants Irrigation Lighting Sealing Permits Cleanup Warranty Frequently Asked"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What plant and hardscape plan works best in Weston?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a landscaper in Weston?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 284,
+        "templateScore": 74,
+        "semanticScore": 73,
+        "infoScore": 100,
+        "structScore": 17,
+        "composite": 68,
+        "avgJaccard": 0.2674,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 26,
+        "avgEntities": 8.6,
+        "topBoilerplate": [
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "How much does landscaping work cost in Weston?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What plant and hardscape plan works best in Weston?"
+          },
+          {
+            "count": 56,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a landscaper in Weston?"
+          },
+          {
+            "count": 32,
+            "ofPages": 60,
+            "example": "Most Weston homeowners pay between $5,600 to $11,050 for landscaping work, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 32,
+            "ofPages": 60,
+            "example": "What drives landscaping work pricing in Weston?"
+          }
+        ]
+      },
+      "exactQDupePct": 18
+    },
+    {
+      "name": "foundation",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 445,
+        "templateScore": 71,
+        "semanticScore": 73,
+        "infoScore": 100,
+        "structScore": 23,
+        "composite": 68,
+        "avgJaccard": 0.2672,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 29,
+        "avgEntities": 38.6,
+        "topBoilerplate": [
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "Home Foundation Repair Cost Kettering, OH Foundation Repair Cost in Kettering, OH The average foundation repair in Kettering, OH costs betwe"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What foundation repair method works best in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a foundation contractor in Kettering?"
+          },
+          {
+            "count": 49,
+            "ofPages": 60,
+            "example": "Pier Installation $1,400/pier Slabjacking $900 Wall Stabilization $7,500 Crack Repair $500/crack Foundation Repair Cost by Project Size in K"
+          },
+          {
+            "count": 49,
+            "ofPages": 60,
+            "example": "Inspection and engineering report Steel push or helical piers with brackets Excavation and backfill Waterproofing and sealing Drainage corre"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 285,
+        "templateScore": 77,
+        "semanticScore": 76,
+        "infoScore": 100,
+        "structScore": 18,
+        "composite": 70,
+        "avgJaccard": 0.2411,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 23,
+        "avgEntities": 8.6,
+        "topBoilerplate": [
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "How much does foundation repair cost in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What foundation repair method works best in Kettering?"
+          },
+          {
+            "count": 52,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring a foundation contractor in Kettering?"
+          },
+          {
+            "count": 35,
+            "ofPages": 60,
+            "example": "Most Kettering homeowners pay between $500 to $24,300 for foundation repair, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 33,
+            "ofPages": 60,
+            "example": "What drives foundation repair pricing in Kettering?"
+          }
+        ]
+      },
+      "exactQDupePct": 13
+    },
+    {
+      "name": "insulation",
+      "total": 741,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 425,
+        "templateScore": 78,
+        "semanticScore": 76,
+        "infoScore": 100,
+        "structScore": 28,
+        "composite": 72,
+        "avgJaccard": 0.2367,
+        "maxJaccard": 0.8947,
+        "minJaccard": 0,
+        "templateRatio": 22,
+        "avgEntities": 24.4,
+        "topBoilerplate": [
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "Blown-In $1.86/sqft Open Cell Foam $2.91/sqft Closed Cell Foam $4.66/sqft Batts $1.63/sqft Insulation Cost by Attic Size in Burnsville Attic"
+          },
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "What insulation type and R-value works best in Burnsville?"
+          },
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an insulation contractor in Burnsville?"
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "Most Hagerstown homeowners pay between $1,100 to $7,450 for insulation upgrades, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 34,
+            "ofPages": 60,
+            "example": "What drives insulation upgrades pricing in Hagerstown?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 288,
+        "templateScore": 76,
+        "semanticScore": 75,
+        "infoScore": 100,
+        "structScore": 25,
+        "composite": 70,
+        "avgJaccard": 0.2544,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 24,
+        "avgEntities": 8.4,
+        "topBoilerplate": [
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "How much does insulation upgrades cost in Burnsville?"
+          },
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "What insulation type and R-value works best in Burnsville?"
+          },
+          {
+            "count": 54,
+            "ofPages": 60,
+            "example": "What red flags should I watch for hiring an insulation contractor in Burnsville?"
+          },
+          {
+            "count": 36,
+            "ofPages": 60,
+            "example": "Most Hagerstown homeowners pay between $1,100 to $7,450 for insulation upgrades, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 34,
+            "ofPages": 60,
+            "example": "What drives insulation upgrades pricing in Hagerstown?"
+          }
+        ]
+      },
+      "exactQDupePct": 18
+    },
+    {
+      "name": "gutter",
+      "total": 740,
+      "sampled": 60,
+      "full": {
+        "sampled": 60,
+        "avgWords": 512,
+        "templateScore": 54,
+        "semanticScore": 62,
+        "infoScore": 100,
+        "structScore": 60,
+        "composite": 67,
+        "avgJaccard": 0.3845,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 46,
+        "avgEntities": 33.8,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $900 to $1,350 for gutter installation, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Home Gutter Cost Binghamton, NY Gutter Installation Cost in Binghamton, NY The average gutter installation in Binghamton, NY costs between $"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Aluminum 5\" $9/LF Vinyl $6/LF Steel $11/LF Aluminum 6\" $12/LF Gutter Cost by Yard Size in Binghamton Yard Size (LF) Aluminum 5\" Vinyl Steel "
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What drives gutter installation pricing in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Gutter installation in Binghamton runs close to the national average."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 60,
+        "avgWords": 338,
+        "templateScore": 58,
+        "semanticScore": 65,
+        "infoScore": 100,
+        "structScore": 100,
+        "composite": 77,
+        "avgJaccard": 0.3546,
+        "maxJaccard": 1,
+        "minJaccard": 0,
+        "templateRatio": 42,
+        "avgEntities": 10.6,
+        "topBoilerplate": [
+          {
+            "count": 59,
+            "ofPages": 60,
+            "example": "Most Binghamton homeowners pay between $900 to $1,350 for gutter installation, depending on scope, materials, and finish level."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "How much does gutter installation cost in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What drives gutter installation pricing in Binghamton?"
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "Gutter installation in Binghamton runs close to the national average."
+          },
+          {
+            "count": 58,
+            "ofPages": 60,
+            "example": "What gutter setup works best in Binghamton?"
+          }
+        ]
+      },
+      "exactQDupePct": 50
+    },
+    {
+      "name": "auto-repair",
+      "total": 48,
+      "sampled": 48,
+      "full": {
+        "sampled": 48,
+        "avgWords": 2902,
+        "templateScore": 92,
+        "semanticScore": 95,
+        "infoScore": 100,
+        "structScore": 61,
+        "composite": 88,
+        "avgJaccard": 0.0533,
+        "maxJaccard": 0.1081,
+        "minJaccard": 0,
+        "templateRatio": 8,
+        "avgEntities": 140.5,
+        "topBoilerplate": [
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Get fair pricing on everything from oil changes to major engine work."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Dealer pricing typically runs 35-55% above these figures."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Inspection compliance."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Dealer versus independent."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Diagnostic capability."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 48,
+        "avgWords": 287,
+        "templateScore": 100,
+        "semanticScore": 100,
+        "infoScore": 100,
+        "structScore": 100,
+        "composite": 100,
+        "avgJaccard": 0.002,
+        "maxJaccard": 0.1667,
+        "minJaccard": 0,
+        "templateRatio": 0,
+        "avgEntities": 15.2,
+        "topBoilerplate": []
+      },
+      "exactQDupePct": 0
+    },
+    {
+      "name": "medical",
+      "total": 48,
+      "sampled": 48,
+      "full": {
+        "sampled": 48,
+        "avgWords": 3107,
+        "templateScore": 91,
+        "semanticScore": 92,
+        "infoScore": 100,
+        "structScore": 56,
+        "composite": 86,
+        "avgJaccard": 0.0828,
+        "maxJaccard": 0.1744,
+        "minJaccard": 0,
+        "templateRatio": 9,
+        "avgEntities": 129,
+        "topBoilerplate": [
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Insurance coverage Check your plan's network carefully."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Ask for the self-pay rate before accepting any bill at face value."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "What financial assistance is available?"
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Can I get this done at urgent care instead?"
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "What are my balance billing protections?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 48,
+        "avgWords": 297,
+        "templateScore": 100,
+        "semanticScore": 100,
+        "infoScore": 100,
+        "structScore": 100,
+        "composite": 100,
+        "avgJaccard": 0.0037,
+        "maxJaccard": 0.3182,
+        "minJaccard": 0,
+        "templateRatio": 0,
+        "avgEntities": 21.9,
+        "topBoilerplate": []
+      },
+      "exactQDupePct": 0
+    },
+    {
+      "name": "legal",
+      "total": 48,
+      "sampled": 48,
+      "full": {
+        "sampled": 48,
+        "avgWords": 2661,
+        "templateScore": 89,
+        "semanticScore": 92,
+        "infoScore": 100,
+        "structScore": 56,
+        "composite": 86,
+        "avgJaccard": 0.0825,
+        "maxJaccard": 0.1799,
+        "minJaccard": 0,
+        "templateRatio": 11,
+        "avgEntities": 130.8,
+        "topBoilerplate": [
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Solo practitioners and small firms typically charge 30-50% less than large firms for comparable work."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Always ask about flat-fee options before accepting hourly billing."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Bar association referral services provide low-cost initial consultations."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Do you offer flat fees for this type of work?"
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "What are the likely court costs?"
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 48,
+        "avgWords": 278,
+        "templateScore": 93,
+        "semanticScore": 96,
+        "infoScore": 100,
+        "structScore": 60,
+        "composite": 89,
+        "avgJaccard": 0.036,
+        "maxJaccard": 0.2222,
+        "minJaccard": 0,
+        "templateRatio": 7,
+        "avgEntities": 20,
+        "topBoilerplate": [
+          {
+            "count": 39,
+            "ofPages": 48,
+            "example": "What are typical Sacramento attorney rates by practice area?"
+          }
+        ]
+      },
+      "exactQDupePct": 2
+    },
+    {
+      "name": "moving",
+      "total": 48,
+      "sampled": 48,
+      "full": {
+        "sampled": 48,
+        "avgWords": 3625,
+        "templateScore": 90,
+        "semanticScore": 91,
+        "infoScore": 100,
+        "structScore": 78,
+        "composite": 90,
+        "avgJaccard": 0.0877,
+        "maxJaccard": 0.1892,
+        "minJaccard": 0,
+        "templateRatio": 10,
+        "avgEntities": 150,
+        "topBoilerplate": [
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Get fair pricing for your next move."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "All estimates assume a local move within the metro area."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Get written estimates."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Plan parking and access."
+          },
+          {
+            "count": 47,
+            "ofPages": 48,
+            "example": "Professional mover advantages."
+          }
+        ]
+      },
+      "faq": {
+        "sampled": 48,
+        "avgWords": 285,
+        "templateScore": 100,
+        "semanticScore": 99,
+        "infoScore": 100,
+        "structScore": 99,
+        "composite": 100,
+        "avgJaccard": 0.0052,
+        "maxJaccard": 0.4211,
+        "minJaccard": 0,
+        "templateRatio": 0,
+        "avgEntities": 18.1,
+        "topBoilerplate": []
+      },
+      "exactQDupePct": 0
+    }
+  ],
+  "fullAvg": 68,
+  "faqAvg": 70,
+  "totalPages": 12104
+}

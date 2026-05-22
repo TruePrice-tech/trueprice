@@ -45,6 +45,70 @@ function parseCsv(csvText) {
 function slugify(text) { return text.toLowerCase().replace(/[^\w\s]/g, "").trim().replace(/\s+/g, "-"); }
 function formatCurrency(v) { return "$" + Math.round(v).toLocaleString(); }
 
+
+const {
+  naturalCostFraming,
+  climateZoneLeadIn,
+  faqCostInCity,
+  faqWhyCostDiffers,
+  faqBestForCity,
+  faqRedFlags,
+} = require("./lib/faq-helpers");
+
+const CITY_FAQ_CONTEXT_PATH = path.join(ROOT, "data/plumbing-city-context.json");
+let _plumbingFAQContext = null;
+function getPlumbingFAQContext(city, stateCode) {
+  if (!_plumbingFAQContext) {
+    try { _plumbingFAQContext = JSON.parse(fs.readFileSync(CITY_FAQ_CONTEXT_PATH, "utf8")); }
+    catch (e) { _plumbingFAQContext = {}; }
+  }
+  return _plumbingFAQContext[`${city}|${stateCode}`] || null;
+}
+
+// Phase 3 city-aware FAQ block. Replaces the 3 hardcoded <details> blocks
+// that previously appeared identically across ~740 city pages with 4 FAQs
+// that interpolate per-city slot data from data/plumbing-city-context.json.
+// The seasonal FAQ from the Phase 1 gap-list is intentionally dropped:
+// seasonNote slot has only 2-3 normalized templates across the corpus, so
+// forcing the question would manufacture false per-city specificity.
+function buildPlumbingFAQ({ city, stateCode, multiplier, priceRange }) {
+  const ctx = getPlumbingFAQContext(city, stateCode) || {};
+  const framing = naturalCostFraming(multiplier);
+
+  const q1 = faqCostInCity({
+    workLabel: "plumbing work",
+    productLabel: "Plumbing work",
+    city,
+    priceRange,
+    framing,
+    weatherNote: ctx.climateNote || ctx.waterNote,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q2 = faqWhyCostDiffers({
+    vertical: "plumbing",
+    displayLabel: "Plumbing work",
+    city,
+    framing,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q3 = faqBestForCity({
+    city,
+    productKindLabel: "approach to local water conditions",
+    materialOrSystemNote: ctx.waterNote,
+    climateLeadIn: false ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+  });
+
+  const q5 = faqRedFlags({
+    city,
+    contractorLabel: "plumber",
+    redFlagNote: ctx.redFlagNote,
+  });
+
+  return [q1, q2, q3, q5].join("\n\n");
+}
+
 function main() {
   const pm = readJson(PRICING_MODEL_PATH);
   const sr = readJson(STATE_REGIONS_PATH);
@@ -95,6 +159,17 @@ function main() {
       ["Bathroom Rough-In", formatCurrency(Math.round(pm.basePriceByService.bathroom_rough_in.priceByScope.full_bath * lm * om / round) * round * 0.85) + " &ndash; " + formatCurrency(Math.round(pm.basePriceByService.bathroom_rough_in.priceByScope.full_bath * lm * om / round) * round * 1.15)],
       ["Gas Line Installation", formatCurrency(Math.round(pm.basePriceByService.gas_line.priceByLength.medium_20_50ft * lm * om / round) * round * 0.85) + " &ndash; " + formatCurrency(Math.round(pm.basePriceByService.gas_line.priceByLength.medium_20_50ft * lm * om / round) * round * 1.15)]
     ].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("\n");
+    const __faqServiceMult =
+      cityMultipliers[cityKey] && cityMultipliers[cityKey].serviceMultipliers
+        ? cityMultipliers[cityKey].serviceMultipliers["plumbing"]
+        : cityMult;
+    const __faqBlockHtml = buildPlumbingFAQ({
+      city: name,
+      stateCode: sc,
+      multiplier: __faqServiceMult,
+      priceRange: `${avgLow} to ${avgHigh}`,
+    });
+
 
     let html = template
       .replaceAll("{{CITY}}", name)
@@ -111,7 +186,8 @@ function main() {
       .replaceAll("{{LOCAL_CONTEXT_SECTION}}", buildPlumbingLocalContext(name, sc))
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
-      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw)
+      .replaceAll("{{PLUMBING_FAQ_BLOCK}}", __faqBlockHtml);
 
     const navWidget = renderWidget({ city: name, state: sc, vertical: "plumbing", filename, indexes: navIndexes });
 

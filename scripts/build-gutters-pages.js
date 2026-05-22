@@ -2,14 +2,90 @@ const fs = require("fs");
 const path = require("path");
 require("./_handwritten-guard.js");
 const { buildIndexes, renderWidget } = require("./lib/city-nav-widget");
+const {
+  naturalCostFraming,
+  faqBlock,
+  faqCostInCity,
+  faqWhyCostDiffers,
+  faqBestForCity,
+  faqRedFlags,
+} = require("./lib/faq-helpers");
 
 const ROOT = path.resolve(__dirname, "..");
 const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 const PRICING_MODEL_PATH = path.join(ROOT, "data", "gutters-pricing-model.json");
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "gutters-city-page-template.html");
+const CITY_CONTEXT_PATH = path.join(ROOT, "data", "gutter-city-context.json");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-gutters.xml");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
+
+let _gutterContext = null;
+function getGutterContext(city, stateCode) {
+  if (!_gutterContext) {
+    try { _gutterContext = JSON.parse(fs.readFileSync(CITY_CONTEXT_PATH, "utf8")); }
+    catch (e) { _gutterContext = {}; }
+  }
+  return _gutterContext[`${city}|${stateCode}`] || null;
+}
+
+// Phase 3 city-aware FAQ block for gutter pages. Replaces the 3 hardcoded
+// FAQs that previously appeared identically across 740 cities, including
+// the "How long does a wood gutter last?" bug (wood gutters aren't a
+// residential product — the previous answer was the fence FAQ pasted in).
+//
+// 5 city-aware FAQs (no Q for time-of-year — seasonNote slot has only
+// 2 distinct templates after city-name normalization; honest call per the
+// Phase 1 gap-list). No Q for permits — gutters rarely require them.
+function buildGutterFAQ({ city, stateCode, multiplier, priceRange }) {
+  const ctx = getGutterContext(city, stateCode) || {};
+  const framing = naturalCostFraming(multiplier);
+
+  const q1 = faqCostInCity({
+    workLabel: "gutter installation",
+    productLabel: "Gutter installation",
+    city,
+    priceRange,
+    framing,
+    weatherNote: ctx.climateNote,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q2 = faqWhyCostDiffers({
+    vertical: "gutter",
+    displayLabel: "Gutter installation",
+    city,
+    framing,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  // Q3 — climate-driven sizing/material/skip-vs-install advice. For gutter
+  // this signal lives in climateNote (8 distinct templates after city-norm:
+  // ice-dam markets, debris markets, dry markets, etc.).
+  const q3 = faqBestForCity({
+    city,
+    productKindLabel: "gutter setup",
+    materialOrSystemNote: ctx.climateNote,
+    climateLeadIn: null, // climateNote already names the climate
+  });
+
+  // Q4 — material/pricing tiers from materialTip (2 distinct templates
+  // after city-norm: aluminum-standard markets vs gutter-guard-focused
+  // markets). 2 templates is enough to clear the >=50% boilerplate
+  // threshold on a 60-city sample.
+  const q4 = faqBlock(
+    `What gutter material is the best value in ${city}?`,
+    ctx.materialTip || `Aluminum seamless gutters are the most common choice in ${city} for cost and lifespan. Copper and zinc offer 50+ year service life at 3-4× the price — worth it on architectural homes, overkill on most.`
+  );
+
+  const q5 = faqRedFlags({
+    city,
+    contractorLabel: "gutter installer",
+    redFlagNote: ctx.redFlagNote,
+  });
+
+  return [q1, q2, q3, q4, q5].join("\n\n");
+}
 
 const SITE_BASE_URL = "https://woogoro.com";
 
@@ -97,6 +173,17 @@ function main() {
       return `<tr><td>${size.label} LF</td><td>${aluPrice}</td><td>${vinylPrice}</td><td>${steelPrice}</td></tr>`;
     }).join("\n");
 
+    const gutterServiceMult =
+      cityMultipliers[cityKey] && cityMultipliers[cityKey].serviceMultipliers
+        ? cityMultipliers[cityKey].serviceMultipliers.gutter
+        : cityMult;
+    const faqBlockHtml = buildGutterFAQ({
+      city: cityName,
+      stateCode,
+      multiplier: gutterServiceMult,
+      priceRange: `${avgLow} to ${avgHigh}`,
+    });
+
     let html = template
       .replaceAll("{{CITY}}", cityName)
       .replaceAll("{{STATE_CODE}}", stateCode)
@@ -112,7 +199,8 @@ function main() {
       .replaceAll("{{PRICE_ROWS}}", priceRows)
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
-      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw)
+      .replaceAll("{{GUTTER_FAQ_BLOCK}}", faqBlockHtml);
 
     const navWidget = renderWidget({ city: cityName, state: stateCode, vertical: "gutter", filename, indexes: navIndexes });
 

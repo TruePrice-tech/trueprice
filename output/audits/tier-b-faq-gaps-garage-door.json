@@ -1,0 +1,130 @@
+{
+  "vertical": "garage-door",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 1,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 0,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateNote (739/739, 98% unique)",
+      "materialTip (739/739, 99% unique)",
+      "seasonNote (739/739, 93% unique)",
+      "localInsight (739/739, 99% unique)",
+      "costDriverNote (739/739, 100% unique)",
+      "redFlagNote (739/739, 99% unique)"
+    ]
+  },
+  "ctxNote": null,
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a new garage door cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for a new garage door installed, depending on size and material."
+    },
+    {
+      "q": "Should I replace the opener when I get a new garage door?",
+      "a": "If your opener is more than 10 years old, replacing it with the door is usually more cost-effective. New openers are quieter, more secure, and include modern safety features."
+    },
+    {
+      "q": "How long does garage door installation take?",
+      "a": "A standard garage door installation takes 3-5 hours. Custom doors or jobs requiring structural modifications may take a full day."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does a new garage door cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "costDriverNote-sentence-1"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why are garage doors more | less expensive in {{CITY}}?",
+      "slots": [
+        "costDriverNote",
+        "serviceMultipliers.garage-door"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "wind-storm",
+      "qTemplate": "What wind rating does a garage door need in {{CITY}}?",
+      "slots": [
+        "climateNote",
+        "materialTip"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "Hurricane/tornado zones require wind-rated doors; non-storm zones don't. Strong city-distinct signal."
+    },
+    {
+      "id": "best-time",
+      "qTemplate": "When is the best time to install a garage door in {{CITY}}?",
+      "slots": [
+        "seasonNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What red flags should I watch for hiring a garage-door installer in {{CITY}}?",
+      "slots": [
+        "redFlagNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "hoa-permit",
+      "qTemplate": "Do {{CITY}} HOAs typically restrict garage-door style?",
+      "slots": [
+        "hoaPrevalence",
+        "localInsight"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "hoaPrevalence already in city-context.json. Can ship this FAQ without any Phase 2 fill."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/garage-door-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "pctUnique": 100,
+      "avgCharLen": 413,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/garage-door-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "pctUnique": 99,
+      "avgCharLen": 457,
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": null,
+    "scope": "NONE — all 6 FAQs map to existing slots",
+    "deferrable": "n/a"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/garage-door-city-page-template.html with {{GARAGE_DOOR_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildgaragedoorFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 6-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}

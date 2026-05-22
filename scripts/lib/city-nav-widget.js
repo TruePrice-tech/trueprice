@@ -270,7 +270,7 @@ function renderWidget(opts) {
   if (!haveCol1 && !haveCol2) return '';
 
   const parts = [];
-  parts.push('<section class="tp-city-nav" aria-label="Related pages"><div class="container"><div class="tp-city-nav-grid">');
+  parts.push('<nav class="tp-city-nav" aria-label="Related pages"><div class="container"><div class="tp-city-nav-grid">');
   if (haveCol1) {
     const lis = column1Cities.map(c =>
       `<li><a href="/${c.filename}">${c.cityName}, ${c.stateCodeUpper}</a></li>`
@@ -283,7 +283,7 @@ function renderWidget(opts) {
     ).join('');
     parts.push(`<div><h3>Other Services in ${escAttr(city + ', ' + state)}</h3><ul>${lis}</ul></div>`);
   }
-  parts.push('</div></div></section>');
+  parts.push('</div></div></nav>');
   return parts.join('');
 }
 

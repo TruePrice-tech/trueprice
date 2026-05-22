@@ -41,6 +41,70 @@ function buildPageFilename(city, stateCode) {
   return `${slugifyCity(city)}-${stateCode.toLowerCase()}-landscaping-cost.html`;
 }
 
+
+const {
+  naturalCostFraming,
+  climateZoneLeadIn,
+  faqCostInCity,
+  faqWhyCostDiffers,
+  faqBestForCity,
+  faqRedFlags,
+} = require("./lib/faq-helpers");
+
+const CITY_FAQ_CONTEXT_PATH = path.join(ROOT, "data/landscaping-city-context.json");
+let _landscapingFAQContext = null;
+function getLandscapingFAQContext(city, stateCode) {
+  if (!_landscapingFAQContext) {
+    try { _landscapingFAQContext = JSON.parse(fs.readFileSync(CITY_FAQ_CONTEXT_PATH, "utf8")); }
+    catch (e) { _landscapingFAQContext = {}; }
+  }
+  return _landscapingFAQContext[`${city}|${stateCode}`] || null;
+}
+
+// Phase 3 city-aware FAQ block. Replaces the 3 hardcoded <details> blocks
+// that previously appeared identically across ~740 city pages with 4 FAQs
+// that interpolate per-city slot data from data/landscaping-city-context.json.
+// The seasonal FAQ from the Phase 1 gap-list is intentionally dropped:
+// seasonNote slot has only 2-3 normalized templates across the corpus, so
+// forcing the question would manufacture false per-city specificity.
+function buildLandscapingFAQ({ city, stateCode, multiplier, priceRange }) {
+  const ctx = getLandscapingFAQContext(city, stateCode) || {};
+  const framing = naturalCostFraming(multiplier);
+
+  const q1 = faqCostInCity({
+    workLabel: "landscaping work",
+    productLabel: "Landscaping work",
+    city,
+    priceRange,
+    framing,
+    weatherNote: ctx.climateNote || ctx.waterNote,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q2 = faqWhyCostDiffers({
+    vertical: "landscaping",
+    displayLabel: "Landscaping work",
+    city,
+    framing,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q3 = faqBestForCity({
+    city,
+    productKindLabel: "plant and hardscape plan",
+    materialOrSystemNote: ctx.materialTip,
+    climateLeadIn: true ? climateZoneLeadIn((ctx.climateZone || ""), city) : null,
+  });
+
+  const q5 = faqRedFlags({
+    city,
+    contractorLabel: "landscaper",
+    redFlagNote: ctx.redFlagNote,
+  });
+
+  return [q1, q2, q3, q5].join("\n\n");
+}
+
 function main() {
   const pricingModel = readJson(PRICING_MODEL_PATH);
   const stateRegions = readJson(STATE_REGIONS_PATH);
@@ -105,6 +169,17 @@ function main() {
       const sod = formatCurrency(Math.round(sodMid * sqft * laborMult * overheadMult / 50) * 50);
       return `<tr><td>${size.label} sq ft</td><td>${paver}</td><td>${retaining}</td><td>${sod}</td></tr>`;
     }).join("\n");
+    const __faqServiceMult =
+      cityMultipliers[cityKey] && cityMultipliers[cityKey].serviceMultipliers
+        ? cityMultipliers[cityKey].serviceMultipliers["landscaping"]
+        : cityMult;
+    const __faqBlockHtml = buildLandscapingFAQ({
+      city: cityName,
+      stateCode,
+      multiplier: __faqServiceMult,
+      priceRange: `${avgLow} to ${avgHigh}`,
+    });
+
 
     let html = template
       .replaceAll("{{CITY}}", cityName)
@@ -124,7 +199,8 @@ function main() {
       .replaceAll("{{PRICE_ROWS}}", priceRows)
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
-      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw)
+      .replaceAll("{{LANDSCAPING_FAQ_BLOCK}}", __faqBlockHtml);
 
     const navWidget = renderWidget({ city: cityName, state: stateCode, vertical: "landscaping", filename, indexes: navIndexes });
 

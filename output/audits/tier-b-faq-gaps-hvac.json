@@ -1,0 +1,137 @@
+{
+  "vertical": "hvac",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 3,
+    "currentCityDistinctSlots": 2,
+    "currentCityDistinctNote": "Only AVG_LOW/AVG_HIGH bind to city. Other 2 Q&A pairs are 100% hardcoded plaintext appearing identically on 740/740 pages.",
+    "proposedFAQCount": 6,
+    "proposedCityDistinctSlots": 11,
+    "dataGapsNeedingFill": 1,
+    "dataGapSummary": "Only 1 of 6 proposed FAQs requires new data (state-level HVAC permit/license data). 5/6 wire to existing slots in data/hvac-city-context.json, data/city-context.json, data/city-cost-multipliers.json."
+  },
+  "currentFAQs": [
+    {
+      "q": "How much does a new HVAC system cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for HVAC replacement, depending on system type and efficiency.",
+      "citySignal": "weak — cost range only, generic explanation",
+      "auditPrevalence": "94/100"
+    },
+    {
+      "q": "Should I replace my AC and furnace at the same time?",
+      "a": "Replacing both at once is usually more cost-effective than separate replacements. Matched systems run more efficiently and most contractors offer bundle pricing.",
+      "citySignal": "none — 100% hardcoded",
+      "auditPrevalence": "100/100"
+    },
+    {
+      "q": "What SEER rating should I choose?",
+      "a": "14 SEER is the minimum federal requirement. 16 SEER offers a good balance of efficiency and cost. 18-20+ SEER provides the best energy savings but costs significantly more upfront.",
+      "citySignal": "none — 100% hardcoded",
+      "auditPrevalence": "100/100"
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does HVAC replacement cost in {{CITY}}, {{STATE}}?",
+      "aTemplate": "Most homeowners in {{CITY}} pay between {{AVG_LOW}} and {{AVG_HIGH}} for a full HVAC replacement. {{COST_DRIVER_SENTENCE_1}}",
+      "slots": [
+        { "name": "AVG_LOW", "source": "data/hvac-pricing-model.json + city-cost-multipliers.hvac", "status": "wired" },
+        { "name": "AVG_HIGH", "source": "same as above", "status": "wired" },
+        { "name": "COST_DRIVER_SENTENCE_1", "source": "data/hvac-city-context.json#costDriverNote (first sentence)", "status": "available-unused", "uniqueness": "100% city-distinct" }
+      ],
+      "expectedDistinctness": "high"
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why does HVAC cost more|less in {{CITY}} than the national average?",
+      "qSelector": "above|below national avg by serviceMultipliers.hvac sign",
+      "aTemplate": "{{COST_DRIVER_NOTE}}",
+      "slots": [
+        { "name": "COST_DRIVER_NOTE", "source": "data/hvac-city-context.json#costDriverNote (full)", "status": "available-unused", "uniqueness": "100% city-distinct (738/739 unique)", "avgLen": "~500 chars" },
+        { "name": "HVAC_MULT", "source": "data/city-cost-multipliers.json#serviceMultipliers.hvac (for question-side wording)", "status": "wired-elsewhere" }
+      ],
+      "expectedDistinctness": "very high (this is a brand-new FAQ filled with the costDriverNote which is currently in the data file but renders nowhere)"
+    },
+    {
+      "id": "seer-for-climate",
+      "qTemplate": "What SEER rating fits {{CITY}}'s climate?",
+      "aTemplate": "{{CLIMATE_NOTE}} {{SEER_RECOMMEND_BY_ZONE}}",
+      "slots": [
+        { "name": "CLIMATE_NOTE", "source": "data/hvac-city-context.json#climateNote", "status": "available-in-localcontext-cards", "note": "Already rendered in 'what locals should know' cards but currently NOT in FAQ. Reusing in FAQ is fine — the body section is still climate-aware via systemTip." },
+        { "name": "SEER_RECOMMEND_BY_ZONE", "source": "data/city-context.json#climateZone -> small map (hot_humid→18+, hot_dry→16-18, mixed→16, cold→14-16)", "status": "derive-from-existing-data" }
+      ],
+      "expectedDistinctness": "medium-high (climateNote is per-city; SEER map gives 4-5 buckets)"
+    },
+    {
+      "id": "when-to-install",
+      "qTemplate": "When is the best time to install HVAC in {{CITY}}?",
+      "aTemplate": "{{SEASON_NOTE}}",
+      "slots": [
+        { "name": "SEASON_NOTE", "source": "data/hvac-city-context.json#seasonNote", "status": "available-in-localcontext-cards", "uniqueness": "98% city-distinct (727/739)" }
+      ],
+      "expectedDistinctness": "high (98% per-city unique seasonNote already exists)",
+      "note": "Like CLIMATE_NOTE, this is currently in the local-context cards. Reuse in FAQ is acceptable — same text appearing in two sections of the same page doesn't hurt uniqueness BETWEEN pages, which is what Google measures."
+    },
+    {
+      "id": "red-flags",
+      "qTemplate": "What HVAC contractor red flags should I watch for in {{CITY}}?",
+      "aTemplate": "{{RED_FLAG_NOTE}}",
+      "slots": [
+        { "name": "RED_FLAG_NOTE", "source": "data/hvac-city-context.json#redFlagNote", "status": "available-unused", "uniqueness": "100% city-distinct (736/739)", "avgLen": "~500 chars" }
+      ],
+      "expectedDistinctness": "very high (currently unused data; pure city-specific)"
+    },
+    {
+      "id": "permit-requirement",
+      "qTemplate": "Do I need a permit for HVAC installation in {{CITY}}, {{STATE}}?",
+      "aTemplate": "{{STATE_HVAC_PERMIT_INTRO}} {{CITY_PERMIT_OFFICE_NOTE}}",
+      "slots": [
+        { "name": "STATE_HVAC_PERMIT_INTRO", "source": "data/hvac-state-data.json (TO BE CREATED, ~50 entries)", "status": "MISSING — Phase 2 data fill" },
+        { "name": "CITY_PERMIT_OFFICE_NOTE", "source": "data/city-context.json#permitNote (currently roofing-worded; adapt or leave generic)", "status": "available-but-misworded", "note": "Existing permitNote text says e.g. 'The City of Auburn requires building permits for roof replacements'. For HVAC FAQ we'd want HVAC-specific phrasing. Two options: (a) drop the city portion and rely on state intro alone; (b) add an hvacPermitNote slot to hvac-city-context.json (one-time bulk script)." }
+      ],
+      "expectedDistinctness": "medium (state-level signal × 50, plus city-level if option-b)",
+      "deferrable": "yes — without Phase 2 data fill, ship 5 FAQs. Permit FAQ alone is the only one needing new data."
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [
+    {
+      "field": "data/hvac-city-context.json#costDriverNote",
+      "coverage": "739/739",
+      "distinct": "738/739 unique",
+      "avgLen": "~500 chars",
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    },
+    {
+      "field": "data/hvac-city-context.json#redFlagNote",
+      "coverage": "739/739",
+      "distinct": "736/739 unique",
+      "avgLen": "~500 chars",
+      "currentUseSite": "NONE — populated but never rendered anywhere"
+    }
+  ],
+  "phaseTwoDataNeeded": {
+    "file": "data/hvac-state-data.json",
+    "scope": "50 state entries",
+    "fields": [
+      "hvacPermitIntro — 1-2 sentence per-state intro to mechanical permits (varies by state code adoption — IBC/IMC year; some states delegate to county/municipal, others have state mechanical board)",
+      "mechanicalLicensingBody — e.g. CSLB (CA), TDLR (TX), DLLR (MD), DPOR (VA), CCB (OR), DOPL (UT)",
+      "salesTaxOnLabor — yes/no/some (drives total cost differences city-distinct from labor multiplier)"
+    ],
+    "researchSource": "ICC code adoption table + state contractor board websites + state DOR sales tax FAQ. One-shot ~4 hours research, no API spend.",
+    "deferrable": "yes — without it, we ship 5 city-aware FAQs instead of 6. Worth doing because the 50-state file is reusable by plumbing, electrical, and any vertical needing permit/licensing data."
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 3 hardcoded <details class=\"faq-item\"> blocks in templates/hvac-city-page-template.html with {{HVAC_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildHvacFAQ(city, state, ctx, stateData) to scripts/build-hvac-pages.js — mirrors existing buildHvacLocalContext() pattern at scripts/build-hvac-pages.js:21.",
+    "outputContract": "Returns 5 or 6 <details class=\"faq-item\"> blocks with city-specific content in answer text. Pure HTML, no runtime JS."
+  },
+  "estimatedLift": {
+    "currentHVACComposite": "57% (post Phase 0)",
+    "currentHVACFAQComposite": "23%",
+    "expectedAfterPhase3": "FAQ composite 75-85% (matches Tier A profile), full-body composite 65-72% (FAQ is ~80 words of 410; lift bounded by what other sections contribute).",
+    "stretchTarget": "≥70% full-body composite (Phase 5 gate)",
+    "confidence": "high for FAQ slice (data is already 98-100% unique), medium for full-body (depends on whether body sections also get a depth pass in Phase 4)"
+  }
+}

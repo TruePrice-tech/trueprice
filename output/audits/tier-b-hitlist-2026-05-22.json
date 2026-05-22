@@ -1,0 +1,2080 @@
+{
+  "sampledAt": "2026-05-22",
+  "sampleSize": 100,
+  "crossHits": [
+    {
+      "verticalCount": 16,
+      "verticals": "hvac(100%), roof(94%), plumbing(100%), electrical(100%), solar(100%), kitchen(100%), window(100%), siding(100%), painting(100%), garage-door(100%), fence(100%), concrete(100%), landscaping(100%), foundation(100%), insulation(100%), gutter(100%)",
+      "example": "No spam, unsubscribe anytime."
+    },
+    {
+      "verticalCount": 15,
+      "verticals": "hvac(93%), plumbing(95%), electrical(90%), solar(91%), kitchen(94%), window(95%), siding(95%), painting(93%), garage-door(95%), fence(95%), concrete(93%), landscaping(95%), foundation(90%), insulation(91%), gutter(95%)",
+      "example": "Other Services in Shoreline Compare contractor costs for other home services in Shoreline, WA."
+    },
+    {
+      "verticalCount": 11,
+      "verticals": "electrical(93%), kitchen(96%), window(98%), siding(98%), painting(97%), garage-door(96%), fence(97%), concrete(97%), landscaping(96%), foundation(93%), insulation(95%)",
+      "example": "Browse pricing Get started Get free pricing guides Local pricing data for Kettering and 700+ other cities."
+    }
+  ],
+  "results": [
+    {
+      "vertical": "hvac",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Should I replace my AC and furnace at the same time?",
+          "normHash": "a93c49e97277"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Replacing both at once is usually more cost-effective than separate replacements.",
+          "normHash": "9074d43a8d4c"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Matched systems run more efficiently and most contractors offer bundle pricing.",
+          "normHash": "ee4c5b3a3258"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "What SEER rating should I choose?",
+          "normHash": "4c5d47a275ad"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "14 SEER is the minimum federal requirement.",
+          "normHash": "62ad5ba14d17"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "16 SEER offers a good balance of efficiency and cost.",
+          "normHash": "e9eb3ee28785"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "18-20+ SEER provides the best energy savings but costs significantly more upfront.",
+          "normHash": "5d1e3f0cb802"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Analyze a quote Get free pricing guides Local pricing data for Shoreline and 700+ other cities.",
+          "normHash": "8bb525b3569d"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Central AC $11,750 Heat Pump $13,800 Gas Furnace $7,600 Full System $18,200 Get a free cost estimate for Shoreline Take a photo of your AC unit for an instant estimate, or upload a contractor quote for a detailed breakdown.",
+          "normHash": "1cd8b0191c6b"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Most homeowners in Shoreline pay between $7,625 and $22,874 for HVAC replacement, depending on system type and efficiency.",
+          "normHash": "e19e94dda5e2"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Other Services in Shoreline Compare contractor costs for other home services in Shoreline, WA.",
+          "normHash": "f4044f0d2350"
+        },
+        {
+          "pct": 92,
+          "count": 92,
+          "example": "What affects HVAC cost in Shoreline System type (AC only, heat pump, furnace, full system) SEER efficiency rating (14-20+) Home size and tonnage requirement Ductwork condition and modifications Equipment brand (Carrier, Trane, Goodman, etc.) Local labor rates in Shoreline, WA Frequently Asked Questions How much does a new HVAC system cost in Shoreline?",
+          "normHash": "91d210de6772"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Should I replace my AC and furnace at the same time?",
+          "answerPreview": "Replacing both at once is usually more cost-effective than separate replacements. Matched systems run more efficiently and most contractors offer bundle pricing."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "What SEER rating should I choose?",
+          "answerPreview": "14 SEER is the minimum federal requirement. 16 SEER offers a good balance of efficiency and cost. 18-20+ SEER provides the best energy savings but costs significantly more upfront."
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "question": "How much does a new HVAC system cost in Shoreline?",
+          "answerPreview": "Most homeowners in Shoreline pay between $7,625 and $22,874 for HVAC replacement, depending on system type and efficiency."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "a93c49e97277",
+        "9074d43a8d4c",
+        "ee4c5b3a3258",
+        "4c5d47a275ad",
+        "62ad5ba14d17",
+        "e9eb3ee28785",
+        "5d1e3f0cb802",
+        "8bb525b3569d",
+        "1cd8b0191c6b",
+        "e19e94dda5e2",
+        "f4044f0d2350",
+        "91d210de6772"
+      ]
+    },
+    {
+      "vertical": "roof",
+      "totalFiles": 805,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Should I always choose the lowest roofing quote?",
+          "normHash": "6a4c6fb5fa3e"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Lower bids sometimes exclude items like flashing, ventilation upgrades, or disposal costs that appear later as change orders.",
+          "normHash": "8156081c7e0d"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Check My Quote Just shopping around?",
+          "normHash": "957a83d38b14"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "This same widget can be embedded on any website.",
+          "normHash": "a571ec672d71"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Want this on your site?",
+          "normHash": "4e844ec70028"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Missing any could mean surprise costs later.",
+          "normHash": "0ad583d88ab2"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Tear-off of old roof Underlayment (synthetic preferred) Flashing at all penetrations Ice & water shield Drip edge on all eaves Ridge ventilation Ridge vent Starter strip Ridge cap shingles Decking inspection/repair Debris removal & cleanup Building permit Have a quote?",
+          "normHash": "606772562bb2"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Upload it and Iris will check all 12 items for you.",
+          "normHash": "129da25fab09"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "The full range is $4,700 to $92,650 depending on roof size and materials.",
+          "normHash": "bed197a4fedd"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Local labor rates, material availability, and building code requirements all influence pricing.",
+          "normHash": "bdbf3b7b30fd"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Why do roofing quotes vary so much?",
+          "normHash": "ad76a7958123"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "What should a roofing quote include?",
+          "normHash": "f5a25bedf824"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "A complete quote should include tear-off, underlayment, flashing, ice and water shield, drip edge, ventilation, ridge vent, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit.",
+          "normHash": "ad91405d7971"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "If any of these are missing, ask your contractor why.",
+          "normHash": "b04551bd452a"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Should I always choose the lowest roofing quote?",
+          "answerPreview": "Not always. Lower bids sometimes exclude items like flashing, ventilation upgrades, or disposal costs that appear later as change orders."
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "question": "How much does a new roof cost in Clarksville?",
+          "answerPreview": "Most homeowners in Clarksville pay around $11,600 for a new roof. The full range is $4,700 to $92,650 depending on roof size and materials."
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "question": "Is roofing more expensive in Clarksville than average?",
+          "answerPreview": "Roofing in Clarksville is 15% above the national average. Local labor rates, material availability, and building code requirements all influence pricing."
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "question": "Why do roofing quotes vary so much?",
+          "answerPreview": "Roofing estimates vary depending on labor assumptions, material brands, flashing work, ventilation upgrades, and warranty coverage included in the proposal."
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "question": "What should a roofing quote include?",
+          "answerPreview": "A complete quote should include tear-off, underlayment, flashing, ice and water shield, drip edge, ventilation, ridge vent, starter strip, ridge cap, decking inspection, disposal/c"
+        },
+        {
+          "pct": 77,
+          "count": 77,
+          "question": "My home in East Lansing is older. Does that affect the cost?",
+          "answerPreview": "Often yes. Homes in East Lansing average around 46 years old. Older roofs may need additional decking repair, updated ventilation, or code-required upgrades that add to the base re"
+        }
+      ],
+      "boilerplateHashes": [
+        "6a4c6fb5fa3e",
+        "8156081c7e0d",
+        "957a83d38b14",
+        "a571ec672d71",
+        "4e844ec70028",
+        "0ad583d88ab2",
+        "606772562bb2",
+        "129da25fab09",
+        "bed197a4fedd",
+        "bdbf3b7b30fd",
+        "ad76a7958123",
+        "f5a25bedf824",
+        "ad91405d7971",
+        "b04551bd452a",
+        "7684665f9922"
+      ]
+    },
+    {
+      "vertical": "plumbing",
+      "totalFiles": 742,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Total project costs depend on the scope — a simple drain cleaning may cost $200-$450 while a water heater replacement runs $1,500-$4,500.",
+          "normHash": "9b0ff84d3a70"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Tankless water heaters last 20+ years and can reduce energy costs.",
+          "normHash": "a1ea414fc2f2"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "PEX is 30-40% cheaper than copper and faster to install.",
+          "normHash": "9d285998e421"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Copper lasts longer (50+ years vs 25-30 for PEX) and has higher resale value.",
+          "normHash": "0cfa723a64ae"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Both are code-compliant in most areas.",
+          "normHash": "270e98d20f32"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Water Heater $2,200 Repipe $5,500 Sewer Line $5,500 Drain Cleaning $450 Get a free cost estimate for Shelton Upload your contractor estimate for an instant breakdown of price, scope, and missing items.",
+          "normHash": "a8846d96b267"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Get free estimate Analyze a quote Get free pricing guides Local pricing data for Shelton and 700+ other cities.",
+          "normHash": "302044c9875e"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Should I repair or replace my water heater?",
+          "normHash": "029deae5d9e5"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "If your water heater is over 10 years old or the repair cost exceeds 50% of replacement, replacing is usually the better investment.",
+          "normHash": "b2159119355c"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Is PEX or copper better for repiping?",
+          "normHash": "f87e67f7011c"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Home Plumbing Cost Shelton Plumbing Cost in Shelton, CT Average plumbing costs in Shelton, CT range from $450 to $8,500 depending on the service type and project scope.",
+          "normHash": "c12afe9610e7"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "What affects plumbing cost in Shelton Service type (repair vs replacement vs new installation) Equipment brand and quality Pipe material (copper, PEX, CPVC) Accessibility (slab, crawlspace, finished walls) Code requirements and permits Local labor rates in Shelton, CT Frequently Asked Questions How much does a plumber cost in Shelton?",
+          "normHash": "5e8d92e290a6"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Plumber rates in Shelton typically range from $85-$150/hour.",
+          "normHash": "fa6108cbd42e"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Shelton Compare contractor costs for other home services in Shelton, CT.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Should I repair or replace my water heater?",
+          "answerPreview": "If your water heater is over 10 years old or the repair cost exceeds 50% of replacement, replacing is usually the better investment. Tankless water heaters last 20+ years and can r"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Is PEX or copper better for repiping?",
+          "answerPreview": "PEX is 30-40% cheaper than copper and faster to install. Copper lasts longer (50+ years vs 25-30 for PEX) and has higher resale value. Both are code-compliant in most areas."
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "question": "How much does a plumber cost in Shelton?",
+          "answerPreview": "Plumber rates in Shelton typically range from $85-$150/hour. Total project costs depend on the scope — a simple drain cleaning may cost $200-$450 while a water heater replacement r"
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "9b0ff84d3a70",
+        "a1ea414fc2f2",
+        "9d285998e421",
+        "0cfa723a64ae",
+        "270e98d20f32",
+        "a8846d96b267",
+        "302044c9875e",
+        "029deae5d9e5",
+        "b2159119355c",
+        "f87e67f7011c",
+        "c12afe9610e7",
+        "5e8d92e290a6",
+        "fa6108cbd42e",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "electrical",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How much does EV charger installation cost?",
+          "normHash": "3f37ac2a5760"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Panel Upgrade $2,500 Whole House Rewire $10,800 EV Charger $1,550 Generator $7,250 Get a free cost estimate for Kettering Compare costs and find the right contractor for your project.",
+          "normHash": "12ea92f0b554"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Kettering and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "A 200-amp panel upgrade in Kettering typically costs $2,500, including the panel, breakers, permits, and labor.",
+          "normHash": "3694d24c1811"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "How much does it cost to rewire a house in Kettering?",
+          "normHash": "6348872e52a7"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Whole house rewiring in Kettering ranges from $1,700 to $14,050 depending on home size, number of circuits, and accessibility of wiring.",
+          "normHash": "9212ec8af8c4"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Level 2 EV charger installation in Kettering, OH costs $1,550 on average, including the charger unit, dedicated circuit, and permit.",
+          "normHash": "01a2b4f9ceaa"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Other Services in Kettering Compare contractor costs for other home services in Kettering, OH.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How much does EV charger installation cost?",
+          "answerPreview": "Level 2 EV charger installation in Kettering, OH costs $1,550 on average, including the charger unit, dedicated circuit, and permit."
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "question": "How much does a panel upgrade cost in Kettering?",
+          "answerPreview": "A 200-amp panel upgrade in Kettering typically costs $2,500, including the panel, breakers, permits, and labor."
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "question": "How much does it cost to rewire a house in Kettering?",
+          "answerPreview": "Whole house rewiring in Kettering ranges from $1,700 to $14,050 depending on home size, number of circuits, and accessibility of wiring."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "3f37ac2a5760",
+        "12ea92f0b554",
+        "8d24b1adbf1d",
+        "3694d24c1811",
+        "6348872e52a7",
+        "9212ec8af8c4",
+        "01a2b4f9ceaa",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "solar",
+      "totalFiles": 741,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "premium efficiency) Roof condition, angle, and shading Inverter type (string vs.",
+          "normHash": "bfdc309f05b6"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "After the credit, costs drop significantly.",
+          "normHash": "77c91f0dc39e"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Is the 30% federal solar tax credit still available?",
+          "normHash": "8a2e76dda169"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "The federal Investment Tax Credit (ITC) provides a 30% tax credit on the total cost of your solar installation through 2032.",
+          "normHash": "d3bf26de9fb9"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does solar installation take?",
+          "normHash": "db496568db88"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Physical installation typically takes 1-3 days.",
+          "normHash": "8b177747231c"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "However, the full process from contract signing to power-on can take 2-3 months due to permitting and utility interconnection.",
+          "normHash": "e34ff377a5b1"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "It drops to 26% in 2033 and 22% in 2034.",
+          "normHash": "53be92698457"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Analyze a quote Get free pricing guides Local pricing data for Taylorsville and 700+ other cities.",
+          "normHash": "8bb525b3569d"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "5 kW System $14,300 8 kW System $22,900 10 kW System $28,700 Battery Add-On $13,400 Get a free solar estimate for Taylorsville Take a photo of your roof to assess solar potential, or upload a contractor quote for a detailed breakdown.",
+          "normHash": "5b7297c4edeb"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Home Solar Cost Taylorsville, UT Solar Installation Cost in Taylorsville, UT The average solar panel installation in Taylorsville, UT costs between $12,155 and $59,070 before the 30% federal tax credit, depending on system size and panel type.",
+          "normHash": "a211fe02820f"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "microinverters) Battery storage (Tesla Powerwall, Enphase, etc.) Local labor rates in Taylorsville, UT Net metering and local incentive availability What Should a Solar Quote Include?",
+          "normHash": "c907324b9f92"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Most homeowners in Taylorsville pay between $12,155 and $59,070 before the 30% federal tax credit.",
+          "normHash": "60140e261029"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Other Services in Taylorsville Compare contractor costs for other home services in Taylorsville, UT.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Is the 30% federal solar tax credit still available?",
+          "answerPreview": "Yes. The federal Investment Tax Credit (ITC) provides a 30% tax credit on the total cost of your solar installation through 2032. It drops to 26% in 2033 and 22% in 2034."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does solar installation take?",
+          "answerPreview": "Physical installation typically takes 1-3 days. However, the full process from contract signing to power-on can take 2-3 months due to permitting and utility interconnection."
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "question": "How much do solar panels cost in Taylorsville?",
+          "answerPreview": "Most homeowners in Taylorsville pay between $12,155 and $59,070 before the 30% federal tax credit. After the credit, costs drop significantly."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "bfdc309f05b6",
+        "77c91f0dc39e",
+        "8a2e76dda169",
+        "d3bf26de9fb9",
+        "db496568db88",
+        "8b177747231c",
+        "e34ff377a5b1",
+        "53be92698457",
+        "8bb525b3569d",
+        "5b7297c4edeb",
+        "a211fe02820f",
+        "c907324b9f92",
+        "60140e261029",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "kitchen",
+      "totalFiles": 741,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does a kitchen remodel take?",
+          "normHash": "e550edad5c68"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A minor cosmetic remodel takes 4-6 weeks.",
+          "normHash": "5d10bec8750d"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A mid-range remodel takes 8-12 weeks.",
+          "normHash": "5ef468a151af"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "What is the best ROI for a kitchen remodel?",
+          "normHash": "e116db1a2f2a"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Mid-range kitchen remodels typically recoup 60-80% of their cost at resale.",
+          "normHash": "a3819e433b09"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Minor cosmetic updates often provide the highest return on investment.",
+          "normHash": "d190305ffae9"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "A major gut renovation can take 3-5 months or longer.",
+          "normHash": "0542fffdab78"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Minor Remodel $23,000 Mid-Range $46,500 Major/Upscale $93,000 Cabinet Refacing $9,000 Get a free cost estimate for Carmel Compare costs and find the right contractor for your project.",
+          "normHash": "52952e82fe8b"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Carmel and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Home Kitchen Remodel Cost Roswell, GA Kitchen Remodel Cost in Roswell, GA The average kitchen remodel in Roswell, GA costs between $18,700 and $101,775 depending on scope, materials, and kitchen size.",
+          "normHash": "b62c63cb53ef"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Kitchen Remodel Cost by Size in Roswell Kitchen Size Minor Remodel Mid-Range Major/Upscale Small ( $16,500 $33,500 $66,500 Average (100-150 sq ft) $22,000 $44,500 $88,500 Large (150-200 sq ft) $28,500 $58,000 $115,000 Expansive (200+ sq ft) $36,500 $73,500 $146,000 What affects kitchen remodel cost in Roswell Scope of work (cosmetic refresh vs.",
+          "normHash": "2c1dc9e2bdb9"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Most homeowners in Roswell pay between $18,700 and $101,775 for a kitchen remodel, depending on scope and finishes.",
+          "normHash": "3b4ce3fcf251"
+        },
+        {
+          "pct": 94,
+          "count": 94,
+          "example": "Other Services in Roswell Compare contractor costs for other home services in Roswell, GA.",
+          "normHash": "f4044f0d2350"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "full gut renovation) Cabinet type (stock, semi-custom, custom) Countertop material (laminate, granite, quartz, marble) Appliance tier (basic, mid-range, professional-grade) Layout changes (moving plumbing or walls) Local labor rates in Roswell, GA What Should a Kitchen Remodel Quote Include?",
+          "normHash": "a775e67e5d5c"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does a kitchen remodel take?",
+          "answerPreview": "A minor cosmetic remodel takes 4-6 weeks. A mid-range remodel takes 8-12 weeks. A major gut renovation can take 3-5 months or longer."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "What is the best ROI for a kitchen remodel?",
+          "answerPreview": "Mid-range kitchen remodels typically recoup 60-80% of their cost at resale. Minor cosmetic updates often provide the highest return on investment."
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "question": "How much does a kitchen remodel cost in Carmel?",
+          "answerPreview": "Most homeowners in Carmel pay between $19,550 and $106,950 for a kitchen remodel, depending on scope and finishes."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "e550edad5c68",
+        "5d10bec8750d",
+        "5ef468a151af",
+        "e116db1a2f2a",
+        "a3819e433b09",
+        "d190305ffae9",
+        "0542fffdab78",
+        "52952e82fe8b",
+        "8d24b1adbf1d",
+        "b62c63cb53ef",
+        "2c1dc9e2bdb9",
+        "3b4ce3fcf251",
+        "f4044f0d2350",
+        "a775e67e5d5c"
+      ]
+    },
+    {
+      "vertical": "window",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Vinyl windows are the most affordable and low-maintenance option.",
+          "normHash": "cf4ae9d2f2db"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Wood windows offer a premium look and better insulation but cost more and require periodic maintenance.",
+          "normHash": "175990e7acef"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How many windows does a typical home have?",
+          "normHash": "5155d1f78948"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Most homes have between 15 and 25 windows.",
+          "normHash": "5b26ce4b0d22"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A standard 3-bedroom home typically has around 15-20 windows.",
+          "normHash": "bde75c79278a"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Vinyl $600/win Wood $1,000/win Fiberglass $900/win Entry Door $2,750 Get a free cost estimate for Binghamton Compare costs and find the right contractor for your project.",
+          "normHash": "73ad70282157"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Binghamton and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Are vinyl or wood windows better?",
+          "normHash": "8e6118a1bdbc"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Binghamton pay between $6,050 and $18,100 for a full-home window replacement, depending on window type and quantity.",
+          "normHash": "d5d0b1923de6"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Binghamton Compare contractor costs for other home services in Binghamton, NY.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Are vinyl or wood windows better?",
+          "answerPreview": "Vinyl windows are the most affordable and low-maintenance option. Wood windows offer a premium look and better insulation but cost more and require periodic maintenance."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How many windows does a typical home have?",
+          "answerPreview": "Most homes have between 15 and 25 windows. A standard 3-bedroom home typically has around 15-20 windows."
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "question": "How much does it cost to replace windows in Binghamton?",
+          "answerPreview": "Most homeowners in Binghamton pay between $6,050 and $18,100 for a full-home window replacement, depending on window type and quantity."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "cf4ae9d2f2db",
+        "175990e7acef",
+        "5155d1f78948",
+        "5b26ce4b0d22",
+        "bde75c79278a",
+        "73ad70282157",
+        "8d24b1adbf1d",
+        "8e6118a1bdbc",
+        "d5d0b1923de6",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "siding",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Is fiber cement siding worth the extra cost?",
+          "normHash": "d20027471528"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Fiber cement (like James Hardie) costs more than vinyl but lasts 30-50 years, resists fire and termites, and adds more resale value.",
+          "normHash": "d854d64acdb9"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "It is a popular mid-range upgrade.",
+          "normHash": "9279f1f26e14"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does siding replacement take?",
+          "normHash": "ec086748ce9c"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Most siding projects take 1-2 weeks depending on home size and material.",
+          "normHash": "5611a0998470"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Vinyl installs fastest, while fiber cement and wood take longer.",
+          "normHash": "1e0a0e6c1526"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Vinyl $6.04/sqft Fiber Cement $11.07/sqft Wood $9.56/sqft Engineered Wood $8.05/sqft Get a free cost estimate for Binghamton Compare costs and find the right contractor for your project.",
+          "normHash": "a16212ee297e"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Binghamton and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Binghamton pay between $6,050 and $21,150 for siding replacement, depending on material and home size.",
+          "normHash": "4cfe85f937f5"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Binghamton Compare contractor costs for other home services in Binghamton, NY.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Is fiber cement siding worth the extra cost?",
+          "answerPreview": "Fiber cement (like James Hardie) costs more than vinyl but lasts 30-50 years, resists fire and termites, and adds more resale value. It is a popular mid-range upgrade."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does siding replacement take?",
+          "answerPreview": "Most siding projects take 1-2 weeks depending on home size and material. Vinyl installs fastest, while fiber cement and wood take longer."
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "question": "How much does new siding cost in Binghamton?",
+          "answerPreview": "Most homeowners in Binghamton pay between $6,050 and $21,150 for siding replacement, depending on material and home size."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "d20027471528",
+        "d854d64acdb9",
+        "9279f1f26e14",
+        "ec086748ce9c",
+        "5611a0998470",
+        "1e0a0e6c1526",
+        "a16212ee297e",
+        "8d24b1adbf1d",
+        "4cfe85f937f5",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "painting",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How many coats of paint does an exterior need?",
+          "normHash": "fe69d2285741"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Most exterior painting jobs require at least two coats for proper coverage and durability.",
+          "normHash": "8da52e00aee0"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does exterior paint last?",
+          "normHash": "fe5a39b2fc38"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Quality exterior paint typically lasts 5-10 years depending on climate, sun exposure, and paint quality.",
+          "normHash": "a1c224a1db87"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Premium paints like Sherwin-Williams Duration can last 10-15 years.",
+          "normHash": "285d1686dda6"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Standard (1 Coat) $3/sqft Premium (2 Coats) $4/sqft Cabinet Painting $4,600 Get a free cost estimate for Altoona Compare costs and find the right contractor for your project.",
+          "normHash": "bd7fb5444ecd"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Altoona and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "A single coat may work for touch-ups or if the existing paint is in good condition with a similar color.",
+          "normHash": "0ec76a6c66da"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Home Painting Cost Altoona, PA Exterior Painting Cost in Altoona, PA The average exterior painting job in Altoona, PA costs between $4,650 and $9,450 depending on home size, paint quality, and number of coats.",
+          "normHash": "c68e218051ca"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Power washing Scraping and sanding Priming Caulking Masking and protection Trim painting Cleanup Warranty Paint quality/brand specified Number of coats Color samples Frequently Asked Questions How much does it cost to paint a house exterior in Altoona?",
+          "normHash": "883337068fca"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Most homeowners in Altoona pay between $4,650 and $9,450 for exterior painting, depending on home size and paint quality.",
+          "normHash": "152d4f342b3d"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Other Services in Altoona Compare contractor costs for other home services in Altoona, PA.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How many coats of paint does an exterior need?",
+          "answerPreview": "Most exterior painting jobs require at least two coats for proper coverage and durability. A single coat may work for touch-ups or if the existing paint is in good condition with a"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does exterior paint last?",
+          "answerPreview": "Quality exterior paint typically lasts 5-10 years depending on climate, sun exposure, and paint quality. Premium paints like Sherwin-Williams Duration can last 10-15 years."
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "question": "How much does it cost to paint a house exterior in Altoona?",
+          "answerPreview": "Most homeowners in Altoona pay between $4,650 and $9,450 for exterior painting, depending on home size and paint quality."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "fe69d2285741",
+        "8da52e00aee0",
+        "fe5a39b2fc38",
+        "a1c224a1db87",
+        "285d1686dda6",
+        "bd7fb5444ecd",
+        "8d24b1adbf1d",
+        "0ec76a6c66da",
+        "c68e218051ca",
+        "883337068fca",
+        "152d4f342b3d",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "garage-door",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Should I replace the opener when I get a new garage door?",
+          "normHash": "af0c666bdf9b"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "If your opener is more than 10 years old, replacing it with the door is usually more cost-effective.",
+          "normHash": "13cdc00dcb6b"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "New openers are quieter, more secure, and include modern safety features.",
+          "normHash": "b0deeb1df391"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does garage door installation take?",
+          "normHash": "3ba9201facaa"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A standard garage door installation takes 3-5 hours.",
+          "normHash": "0ad03935cd24"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Custom doors or jobs requiring structural modifications may take a full day.",
+          "normHash": "1d240013a081"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Single Car (8x7) $1,075 Double Car (16x7) $1,700 Custom/Carriage $3,250 Opener Only $425 Get a free cost estimate for Weston Compare costs and find the right contractor for your project.",
+          "normHash": "1b962c845851"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Weston and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Home Garage Door Cost Weston, FL Garage Door Cost in Weston, FL The average garage door installation in Weston, FL costs between $914 and $3,737 depending on door size, material, and whether an opener is included.",
+          "normHash": "e82ec8d88b80"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Garage Door Cost by Material in Weston Material Single Car (8x7) Double Car (16x7) Basic Steel (non-insulated) $1,075 $1,700 Insulated Steel $1,225 $1,950 Wood $1,550 $2,475 Aluminum $1,300 $2,050 Fiberglass $1,400 $2,200 Composite/Faux Wood $1,675 $2,625 What affects garage door cost in Weston Door size (single car vs.",
+          "normHash": "69995d8c0145"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "custom) Material (steel, wood, aluminum, composite) Insulation level (R-value) Opener type (chain, belt, screw, wall-mount) Window inserts and decorative hardware Local labor rates in Weston, FL What Should a Garage Door Quote Include?",
+          "normHash": "34219cf511e1"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Weston pay between $914 and $3,737 for a new garage door installed, depending on size and material.",
+          "normHash": "ec671a463ab6"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Weston Compare contractor costs for other home services in Weston, FL.",
+          "normHash": "f4044f0d2350"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Old door removal and disposal New door, tracks, and hardware Torsion or extension springs Garage door opener with remotes Weatherstripping and bottom seal Safety sensors and auto-reverse Wireless keypad Warranty (parts and labor) Permits if required Frequently Asked Questions How much does a new garage door cost in Weston?",
+          "normHash": "6ac2242ebd29"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Should I replace the opener when I get a new garage door?",
+          "answerPreview": "If your opener is more than 10 years old, replacing it with the door is usually more cost-effective. New openers are quieter, more secure, and include modern safety features."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does garage door installation take?",
+          "answerPreview": "A standard garage door installation takes 3-5 hours. Custom doors or jobs requiring structural modifications may take a full day."
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "question": "How much does a new garage door cost in Weston?",
+          "answerPreview": "Most homeowners in Weston pay between $914 and $3,737 for a new garage door installed, depending on size and material."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "af0c666bdf9b",
+        "13cdc00dcb6b",
+        "b0deeb1df391",
+        "3ba9201facaa",
+        "0ad03935cd24",
+        "1d240013a081",
+        "1b962c845851",
+        "8d24b1adbf1d",
+        "e82ec8d88b80",
+        "69995d8c0145",
+        "34219cf511e1",
+        "ec671a463ab6",
+        "f4044f0d2350",
+        "6ac2242ebd29"
+      ]
+    },
+    {
+      "vertical": "fence",
+      "totalFiles": 742,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "What is the cheapest fence material?",
+          "normHash": "c7cc5ec6fb4f"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Chain link is the most affordable fencing option at $15-$25 per linear foot installed.",
+          "normHash": "2b2009d0f030"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Wood privacy fencing is the next most affordable at $25-$50 per linear foot.",
+          "normHash": "d43d55adb917"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does a wood fence last?",
+          "normHash": "c36d97c61d27"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A well-maintained wood fence typically lasts 15-20 years.",
+          "normHash": "c96db7ec3c1a"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Regular staining and sealing every 2-3 years can significantly extend its lifespan.",
+          "normHash": "eb9cda40704f"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Cedar and redwood last longer than pine.",
+          "normHash": "d46fa482b2dd"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Wood Privacy $48/LF Vinyl Privacy $58/LF Chain Link $26/LF Wrought Iron $74/LF Get a free cost estimate for Honolulu Compare costs and find the right contractor for your project.",
+          "normHash": "2872dea5dce1"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Honolulu and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Home Fence Cost Honolulu, HI Fence Installation Cost in Honolulu, HI The average fence installation in Honolulu, HI costs between $5,150 and $14,850 depending on material, fence height, and yard size.",
+          "normHash": "5f586080878b"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Post holes Concrete footings Posts Rails Pickets/panels Gate and hardware Removal of old fence Permits Grading Staining/sealing Warranty Frequently Asked Questions How much does a fence cost in Honolulu?",
+          "normHash": "4ea4e1f120a9"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Honolulu pay between $5,150 and $14,850 for fence installation, depending on material and yard size.",
+          "normHash": "c0f858fdd4e3"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Honolulu Compare contractor costs for other home services in Honolulu, HI.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "What is the cheapest fence material?",
+          "answerPreview": "Chain link is the most affordable fencing option at $15-$25 per linear foot installed. Wood privacy fencing is the next most affordable at $25-$50 per linear foot."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does a wood fence last?",
+          "answerPreview": "A well-maintained wood fence typically lasts 15-20 years. Regular staining and sealing every 2-3 years can significantly extend its lifespan. Cedar and redwood last longer than pin"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "question": "How much does a fence cost in Honolulu?",
+          "answerPreview": "Most homeowners in Honolulu pay between $5,150 and $14,850 for fence installation, depending on material and yard size."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "c7cc5ec6fb4f",
+        "2b2009d0f030",
+        "d43d55adb917",
+        "c36d97c61d27",
+        "c96db7ec3c1a",
+        "eb9cda40704f",
+        "d46fa482b2dd",
+        "2872dea5dce1",
+        "8d24b1adbf1d",
+        "5f586080878b",
+        "4ea4e1f120a9",
+        "c0f858fdd4e3",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "concrete",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Is stamped concrete worth the extra cost?",
+          "normHash": "56488efb6426"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "It adds significant curb appeal and value.",
+          "normHash": "8ab4201fec00"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does a concrete driveway last?",
+          "normHash": "8c5a6b64f023"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A properly installed and sealed concrete driveway typically lasts 25-30 years.",
+          "normHash": "d0c50982900b"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Regular sealing every 2-3 years and prompt crack repair can extend its lifespan further.",
+          "normHash": "f65e5b499ce5"
+        },
+        {
+          "pct": 99,
+          "count": 99,
+          "example": "Stamped concrete costs 30-50% more than plain concrete but can mimic the look of pavers, brick, or natural stone at a fraction of the cost.",
+          "normHash": "6e2f473a41db"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Standard Driveway $11/sqft Stamped Concrete $15/sqft Patio $11/sqft Asphalt Driveway $7/sqft Get a free cost estimate for Altoona Compare costs and find the right contractor for your project.",
+          "normHash": "e68636c9e918"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Altoona and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Home Concrete Cost Altoona, PA Concrete Driveway Cost in Altoona, PA The average concrete project in Altoona, PA costs between $4,100 and $8,800 depending on project type, size, and finish.",
+          "normHash": "62b22251d123"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Demolition/removal of existing surface Grading Base preparation Forms Rebar/mesh reinforcement Concrete pour Finishing Sealing Expansion joints Permits Cleanup Warranty Cure time expectations Frequently Asked Questions How much does a concrete driveway cost in Altoona?",
+          "normHash": "23571fb3ef4e"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Most homeowners in Altoona pay between $4,100 and $8,800 for a concrete driveway, depending on size and finish type.",
+          "normHash": "da37f707f812"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Other Services in Altoona Compare contractor costs for other home services in Altoona, PA.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Is stamped concrete worth the extra cost?",
+          "answerPreview": "Stamped concrete costs 30-50% more than plain concrete but can mimic the look of pavers, brick, or natural stone at a fraction of the cost. It adds significant curb appeal and valu"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does a concrete driveway last?",
+          "answerPreview": "A properly installed and sealed concrete driveway typically lasts 25-30 years. Regular sealing every 2-3 years and prompt crack repair can extend its lifespan further."
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "question": "How much does a concrete driveway cost in Altoona?",
+          "answerPreview": "Most homeowners in Altoona pay between $4,100 and $8,800 for a concrete driveway, depending on size and finish type."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "56488efb6426",
+        "8ab4201fec00",
+        "8c5a6b64f023",
+        "d0c50982900b",
+        "f65e5b499ce5",
+        "6e2f473a41db",
+        "e68636c9e918",
+        "8d24b1adbf1d",
+        "62b22251d123",
+        "23571fb3ef4e",
+        "da37f707f812",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "landscaping",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does a paver patio last?",
+          "normHash": "b3f2a4768137"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A properly installed paver patio can last 25-50 years with minimal maintenance.",
+          "normHash": "6b6817bde3f3"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Pavers can be individually replaced if damaged, making them a long-lasting investment.",
+          "normHash": "f612cbdce3cf"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Do I need a permit for landscaping work?",
+          "normHash": "580b502195c8"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Permits are typically required for retaining walls over 4 feet tall, major grading changes, and drainage work that affects neighboring properties.",
+          "normHash": "d48870c05603"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Paver Patio $21/sqft Retaining Wall $35/sqft Sod Install $1/sqft Full Design + Install $9,250 Get a free cost estimate for Weston Compare costs and find the right contractor for your project.",
+          "normHash": "cebf7dfd0e3b"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Weston and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Home Landscaping Cost Weston, FL Landscaping Hardscape Cost in Weston, FL The average landscaping project in Weston, FL costs between $5,600 and $11,050 depending on project type, size, and materials.",
+          "normHash": "d30ed27bdaec"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Design plan Excavation Drainage Base material Edging Mulch/rock Plants Irrigation Lighting Sealing Permits Cleanup Warranty Frequently Asked Questions How much does a paver patio cost in Weston?",
+          "normHash": "4ff7d789d6d8"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Weston pay between $5,600 and $11,050 for a paver patio, depending on size and materials chosen.",
+          "normHash": "a68137df525c"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Check with your local building department in Weston.",
+          "normHash": "21ba07a1d7e0"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Weston Compare contractor costs for other home services in Weston, FL.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does a paver patio last?",
+          "answerPreview": "A properly installed paver patio can last 25-50 years with minimal maintenance. Pavers can be individually replaced if damaged, making them a long-lasting investment."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Do I need a permit for landscaping work?",
+          "answerPreview": "Permits are typically required for retaining walls over 4 feet tall, major grading changes, and drainage work that affects neighboring properties. Check with your local building de"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "question": "How much does a paver patio cost in Weston?",
+          "answerPreview": "Most homeowners in Weston pay between $5,600 and $11,050 for a paver patio, depending on size and materials chosen."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "b3f2a4768137",
+        "6b6817bde3f3",
+        "f612cbdce3cf",
+        "580b502195c8",
+        "d48870c05603",
+        "cebf7dfd0e3b",
+        "8d24b1adbf1d",
+        "d30ed27bdaec",
+        "4ff7d789d6d8",
+        "a68137df525c",
+        "21ba07a1d7e0",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "foundation",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How many piers does a typical foundation repair need?",
+          "normHash": "4f8b560261a0"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Most homes need 8 to 12 piers for a typical foundation repair.",
+          "normHash": "7c5edd3182ce"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "The exact number depends on the extent of settlement and your home's footprint.",
+          "normHash": "5edb718db5cf"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Does foundation repair come with a warranty?",
+          "normHash": "8f32772c473d"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Most reputable foundation repair companies offer a transferable lifetime warranty on pier installations.",
+          "normHash": "2d6d8057f7e1"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Always confirm warranty terms and transferability before signing a contract.",
+          "normHash": "c0a1122af0a0"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Pier Installation $1,400/pier Slabjacking $900 Wall Stabilization $7,500 Crack Repair $500/crack Get a free cost estimate for Kettering Compare costs and find the right contractor for your project.",
+          "normHash": "b8952d30fd07"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Kettering and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Home Foundation Repair Cost Kettering, OH Foundation Repair Cost in Kettering, OH The average foundation repair in Kettering, OH costs between $500 and $24,300 depending on the type and extent of damage.",
+          "normHash": "bd3c9d73806e"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Most homeowners in Kettering pay between $500 and $24,300 for foundation repair, depending on the type and extent of damage.",
+          "normHash": "83b6ba8967a4"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Each pier costs $1,400 installed in Kettering, OH.",
+          "normHash": "72b47a4fd309"
+        },
+        {
+          "pct": 90,
+          "count": 90,
+          "example": "Other Services in Kettering Compare contractor costs for other home services in Kettering, OH.",
+          "normHash": "f4044f0d2350"
+        },
+        {
+          "pct": 87,
+          "count": 87,
+          "example": "Inspection and engineering report Steel push or helical piers with brackets Excavation and backfill Waterproofing and sealing Drainage correction if needed Post-repair monitoring Transferable warranty Permits and inspections Landscaping repair Frequently Asked Questions How much does foundation repair cost in Kettering?",
+          "normHash": "e642c8efbeed"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How many piers does a typical foundation repair need?",
+          "answerPreview": "Most homes need 8 to 12 piers for a typical foundation repair. Each pier costs $1,400 installed in Kettering, OH. The exact number depends on the extent of settlement and your home"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Does foundation repair come with a warranty?",
+          "answerPreview": "Most reputable foundation repair companies offer a transferable lifetime warranty on pier installations. Always confirm warranty terms and transferability before signing a contract"
+        },
+        {
+          "pct": 93,
+          "count": 93,
+          "question": "How much does foundation repair cost in Kettering?",
+          "answerPreview": "Most homeowners in Kettering pay between $500 and $24,300 for foundation repair, depending on the type and extent of damage."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "4f8b560261a0",
+        "7c5edd3182ce",
+        "5edb718db5cf",
+        "8f32772c473d",
+        "2d6d8057f7e1",
+        "c0a1122af0a0",
+        "b8952d30fd07",
+        "8d24b1adbf1d",
+        "bd3c9d73806e",
+        "83b6ba8967a4",
+        "72b47a4fd309",
+        "f4044f0d2350",
+        "e642c8efbeed"
+      ]
+    },
+    {
+      "vertical": "insulation",
+      "totalFiles": 741,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Is spray foam insulation worth the extra cost?",
+          "normHash": "f70f1f0b5548"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Spray foam provides the highest R-value per inch and also acts as an air barrier.",
+          "normHash": "feb5848da087"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How much insulation do I need?",
+          "normHash": "7aef378b20eb"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "Closed-cell foam is best for moisture-prone areas, while blown-in is often the most cost-effective for attic coverage.",
+          "normHash": "01dae5c2d465"
+        },
+        {
+          "pct": 96,
+          "count": 96,
+          "example": "The DOE recommends R-38 to R-60 for attics in most climate zones.",
+          "normHash": "c379b9d3190f"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Browse pricing Get started Get free pricing guides Local pricing data for Burnsville and 700+ other cities.",
+          "normHash": "8d24b1adbf1d"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Blown-In $1.86/sqft Open Cell Foam $2.91/sqft Closed Cell Foam $4.66/sqft Batts $1.63/sqft Get a free cost estimate for Burnsville Compare costs and find the right contractor for your project.",
+          "normHash": "10f9a404b960"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Most homeowners in Burnsville pay between $1,400 and $9,600 for attic insulation, depending on type and coverage area.",
+          "normHash": "0b02e038bc85"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "An energy audit can determine the exact R-value target for your home in Burnsville, MN.",
+          "normHash": "8ba99281a033"
+        },
+        {
+          "pct": 91,
+          "count": 91,
+          "example": "Other Services in Burnsville Compare contractor costs for other home services in Burnsville, MN.",
+          "normHash": "f4044f0d2350"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "Is spray foam insulation worth the extra cost?",
+          "answerPreview": "Spray foam provides the highest R-value per inch and also acts as an air barrier. Closed-cell foam is best for moisture-prone areas, while blown-in is often the most cost-effective"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How much insulation do I need?",
+          "answerPreview": "The DOE recommends R-38 to R-60 for attics in most climate zones. An energy audit can determine the exact R-value target for your home in Burnsville, MN."
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "question": "How much does attic insulation cost in Burnsville?",
+          "answerPreview": "Most homeowners in Burnsville pay between $1,400 and $9,600 for attic insulation, depending on type and coverage area."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "f70f1f0b5548",
+        "feb5848da087",
+        "7aef378b20eb",
+        "01dae5c2d465",
+        "c379b9d3190f",
+        "8d24b1adbf1d",
+        "10f9a404b960",
+        "0b02e038bc85",
+        "8ba99281a033",
+        "f4044f0d2350"
+      ]
+    },
+    {
+      "vertical": "gutter",
+      "totalFiles": 740,
+      "sampled": 100,
+      "boilerplate": [
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "No spam, unsubscribe anytime.",
+          "normHash": "7684665f9922"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "What is the cheapest gutter material?",
+          "normHash": "b22286399f11"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Aluminum gutters are the most affordable option at $6-$12 per linear foot installed.",
+          "normHash": "b93544ca6175"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "How long does a wood gutter last?",
+          "normHash": "54432161dbcd"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "A well-maintained wood gutter typically lasts 15-20 years.",
+          "normHash": "669792c3066e"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Regular staining and sealing every 2-3 years can significantly extend its lifespan.",
+          "normHash": "eb9cda40704f"
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "example": "Cedar and redwood last longer than pine.",
+          "normHash": "d46fa482b2dd"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Aluminum 5\" $9/LF Vinyl $6/LF Steel $11/LF Aluminum 6\" $12/LF Get a free cost estimate for Binghamton Compare costs and find the right contractor for your project.",
+          "normHash": "f058670ebcfe"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "example": "Analyze your quote Browse pricing Get free pricing guides Local pricing data for Binghamton and 700+ other cities.",
+          "normHash": "1df8b60e94a2"
+        },
+        {
+          "pct": 97,
+          "count": 97,
+          "example": "Vinyl is comparable at $5-$11 per linear foot but less durable in extreme climates.",
+          "normHash": "5639cfa9220e"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Home Gutter Cost Binghamton, NY Gutter Installation Cost in Binghamton, NY The average gutter installation in Binghamton, NY costs between $900 and $1,350 depending on material, gutter height, and yard size.",
+          "normHash": "9a675bc811f1"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Most homeowners in Binghamton pay between $900 and $1,350 for gutter installation, depending on material and yard size.",
+          "normHash": "218aca15b268"
+        },
+        {
+          "pct": 95,
+          "count": 95,
+          "example": "Other Services in Binghamton Compare contractor costs for other home services in Binghamton, NY.",
+          "normHash": "f4044f0d2350"
+        },
+        {
+          "pct": 92,
+          "count": 92,
+          "example": "Gutter material and profile Downspout count and placement Hangers and brackets End caps and miters Splash blocks or extensions Removal of old gutters Fascia repair if needed Gutter guards (if requested) Permits (if required) Cleanup and debris removal Warranty Frequently Asked Questions How much does a gutter cost in Binghamton?",
+          "normHash": "31b357ad4e99"
+        }
+      ],
+      "faqHits": [
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "What is the cheapest gutter material?",
+          "answerPreview": "Aluminum gutters are the most affordable option at $6-$12 per linear foot installed. Vinyl is comparable at $5-$11 per linear foot but less durable in extreme climates."
+        },
+        {
+          "pct": 100,
+          "count": 100,
+          "question": "How long does a wood gutter last?",
+          "answerPreview": "A well-maintained wood gutter typically lasts 15-20 years. Regular staining and sealing every 2-3 years can significantly extend its lifespan. Cedar and redwood last longer than pi"
+        },
+        {
+          "pct": 98,
+          "count": 98,
+          "question": "How much does a gutter cost in Binghamton?",
+          "answerPreview": "Most homeowners in Binghamton pay between $900 and $1,350 for gutter installation, depending on material and yard size."
+        }
+      ],
+      "boilerplateHashes": [
+        "7684665f9922",
+        "b22286399f11",
+        "b93544ca6175",
+        "54432161dbcd",
+        "669792c3066e",
+        "eb9cda40704f",
+        "d46fa482b2dd",
+        "f058670ebcfe",
+        "1df8b60e94a2",
+        "5639cfa9220e",
+        "9a675bc811f1",
+        "218aca15b268",
+        "f4044f0d2350",
+        "31b357ad4e99"
+      ]
+    }
+  ],
+  "ranking": [
+    {
+      "vertical": "roof",
+      "totalFiles": 805,
+      "localBoilerCount": 15,
+      "faqHitCount": 6
+    },
+    {
+      "vertical": "plumbing",
+      "totalFiles": 742,
+      "localBoilerCount": 15,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "solar",
+      "totalFiles": 741,
+      "localBoilerCount": 15,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "kitchen",
+      "totalFiles": 741,
+      "localBoilerCount": 15,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "garage-door",
+      "totalFiles": 740,
+      "localBoilerCount": 15,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "fence",
+      "totalFiles": 742,
+      "localBoilerCount": 14,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "foundation",
+      "totalFiles": 740,
+      "localBoilerCount": 14,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "gutter",
+      "totalFiles": 740,
+      "localBoilerCount": 14,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "hvac",
+      "totalFiles": 740,
+      "localBoilerCount": 13,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "painting",
+      "totalFiles": 740,
+      "localBoilerCount": 13,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "concrete",
+      "totalFiles": 740,
+      "localBoilerCount": 13,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "landscaping",
+      "totalFiles": 740,
+      "localBoilerCount": 13,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "window",
+      "totalFiles": 740,
+      "localBoilerCount": 11,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "siding",
+      "totalFiles": 740,
+      "localBoilerCount": 11,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "insulation",
+      "totalFiles": 741,
+      "localBoilerCount": 11,
+      "faqHitCount": 3
+    },
+    {
+      "vertical": "electrical",
+      "totalFiles": 740,
+      "localBoilerCount": 9,
+      "faqHitCount": 3
+    }
+  ]
+}

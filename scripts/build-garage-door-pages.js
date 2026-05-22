@@ -2,14 +2,99 @@ const fs = require("fs");
 const path = require("path");
 require("./_handwritten-guard.js");
 const { buildIndexes, renderWidget } = require("./lib/city-nav-widget");
+const {
+  getSharedCityContext,
+  naturalCostFraming,
+  climateZoneLeadIn,
+  hoaLeadIn,
+  faqBlock,
+  faqCostInCity,
+  faqWhyCostDiffers,
+  faqBestForCity,
+  faqBestTime,
+  faqRedFlags,
+} = require("./lib/faq-helpers");
 
 const ROOT = path.resolve(__dirname, "..");
 const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
 const PRICING_MODEL_PATH = path.join(ROOT, "data", "garage-door-pricing-model.json");
 const STATE_REGIONS_PATH = path.join(ROOT, "data", "state-regions.json");
 const TEMPLATE_PATH = path.join(ROOT, "templates", "garage-door-city-page-template.html");
+const CITY_CONTEXT_PATH = path.join(ROOT, "data", "garage-door-city-context.json");
 const SITEMAP_PATH = path.join(ROOT, "sitemap-garage-door.xml");
 const CITY_MULTIPLIERS_PATH = path.join(ROOT, "data", "city-cost-multipliers.json");
+
+let _gdContext = null;
+function getGarageDoorContext(city, stateCode) {
+  if (!_gdContext) {
+    try { _gdContext = JSON.parse(fs.readFileSync(CITY_CONTEXT_PATH, "utf8")); }
+    catch (e) { _gdContext = {}; }
+  }
+  return _gdContext[`${city}|${stateCode}`] || null;
+}
+
+// Phase 3 city-aware FAQ block for garage-door pages. Replaces the 3
+// hardcoded <details> blocks that previously appeared identically on every
+// city page. All 6 outputs interpolate per-city slot data.
+function buildGarageDoorFAQ({ city, stateCode, multiplier, priceRange }) {
+  const ctx = getGarageDoorContext(city, stateCode) || {};
+  const shared = getSharedCityContext(city, stateCode) || {};
+  const framing = naturalCostFraming(multiplier);
+  const climateLead = climateZoneLeadIn(shared.climateZone, city);
+
+  const q1 = faqCostInCity({
+    workLabel: "garage door installation",
+    productLabel: "A new garage door",
+    city,
+    priceRange,
+    framing,
+    weatherNote: ctx.climateNote,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  const q2 = faqWhyCostDiffers({
+    vertical: "garage-door",
+    displayLabel: "Garage door installation",
+    city,
+    framing,
+    costDriverNote: ctx.costDriverNote,
+  });
+
+  // Q3 — climate-driven material/wind/insulation advice. For garage-door
+  // specifically, this signal lives in `climateNote` (UV degradation, wind
+  // rating, freeze-zone insulation R-value), NOT `materialTip` (which is
+  // generic "standard dimension" boilerplate for this vertical).
+  const q3 = faqBestForCity({
+    city,
+    productKindLabel: "garage door style",
+    materialOrSystemNote: ctx.climateNote,
+    climateLeadIn: null, // climateNote already mentions the climate; no extra lead-in needed
+  });
+
+  // Q4 dropped intentionally: garage-door installation isn't a strongly
+  // seasonal vertical, and the seasonNote slot in garage-door-city-context
+  // is functionally identical (sentence-hash-identical) across cities
+  // after city-name normalization. Forcing the question would manufacture
+  // false per-city specificity. Phase 1 gap-list noted this risk; this
+  // drop keeps us honest. 5-FAQ block instead of 6.
+
+  const q5 = faqRedFlags({
+    city,
+    contractorLabel: "garage-door installer",
+    redFlagNote: ctx.redFlagNote,
+  });
+
+  // Q6 — HOA + style restrictions, driven by hoaPrevalence from shared
+  // city-context.json. This is the gap-list's "Q6" Q with no Phase 2
+  // dependency (uses an existing slot).
+  const hoaIntro = hoaLeadIn(shared.hoaPrevalence);
+  const q6 = faqBlock(
+    `Do ${city} HOAs typically restrict garage-door style?`,
+    `${hoaIntro} in ${city}. Before signing with an installer, confirm the door panel style, color, and window inserts match your covenants — many HOAs allow steel and composite but restrict carriage or wood-look styles, and approval can add 2-4 weeks to your timeline.`
+  );
+
+  return [q1, q2, q3, q5, q6].join("\n\n");
+}
 
 const SITE_BASE_URL = "https://woogoro.com";
 
@@ -89,6 +174,17 @@ function main() {
       return `<tr><td>${mat.label}</td><td>${singleMat}</td><td>${doubleMat}</td></tr>`;
     }).join("\n");
 
+    const gdServiceMult =
+      cityMultipliers[cityKey] && cityMultipliers[cityKey].serviceMultipliers
+        ? cityMultipliers[cityKey].serviceMultipliers["garage-door"]
+        : cityMult;
+    const faqBlock = buildGarageDoorFAQ({
+      city: cityName,
+      stateCode,
+      multiplier: gdServiceMult,
+      priceRange: `${avgLow} to ${avgHigh}`,
+    });
+
     let html = template
       .replaceAll("{{CITY}}", cityName)
       .replaceAll("{{STATE_CODE}}", stateCode)
@@ -104,7 +200,8 @@ function main() {
       .replaceAll("{{PRICE_ROWS}}", priceRows)
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
-      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+      .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw)
+      .replaceAll("{{GARAGE_DOOR_FAQ_BLOCK}}", faqBlock);
 
     const navWidget = renderWidget({ city: cityName, state: stateCode, vertical: "garage-door", filename, indexes: navIndexes });
 

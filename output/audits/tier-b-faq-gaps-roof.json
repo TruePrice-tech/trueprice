@@ -1,0 +1,133 @@
+{
+  "vertical": "roof",
+  "auditedAt": "2026-05-22",
+  "auditor": "phase-1-data-gap",
+  "summary": {
+    "currentFAQCount": 5,
+    "proposedFAQCount": 6,
+    "cityDistinctSlotsCurrent": 2,
+    "cityDistinctSlotsProposed": 6,
+    "dataGapsNeedingFill": 0,
+    "contextFileEntries": 739,
+    "contextFileSlots": [
+      "climateZone (739/739, 1% unique)",
+      "hailRisk (739/739, 0% unique)",
+      "hurricaneZone (89/739, 2% unique)",
+      "snowLoad (739/739, 0% unique)",
+      "avgHomeAge (739/739, 10% unique)",
+      "growthRate (739/739, 1% unique)",
+      "permitNote (739/739, 100% unique)",
+      "weatherNote (739/739, 100% unique)",
+      "materialTip (739/739, 99% unique)",
+      "localInsight (739/739, 96% unique)",
+      "hoaPrevalence (739/739, 0% unique)"
+    ]
+  },
+  "ctxNote": "roof uses shared city-context.json — uniquely rich (climateZone/hailRisk/hurricaneZone/snowLoad/avgHomeAge/permitNote/weatherNote/materialTip/hoaPrevalence). No vertical-specific costDriverNote/redFlagNote here.",
+  "knownBug": null,
+  "currentFAQs": [
+    {
+      "q": "How much does a new roof cost in {{CITY}}?",
+      "a": "Most homeowners in {{CITY}} pay around {{MOST_COMMON_PRICE}} for a new roof. The full range is ${{AVG_LOW}} to ${{AVG_HIGH}} depending on roof size and materials."
+    },
+    {
+      "q": "Is roofing more expensive in {{CITY}} than average?",
+      "a": "Roofing in {{CITY}} is {{CITY_VS_NATIONAL}} the national average. Local labor rates, material availability, and building code requirements all influence pricing."
+    },
+    {
+      "q": "Why do roofing quotes vary so much?",
+      "a": "Roofing estimates vary depending on labor assumptions, material brands, flashing work, ventilation upgrades, and warranty coverage included in the proposal."
+    },
+    {
+      "q": "Should I always choose the lowest roofing quote?",
+      "a": "Not always. Lower bids sometimes exclude items like flashing, ventilation upgrades, or disposal costs that appear later as change orders."
+    },
+    {
+      "q": "What should a roofing quote include?",
+      "a": "A complete quote should include tear-off, underlayment, flashing, ice and water shield, drip edge, ventilation, ridge vent, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit. If any of these are missing, ask your contractor why."
+    }
+  ],
+  "proposedFAQs": [
+    {
+      "id": "cost-in-city",
+      "qTemplate": "How much does a new roof cost in {{CITY}}?",
+      "slots": [
+        "AVG_LOW",
+        "AVG_HIGH",
+        "weatherNote-first-clause"
+      ],
+      "priorState": "kept-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "why-cost-differs",
+      "qTemplate": "Why is roofing more expensive | cheaper in {{CITY}}?",
+      "slots": [
+        "serviceMultipliers.roofing",
+        "avgHomeAge",
+        "weatherNote"
+      ],
+      "priorState": "expanded-from-current",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "material-for-climate",
+      "qTemplate": "What roofing material is best for {{CITY}}?",
+      "slots": [
+        "materialTip",
+        "climateZone",
+        "hailRisk"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "storm-risk",
+      "qTemplate": "How does storm + hail risk affect {{CITY}} roofing?",
+      "slots": [
+        "hailRisk",
+        "hurricaneZone",
+        "snowLoad",
+        "weatherNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": null
+    },
+    {
+      "id": "permit-inspection",
+      "qTemplate": "What permits and inspections does {{CITY}} require for a roof?",
+      "slots": [
+        "permitNote"
+      ],
+      "priorState": "new",
+      "deferrable": false,
+      "note": "city-context.permitNote is already roofing-worded for all 739 cities — zero new data needed."
+    },
+    {
+      "id": "quote-include",
+      "qTemplate": "What should a roofing quote in {{CITY}} include?",
+      "slots": [
+        "weatherNote",
+        "climateZone"
+      ],
+      "priorState": "kept-from-current-but-localized",
+      "deferrable": false,
+      "note": null
+    }
+  ],
+  "unusedRichSlotsCurrentlyDormant": [],
+  "phaseTwoDataNeeded": {
+    "file": null,
+    "scope": "NONE — city-context.json is already roof-tailored",
+    "deferrable": "n/a"
+  },
+  "phaseThreeApproach": {
+    "templateChange": "Replace 5 hardcoded <details class=\"faq-item\"> blocks in templates/city-page-template.html with {{ROOF_FAQ_BLOCK}} placeholder.",
+    "builderChange": "Add buildroofFAQ(city, state, ctx, stateData) to the vertical's build-pages script, mirroring the local-context pattern.",
+    "outputContract": "Returns 6-6 <details class=\"faq-item\"> blocks; pure static HTML."
+  }
+}
