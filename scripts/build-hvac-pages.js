@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+require("./_handwritten-guard.js");
+const { buildIndexes, renderWidget } = require("./lib/city-nav-widget");
 
 const ROOT = path.resolve(__dirname, "..");
 const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
@@ -68,6 +70,13 @@ function main() {
   const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
   const csvText = fs.readFileSync(INPUT_CSV, "utf8");
   const cities = parseCsv(csvText);
+
+  // Build cross-page index once. Used to render {{TP_CITY_NAV_WIDGET}} with
+  // haversine neighbors (same-vertical) + cross-vertical links per city.
+  // Replaces the prior post-process pipeline (_seo-city-nav-widget.js +
+  // phase-a3-inject-neighbors.js) that the 2026-05-20 bulk rebuild silently
+  // skipped, nuking ~10K widgets.
+  const navIndexes = buildIndexes(ROOT);
 
   const sitemapUrls = [];
   let generated = 0;
@@ -139,6 +148,15 @@ function main() {
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
       .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+
+    const navWidget = renderWidget({
+      city: cityName,
+      state: stateCode,
+      vertical: "hvac",
+      filename,
+      indexes: navIndexes,
+    });
+    html = html.replaceAll("{{TP_CITY_NAV_WIDGET}}", navWidget);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);

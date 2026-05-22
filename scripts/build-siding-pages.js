@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+require("./_handwritten-guard.js");
+const { buildIndexes, renderWidget } = require("./lib/city-nav-widget");
 
 const ROOT = path.resolve(__dirname, "..");
 const INPUT_CSV = path.join(ROOT, "inputs", "cities.csv");
@@ -49,6 +51,7 @@ function main() {
   let cityMultipliers = {};
   try { cityMultipliers = readJson(CITY_MULTIPLIERS_PATH); } catch (e) { console.warn("city-cost-multipliers.json not found, using region fallback"); }
   const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
+  const navIndexes = buildIndexes(ROOT);
   const csvText = fs.readFileSync(INPUT_CSV, "utf8");
   const cities = parseCsv(csvText);
 
@@ -112,6 +115,10 @@ function main() {
       .replaceAll("{{SLUG_LC}}", slugLC)
       .replaceAll("{{AVG_LOW_RAW}}", avgLowRaw)
       .replaceAll("{{AVG_HIGH_RAW}}", avgHighRaw);
+
+    const navWidget = renderWidget({ city: cityName, state: stateCode, vertical: "siding", filename, indexes: navIndexes });
+
+    html = html.replaceAll("{{TP_CITY_NAV_WIDGET}}", navWidget);
 
     fs.writeFileSync(path.join(ROOT, filename), html, "utf8");
     sitemapUrls.push(`${SITE_BASE_URL}/${filename}`);
