@@ -212,12 +212,12 @@ Full range: $4,950 to $98,200 depending on size and materials
 </select>
 </div>
 </form>
-<div id="calcResult" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
+<aside id="calcResult" aria-live="polite" aria-label="Calculator result for Sugar Land" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
 <div style="font-size:14px;color:var(--text-muted);">Estimated Cost in Sugar Land</div>
 <div style="font-size:36px;font-weight:800;color:var(--brand);" id="calcPrice">$12,250</div>
 <div style="font-size:13px;color:var(--text-secondary);" id="calcRange">Range: $9,900 - $14,600</div>
 <div style="font-size:12px;color:var(--text-muted);margin-top:8px;" id="calcPerSqFt">$6.13 per sq ft</div>
-</div>
+</aside>
 </section>
 
 <!-- 2c. Live Widget -->
@@ -229,7 +229,7 @@ Full range: $4,950 to $98,200 depending on size and materials
 </aside>
 
 <!-- 3. Price comparison bar chart -->
-<section class="section">
+<aside class="price-comparison section" aria-label="How Sugar Land roof costs compare to nearby cities">
 <h2>How Sugar Land Compares</h2>
 <p>Average roof replacement cost in Sugar Land vs. nearby cities.</p>
 <style>
@@ -266,7 +266,7 @@ Full range: $4,950 to $98,200 depending on size and materials
   <div class="price-bar-track"><div class="price-bar-fill price-bar-other" style="width:97%"></div></div>
   <span class="price-bar-value">$12,100</span>
 </div>
-</section>
+</aside>
 
 <!-- 4. House size x material table -->
 <section class="section">
@@ -444,7 +444,7 @@ Full range: $4,950 to $98,200 depending on size and materials
 </div>
 
 <!-- 9. Material-specific pages -->
-<section class="section">
+<nav class="material-pages section" aria-label="Sugar Land roofing prices by material">
 <h2>Sugar Land Roofing Prices by Material</h2>
 <p>See detailed pricing for each roofing material in Sugar Land, TX.</p>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -453,10 +453,10 @@ Full range: $4,950 to $98,200 depending on size and materials
 <a href="/metal-roof-cost-sugar-land-tx.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Metal</a>
 <a href="/tile-roof-cost-sugar-land-tx.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Tile</a>
 </div>
-</section>
+</nav>
 
 <!-- 10. Cross-state city comparison -->
-<section class="section">
+<nav class="cross-state-nav section" aria-label="Compare Sugar Land roof costs with nearby metros">
 <h2>Compare With Nearby Metros</h2>
 <p>See how roofing costs in Sugar Land compare to major cities in neighboring states.</p>
 <ul>
@@ -466,7 +466,7 @@ Full range: $4,950 to $98,200 depending on size and materials
 <li><a href="/new-orleans-la-roof-cost.html">New Orleans, LA</a></li>
 <li><a href="/baton-rouge-la-roof-cost.html">Baton Rouge, LA</a></li>
 </ul>
-</section>
+</nav>
 
 <!-- 11. Helpful guides -->
 <section class="section">

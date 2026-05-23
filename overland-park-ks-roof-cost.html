@@ -212,12 +212,12 @@ Full range: $5,400 to $106,550 depending on size and materials
 </select>
 </div>
 </form>
-<div id="calcResult" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
+<aside id="calcResult" aria-live="polite" aria-label="Calculator result for Overland Park" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
 <div style="font-size:14px;color:var(--text-muted);">Estimated Cost in Overland Park</div>
 <div style="font-size:36px;font-weight:800;color:var(--brand);" id="calcPrice">$13,300</div>
 <div style="font-size:13px;color:var(--text-secondary);" id="calcRange">Range: $10,750 - $15,850</div>
 <div style="font-size:12px;color:var(--text-muted);margin-top:8px;" id="calcPerSqFt">$6.65 per sq ft</div>
-</div>
+</aside>
 </section>
 
 <!-- 2c. Live Widget -->
@@ -229,7 +229,7 @@ Full range: $5,400 to $106,550 depending on size and materials
 </aside>
 
 <!-- 3. Price comparison bar chart -->
-<section class="section">
+<aside class="price-comparison section" aria-label="How Overland Park roof costs compare to nearby cities">
 <h2>How Overland Park Compares</h2>
 <p>Average roof replacement cost in Overland Park vs. nearby cities.</p>
 <style>
@@ -266,7 +266,7 @@ Full range: $5,400 to $106,550 depending on size and materials
   <div class="price-bar-track"><div class="price-bar-fill price-bar-other" style="width:93%"></div></div>
   <span class="price-bar-value">$12,350</span>
 </div>
-</section>
+</aside>
 
 <!-- 4. House size x material table -->
 <section class="section">
@@ -443,7 +443,7 @@ Full range: $5,400 to $106,550 depending on size and materials
 </div>
 
 <!-- 9. Material-specific pages -->
-<section class="section">
+<nav class="material-pages section" aria-label="Overland Park roofing prices by material">
 <h2>Overland Park Roofing Prices by Material</h2>
 <p>See detailed pricing for each roofing material in Overland Park, KS.</p>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -452,10 +452,10 @@ Full range: $5,400 to $106,550 depending on size and materials
 <a href="/metal-roof-cost-overland-park-ks.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Metal</a>
 <a href="/tile-roof-cost-overland-park-ks.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Tile</a>
 </div>
-</section>
+</nav>
 
 <!-- 10. Cross-state city comparison -->
-<section class="section">
+<nav class="cross-state-nav section" aria-label="Compare Overland Park roof costs with nearby metros">
 <h2>Compare With Nearby Metros</h2>
 <p>See how roofing costs in Overland Park compare to major cities in neighboring states.</p>
 <ul>
@@ -465,7 +465,7 @@ Full range: $5,400 to $106,550 depending on size and materials
 <li><a href="/colorado-springs-co-roof-cost.html">Colorado Springs, CO</a></li>
 <li><a href="/omaha-ne-roof-cost.html">Omaha, NE</a></li>
 </ul>
-</section>
+</nav>
 
 <!-- 11. Helpful guides -->
 <section class="section">

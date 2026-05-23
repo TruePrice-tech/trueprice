@@ -212,12 +212,12 @@ Full range: $4,850 to $95,850 depending on size and materials
 </select>
 </div>
 </form>
-<div id="calcResult" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
+<aside id="calcResult" aria-live="polite" aria-label="Calculator result for North Charleston" style="text-align:center;padding:24px;background:var(--bg-subtle);border-radius:12px;border:1px solid var(--border);">
 <div style="font-size:14px;color:var(--text-muted);">Estimated Cost in North Charleston</div>
 <div style="font-size:36px;font-weight:800;color:var(--brand);" id="calcPrice">$12,000</div>
 <div style="font-size:13px;color:var(--text-secondary);" id="calcRange">Range: $9,700 - $14,300</div>
 <div style="font-size:12px;color:var(--text-muted);margin-top:8px;" id="calcPerSqFt">$6.00 per sq ft</div>
-</div>
+</aside>
 </section>
 
 <!-- 2c. Live Widget -->
@@ -229,7 +229,7 @@ Full range: $4,850 to $95,850 depending on size and materials
 </aside>
 
 <!-- 3. Price comparison bar chart -->
-<section class="section">
+<aside class="price-comparison section" aria-label="How North Charleston roof costs compare to nearby cities">
 <h2>How North Charleston Compares</h2>
 <p>Average roof replacement cost in North Charleston vs. nearby cities.</p>
 <style>
@@ -266,7 +266,7 @@ Full range: $4,850 to $95,850 depending on size and materials
   <div class="price-bar-track"><div class="price-bar-fill price-bar-other" style="width:95%"></div></div>
   <span class="price-bar-value">$11,350</span>
 </div>
-</section>
+</aside>
 
 <!-- 4. House size x material table -->
 <section class="section">
@@ -442,7 +442,7 @@ Full range: $4,850 to $95,850 depending on size and materials
 </div>
 
 <!-- 9. Material-specific pages -->
-<section class="section">
+<nav class="material-pages section" aria-label="North Charleston roofing prices by material">
 <h2>North Charleston Roofing Prices by Material</h2>
 <p>See detailed pricing for each roofing material in North Charleston, SC.</p>
 <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
@@ -451,10 +451,10 @@ Full range: $4,850 to $95,850 depending on size and materials
 <a href="/metal-roof-cost-north-charleston-sc.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Metal</a>
 <a href="/tile-roof-cost-north-charleston-sc.html" style="padding:8px 14px; border:1px solid var(--border); border-radius:999px; font-size:13px; color:var(--brand); text-decoration:none;">Tile</a>
 </div>
-</section>
+</nav>
 
 <!-- 10. Cross-state city comparison -->
-<section class="section">
+<nav class="cross-state-nav section" aria-label="Compare North Charleston roof costs with nearby metros">
 <h2>Compare With Nearby Metros</h2>
 <p>See how roofing costs in North Charleston compare to major cities in neighboring states.</p>
 <ul>
@@ -464,7 +464,7 @@ Full range: $4,850 to $95,850 depending on size and materials
 <li><a href="/greensboro-nc-roof-cost.html">Greensboro, NC</a></li>
 <li><a href="/durham-nc-roof-cost.html">Durham, NC</a></li>
 </ul>
-</section>
+</nav>
 
 <!-- 11. Helpful guides -->
 <section class="section">
