@@ -1,0 +1,1712 @@
+{
+  "vertical": "hvac",
+  "generatedAt": "2026-05-23",
+  "inputs": {
+    "clustersFile": "scripts\\keyword-research\\output\\clusters.json",
+    "bingFile": "scripts\\keyword-research\\output\\bing-raw.json",
+    "auditFile": "output\\audits\\tier-b-faq-gaps-hvac.json"
+  },
+  "summary": {
+    "clustersMatched": 82,
+    "rejectReasonsCounted": {
+      "not-vertical": 4121,
+      "head-synonym": 19,
+      "tool": 8,
+      "retailer": 4,
+      "foreign-geo": 13,
+      "foreign-unit": 1,
+      "b2b-or-job": 30,
+      "cross-vertical": 5,
+      "maintenance": 6
+    },
+    "candidatesKept": 54,
+    "candidatesDropped": 28,
+    "existingFaqCount": 9,
+    "candidatesOverlappingExisting": 0,
+    "candidatesByCategory": {
+      "system-type": 29,
+      "size-tonnage": 4,
+      "cost-unit": 14,
+      "efficiency": 1,
+      "new-construction": 2,
+      "budget-tier": 1,
+      "replacement-life": 1,
+      "negotiation": 2
+    }
+  },
+  "topCandidates": [
+    {
+      "id": "how-much-does-heat-pump-cost",
+      "bingPriority": 150,
+      "bingMemberCount": 53,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "how much does a heat pump cost",
+      "canonicalQuery": "how much does heat pump cost",
+      "variants": [
+        "how much does heat pump cost",
+        "how much does a heat pump cost",
+        "electric heat pump cost",
+        "geothermal heat pump cost",
+        "new heat pump cost"
+      ],
+      "faqQuestion": "How much does a heat pump cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": "how-much-does-heat-pump-cost.html",
+      "newPageNeeded": false
+    },
+    {
+      "id": "gas-furnace-cost",
+      "bingPriority": 109,
+      "bingMemberCount": 3,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "how much does a gas furnace cost",
+      "canonicalQuery": "gas furnace cost",
+      "variants": [
+        "gas furnace cost",
+        "how much does a gas furnace cost",
+        "furnace cost gas"
+      ],
+      "faqQuestion": "How much does a gas furnace cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "3-ton-heat-pump-cost",
+      "bingPriority": 78,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "size-tonnage",
+      "verbatimQuery": "3 ton heat pump cost",
+      "canonicalQuery": "3 ton heat pump cost",
+      "variants": [
+        "3 ton heat pump cost"
+      ],
+      "faqQuestion": "How much does 3 ton heat pump cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "4-ton-heat-pump-cost",
+      "bingPriority": 67,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "size-tonnage",
+      "verbatimQuery": "4 ton heat pump cost",
+      "canonicalQuery": "4 ton heat pump cost",
+      "variants": [
+        "4 ton heat pump cost"
+      ],
+      "faqQuestion": "How much does 4 ton heat pump cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "5-ton-heat-pump-cost",
+      "bingPriority": 65,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "size-tonnage",
+      "verbatimQuery": "5 ton heat pump cost",
+      "canonicalQuery": "5 ton heat pump cost",
+      "variants": [
+        "5 ton heat pump cost"
+      ],
+      "faqQuestion": "How much does 5 ton heat pump cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-per-square-foot",
+      "bingPriority": 60,
+      "bingMemberCount": 4,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost per square foot residential",
+      "canonicalQuery": "hvac cost per square foot",
+      "variants": [
+        "hvac cost per square foot",
+        "hvac cost per square foot in india",
+        "hvac cost per square foot commercial",
+        "hvac cost per square foot residential"
+      ],
+      "faqQuestion": "How much does hvac per square foot residential cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "oil-furnace-cost",
+      "bingPriority": 58,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "oil furnace cost",
+      "canonicalQuery": "oil furnace cost",
+      "variants": [
+        "oil furnace cost"
+      ],
+      "faqQuestion": "How much does oil furnace cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "water-furnace-cost",
+      "bingPriority": 57,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "water furnace cost",
+      "canonicalQuery": "water furnace cost",
+      "variants": [
+        "water furnace cost"
+      ],
+      "faqQuestion": "How much does water furnace cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "electric-furnace-cost",
+      "bingPriority": 54,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "electric furnace cost",
+      "canonicalQuery": "electric furnace cost",
+      "variants": [
+        "electric furnace cost"
+      ],
+      "faqQuestion": "How much does electric furnace cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-for-1500-sq-ft-house",
+      "bingPriority": 50.001,
+      "bingMemberCount": 11,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost for 1500 sq ft house",
+      "canonicalQuery": "hvac cost for 1500 sq ft house",
+      "variants": [
+        "hvac cost for 1500 sq ft house",
+        "hvac cost for 2500 sq ft house",
+        "hvac cost for 2000 sq ft house",
+        "hvac cost for 1200 sq ft house",
+        "hvac cost for 1700 sq ft house"
+      ],
+      "faqQuestion": "How much does hvac for 1500 sq ft house cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-for-3000-sq-ft-home",
+      "bingPriority": 50.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost for 3000 sq ft home",
+      "canonicalQuery": "hvac cost for 3000 sq ft home",
+      "variants": [
+        "hvac cost for 3000 sq ft home",
+        "hvac cost per sq ft new home"
+      ],
+      "faqQuestion": "How much does hvac for 3000 sq ft home cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-per-sq-ft",
+      "bingPriority": 50.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost per sq ft new home",
+      "canonicalQuery": "hvac cost per sq ft",
+      "variants": [
+        "hvac cost per sq ft"
+      ],
+      "faqQuestion": "How much does hvac per sq ft new home cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-costs-per-square-foot",
+      "bingPriority": 50.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac costs per square foot",
+      "canonicalQuery": "hvac costs per square foot",
+      "variants": [
+        "hvac costs per square foot"
+      ],
+      "faqQuestion": "How much does hvac costs per square foot cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "furnace-costs-for-3000-square-foot-home",
+      "bingPriority": 50.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "furnace costs for 3000 square foot home",
+      "canonicalQuery": "furnace costs for 3000 square foot home",
+      "variants": [
+        "furnace costs for 3000 square foot home"
+      ],
+      "faqQuestion": "How much does furnace costs for 3000 square foot home cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "furnace-cost-for-1800-square-foot-house",
+      "bingPriority": 50.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "furnace cost for 1800 square foot house",
+      "canonicalQuery": "furnace cost for 1800 square foot house",
+      "variants": [
+        "furnace cost for 1800 square foot house",
+        "furnace cost for 1700 square foot house"
+      ],
+      "faqQuestion": "How much does furnace for 1800 square foot house cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "furnace-cost-per-square-foot",
+      "bingPriority": 50.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "furnace cost per square foot",
+      "canonicalQuery": "furnace cost per square foot",
+      "variants": [
+        "furnace cost per square foot"
+      ],
+      "faqQuestion": "How much does furnace per square foot cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "furnace-cost-for-1700-sq-ft-house",
+      "bingPriority": 50.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "furnace cost for 1700 sq ft house",
+      "canonicalQuery": "furnace cost for 1700 sq ft house",
+      "variants": [
+        "furnace cost for 1700 sq ft house",
+        "roof cost for 1700 sq ft house"
+      ],
+      "faqQuestion": "How much does furnace for 1700 sq ft house cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "heat-pump-cost-for-2500-square-foot-house",
+      "bingPriority": 50.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "heat pump cost for 2500 square foot house",
+      "canonicalQuery": "heat pump cost for 2500 square foot house",
+      "variants": [
+        "heat pump cost for 2500 square foot house",
+        "heat pump cost for 2000 square foot house"
+      ],
+      "faqQuestion": "How much does heat pump for 2500 square foot house cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "heat-pump-cost-per-square-foot",
+      "bingPriority": 50.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "heat pump cost per square foot",
+      "canonicalQuery": "heat pump cost per square foot",
+      "variants": [
+        "heat pump cost per square foot"
+      ],
+      "faqQuestion": "How much does heat pump per square foot cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "heat-pump-water-heater-cost",
+      "bingPriority": 37,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "cost of heat pump water heater",
+      "canonicalQuery": "heat pump water heater cost",
+      "variants": [
+        "heat pump water heater cost",
+        "cost of heat pump water heater"
+      ],
+      "faqQuestion": "How much does of heat pump water heater cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": "heat-pump-water-heater-cost.html",
+      "newPageNeeded": false
+    },
+    {
+      "id": "high-efficiency-furnace-cost",
+      "bingPriority": 36,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "efficiency",
+      "verbatimQuery": "high efficiency furnace cost",
+      "canonicalQuery": "high efficiency furnace cost",
+      "variants": [
+        "high efficiency furnace cost"
+      ],
+      "faqQuestion": "High efficiency furnace cost — is it worth it in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-city-context.json#climateNote + SEER-by-climate-zone map",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-per-ton-commercial",
+      "bingPriority": 30.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost per ton commercial",
+      "canonicalQuery": "hvac cost per ton commercial",
+      "variants": [
+        "hvac cost per ton commercial",
+        "hvac cost per ton"
+      ],
+      "faqQuestion": "How much does hvac per ton commercial cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-per-sf",
+      "bingPriority": 30.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost per sf",
+      "canonicalQuery": "hvac cost per sf",
+      "variants": [
+        "hvac cost per sf"
+      ],
+      "faqQuestion": "How much does hvac per sf cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-new-construction",
+      "bingPriority": 30.001,
+      "bingMemberCount": 4,
+      "intent": "commercial",
+      "category": "new-construction",
+      "verbatimQuery": "hvac cost for new home construction",
+      "canonicalQuery": "hvac cost new construction",
+      "variants": [
+        "hvac cost new construction",
+        "hvac cost for new construction",
+        "hvac cost for new home construction",
+        "hvac construction services cost"
+      ],
+      "faqQuestion": "How much does HVAC cost for new construction in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: newConstructionNote (or skip — most city HVAC traffic is replacement, not new build)",
+      "dataSlotConfidence": "low",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-cost-for-1000-sf-house",
+      "bingPriority": 30.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "cost-unit",
+      "verbatimQuery": "hvac cost for 1000 sf house",
+      "canonicalQuery": "hvac cost for 1000 sf house",
+      "variants": [
+        "hvac cost for 1000 sf house"
+      ],
+      "faqQuestion": "How much does hvac for 1000 sf house cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+      "dataSlotConfidence": "high",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "hvac-costs-for-new-home",
+      "bingPriority": 30.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "new-construction",
+      "verbatimQuery": "hvac costs for new home",
+      "canonicalQuery": "hvac costs for new home",
+      "variants": [
+        "hvac costs for new home"
+      ],
+      "faqQuestion": "How much does HVAC cost for new construction in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: newConstructionNote (or skip — most city HVAC traffic is replacement, not new build)",
+      "dataSlotConfidence": "low",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "cheap-furnace-replacement-cost",
+      "bingPriority": 30.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "budget-tier",
+      "verbatimQuery": "cheap furnace replacement cost",
+      "canonicalQuery": "cheap furnace replacement cost",
+      "variants": [
+        "cheap furnace replacement cost"
+      ],
+      "faqQuestion": "What's the cheapest HVAC option in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-pricing-model.json — surface budget-tier bracket from city-cost-multipliers.hvac with low-end deflator",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "furnace-costs-to-replace",
+      "bingPriority": 30.001,
+      "bingMemberCount": 1,
+      "intent": "commercial",
+      "category": "replacement-life",
+      "verbatimQuery": "furnace costs to replace",
+      "canonicalQuery": "furnace costs to replace",
+      "variants": [
+        "furnace costs to replace"
+      ],
+      "faqQuestion": "Furnace costs to replace — what should I know in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "data/hvac-city-context.json#housingAgeNote (derive from city-context.json#medianHouseYear)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "heat-pump-costs-installed",
+      "bingPriority": 30.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "heat pump costs installed",
+      "canonicalQuery": "heat pump costs installed",
+      "variants": [
+        "heat pump costs installed",
+        "heat pump costs"
+      ],
+      "faqQuestion": "How much does heat pump costs installed cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    },
+    {
+      "id": "heat-pump-cost-vs-gas-furnace-and-ac-unit",
+      "bingPriority": 30.001,
+      "bingMemberCount": 2,
+      "intent": "commercial",
+      "category": "system-type",
+      "verbatimQuery": "heat pump cost vs gas furnace and ac unit",
+      "canonicalQuery": "heat pump cost vs gas furnace and ac unit",
+      "variants": [
+        "heat pump cost vs gas furnace and ac unit",
+        "heat pump cost vs gas furnace"
+      ],
+      "faqQuestion": "How much does heat pump vs gas furnace and ac unit cost in {{CITY}}, {{STATE}}?",
+      "overlapsExistingFAQ": false,
+      "overlapsWith": null,
+      "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+      "dataSlotConfidence": "medium",
+      "existingPage": null,
+      "newPageNeeded": true
+    }
+  ],
+  "byCategory": {
+    "system-type": [
+      {
+        "id": "how-much-does-heat-pump-cost",
+        "bingPriority": 150,
+        "bingMemberCount": 53,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "how much does a heat pump cost",
+        "canonicalQuery": "how much does heat pump cost",
+        "variants": [
+          "how much does heat pump cost",
+          "how much does a heat pump cost",
+          "electric heat pump cost",
+          "geothermal heat pump cost",
+          "new heat pump cost"
+        ],
+        "faqQuestion": "How much does a heat pump cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": "how-much-does-heat-pump-cost.html",
+        "newPageNeeded": false
+      },
+      {
+        "id": "gas-furnace-cost",
+        "bingPriority": 109,
+        "bingMemberCount": 3,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "how much does a gas furnace cost",
+        "canonicalQuery": "gas furnace cost",
+        "variants": [
+          "gas furnace cost",
+          "how much does a gas furnace cost",
+          "furnace cost gas"
+        ],
+        "faqQuestion": "How much does a gas furnace cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "oil-furnace-cost",
+        "bingPriority": 58,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "oil furnace cost",
+        "canonicalQuery": "oil furnace cost",
+        "variants": [
+          "oil furnace cost"
+        ],
+        "faqQuestion": "How much does oil furnace cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "water-furnace-cost",
+        "bingPriority": 57,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "water furnace cost",
+        "canonicalQuery": "water furnace cost",
+        "variants": [
+          "water furnace cost"
+        ],
+        "faqQuestion": "How much does water furnace cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "electric-furnace-cost",
+        "bingPriority": 54,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "electric furnace cost",
+        "canonicalQuery": "electric furnace cost",
+        "variants": [
+          "electric furnace cost"
+        ],
+        "faqQuestion": "How much does electric furnace cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-water-heater-cost",
+        "bingPriority": 37,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "cost of heat pump water heater",
+        "canonicalQuery": "heat pump water heater cost",
+        "variants": [
+          "heat pump water heater cost",
+          "cost of heat pump water heater"
+        ],
+        "faqQuestion": "How much does of heat pump water heater cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": "heat-pump-water-heater-cost.html",
+        "newPageNeeded": false
+      },
+      {
+        "id": "heat-pump-costs-installed",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump costs installed",
+        "canonicalQuery": "heat pump costs installed",
+        "variants": [
+          "heat pump costs installed",
+          "heat pump costs"
+        ],
+        "faqQuestion": "How much does heat pump costs installed cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-vs-gas-furnace-and-ac-unit",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost vs gas furnace and ac unit",
+        "canonicalQuery": "heat pump cost vs gas furnace and ac unit",
+        "variants": [
+          "heat pump cost vs gas furnace and ac unit",
+          "heat pump cost vs gas furnace"
+        ],
+        "faqQuestion": "How much does heat pump vs gas furnace and ac unit cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-vs-hvac",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost vs hvac",
+        "canonicalQuery": "heat pump cost vs hvac",
+        "variants": [
+          "heat pump cost vs hvac"
+        ],
+        "faqQuestion": "How much does heat pump vs hvac cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-victoria-bc",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost victoria bc",
+        "canonicalQuery": "heat pump cost victoria bc",
+        "variants": [
+          "heat pump cost victoria bc"
+        ],
+        "faqQuestion": "How much does heat pump victoria bc cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-vs-natural-gas",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost vs natural gas",
+        "canonicalQuery": "heat pump cost vs natural gas",
+        "variants": [
+          "heat pump cost vs natural gas"
+        ],
+        "faqQuestion": "How much does heat pump vs natural gas cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-compressor-replacement-cost",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump compressor replacement cost",
+        "canonicalQuery": "heat pump compressor replacement cost",
+        "variants": [
+          "heat pump compressor replacement cost"
+        ],
+        "faqQuestion": "How much does heat pump compressor replacement cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-for-3-bedroom-house",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost for 3 bedroom house",
+        "canonicalQuery": "heat pump cost for 3 bedroom house",
+        "variants": [
+          "heat pump cost for 3 bedroom house"
+        ],
+        "faqQuestion": "How much does heat pump for 3 bedroom house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-costs-energy-saving-trust",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump costs energy saving trust",
+        "canonicalQuery": "heat pump costs energy saving trust",
+        "variants": [
+          "heat pump costs energy saving trust"
+        ],
+        "faqQuestion": "How much does heat pump costs energy saving trust cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-nova-scotia",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost nova scotia",
+        "canonicalQuery": "heat pump cost nova scotia",
+        "variants": [
+          "heat pump cost nova scotia"
+        ],
+        "faqQuestion": "How much does heat pump nova scotia cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-in-south-carolina",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost in south carolina",
+        "canonicalQuery": "heat pump cost in south carolina",
+        "variants": [
+          "heat pump cost in south carolina"
+        ],
+        "faqQuestion": "How much does heat pump in south carolina cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-per-month",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost per month",
+        "canonicalQuery": "heat pump cost per month",
+        "variants": [
+          "heat pump cost per month"
+        ],
+        "faqQuestion": "How much does heat pump per month cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-per-btu",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost per btu",
+        "canonicalQuery": "heat pump cost per btu",
+        "variants": [
+          "heat pump cost per btu"
+        ],
+        "faqQuestion": "How much does heat pump per btu cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-per-hour",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump cost per hour nz",
+        "canonicalQuery": "heat pump cost per hour",
+        "variants": [
+          "heat pump cost per hour",
+          "heat pump cost per hour nz"
+        ],
+        "faqQuestion": "How much does heat pump per hour nz cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-vs-propane-cost",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump vs propane cost",
+        "canonicalQuery": "heat pump vs propane cost",
+        "variants": [
+          "heat pump vs propane cost"
+        ],
+        "faqQuestion": "How much does heat pump vs propane cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "replacement-heat-pump-cost-savings",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "replacement heat pump cost savings",
+        "canonicalQuery": "replacement heat pump cost savings",
+        "variants": [
+          "replacement heat pump cost savings"
+        ],
+        "faqQuestion": "How much does replacement heat pump savings cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "cost-to-replace-heat-pump-and-air-handler",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "cost to replace heat pump and air handler",
+        "canonicalQuery": "cost to replace heat pump and air handler",
+        "variants": [
+          "cost to replace heat pump and air handler"
+        ],
+        "faqQuestion": "How much does to replace heat pump and air handler cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "cost-to-install-heat-pump-system",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "cost to install heat pump system",
+        "canonicalQuery": "cost to install heat pump system",
+        "variants": [
+          "cost to install heat pump system"
+        ],
+        "faqQuestion": "How much does to install heat pump system cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-vs-oil-heat-cost",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump vs oil heat cost",
+        "canonicalQuery": "heat pump vs oil heat cost",
+        "variants": [
+          "heat pump vs oil heat cost"
+        ],
+        "faqQuestion": "How much does heat pump vs oil heat cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-vs-furnace-cost",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "replacement heat pump cost vs furnace",
+        "canonicalQuery": "heat pump vs furnace cost",
+        "variants": [
+          "heat pump vs furnace cost",
+          "replacement heat pump cost vs furnace"
+        ],
+        "faqQuestion": "How much does replacement heat pump vs furnace cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-costs-2024",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "heat pump costs 2024",
+        "canonicalQuery": "heat pump costs 2024",
+        "variants": [
+          "heat pump costs 2024"
+        ],
+        "faqQuestion": "How much does heat pump costs 2024 cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "solar-quotes-heat-pump-hot-water",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "solar quotes heat pump hot water",
+        "canonicalQuery": "solar quotes heat pump hot water",
+        "variants": [
+          "solar quotes heat pump hot water"
+        ],
+        "faqQuestion": "How much does solar quotes heat pump hot water cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "solarquotes-heat-pump",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "solarquotes heat pump review",
+        "canonicalQuery": "solarquotes heat pump",
+        "variants": [
+          "solarquotes heat pump",
+          "solarquotes heat pump review"
+        ],
+        "faqQuestion": "How much does solarquotes heat pump review cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "how-much-is-heat-pump",
+        "bingPriority": 20.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "system-type",
+        "verbatimQuery": "how much is heat pump",
+        "canonicalQuery": "how much is heat pump",
+        "variants": [
+          "how much is heat pump"
+        ],
+        "faqQuestion": "How much is heat pump in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: systemTypePricingByCity (derivable similarly)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "size-tonnage": [
+      {
+        "id": "3-ton-heat-pump-cost",
+        "bingPriority": 78,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "size-tonnage",
+        "verbatimQuery": "3 ton heat pump cost",
+        "canonicalQuery": "3 ton heat pump cost",
+        "variants": [
+          "3 ton heat pump cost"
+        ],
+        "faqQuestion": "How much does 3 ton heat pump cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "4-ton-heat-pump-cost",
+        "bingPriority": 67,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "size-tonnage",
+        "verbatimQuery": "4 ton heat pump cost",
+        "canonicalQuery": "4 ton heat pump cost",
+        "variants": [
+          "4 ton heat pump cost"
+        ],
+        "faqQuestion": "How much does 4 ton heat pump cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "5-ton-heat-pump-cost",
+        "bingPriority": 65,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "size-tonnage",
+        "verbatimQuery": "5 ton heat pump cost",
+        "canonicalQuery": "5 ton heat pump cost",
+        "variants": [
+          "5 ton heat pump cost"
+        ],
+        "faqQuestion": "How much does 5 ton heat pump cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-per-ton",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "size-tonnage",
+        "verbatimQuery": "replacement heat pump cost per ton",
+        "canonicalQuery": "heat pump cost per ton",
+        "variants": [
+          "heat pump cost per ton",
+          "replacement heat pump cost per ton"
+        ],
+        "faqQuestion": "How much does replacement heat pump per ton cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: tonPricingByCity (derivable from city-cost-multipliers.hvac × ton base table)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "cost-unit": [
+      {
+        "id": "hvac-cost-per-square-foot",
+        "bingPriority": 60,
+        "bingMemberCount": 4,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost per square foot residential",
+        "canonicalQuery": "hvac cost per square foot",
+        "variants": [
+          "hvac cost per square foot",
+          "hvac cost per square foot in india",
+          "hvac cost per square foot commercial",
+          "hvac cost per square foot residential"
+        ],
+        "faqQuestion": "How much does hvac per square foot residential cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-for-1500-sq-ft-house",
+        "bingPriority": 50.001,
+        "bingMemberCount": 11,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost for 1500 sq ft house",
+        "canonicalQuery": "hvac cost for 1500 sq ft house",
+        "variants": [
+          "hvac cost for 1500 sq ft house",
+          "hvac cost for 2500 sq ft house",
+          "hvac cost for 2000 sq ft house",
+          "hvac cost for 1200 sq ft house",
+          "hvac cost for 1700 sq ft house"
+        ],
+        "faqQuestion": "How much does hvac for 1500 sq ft house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-for-3000-sq-ft-home",
+        "bingPriority": 50.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost for 3000 sq ft home",
+        "canonicalQuery": "hvac cost for 3000 sq ft home",
+        "variants": [
+          "hvac cost for 3000 sq ft home",
+          "hvac cost per sq ft new home"
+        ],
+        "faqQuestion": "How much does hvac for 3000 sq ft home cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-per-sq-ft",
+        "bingPriority": 50.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost per sq ft new home",
+        "canonicalQuery": "hvac cost per sq ft",
+        "variants": [
+          "hvac cost per sq ft"
+        ],
+        "faqQuestion": "How much does hvac per sq ft new home cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-costs-per-square-foot",
+        "bingPriority": 50.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac costs per square foot",
+        "canonicalQuery": "hvac costs per square foot",
+        "variants": [
+          "hvac costs per square foot"
+        ],
+        "faqQuestion": "How much does hvac costs per square foot cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "furnace-costs-for-3000-square-foot-home",
+        "bingPriority": 50.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "furnace costs for 3000 square foot home",
+        "canonicalQuery": "furnace costs for 3000 square foot home",
+        "variants": [
+          "furnace costs for 3000 square foot home"
+        ],
+        "faqQuestion": "How much does furnace costs for 3000 square foot home cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "furnace-cost-for-1800-square-foot-house",
+        "bingPriority": 50.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "furnace cost for 1800 square foot house",
+        "canonicalQuery": "furnace cost for 1800 square foot house",
+        "variants": [
+          "furnace cost for 1800 square foot house",
+          "furnace cost for 1700 square foot house"
+        ],
+        "faqQuestion": "How much does furnace for 1800 square foot house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "furnace-cost-per-square-foot",
+        "bingPriority": 50.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "furnace cost per square foot",
+        "canonicalQuery": "furnace cost per square foot",
+        "variants": [
+          "furnace cost per square foot"
+        ],
+        "faqQuestion": "How much does furnace per square foot cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "furnace-cost-for-1700-sq-ft-house",
+        "bingPriority": 50.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "furnace cost for 1700 sq ft house",
+        "canonicalQuery": "furnace cost for 1700 sq ft house",
+        "variants": [
+          "furnace cost for 1700 sq ft house",
+          "roof cost for 1700 sq ft house"
+        ],
+        "faqQuestion": "How much does furnace for 1700 sq ft house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-for-2500-square-foot-house",
+        "bingPriority": 50.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "heat pump cost for 2500 square foot house",
+        "canonicalQuery": "heat pump cost for 2500 square foot house",
+        "variants": [
+          "heat pump cost for 2500 square foot house",
+          "heat pump cost for 2000 square foot house"
+        ],
+        "faqQuestion": "How much does heat pump for 2500 square foot house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "heat-pump-cost-per-square-foot",
+        "bingPriority": 50.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "heat pump cost per square foot",
+        "canonicalQuery": "heat pump cost per square foot",
+        "variants": [
+          "heat pump cost per square foot"
+        ],
+        "faqQuestion": "How much does heat pump per square foot cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-per-ton-commercial",
+        "bingPriority": 30.001,
+        "bingMemberCount": 2,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost per ton commercial",
+        "canonicalQuery": "hvac cost per ton commercial",
+        "variants": [
+          "hvac cost per ton commercial",
+          "hvac cost per ton"
+        ],
+        "faqQuestion": "How much does hvac per ton commercial cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-per-sf",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost per sf",
+        "canonicalQuery": "hvac cost per sf",
+        "variants": [
+          "hvac cost per sf"
+        ],
+        "faqQuestion": "How much does hvac per sf cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-cost-for-1000-sf-house",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "cost-unit",
+        "verbatimQuery": "hvac cost for 1000 sf house",
+        "canonicalQuery": "hvac cost for 1000 sf house",
+        "variants": [
+          "hvac cost for 1000 sf house"
+        ],
+        "faqQuestion": "How much does hvac for 1000 sf house cost in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json + city-cost-multipliers.hvac (already wired for AVG_LOW/AVG_HIGH)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "efficiency": [
+      {
+        "id": "high-efficiency-furnace-cost",
+        "bingPriority": 36,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "efficiency",
+        "verbatimQuery": "high efficiency furnace cost",
+        "canonicalQuery": "high efficiency furnace cost",
+        "variants": [
+          "high efficiency furnace cost"
+        ],
+        "faqQuestion": "High efficiency furnace cost — is it worth it in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-city-context.json#climateNote + SEER-by-climate-zone map",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "new-construction": [
+      {
+        "id": "hvac-cost-new-construction",
+        "bingPriority": 30.001,
+        "bingMemberCount": 4,
+        "intent": "commercial",
+        "category": "new-construction",
+        "verbatimQuery": "hvac cost for new home construction",
+        "canonicalQuery": "hvac cost new construction",
+        "variants": [
+          "hvac cost new construction",
+          "hvac cost for new construction",
+          "hvac cost for new home construction",
+          "hvac construction services cost"
+        ],
+        "faqQuestion": "How much does HVAC cost for new construction in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: newConstructionNote (or skip — most city HVAC traffic is replacement, not new build)",
+        "dataSlotConfidence": "low",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "hvac-costs-for-new-home",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "new-construction",
+        "verbatimQuery": "hvac costs for new home",
+        "canonicalQuery": "hvac costs for new home",
+        "variants": [
+          "hvac costs for new home"
+        ],
+        "faqQuestion": "How much does HVAC cost for new construction in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "NEW: newConstructionNote (or skip — most city HVAC traffic is replacement, not new build)",
+        "dataSlotConfidence": "low",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "budget-tier": [
+      {
+        "id": "cheap-furnace-replacement-cost",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "budget-tier",
+        "verbatimQuery": "cheap furnace replacement cost",
+        "canonicalQuery": "cheap furnace replacement cost",
+        "variants": [
+          "cheap furnace replacement cost"
+        ],
+        "faqQuestion": "What's the cheapest HVAC option in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-pricing-model.json — surface budget-tier bracket from city-cost-multipliers.hvac with low-end deflator",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "replacement-life": [
+      {
+        "id": "furnace-costs-to-replace",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "commercial",
+        "category": "replacement-life",
+        "verbatimQuery": "furnace costs to replace",
+        "canonicalQuery": "furnace costs to replace",
+        "variants": [
+          "furnace costs to replace"
+        ],
+        "faqQuestion": "Furnace costs to replace — what should I know in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "data/hvac-city-context.json#housingAgeNote (derive from city-context.json#medianHouseYear)",
+        "dataSlotConfidence": "medium",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ],
+    "negotiation": [
+      {
+        "id": "can-you-negotiate-hvac-quote",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "transactional",
+        "category": "negotiation",
+        "verbatimQuery": "can you negotiate hvac quote",
+        "canonicalQuery": "can you negotiate hvac quote",
+        "variants": [
+          "can you negotiate hvac quote"
+        ],
+        "faqQuestion": "Can you negotiate hvac quote in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "Wire to our analyzer flow (transactional FAQ — links to /hvac-quote-analyzer.html, uses costDriverNote for \"fair price\" anchor)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      },
+      {
+        "id": "compare-this-hvac-quote-to-market-pricing",
+        "bingPriority": 30.001,
+        "bingMemberCount": 1,
+        "intent": "transactional",
+        "category": "negotiation",
+        "verbatimQuery": "compare this hvac quote to market pricing",
+        "canonicalQuery": "compare this hvac quote to market pricing",
+        "variants": [
+          "compare this hvac quote to market pricing"
+        ],
+        "faqQuestion": "Compare this hvac quote to market pricing — what should I do in {{CITY}}, {{STATE}}?",
+        "overlapsExistingFAQ": false,
+        "overlapsWith": null,
+        "dataSlotPrimary": "Wire to our analyzer flow (transactional FAQ — links to /hvac-quote-analyzer.html, uses costDriverNote for \"fair price\" anchor)",
+        "dataSlotConfidence": "high",
+        "existingPage": null,
+        "newPageNeeded": true
+      }
+    ]
+  },
+  "notes": [
+    "verbatimQuery preserves the exact Bing-attested phrasing (or the best variant chosen by pickBestVariant).",
+    "faqQuestion is the derived question form with {{CITY}}/{{STATE}} slots, ready for builder injection.",
+    "overlapsExistingFAQ flags candidates whose question shares ≥3 content tokens with a current or proposed FAQ from the tier-b audit. Flag, not exclude — copy-deduplication is a Phase 2 decision.",
+    "dataSlotPrimary points at the existing data file (or marks NEW: required) so we can sequence work: ship \"high-confidence + existing data\" first, defer \"NEW data file\" categories.",
+    "Sort key inside each category is bingPriority (cluster.priority from cluster-and-intent.js)."
+  ]
+}
