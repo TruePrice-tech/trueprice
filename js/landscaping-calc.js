@@ -22,6 +22,7 @@
       irrigation_system:         { label: "Irrigation System",        unit: "project",    low: 2500, high: 5000,  mid: 3750,  category: "installation" },
       pergola_gazebo:            { label: "Pergola / Gazebo",         unit: "project",    low: 3500, high: 12000, mid: 7500,  category: "installation" },
       planting_beds:             { label: "Planting Beds / Garden",   unit: "sqft",       low: 10,   high: 25,    mid: 17,    category: "installation" },
+      lighting:                  { label: "Landscape Lighting",       unit: "project",    low: 1500, high: 8000,  mid: 4000,  category: "installation" },
 
       // Recurring / one-time maintenance services
       lawn_mowing:               { label: "Lawn Mowing (per visit)",  unit: "project",    low: 35,   high: 85,    mid: 60,    category: "maintenance" },
@@ -124,6 +125,7 @@
     SEASONAL_MULTS: SEASONAL_MULTS,
     getRegionFromState: getRegionFromState,
     calcLandscapingEstimate: calcLandscapingEstimate,
-    roundTo50: roundTo50
+    roundTo50: roundTo50,
+    roundDynamic: roundDynamic
   };
 });

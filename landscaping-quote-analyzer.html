@@ -380,6 +380,7 @@
   <script src="/js/price-confirm.min.js"></script>
   <script src="/js/vertical-detect.min.js"></script>
   <script src="/js/flywheel-blend.min.js"></script>
+  <script src="/js/landscaping-calc.min.js"></script>
   <script src="/js/analyzer-parser.min.js" defer></script>
   <script src="/js/analyzer-engine.min.js" defer></script>
   <script src="/js/vertical-scope-all.min.js" defer></script>
@@ -407,58 +408,17 @@
     "use strict";
 
     // ── Landscaping Pricing Model ──
-    var LAND_PRICING = {
-      basePricing: {
-        // Installation / build projects
-        paver_patio: { label: "Paver Patio", unit: "sqft", low: 15, high: 30, mid: 22.50, category: "installation" },
-        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 50, mid: 37.50, category: "installation" },
-        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1, high: 2, mid: 1.50, category: "installation" },
-        landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000, category: "installation" },
-        french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50, category: "installation" },
-        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000, category: "installation" },
-        // Maintenance / recurring services (mirrors js/landscaping-calc.js).
-        // Note: the estimate page's LAND_PRICING has 14 install types; this
-        // page has historically had only 6 for upload-side pricing. Pre-
-        // existing gap; not addressed here. Maintenance pricing matches calc.
-        lawn_mowing:               { label: "Lawn Mowing (per visit)",  unit: "project", low: 35,  high: 85,  mid: 60,  category: "maintenance" },
-        shrub_trimming:            { label: "Shrub / Hedge Trimming",   unit: "project", low: 75,  high: 250, mid: 150, category: "maintenance" },
-        flower_bed_maintenance:    { label: "Flower Bed Maintenance",   unit: "project", low: 50,  high: 175, mid: 110, category: "maintenance" },
-        seasonal_cleanup:          { label: "Seasonal Cleanup (spring/fall)", unit: "project", low: 300, high: 800, mid: 500, category: "maintenance" },
-        leaf_removal:              { label: "Leaf Removal",             unit: "project", low: 200, high: 700, mid: 400, category: "maintenance" },
-        fertilization_program:     { label: "Lawn Fertilization (annual program)", unit: "project", low: 300, high: 700, mid: 500, category: "maintenance" }
-      },
-      laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
-      overheadMultiplier: 1.0,
-      roundTo: 50,
-      scopeItems: [
-        { key: "designPlan", label: "Design plan / layout", weight: 10 },
-        { key: "excavation", label: "Excavation / grading", weight: 12 },
-        { key: "drainage", label: "Drainage solution", weight: 10 },
-        { key: "baseMaterial", label: "Base material (gravel/sand)", weight: 10 },
-        { key: "edging", label: "Edging / borders", weight: 6 },
-        { key: "mulchRock", label: "Mulch / decorative rock", weight: 6 },
-        { key: "plants", label: "Plants / trees / shrubs", weight: 10 },
-        { key: "irrigation", label: "Irrigation / sprinkler", weight: 8 },
-        { key: "lighting", label: "Landscape lighting", weight: 6 },
-        { key: "sealing", label: "Sealing / finishing", weight: 6 },
-        { key: "permits", label: "Permits and inspections", weight: 6 },
-        { key: "cleanup", label: "Site cleanup / haul-off", weight: 4 },
-        { key: "warranty", label: "Warranty (materials + labor)", weight: 6 }
-      ],
-      complexityMultipliers: { basic: 1.0, moderate: 1.20, complex: 1.50 }
-    };
-
-    var STATE_REGIONS = {
-      AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
-      DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
-      IN:"midwest",IA:"midwest",KS:"midwest",KY:"southeast",LA:"south",ME:"northeast",
-      MD:"northeast",MA:"northeast",MI:"midwest",MN:"midwest",MS:"south",MO:"midwest",
-      MT:"mountain",NE:"midwest",NV:"west",NH:"northeast",NJ:"northeast",NM:"mountain",
-      NY:"northeast",NC:"southeast",ND:"midwest",OH:"midwest",OK:"south",OR:"west",
-      PA:"northeast",RI:"northeast",SC:"southeast",SD:"midwest",TN:"southeast",TX:"south",
-      UT:"mountain",VT:"northeast",VA:"southeast",WA:"west",WV:"southeast",WI:"midwest",
-      WY:"mountain",DC:"northeast"
-    };
+    // Single source of truth in /js/landscaping-calc.js (UMD). Pulls in all
+    // 14 install types + 6 maintenance types (was 6 install + 0 maintenance
+    // inline before [LAND-MAINT-3] 2026-05-23). The 8 install types that
+    // were missing from the inline copy (artificial_turf, tree_removal,
+    // irrigation_system, lighting, outdoor_kitchen, fire_pit, pergola_gazebo,
+    // walkway_path, planting_beds) now price correctly instead of falling
+    // back to paver_patio.
+    var _LNDCALC = (typeof window !== "undefined" && window.WoogoroLandscapingCalc) || null;
+    if (!_LNDCALC) { console.error("[landscaping-quote-analyzer] /js/landscaping-calc.min.js failed to load"); return; }
+    var LAND_PRICING = _LNDCALC.LAND_PRICING;
+    var STATE_REGIONS = _LNDCALC.STATE_REGIONS;
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -490,18 +450,10 @@
     // ── Helpers ──
     function $(sel, el) { return (el || document).querySelector(sel); }
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
-    function roundTo50(n) { return Math.round(n / 50) * 50; }
-    // Maintenance services land in $35-$800 where $50 rounding throws away
-    // meaningful precision. Mirror of roundDynamic in js/landscaping-calc.js.
-    function roundDynamic(n) {
-      if (n < 200) return Math.round(n / 5) * 5;
-      if (n < 1000) return Math.round(n / 25) * 25;
-      return Math.round(n / 50) * 50;
-    }
-
-    function getRegionFromState(sc) {
-      return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
-    }
+    // roundTo50 / roundDynamic / getRegionFromState come from /js/landscaping-calc.js.
+    var roundTo50 = _LNDCALC.roundTo50;
+    var roundDynamic = _LNDCALC.roundDynamic;
+    var getRegionFromState = _LNDCALC.getRegionFromState;
 
     // City-level multiplier + inflation + seasonal
     var cityMultCache = {};
@@ -530,8 +482,8 @@
     // Inflation: 3% annual from 2025
     var _now = new Date();
     var INFLATION_MULT = Math.pow(1.03, Math.max(0, _now.getFullYear() - 2025 + _now.getMonth() / 12));
-    // Seasonal: landscaping peaks in spring/summer
-    var SEASONAL_MULTS = { 1:0.90, 2:0.92, 3:0.98, 4:1.06, 5:1.10, 6:1.12, 7:1.10, 8:1.06, 9:1.00, 10:0.95, 11:0.90, 12:0.88 };
+    // SEASONAL_MULTS comes from /js/landscaping-calc.js (same monthly curve).
+    var SEASONAL_MULTS = _LNDCALC.SEASONAL_MULTS;
     var SEASONAL_MULT = SEASONAL_MULTS[_now.getMonth() + 1] || 1.0;
 
     function calcBenchmark(projectType, size, region, complexity) {
