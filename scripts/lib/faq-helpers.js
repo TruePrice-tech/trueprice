@@ -126,10 +126,22 @@ function faqBlock(question, answer) {
 </details>`;
 }
 
+// Cheap deterministic city hash: maps "City|ST" to an integer for stable
+// per-city variant selection on slots with no city-distinguishing signal.
+// Same input always returns the same output (no entropy from build run).
+function cityHash(city) {
+  let h = 2166136261;
+  for (let i = 0; i < city.length; i++) {
+    h ^= city.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h);
+}
+
 // Q1 — "How much does X cost in {city}?" with cost-direction-aware prefix.
-// Avoids a single normalized-sentence-hash appearing on all 740 city pages.
+// "Near" branch (most cities) further splits by city-hash to avoid a
+// single normalized-sentence-hash dominating the corpus.
 function faqCostInCity({ workLabel, productLabel, city, priceRange, framing, weatherNote, costDriverNote }) {
-  // Lowercase only the first character so acronyms like HVAC survive.
   const productLow = lowercaseFirst(productLabel);
   let prefix;
   if (framing.direction === "above") {
@@ -137,7 +149,16 @@ function faqCostInCity({ workLabel, productLabel, city, priceRange, framing, wea
   } else if (framing.direction === "below") {
     prefix = `${productLabel} in ${city} runs more affordable than the national median, with most homeowners spending ${priceRange}`;
   } else {
-    prefix = `Most ${city} homeowners pay between ${priceRange} for ${productLow}`;
+    // "Near" branch hits the majority of cities. Rotate across 3 variants
+    // by city-hash so the sentence doesn't normalize to a single hash.
+    const variant = cityHash(city) % 3;
+    if (variant === 0) {
+      prefix = `Most ${city} homeowners pay between ${priceRange} for ${productLow}`;
+    } else if (variant === 1) {
+      prefix = `Typical ${productLow} in ${city} runs ${priceRange}`;
+    } else {
+      prefix = `${city} homeowners usually budget ${priceRange} for ${productLow}`;
+    }
   }
   const signal = firstSentence(costDriverNote) || firstSentence(weatherNote) || "";
   const tail = signal ? ` ${signal}` : "";
@@ -163,7 +184,11 @@ function faqWhyCostDiffers({ vertical, displayLabel, city, framing, costDriverNo
   } else if (framing.direction === "below") {
     question = `Why is ${displayLow} less expensive in ${city}?`;
   } else {
-    question = `What drives ${displayLow} pricing in ${city}?`;
+    // "Near" branch hits most cities; rotate Q stem by city-hash too.
+    const variant = cityHash(city) % 3;
+    if (variant === 0) question = `What drives ${displayLow} pricing in ${city}?`;
+    else if (variant === 1) question = `What sets ${displayLow} pricing apart in ${city}?`;
+    else question = `Why do ${displayLow} costs vary in ${city}?`;
   }
   return faqBlock(question, `${intro} ${body}`);
 }
