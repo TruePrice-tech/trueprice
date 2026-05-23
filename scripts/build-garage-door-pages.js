@@ -87,12 +87,34 @@ function buildGarageDoorFAQ({ city, stateCode, multiplier, priceRange }) {
   });
 
   // Q6 — HOA + style restrictions, driven by hoaPrevalence from shared
-  // city-context.json. This is the gap-list's "Q6" Q with no Phase 2
-  // dependency (uses an existing slot).
+  // city-context.json. Q stem varies by hoaPrevalence so the city-hash
+  // bucketing has 3 distinct stems, not one. Tail also rotates by
+  // city-hash so the "Before signing..." sentence isn't fixed.
   const hoaIntro = hoaLeadIn(shared.hoaPrevalence);
+  // Stable per-city hash for tail rotation. Same algorithm as faq-helpers.cityHash.
+  let _gdHash = 2166136261;
+  for (let _i = 0; _i < city.length; _i++) {
+    _gdHash ^= city.charCodeAt(_i);
+    _gdHash = Math.imul(_gdHash, 16777619);
+  }
+  _gdHash = Math.abs(_gdHash);
+  let q6Stem;
+  if (shared.hoaPrevalence === "high") {
+    q6Stem = `How strictly do ${city} HOAs restrict garage-door style?`;
+  } else if (shared.hoaPrevalence === "moderate") {
+    q6Stem = `Do ${city} HOAs typically restrict garage-door style?`;
+  } else {
+    q6Stem = `Are there HOA or neighborhood rules on garage doors in ${city}?`;
+  }
+  const q6TailVariants = [
+    `Before signing with an installer, confirm the door panel style, color, and window inserts match your covenants — many HOAs allow steel and composite but restrict carriage or wood-look styles, and approval can add 2-4 weeks to your timeline.`,
+    `Check your covenants for door-style restrictions before quoting — even moderate-HOA neighborhoods in ${city} can require architectural-committee approval for color or trim changes, adding weeks to the schedule.`,
+    `Get your ${city} HOA's written approval (or an explicit "no restrictions" note) before signing the installer's contract — most disputes happen after the door is on order, when the choice can't be changed without a restocking fee.`,
+  ];
+  const q6Tail = q6TailVariants[_gdHash % q6TailVariants.length];
   const q6 = faqBlock(
-    `Do ${city} HOAs typically restrict garage-door style?`,
-    `${hoaIntro} in ${city}. Before signing with an installer, confirm the door panel style, color, and window inserts match your covenants — many HOAs allow steel and composite but restrict carriage or wood-look styles, and approval can add 2-4 weeks to your timeline.`
+    q6Stem,
+    `${hoaIntro} in ${city}. ${q6Tail}`
   );
 
   return [q1, q2, q3, q5, q6].join("\n\n");

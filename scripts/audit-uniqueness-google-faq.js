@@ -30,22 +30,24 @@ const SEED = 20260522;
 // data-binding + Q-stem work from regression. Ratchet up when a phase
 // ships a meaningful lift; do NOT ratchet from short-term noise.
 //
-//   Per-vertical FAQ-slice composite >= 70% (ratcheted from 60%).
-//     ALL 16 Tier B verticals now GOOD on FAQ slice. Min: roof 74%,
-//     garage-door 74% (4pp buffer).
-//   Page-weighted FAQ-slice composite >= 78% (ratcheted from 76%).
-//     Current: 82% (4pp buffer).
-//   Page-weighted FULL-body composite >= 72% (unchanged).
-//     Current: 76% (4pp buffer). roof + garage-door still 67%/69% so
-//     can't ratchet per-vertical FULL floor without breaking them.
+//   Per-vertical FAQ-slice composite >= 70%.
+//     ALL 16 Tier B verticals GOOD on FAQ. Min: roof 74%, garage-door 82%.
+//   Page-weighted FAQ-slice composite >= 80% (ratcheted from 78%).
+//     Current: 83% (3pp buffer).
+//   Page-weighted FULL-body composite >= 75% (ratcheted from 72%).
+//     Current: 78% (3pp buffer). 15 of 16 verticals at GOOD on FULL;
+//     only roof (67%) remains under per-vertical 70% on body — its
+//     residual leaks (page-header hero, calc widget structure) are
+//     not addressable via in-place template wraps without rethinking
+//     the hero design.
 //
 // Tier A verticals (auto-repair/medical/legal/moving) are excluded from
 // the per-vertical FAQ-floor check — they pre-date this remediation and
 // score 86-100%, so any drop is flagged through the page-weighted gate.
 const GATE_FLOORS = {
   perVerticalFAQMin: 70,
-  pageWeightedFAQMin: 78,
-  pageWeightedFullMin: 72,
+  pageWeightedFAQMin: 80,
+  pageWeightedFullMin: 75,
 };
 const TIER_A_VERTICALS = new Set(["auto-repair", "medical", "legal", "moving"]);
 

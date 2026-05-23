@@ -170,12 +170,20 @@ function faqCostInCity({ workLabel, productLabel, city, priceRange, framing, wea
 
 // Q2 — "Why is X more/less expensive in {city}?" — full costDriverNote.
 function faqWhyCostDiffers({ vertical, displayLabel, city, framing, costDriverNote }) {
-  const intro =
-    framing.direction === "above"
-      ? `${displayLabel} in ${city} runs roughly ${framing.pct}% above the national average.`
-      : framing.direction === "below"
-        ? `${displayLabel} in ${city} runs roughly ${framing.pct}% below the national average.`
-        : `${displayLabel} in ${city} runs close to the national average.`;
+  // For above/below, intro names the exact direction. For "near" (the
+  // majority bucket), rotate across 3 city-hash variants so the intro
+  // sentence doesn't normalize to a single hash on most pages.
+  let intro;
+  if (framing.direction === "above") {
+    intro = `${displayLabel} in ${city} runs roughly ${framing.pct}% above the national average.`;
+  } else if (framing.direction === "below") {
+    intro = `${displayLabel} in ${city} runs roughly ${framing.pct}% below the national average.`;
+  } else {
+    const v = cityHash(city) % 3;
+    if (v === 0) intro = `${displayLabel} in ${city} runs close to the national average.`;
+    else if (v === 1) intro = `${displayLabel} pricing in ${city} tracks within a few percent of the national average.`;
+    else intro = `${displayLabel} costs in ${city} land near the middle of the US range.`;
+  }
   const body = costDriverNote || "Local labor rates, material availability, and code requirements all influence pricing in this market.";
   const displayLow = lowercaseFirst(displayLabel);
   let question;
