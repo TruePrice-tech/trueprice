@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-20T23:55:05.039Z",
+  "ts": "2026-05-23T15:28:23.155Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -46,6 +46,60 @@
         "high": 2000
       },
       "label": "Tree removal basic budget MW",
+      "failures": []
+    },
+    "mowing-weekly-basic-mid-ga": {
+      "total": 60,
+      "band": {
+        "low": 40,
+        "high": 90
+      },
+      "label": "Lawn mowing per visit basic mid GA",
+      "failures": []
+    },
+    "shrub-trimming-basic-mid-tx": {
+      "total": 150,
+      "band": {
+        "low": 100,
+        "high": 250
+      },
+      "label": "Shrub trimming per visit basic mid TX",
+      "failures": []
+    },
+    "flower-bed-maint-basic-mid-mw": {
+      "total": 115,
+      "band": {
+        "low": 70,
+        "high": 175
+      },
+      "label": "Flower bed maintenance per visit basic mid MW",
+      "failures": []
+    },
+    "seasonal-cleanup-basic-mid-ne": {
+      "total": 600,
+      "band": {
+        "low": 400,
+        "high": 900
+      },
+      "label": "Seasonal cleanup project basic mid NE",
+      "failures": []
+    },
+    "leaf-removal-basic-mid-mw": {
+      "total": 425,
+      "band": {
+        "low": 250,
+        "high": 700
+      },
+      "label": "Leaf removal project basic mid MW",
+      "failures": []
+    },
+    "fert-program-basic-mid-tx": {
+      "total": 500,
+      "band": {
+        "low": 300,
+        "high": 700
+      },
+      "label": "Lawn fertilization annual program basic mid TX",
       "failures": []
     }
   }

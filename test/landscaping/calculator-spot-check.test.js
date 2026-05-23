@@ -12,6 +12,16 @@ const SPECS = [
   { id: "outdoor-kitchen-complex-prem-ca", label: "Outdoor kitchen complex prem CA", inputs: { projectType: "outdoor_kitchen", region: "west", complexity: "complex", qualityTier: "premium" }, band: { low: 30000, high: 80000 }, sources: "HomeGuide / Forbes / Modernize 2026 premium outdoor kitchen $25-80k national; CA 1.22x + complex lands $30-80k. Calc $45k in middle." },
   { id: "retaining-wall-200-mod-prem-ne", label: "Retaining wall 200 sqft face mod prem NE", inputs: { projectType: "retaining_wall", size: 200, region: "northeast", complexity: "moderate", qualityTier: "premium" }, band: { low: 10000, high: 22000 }, sources: "HomeGuide 2026 retaining wall $25-55/sqft + NE 1.18x + prem 1.55x." },
   { id: "tree-removal-basic-budget-mw", label: "Tree removal basic budget MW", inputs: { projectType: "tree_removal", region: "midwest", complexity: "basic", qualityTier: "budget" }, band: { low: 500, high: 2000 }, sources: "Angi 2026 tree removal $500-2k." },
+  // Maintenance services (added 2026-05-23 with LAND-MAINT-1/2/3). Inputs
+  // use complexity:"basic" because maintenance has no build-complexity
+  // component (matches the analyzer + estimate runtime default for
+  // category:"maintenance").
+  { id: "mowing-weekly-basic-mid-ga", label: "Lawn mowing per visit basic mid GA", inputs: { projectType: "lawn_mowing", region: "southeast", complexity: "basic", qualityTier: "mid" }, band: { low: 40, high: 90 }, sources: "Angi / Forbes 2026 weekly lawn mowing $35-85/visit for 5-15K sqft residential; SE 1.03x." },
+  { id: "shrub-trimming-basic-mid-tx", label: "Shrub trimming per visit basic mid TX", inputs: { projectType: "shrub_trimming", region: "south", complexity: "basic", qualityTier: "mid" }, band: { low: 100, high: 250 }, sources: "Angi 2026 hedge/shrub trimming $75-250/visit typical residential." },
+  { id: "flower-bed-maint-basic-mid-mw", label: "Flower bed maintenance per visit basic mid MW", inputs: { projectType: "flower_bed_maintenance", region: "midwest", complexity: "basic", qualityTier: "mid" }, band: { low: 70, high: 175 }, sources: "Angi / HomeAdvisor 2026 garden bed maintenance $50-175/visit (weeding + deadhead + mulch touch)." },
+  { id: "seasonal-cleanup-basic-mid-ne", label: "Seasonal cleanup project basic mid NE", inputs: { projectType: "seasonal_cleanup", region: "northeast", complexity: "basic", qualityTier: "mid" }, band: { low: 400, high: 900 }, sources: "Angi 2026 spring/fall cleanup $300-800 typical lot; NE 1.18x pulls upper end." },
+  { id: "leaf-removal-basic-mid-mw", label: "Leaf removal project basic mid MW", inputs: { projectType: "leaf_removal", region: "midwest", complexity: "basic", qualityTier: "mid" }, band: { low: 250, high: 700 }, sources: "Angi 2026 leaf removal $200-700/project depending on lot + leaf volume." },
+  { id: "fert-program-basic-mid-tx", label: "Lawn fertilization annual program basic mid TX", inputs: { projectType: "fertilization_program", region: "south", complexity: "basic", qualityTier: "mid" }, band: { low: 300, high: 700 }, sources: "TruGreen / Spring-Green 2026 4-6 app program $300-700 annual; TX 1.0x." },
 ];
 
 function runSpec(spec) {
