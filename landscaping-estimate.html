@@ -1114,6 +1114,14 @@
           calculateEstimate();
         } else {
           render();
+          // Maintenance items (unit === "project") auto-skip step 2, so the next
+          // card can render much shorter than the one the user just clicked in —
+          // scroll the new step into view so the cross-link section below
+          // doesn't take over the viewport.
+          var _nextCard = document.getElementById("estCard") || appRoot;
+          if (_nextCard && _nextCard.getBoundingClientRect().top < 0) {
+            _nextCard.scrollIntoView({ block: "start", behavior: "smooth" });
+          }
         }
       });
     }
