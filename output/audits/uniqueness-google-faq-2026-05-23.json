@@ -66,17 +66,17 @@
       "sampled": 60,
       "full": {
         "sampled": 60,
-        "avgWords": 708,
+        "avgWords": 676,
         "templateScore": 70,
         "semanticScore": 80,
         "infoScore": 100,
-        "structScore": 14,
+        "structScore": 15,
         "composite": 68,
         "avgJaccard": 0.2015,
         "maxJaccard": 0.8824,
         "minJaccard": 0,
         "templateRatio": 30,
-        "avgEntities": 62,
+        "avgEntities": 61.1,
         "topBoilerplate": [
           {
             "count": 52,
@@ -86,7 +86,7 @@
           {
             "count": 52,
             "ofPages": 60,
-            "example": "Helpful Guides Complete roof replacement cost guide Roof replacement cost per square foot Roof replacement cost by house size How to compare"
+            "example": "Frequently Asked Questions How much does a new roof cost in Clarksville?"
           },
           {
             "count": 51,
