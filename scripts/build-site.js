@@ -511,6 +511,17 @@ function buildRoofBaseFAQ(cityPricing, cityMultipliers) {
 
   const framing = roofingCostFraming(cityPricing, cityMultipliers);
 
+  // Deterministic per-city hash used by Q4 mid + Q5 close for stable
+  // 3-variant rotation across the corpus. Same input -> same output.
+  const q5Hash = (() => {
+    let h = 2166136261;
+    for (let i = 0; i < city.length; i++) {
+      h ^= city.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return Math.abs(h);
+  })();
+
   // Q1 — cost in city (prefix varies by city-vs-national framing to avoid an
   // identical-after-normalization sentence appearing on every page)
   let q1Prefix;
@@ -581,20 +592,28 @@ function buildRoofBaseFAQ(cityPricing, cityMultipliers) {
 </details>`;
 
   // Q4 — permits and inspections (uses permitNote directly). Q stem
-  // varies by hoaPrevalence so HOA-heavy markets get a distinct phrasing.
+  // varies by hoaPrevalence so HOA-heavy markets get a distinct phrasing;
+  // tail varies by city-hash so the "Confirm with your contractor"
+  // sentence doesn't normalize to a single hash across the corpus.
   const ctxShared = ctx || {};
   const q4Question =
     ctxShared.hoaPrevalence === "high"
       ? `What permits, inspections, and HOA approvals does ${city} require for a new roof?`
       : `What permits and inspections does ${city} require for a new roof?`;
-  const q4Tail =
+  const q4HoaTail =
     ctxShared.hoaPrevalence === "high"
       ? ` In ${city}'s HOA-heavy neighborhoods, factor in 2-4 weeks for architectural-committee approval of color and material — start that process before signing the contract.`
       : "";
+  const q4MidVariants = [
+    `Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents permit-flipping disputes.`,
+    `Make sure the ${city} permit is filed under your name and address; contractors who pull permits under their own name leave you without recourse if inspections fail.`,
+    `Verify the permit application names you as the property owner — when a ${city} contractor pulls a permit in their own name, you can't independently track inspections or appeal failures.`,
+  ];
+  const q4Mid = q4MidVariants[q5Hash % q4MidVariants.length];
   const q4 = `<details class="faq-item">
 <summary>${q4Question}</summary>
 <div class="faq-answer">
-<p>${permitNote}. Confirm with your contractor that the permit is pulled in your name, not theirs — that keeps you in the loop on inspections and prevents permit-flipping disputes.${q4Tail}</p>
+<p>${permitNote}. ${q4Mid}${q4HoaTail}</p>
 </div>
 </details>`;
 
@@ -616,10 +635,38 @@ function buildRoofBaseFAQ(cityPricing, cityMultipliers) {
     default:
       q5Opening = `A complete quote in ${city} should include tear-off, underlayment, flashing, drip edge, starter strip, ridge cap, decking inspection, disposal/cleanup, and the permit.`;
   }
+  // Q5 close uses the same per-city hash declared at top of function for
+  // stable 3-variant rotation. Same hash drives Q4's mid-sentence pick.
+  const q5CloseVariants = [
+    `If your ${city} quote leaves any of these unlisted, ask the contractor to itemize the omission before signing — that's where change-order surprises come from.`,
+    `Push back if a ${city} contractor's quote skips any of these — missing line items in the bid usually surface as change orders during the job.`,
+    `Any ${city} bid that omits these items deserves a follow-up question; the gaps are how a "low" quote becomes the expensive one by the end.`,
+  ];
+  const q5Close = q5CloseVariants[q5Hash % q5CloseVariants.length];
+  // Q5 stem varies by climate zone so it doesn't normalize to a single
+  // hash across the corpus.
+  let q5Stem;
+  switch (climateZone) {
+    case "hot_humid":
+      q5Stem = `What line items should a humid-climate roofing quote in ${city} cover?`;
+      break;
+    case "hot_dry":
+      q5Stem = `What should a desert-climate roofing quote in ${city} include?`;
+      break;
+    case "cold":
+    case "very_cold":
+      q5Stem = `What should a cold-climate roofing quote in ${city} cover?`;
+      break;
+    case "mixed":
+      q5Stem = `What does a complete ${city} roofing quote look like?`;
+      break;
+    default:
+      q5Stem = `What should a roofing quote in ${city} include?`;
+  }
   const q5 = `<details class="faq-item">
-<summary>What should a roofing quote in ${city} include?</summary>
+<summary>${q5Stem}</summary>
 <div class="faq-answer">
-<p>${q5Opening} ${quoteIncludeAddendum(climateZone)} If your ${city} quote leaves any of these unlisted, ask the contractor to itemize the omission before signing — that's where change-order surprises come from.</p>
+<p>${q5Opening} ${quoteIncludeAddendum(climateZone)} ${q5Close}</p>
 </div>
 </details>`;
 
@@ -1048,6 +1095,25 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{SCOPE_CHECKLIST}}", buildScopeChecklist());
   template = template.replaceAll("{{HOUSE_SIZE_TABLE}}", buildHouseSizeTable(cityPricing));
   template = template.replaceAll("{{SAVINGS_TIP}}", buildSavingsTip(cityPricing));
+
+  // Per-city calc placeholder defaults (architectural shingle at 2000 sqft).
+  // Previously hardcoded to "$12,150 / Range: $9,800-$14,500 / $6.08 per sq ft"
+  // on every page; that fixed string was the dominant body boilerplate hit
+  // on roof. Now seeds the static HTML with city-specific defaults; the
+  // calc JS still updates them on user interaction.
+  const calc2000 =
+    (cityPricing.sizes && cityPricing.sizes["2000"] && cityPricing.sizes["2000"].architectural) || 12150;
+  const calcLow = Math.round(calc2000 * 0.81 / 50) * 50;
+  const calcHigh = Math.round(calc2000 * 1.19 / 50) * 50;
+  template = template.replaceAll(
+    "{{CALC_DEFAULT_PRICE}}", "$" + calc2000.toLocaleString()
+  );
+  template = template.replaceAll(
+    "{{CALC_DEFAULT_RANGE}}", "$" + calcLow.toLocaleString() + " - $" + calcHigh.toLocaleString()
+  );
+  template = template.replaceAll(
+    "{{CALC_DEFAULT_PERSQFT}}", "$" + (calc2000 / 2000).toFixed(2) + " per sq ft"
+  );
 
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);

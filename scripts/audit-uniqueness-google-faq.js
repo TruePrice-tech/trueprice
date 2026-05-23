@@ -30,19 +30,21 @@ const SEED = 20260522;
 // data-binding + Q-stem work from regression. Ratchet up when a phase
 // ships a meaningful lift; do NOT ratchet from short-term noise.
 //
-//   Per-vertical FAQ-slice composite >= 60%.
-//     Current Tier B min: roof 64%, garage-door 67% (4pp / 7pp buffer).
-//   Page-weighted FAQ-slice composite >= 76% (ratcheted from 73%).
-//     Current: 81% (5pp buffer post-Q1/Q2 city-hash rotation).
-//   Page-weighted FULL-body composite >= 72% (ratcheted from 67%).
-//     Current: 76% (4pp buffer post-factor-list-aside).
+//   Per-vertical FAQ-slice composite >= 70% (ratcheted from 60%).
+//     ALL 16 Tier B verticals now GOOD on FAQ slice. Min: roof 74%,
+//     garage-door 74% (4pp buffer).
+//   Page-weighted FAQ-slice composite >= 78% (ratcheted from 76%).
+//     Current: 82% (4pp buffer).
+//   Page-weighted FULL-body composite >= 72% (unchanged).
+//     Current: 76% (4pp buffer). roof + garage-door still 67%/69% so
+//     can't ratchet per-vertical FULL floor without breaking them.
 //
 // Tier A verticals (auto-repair/medical/legal/moving) are excluded from
 // the per-vertical FAQ-floor check — they pre-date this remediation and
 // score 86-100%, so any drop is flagged through the page-weighted gate.
 const GATE_FLOORS = {
-  perVerticalFAQMin: 60,
-  pageWeightedFAQMin: 76,
+  perVerticalFAQMin: 70,
+  pageWeightedFAQMin: 78,
   pageWeightedFullMin: 72,
 };
 const TIER_A_VERTICALS = new Set(["auto-repair", "medical", "legal", "moving"]);
