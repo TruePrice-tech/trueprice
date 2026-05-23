@@ -185,7 +185,7 @@ Return this exact JSON structure:
   "totalPrice": <number or null - the total quoted price>,
   "laborTotal": <number or null>,
   "materialsTotal": <number or null>,
-  "jobType": <"sod" | "pavers" | "retaining_wall" | "irrigation" | "tree_removal" | "tree_pruning" | "planting" | "mulch" | "lighting" | "grading" | "landscape_design" | "french_drain" | "mixed" | null>,
+  "jobType": <"sod" | "pavers" | "retaining_wall" | "irrigation" | "tree_removal" | "tree_pruning" | "planting" | "mulch" | "lighting" | "grading" | "landscape_design" | "french_drain" | "lawn_mowing" | "shrub_trimming" | "flower_bed_maintenance" | "seasonal_cleanup" | "leaf_removal" | "fertilization_program" | "mixed" | null>,
   "subScope": <string or null - more specific sub-scope e.g. "bermuda sod", "belgard paver patio", "6-zone sprinkler", "2.5 inch caliper oak">,
   "squareFootage": <number or null - area in square feet>,
   "linearFeet": <number or null - linear feet for walls/drains>,

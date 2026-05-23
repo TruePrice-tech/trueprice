@@ -409,12 +409,23 @@
     // ── Landscaping Pricing Model ──
     var LAND_PRICING = {
       basePricing: {
-        paver_patio: { label: "Paver Patio", unit: "sqft", low: 15, high: 30, mid: 22.50 },
-        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 50, mid: 37.50 },
-        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1, high: 2, mid: 1.50 },
-        landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000 },
-        french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50 },
-        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000 }
+        // Installation / build projects
+        paver_patio: { label: "Paver Patio", unit: "sqft", low: 15, high: 30, mid: 22.50, category: "installation" },
+        retaining_wall: { label: "Retaining Wall", unit: "sqft face", low: 25, high: 50, mid: 37.50, category: "installation" },
+        sod_installation: { label: "Sod Installation", unit: "sqft", low: 1, high: 2, mid: 1.50, category: "installation" },
+        landscape_design_install: { label: "Landscape Design + Install", unit: "project", low: 5000, high: 15000, mid: 10000, category: "installation" },
+        french_drain: { label: "French Drain", unit: "LF", low: 25, high: 50, mid: 37.50, category: "installation" },
+        grading_leveling: { label: "Grading/Leveling", unit: "project", low: 1000, high: 3000, mid: 2000, category: "installation" },
+        // Maintenance / recurring services (mirrors js/landscaping-calc.js).
+        // Note: the estimate page's LAND_PRICING has 14 install types; this
+        // page has historically had only 6 for upload-side pricing. Pre-
+        // existing gap; not addressed here. Maintenance pricing matches calc.
+        lawn_mowing:               { label: "Lawn Mowing (per visit)",  unit: "project", low: 35,  high: 85,  mid: 60,  category: "maintenance" },
+        shrub_trimming:            { label: "Shrub / Hedge Trimming",   unit: "project", low: 75,  high: 250, mid: 150, category: "maintenance" },
+        flower_bed_maintenance:    { label: "Flower Bed Maintenance",   unit: "project", low: 50,  high: 175, mid: 110, category: "maintenance" },
+        seasonal_cleanup:          { label: "Seasonal Cleanup (spring/fall)", unit: "project", low: 300, high: 800, mid: 500, category: "maintenance" },
+        leaf_removal:              { label: "Leaf Removal",             unit: "project", low: 200, high: 700, mid: 400, category: "maintenance" },
+        fertilization_program:     { label: "Lawn Fertilization (annual program)", unit: "project", low: 300, high: 700, mid: 500, category: "maintenance" }
       },
       laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
       overheadMultiplier: 1.0,
@@ -480,6 +491,13 @@
     function $(sel, el) { return (el || document).querySelector(sel); }
     function fmt(n) { var v = Number(n); return isNaN(v) ? "N/A" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }); }
     function roundTo50(n) { return Math.round(n / 50) * 50; }
+    // Maintenance services land in $35-$800 where $50 rounding throws away
+    // meaningful precision. Mirror of roundDynamic in js/landscaping-calc.js.
+    function roundDynamic(n) {
+      if (n < 200) return Math.round(n / 5) * 5;
+      if (n < 1000) return Math.round(n / 25) * 25;
+      return Math.round(n / 50) * 50;
+    }
 
     function getRegionFromState(sc) {
       return STATE_REGIONS[(sc || "").toUpperCase()] || "south";
@@ -534,12 +552,14 @@
       }
 
       total = total * LAND_PRICING.overheadMultiplier * INFLATION_MULT * SEASONAL_MULT;
+      // Maintenance category uses finer-grained rounding (mirror of calc.js).
+      var rounder = (proj.category === "maintenance") ? roundDynamic : roundTo50;
       var __cal = (typeof getCityCal === "function" && state && state.address) ? getCityCal(state.address.city, state.address.stateCode) : null;
       if (window.FlywheelBlend && __cal) {
-        var __blend = window.FlywheelBlend.blendedBenchmark(total, __cal, roundTo50);
+        var __blend = window.FlywheelBlend.blendedBenchmark(total, __cal, rounder);
         if (__blend.applied) return __blend.total;
       }
-      return roundTo50(total);
+      return rounder(total);
     }
 
     function verdictFromRatio(ratio) {
@@ -828,7 +848,11 @@ setProgress(90, "Almost done...");
           estimatedSize = Math.max(100, Math.min(5000, estimatedSize));
         }
 
-        var benchmark = calcBenchmark(projectType.value, estimatedSize, region, "moderate");
+        // Maintenance services have no build-complexity component; default to
+        // "basic" (1.0x) so a fairly-priced recurring service doesn't read
+        // 20% over-benchmark just from the multiplier. Install stays "moderate".
+        var defaultComplexity = (proj && proj.category === "maintenance") ? "basic" : "moderate";
+        var benchmark = calcBenchmark(projectType.value, estimatedSize, region, defaultComplexity);
 
         // For project-type pricing, benchmark doesn't depend on size, so use it directly
         // For sqft/LF types, if we derived size from price, adjust benchmark to match scope
@@ -937,6 +961,25 @@ setProgress(90, "Almost done...");
           patterns: [/planting\s*bed/g, /flower\s*bed/g, /shrub\s*bed/g, /perennial\s*bed/g, /mulch\s*bed/g] },
         { value: "landscape_design_install",label: "Landscape Design + Install",
           patterns: [/landscape\s*design/g, /full\s*landscape/g, /planting\s*plan/g, /master\s*plan/g, /design[- ]?build/g] },
+        // Maintenance services — placed AFTER install entries so a true install
+        // quote with a free-add-on mention ("first mowing free") still resolves
+        // to the dominant install type (sod_installation matches multiple
+        // specific patterns and beats lawn_mowing's single /mow/ hit). For
+        // genuine maintenance quotes the maintenance-specific multi-word
+        // patterns ("fertilization program", "spring cleanup", "weeding +
+        // mulch refresh") dominate hit count and win.
+        { value: "fertilization_program",   label: "Lawn Fertilization (annual program)",
+          patterns: [/\bfertilization\s*program/g, /\bfertilization\s*service/g, /\bweed\s+and\s+feed\b/g, /\blawn\s*treatment\s*(?:program|service|plan)\b/g, /\d+\s*[-]?\s*(?:app|application)s?\s*(?:program|plan)/g, /\bpre[- ]?emergent\b/g] },
+        { value: "seasonal_cleanup",        label: "Seasonal Cleanup (spring/fall)",
+          patterns: [/spring\s*cleanup/g, /fall\s*cleanup/g, /seasonal\s*cleanup/g, /yard\s*cleanup/g, /spring\s*cleaning\s*package/g] },
+        { value: "leaf_removal",            label: "Leaf Removal",
+          patterns: [/leaf\s*removal/g, /leaf\s*cleanup/g, /leaf\s*pickup/g, /leaf\s*haul/g, /raking\s*leaves/g] },
+        { value: "shrub_trimming",          label: "Shrub / Hedge Trimming",
+          patterns: [/\b(?:shrub|hedge|bush)\s*(?:trim|trimming|pruning|prune)\b/g, /\b(?:trim|prune|pruning)\s*(?:shrub|hedge|bush)/g, /hedge\s*shaping/g] },
+        { value: "flower_bed_maintenance",  label: "Flower Bed Maintenance",
+          patterns: [/(?:flower\s*bed|garden\s*bed).{0,20}(?:maint|weed|clean|refresh)/g, /weeding\s*service/g, /\bdeadhead/g, /(?:weed|deadhead).{0,20}(?:flower\s*bed|garden\s*bed)/g] },
+        { value: "lawn_mowing",             label: "Lawn Mowing (per visit)",
+          patterns: [/\b(?:weekly|biweekly|bi[- ]weekly|monthly)\s*(?:mow|mowing|lawn)/g, /\bmowing\s*service\b/g, /grass\s*cut(?:ting)?\s*(?:service|visit)/g, /lawn\s*cut(?:ting)?\s*(?:service|visit)/g, /\bper\s*visit\b.{0,30}\bmow/g, /\bmow\s*\+\s*edge\b/g] },
         { value: "paver_patio",             label: "Paver Patio",
           patterns: [/paver/g, /\bpatio\b/g, /hardscape/g, /flagstone\b(?!\s*path)/g, /bluestone/g, /\btravertine\b/g, /\bbelgard\b/g, /\btechobloc\b/g] }
       ];
