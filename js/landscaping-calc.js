@@ -7,20 +7,29 @@
 
   var LAND_PRICING = {
     basePricing: {
-      paver_patio:               { label: "Paver Patio",              unit: "sqft",       low: 18,   high: 38,    mid: 26 },
-      retaining_wall:            { label: "Retaining Wall",           unit: "sqft face",  low: 25,   high: 55,    mid: 38 },
-      sod_installation:          { label: "Sod Installation",         unit: "sqft",       low: 1.10, high: 2.60,  mid: 1.75 },
-      landscape_design_install:  { label: "Landscape Design + Install", unit: "project",  low: 5000, high: 15000, mid: 10000 },
-      french_drain:              { label: "French Drain",             unit: "LF",         low: 25,   high: 50,    mid: 37.50 },
-      grading_leveling:          { label: "Grading/Leveling",         unit: "project",    low: 1000, high: 3000,  mid: 2000 },
-      artificial_turf:           { label: "Artificial Turf",          unit: "sqft",       low: 8,    high: 16,    mid: 12 },
-      walkway_path:              { label: "Walkway / Path",           unit: "sqft",       low: 15,   high: 35,    mid: 25 },
-      outdoor_kitchen:           { label: "Outdoor Kitchen",          unit: "project",    low: 8000, high: 25000, mid: 16000 },
-      fire_pit:                  { label: "Fire Pit / Fireplace",     unit: "project",    low: 1500, high: 5000,  mid: 3000 },
-      tree_removal:              { label: "Tree / Stump Removal",     unit: "project",    low: 500,  high: 2000,  mid: 1200 },
-      irrigation_system:         { label: "Irrigation System",        unit: "project",    low: 2500, high: 5000,  mid: 3750 },
-      pergola_gazebo:            { label: "Pergola / Gazebo",         unit: "project",    low: 3500, high: 12000, mid: 7500 },
-      planting_beds:             { label: "Planting Beds / Garden",   unit: "sqft",       low: 10,   high: 25,    mid: 17 }
+      // Installation / build projects (one-time)
+      paver_patio:               { label: "Paver Patio",              unit: "sqft",       low: 18,   high: 38,    mid: 26,    category: "installation" },
+      retaining_wall:            { label: "Retaining Wall",           unit: "sqft face",  low: 25,   high: 55,    mid: 38,    category: "installation" },
+      sod_installation:          { label: "Sod Installation",         unit: "sqft",       low: 1.10, high: 2.60,  mid: 1.75,  category: "installation" },
+      landscape_design_install:  { label: "Landscape Design + Install", unit: "project",  low: 5000, high: 15000, mid: 10000, category: "installation" },
+      french_drain:              { label: "French Drain",             unit: "LF",         low: 25,   high: 50,    mid: 37.50, category: "installation" },
+      grading_leveling:          { label: "Grading/Leveling",         unit: "project",    low: 1000, high: 3000,  mid: 2000,  category: "installation" },
+      artificial_turf:           { label: "Artificial Turf",          unit: "sqft",       low: 8,    high: 16,    mid: 12,    category: "installation" },
+      walkway_path:              { label: "Walkway / Path",           unit: "sqft",       low: 15,   high: 35,    mid: 25,    category: "installation" },
+      outdoor_kitchen:           { label: "Outdoor Kitchen",          unit: "project",    low: 8000, high: 25000, mid: 16000, category: "installation" },
+      fire_pit:                  { label: "Fire Pit / Fireplace",     unit: "project",    low: 1500, high: 5000,  mid: 3000,  category: "installation" },
+      tree_removal:              { label: "Tree / Stump Removal",     unit: "project",    low: 500,  high: 2000,  mid: 1200,  category: "installation" },
+      irrigation_system:         { label: "Irrigation System",        unit: "project",    low: 2500, high: 5000,  mid: 3750,  category: "installation" },
+      pergola_gazebo:            { label: "Pergola / Gazebo",         unit: "project",    low: 3500, high: 12000, mid: 7500,  category: "installation" },
+      planting_beds:             { label: "Planting Beds / Garden",   unit: "sqft",       low: 10,   high: 25,    mid: 17,    category: "installation" },
+
+      // Recurring / one-time maintenance services
+      lawn_mowing:               { label: "Lawn Mowing (per visit)",  unit: "project",    low: 35,   high: 85,    mid: 60,    category: "maintenance" },
+      shrub_trimming:            { label: "Shrub / Hedge Trimming",   unit: "project",    low: 75,   high: 250,   mid: 150,   category: "maintenance" },
+      flower_bed_maintenance:    { label: "Flower Bed Maintenance",   unit: "project",    low: 50,   high: 175,   mid: 110,   category: "maintenance" },
+      seasonal_cleanup:          { label: "Seasonal Cleanup (spring/fall)", unit: "project", low: 300, high: 800,  mid: 500,  category: "maintenance" },
+      leaf_removal:              { label: "Leaf Removal",             unit: "project",    low: 200,  high: 700,   mid: 400,   category: "maintenance" },
+      fertilization_program:     { label: "Lawn Fertilization (annual program)", unit: "project", low: 300, high: 700, mid: 500, category: "maintenance" }
     },
     laborMultiplierByRegion: { south: 1.00, southeast: 1.03, northeast: 1.18, midwest: 1.06, mountain: 1.10, west: 1.22 },
     overheadMultiplier: 1.0,
@@ -65,6 +74,17 @@
   var SEASONAL_MULTS = { 1:0.90, 2:0.92, 3:0.98, 4:1.06, 5:1.10, 6:1.12, 7:1.10, 8:1.06, 9:1.00, 10:0.95, 11:0.90, 12:0.88 };
 
   function roundTo50(n) { return Math.round(n / 50) * 50; }
+
+  // Maintenance services often land in the $35-$800 band where rounding to
+  // the nearest $50 throws away meaningful precision (e.g. a $66 weekly mow
+  // benchmark would round to $50, then a real $65 quote reads as +30%
+  // above-average instead of fair). Round to $5 below $200, $25 below $1,000,
+  // otherwise keep the original $50 granularity used by install projects.
+  function roundDynamic(n) {
+    if (n < 200) return Math.round(n / 5) * 5;
+    if (n < 1000) return Math.round(n / 25) * 25;
+    return Math.round(n / 50) * 50;
+  }
   function getRegionFromState(sc) { return STATE_REGIONS[(sc || "").toUpperCase()] || "south"; }
 
   function calcLandscapingEstimate(opts) {
@@ -91,7 +111,10 @@
       flywheelConfidence = blended.confidence;
       if (blended.applied) { total = blended.mid; flywheelApplied = true; }
     }
-    return { total: roundTo50(total), label: proj.label, unit: proj.unit, mid: proj.mid, flywheelApplied: flywheelApplied, flywheelConfidence: flywheelConfidence };
+    // Use finer-grained rounding for maintenance category to preserve
+    // sub-$200 precision; install projects keep the legacy $50 granularity.
+    var rounder = (proj.category === "maintenance") ? roundDynamic : roundTo50;
+    return { total: rounder(total), label: proj.label, unit: proj.unit, mid: proj.mid, flywheelApplied: flywheelApplied, flywheelConfidence: flywheelConfidence };
   }
 
   return {

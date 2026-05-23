@@ -728,7 +728,13 @@
           estimatedSize = Math.max(100, Math.min(5000, estimatedSize));
         }
 
-        var benchmark = calcBenchmark(projectType.value, estimatedSize, region, "moderate");
+        // Install projects default to "moderate" complexity (1.20x — what the
+        // estimator UI also defaults to). Maintenance services have no
+        // "build complexity" component, so default them to "basic" (1.0x) so
+        // a fairly-priced recurring service doesn't read 20% over-benchmark
+        // just from the multiplier.
+        var defaultComplexity = (proj && proj.category === "maintenance") ? "basic" : "moderate";
+        var benchmark = calcBenchmark(projectType.value, estimatedSize, region, defaultComplexity);
 
         // For project-type pricing, benchmark doesn't depend on size, so use it directly
         // For sqft/LF types, if we derived size from price, adjust benchmark to match scope
@@ -798,12 +804,31 @@
     // ── Landscaping-specific detectors ──
     function detectLandscapingProjectType(text) {
       var t = (text || "").toLowerCase();
+      // Order from most-specific to most-generic. Maintenance patterns with
+      // distinctive multi-word phrases ("fertilization program", "spring
+      // cleanup", etc.) come before the generic install patterns ("sod" /
+      // "turf" / "grading") so that a fertilization quote mentioning
+      // "6,800 sqft turf area" doesn't mis-route to sod_installation.
+      // The catch-all paver_patio stays last.
       var types = [
+        // Highly specific install phrases first
         { pattern: /retaining\s*wall/i, value: "retaining_wall", label: "Retaining Wall" },
         { pattern: /french\s*drain/i, value: "french_drain", label: "French Drain" },
-        { pattern: /sod\b|turf|grass\s*install/i, value: "sod_installation", label: "Sod Installation" },
-        { pattern: /grading|leveling|grade\s*work/i, value: "grading_leveling", label: "Grading/Leveling" },
         { pattern: /landscape\s*design|full\s*landscape|planting\s*plan/i, value: "landscape_design_install", label: "Landscape Design + Install" },
+        // Maintenance services (multi-word distinctive phrases)
+        { pattern: /\b(?:fertilization|weed\s+and\s+feed|lawn\s*treatment)\s*(?:program|service|plan)?\b|\d+\s*[-]?\s*(?:app|application)s?\s*(?:program|plan)/i, value: "fertilization_program", label: "Lawn Fertilization (annual program)" },
+        { pattern: /(?:spring|fall|seasonal)\s*cleanup|yard\s*cleanup/i, value: "seasonal_cleanup", label: "Seasonal Cleanup (spring/fall)" },
+        { pattern: /leaf\s*(?:removal|cleanup|pickup|haul)|raking\s*leaves/i, value: "leaf_removal", label: "Leaf Removal" },
+        { pattern: /\b(?:shrub|hedge|bush)\s*(?:trim|trimming|pruning|prune)\b|\b(?:trim|prune|pruning)\s*(?:shrub|hedge|bush)/i, value: "shrub_trimming", label: "Shrub / Hedge Trimming" },
+        { pattern: /(?:flower\s*bed|garden\s*bed).{0,20}(?:maint|weed|clean|refresh)|weeding\s*service|deadhead/i, value: "flower_bed_maintenance", label: "Flower Bed Maintenance" },
+        // Generic install signals (single-word matches) come after maintenance
+        { pattern: /\bsod\b|\bturf\b|grass\s*install/i, value: "sod_installation", label: "Sod Installation" },
+        { pattern: /grading|leveling|grade\s*work/i, value: "grading_leveling", label: "Grading/Leveling" },
+        // Lawn mowing — single-word "mow" can also appear in install quotes
+        // ("first mowing free"), so it sits after sod_installation so a sod
+        // install with a free-mow add-on still resolves to sod_installation.
+        { pattern: /\b(?:mow|mowing)\b|grass\s*cut(?:ting)?\s*(?:service|visit)?|lawn\s*cut(?:ting)?\s*(?:service|visit)?/i, value: "lawn_mowing", label: "Lawn Mowing (per visit)" },
+        // Catch-all install pattern
         { pattern: /paver|patio|hardscape|flagstone|bluestone/i, value: "paver_patio", label: "Paver Patio" }
       ];
       for (var i = 0; i < types.length; i++) {
@@ -926,17 +951,35 @@
       var card = document.getElementById("estCard");
 
       if (stepNum === 1) {
+        // Group project types by category (installation vs maintenance) so the
+        // dropdown reads as two distinct service classes rather than 20 mixed
+        // options. Falls back to "installation" for any project missing a
+        // category tag so it never disappears.
         var projKeys = Object.keys(LAND_PRICING.basePricing);
-        var projHtml = '<div class="land-step"><h3>What type of landscaping project?</h3><div class="land-options" id="optProject" style="flex-direction:column;">';
-        for (var pi = 0; pi < projKeys.length; pi++) {
-          var pk = projKeys[pi];
-          var pv = LAND_PRICING.basePricing[pk];
-          var sel = est.projectType === pk ? " selected" : "";
-          projHtml += '<div class="land-option' + sel + '" data-val="' + pk + '">' + pv.label + '</div>';
+        var groups = { installation: [], maintenance: [] };
+        for (var pgi = 0; pgi < projKeys.length; pgi++) {
+          var pgk = projKeys[pgi];
+          var pgv = LAND_PRICING.basePricing[pgk];
+          var cat = (pgv && pgv.category) || "installation";
+          (groups[cat] || groups.installation).push(pgk);
         }
-        projHtml += '</div></div>';
+        var projHtml = '<div class="land-step"><h3>What type of landscaping project?</h3>';
+        var groupLabels = { installation: "Installation / build", maintenance: "Maintenance / recurring service" };
+        ["installation", "maintenance"].forEach(function(cat) {
+          if (!groups[cat].length) return;
+          projHtml += '<div style="font-size:0.85rem;color:#64748b;font-weight:600;margin:0.5rem 0 0.4rem;">' + groupLabels[cat] + '</div>';
+          projHtml += '<div class="land-options" id="optProject_' + cat + '" style="flex-direction:column;">';
+          groups[cat].forEach(function(pk) {
+            var pv = LAND_PRICING.basePricing[pk];
+            var sel = est.projectType === pk ? " selected" : "";
+            projHtml += '<div class="land-option' + sel + '" data-val="' + pk + '">' + pv.label + '</div>';
+          });
+          projHtml += '</div>';
+        });
+        projHtml += '</div>';
         card.innerHTML = projHtml;
-        bindOptions("optProject", "projectType");
+        bindOptions("optProject_installation", "projectType");
+        bindOptions("optProject_maintenance", "projectType");
       } else if (stepNum === 2) {
         var proj = LAND_PRICING.basePricing[est.projectType];
         var sizeLabel = "How large is the project area?";
@@ -1201,7 +1244,15 @@
           walkway_path:            ["excavation", "baseMaterial", "edging", "cleanup", "warranty"],
           planting_beds:           ["designPlan", "excavation", "baseMaterial", "mulchRock", "plants", "cleanup", "warranty"],
           landscape_design_install:["designPlan", "excavation", "drainage", "baseMaterial", "edging", "mulchRock", "plants", "irrigation", "lighting", "permits", "cleanup", "warranty"],
-          french_drain:            ["excavation", "drainage", "baseMaterial", "cleanup", "warranty"]
+          french_drain:            ["excavation", "drainage", "baseMaterial", "cleanup", "warranty"],
+          // Maintenance services — shorter scope, mostly about cleanup +
+          // warranty + (for flower beds / seasonal) mulch / plant care.
+          lawn_mowing:             ["cleanup", "warranty"],
+          shrub_trimming:          ["cleanup", "warranty"],
+          flower_bed_maintenance:  ["mulchRock", "plants", "cleanup", "warranty"],
+          seasonal_cleanup:        ["mulchRock", "cleanup", "warranty"],
+          leaf_removal:            ["cleanup", "warranty"],
+          fertilization_program:   ["warranty"]
         };
         var typicalItems = SCOPE_BY_PROJECT[_projKey] || SCOPE_BY_PROJECT.paver_patio;
         typicalItems.forEach(function(key) {
@@ -1226,7 +1277,14 @@
           walkway_path:        "Estimate assumes standard installation. Stairs, complex curves, and decorative cap may add cost.",
           planting_beds:       "Estimate assumes standard planting. Soil amendments, larger specimen plants, and seasonal color rotation may add cost.",
           landscape_design_install: "Estimate assumes standard installation. Site engineering, mature trees, and water features may add cost.",
-          paver_patio:         "Estimate assumes standard installation. Drainage solutions, retaining walls, and complex curves may add cost."
+          paver_patio:         "Estimate assumes standard installation. Drainage solutions, retaining walls, and complex curves may add cost.",
+          // Maintenance services
+          lawn_mowing:           "Estimate assumes a standard residential lot (5-15K sqft). Steep slopes, hand-trim around obstacles, and bagging instead of mulching clippings may add cost.",
+          shrub_trimming:        "Estimate assumes typical residential shrub count (10-20). Tall hedges, dense formal shapes, and high-volume debris hauling may add cost.",
+          flower_bed_maintenance:"Estimate assumes a moderate flower-bed area (≤200 sqft). Larger or more intricate beds, plant replacement, and pest control may add cost.",
+          seasonal_cleanup:      "Estimate assumes a typical residential lot. Heavy leaf load, large debris piles, and gutter clean-out are commonly extras.",
+          leaf_removal:          "Estimate assumes a single full clean. Multiple visits through fall, large mature-tree volume, and gutter clean-out may add cost.",
+          fertilization_program: "Estimate assumes a typical 5-10K sqft lawn. Larger lots, soil testing, and organic-product upcharges may add cost."
         };
         var _trailer = _trailerByProject[_projKey] || _trailerByProject.paver_patio;
         scopeHtml += '</ul><p style="font-size:0.85rem;color:#64748b;margin-top:0.75rem;">' + _trailer + '</p></div>';
@@ -1271,7 +1329,14 @@
             walkway_path:            { budget: "Stepping stones in mulch, no base", mid: "Concrete pavers on 4-inch base with edge restraint", premium: "Flagstone / bluestone on 6-inch base, polymeric joint sand", luxury: "Custom natural-stone path, lighting integrated, mortared joints" },
             planting_beds:           { budget: "Few starter plants, generic mulch, no soil amendment", mid: "Native + ornamental mix, hardwood mulch, basic edging", premium: "Curated planting plan, compost-amended soil, larger specimens", luxury: "Designer planting with mature specimens, drip irrigation, seasonal rotation" },
             landscape_design_install:{ budget: "Functional plan, basic plants + grass, minimal hardscape", mid: "Mid-tier mixed plan with hardscape, plants, mulch, lighting", premium: "Designed plan with stone, specimen plants, drip irrigation, low-volt lighting", luxury: "Architect-designed full property, mature trees, water feature, smart systems" },
-            french_drain:            { budget: "Surface trench with perforated PVC, daylight outlet", mid: "Sock-wrapped pipe, 24-inch trench, gravel + filter fabric", premium: "Catch basins + perforated pipe network, pop-up emitter, full slope spec", luxury: "Engineered drainage system with multiple catch basins and dry well" }
+            french_drain:            { budget: "Surface trench with perforated PVC, daylight outlet", mid: "Sock-wrapped pipe, 24-inch trench, gravel + filter fabric", premium: "Catch basins + perforated pipe network, pop-up emitter, full slope spec", luxury: "Engineered drainage system with multiple catch basins and dry well" },
+            // Maintenance services — tiers reflect crew skill + thoroughness, not materials
+            lawn_mowing:             { budget: "Mow only, no edge trimming or cleanup", mid: "Mow + edge + blower cleanup of walks", premium: "Mow + edge + bag + light flower-bed touch", luxury: "Full service: mow + edge + bag + flower-bed weed + path blow + weekly inspection" },
+            shrub_trimming:          { budget: "Quick shear, no shape correction", mid: "Hand-trim with shape, debris bagged + hauled", premium: "Selective pruning by horticulture-trained crew, deep clean", luxury: "Certified arborist shaping with deadwood + crossing-branch removal" },
+            flower_bed_maintenance:  { budget: "Weed pull only", mid: "Weed + deadhead + light mulch touch-up", premium: "Weed + deadhead + soil refresh + slow-release fertilizer", luxury: "Designer-grade weekly upkeep with seasonal color rotation" },
+            seasonal_cleanup:        { budget: "Basic leaf rake + curb-side haul", mid: "Full-property cleanup with pruning + mulch top-up", premium: "Cleanup + soil amendment + winterization of beds", luxury: "Full estate service incl. equipment winterization + spring re-planting plan" },
+            leaf_removal:            { budget: "Curb-side blow + municipal pickup", mid: "Full property rake + bag + haul-off", premium: "Multi-visit through fall + gutter clean-out", luxury: "Weekly through fall + gutter + winter-prep package" },
+            fertilization_program:   { budget: "Spring + fall feeding only", mid: "4-application program (granular), pre-emergent in spring", premium: "6-application program with grub control + soil pH check", luxury: "Custom turf consultant with soil testing + organic-product options" }
           };
           var _projExamples = _examplesByProject[_projKey] || _examplesByProject.paver_patio;
           var _exTxt = _projExamples[_ck] || _cd.examples;
@@ -1321,7 +1386,14 @@
         walkway_path:        ['Confirm base depth (4-6 inch compacted gravel for foot-traffic walkways)', 'Ask about edge restraint and joint sand or polymeric sand', 'Confirm step / stair structure if grade changes'],
         planting_beds:       ['Confirm bed depth and soil amendment recipe', 'Ask about plant warranty (typically 1 year on installed plants from a licensed installer)', 'Confirm mulch type and reapplication schedule'],
         landscape_design_install: ['Confirm the design package includes plan view, plant schedule, and 3D rendering', 'Ask which scope items are bid vs. allowance and how change orders are priced', 'Confirm site protection (driveway, lawn, existing trees)'],
-        paver_patio:         ['Confirm the base preparation method (compacted gravel depth, geotextile fabric)', 'Ask about drainage solutions to prevent water pooling or erosion', 'Confirm joint sand type (regular vs. polymeric) and edge restraint']
+        paver_patio:         ['Confirm the base preparation method (compacted gravel depth, geotextile fabric)', 'Ask about drainage solutions to prevent water pooling or erosion', 'Confirm joint sand type (regular vs. polymeric) and edge restraint'],
+        // Maintenance services
+        lawn_mowing:         ['Confirm cutting height and bagging vs. mulching policy', 'Ask about frequency (weekly / biweekly) and seasonal start / end dates', 'Verify edge trimming + sidewalk blower cleanup are included in the per-visit price'],
+        shrub_trimming:      ['Ask how many shrubs / hedges are covered and the trim style (formal vs. natural)', 'Confirm debris disposal is included (not billed extra by yard)', 'Ask about visit frequency (1-4× per year is typical for most shrubs)'],
+        flower_bed_maintenance: ['Confirm exactly what is included: weeding, deadheading, mulch refresh, fertilizer', 'Ask about visit frequency through the growing season (biweekly Apr-Oct is typical)', 'Verify whether plant replacement is covered or billed extra'],
+        seasonal_cleanup:    ['Ask whether this is spring or fall cleanup specifically — scope differs', 'Confirm debris haul-off is included (not extra)', 'Ask about pruning depth and tree-trimming scope (height limits typically apply)'],
+        leaf_removal:        ['Confirm the visit count (single full clean vs. multi-visit through fall)', 'Ask whether gutter clean-out is bundled or a separate service', 'Verify haul-off vs. leaving leaves on the curb for municipal pickup'],
+        fertilization_program: ['Ask which products are used (synthetic vs. organic) and the applicator\'s license credentials', 'Confirm the application schedule (4-app vs. 6-app) and rain-rescheduling policy', 'Ask about pre-emergent timing for crabgrass / dandelion control']
       };
       var _ps = _stepsByProject[_projKey3] || _stepsByProject.paver_patio;
       _ps.forEach(function (txt) { tipsHtml += '<li>' + txt + '</li>'; });
