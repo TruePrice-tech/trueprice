@@ -846,7 +846,23 @@
       + '.prep-upsell .cta:hover { transform:translateY(-1px); }'
       + '.prep-upsell .price-note { font-size:13px; opacity:0.85; margin-top:10px; }'
 
-      + '@media (max-width:600px) { .prep-section { padding:18px 20px; } .prep-hero h1 { font-size:24px; } .prep-upsell { padding:20px 22px; } .prep-upsell h3 { font-size:18px; } }';
+      + '@media (max-width:600px) { .prep-section { padding:18px 20px; } .prep-hero h1 { font-size:24px; } .prep-upsell { padding:20px 22px; } .prep-upsell h3 { font-size:18px; } }'
+
+      // Print bar (Pro-only) + print stylesheet — kit prints clean for save-as-PDF.
+      + '.prep-print-bar { display:flex; align-items:center; gap:14px; padding:14px 20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin:18px 0 12px; flex-wrap:wrap; }'
+      + '.prep-print-bar .print-btn { background:#1e3a5f; color:#fff; border:none; padding:10px 22px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; }'
+      + '.prep-print-bar .print-btn:hover { background:#152b47; }'
+      + '.prep-print-bar .print-note { font-size:12px; color:#64748b; }'
+      + '@media print {'
+      +   '.tp-pdf-noprint, .site-header, .site-footer { display:none !important; }'
+      +   '.prep-section { break-inside:avoid; border:1px solid #cbd5e1; padding:14px 16px; margin:12px 0; }'
+      +   '.prep-page { max-width:100% !important; padding:0 !important; }'
+      +   '.prep-hero h1 { font-size:22px; }'
+      +   '.prep-section h2 .tag { background:#000 !important; color:#fff !important; }'
+      +   '.prep-flag { background:#fff !important; border:1px solid #cbd5e1 !important; }'
+      +   '.prep-tactic { background:#fff !important; }'
+      +   '.prep-tactic .script { background:#fff !important; border-left:3px solid #000 !important; }'
+      + '}';
     document.head.appendChild(s);
   }
 
@@ -854,11 +870,22 @@
     var price = opts.price || 19;
     var verticalLabel = opts.verticalLabel || "your project";
     return ''
-      + '<div class="prep-upsell">'
+      + '<div class="prep-upsell tp-pdf-noprint">'
       + '  <h3>Unlock your full ' + escHtml(verticalLabel) + ' Quote-Prep Kit</h3>'
       + '  <p>Everything below: 15+ tailored questions, scope checklist, red flags, negotiation playbook, brand cheat sheet, rebates worksheet. Walk into every contractor call prepared.</p>'
       + '  <button type="button" class="cta" data-prep-cta>Get my Prep Kit · $' + price + '</button>'
       + '  <div class="price-note">One-time. 30 days of Pro across all 20 verticals. 7-day refund if you haven\'t opened any locked section.</div>'
+      + '</div>';
+  }
+
+  // Pro-only "Print / Save as PDF" action — gives the kit the feel of a
+  // real take-away asset. Browser print dialog handles save-as-PDF on all
+  // modern browsers.
+  function renderPrintBar() {
+    return ''
+      + '<div class="prep-print-bar tp-pdf-noprint">'
+      + '  <button type="button" class="print-btn" onclick="window.print()">Print / Save as PDF</button>'
+      + '  <span class="print-note">Your kit, in a clean print layout. Saves as PDF on most browsers.</span>'
       + '</div>';
   }
 
@@ -1034,24 +1061,25 @@
       + '    <p class="sub">Everything you need to know before contractors arrive.</p>'
       + (chips.length ? '    <div class="prep-context">' + chips.join("") + '</div>' : '')
       + '  </div>'
-      + (isPro ? '' : renderUpsellCard({ verticalLabel: label, price: 19 }))
+      + (isPro ? renderPrintBar() : renderUpsellCard({ verticalLabel: label, price: 19 }))
       + renderQuestionsHtml(content, isPro)
       + renderRedFlagsHtml(content, isPro)
       + renderScopeChecklistHtml(content, isPro)
       + renderTacticsHtml(isPro)
       + renderBrandHtml(vertical, isPro)
       + renderRebatesHtml(vertical, state, isPro)
-      + (isPro ? '' : renderUpsellCard({ verticalLabel: label, price: 19 }))
+      + (isPro ? renderPrintBar() : renderUpsellCard({ verticalLabel: label, price: 19 }))
       + '</div>';
 
     return html;
   }
 
-  function wireCheckoutButtons(rootEl, prepUrl) {
+  function wireCheckoutButtons(rootEl, prepUrl, vertical) {
     if (!rootEl) return;
     var btns = rootEl.querySelectorAll("[data-prep-cta]");
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function () {
+        try { if (typeof window.tpTrack === "function") window.tpTrack("prep_kit_buy_clicked", { vertical: vertical || "" }); } catch (e) {}
         if (!window.WoogoroPro || typeof window.WoogoroPro.startCheckout !== "function") {
           alert("Checkout temporarily unavailable. Please refresh and try again.");
           return;

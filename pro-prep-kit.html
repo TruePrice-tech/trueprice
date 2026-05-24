@@ -23,6 +23,7 @@
     <div id="prepRoot"></div>
   </main>
 
+  <script src="/js/tp-analytics.min.js" async></script>
   <script src="/js/pro-tier.min.js?v=20260524" defer></script>
   <script src="/js/pro-prep-kit.min.js?v=20260524" defer></script>
   <script>
@@ -66,7 +67,17 @@
           estimate:      estimate,
           isPro:         isPro
         });
-        window.WoogoroPrepKit.wireCheckoutButtons(root, prepUrl);
+        window.WoogoroPrepKit.wireCheckoutButtons(root, prepUrl, vertical);
+      }
+
+      // Analytics: one-shot page-view (fire once after first render). Lets us
+      // measure full funnel: cta_shown → cta_clicked → prep_kit_view →
+      // buy_clicked → unlocked.
+      var pageviewFired = false;
+      function firePageview(isPro) {
+        if (pageviewFired) return;
+        pageviewFired = true;
+        try { if (typeof window.tpTrack === "function") window.tpTrack("prep_kit_view", { vertical: vertical, isPro: !!isPro }); } catch (e) {}
       }
 
       // Initial render — may show free state if Pro status not yet loaded.
@@ -79,6 +90,7 @@
           return;
         }
         render();
+        firePageview(document.body.classList.contains("is-premium"));
       }
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () { tryRender(0); });
@@ -94,6 +106,10 @@
         if (nowPro !== lastPro) {
           lastPro = nowPro;
           render();
+          // Fire unlock event ONLY on free → Pro transition (not on initial Pro state)
+          if (nowPro) {
+            try { if (typeof window.tpTrack === "function") window.tpTrack("prep_kit_unlocked", { vertical: vertical }); } catch (e) {}
+          }
         }
       }, 1200);
     })();

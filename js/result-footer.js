@@ -252,7 +252,7 @@
       var prepUrl = "/pro-prep-kit.html?" + pkParams.join("&");
 
       prepKitHtml = ''
-        + '  <a class="tp-pk" href="' + prepUrl + '" data-pk-vertical="' + slug + '">'
+        + '  <a class="tp-pk" href="' + prepUrl + '" data-pk-vertical="' + slug + '" onclick="(function(){try{window.tpTrack&&window.tpTrack(\'prep_kit_cta_clicked\',{vertical:\'' + slug + '\'});}catch(e){}})();">'
         + '    <div class="tp-pk-tag">QUOTE-PREP KIT</div>'
         + '    <div class="tp-pk-title">Walk into every ' + _labelForBody + ' quote prepared</div>'
         + '    <p class="tp-pk-sub">15+ questions tailored to your project, a scope checklist of must-haves, red flags to watch for, a 5-tactic negotiation playbook, brand cheat sheet, and rebates worksheet — before contractors arrive.</p>'
@@ -339,6 +339,11 @@
       wireQuoteCapture(vertical);
       if (emailCaptureEnabled) wireEmailCapture(vertical);
       wireShareBtn(vertical, verticalLabel);
+      // Fire prep-kit impression event once when the CTA actually renders.
+      // Lets us measure CTR (impressions vs prep_kit_cta_clicked).
+      if (opts.isEstimate && prepKitHtml) {
+        try { if (typeof window.tpTrack === "function") window.tpTrack("prep_kit_cta_shown", { vertical: vertical }); } catch (e) {}
+      }
     }, 0);
 
     return html;
