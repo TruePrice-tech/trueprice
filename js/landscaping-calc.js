@@ -137,6 +137,271 @@
 
   var SEASONAL_MULTS = { 1:0.90, 2:0.92, 3:0.98, 4:1.06, 5:1.10, 6:1.12, 7:1.10, 8:1.06, 9:1.00, 10:0.95, 11:0.90, 12:0.88 };
 
+  // ── Bundle / "Custom" multi-service catalog ─────────────────────────────
+  // A user picks several services (e.g. "trim hedges + remove 2 small trees
+  // with root removal + mow front+back + debris haul") and answers per-item
+  // detail questions; we compute a line per service and sum to one total.
+  //
+  // Each service:
+  //   base: { low, high, mid } default per-item price (used by `mid * mults`)
+  //   questions: [{ key, label, options:[{val,label, mult? OR addUSD? OR addUSDPerCount?}] }]
+  //     mult: multiplicative on base.mid
+  //     addUSD: flat dollars added (after base*mult)
+  //     addUSDPerCount: dollars times the parsed "count" answer (e.g. # trees)
+  //
+  // Pricing math per item:
+  //   subtotal = (base.mid * product(mult) + sum(addUSD) + sum(addUSDPerCount * count)) * cityMult
+  // Range per item:
+  //   low  = subtotal * (base.low  / base.mid)
+  //   high = subtotal * (base.high / base.mid)
+  var BUNDLE_SERVICES = {
+    shrub_trimming: {
+      label: "Shrub / Hedge Trimming",
+      category: "maintenance",
+      description: "One-time hedge or shrub pruning",
+      base: { low: 75, high: 250, mid: 150 },
+      questions: [
+        { key: "count", label: "How many shrubs?", options: [
+          { val: "few",     label: "Under 10 shrubs",                mult: 0.6 },
+          { val: "typical", label: "10-20 shrubs",                   mult: 1.0 },
+          { val: "many",    label: "20+ shrubs or large hedges",     mult: 1.6 }
+        ]},
+        { key: "style", label: "Trim style", options: [
+          { val: "light",    label: "Light touch-up / natural shape", mult: 0.85 },
+          { val: "standard", label: "Standard residential trim",      mult: 1.0  },
+          { val: "formal",   label: "Formal / architectural shaping", mult: 1.3  }
+        ]}
+      ]
+    },
+    tree_removal: {
+      label: "Tree Removal",
+      category: "install",
+      description: "Per-tree removal (cut, drop, haul)",
+      base: { low: 150, high: 1500, mid: 500 },
+      questions: [
+        { key: "count", label: "How many trees?", options: [
+          { val: "1",   label: "1 tree",      mult: 1.0 },
+          { val: "2",   label: "2 trees",     mult: 1.9 },
+          { val: "3-4", label: "3-4 trees",   mult: 3.5 },
+          { val: "5+",  label: "5+ trees",    mult: 5.5 }
+        ]},
+        { key: "size", label: "Tree size", options: [
+          { val: "small",  label: "Small (under 20 ft)", mult: 0.45 },
+          { val: "medium", label: "Medium (20-40 ft)",   mult: 1.0  },
+          { val: "large",  label: "Large (40 ft+)",      mult: 2.4  }
+        ]},
+        { key: "stump", label: "Stump grinding?", options: [
+          { val: "no",  label: "No stump grinding",   addUSDPerCount: 0   },
+          { val: "yes", label: "Yes, grind stumps",   addUSDPerCount: 150 }
+        ]},
+        { key: "roots", label: "Root removal?", options: [
+          { val: "no",  label: "Leave roots",                 addUSDPerCount: 0  },
+          { val: "yes", label: "Pull out main root system",   addUSDPerCount: 50 }
+        ]}
+      ]
+    },
+    lawn_mowing: {
+      label: "Lawn Mowing (per visit)",
+      category: "maintenance",
+      description: "Mow + edge + blower cleanup",
+      base: { low: 35, high: 85, mid: 60 },
+      questions: [
+        { key: "size", label: "Lot size", options: [
+          { val: "small",   label: "Small (under 5,000 sqft)",        mult: 0.65 },
+          { val: "typical", label: "Typical residential (5K-15K sqft)", mult: 1.0 },
+          { val: "large",   label: "Large (15K-30K sqft)",            mult: 1.55 },
+          { val: "xl",      label: "Acre+ or steep / many obstacles", mult: 2.2  }
+        ]},
+        { key: "freq", label: "Frequency", options: [
+          { val: "one",      label: "One-time visit",             mult: 1.15 },
+          { val: "weekly",   label: "Per visit (weekly)",         mult: 1.0  },
+          { val: "biweekly", label: "Per visit (biweekly)",       mult: 1.08 }
+        ]}
+      ]
+    },
+    debris_haul: {
+      label: "Yard Debris Haul-off",
+      category: "addon",
+      description: "One-time haul-off of bagged yard debris (separate from mowing)",
+      base: { low: 30, high: 200, mid: 80 },
+      questions: [
+        { key: "load", label: "Debris load size", options: [
+          { val: "small",  label: "Small (a few bags / one trip)",  mult: 0.5 },
+          { val: "medium", label: "Medium (full truck-bed load)",   mult: 1.0 },
+          { val: "large",  label: "Large (multiple loads / trailer)", mult: 2.2 }
+        ]}
+      ]
+    },
+    flower_bed_maintenance: {
+      label: "Flower Bed Maintenance",
+      category: "maintenance",
+      description: "Weed, deadhead, mulch touch-up",
+      base: { low: 50, high: 175, mid: 110 },
+      questions: [
+        { key: "beds", label: "How many beds?", options: [
+          { val: "few",     label: "1-2 small beds",                  mult: 0.6 },
+          { val: "typical", label: "3-5 beds (front + back)",         mult: 1.0 },
+          { val: "many",    label: "6+ beds or whole property",       mult: 1.8 }
+        ]},
+        { key: "scope", label: "Scope of work", options: [
+          { val: "weed",      label: "Weed pull only",                          mult: 0.6 },
+          { val: "weedMulch", label: "Weed + mulch top-up + deadhead",          mult: 1.0 },
+          { val: "full",      label: "Weed + mulch + soil amend + slow-release fert", mult: 1.5 }
+        ]}
+      ]
+    },
+    seasonal_cleanup: {
+      label: "Seasonal Cleanup (spring/fall)",
+      category: "maintenance",
+      description: "Full-property cleanup, one season",
+      base: { low: 300, high: 800, mid: 500 },
+      questions: [
+        { key: "season", label: "Which season?", options: [
+          { val: "spring", label: "Spring",                  mult: 1.0  },
+          { val: "fall",   label: "Fall",                    mult: 1.0  },
+          { val: "both",   label: "Both (spring + fall)",    mult: 1.85 }
+        ]},
+        { key: "size", label: "Lot size", options: [
+          { val: "small",   label: "Small lot",                        mult: 0.7 },
+          { val: "typical", label: "Typical residential",              mult: 1.0 },
+          { val: "large",   label: "Large lot / heavy debris",         mult: 1.5 }
+        ]}
+      ]
+    },
+    leaf_removal: {
+      label: "Leaf Removal (program)",
+      category: "maintenance",
+      description: "Multi-visit fall leaf program",
+      base: { low: 200, high: 700, mid: 400 },
+      questions: [
+        { key: "trees", label: "Tree density", options: [
+          { val: "light",   label: "Few trees, light load",            mult: 0.5 },
+          { val: "typical", label: "Typical residential canopy",       mult: 1.0 },
+          { val: "heavy",   label: "Heavy tree cover",                 mult: 1.7 }
+        ]},
+        { key: "visits", label: "How many visits?", options: [
+          { val: "one",   label: "Single visit",                       mult: 0.6 },
+          { val: "multi", label: "Multi-visit through fall",           mult: 1.0 }
+        ]}
+      ]
+    },
+    fertilization_program: {
+      label: "Lawn Fertilization Program",
+      category: "maintenance",
+      description: "Annual fertilization + weed control",
+      base: { low: 300, high: 700, mid: 500 },
+      questions: [
+        { key: "size", label: "Lawn size", options: [
+          { val: "small",   label: "Small lawn",                       mult: 0.7 },
+          { val: "typical", label: "Typical residential",              mult: 1.0 },
+          { val: "large",   label: "Large lawn / acre+",               mult: 1.6 }
+        ]},
+        { key: "program", label: "Program tier", options: [
+          { val: "basic",    label: "Basic — 2 feedings/yr",                mult: 0.55 },
+          { val: "fourstep", label: "4-application program",                mult: 1.0  },
+          { val: "sixstep",  label: "6-step + grub control + soil pH",      mult: 1.45 }
+        ]}
+      ]
+    }
+  };
+
+  // Display order for the checklist (matches the typical "what bundles together" mental model).
+  var BUNDLE_SERVICE_ORDER = [
+    "lawn_mowing",
+    "shrub_trimming",
+    "flower_bed_maintenance",
+    "debris_haul",
+    "leaf_removal",
+    "seasonal_cleanup",
+    "tree_removal",
+    "fertilization_program"
+  ];
+
+  // Map a count-style answer to a numeric multiplier for addUSDPerCount adders
+  // (used by tree_removal's stump-grind / root-removal lines). Falls back to 1.
+  function _countOfAnswer(ansVal) {
+    if (!ansVal) return 1;
+    if (ansVal === "1") return 1;
+    if (ansVal === "2") return 2;
+    if (ansVal === "3-4") return 3;
+    if (ansVal === "5+") return 5;
+    var m = String(ansVal).match(/^(\d+)/);
+    if (m) return parseInt(m[1], 10);
+    return 1;
+  }
+
+  function calcBundleItem(serviceKey, answers, opts) {
+    opts = opts || {};
+    answers = answers || {};
+    var svc = BUNDLE_SERVICES[serviceKey];
+    if (!svc) return null;
+    var laborMult = (typeof opts.cityMult === "number" && opts.cityMult > 0)
+      ? opts.cityMult
+      : (LAND_PRICING.laborMultiplierByRegion[opts.region] || 1.0);
+    var inflationMult = (typeof opts.inflationMult === "number") ? opts.inflationMult : 1.0;
+    var seasonalMult  = (typeof opts.seasonalMult  === "number") ? opts.seasonalMult  : 1.0;
+
+    // First pass — find the count answer (drives addUSDPerCount adders).
+    var countVal = 1;
+    for (var qi = 0; qi < svc.questions.length; qi++) {
+      if (svc.questions[qi].key === "count") {
+        countVal = _countOfAnswer(answers.count);
+        break;
+      }
+    }
+
+    var mult = 1.0, addUSD = 0;
+    for (var qj = 0; qj < svc.questions.length; qj++) {
+      var q = svc.questions[qj];
+      var ans = answers[q.key];
+      if (!ans) continue;
+      var opt = null;
+      for (var oi = 0; oi < q.options.length; oi++) {
+        if (q.options[oi].val === ans) { opt = q.options[oi]; break; }
+      }
+      if (!opt) continue;
+      if (typeof opt.mult === "number")           mult   *= opt.mult;
+      if (typeof opt.addUSD === "number")         addUSD += opt.addUSD;
+      if (typeof opt.addUSDPerCount === "number") addUSD += opt.addUSDPerCount * countVal;
+    }
+
+    var baseDollars = svc.base.mid * mult;
+    var pretax = (baseDollars + addUSD) * laborMult * inflationMult * seasonalMult;
+    var subtotal = roundDynamic(pretax);
+    var lowFactor  = svc.base.low  / svc.base.mid;
+    var highFactor = svc.base.high / svc.base.mid;
+    return {
+      service: serviceKey,
+      label: svc.label,
+      subtotal: subtotal,
+      low:  roundDynamic(pretax * lowFactor),
+      high: roundDynamic(pretax * highFactor),
+      baseMid: svc.base.mid,
+      mult: mult,
+      addUSD: addUSD,
+      countVal: countVal
+    };
+  }
+
+  function calcLandscapingBundle(items, opts) {
+    var lines = [], total = 0, low = 0, high = 0;
+    for (var i = 0; i < (items || []).length; i++) {
+      var line = calcBundleItem(items[i].service, items[i].answers, opts);
+      if (!line) continue;
+      lines.push(line);
+      total += line.subtotal;
+      low   += line.low;
+      high  += line.high;
+    }
+    return {
+      lines: lines,
+      total: roundDynamic(total),
+      low:   roundDynamic(low),
+      high:  roundDynamic(high),
+      itemCount: lines.length
+    };
+  }
+
   function roundTo50(n) { return Math.round(n / 50) * 50; }
 
   // Maintenance services often land in the $35-$800 band where rounding to
@@ -189,6 +454,10 @@
     GENERIC_COMPLEXITY_LABELS: GENERIC_COMPLEXITY_LABELS,
     tierExamplesFor: tierExamplesFor,
     complexityLabelFor: complexityLabelFor,
+    BUNDLE_SERVICES: BUNDLE_SERVICES,
+    BUNDLE_SERVICE_ORDER: BUNDLE_SERVICE_ORDER,
+    calcBundleItem: calcBundleItem,
+    calcLandscapingBundle: calcLandscapingBundle,
     STATE_REGIONS: STATE_REGIONS,
     SEASONAL_MULTS: SEASONAL_MULTS,
     getRegionFromState: getRegionFromState,

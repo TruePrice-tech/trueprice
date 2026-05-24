@@ -405,11 +405,18 @@
       address: { street: "", city: "", stateCode: "", zip: "" },
       uploadedFile: null,
       extractedText: "",
-      // estimator answers
-      est: { projectType: null, projectSize: "", qualityTier: null, complexity: null },
+      // estimator answers — single-service flow uses projectType + projectSize +
+      // qualityTier + complexity; the bundle flow uses projectType="custom_bundle"
+      // plus bundle.{services[], answers{}, currentItem}.
+      est: { projectType: null, projectSize: "", qualityTier: null, complexity: null, bundle: null },
       // result
       result: null
     };
+
+    // Bundle-mode helpers (resolved at load; harmless if .min.js is old)
+    var BUNDLE_SERVICES      = _LNDCALC.BUNDLE_SERVICES      || {};
+    var BUNDLE_SERVICE_ORDER = _LNDCALC.BUNDLE_SERVICE_ORDER || [];
+    var calcLandscapingBundle = _LNDCALC.calcLandscapingBundle || function() { return { lines: [], total: 0, low: 0, high: 0, itemCount: 0 }; };
 
     // ── Helpers ──
     function $(sel, el) { return (el || document).querySelector(sel); }
@@ -945,6 +952,10 @@
     // ── Estimator Flow ──
     function renderEstimator() {
       var est = state.est;
+      // Custom-bundle mode runs in its own flow (service checklist → per-item
+      // questions → itemized breakdown). Bypass the standard size/tier/
+      // complexity scaffolding entirely so back/progress stay coherent.
+      if (est.projectType === "custom_bundle") return renderBundleEstimator();
       var stepNum = getEstimatorStep();
 
       appRoot.innerHTML = '\
@@ -970,6 +981,19 @@
           (groups[cat] || groups.installation).push(pgk);
         }
         var projHtml = '<div class="land-step"><h3>What type of landscaping project?</h3>';
+        // "Custom" bundle option sits at the top — for users with a mixed
+        // job (hedges + tree removal + mow + debris haul) that doesn't fit
+        // one project type. Bypasses the standard size/tier/complexity flow.
+        if (BUNDLE_SERVICE_ORDER.length) {
+          projHtml += '<div style="font-size:0.85rem;color:#64748b;font-weight:600;margin:0.5rem 0 0.4rem;">Mixed job</div>';
+          projHtml += '<div class="land-options" id="optProject_custom" style="flex-direction:column;">';
+          var _bsel = est.projectType === "custom_bundle" ? " selected" : "";
+          projHtml += '<div class="land-option' + _bsel + '" data-val="custom_bundle" style="padding:14px 16px;">';
+          projHtml += '<strong>Custom / Multiple services</strong>';
+          projHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">Bundle several services into one estimate — e.g. hedge trim + tree removal + lawn mow + debris haul.</div>';
+          projHtml += '</div>';
+          projHtml += '</div>';
+        }
         var groupLabels = { installation: "Installation / build", maintenance: "Maintenance / recurring service" };
         ["installation", "maintenance"].forEach(function(cat) {
           if (!groups[cat].length) return;
@@ -984,6 +1008,7 @@
         });
         projHtml += '</div>';
         card.innerHTML = projHtml;
+        bindOptions("optProject_custom", "projectType");
         bindOptions("optProject_installation", "projectType");
         bindOptions("optProject_maintenance", "projectType");
       } else if (stepNum === 2) {
@@ -1114,6 +1139,183 @@
       return 5; // all done
     }
 
+    // ── Custom Bundle Flow ──
+    // Self-contained: own step state, own back button, own progress dots.
+    // Step "pick"  = service checklist (1 of N+1)
+    // Step "item"  = per-service detail questions (one screen per picked svc)
+    // Step "ready" = all answered, hand off to calculateBundleEstimate()
+    function renderBundleEstimator() {
+      var est = state.est;
+      if (!est.bundle) est.bundle = { services: [], answers: {}, currentItem: 0 };
+      var b = est.bundle;
+
+      appRoot.innerHTML = '\
+        <div class="land-hero">\
+          <h1>Landscaping Cost Estimator</h1>\
+          <p>' + (state.address.city ? state.address.city + ", " + state.address.stateCode : "Custom multi-service bundle") + '</p>\
+        </div>\
+        <div class="land-card" id="estCard"></div>';
+      var card = document.getElementById("estCard");
+
+      var bundleStep;
+      if (!b.services || !b.services.length) bundleStep = "pick";
+      else if (b.currentItem < b.services.length) bundleStep = "item";
+      else { calculateBundleEstimate(); return; }
+
+      var totalSteps = 1 + (b.services.length || 1); // pick + N item screens
+      var currentStep = (bundleStep === "pick") ? 1 : (2 + b.currentItem);
+
+      if (bundleStep === "pick") {
+        var pickHtml = '<div class="land-step"><h3>Which services should we bundle?</h3>';
+        pickHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 14px;">Pick any combination. We\'ll ask 1-2 detail questions per service and show a line-item breakdown at the end.</p>';
+        pickHtml += '<div id="bundlePickList" style="display:flex;flex-direction:column;gap:8px;">';
+        for (var spi = 0; spi < BUNDLE_SERVICE_ORDER.length; spi++) {
+          var sk = BUNDLE_SERVICE_ORDER[spi];
+          var sv = BUNDLE_SERVICES[sk];
+          if (!sv) continue;
+          var chk = (b.services && b.services.indexOf(sk) > -1) ? "checked" : "";
+          pickHtml += '<label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;">';
+          pickHtml += '<input type="checkbox" class="land-bundle-pick" value="' + sk + '" ' + chk + ' style="margin-top:3px;flex-shrink:0;" />';
+          pickHtml += '<div>';
+          pickHtml += '<div style="font-weight:600;font-size:14px;">' + sv.label + '</div>';
+          pickHtml += '<div style="font-size:12px;color:#64748b;margin-top:2px;">' + sv.description + '</div>';
+          pickHtml += '</div>';
+          pickHtml += '</label>';
+        }
+        pickHtml += '</div>';
+        pickHtml += '<div style="margin-top:1rem;text-align:center;"><button class="land-btn land-btn-primary" id="bundlePickNext">Continue</button></div>';
+        pickHtml += '</div>';
+        card.innerHTML = pickHtml;
+        document.getElementById("bundlePickNext").addEventListener("click", function() {
+          var picked = [];
+          var boxes = card.querySelectorAll(".land-bundle-pick:checked");
+          for (var bi = 0; bi < boxes.length; bi++) picked.push(boxes[bi].value);
+          if (!picked.length) { alert("Pick at least one service to bundle."); return; }
+          b.services = picked;
+          // Keep previous answers for services that survived the re-pick
+          var keep = {};
+          for (var pi = 0; pi < picked.length; pi++) {
+            if (b.answers[picked[pi]]) keep[picked[pi]] = b.answers[picked[pi]];
+          }
+          b.answers = keep;
+          b.currentItem = 0;
+          render();
+        });
+      } else if (bundleStep === "item") {
+        var serviceKey = b.services[b.currentItem];
+        var svc = BUNDLE_SERVICES[serviceKey];
+        if (!svc) { b.currentItem++; render(); return; }
+        var ansForItem = b.answers[serviceKey] || {};
+        var itemHtml = '<div class="land-step">';
+        itemHtml += '<div style="font-size:11px;color:#2563eb;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;margin-bottom:4px;">Service ' + (b.currentItem + 1) + ' of ' + b.services.length + '</div>';
+        itemHtml += '<h3 style="margin-top:0;">' + svc.label + '</h3>';
+        itemHtml += '<p style="font-size:0.85rem;color:#64748b;margin:0 0 16px;">' + svc.description + '</p>';
+        for (var qi = 0; qi < svc.questions.length; qi++) {
+          var q = svc.questions[qi];
+          itemHtml += '<div style="margin-bottom:14px;">';
+          itemHtml += '<div style="font-weight:600;font-size:14px;margin-bottom:6px;">' + q.label + '</div>';
+          itemHtml += '<div class="land-options" data-qkey="' + q.key + '" style="flex-direction:column;">';
+          for (var oi = 0; oi < q.options.length; oi++) {
+            var op = q.options[oi];
+            var oSel = (ansForItem[q.key] === op.val) ? " selected" : "";
+            itemHtml += '<div class="land-option' + oSel + '" data-val="' + op.val + '">' + op.label + '</div>';
+          }
+          itemHtml += '</div>';
+          itemHtml += '</div>';
+        }
+        var isLast = (b.currentItem === b.services.length - 1);
+        itemHtml += '<div style="margin-top:1rem;text-align:center;"><button class="land-btn land-btn-primary" id="bundleItemNext">' + (isLast ? "See breakdown" : "Next service") + '</button></div>';
+        itemHtml += '</div>';
+        card.innerHTML = itemHtml;
+
+        // Per-question option binding — clicking sets the answer for that q.
+        var optGroups = card.querySelectorAll(".land-options[data-qkey]");
+        for (var gi = 0; gi < optGroups.length; gi++) {
+          (function(grp) {
+            var qkey = grp.getAttribute("data-qkey");
+            grp.addEventListener("click", function(ev) {
+              var opt = ev.target.closest(".land-option");
+              if (!opt) return;
+              if (!b.answers[serviceKey]) b.answers[serviceKey] = {};
+              b.answers[serviceKey][qkey] = opt.getAttribute("data-val");
+              var prev = grp.querySelector(".land-option.selected");
+              if (prev) prev.classList.remove("selected");
+              opt.classList.add("selected");
+            });
+          })(optGroups[gi]);
+        }
+
+        document.getElementById("bundleItemNext").addEventListener("click", function() {
+          var ans = b.answers[serviceKey] || {};
+          for (var vi = 0; vi < svc.questions.length; vi++) {
+            if (!ans[svc.questions[vi].key]) { alert("Please answer: " + svc.questions[vi].label); return; }
+          }
+          b.currentItem++;
+          render();
+        });
+      }
+
+      // Progress bar (own copy — independent of the single-service one)
+      var progressBar = '<div style="text-align:center;margin-bottom:1.25rem;">';
+      progressBar += '<div style="font-size:13px;color:#64748b;margin-bottom:8px;font-weight:600;">Step ' + currentStep + ' of ' + totalSteps + '</div>';
+      progressBar += '<div style="display:flex;gap:6px;justify-content:center;align-items:center;">';
+      for (var d = 1; d <= totalSteps; d++) {
+        var dotSize = d === currentStep ? '14px' : '10px';
+        var dotColor = d < currentStep ? '#16a34a' : d === currentStep ? '#2563eb' : '#e2e8f0';
+        var dotBorder = d === currentStep ? '2px solid #1d4ed8' : 'none';
+        progressBar += '<span style="display:inline-block;width:' + dotSize + ';height:' + dotSize + ';border-radius:50%;background:' + dotColor + ';border:' + dotBorder + ';transition:all 0.2s;"></span>';
+      }
+      progressBar += '</div></div>';
+      card.insertAdjacentHTML("afterbegin", progressBar);
+
+      // Back button — from pick screen returns to project-type pick; from
+      // an item screen steps back through items, then back to the pick.
+      card.insertAdjacentHTML("beforeend", '<div style="margin-top:1rem;text-align:center;"><button class="land-btn land-btn-secondary" id="estBack">Back</button></div>');
+      document.getElementById("estBack").addEventListener("click", function() {
+        if (bundleStep === "pick") {
+          est.projectType = null;
+          est.bundle = null;
+        } else if (bundleStep === "item") {
+          if (b.currentItem > 0) b.currentItem--;
+          else b.services = [];
+        }
+        render();
+      });
+    }
+
+    function calculateBundleEstimate() {
+      var est = state.est;
+      var b = est.bundle || { services: [], answers: {} };
+      var region = getRegionFromState(state.address.stateCode);
+      var cityMult = (cityMultCache[state.address.stateCode + "|" + state.address.city]) || null;
+      var items = b.services.map(function(sk) { return { service: sk, answers: b.answers[sk] || {} }; });
+      var bundle = calcLandscapingBundle(items, { region: region, cityMult: cityMult });
+
+      state.result = {
+        source: "estimator-bundle",
+        bundle: bundle,
+        quotePrice: bundle.total,
+        benchmark: bundle.total,
+        low: bundle.low,
+        high: bundle.high,
+        ratio: 1.0,
+        verdict: { label: "Estimated Cost", css: "fair", emoji: "" },
+        projectType: { value: "custom_bundle", label: "Custom Bundle (" + bundle.itemCount + " service" + (bundle.itemCount === 1 ? "" : "s") + ")" },
+        projectSize: null,
+        projectUnit: "project",
+        qualityTier: null,
+        qualityTierLabel: null,
+        qualityTierExamples: null,
+        complexity: null,
+        scopeSignals: {},
+        region: region,
+        location: null,
+        parsed: null
+      };
+      state.step = "result";
+      render();
+    }
+
     function bindOptions(containerId, field) {
       var container = document.getElementById(containerId);
       if (!container) return;
@@ -1183,6 +1385,11 @@
       var r = state.result;
       if (!r) { state.step = "address"; render(); return; }
       if(typeof tpCaptureCommunity==="function"){try{var _p=(r.quotePrice||r.benchmark||r.mid||r.total||r.price||r.estimate||0);var _a=state.address||{};var _m=r.systemType?(typeof r.systemType==="object"?(r.systemType.label||r.systemType.value):r.systemType):(r.material||"");var _v=r.verdict?(typeof r.verdict==="object"?r.verdict.label:r.verdict):"";tpCaptureCommunity({service:"landscaping",price:_p,city:_a.city||"",stateCode:_a.stateCode||"",material:_m,verdict:_v});}catch(e){}}
+
+      // Custom bundle results render their own dedicated breakdown page —
+      // line-item table + grand total + per-line "what each service included"
+      // recap. Bypass the standard single-service result entirely.
+      if (r.source === "estimator-bundle" && r.bundle) return renderBundleResult(r);
 
       var isUpload = r.source === "upload";
       var verdictCss = r.verdict.css;
@@ -1486,6 +1693,132 @@
           verticalLabel: "Landscaping",
           onStartOver: "landscapingStartOver"
         }));
+      }
+    }
+
+    // ── Bundle Result Page ──
+    // Itemized table: one row per service with the user's answers as the
+    // "spec" column and the calc'd subtotal on the right. Grand total at the
+    // bottom. No quality-tier comparison (doesn't apply to bundles) and no
+    // single-project scope checklist.
+    function renderBundleResult(r) {
+      var b = r.bundle;
+      var lines = (b && b.lines) || [];
+      var verdictCss = "fair";
+      var priceDisplay = fmt(b.total);
+      var rangeText = "Expected range: " + fmt(b.low) + " - " + fmt(b.high);
+
+      // Per-line "spec" string built from the user's answers + the question
+      // catalog so each row reads like a real quote line (e.g. "2 trees,
+      // small (under 20 ft), stump grinding, root removal").
+      function specFor(line) {
+        var svc = BUNDLE_SERVICES[line.service];
+        if (!svc) return "";
+        var bAns = (state.est.bundle && state.est.bundle.answers && state.est.bundle.answers[line.service]) || {};
+        var parts = [];
+        for (var qi = 0; qi < svc.questions.length; qi++) {
+          var q = svc.questions[qi];
+          var av = bAns[q.key];
+          if (!av) continue;
+          var opt = null;
+          for (var oi = 0; oi < q.options.length; oi++) {
+            if (q.options[oi].val === av) { opt = q.options[oi]; break; }
+          }
+          if (opt) parts.push(opt.label);
+        }
+        return parts.join(" · ");
+      }
+
+      // Itemized breakdown table
+      var tableHtml = '<div class="land-card"><h3 style="margin-bottom:0.75rem;">Itemized Breakdown</h3>';
+      tableHtml += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      for (var li = 0; li < lines.length; li++) {
+        var ln = lines[li];
+        tableHtml += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">';
+        tableHtml += '<div style="flex:1;min-width:0;">';
+        tableHtml += '<div style="font-weight:700;font-size:15px;color:#0f172a;">' + ln.label + '</div>';
+        tableHtml += '<div style="font-size:13px;color:#475569;margin-top:3px;">' + specFor(ln) + '</div>';
+        tableHtml += '</div>';
+        tableHtml += '<div style="text-align:right;flex-shrink:0;">';
+        tableHtml += '<div style="font-size:1.05rem;font-weight:700;color:#1e293b;">' + fmt(ln.subtotal) + '</div>';
+        tableHtml += '<div style="font-size:11px;color:#64748b;">' + fmt(ln.low) + ' – ' + fmt(ln.high) + '</div>';
+        tableHtml += '</div>';
+        tableHtml += '</div>';
+      }
+      tableHtml += '</div>';
+      tableHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#eff6ff;border:2px solid #2563eb;border-radius:10px;margin-top:14px;">';
+      tableHtml += '<div style="font-size:15px;font-weight:700;color:#1e3a5f;">Bundle total</div>';
+      tableHtml += '<div style="text-align:right;">';
+      tableHtml += '<div style="font-size:1.4rem;font-weight:800;color:#1e3a5f;">' + fmt(b.total) + '</div>';
+      tableHtml += '<div style="font-size:12px;color:#475569;">' + fmt(b.low) + ' – ' + fmt(b.high) + '</div>';
+      tableHtml += '</div>';
+      tableHtml += '</div>';
+      tableHtml += '<p style="font-size:0.8rem;color:#94a3b8;margin-top:10px;text-align:center;">Line totals sum to bundle total. Real-world quotes often run 5-15% lower than the sum when one crew handles all services in a single trip.</p>';
+      tableHtml += '</div>';
+
+      // Details card (project + location summary)
+      var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
+      var detailsHtml = '<div class="land-details">';
+      detailsHtml += '<div class="land-detail"><div class="label">Bundle</div><div class="value">' + b.itemCount + ' service' + (b.itemCount === 1 ? "" : "s") + '</div></div>';
+      detailsHtml += '<div class="land-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
+      detailsHtml += '</div>';
+
+      // Email + savings + feedback
+      var emailSubject = encodeURIComponent("My Custom Landscaping Bundle from Woogoro");
+      var emailLines = lines.map(function(ln) { return "• " + ln.label + " — " + fmt(ln.subtotal) + " (" + specFor(ln) + ")"; }).join("\n");
+      var emailBody = encodeURIComponent(
+        "Landscaping Bundle Estimate\n\n" +
+        emailLines + "\n\n" +
+        "Bundle total: " + fmt(b.total) + " (range " + fmt(b.low) + " - " + fmt(b.high) + ")\n" +
+        "Region: " + capitalize(r.region) + "\n\n" +
+        "Estimated by Woogoro - https://woogoro.com/landscaping-estimate.html"
+      );
+
+      var savingsHtml = '<div class="land-card" style="background:#eff6ff;border:1px solid #bfdbfe;">';
+      savingsHtml += '<h3 style="margin-bottom:0.5rem;color:#1d4ed8;">Bundle Tips</h3>';
+      savingsHtml += '<ul style="padding-left:18px;color:#475569;font-size:0.95rem;line-height:1.8;">';
+      savingsHtml += '<li>Ask for a "bundle price" — most crews discount 5-15% when handling several tasks in one trip</li>';
+      savingsHtml += '<li>Schedule maintenance services as a recurring contract (weekly mow / monthly bed care) for further savings</li>';
+      savingsHtml += '<li>Confirm debris haul-off is included in each line item or billed once for the whole visit</li>';
+      savingsHtml += '</ul></div>';
+
+      var feedbackHtml = '\
+<div id="estimateFeedback" style="margin-top:1.5rem; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; text-align:center;">\
+  <div style="font-size:14px; color:#475569; margin-bottom:10px;">Was this bundle estimate close to a real quote?</div>\
+  <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">\
+    <button onclick="submitFeedback(\'accurate\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">Yes, accurate</button>\
+    <button onclick="submitFeedback(\'high\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was higher</button>\
+    <button onclick="submitFeedback(\'low\')" style="padding:8px 16px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; cursor:pointer; font-size:13px;">My quote was lower</button>\
+  </div>\
+</div>';
+
+      appRoot.innerHTML = '\
+        <div class="land-hero">\
+          <h1>Your Custom Landscaping Bundle</h1>\
+        </div>\
+        <div class="land-verdict ' + verdictCss + '">\
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><picture><source srcset="/images/Worker%20Woogoro/Landscape%20worker.webp" type="image/webp"/><img src="/images/Worker%20Woogoro/Landscape%20worker.png" alt="Moss the Landscaping Woogoro" style="margin-bottom:12px; max-height:400px; width:auto; height:auto;"  width="800" height="800"/></picture><div style="font-size:12px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:0.04em;">Woogoro Landscaping Bundle</div></div><div class="verdict-label">Estimated Bundle Cost</div>\
+          <div class="verdict-price">' + priceDisplay + '</div>\
+          <div class="verdict-range">' + rangeText + '</div>\
+        </div>\
+        <div class="land-card">\
+          <h3 style="margin-bottom:0.75rem;">Bundle Details</h3>\
+          ' + detailsHtml + '\
+        </div>\
+        ' + tableHtml + '\
+        ' + savingsHtml + '\
+        ' + feedbackHtml + '\
+        <div style="margin-top:1.5rem; text-align:center; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">\
+          <a href="mailto:?subject=' + emailSubject + '&body=' + emailBody + '" class="land-btn land-btn-secondary" style="text-decoration:none;">Email me this bundle</a>\
+          <button class="land-btn land-btn-secondary" onclick="landscapingStartOver()">Start over</button>\
+        </div>';
+      if (typeof window.landscapingStartOver !== "function") {
+        window.landscapingStartOver = function() {
+          state.est = { projectType: null, projectSize: "", qualityTier: null, complexity: null, bundle: null };
+          state.result = null;
+          state.step = "estimator";
+          render();
+        };
       }
     }
 
