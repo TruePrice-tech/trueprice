@@ -1,0 +1,6276 @@
+{
+  "meta": {
+    "sourceFile": "denver-roofing-pilot.json",
+    "harvestedAt": "2026-05-23T22:13:39.412Z",
+    "analyzedAt": "2026-05-23T22:27:50.104Z",
+    "totalRawSuggestions": 24101,
+    "totalUnique": 1460,
+    "geoBreakdown": {
+      "denver": 336,
+      "co_front_range": 117,
+      "co_state": 160,
+      "state_near": 16,
+      "other_city": 23,
+      "no_geo": 808
+    },
+    "intentBreakdown": {
+      "cost": 270,
+      "contractor": 499,
+      "material_asphalt": 39,
+      "material_metal": 78,
+      "material_tile": 42,
+      "material_wood": 26,
+      "material_solar": 1,
+      "hail": 229,
+      "ir_shingle": 97,
+      "insurance": 146,
+      "hb1212": 0,
+      "project_repair": 154,
+      "project_replacement": 103,
+      "project_commercial": 20,
+      "code_permit": 147,
+      "code_license": 145,
+      "code_fire": 22,
+      "code_hoa": 0,
+      "trust_review": 84,
+      "brand": 8,
+      "scope_addon": 9,
+      "how_to": 23,
+      "timing": 12,
+      "comparison": 39,
+      "question": 19,
+      "paid_rebate": 12
+    }
+  },
+  "topOverall": [
+    {
+      "phrase": "roof repair colorado springs hail damage",
+      "count": 266,
+      "geo": "co_front_range",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roof repair colorado hail damage",
+      "count": 263,
+      "geo": "co_state",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "residential roof repair denver co",
+      "count": 253,
+      "geo": "denver",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing company near me denver",
+      "count": 241,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "denver roofing company reviews",
+      "count": 224,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "auto hail damage repair denver colorado",
+      "count": 192,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "auto hail damage repair denver",
+      "count": 191,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "denver roofing companies ratings",
+      "count": 185,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "denver hail damage repair",
+      "count": 181,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "affordable roofing denver telephone",
+      "count": 179,
+      "geo": "denver",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "hail damaged vehicles for sale near denver",
+      "count": 179,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "top rated roofing services in denver",
+      "count": 178,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "best roofer denver cost",
+      "count": 177,
+      "geo": "denver",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "best roofer denver prices",
+      "count": 174,
+      "geo": "denver",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "hail in denver colorado",
+      "count": 171,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "roofing companies in denver",
+      "count": 163,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "hail in denver co",
+      "count": 161,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "denver co roof repair",
+      "count": 157,
+      "geo": "denver",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofers in denver colorado",
+      "count": 157,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofers in denver co",
+      "count": 154,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "best roofer denver free estimate",
+      "count": 153,
+      "geo": "denver",
+      "intents": [
+        "cost",
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing suppliers denver co",
+      "count": 149,
+      "geo": "denver",
+      "intents": []
+    },
+    {
+      "phrase": "roof repair colorado cost",
+      "count": 134,
+      "geo": "co_state",
+      "intents": [
+        "cost",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost colorado",
+      "count": 132,
+      "geo": "co_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "cost of a new roof in colorado",
+      "count": 130,
+      "geo": "co_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "denver commercial roof repair",
+      "count": 127,
+      "geo": "denver",
+      "intents": [
+        "project_repair",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "affordable roofing denver hours",
+      "count": 127,
+      "geo": "denver",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "affordable roofing denver hours of operation",
+      "count": 125,
+      "geo": "denver",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "average cost of roof replacement in colorado",
+      "count": 124,
+      "geo": "co_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "affordable roofing denver address",
+      "count": 119,
+      "geo": "denver",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "denver co hail report",
+      "count": 119,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "hail storm denver co",
+      "count": 118,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "hail reports denver co",
+      "count": 116,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "denver auto hail repair",
+      "count": 116,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "denver colorado hail storm",
+      "count": 111,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "colorado hail repair llc",
+      "count": 109,
+      "geo": "co_state",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "denver area roofing company",
+      "count": 104,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "hail damage repair denver co",
+      "count": 103,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "hail damage in colorado",
+      "count": 100,
+      "geo": "co_state",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "new roof plus denver",
+      "count": 98,
+      "geo": "denver",
+      "intents": [
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "hail damaged cars for sale near denver",
+      "count": 97,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "roofing companies denver colorado",
+      "count": 96,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "affordable roofing denver contact number",
+      "count": 90,
+      "geo": "denver",
+      "intents": [
+        "cost"
+      ]
+    },
+    {
+      "phrase": "best roofer denver quality",
+      "count": 90,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "denver roofing company reviews and ratings",
+      "count": 86,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "denver hail storm today",
+      "count": 86,
+      "geo": "denver",
+      "intents": [
+        "hail"
+      ]
+    },
+    {
+      "phrase": "best roofer denver services",
+      "count": 86,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "denver auto hail repair denver co",
+      "count": 84,
+      "geo": "denver",
+      "intents": [
+        "hail",
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "colorado roofing license requirements",
+      "count": 82,
+      "geo": "co_state",
+      "intents": [
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "hail damage roof repair insurance claim",
+      "count": 81,
+      "geo": "no_geo",
+      "intents": [
+        "hail",
+        "insurance",
+        "project_repair"
+      ]
+    }
+  ],
+  "bothEngines": [
+    {
+      "phrase": "roofing companies in denver",
+      "count": 163,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roof replacement cost colorado",
+      "count": 132,
+      "geo": "co_state",
+      "intents": [
+        "cost",
+        "project_replacement"
+      ]
+    },
+    {
+      "phrase": "roofing companies denver colorado",
+      "count": 96,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "colorado roofing license requirements",
+      "count": 82,
+      "geo": "co_state",
+      "intents": [
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "roofing contractors in denver",
+      "count": 80,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "denver roofing license requirements",
+      "count": 80,
+      "geo": "denver",
+      "intents": [
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "city of denver roofing permit",
+      "count": 77,
+      "geo": "denver",
+      "intents": [
+        "code_permit"
+      ]
+    },
+    {
+      "phrase": "roofing contractors in denver colorado",
+      "count": 52,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "roofing companies in denver colorado",
+      "count": 41,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "commercial roofing contractors denver",
+      "count": 39,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "commercial roofing companies denver colorado",
+      "count": 38,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "project_commercial"
+      ]
+    },
+    {
+      "phrase": "roofing contractors denver co",
+      "count": 30,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "colorado roofing license",
+      "count": 28,
+      "geo": "co_state",
+      "intents": [
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "colorado dora insurance complaint",
+      "count": 28,
+      "geo": "co_state",
+      "intents": [
+        "insurance",
+        "trust_review"
+      ]
+    },
+    {
+      "phrase": "custom tile roofing denver",
+      "count": 27,
+      "geo": "denver",
+      "intents": [
+        "material_tile"
+      ]
+    },
+    {
+      "phrase": "roofing aurora co",
+      "count": 27,
+      "geo": "co_front_range",
+      "intents": []
+    },
+    {
+      "phrase": "roof repair aurora co",
+      "count": 27,
+      "geo": "co_front_range",
+      "intents": [
+        "project_repair"
+      ]
+    },
+    {
+      "phrase": "roofing contractors denver",
+      "count": 26,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "denver roofing permit",
+      "count": 17,
+      "geo": "denver",
+      "intents": [
+        "code_permit"
+      ]
+    },
+    {
+      "phrase": "roofing companies near denver co",
+      "count": 14,
+      "geo": "denver",
+      "intents": [
+        "contractor"
+      ]
+    },
+    {
+      "phrase": "licensed roofers near me",
+      "count": 12,
+      "geo": "no_geo",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "denver building permits online",
+      "count": 9,
+      "geo": "denver",
+      "intents": [
+        "code_permit"
+      ]
+    },
+    {
+      "phrase": "denver colorado roofing license",
+      "count": 6,
+      "geo": "denver",
+      "intents": [
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "denver building permit fees",
+      "count": 4,
+      "geo": "denver",
+      "intents": [
+        "cost",
+        "code_permit"
+      ]
+    },
+    {
+      "phrase": "denver roofing contractor license",
+      "count": 4,
+      "geo": "denver",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "colorado roofing contractor license",
+      "count": 2,
+      "geo": "co_state",
+      "intents": [
+        "contractor",
+        "code_license"
+      ]
+    },
+    {
+      "phrase": "roofing companies in colorado",
+      "count": 2,
+      "geo": "co_state",
+      "intents": [
+        "contractor"
+      ]
+    }
+  ],
+  "denverByIntent": {
+    "cost": [
+      {
+        "phrase": "affordable roofing denver telephone",
+        "count": 179,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver cost",
+        "count": 177,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver prices",
+        "count": 174,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver free estimate",
+        "count": 153,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver hours",
+        "count": 127,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver hours of operation",
+        "count": 125,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver address",
+        "count": 119,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver contact number",
+        "count": 90,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver phone number",
+        "count": 74,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver near me",
+        "count": 60,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "affordable roofing contractors denver co",
+        "count": 31,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing permit fees",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "building permit fees denver co",
+        "count": 11,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost in denver colorado",
+        "count": 9,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average cost of a new roof in denver colorado",
+        "count": 6,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver roofing cost",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building permit fees",
+        "count": 4,
+        "engines": [
+          "google",
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building department fee schedule",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost denver",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "roofing company near me denver",
+        "count": 241,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing company reviews",
+        "count": 224,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing companies ratings",
+        "count": 185,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "top rated roofing services in denver",
+        "count": 178,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver cost",
+        "count": 177,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver prices",
+        "count": 174,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies in denver",
+        "count": 163,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofers in denver colorado",
+        "count": 157,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofers in denver co",
+        "count": 154,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver free estimate",
+        "count": 153,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver area roofing company",
+        "count": 104,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing companies denver colorado",
+        "count": 96,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "best roofer denver quality",
+        "count": 90,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing company reviews and ratings",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver services",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing contractors in denver",
+        "count": 80,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver local roofing repair",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "find the best roofers in denver",
+        "count": 65,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "find the best roofing contractors in denver",
+        "count": 63,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_asphalt": [],
+    "material_metal": [
+      {
+        "phrase": "metal roofers in the denver",
+        "count": 36,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing denver colorado",
+        "count": 29,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing contractors denver colorado",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing denver nc",
+        "count": 15,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "metal roofing systems denver nc",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "material_tile": [
+      {
+        "phrase": "custom tile roofing denver",
+        "count": 27,
+        "engines": [
+          "google",
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile shops in denver colorado",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores in denver colorado",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "colorado tile company denver co",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores denver co",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best tile installers in denver co",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best tile companies denver",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best tile showrooms in denver",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "world of tile denver",
+        "count": 25,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "arizona tile denver colorado",
+        "count": 23,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile shops in denver",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores denver area",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "florida tile denver colorado",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver tile and stone",
+        "count": 17,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "florida tile denver co",
+        "count": 15,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "arizona tile denver co",
+        "count": 14,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile stores in denver area",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "the tile shop denver",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "custom tile roofing denver colorado",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "tile roof repair denver",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "material_wood": [],
+    "material_solar": [],
+    "hail": [
+      {
+        "phrase": "auto hail damage repair denver colorado",
+        "count": 192,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "auto hail damage repair denver",
+        "count": 191,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver hail damage repair",
+        "count": 181,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damaged vehicles for sale near denver",
+        "count": 179,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail in denver colorado",
+        "count": 171,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail in denver co",
+        "count": 161,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver co hail report",
+        "count": 119,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail storm denver co",
+        "count": 118,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail reports denver co",
+        "count": 116,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver auto hail repair",
+        "count": 116,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver colorado hail storm",
+        "count": 111,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damage repair denver co",
+        "count": 103,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damaged cars for sale near denver",
+        "count": 97,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver hail storm today",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver auto hail repair denver co",
+        "count": 84,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail storm today near denver",
+        "count": 70,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver storm damage roof repair",
+        "count": 66,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damaged trucks for sale near denver",
+        "count": 61,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail in denver today",
+        "count": 50,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail bros denver co",
+        "count": 45,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "ir_shingle": [
+      {
+        "phrase": "hail proof roofing denver",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "insurance": [
+      {
+        "phrase": "public adjuster denver colorado",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "contractors denver 80223 insurance",
+        "count": 5,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "covered insurance denver colorado",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver x health insurance",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "hb1212": [],
+    "project_repair": [
+      {
+        "phrase": "residential roof repair denver co",
+        "count": 253,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "auto hail damage repair denver colorado",
+        "count": 192,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "auto hail damage repair denver",
+        "count": 191,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver hail damage repair",
+        "count": 181,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver co roof repair",
+        "count": 157,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver commercial roof repair",
+        "count": 127,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver auto hail repair",
+        "count": 116,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damage repair denver co",
+        "count": 103,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver auto hail repair denver co",
+        "count": 84,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair in denver",
+        "count": 69,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "flat roof repair denver",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver local roofing repair",
+        "count": 68,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver storm damage roof repair",
+        "count": 66,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair denver co",
+        "count": 56,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "hail damage repair denver",
+        "count": 44,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roof repair highlands ranch co",
+        "count": 15,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "dent auto hail repair denver",
+        "count": 12,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "auto hail repair denver co",
+        "count": 11,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "auto hail repair denver",
+        "count": 4,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "tile roof repair denver",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_replacement": [
+      {
+        "phrase": "new roof plus denver",
+        "count": 98,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver new roof in one day",
+        "count": 58,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost in denver colorado",
+        "count": 9,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "average cost of a new roof in denver colorado",
+        "count": 6,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost denver",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "new roof cost denver",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost in denver colorado",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cost of roof replacement denver",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "how much does a new roof cost in denver",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "cost of new roof denver",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "denver commercial roof repair",
+        "count": 127,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing companies denver",
+        "count": 47,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors denver",
+        "count": 39,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing companies denver colorado",
+        "count": 38,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractor denver",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractor denver co",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors llc denver reviews",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "highland commercial roofing las vegas",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building permit records office",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors llc denver",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver commercial building permit guide",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver county permit office",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building permit office",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "highland commercial roofing company",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "code_permit": [
+      {
+        "phrase": "city of denver roofing permit",
+        "count": 77,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "city of denver roof permit",
+        "count": 74,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roof permit search",
+        "count": 64,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing permit application",
+        "count": 61,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building department roofing guide",
+        "count": 57,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver residential construction permits",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver colorado building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver co building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city of denver building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver county building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city of denver colorado building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "city and county of denver building department",
+        "count": 27,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing permit fees",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver regional building department",
+        "count": 26,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building department code",
+        "count": 24,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver colorado building permit",
+        "count": 22,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building department permit inspection",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver building department phone number",
+        "count": 21,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "building permits denver co",
+        "count": 19,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver county regional building department",
+        "count": 18,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "code_license": [
+      {
+        "phrase": "denver roofing license requirements",
+        "count": 80,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver colorado roofing license",
+        "count": 6,
+        "engines": [
+          "bing",
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver roofing contractor license",
+        "count": 4,
+        "engines": [
+          "google",
+          "bing"
+        ]
+      },
+      {
+        "phrase": "roofing contractors license denver",
+        "count": 2,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver colorado contractor license application",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver colorado contractor license search",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "roofing license denver",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "code_fire": [],
+    "code_hoa": [],
+    "trust_review": [
+      {
+        "phrase": "denver roofing company reviews",
+        "count": 224,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing companies ratings",
+        "count": 185,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver roofing company reviews and ratings",
+        "count": 86,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver bbb",
+        "count": 35,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "best roofer denver reviews",
+        "count": 16,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "commercial roofing contractors llc denver reviews",
+        "count": 3,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "denver building permit review times",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "linear roofing & general contractors llc denver reviews",
+        "count": 2,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "premier roofing company denver reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      },
+      {
+        "phrase": "shamrock roofing & construction denver reviews",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "brand": [],
+    "scope_addon": [],
+    "how_to": [
+      {
+        "phrase": "denver building department roofing guide",
+        "count": 57,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver residential permitting guide",
+        "count": 6,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver commercial building permit guide",
+        "count": 1,
+        "engines": [
+          "google"
+        ]
+      }
+    ],
+    "timing": [
+      {
+        "phrase": "winter storm denver colorado",
+        "count": 22,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "fall roofing packages in denver",
+        "count": 6,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "winter storm in denver",
+        "count": 3,
+        "engines": [
+          "bing"
+        ]
+      },
+      {
+        "phrase": "denver weather today hail",
+        "count": 1,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "comparison": [
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "engines": [
+          "bing"
+        ]
+      }
+    ],
+    "question": [],
+    "paid_rebate": []
+  },
+  "byIntent": {
+    "cost": [
+      {
+        "phrase": "affordable roofing denver telephone",
+        "count": 179,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver cost",
+        "count": 177,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver prices",
+        "count": 174,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver free estimate",
+        "count": 153,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof repair colorado cost",
+        "count": 134,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "roof replacement cost colorado",
+        "count": 132,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "cost of a new roof in colorado",
+        "count": 130,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "affordable roofing denver hours",
+        "count": 127,
+        "geo": "denver"
+      },
+      {
+        "phrase": "affordable roofing denver hours of operation",
+        "count": 125,
+        "geo": "denver"
+      },
+      {
+        "phrase": "average cost of roof replacement in colorado",
+        "count": 124,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "affordable roofing denver address",
+        "count": 119,
+        "geo": "denver"
+      },
+      {
+        "phrase": "affordable roofing denver contact number",
+        "count": 90,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof repair colorado springs cost",
+        "count": 76,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "affordable roofing denver phone number",
+        "count": 74,
+        "geo": "denver"
+      },
+      {
+        "phrase": "cost of metal roof colorado",
+        "count": 69,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "geo": "denver"
+      },
+      {
+        "phrase": "affordable roofing denver near me",
+        "count": 60,
+        "geo": "denver"
+      },
+      {
+        "phrase": "free roofing estimate for hail damage",
+        "count": 56,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof repair near me cost",
+        "count": 53,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing quote boulder colorado",
+        "count": 53,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof repair colorado springs free estimate",
+        "count": 50,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof replacement company near me cost",
+        "count": 39,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing quote boulder co",
+        "count": 39,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "metal roof colorado cost",
+        "count": 36,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "roof hail damage repair cost",
+        "count": 34,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "affordable roofing contractors denver co",
+        "count": 31,
+        "geo": "denver"
+      },
+      {
+        "phrase": "class 4 impact resistant shingles cost",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage house roof repair cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage repair cost per dent",
+        "count": 27,
+        "geo": "no_geo"
+      }
+    ],
+    "contractor": [
+      {
+        "phrase": "roofing company near me denver",
+        "count": 241,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing company reviews",
+        "count": 224,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing companies ratings",
+        "count": 185,
+        "geo": "denver"
+      },
+      {
+        "phrase": "top rated roofing services in denver",
+        "count": 178,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver cost",
+        "count": 177,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver prices",
+        "count": 174,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing companies in denver",
+        "count": 163,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofers in denver colorado",
+        "count": 157,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofers in denver co",
+        "count": 154,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver free estimate",
+        "count": 153,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver area roofing company",
+        "count": 104,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing companies denver colorado",
+        "count": 96,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver quality",
+        "count": 90,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing company reviews and ratings",
+        "count": 86,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver services",
+        "count": 86,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing contractors in denver",
+        "count": 80,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver local roofing repair",
+        "count": 68,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado springs hail damage repair near me",
+        "count": 68,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "geo": "denver"
+      },
+      {
+        "phrase": "find the best roofers in denver",
+        "count": 65,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing contractor license colorado",
+        "count": 63,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "find the best roofing contractors in denver",
+        "count": 63,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best rated roofers in denver",
+        "count": 61,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage near me roof",
+        "count": 61,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "affordable roofing denver near me",
+        "count": 60,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado roofing contractors license",
+        "count": 60,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "best roofer denver near me",
+        "count": 58,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver area",
+        "count": 56,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof repair near me cost",
+        "count": 53,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "best roofer denver metro area",
+        "count": 52,
+        "geo": "denver"
+      }
+    ],
+    "material_asphalt": [
+      {
+        "phrase": "class 4 architectural shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail resistant asphalt shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roofing cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof shingles cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost of asphalt shingle roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost asphalt shingles roof installed",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt shingle",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roofing shingles prices",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does asphalt shingles cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much are asphalt shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof replacement cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof installation cost",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "shingle repair cost asphalt",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 asphalt shingles",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "price of asphalt shingles",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "are asphalt shingles hail resistant",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt shingles installed",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cheap asphalt roof shingles",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt roof shingles cost per square",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof valley",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt roofing",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cheapest asphalt roof shingles",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average cost asphalt shingle roof replacement",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "high quality asphalt shingles",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "highest quality asphalt shingles",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "are architectural shingles hail resistant",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of asphalt roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof cost versus asphalt shingles",
+        "count": 2,
+        "geo": "no_geo"
+      }
+    ],
+    "material_metal": [
+      {
+        "phrase": "cost of metal roof colorado",
+        "count": 69,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roof colorado cost",
+        "count": 36,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roofers in the denver",
+        "count": 36,
+        "geo": "denver"
+      },
+      {
+        "phrase": "metal roofing denver colorado",
+        "count": 29,
+        "geo": "denver"
+      },
+      {
+        "phrase": "metal roof colorado reviews",
+        "count": 28,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "impact resistant metal roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is a metal roof considered impact resistant",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail proof metal roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof company near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof near me cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof colorado options",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roof colorado suppliers",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roof colorado installation",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roof company near me free estimate",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake metal roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal cedar shake roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof colorado contractors",
+        "count": 26,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how much is the metal roof",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing contractors denver colorado",
+        "count": 25,
+        "geo": "denver"
+      },
+      {
+        "phrase": "cedar shake look metal roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofers in the aurora",
+        "count": 25,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "class 4 impact resistant metal roof",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing company near me cost",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof prices near me",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "who does metal roofing near me cost",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "us metal roof cost",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofing denver nc",
+        "count": 15,
+        "geo": "denver"
+      },
+      {
+        "phrase": "metal roof estimates near me cost",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roofers near me cost",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof cost texas",
+        "count": 9,
+        "geo": "no_geo"
+      }
+    ],
+    "material_tile": [
+      {
+        "phrase": "custom tile roofing denver",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "tile shops in denver colorado",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "tile stores in denver colorado",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado tile company denver co",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "tile stores denver co",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best tile installers in denver co",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best tile companies denver",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best tile showrooms in denver",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "custom tile roofing colorado",
+        "count": 26,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "the tile shop colorado",
+        "count": 25,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "world of tile denver",
+        "count": 25,
+        "geo": "denver"
+      },
+      {
+        "phrase": "arizona tile denver colorado",
+        "count": 23,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof tile company near me",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile shops in denver",
+        "count": 21,
+        "geo": "denver"
+      },
+      {
+        "phrase": "tile stores denver area",
+        "count": 21,
+        "geo": "denver"
+      },
+      {
+        "phrase": "florida tile denver colorado",
+        "count": 21,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver tile and stone",
+        "count": 17,
+        "geo": "denver"
+      },
+      {
+        "phrase": "florida tile denver co",
+        "count": 15,
+        "geo": "denver"
+      },
+      {
+        "phrase": "arizona tile denver co",
+        "count": 14,
+        "geo": "denver"
+      },
+      {
+        "phrase": "tile colorado springs colorado",
+        "count": 14,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof tile near me",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof near me",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile stores in denver area",
+        "count": 5,
+        "geo": "denver"
+      },
+      {
+        "phrase": "the tile shop denver",
+        "count": 5,
+        "geo": "denver"
+      },
+      {
+        "phrase": "custom tile roofing denver colorado",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing tile near me",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tile roof repair denver",
+        "count": 2,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof tile boneyard denver",
+        "count": 2,
+        "geo": "denver"
+      },
+      {
+        "phrase": "are tile roofs nailed down",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof tile retailers near me",
+        "count": 2,
+        "geo": "no_geo"
+      }
+    ],
+    "material_wood": [
+      {
+        "phrase": "cedar shake roof near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof repair",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof repair near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roofing near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake metal roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "real cedar shake roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cedar shake roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roofers near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roofing for sale",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal cedar shake roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shakes for roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof repair near me cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake alternative roofing",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof repair near me reviews",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake look metal roofing",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roofing installation",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar roof shakes for sale",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof installation",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shakes roof installation",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof replacement cost",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof maintenance",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "composite cedar shake roofing",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof cleaning near me",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cost of a cedar shake roof",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "material_solar": [
+      {
+        "phrase": "aurora roofing and solar",
+        "count": 2,
+        "geo": "co_front_range"
+      }
+    ],
+    "hail": [
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 266,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 263,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "auto hail damage repair denver colorado",
+        "count": 192,
+        "geo": "denver"
+      },
+      {
+        "phrase": "auto hail damage repair denver",
+        "count": 191,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver hail damage repair",
+        "count": 181,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damaged vehicles for sale near denver",
+        "count": 179,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail in denver colorado",
+        "count": 171,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail in denver co",
+        "count": 161,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver co hail report",
+        "count": 119,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail storm denver co",
+        "count": 118,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail reports denver co",
+        "count": 116,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver auto hail repair",
+        "count": 116,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver colorado hail storm",
+        "count": 111,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado hail repair llc",
+        "count": 109,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage repair denver co",
+        "count": 103,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage in colorado",
+        "count": 100,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damaged cars for sale near denver",
+        "count": 97,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver hail storm today",
+        "count": 86,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver auto hail repair denver co",
+        "count": 84,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof repair insurance claim",
+        "count": 81,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to claim hail damage on roof",
+        "count": 80,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm roof damage claim",
+        "count": 80,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged roof pictures insurance claim",
+        "count": 79,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm today near denver",
+        "count": 70,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof insurance claim process",
+        "count": 69,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "colorado springs hail damage repair near me",
+        "count": 68,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "denver storm damage roof repair",
+        "count": 66,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage near me roof",
+        "count": 61,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged trucks for sale near denver",
+        "count": 61,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing rates during a hail damage claim",
+        "count": 57,
+        "geo": "no_geo"
+      }
+    ],
+    "ir_shingle": [
+      {
+        "phrase": "hail proof roofing shingles",
+        "count": 38,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail proof roofing options",
+        "count": 29,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail proof roof shingles",
+        "count": 29,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 impact resistant shingles cost",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 rated shingles",
+        "count": 28,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 impact resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 impact rated shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class iv impact resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 impact shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "atlas class 4 impact resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 3 impact resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 3 impact resistant shingles list",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 roof shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 architectural shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "approved class 4 rated shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 hail resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a impact resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof discount",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant metal roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof rating",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof materials",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is considered an impact resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is impact resistant roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roofing materials",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof classes",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is my roof impact resistant",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "is a metal roof considered impact resistant",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof form",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof class 4",
+        "count": 27,
+        "geo": "no_geo"
+      }
+    ],
+    "insurance": [
+      {
+        "phrase": "hail damage roof repair insurance claim",
+        "count": 81,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to claim hail damage on roof",
+        "count": 80,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm roof damage claim",
+        "count": 80,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged roof pictures insurance claim",
+        "count": 79,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof insurance claim process",
+        "count": 69,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing rates during a hail damage claim",
+        "count": 57,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm roof damage insurance claim",
+        "count": 55,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage insurance",
+        "count": 53,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage insurance claim",
+        "count": 45,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado insurance",
+        "count": 30,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado dora insurance complaint",
+        "count": 28,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage insurance claim",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "comprehensive insurance cover hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "insurance claim for hail damage to roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "public insurance adjusters of colorado",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "public adjuster colorado springs",
+        "count": 27,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "colorado public adjuster license lookup",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado division of insurance dora",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "dora colorado insurance license",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado dora insurance license lookup",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "dora health insurance application colorado",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "acv vs rcv roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv coverage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is an acv roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is acv roof coverage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "rcv vs acv insurance",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv home insurance",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between acv versus rcv",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv policy",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what does roof acv mean",
+        "count": 27,
+        "geo": "no_geo"
+      }
+    ],
+    "hb1212": [],
+    "project_repair": [
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 266,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 263,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "residential roof repair denver co",
+        "count": 253,
+        "geo": "denver"
+      },
+      {
+        "phrase": "auto hail damage repair denver colorado",
+        "count": 192,
+        "geo": "denver"
+      },
+      {
+        "phrase": "auto hail damage repair denver",
+        "count": 191,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver hail damage repair",
+        "count": 181,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver co roof repair",
+        "count": 157,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof repair colorado cost",
+        "count": 134,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "denver commercial roof repair",
+        "count": 127,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver auto hail repair",
+        "count": 116,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado hail repair llc",
+        "count": 109,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage repair denver co",
+        "count": 103,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver auto hail repair denver co",
+        "count": 84,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof repair insurance claim",
+        "count": 81,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado springs cost",
+        "count": 76,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "roof repair in denver",
+        "count": 69,
+        "geo": "denver"
+      },
+      {
+        "phrase": "flat roof repair denver",
+        "count": 68,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver local roofing repair",
+        "count": 68,
+        "geo": "denver"
+      },
+      {
+        "phrase": "colorado springs hail damage repair near me",
+        "count": 68,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "denver storm damage roof repair",
+        "count": 66,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof repair denver co",
+        "count": 56,
+        "geo": "denver"
+      },
+      {
+        "phrase": "auto hail repair of colorado",
+        "count": 55,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage roof repair near me cost",
+        "count": 53,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado springs free estimate",
+        "count": 50,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "hail damage repair denver",
+        "count": 44,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof repair near me",
+        "count": 36,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof hail damage repair cost",
+        "count": 34,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof repair colorado reviews",
+        "count": 31,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "roof repair colorado insurance",
+        "count": 30,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage repair killeen roof",
+        "count": 29,
+        "geo": "no_geo"
+      }
+    ],
+    "project_replacement": [
+      {
+        "phrase": "roof replacement cost colorado",
+        "count": 132,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "cost of a new roof in colorado",
+        "count": 130,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "average cost of roof replacement in colorado",
+        "count": 124,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "new roof plus denver",
+        "count": 98,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver new roof in one day",
+        "count": 58,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof replacement company near me cost",
+        "count": 39,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement calculator colorado",
+        "count": 36,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage roof replacement cost",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cedar shake roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "insurance roof replacement depreciation",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "depreciation for roof replacement",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "irs roof replacement depreciation",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "irs depreciation on new roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof replacement cost",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost vs acv",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing replacement cherry hill nj",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new roof discounts with insurance companies",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement depreciation for tax",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new roof near me cost",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "depreciation check for roof replacement",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "recoverable depreciation for roof replacement",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much is new roof",
+        "count": 13,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost near me",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "residential roof replacement near me cost",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement depreciation rules",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "average roof replacement cost in denver colorado",
+        "count": 9,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof replacement cost near me comparison",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "insurance companies and roof replacement",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damage roof replacement",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how much does a roof replacement cost",
+        "count": 6,
+        "geo": "no_geo"
+      }
+    ],
+    "project_commercial": [
+      {
+        "phrase": "denver commercial roof repair",
+        "count": 127,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing companies denver",
+        "count": 47,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing contractors denver",
+        "count": 39,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing companies denver colorado",
+        "count": 38,
+        "geo": "denver"
+      },
+      {
+        "phrase": "local commercial roofing companies license",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roof leak repair near me",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "commercial roofing contractor denver",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing contractor denver co",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing contractors llc denver reviews",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "certified licensed commercial roofer",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "highland commercial roofing las vegas",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver building permit records office",
+        "count": 2,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial roofing contractors llc denver",
+        "count": 2,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial metal roofers near me cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "denver commercial building permit guide",
+        "count": 1,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver county permit office",
+        "count": 1,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver building permit office",
+        "count": 1,
+        "geo": "denver"
+      },
+      {
+        "phrase": "commercial metal roofing contractors license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "minnesota commercial roofing license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "highland commercial roofing company",
+        "count": 1,
+        "geo": "denver"
+      }
+    ],
+    "code_permit": [
+      {
+        "phrase": "city of denver roofing permit",
+        "count": 77,
+        "geo": "denver"
+      },
+      {
+        "phrase": "city of denver roof permit",
+        "count": 74,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roof permit search",
+        "count": 64,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing permit application",
+        "count": 61,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver building department roofing guide",
+        "count": 57,
+        "geo": "denver"
+      },
+      {
+        "phrase": "parker colorado roofing permits",
+        "count": 52,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "hail damage roof inspection near me",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "denver residential construction permits",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver colorado building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver co building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "city of denver building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver county building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "city of denver colorado building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "city and county of denver building department",
+        "count": 27,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing permit fees",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver regional building department",
+        "count": 26,
+        "geo": "denver"
+      },
+      {
+        "phrase": "fort collins roofing permits",
+        "count": 24,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "denver building department code",
+        "count": 24,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver colorado building permit",
+        "count": 22,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver building department permit inspection",
+        "count": 21,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver building department phone number",
+        "count": 21,
+        "geo": "denver"
+      },
+      {
+        "phrase": "hail damage roof inspection",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "building permits denver co",
+        "count": 19,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver county regional building department",
+        "count": 18,
+        "geo": "denver"
+      },
+      {
+        "phrase": "state of colorado building permits",
+        "count": 18,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "denver roofing permit",
+        "count": 17,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how much is a permit in colorado",
+        "count": 17,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage inspection near me",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "building permit for roof",
+        "count": 16,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing permit look up",
+        "count": 16,
+        "geo": "no_geo"
+      }
+    ],
+    "code_license": [
+      {
+        "phrase": "colorado roofing license requirements",
+        "count": 82,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "denver roofing license requirements",
+        "count": 80,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing contractor license colorado",
+        "count": 63,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado roofing contractors license",
+        "count": 60,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado roofing license",
+        "count": 28,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado public adjuster license lookup",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "dora colorado insurance license",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado dora insurance license lookup",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "fort collins roofing license",
+        "count": 26,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "california roofing contractors license",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing company license lookup",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "license for roofing contractor",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing services california license",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "state of california roofing license",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "local commercial roofing companies license",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractor license california",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "public adjuster license colorado",
+        "count": 19,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how to get a roofing license in colorado",
+        "count": 17,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "roofing license in california",
+        "count": 17,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing license by state",
+        "count": 15,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing license look up",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing contractors license lookup",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "licensed roofers near me",
+        "count": 12,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "licensed roofers near me reviews",
+        "count": 11,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing company license verification",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof contractor license california",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "colorado adjuster license lookup",
+        "count": 9,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado license requirements",
+        "count": 8,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado public adjuster license",
+        "count": 8,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how to obtain a roofing license",
+        "count": 7,
+        "geo": "no_geo"
+      }
+    ],
+    "code_fire": [
+      {
+        "phrase": "class a fire rated roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated flat roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof material",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roofing material",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire related roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roofing",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire retardant roof covering",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a class a rated roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roof",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof shingles",
+        "count": 19,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a fire rating",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roof underlayment",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roofing underlayment",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a rated roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire resistant shingles",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a vs class b fire rating",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof class a or b",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a vs class c fire rating",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "ul class a fire rating roofing",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "code_hoa": [],
+    "trust_review": [
+      {
+        "phrase": "denver roofing company reviews",
+        "count": 224,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing companies ratings",
+        "count": 185,
+        "geo": "denver"
+      },
+      {
+        "phrase": "denver roofing company reviews and ratings",
+        "count": 86,
+        "geo": "denver"
+      },
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "geo": "denver"
+      },
+      {
+        "phrase": "best roofer denver bbb",
+        "count": 35,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roof repair colorado reviews",
+        "count": 31,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "metal roof colorado reviews",
+        "count": 28,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado dora insurance complaint",
+        "count": 28,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "impact resistant roof rating",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof impact resistance ratings",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class c roof fire rating",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof system fire rating class",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "colorado dora complaint form",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "dora colorado file a complaint",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "filing a complaint with dora colorado",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "colorado dora complaint process",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "file a complaint co dora",
+        "count": 27,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "hail damage roof repair near me reviews",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roofing",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "dora file a complaint",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "department of insurance colorado complaint",
+        "count": 26,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "dora real estate complaint",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cherry and clark roofing reviews",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofer contractors aurora reviews",
+        "count": 26,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "cedar shake roof repair near me reviews",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "cherry roofing and siding reviews",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 shingle rating",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rating roof",
+        "count": 23,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "colorado preferred roofing reviews",
+        "count": 22,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "class 1 roof rating",
+        "count": 20,
+        "geo": "no_geo"
+      }
+    ],
+    "brand": [
+      {
+        "phrase": "atlas class 4 impact resistant shingles",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "certainteed class 4 impact resistant shingles",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "tamko class 4 impact resistant shingles",
+        "count": 18,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gaf class 4 impact resistant shingles",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gaf hail resistant shingles",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gaf roof shingles impact resistant class 4",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "iko class 4 impact resistant shingles",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "gaf impact resistant roofing shingles",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "scope_addon": [
+      {
+        "phrase": "roofers in cherry valley ca",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers in cherry valley il",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "asphalt shingle roof valley",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofing quote boulder valley",
+        "count": 5,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "class a fire rated roof underlayment",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class a fire rated roofing underlayment",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof chimney flashing size colorado code",
+        "count": 1,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "valley county roofing license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof valley leak repair",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "how_to": [
+      {
+        "phrase": "how to claim hail damage on roof",
+        "count": 80,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "denver building department roofing guide",
+        "count": 57,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how to check roof for hail damage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to determine hail damage on roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to identify hail damage on roof",
+        "count": 18,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get a roofing license in colorado",
+        "count": 17,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how to claim insurance for hail damage",
+        "count": 14,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to obtain a roofing license",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to respond to a dora complaint",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get a roofing permit",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "denver residential permitting guide",
+        "count": 6,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how to get a roof permit",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get a permit for roofing",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get roofing contractor license",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to spot hail damage on roof",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail storm insurance and claims guide",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to walk on spanish tile roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to reroof a tile roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "denver commercial building permit guide",
+        "count": 1,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how to get a roofing license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to get roofing license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to calculate roof depreciation",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how to become a licensed roofer",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "timing": [
+      {
+        "phrase": "winter storm denver colorado",
+        "count": 22,
+        "geo": "denver"
+      },
+      {
+        "phrase": "last hail storm in colorado springs",
+        "count": 11,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "fall roofing packages in denver",
+        "count": 6,
+        "geo": "denver"
+      },
+      {
+        "phrase": "roofing rates during fall in colorado",
+        "count": 6,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how long does it take to get a roofing permit",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "winter storm in denver",
+        "count": 3,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how long should a roof last in colorado",
+        "count": 2,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "how long does a roof last in colorado",
+        "count": 1,
+        "geo": "co_state"
+      },
+      {
+        "phrase": "denver weather today hail",
+        "count": 1,
+        "geo": "denver"
+      },
+      {
+        "phrase": "how long should a tile roof last",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "how long does a tile roof last in california",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "irs roof depreciation years",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "comparison": [
+      {
+        "phrase": "compare quotes and reviews of denver roofers",
+        "count": 67,
+        "geo": "denver"
+      },
+      {
+        "phrase": "acv vs rcv roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv coverage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "rcv vs acv insurance",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv home insurance",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between acv versus rcv",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv policy",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost vs acv",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between acv and rcv insurance",
+        "count": 26,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is acv vs rcv",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between rcv and acv",
+        "count": 22,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv versus rcv insurance",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers vs adjusters certification",
+        "count": 20,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost near me comparison",
+        "count": 8,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between acv and rc",
+        "count": 7,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers vs adjusters insurance",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between acv and rcv",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "acv vs rcv insurance examples",
+        "count": 5,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof replacement cost nj comparison",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers vs adjusters responsibilities",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers vs adjusters lawsuit",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "difference between rc and acv",
+        "count": 4,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is rcv vs acv",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roof covering replacement cost comparison",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof cost versus shingles",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof cost versus asphalt shingles",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "austin storm damage roof repair comparison",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail damaged roof pictures comparison chart",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "metal roof or asphalt shingle cost",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "roofers vs adjusters job description",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "question": [
+      {
+        "phrase": "what is a impact resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is considered an impact resistant roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is impact resistant roofing",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a hail proof roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a cedar shake roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is an acv roof",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is acv roof coverage",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a class a rated roof",
+        "count": 25,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is acv vs rcv",
+        "count": 24,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is roof depreciation",
+        "count": 21,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "do you need a permit to do roofing",
+        "count": 9,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is the going rate for roof replacement",
+        "count": 6,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is rcv vs acv",
+        "count": 3,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "why is replacing a roof so expensive",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a high impact roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "why are roof tiles red",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a roofing license",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is recoverable depreciation on a roof",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "what is a licensed roofer",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ],
+    "paid_rebate": [
+      {
+        "phrase": "impact resistant roof discount",
+        "count": 27,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "colorado springs roof repair financing",
+        "count": 14,
+        "geo": "co_front_range"
+      },
+      {
+        "phrase": "impact resistant roof discount form",
+        "count": 10,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "new roof insurance discount",
+        "count": 2,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "impact resistant roof discount usaa",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "hail resistant roof discount",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 shingles insurance discount",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 shingle discount",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 3 shingles insurance discount",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "state farm discount for class 4 shingles",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "class 4 roof insurance discount",
+        "count": 1,
+        "geo": "no_geo"
+      },
+      {
+        "phrase": "allstate class 4 shingle discount",
+        "count": 1,
+        "geo": "no_geo"
+      }
+    ]
+  },
+  "byGeo": {
+    "denver": [
+      {
+        "phrase": "residential roof repair denver co",
+        "count": 253,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing company near me denver",
+        "count": 241,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "denver roofing company reviews",
+        "count": 224,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "auto hail damage repair denver colorado",
+        "count": 192,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "auto hail damage repair denver",
+        "count": 191,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "denver roofing companies ratings",
+        "count": 185,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "denver hail damage repair",
+        "count": 181,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver telephone",
+        "count": 179,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "hail damaged vehicles for sale near denver",
+        "count": 179,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "top rated roofing services in denver",
+        "count": 178,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "best roofer denver cost",
+        "count": 177,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "best roofer denver prices",
+        "count": 174,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "hail in denver colorado",
+        "count": 171,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "roofing companies in denver",
+        "count": 163,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "hail in denver co",
+        "count": 161,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "denver co roof repair",
+        "count": 157,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofers in denver colorado",
+        "count": 157,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofers in denver co",
+        "count": 154,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "best roofer denver free estimate",
+        "count": 153,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofing suppliers denver co",
+        "count": 149,
+        "intents": []
+      },
+      {
+        "phrase": "denver commercial roof repair",
+        "count": 127,
+        "intents": [
+          "project_repair",
+          "project_commercial"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver hours",
+        "count": 127,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver hours of operation",
+        "count": 125,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "affordable roofing denver address",
+        "count": 119,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "denver co hail report",
+        "count": 119,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "hail storm denver co",
+        "count": 118,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "hail reports denver co",
+        "count": 116,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "denver auto hail repair",
+        "count": 116,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "denver colorado hail storm",
+        "count": 111,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "denver area roofing company",
+        "count": 104,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ],
+    "co_front_range": [
+      {
+        "phrase": "roof repair colorado springs hail damage",
+        "count": 266,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado springs cost",
+        "count": 76,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "colorado springs hail damage repair near me",
+        "count": 68,
+        "intents": [
+          "contractor",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing quote boulder colorado",
+        "count": 53,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "parker colorado roofing permits",
+        "count": 52,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado springs free estimate",
+        "count": 50,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing quote boulder co",
+        "count": 39,
+        "intents": [
+          "cost"
+        ]
+      },
+      {
+        "phrase": "certified hail and dent colorado springs",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "hail storm colorado springs 2024",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "colorado springs hail storm 2023",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "aurora colorado hail storm 2024",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "public adjuster colorado springs",
+        "count": 27,
+        "intents": [
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "roofing aurora co",
+        "count": 27,
+        "intents": []
+      },
+      {
+        "phrase": "roof repair aurora co",
+        "count": 27,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail storm in aurora co 2024",
+        "count": 26,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "fort collins roofing license",
+        "count": 26,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "roofers in cherry hills village co",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer contractors aurora reviews",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "roofer contractors aurora il",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer contractors aurora quality",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "aurora roofing company aurora il",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer contractors aurora ontario",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer contractors aurora cost",
+        "count": 26,
+        "intents": [
+          "cost",
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roof repair aurora near me",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof repair aurora contractors",
+        "count": 26,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofing contractor in lakewood",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "find the best roofing contractors in lakewood",
+        "count": 26,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "lakewood roofing restoration experts",
+        "count": 26,
+        "intents": []
+      },
+      {
+        "phrase": "hail in colorado springs 2024",
+        "count": 25,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "best roofing services for aurora co",
+        "count": 25,
+        "intents": [
+          "contractor"
+        ]
+      }
+    ],
+    "co_state": [
+      {
+        "phrase": "roof repair colorado hail damage",
+        "count": 263,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado cost",
+        "count": 134,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost colorado",
+        "count": 132,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "cost of a new roof in colorado",
+        "count": 130,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "average cost of roof replacement in colorado",
+        "count": 124,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "colorado hail repair llc",
+        "count": 109,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage in colorado",
+        "count": 100,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "colorado roofing license requirements",
+        "count": 82,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "cost of metal roof colorado",
+        "count": 69,
+        "intents": [
+          "cost",
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "roofing contractor license colorado",
+        "count": 63,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "colorado roofing contractors license",
+        "count": 60,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "auto hail repair of colorado",
+        "count": 55,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "colorado roofing code guidelines",
+        "count": 50,
+        "intents": []
+      },
+      {
+        "phrase": "hail damaged trucks in colorado",
+        "count": 39,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "roof replacement calculator colorado",
+        "count": 36,
+        "intents": [
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "metal roof colorado cost",
+        "count": 36,
+        "intents": [
+          "cost",
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado reviews",
+        "count": 31,
+        "intents": [
+          "contractor",
+          "project_repair",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "roof repair colorado insurance",
+        "count": 30,
+        "intents": [
+          "insurance",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "colorado building code for roofing",
+        "count": 29,
+        "intents": []
+      },
+      {
+        "phrase": "roof repair colorado companies",
+        "count": 28,
+        "intents": [
+          "contractor",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "metal roof colorado reviews",
+        "count": 28,
+        "intents": [
+          "contractor",
+          "material_metal",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "colorado roofing license",
+        "count": 28,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "colorado dora insurance complaint",
+        "count": 28,
+        "intents": [
+          "insurance",
+          "trust_review"
+        ]
+      },
+      {
+        "phrase": "colorado hail storm 2024",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "colorado hail storm map 2024",
+        "count": 27,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "best shingles for colorado",
+        "count": 27,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "metal roof colorado options",
+        "count": 27,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "metal roof colorado suppliers",
+        "count": 27,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "metal roof colorado installation",
+        "count": 27,
+        "intents": [
+          "material_metal"
+        ]
+      },
+      {
+        "phrase": "public insurance adjusters of colorado",
+        "count": 27,
+        "intents": [
+          "insurance"
+        ]
+      }
+    ],
+    "state_near": [
+      {
+        "phrase": "roof replacement cost kansas city",
+        "count": 4,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roofer salt lake county",
+        "count": 3,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "hail damage dent repair kansas city",
+        "count": 2,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "kansas roofing license application",
+        "count": 2,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "roof repair kansas cost",
+        "count": 1,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "state of kansas roofing license",
+        "count": 1,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "kansas state roofing license",
+        "count": 1,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "kansas roofing license lookup",
+        "count": 1,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "kansas roofing contractor license search",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "kansas roofing license renewal",
+        "count": 1,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "kansas state roofing registration",
+        "count": 1,
+        "intents": []
+      },
+      {
+        "phrase": "roof leak repair kansas city",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair albuquerque",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair utah",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roofer salt lake quality",
+        "count": 1,
+        "intents": [
+          "contractor"
+        ]
+      },
+      {
+        "phrase": "roofer salt lake reviews",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "trust_review"
+        ]
+      }
+    ],
+    "other_city": [
+      {
+        "phrase": "chicago public adjuster roofing scams",
+        "count": 25,
+        "intents": [
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "dallas hail storm 2024",
+        "count": 23,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "roof leak repair dallas",
+        "count": 18,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "new roof cost chicago",
+        "count": 5,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "roof replacement cost dallas",
+        "count": 4,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "dallas roofing repair companies insurance",
+        "count": 4,
+        "intents": [
+          "contractor",
+          "insurance",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "new york roofing license",
+        "count": 3,
+        "intents": [
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "average roof replacement cost dallas",
+        "count": 2,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "new roof cost los angeles",
+        "count": 2,
+        "intents": [
+          "cost",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "dallas roof repair quote",
+        "count": 2,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof repair new york cost",
+        "count": 1,
+        "intents": [
+          "cost",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail storms in dallas 2023",
+        "count": 1,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "houston hail storm 2024",
+        "count": 1,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "roofing permit los angeles",
+        "count": 1,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "los angeles roof permit",
+        "count": 1,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "la county roof permit",
+        "count": 1,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "los angeles county roofing permit",
+        "count": 1,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "los angeles roofing permit",
+        "count": 1,
+        "intents": [
+          "code_permit"
+        ]
+      },
+      {
+        "phrase": "la roofing company license",
+        "count": 1,
+        "intents": [
+          "contractor",
+          "code_license"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston texas",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof leak repair houston tx",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "houston emergency roof damage",
+        "count": 1,
+        "intents": [
+          "project_repair"
+        ]
+      }
+    ],
+    "no_geo": [
+      {
+        "phrase": "hail damage roof repair insurance claim",
+        "count": 81,
+        "intents": [
+          "hail",
+          "insurance",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "how to claim hail damage on roof",
+        "count": 80,
+        "intents": [
+          "hail",
+          "insurance",
+          "how_to"
+        ]
+      },
+      {
+        "phrase": "hail storm roof damage claim",
+        "count": 80,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "hail damaged roof pictures insurance claim",
+        "count": 79,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "hail damage roof insurance claim process",
+        "count": 69,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "hail damage near me roof",
+        "count": 61,
+        "intents": [
+          "contractor",
+          "hail"
+        ]
+      },
+      {
+        "phrase": "roofing rates during a hail damage claim",
+        "count": 57,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "free roofing estimate for hail damage",
+        "count": 56,
+        "intents": [
+          "cost",
+          "hail"
+        ]
+      },
+      {
+        "phrase": "hail storm roof damage insurance claim",
+        "count": 55,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "hail damage roof repair near me cost",
+        "count": 53,
+        "intents": [
+          "cost",
+          "contractor",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof hail damage insurance",
+        "count": 53,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "roof hail damage insurance claim",
+        "count": 45,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "roof replacement company near me cost",
+        "count": 39,
+        "intents": [
+          "cost",
+          "contractor",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "hail proof roofing shingles",
+        "count": 38,
+        "intents": [
+          "hail",
+          "ir_shingle"
+        ]
+      },
+      {
+        "phrase": "hail damage roof repair near me",
+        "count": 36,
+        "intents": [
+          "contractor",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "roof hail damage repair cost",
+        "count": 34,
+        "intents": [
+          "cost",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage repair killeen roof",
+        "count": 29,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail proof roofing options",
+        "count": 29,
+        "intents": [
+          "hail",
+          "ir_shingle"
+        ]
+      },
+      {
+        "phrase": "hail proof roof shingles",
+        "count": 29,
+        "intents": [
+          "hail",
+          "ir_shingle"
+        ]
+      },
+      {
+        "phrase": "roof hail damage identification",
+        "count": 28,
+        "intents": [
+          "hail"
+        ]
+      },
+      {
+        "phrase": "class 4 impact resistant shingles cost",
+        "count": 28,
+        "intents": [
+          "cost",
+          "ir_shingle"
+        ]
+      },
+      {
+        "phrase": "class 4 rated shingles",
+        "count": 28,
+        "intents": [
+          "ir_shingle"
+        ]
+      },
+      {
+        "phrase": "hail damage roof repair service",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage roof repair",
+        "count": 27,
+        "intents": [
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage house roof repair cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage roof replacement cost",
+        "count": 27,
+        "intents": [
+          "cost",
+          "hail",
+          "project_replacement"
+        ]
+      },
+      {
+        "phrase": "hail damage repair cost per dent",
+        "count": 27,
+        "intents": [
+          "cost",
+          "hail",
+          "project_repair"
+        ]
+      },
+      {
+        "phrase": "hail damage insurance claim",
+        "count": 27,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "comprehensive insurance cover hail damage",
+        "count": 27,
+        "intents": [
+          "hail",
+          "insurance"
+        ]
+      },
+      {
+        "phrase": "hail damage roof inspection near me",
+        "count": 27,
+        "intents": [
+          "contractor",
+          "hail",
+          "code_permit"
+        ]
+      }
+    ]
+  },
+  "noIntentClassified": [
+    {
+      "phrase": "j k roofing denver",
+      "count": 3,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver roof pros llc",
+      "count": 59,
+      "geo": "denver"
+    },
+    {
+      "phrase": "roofcorp of metro denver inc",
+      "count": 3,
+      "geo": "denver"
+    },
+    {
+      "phrase": "a to z roofing denver",
+      "count": 5,
+      "geo": "denver"
+    },
+    {
+      "phrase": "roofing suppliers denver co",
+      "count": 149,
+      "geo": "denver"
+    },
+    {
+      "phrase": "roofing availability in colorado",
+      "count": 16,
+      "geo": "co_state"
+    },
+    {
+      "phrase": "denver city roofing codes",
+      "count": 42,
+      "geo": "denver"
+    },
+    {
+      "phrase": "city and county of denver roof inspections",
+      "count": 54,
+      "geo": "denver"
+    },
+    {
+      "phrase": "class 3 impact rated shingles",
+      "count": 20,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "roof impact resistance class",
+      "count": 22,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "lowes colorado grey shingles",
+      "count": 20,
+      "geo": "co_state"
+    },
+    {
+      "phrase": "high quality roof shingles",
+      "count": 17,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "home depot roofing shingles brands",
+      "count": 7,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "high quality roofing shingles",
+      "count": 2,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "highest quality roofing shingles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "concrete roof tiles denver",
+      "count": 26,
+      "geo": "denver"
+    },
+    {
+      "phrase": "k rock roof tiles",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "roof tiles phoenix az",
+      "count": 1,
+      "geo": "no_geo"
+    },
+    {
+      "phrase": "city of denver roofing guidelines",
+      "count": 74,
+      "geo": "denver"
+    },
+    {
+      "phrase": "city of denver roofing code",
+      "count": 77,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver county roofing codes",
+      "count": 63,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver roofing code requirements",
+      "count": 18,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver co roofing requirements",
+      "count": 57,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver roofing guidelines",
+      "count": 5,
+      "geo": "denver"
+    },
+    {
+      "phrase": "ub code roofing denver",
+      "count": 17,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver co roofing code requirements",
+      "count": 52,
+      "geo": "denver"
+    },
+    {
+      "phrase": "colorado building code for roofing",
+      "count": 29,
+      "geo": "co_state"
+    },
+    {
+      "phrase": "denver green roof ordinance",
+      "count": 10,
+      "geo": "denver"
+    },
+    {
+      "phrase": "denver green roof requirements",
+      "count": 3,
+      "geo": "denver"
+    },
+    {
+      "phrase": "city of denver permitting",
+      "count": 1,
+      "geo": "denver"
+    }
+  ]
+}

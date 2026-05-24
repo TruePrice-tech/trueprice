@@ -1,0 +1,51 @@
+{
+  "flagship": "denver-co-roof-cost.html",
+  "baselineDate": "2026-05-23",
+  "checkpoints": {
+    "6_week": "2026-07-04",
+    "12_week": "2026-08-15"
+  },
+  "source": "scripts/keyword-research/output/denver-roofing-pilot-clusters.json",
+  "method": "Curated 30 top Denver-tagged phrases across the dominant intent shape (project_repair 22 phrases, contractor 86, hail 45, code_permit 93, cost 33, insurance 4, ir_shingle 1). Repair > replacement is the #1 surprise from the harvest — 'residential roof repair denver co' (253 count) is the single largest Denver query, ahead of any cost or replacement phrasing. Page section recipe was retuned to reflect this: repair-vs-replacement decision block added near the top, hail-event lookup added, top-rated/near-me trust block added.",
+  "notes": "INTENT SHAPE: repair-dominant + hail-event-context + contractor-trust + permit + (long-tail) hail-proof shingle. DIFFERS FROM LA roofing (cost-dominant) and Chattanooga painting (trust-dominant). PRE-BASELINE GSC NOT YET PULLED — Lane needs to export Performance > last 28d > Page = *denver*roof* > Queries.csv and save here as denver-roofing-gsc-2026-05-23.csv before live swap. Out-of-state DA gap to Angi/HA/Yelp 50+; one-page win realistically caps at long-tail repair + permit + hail-proof + supplements queries, not head-term 'roofing denver'. NOAA + RMIIA + HailScore are the recognized hail-event lookups all CO carriers accept. CO SB 12-038 ('Residential Roofing Bill of Rights', 2012) is the load-bearing legal cite — confirmed via Colorado General Assembly + C3 Group adjusters source. Denver has no state roofer license; Specialty Class D Denver license is the verification path.",
+  "preBaselineGSC": {
+    "siteRoofing90d_impressions": "TBD - Lane to pull",
+    "siteRoofing90d_clicks": "TBD",
+    "siteRoofing90d_avgPosition": "TBD",
+    "denverVisibleInTop10": "TBD",
+    "denverSpecificImpressionsTop10": "TBD",
+    "screenshot": "data/gsc-baselines/site-roofing-denver-2026-05-23.png"
+  },
+  "queries": [
+    { "phrase": "residential roof repair denver co",              "intent": "repair+cost",               "autocomplete_count": 253 },
+    { "phrase": "roofing company near me denver",                 "intent": "contractor+near_me",        "autocomplete_count": 241 },
+    { "phrase": "denver roofing company reviews",                 "intent": "contractor+trust",          "autocomplete_count": 224 },
+    { "phrase": "denver hail damage repair",                      "intent": "hail+repair",               "autocomplete_count": 181 },
+    { "phrase": "denver roofing companies ratings",               "intent": "contractor+trust",          "autocomplete_count": 185 },
+    { "phrase": "top rated roofing services in denver",           "intent": "contractor+trust",          "autocomplete_count": 178 },
+    { "phrase": "best roofer denver cost",                        "intent": "contractor+cost",           "autocomplete_count": 177 },
+    { "phrase": "best roofer denver prices",                      "intent": "contractor+cost",           "autocomplete_count": 174 },
+    { "phrase": "hail in denver colorado",                        "intent": "hail_event_info",           "autocomplete_count": 171 },
+    { "phrase": "roofing companies in denver",                    "intent": "contractor",                "autocomplete_count": 163 },
+    { "phrase": "hail in denver co",                              "intent": "hail_event_info",           "autocomplete_count": 161 },
+    { "phrase": "denver co roof repair",                          "intent": "repair",                    "autocomplete_count": 157 },
+    { "phrase": "roofers in denver colorado",                     "intent": "contractor",                "autocomplete_count": 157 },
+    { "phrase": "best roofer denver free estimate",               "intent": "contractor+cost",           "autocomplete_count": 153 },
+    { "phrase": "denver co hail report",                          "intent": "hail_event_info",           "autocomplete_count": 119 },
+    { "phrase": "hail storm denver co",                           "intent": "hail_event_info",           "autocomplete_count": 118 },
+    { "phrase": "hail damage repair denver co",                   "intent": "hail+repair",               "autocomplete_count": 103 },
+    { "phrase": "city of denver roofing permit",                  "intent": "code_permit",               "autocomplete_count":  77 },
+    { "phrase": "city of denver roof permit",                     "intent": "code_permit",               "autocomplete_count":  74 },
+    { "phrase": "denver roof permit search",                      "intent": "code_permit",               "autocomplete_count":  64 },
+    { "phrase": "denver roofing permit application",              "intent": "code_permit",               "autocomplete_count":  61 },
+    { "phrase": "denver building department roofing guide",       "intent": "code_permit",               "autocomplete_count":  57 },
+    { "phrase": "compare quotes and reviews of denver roofers",   "intent": "contractor+cost",           "autocomplete_count":  67 },
+    { "phrase": "roof leak repair denver",                        "intent": "repair",                    "autocomplete_count":  44 },
+    { "phrase": "public adjuster denver colorado",                "intent": "insurance",                 "autocomplete_count":  26 },
+    { "phrase": "hail proof roofing denver",                      "intent": "ir_shingle",                "autocomplete_count":   1 },
+    { "phrase": "denver building department roof",                "intent": "code_permit",               "autocomplete_count":  27 },
+    { "phrase": "colorado roofer law",                            "intent": "code_license+sb12038",      "autocomplete_count":   0 },
+    { "phrase": "acv vs rcv roof colorado",                       "intent": "insurance",                 "autocomplete_count":   0 },
+    { "phrase": "class 4 shingles denver insurance discount",     "intent": "ir_shingle+insurance",      "autocomplete_count":   0 }
+  ]
+}
