@@ -227,6 +227,110 @@
         "Maintenance instructions (watering, fertilization schedule)"
       ]
     },
+    plumbing: {
+      label: "plumbing",
+      questions: [
+        "Is this a repair, a replacement, or a remodel of existing plumbing?",
+        "What is the age and material of my current pipes? (Galvanized over 50 years and polybutylene should both be replaced — they fail.)",
+        "For water heater work: tank or tankless? Gas, electric, or heat-pump hybrid? What is the BTU rating or first-hour gallons rating?",
+        "Are you using PEX, copper, or CPVC for repipe work? Why is that the right choice for my situation?",
+        "For sewer line work: trenchless (pipe bursting / cure-in-place liner) or open excavation? What is the warranty difference?",
+        "Will the work require shutting off water? For how long? Will I have water during the day?",
+        "Is a permit required? (Water heater install, repipe, sewer line, and gas line all require permits in most cities.)",
+        "Is wall / ceiling repair (drywall + paint) included if you have to open walls for repipe?",
+        "Are you charging hourly or flat-rate? If hourly, what is the rate and how is travel time billed?"
+      ],
+      redFlags: [
+        { label: "\"We need to repipe your whole house\" without clear evidence", detail: "Unless your pipes are galvanized > 50 years or polybutylene (known failure material), a single leak does not justify a $5-15K whole-house repipe. Get a second opinion before signing." },
+        { label: "Emergency markup more than 1.5x normal rate", detail: "After-hours / weekend rates can fairly run 1.5x — anything more (3-5x is common) is gouging. If possible, get a second emergency quote." },
+        { label: "No expansion tank quoted with water heater install", detail: "Required by code in most jurisdictions when there is a backflow preventer (modern systems). A $50-150 part — leaving it off causes warranty failure and water hammer." },
+        { label: "Refuses to itemize parts vs labor", detail: "Reputable plumbers separate parts and labor on the invoice. Lump-sum hides 2-3x markup on common parts (a $30 fill valve becomes a $120 line item)." }
+      ],
+      scopeChecklist: [
+        "Written diagnostic + scope of work (not verbal)",
+        "Parts (brand + model) in writing",
+        "Labor (hourly rate + estimated hours, OR flat-rate per job)",
+        "Permits if required (water heater, repipe, sewer, gas line)",
+        "Code-required upgrades (expansion tank, pressure regulator, seismic strapping in CA, drip pan + drain on water heaters in finished spaces)",
+        "Wall / ceiling repair (drywall + paint) if walls must be opened — included or explicitly separate",
+        "Pressure test of new lines before closing walls",
+        "Cleanup + haul-off of old fixtures, pipes, water heater",
+        "Inspection by code authority (if permitted)",
+        "Workmanship warranty 1-5 years on labor (in writing)",
+        "Manufacturer warranty on parts (water heater tanks: 6 years base, 12 years premium)",
+        "Itemized invoice, not lump-sum"
+      ]
+    },
+    electrical: {
+      label: "electrical",
+      questions: [
+        "Will this work require a permit? (Most cities require permits for any panel work, new circuits, service upgrade, EV charger, or generator install.)",
+        "Is this code-compliant to the latest NEC adopted by my jurisdiction?",
+        "For panel upgrades: what is the new amperage (100A / 200A / 400A)? Will you re-use the existing meter base, or is a meter swap with the utility required?",
+        "For EV charger install: Level 2 (240V)? What amperage circuit (40A / 50A / 60A)? Is a dedicated subpanel needed?",
+        "For generator install: is an automatic transfer switch included? What is the load-shed configuration (whole home, essential circuits only)?",
+        "Are you using copper or aluminum wire? (Aluminum is acceptable for service entry and large feeders if properly terminated with anti-oxidant compound. Branch wiring should be copper.)",
+        "Will you provide a load calculation for any service or panel upgrade?",
+        "Are GFCI / AFCI breakers included where code requires (kitchen, bathroom, bedrooms, outdoor, garage)?",
+        "Will you handle the inspection appointment and sign-off?",
+        "What is the labor warranty? (1-2 years is standard.)"
+      ],
+      redFlags: [
+        { label: "No permit pulled for permit-required work", detail: "Panel work, service upgrade, EV charger install, and generator install all require permits in most jurisdictions. Unpermitted electrical work is illegal AND voids your homeowner's insurance if a fire happens." },
+        { label: "Aluminum branch wiring (vs service entry / feeders)", detail: "Aluminum is fine for service entry and large feeders. Aluminum branch wiring (15A / 20A circuits) is a documented fire hazard — should not be installed today, and existing aluminum branch wiring is grounds for remediation, not extension." },
+        { label: "No load calculation for service / panel upgrade", detail: "Without one, you may end up with an undersized panel (limits future EV / heat pump adds) or oversized (wasted cost). A code-compliant load calc is included in any reputable quote." },
+        { label: "Significantly cheaper than other quotes", detail: "Verify they are licensed, insured, AND pulling permits. Unlicensed electrical work is the #1 cause of residential electrical fires." }
+      ],
+      scopeChecklist: [
+        "Permit + inspection (any panel, service, EV, generator, or new-circuit work)",
+        "Materials (wire gauge, breaker type + amperage, panel brand + capacity)",
+        "Labor itemized (hours or flat-rate per task)",
+        "Code-required protection: GFCI (kitchen, bath, garage, outdoor), AFCI (bedrooms + most habitable rooms), tamper-resistant outlets (all new outlets)",
+        "Grounding and bonding to current code (ground rod / Ufer / water bond)",
+        "Box fill calculations (especially in remodels with multiple devices)",
+        "Coordination with utility for service upgrades (meter base swap, temporary disconnect)",
+        "Removal + disposal of old panel / wiring / fixtures",
+        "Drywall opening + closing if walls opened (included or explicitly separate)",
+        "Final inspection appointment + green tag / sign-off",
+        "Workmanship warranty 1-2 years on labor (in writing)",
+        "Manufacturer warranty on parts (breakers + devices)"
+      ]
+    },
+    windows: {
+      label: "windows",
+      questions: [
+        "What brand and product line? (Andersen 100/200/400 series, Pella Lifestyle / Reserve, Marvin Elevate / Signature, Milgard, Simonton, etc.)",
+        "What frame material? (Vinyl = cheapest, fiberglass = best stability, wood = most expensive + needs maintenance, composite = hybrid)",
+        "What glass package? (Double-pane Low-E + argon is the modern minimum; triple-pane + krypton for cold climates)",
+        "Are these ENERGY STAR certified for my climate zone? (Required to claim the federal 25C credit — 30% up to $600/year.)",
+        "Are these full-frame replacement or insert (retrofit) windows? (Full-frame is more thorough; insert is faster but keeps the existing frame.)",
+        "Is removal + disposal of the old windows included?",
+        "Is new interior trim / window stool included? Is exterior caulking + flashing included?",
+        "Is lead-paint testing required? (Pre-1978 homes require RRP-certified contractor — adds cost but legally required.)",
+        "What is the materials warranty (20+ years standard for premium brands) and labor warranty (5-10 years for reputable installers)?"
+      ],
+      redFlags: [
+        { label: "Generic \"high-efficiency windows\" without brand + line", detail: "\"Premium vinyl windows\" is not a spec. Demand brand + product line + frame material + glass package in writing. Brand-name comparison is the only way to know what you are paying for." },
+        { label: "Not ENERGY STAR certified for your climate zone", detail: "Climate zone matters — a window certified for the South may not qualify for the federal 25C credit in the North. Get the cert number for your zone in writing." },
+        { label: "Insert (retrofit) install priced like full-frame", detail: "Insert windows are 30-50% faster to install than full-frame. If you are getting insert price but full-frame markup, push back. Insert install also means you keep any existing rot in the frame — verify the frames are sound first." },
+        { label: "No mention of caulking + flashing", detail: "These are what make a window weather-tight. If they are not in the quote, you will get leaks and the warranty will not cover water damage." }
+      ],
+      scopeChecklist: [
+        "Window brand + product line + frame material (vinyl, fiberglass, wood, composite)",
+        "Glass package (double vs triple pane, Low-E coating, argon or krypton gas)",
+        "ENERGY STAR certification for your climate zone (required for 25C credit)",
+        "Full-frame vs insert (retrofit) install — specified",
+        "Removal + disposal of old windows",
+        "New flashing + caulking around all openings (weather sealing)",
+        "Interior trim / window stool / casing",
+        "Exterior trim / capping where applicable",
+        "Lead-paint testing + RRP compliance if home built pre-1978",
+        "Drywall touch-up / paint if interior was disturbed",
+        "Materials warranty 20+ years (full transferable preferred)",
+        "Labor / installation warranty 5-10 years",
+        "Federal 25C credit documentation (manufacturer cert + invoice for Form 5695)"
+      ]
+    },
     kitchen: {
       label: "kitchen remodel",
       questions: [
@@ -270,9 +374,6 @@
   // the generic questions/red flags/tactics + a short scope checklist.
   // Better than no content; can be deepened later based on user demand.
   var VERTICAL_BASELINE = {
-    plumbing:    { label: "plumbing",    scopeChecklist: ["Diagnostic + scope walkthrough", "Parts (brand + model)", "Labor (itemized hours or flat rate)", "Permits if pulling new fixtures or rough-in", "Cleanup + disposal of old fixtures", "Workmanship warranty 1-5 years", "Manufacturer warranty on parts"] },
-    electrical:  { label: "electrical",  scopeChecklist: ["Permit + inspection (required for most jobs)", "Materials (brand + amperage)", "Labor (itemized)", "Disposal of old fixtures / panels", "Code compliance verification", "Workmanship warranty 1-2 years", "Manufacturer warranty on parts"] },
-    windows:     { label: "windows",     scopeChecklist: ["Window brand + line + frame material (vinyl, fiberglass, wood)", "Glass package (Low-E, argon, triple-pane)", "Energy Star certification", "Removal + disposal of old windows", "New trim / interior finishing", "Caulk + flashing around new install", "Materials warranty 20+ years", "Labor warranty 5-10 years"] },
     siding:      { label: "siding",      scopeChecklist: ["Siding brand + material (vinyl, fiber cement, wood)", "House wrap / moisture barrier", "Insulation behind siding (if upgrading)", "All trim, fascia, soffit", "Caulk + flashing around windows / doors", "Removal + disposal of old siding", "Materials warranty 20-50 years", "Labor warranty 1-10 years"] },
     insulation:  { label: "insulation",  scopeChecklist: ["Insulation type (cellulose, fiberglass batt, spray foam)", "R-value to be installed (must meet local code)", "Air sealing of penetrations + gaps before insulation", "Vapor barrier if required by climate zone", "Attic ventilation verification", "Pre + post home energy assessment (for HOMES rebate)", "Materials warranty lifetime", "Labor warranty 1-2 years"] },
     painting:    { label: "painting",    scopeChecklist: ["Paint brand + line + sheen (e.g. Sherwin-Williams Duration Satin)", "Number of coats (2 is standard)", "Prep work: wash, scrape, sand, prime as needed", "Caulking + minor repair", "Drop cloths + masking included", "Cleanup + paint can disposal", "Exterior workmanship warranty 2-7 years", "Interior workmanship warranty 1-3 years"] },
@@ -453,11 +554,13 @@
       roofing:  'Architectural shingles (GAF Timberline HDZ, CertainTeed Landmark, Owens Corning Duration, Malarkey Vista) are the modern standard. Synthetic underlayment + ice/water shield in valleys are non-negotiable.',
       hvac:     'Trane = American Standard (same factory, brand premium). Bryant = Carrier. Mid-tier (Carrier/Trane/Lennox) has the best parts availability. Mitsubishi / Daikin lead on heat pump efficiency in cold climates.',
       auto_repair: 'Aftermarket = cheapest, varies in quality. OEM = same part, plain box. Dealer = same part with 30-60% markup. Insist on OEM for safety-critical (brakes, airbags) and emissions parts.',
-      windows:  'Vinyl is cheapest + most common. Fiberglass + composite cost more but expand/contract less. Triple-pane + Low-E + argon = standard high-efficiency package. Energy Star cert unlocks 30% / $600 federal credit.',
+      windows:  'Andersen + Pella + Marvin lead the premium tier (wood, fiberglass, composite). Vinyl: Simonton, Milgard, Alside cover the value tier — adequate for most homes, lighter on the warranty. Frame material matters more than brand: fiberglass > composite > vinyl > wood (for stability). Triple-pane + Low-E + argon = standard high-efficiency package. Energy Star cert unlocks the 30% / $600 federal 25C credit.',
       kitchen:  'Stock cabinets (IKEA, builder-grade) cheapest. Semi-custom (Kraftmaid, Diamond) is the value sweet spot. Full custom = 2-3× the price. Quartz countertops (Caesarstone, Cambria) are more durable than granite for less maintenance.',
       siding:   'Vinyl is cheapest (CertainTeed, Mastic). Fiber cement (James Hardie) is the upgrade — fire-resistant, 30-50 year warranty. LP SmartSide is the modern engineered-wood option.',
       flooring: 'LVP (luxury vinyl plank — Coretec, Shaw) is the modern durable choice. Engineered hardwood for higher-end. Solid hardwood requires controlled humidity. Tile (Daltile, MSI) for wet rooms.',
-      landscaping: 'Native plants are cheaper to maintain + better for local wildlife. Hardscape (pavers, stone) returns 60-80% at sale. Irrigation systems are vertical-licensed in most states — verify separately.'
+      landscaping: 'Native plants are cheaper to maintain + better for local wildlife. Hardscape (pavers, stone) returns 60-80% at sale. Irrigation systems are vertical-licensed in most states — verify separately.',
+      plumbing:    'Water heaters: Rheem + Bradford White are workhorse mid-tier; A.O. Smith is solid premium. Spend the extra $100 for the 12-year warranty over the 6-year — same tank, longer cover. Pipes: PEX (cheap, flexible, freeze-resistant) is modern standard; copper for short runs and existing copper systems. AVOID polybutylene (known failure material — should be replaced, not extended). Faucets: Moen + Delta own the value-to-premium range with serviceable cartridges. Toilets: Toto + Kohler lead on flush; American Standard solid mid-tier. Sewer line: trenchless (pipe bursting / cure-in-place liner) costs 30-50% more but avoids tearing up driveways and landscape.',
+      electrical:  'Panels: Square D (QO premium, Homeline value) and Eaton are the workhorses; Siemens is solid. AVOID Federal Pacific (FPE), Zinsco, and Pushmatic — known failure brands that insurance companies flag and that should be replaced rather than added to. EV chargers: Wallbox, ChargePoint, Tesla Wall Connector cover most needs; do not pay for smart features you will not use. Generators: Generac dominates whole-home (largest service network); Kohler is premium with longer warranties; Briggs & Stratton budget tier. Wire: copper for branch circuits (15A / 20A), aluminum acceptable for service entry and large feeders if properly terminated with anti-oxidant compound.'
     };
     var body = brand[vertical] || 'Ask for the brand + line + tier of every major material so you can comparison-shop. Generic descriptions like "premium quality" are a sign the contractor is being vague to lock in higher margin.';
     return ''
@@ -474,8 +577,10 @@
     var rebates = {
       solar:      'Federal 30% Investment Tax Credit (ITC) on system + battery + labor through 2032. State + utility rebates vary — check dsireusa.org for ' + (state || 'your state') + '. SREC markets (MD, NJ, MA, DC, OH, PA, DE) can add thousands over system life.',
       hvac:       'Federal 25C heat pump credit: 30% up to $2,000 for qualifying ENERGY STAR heat pumps. HEEHRA / HOMES rebates (IRA-funded): up to $8,000 for low-to-moderate income households. Utility rebates: $500-2,000 typical, itemized so it\'s not taxed.',
-      windows:    'Federal 25C: 30% up to $600/year for ENERGY STAR windows. Save invoice + cert. State + utility rebates often $20-50 per window.',
-      insulation: 'Federal 25C: 30% up to $1,200/year on insulation + air sealing. HOMES rebates: up to $8,000 for 35%+ energy reduction (requires pre/post energy assessment).'
+      windows:    'Federal 25C: 30% up to $600/year for ENERGY STAR windows in your climate zone. Save invoice + manufacturer certification. State + utility rebates often $20-50 per window — stack them. ' + (state ? 'Check dsireusa.org for ' + escHtml(state) + '.' : ''),
+      insulation: 'Federal 25C: 30% up to $1,200/year on insulation + air sealing. HOMES rebates: up to $8,000 for 35%+ energy reduction (requires pre/post energy assessment).',
+      plumbing:   'Heat pump water heaters qualify for the federal 25C credit (30% up to $2,000 cap shared with HVAC heat pump credit). HEEHRA / HOMES rebates: up to $1,750 for a heat pump water heater for low-to-moderate income households. Many utilities offer $300-700 rebates for heat pump water heaters and high-efficiency tankless gas units — check before installing. ' + (state ? 'Look up rebates for ' + escHtml(state) + ' on dsireusa.org.' : ''),
+      electrical: 'Federal 25C electrical panel upgrade credit: 30% up to $600 when the upgrade enables a qualifying improvement (heat pump, induction range, EV charger). Federal 30C EV charger credit: 30% up to $1,000 for residential installs in qualifying census tracts (low-income or non-urban). HEEHRA: up to $4,000 toward an electrical panel upgrade for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' rebates on dsireusa.org.' : '')
     };
     var body = rebates[vertical] || 'Check dsireusa.org for any state + utility rebates that apply to your project. The federal energy efficient home improvement credit (25C) covers many home upgrades through 2032.';
     return ''
