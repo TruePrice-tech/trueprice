@@ -572,19 +572,207 @@
         "Spring warranty (lifetime on premium 20K-cycle)",
         "Labor warranty 1-3 years"
       ]
+    },
+    fencing: {
+      label: "fencing",
+      questions: [
+        "What fence material? (Pressure-treated pine cheapest, cedar premium wood, vinyl maintenance-free, aluminum decorative, chain-link cheapest non-wood, composite (Trex) most expensive.)",
+        "What height + length (linear feet) + number of gates?",
+        "What post material + setting? (4x4 wood, metal, or vinyl posts; concrete-set is standard, dirt-set fails fast.)",
+        "What is the post depth? (Must be BELOW frost line in cold climates — 30-48 inches typical; 6-12 inches in deep south.)",
+        "Was a property line survey done or confirmed? (Critical: fences built on neighbor's land are demolition risk.)",
+        "Is there a shared-fence agreement with neighbors if the line is shared?",
+        "Permit required? (Most cities require for fences over 6-7 ft; HOA approval often required for any new fence.)",
+        "Is removal + disposal of old fence included?",
+        "What is the labor warranty (1-5 years standard)?"
+      ],
+      redFlags: [
+        { label: "Post depth less than frost line", detail: "In freeze zones, posts set above frost line heave up + cause the whole fence to lean within 1-2 winters. Frost line varies — Minnesota is 48\", Atlanta is 6\". Verify your depth meets local code." },
+        { label: "No property survey + neighbor agreement", detail: "Building a fence on neighbor's property (even 6 inches over) opens you to a demolition order. Cost of a survey ($300-600) is cheap insurance against $5K-10K demolition + rebuild." },
+        { label: "Dirt-set posts on wood / vinyl fence", detail: "Posts not set in concrete (or with a proper concrete sleeve) loosen + lean within 5 years. Concrete setting is standard for any fence intended to last 15+ years." },
+        { label: "No HOA disclosure if HOA exists", detail: "Most HOAs require pre-approval for new fences (style + color + height). Skipping this gets you a takedown notice + fines after install. Confirm HOA review is part of the contractor's process." }
+      ],
+      scopeChecklist: [
+        "Fence material + style + height + linear footage",
+        "Number of gates + gate hardware (heavy-duty hinges, latch, drop rod for double gates)",
+        "Post material (4x4 wood, vinyl, metal) + post setting (concrete is standard)",
+        "Post depth below local frost line",
+        "Property line survey OR written acknowledgment of existing line markers",
+        "Neighbor agreement if shared fence line (in writing)",
+        "Permit if jurisdiction requires (height > 6-7 ft typical trigger)",
+        "HOA approval if applicable",
+        "Removal + disposal of old fence + concrete",
+        "Cleanup with magnetic sweep for nails",
+        "Materials warranty (manufacturer-spec, often 20-50 yr on vinyl/aluminum)",
+        "Labor warranty 1-5 years"
+      ]
+    },
+    gutters: {
+      label: "gutters",
+      questions: [
+        "What gutter material + gauge? (.027\" aluminum cheapest, .032\" mid, copper premium. Thicker = longer life + less dent risk.)",
+        "What size? (5\" K-style is the residential standard; 6\" is for high-volume roofs, large trees, heavy rain regions.)",
+        "How many downspouts + what diameter? (3\"x4\" rectangular = standard; 4\" round = high-volume. Spacing 35-40 ft typical.)",
+        "What hanger type + spacing? (Hidden hangers preferred over spike-and-ferrule; spacing 18-24\" max.)",
+        "If gutter guards are quoted: what brand + type? (Reverse-curve like Gutter Helmet, micro-mesh like LeafFilter, screen guards, foam inserts.)",
+        "Is removal + disposal of old gutters included?",
+        "Is downspout extension / splash block included to direct water away from the foundation?",
+        "Is fascia repair scope handled if rot is found behind old gutters?",
+        "What is the materials warranty (20-50 years typical) and labor warranty (1-5 years)?"
+      ],
+      redFlags: [
+        { label: "Thin aluminum (.025\" or less)", detail: "Cheap builder-grade aluminum (.025\") dents easily and fails within 10-15 years. .032\" is the residential standard for longer life. Get gauge in writing." },
+        { label: "Downspouts spaced more than 40 ft apart", detail: "Under-spec downspouts cause overflow during heavy rain. Industry rule: 1 downspout per 30-40 linear feet of gutter — fewer = overflow + foundation water." },
+        { label: "Generic gutter guard brand", detail: "Gutter guards range from $4/ft (DIY screens) to $20-40/ft (premium installed). Quoted at premium price but with generic brand = markup on builder-grade product. Demand brand + warranty in writing." },
+        { label: "No fascia / soffit repair clause", detail: "Old gutters often hide rotted fascia behind them. If a quote does not address what happens when rot is found, you get hit with surprise charges mid-job. Negotiate a per-foot fascia repair rate upfront." }
+      ],
+      scopeChecklist: [
+        "Gutter material + gauge (.032\" aluminum residential standard)",
+        "Gutter size (5\" K-style standard, 6\" for high-volume)",
+        "Downspout count + diameter (3\"x4\" rect or 4\" round) + spacing (30-40 ft max)",
+        "Hanger type (hidden preferred) + spacing (18-24\" max)",
+        "Downspout extensions / splash blocks / underground drainage if quoted",
+        "Gutter guards if quoted — brand + product + warranty",
+        "Removal + disposal of old gutters",
+        "Fascia / soffit repair scope + per-foot rate if rot found",
+        "Sealing of all joints + end caps",
+        "Cleanup",
+        "Materials warranty 20-50 years",
+        "Labor warranty 1-5 years"
+      ]
+    },
+    auto_repair: {
+      label: "auto repair",
+      questions: [
+        "Can I get a written estimate BEFORE work begins? (Required by law in many states — CA, FL, NY among them.)",
+        "Is the diagnostic fee applied to the repair cost if I proceed, or charged separately?",
+        "What parts tier are you using — OEM (manufacturer), aftermarket (third-party, varies in quality), dealer-genuine (same as OEM, 30-60% markup), or remanufactured (factory rebuilt, often as-good-as-new)?",
+        "For safety-critical work (brakes, airbags, suspension, steering): are you using OEM or OEM-equivalent? (Aftermarket is fine for non-safety items.)",
+        "Are you billing by book hours (industry-standard time per task) or actual hours? (Book hours protect you from slow work.)",
+        "What is the shop type — dealership (highest labor rate), independent (lower rate), or marque-specialist (Subaru-only, BMW-only, etc.)?",
+        "What is the warranty? (Industry standard is 12 months / 12,000 miles on parts + labor for most repairs.)",
+        "Will I get a final itemized invoice (not just \"misc parts\" lump sum)?",
+        "If a sensor or part is intermittent, will you guarantee the repair fixes the symptom, or just charge for the part?"
+      ],
+      redFlags: [
+        { label: "Verbal estimate only", detail: "Many states (CA, FL, NY, MA, others) require written estimates by law for any repair over a threshold (typically $100-200). Verbal-only means the shop can bill you whatever they want at pickup." },
+        { label: "Diagnostic fee NOT applied to the repair", detail: "Standard practice: if you authorize the repair, the diagnostic fee gets applied to the bill. Shops that charge it separately are double-dipping." },
+        { label: "Pushing OEM / dealer-genuine for non-safety items", detail: "OEM is critical for brakes, airbags, sensors, emissions parts. For other items (filters, belts, hoses), quality aftermarket is functionally identical at 40-60% less cost. Watch for OEM-pushing on items where aftermarket is fine." },
+        { label: "Estimated hours instead of book hours", detail: "Reputable shops bill by book hours (the industry-standard time published per task). \"It might take longer\" = open-ended bill. If they refuse book hours, get another quote." }
+      ],
+      scopeChecklist: [
+        "Written diagnostic findings (specific failure, not generic \"needs replacement\")",
+        "Written estimate before work begins (often required by state law)",
+        "Diagnostic fee applied to repair if you proceed",
+        "Parts tier specified (OEM / OEM-equivalent / aftermarket / reman) + brand",
+        "Labor billed by book hours (or flat-rate per job)",
+        "Shop supplies + hazmat / disposal fees disclosed",
+        "Sales tax (separate line)",
+        "Final itemized invoice (parts + labor + supplies separate, not lump-sum)",
+        "Warranty: 12 months / 12,000 miles on parts + labor (industry standard for most repairs)",
+        "Return of any replaced parts on request (your right in most states)",
+        "Diagnostic re-check at no charge if the symptom returns within warranty"
+      ]
+    },
+    moving: {
+      label: "moving",
+      questions: [
+        "Will you do an in-home or video estimate? (Phone-only estimates are notoriously low + lead to bait-and-switch.)",
+        "Is this a BINDING or non-binding estimate? (Binding = price locked, can't go up. Non-binding = price can go up 10-25% on pickup day.)",
+        "What is your USDOT number? (Required for interstate moves; verify on safer.fmcsa.dot.gov before signing.)",
+        "What valuation coverage is included? (Default \"released value\" = $0.60/lb. Full-value protection is the upgrade — covers actual repair/replacement cost.)",
+        "Is packing material included or extra? Is packing labor included or extra?",
+        "Is storage available if needed? Daily rate vs monthly?",
+        "What is the pickup window + delivery window? (Interstate moves usually have a 1-10 day delivery window — not a fixed date.)",
+        "What is your deposit policy? (Industry standard for interstate moves is NO deposit — you pay on delivery.)",
+        "What payment methods do you accept on delivery? (Cash-only on delivery is a major red flag.)"
+      ],
+      redFlags: [
+        { label: "Phone-only estimate (no in-home or video)", detail: "Movers who give phone-only estimates are setting up bait-and-switch. The price quoted will be 30-100% higher on pickup day when \"the load is heavier than expected.\" Insist on in-home or video estimate." },
+        { label: "Deposit requested for interstate move", detail: "Industry standard + FMCSA guidance: NO deposit on interstate moves. You pay on delivery. A deposit request is a strong scam signal — many movers disappear with deposits." },
+        { label: "Cash-only on delivery", detail: "Reputable interstate movers accept credit card or certified check on delivery. Cash-only on delivery means you have no chargeback recourse if items are damaged or missing." },
+        { label: "No USDOT number or unverifiable on FMCSA", detail: "All interstate movers MUST have a USDOT number. Verify it on safer.fmcsa.dot.gov — confirms they are licensed + carrying insurance. If their USDOT does not check out, they are not a legitimate mover." }
+      ],
+      scopeChecklist: [
+        "In-home or video estimate (NOT phone-only)",
+        "BINDING estimate type (locked price) — not non-binding (can increase)",
+        "USDOT number on contract + verified on safer.fmcsa.dot.gov",
+        "MC number (Motor Carrier authority) on contract for interstate",
+        "Itemized inventory list (every box + furniture piece numbered)",
+        "Valuation coverage tier specified (released $0.60/lb baseline OR full-value)",
+        "Packing labor + materials — included or explicitly separate (with rates)",
+        "Storage rates (if needed) — daily + monthly",
+        "Pickup window + delivery window (interstate: 1-10 days delivery typical)",
+        "NO DEPOSIT for interstate (industry standard + FMCSA guidance)",
+        "Payment method on delivery (credit card or certified check, NOT cash-only)",
+        "Claim process + timeline if items damaged / missing"
+      ]
+    },
+    medical: {
+      label: "medical billing",
+      questions: [
+        "Can I get a fully itemized bill with CPT codes + ICD diagnosis codes? (Federal law requires the provider to give you this on request — but they often will not unless you ask.)",
+        "Can I get the Explanation of Benefits (EOB) from my insurance? (Shows what insurance paid vs what is your responsibility.)",
+        "Have you confirmed the charges are correct for my insurance plan? (Billing errors are common — 30-80% of medical bills contain errors per industry studies.)",
+        "Is there a cash-pay discount if I am uninsured or paying in full? (Often 30-60% off the chargemaster rate.)",
+        "What is your financial hardship policy? (Most hospitals have one — many will reduce bills 25-90% based on income.)",
+        "What is your interest-free payment plan policy?",
+        "If this is an out-of-network charge that should be in-network: does the No Surprises Act protect me? (Emergency care + most ER physicians, anesthesia, radiology at in-network hospitals.)",
+        "Will you hold off sending to collections while a dispute is open?",
+        "Is this charge subject to my deductible / out-of-pocket max?"
+      ],
+      redFlags: [
+        { label: "Lump-sum bill with no CPT / ICD breakdown", detail: "Federal law (and most state laws) require providers to give you itemized bills on request. Without CPT + ICD codes you cannot verify what you are being billed for. Common scam: $5,000 \"facility fee\" with no detail." },
+        { label: "Out-of-network charges from an in-network facility", detail: "Under the No Surprises Act (effective 2022), you cannot be balance-billed for: emergency care, AND non-emergency care from out-of-network providers at in-network facilities (anesthesia, radiology, ER physicians, etc.). Push back hard if you see this." },
+        { label: "Sent to collections during an active dispute", detail: "Sending an account to collections while you have an open dispute may violate FDCPA + state consumer-protection laws. Reputable providers will hold collections while a dispute is open. Get this in writing." },
+        { label: "Surprise charges for services you did not knowingly consent to", detail: "If you were not given a separate consent + cost estimate for a service (e.g. an in-room TV, a separate physician consult), you may not legally owe for it. Demand documentation of consent." }
+      ],
+      scopeChecklist: [
+        "Fully itemized bill with CPT (procedure) + ICD (diagnosis) codes",
+        "Explanation of Benefits (EOB) from your insurance for reconciliation",
+        "Verification of network status (in vs out) for every provider involved",
+        "No Surprises Act protection check (emergency + ancillary providers at in-network facility)",
+        "Cash-pay / prompt-pay discount offer if uninsured or paying in full (often 30-60% off)",
+        "Financial hardship policy + application form (most hospitals have one — many waive 25-90%)",
+        "Interest-free payment plan terms",
+        "Collections hold while dispute is open",
+        "Charity care policy review (federally required for nonprofit hospitals)",
+        "Application of correct deductible + out-of-pocket maximum"
+      ]
+    },
+    legal: {
+      label: "legal fees",
+      questions: [
+        "Will I get a written engagement letter that specifies scope + fee structure before any work begins? (This is required by professional rules in every state.)",
+        "Hourly rate + minimum billing increment? (0.1 hr / 6 min is the industry standard. 0.25 hr / 15 min is rounding up and costs you 30%+ more.)",
+        "Is the retainer 'evergreen' (replenished as drawn down) or a one-time deposit? What is the replenishment threshold + notice?",
+        "Will I get monthly itemized invoices showing task + time + attorney rate per entry?",
+        "Will you use block billing (\"researched and drafted motion, 4.0 hrs\") or task-by-task billing (\"researched case law on X, 1.5 hrs; drafted motion section 1, 2.5 hrs\")? (Block billing is a red flag.)",
+        "Is there a cap or budget estimate on total project cost? Will you notify me before exceeding it?",
+        "What out-of-pocket costs (filing fees, deposition costs, expert witnesses) will be billed and at what markup?",
+        "Have you run a conflict-of-interest check? Will you disclose if a conflict arises mid-case?",
+        "What is the policy if I want to terminate representation — am I liable for the full retainer or only work done?"
+      ],
+      redFlags: [
+        { label: "No written engagement letter", detail: "Required by professional rules of conduct in every state. Without one, fees are disputable AND the attorney has no enforceable agreement either. If they will not provide one, walk away." },
+        { label: "0.25 hr (15 min) minimum billing increments", detail: "Industry standard is 0.1 hr (6 min). A 2-minute phone call billed at 0.25 hr costs you 7.5x what it should. Over a complex case this adds up to thousands." },
+        { label: "Block billing (lumping multiple tasks together)", detail: "Block billing (\"researched, drafted, revised brief — 8.0 hrs\") hides padding. Task-by-task billing (\"researched case X for 1.5 hrs; drafted section A for 2.0 hrs\") is the professional standard + audit-friendly." },
+        { label: "Evergreen retainer with no notice or threshold", detail: "An evergreen retainer that gets auto-replenished from your bank without notice is a recipe for runaway fees. Demand: written notice X days before each replenishment + a hard threshold (e.g. notify me when retainer drops below $2K)." }
+      ],
+      scopeChecklist: [
+        "Written engagement letter / fee agreement (required by state professional rules)",
+        "Hourly rate + minimum billing increment (0.1 hr / 6 min industry standard)",
+        "Retainer amount + replenishment policy + notice threshold",
+        "Monthly itemized invoices (task + time + attorney rate per entry)",
+        "Task-by-task billing format (NOT block billing)",
+        "Out-of-pocket cost estimate (filing fees, depositions, expert witnesses) + markup policy",
+        "Budget cap or estimate on total project cost + notification before exceeding",
+        "Conflict-of-interest check + ongoing disclosure obligation",
+        "Termination policy (refund of unused retainer)",
+        "Communication policy (response time, who handles questions)",
+        "File ownership / transfer policy if you change attorneys"
+      ]
     }
-  };
-
-  // Minimal baseline for verticals without deep curation yet. Each gets
-  // the generic questions/red flags/tactics + a short scope checklist.
-  // Better than no content; can be deepened later based on user demand.
-  var VERTICAL_BASELINE = {
-    fencing:     { label: "fencing",     scopeChecklist: ["Fence material + height + length", "Post material (4x4 wood, metal, concrete-set)", "Post depth (must be below frost line in cold climates)", "Gate(s) with hardware", "Property line survey verification", "Permit if over a certain height (varies by city)", "Labor warranty 1-5 years"] },
-    gutters:     { label: "gutters",     scopeChecklist: ["Gutter material (aluminum, copper, steel) + gauge", "Gutter size (5\" standard, 6\" for high-volume)", "Downspout count + sizing", "Hangers (hidden vs strap, spacing)", "Gutter guards (if quoted) — brand + type", "Removal of old gutters", "Materials warranty 20-50 years", "Labor warranty 1-5 years"] },
-    auto_repair: { label: "auto repair", scopeChecklist: ["Diagnostic findings in writing", "Parts type (aftermarket / OEM / dealer / remanufactured)", "Labor hours per job (book hours, not estimated)", "Shop supplies + disposal / hazmat fees", "Sales tax", "Warranty: parts + labor (12 mo / 12K miles industry standard)", "Itemized invoice not lump-sum"] },
-    moving:      { label: "moving",      scopeChecklist: ["In-home / video estimate (not phone-only)", "Binding or non-binding estimate type (binding is safer)", "Itemized inventory list", "Valuation coverage (released $0.60/lb default OR full-value)", "Packing materials if needed", "Storage if needed (rates per month)", "Pickup + delivery window", "USDOT number visible on contract", "No deposit required (industry standard for interstate)"] },
-    medical:     { label: "medical billing", scopeChecklist: ["Itemized bill with CPT/ICD codes (request from provider — they must give it)", "Explanation of Benefits (EOB) from insurance", "Verification you were billed correctly per your plan", "Negotiated cash-pay discount if uninsured", "Payment plan options without interest"] },
-    legal:       { label: "legal fees",  scopeChecklist: ["Written engagement letter / fee agreement", "Hourly rate + minimum increment (often 0.1 hr / 6 min)", "Retainer amount + replenishment policy", "Detailed monthly invoices with task descriptions", "Out-of-pocket costs estimate (filing fees, expert witnesses, depositions)", "Cap or estimate on total project cost", "Conflict-of-interest disclosure"] }
   };
 
   // Slug normalization — result-footer passes "garage-door" / "auto-repair"
@@ -596,7 +784,7 @@
 
   function getVerticalContent(vertical) {
     var key = normalizeVerticalSlug(vertical);
-    return VERTICAL[key] || VERTICAL_BASELINE[key] || {
+    return VERTICAL[key] || {
       label: "this work",
       scopeChecklist: ["Scope of work in writing", "Materials brand + grade in writing", "Labor itemized (hours or flat-rate)", "Permits + inspections", "Cleanup + disposal", "Warranty terms in writing"]
     };
@@ -770,7 +958,13 @@
       electrical:  'Panels: Square D (QO premium, Homeline value) and Eaton are the workhorses; Siemens is solid. AVOID Federal Pacific (FPE), Zinsco, and Pushmatic — known failure brands that insurance companies flag and that should be replaced rather than added to. EV chargers: Wallbox, ChargePoint, Tesla Wall Connector cover most needs; do not pay for smart features you will not use. Generators: Generac dominates whole-home (largest service network); Kohler is premium with longer warranties; Briggs & Stratton budget tier. Wire: copper for branch circuits (15A / 20A), aluminum acceptable for service entry and large feeders if properly terminated with anti-oxidant compound.',
       foundation:  'Pier methods: helical piers (screwed into load-bearing strata, fastest install, best for lighter loads) vs push piers (hydraulically driven, best for heavier loads + deep soils) vs concrete piers (cheapest, slowest, may not reach load-bearing strata). Slabjacking + polyurethane foam injection are limited-life cosmetic fixes (5-15 years), NOT structural — do not accept them with a "lifetime" warranty label. The contractors with real engineering depth (Olshan, Ram Jack, Foundation Repair of CA) carry lifetime transferable warranties on pier work. Local independents can match this — verify the warranty is in writing + transferable.',
       concrete:    'Mix design: 3,000 PSI minimum residential, 4,000+ for driveways + freeze-thaw climates, 4,500-5,000 for heavy-load (RV pad, commercial). Fiber-reinforced concrete adds crack resistance at minimal cost. Decorative options: broom finish (cheapest, best traction), exposed aggregate (mid-tier, durable), stamped (highest cost, requires resealing every 2-3 years). Sealing: penetrating sealers (silane, siloxane) last 5-10 years and are invisible; topical sealers wear off + can yellow in 1-3 years. In cold climates, sealing is critical to prevent salt + freeze-thaw scaling.',
-      garage_door: 'Door brands: Clopay + Wayne Dalton + Amarr cover most price points (Clopay is the value leader, Amarr the premium). Insulation: R-6 entry (single steel pan), R-12 mid (foam-injected double-steel), R-18+ for heated garages or extreme climates. Springs: torsion (modern standard, above the door, safer + longer-lived) vs extension (older, dangerous, replaceable). Cycle ratings: 10,000-cycle springs last ~7-10 years (1 cycle/day); 20,000+ cycle "lifetime" springs cost $50-150 more upfront. Openers: LiftMaster + Chamberlain + Genie lead. Belt drive = quietest (worth it for attached garages under bedrooms); chain = cheapest; screw = mostly obsolete.'
+      garage_door: 'Door brands: Clopay + Wayne Dalton + Amarr cover most price points (Clopay is the value leader, Amarr the premium). Insulation: R-6 entry (single steel pan), R-12 mid (foam-injected double-steel), R-18+ for heated garages or extreme climates. Springs: torsion (modern standard, above the door, safer + longer-lived) vs extension (older, dangerous, replaceable). Cycle ratings: 10,000-cycle springs last ~7-10 years (1 cycle/day); 20,000+ cycle "lifetime" springs cost $50-150 more upfront. Openers: LiftMaster + Chamberlain + Genie lead. Belt drive = quietest (worth it for attached garages under bedrooms); chain = cheapest; screw = mostly obsolete.',
+      fencing:     'Wood: pressure-treated pine cheapest but warps + needs staining every 2-3 years. Cedar premium wood — naturally rot-resistant, ages to silver-gray if unstained, lasts 15-30 years. Vinyl: CertainTeed (Bufftech) + Veranda are the established brands — maintenance-free + 20-30 year warranty + 2-3× wood cost upfront. Aluminum decorative: best for pool/yard borders, won\'t rust like wrought iron. Chain link: cheapest non-wood but offers no privacy. Composite (Trex Seclusions): most expensive, longest warranty (25-yr), best for those who hate maintenance.',
+      gutters:     'Aluminum is the workhorse (95% of residential): .032\" gauge is the residential standard (.027\" is builder-grade and dents easily). Steel: stronger but rusts at the seams, mostly commercial. Copper: 50-100 year life but 3-5× aluminum cost. Sizes: 5\" K-style for typical residential, 6\" for high-volume roofs or heavy-rain regions (Pacific NW, FL). Gutter guards: micro-mesh (LeafFilter, Gutter Guard, HomeCraft) is the modern standard — keeps everything out but lets water through. Reverse-curve (Gutter Helmet) works in low-debris areas. Foam inserts + plain screens are cheap but clog over time.',
+      auto_repair: 'Parts tiers: OEM (manufacturer-original, plain or branded box) > OEM-equivalent (made by same factory, sold to multiple buyers — e.g. Bosch, Denso, ACDelco) > quality aftermarket (Moog, Cardone, AC Delco Professional) > generic aftermarket (varies). DEALER parts = same OEM with 30-60% markup for the dealer name. Remanufactured: factory-rebuilt with new wear parts, often as-good-as-new with 1-year warranty, 30-50% cheaper than OEM. Shop type pricing: dealership labor rate is roughly 1.4× independent. Marque-specialist shops (Subaru-only, BMW-only) match dealer expertise at independent prices and are often the best value for higher-end vehicles.',
+      moving:      'Mover types: BINDING ESTIMATE (price locked) is the safer choice — non-binding can go up 10-25% on pickup day. Brokers vs carriers: brokers (Allied, North American, Mayflower) subcontract the actual move to carriers; small local movers do their own work. For interstate moves, ALWAYS verify USDOT number on safer.fmcsa.dot.gov. Valuation coverage: released $0.60/lb is the no-cost baseline (a $1,000 TV gets $30 if destroyed); full-value protection is the upgrade (~1-2% of inventory value) and covers actual replacement cost. For high-value items (jewelry, art, electronics) you may need third-party insurance — moving company valuation has low caps per item.',
+      medical:     'Common bill reducers: (1) Itemize then audit (30-80% error rate per industry studies). (2) Negotiate cash-pay discount if uninsured (often 30-60% off chargemaster). (3) Apply for charity care (nonprofit hospitals are federally required to have a program — many waive 25-90% by income). (4) Push back on out-of-network charges at in-network facilities (No Surprises Act, 2022). Third-party bill negotiators (Resolve, Goodbill) charge 15-25% of savings — fine for $10K+ bills, overkill for smaller ones. State Attorney General can intervene in collection disputes.',
+      legal:       'Fee structures: hourly (most common, 0.1 hr / 6 min increments are standard), flat-fee (preferred for predictable work like wills, simple contracts), contingency (typical for plaintiff-side personal injury / employment, 33-40% of recovery), hybrid (reduced hourly + contingency). State bar associations have public records of disciplinary actions — search before retaining. For complex matters, request a fee committee review if you suspect over-billing. AmLaw 100 firms charge $700-1,500/hr in major markets; boutique + solo can match expertise at $250-500/hr.'
     };
     var body = brand[vertical] || 'Ask for the brand + line + tier of every major material so you can comparison-shop. Generic descriptions like "premium quality" are a sign the contractor is being vague to lock in higher margin.';
     return ''
@@ -794,6 +988,12 @@
       foundation: 'Foundation repair is not directly tax-credit eligible, but: (1) if the work is needed because of a federally-declared natural disaster, FEMA may reimburse; (2) some states offer property-tax abatement for documented major repair (check ' + (state || 'your state') + ' assessor); (3) the repair cost adds to your home cost basis, reducing capital-gains tax at future sale.',
       concrete:   'Concrete work is generally not eligible for federal energy credits. Some utility rebates exist for "cool pavement" (reflective concrete) in heat-island cities like Phoenix and LA — niche. Cost basis adjustment at sale is the main tax benefit. ' + (state ? '' : ''),
       garage_door: 'Garage doors are NOT eligible for the federal 25C energy efficient home improvement credit (excluded by statute). However, an insulated garage door can qualify for some utility rebates ($50-200 typical) in cold-climate utility service areas — check before installing. ' + (state ? 'Look up ' + escHtml(state) + ' rebates on dsireusa.org.' : ''),
+      fencing:     'Fencing has no federal tax credits. Some HOAs offer rebates for "preferred" fence materials (vinyl, certain wood) to maintain neighborhood standards — ask your HOA. Cost basis adjustment at sale captures the value if you ever sell.',
+      gutters:     'Gutters do not have federal tax credits. Some utilities in flood-prone areas (parts of TX, LA, FL) offer rebates for downspout extensions / rain barrels that reduce runoff. ' + (state ? 'Check ' + escHtml(state) + ' utility rebates on dsireusa.org.' : ''),
+      auto_repair: 'No federal tax credits for routine auto repair. Some states offer credits for emissions-related repairs that bring older vehicles into compliance (CA Bureau of Automotive Repair Consumer Assistance Program covers $500-1,200 for low-income owners). Many state programs exist — search your state DMV + "vehicle emissions repair assistance."',
+      moving:      'Moving expenses are NOT tax-deductible for most people (changed in 2018 Tax Cuts and Jobs Act). EXCEPTIONS: active-duty military moving on orders can still deduct expenses on Form 3903. Some employers offer relocation reimbursement — ask HR before you pay out of pocket.',
+      medical:     'IRS medical expense deduction: any medical expenses over 7.5% of AGI are deductible IF you itemize. HSA / FSA: pre-tax money for qualifying medical bills. State-level patient-protection laws: NY, CA, MD, MA, CO have stronger surprise-billing protection than federal — check your state. Hospital financial assistance applications: legally required for nonprofit hospitals — request the form.',
+      legal:       'Legal fees are deductible only for SPECIFIC purposes: (1) employment discrimination cases (whistleblower, civil rights), (2) tax advice for your business, (3) trade or business activity. Personal legal fees (divorce, will preparation, civil disputes) are NOT deductible. Confirm with a CPA before relying on this.',
       plumbing:   'Heat pump water heaters qualify for the federal 25C credit (30% up to $2,000 cap shared with HVAC heat pump credit). HEEHRA / HOMES rebates: up to $1,750 for a heat pump water heater for low-to-moderate income households. Many utilities offer $300-700 rebates for heat pump water heaters and high-efficiency tankless gas units — check before installing. ' + (state ? 'Look up rebates for ' + escHtml(state) + ' on dsireusa.org.' : ''),
       electrical: 'Federal 25C electrical panel upgrade credit: 30% up to $600 when the upgrade enables a qualifying improvement (heat pump, induction range, EV charger). Federal 30C EV charger credit: 30% up to $1,000 for residential installs in qualifying census tracts (low-income or non-urban). HEEHRA: up to $4,000 toward an electrical panel upgrade for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' rebates on dsireusa.org.' : '')
     };
