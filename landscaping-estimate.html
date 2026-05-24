@@ -377,6 +377,12 @@
     var LAND_PRICING = _LNDCALC.LAND_PRICING;
     var QUALITY_TIER = _LNDCALC.QUALITY_TIER;
     var STATE_REGIONS = _LNDCALC.STATE_REGIONS;
+    // Per-project copy helpers — tier examples that match the project (a
+    // shrub-trim quote shouldn't read "Concrete pavers"), and complexity
+    // labels for maintenance services where the generic layout/curves/water-
+    // feature language doesn't fit. Fall back to generic on cache miss.
+    var tierExamplesFor   = _LNDCALC.tierExamplesFor   || function(_, t) { return (QUALITY_TIER[t] && QUALITY_TIER[t].examples) || ""; };
+    var complexityLabelFor = _LNDCALC.complexityLabelFor || function(_, c) { var g = { basic: "Basic (simple layout)", moderate: "Moderate (curves/patterns)", complex: "Complex (multi-level/water features)" }; return g[c] || c; };
 
     var US_STATES = {
       "alabama":"AL","alaska":"AK","arizona":"AZ","arkansas":"AR","california":"CA",
@@ -1042,20 +1048,27 @@
           tierHtml += '<span style="color:#2563eb;font-weight:700;font-size:0.95rem;">~' + fmt(estPrice) + '</span>';
           tierHtml += '</div>';
           tierHtml += '<div style="font-size:0.85rem;color:#64748b;margin-top:4px;">' + td.tag + '</div>';
-          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + td.examples + '</div>';
+          tierHtml += '<div style="font-size:0.8rem;color:#94a3b8;margin-top:2px;">e.g. ' + tierExamplesFor(est.projectType, tk) + '</div>';
           tierHtml += '</div>';
         }
         tierHtml += '</div></div>';
         card.innerHTML = tierHtml;
         bindOptions("optQualityTier", "qualityTier");
       } else if (stepNum === 4) {
+        // Per-project complexity labels — e.g. for shrub_trimming the axis
+        // is shrub count + hedge density, not "curves vs water features".
+        var _basicLbl    = complexityLabelFor(est.projectType, "basic");
+        var _modLbl      = complexityLabelFor(est.projectType, "moderate");
+        var _complexLbl  = complexityLabelFor(est.projectType, "complex");
+        var _proj4 = LAND_PRICING.basePricing[est.projectType];
+        var _stepQ = (_proj4 && _proj4.category === "maintenance") ? "How big is the job?" : "How complex is the project?";
         card.innerHTML = '\
           <div class="land-step">\
-            <h3>How complex is the project?</h3>\
+            <h3>' + _stepQ + '</h3>\
             <div class="land-options" id="optComplexity">\
-              <div class="land-option' + (est.complexity === "basic" ? " selected" : "") + '" data-val="basic">Basic (simple layout)</div>\
-              <div class="land-option' + (est.complexity === "moderate" ? " selected" : "") + '" data-val="moderate">Moderate (curves/patterns)</div>\
-              <div class="land-option' + (est.complexity === "complex" ? " selected" : "") + '" data-val="complex">Complex (multi-level/water features)</div>\
+              <div class="land-option' + (est.complexity === "basic" ? " selected" : "") + '" data-val="basic">' + _basicLbl + '</div>\
+              <div class="land-option' + (est.complexity === "moderate" ? " selected" : "") + '" data-val="moderate">' + _modLbl + '</div>\
+              <div class="land-option' + (est.complexity === "complex" ? " selected" : "") + '" data-val="complex">' + _complexLbl + '</div>\
             </div>\
           </div>';
         bindOptions("optComplexity", "complexity");
@@ -1198,8 +1211,10 @@
         detailsHtml += '<div class="land-detail"><div class="label">Quality Tier</div><div class="value">' + r.qualityTierLabel + '</div></div>';
       }
       if (r.complexity) {
-        var complexLabels = { basic: "Basic", moderate: "Moderate (curves/patterns)", complex: "Complex (multi-level/water features)" };
-        detailsHtml += '<div class="land-detail"><div class="label">Complexity</div><div class="value">' + (complexLabels[r.complexity] || r.complexity) + '</div></div>';
+        var _projForLabel = (r.projectType && r.projectType.value) || null;
+        var _proj = _projForLabel && LAND_PRICING.basePricing[_projForLabel];
+        var _complexHeader = (_proj && _proj.category === "maintenance") ? "Job size" : "Complexity";
+        detailsHtml += '<div class="land-detail"><div class="label">' + _complexHeader + '</div><div class="value">' + complexityLabelFor(_projForLabel, r.complexity) + '</div></div>';
       }
       var pricingLabel = getCityMult(state.address.city, state.address.stateCode) ? (state.address.city + " local pricing") : (capitalize(r.region) + " regional pricing");
       detailsHtml += '<div class="land-detail"><div class="label">Pricing</div><div class="value">' + pricingLabel + '</div></div>';
@@ -1319,35 +1334,11 @@
           compHtml += '<div>';
           compHtml += '<strong>' + _cd.label + '</strong>';
           if (_isSelected) compHtml += ' <span style="font-size:11px;color:#2563eb;font-weight:600;vertical-align:middle;">YOUR PICK</span>';
-          // Per-project examples so an irrigation result doesn't read
-          // "Concrete pavers, basic sod, gravel borders" for the budget tier.
+          // Per-project examples (single source of truth in /js/landscaping-calc.js)
+          // so an irrigation result doesn't read "Concrete pavers, basic sod"
+          // and a shrub-trim result doesn't either.
           var _projKey = (r.projectType && r.projectType.value) || "paver_patio";
-          var _examplesByProject = {
-            paver_patio:             { budget: "Concrete pavers, gravel base, no edge restraint", mid: "Interlocking pavers, polymeric joint sand, plastic edge restraint", premium: "Flagstone or bluestone, geotextile + 6-inch base, metal edge restraint", luxury: "Custom stonework, mortared joints, integrated lighting + drainage" },
-            retaining_wall:          { budget: "Concrete block, no geogrid, surface drainage", mid: "Allan Block / Versa-Lok with geogrid <4ft, drainage tile", premium: "Engineered Belgard / Techo-Bloc with deep geogrid, full drainage", luxury: "Natural stone or boulder wall, engineered, integrated lighting" },
-            sod_installation:        { budget: "Standard fescue or bermuda, basic prep, no fertilizer", mid: "Premium variety, tilling + soil amendment, starter fertilizer", premium: "Bluegrass / zoysia blend, deep tilling, compost amendment, watering plan", luxury: "Custom blend, smart irrigation included, 1-year health guarantee" },
-            artificial_turf:         { budget: "Builder-grade synthetic, basic infill, no pet backing", mid: "Mid-pile synthetic, silica sand infill, drainage holes", premium: "Heavy-pile commercial-grade, anti-microbial pet-grade backing", luxury: "Custom blend with shock pad, putting-green inserts, pet odor system" },
-            tree_removal:            { budget: "Cut + leave wood, no stump grinding", mid: "Cut + haul-off, stump grinding included", premium: "Crane-assisted, full clean-up, replanting plan", luxury: "Certified arborist, salvage milling option, full landscape repair" },
-            grading_leveling:        { budget: "Rough grade, no compaction, surface only", mid: "Compacted grade with finish slope to spec", premium: "Engineered grade with drainage tie-ins and silt control", luxury: "Survey-staked grade plan, soil import, full erosion control" },
-            irrigation_system:       { budget: "Builder-grade timer, basic pop-up heads, 4-6 zones", mid: "Mid-tier controller, pressure-regulated heads, 6-10 zones", premium: "Smart Wi-Fi controller, rain sensor, drip + spray mix, 8-15 zones", luxury: "ET-based smart controller, soil-moisture sensors, fully zoned drip" },
-            lighting:                { budget: "Plug-in low-voltage starter kit, basic path lights", mid: "Hardwired transformer, mid-tier path + spot fixtures", premium: "Premium brass / copper fixtures, dimmable transformer, smart controller", luxury: "Architectural fixtures, color-tunable, app-controlled scenes, 25-yr warranty" },
-            outdoor_kitchen:         { budget: "Built-in grill island, basic countertop, no plumbing", mid: "Stainless cabinets, granite top, gas + cold water rough-in", premium: "Full kitchen with side burner, fridge, sink, stone veneer", luxury: "Architect-designed pavilion with full appliances, pizza oven, smoker" },
-            fire_pit:                { budget: "Wood-burning steel ring, gravel pad", mid: "Stone-faced gas pit on paver pad with simple controls", premium: "Custom natural-stone surround, gas with electronic ignition", luxury: "Architectural gas fire feature with seat-wall and ambient lighting" },
-            pergola_gazebo:          { budget: "Pre-fab kit pergola, surface-mounted, untreated wood", mid: "Treated lumber, anchored to concrete piers, basic stain", premium: "Cedar / aluminum, sealed, integrated electrical for fans / lights", luxury: "Architect-designed structure, retractable canopy, full lighting + speakers" },
-            walkway_path:            { budget: "Stepping stones in mulch, no base", mid: "Concrete pavers on 4-inch base with edge restraint", premium: "Flagstone / bluestone on 6-inch base, polymeric joint sand", luxury: "Custom natural-stone path, lighting integrated, mortared joints" },
-            planting_beds:           { budget: "Few starter plants, generic mulch, no soil amendment", mid: "Native + ornamental mix, hardwood mulch, basic edging", premium: "Curated planting plan, compost-amended soil, larger specimens", luxury: "Designer planting with mature specimens, drip irrigation, seasonal rotation" },
-            landscape_design_install:{ budget: "Functional plan, basic plants + grass, minimal hardscape", mid: "Mid-tier mixed plan with hardscape, plants, mulch, lighting", premium: "Designed plan with stone, specimen plants, drip irrigation, low-volt lighting", luxury: "Architect-designed full property, mature trees, water feature, smart systems" },
-            french_drain:            { budget: "Surface trench with perforated PVC, daylight outlet", mid: "Sock-wrapped pipe, 24-inch trench, gravel + filter fabric", premium: "Catch basins + perforated pipe network, pop-up emitter, full slope spec", luxury: "Engineered drainage system with multiple catch basins and dry well" },
-            // Maintenance services — tiers reflect crew skill + thoroughness, not materials
-            lawn_mowing:             { budget: "Mow only, no edge trimming or cleanup", mid: "Mow + edge + blower cleanup of walks", premium: "Mow + edge + bag + light flower-bed touch", luxury: "Full service: mow + edge + bag + flower-bed weed + path blow + weekly inspection" },
-            shrub_trimming:          { budget: "Quick shear, no shape correction", mid: "Hand-trim with shape, debris bagged + hauled", premium: "Selective pruning by horticulture-trained crew, deep clean", luxury: "Certified arborist shaping with deadwood + crossing-branch removal" },
-            flower_bed_maintenance:  { budget: "Weed pull only", mid: "Weed + deadhead + light mulch touch-up", premium: "Weed + deadhead + soil refresh + slow-release fertilizer", luxury: "Designer-grade weekly upkeep with seasonal color rotation" },
-            seasonal_cleanup:        { budget: "Basic leaf rake + curb-side haul", mid: "Full-property cleanup with pruning + mulch top-up", premium: "Cleanup + soil amendment + winterization of beds", luxury: "Full estate service incl. equipment winterization + spring re-planting plan" },
-            leaf_removal:            { budget: "Curb-side blow + municipal pickup", mid: "Full property rake + bag + haul-off", premium: "Multi-visit through fall + gutter clean-out", luxury: "Weekly through fall + gutter + winter-prep package" },
-            fertilization_program:   { budget: "Spring + fall feeding only", mid: "4-application program (granular), pre-emergent in spring", premium: "6-application program with grub control + soil pH check", luxury: "Custom turf consultant with soil testing + organic-product options" }
-          };
-          var _projExamples = _examplesByProject[_projKey] || _examplesByProject.paver_patio;
-          var _exTxt = _projExamples[_ck] || _cd.examples;
+          var _exTxt = tierExamplesFor(_projKey, _ck);
           compHtml += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">' + _exTxt + '</div>';
           compHtml += '</div>';
           compHtml += '<div style="text-align:right;">';
@@ -1442,7 +1433,7 @@
         "Landscaping Quote Analysis\n" +
         "Project: " + r.projectType.label + "\n" +
         (r.projectSize && r.projectUnit !== "project" ? "Size: " + r.projectSize + " " + (r.projectUnit || "") + "\n" : "") +
-        (r.complexity ? "Complexity: " + r.complexity + "\n" : "") +
+        (r.complexity ? "Job size: " + complexityLabelFor((r.projectType && r.projectType.value) || null, r.complexity) + "\n" : "") +
         (isUpload ? "Quote Price: " + fmt(r.quotePrice) + "\n" : "") +
         "Benchmark: " + fmt(r.benchmark) + "\n" +
         "Verdict: " + r.verdict.label + "\n" +

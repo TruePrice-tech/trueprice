@@ -60,6 +60,69 @@
     luxury:  { label: "Luxury / Custom", tag: "Architect-designed.",                    mult: 2.30, examples: "Custom stonework, mature trees, smart irrigation" }
   };
 
+  // Per-project tier examples. An irrigation result shouldn't read "Concrete
+  // pavers, basic sod" for the budget tier; a shrub-trim result shouldn't
+  // mention pavers at all. Falls back to QUALITY_TIER[tier].examples.
+  var TIER_EXAMPLES_BY_PROJECT = {
+    paver_patio:             { budget: "Concrete pavers, gravel base, no edge restraint", mid: "Interlocking pavers, polymeric joint sand, plastic edge restraint", premium: "Flagstone or bluestone, geotextile + 6-inch base, metal edge restraint", luxury: "Custom stonework, mortared joints, integrated lighting + drainage" },
+    retaining_wall:          { budget: "Concrete block, no geogrid, surface drainage", mid: "Allan Block / Versa-Lok with geogrid <4ft, drainage tile", premium: "Engineered Belgard / Techo-Bloc with deep geogrid, full drainage", luxury: "Natural stone or boulder wall, engineered, integrated lighting" },
+    sod_installation:        { budget: "Standard fescue or bermuda, basic prep, no fertilizer", mid: "Premium variety, tilling + soil amendment, starter fertilizer", premium: "Bluegrass / zoysia blend, deep tilling, compost amendment, watering plan", luxury: "Custom blend, smart irrigation included, 1-year health guarantee" },
+    artificial_turf:         { budget: "Builder-grade synthetic, basic infill, no pet backing", mid: "Mid-pile synthetic, silica sand infill, drainage holes", premium: "Heavy-pile commercial-grade, anti-microbial pet-grade backing", luxury: "Custom blend with shock pad, putting-green inserts, pet odor system" },
+    tree_removal:            { budget: "Cut + leave wood, no stump grinding", mid: "Cut + haul-off, stump grinding included", premium: "Crane-assisted, full clean-up, replanting plan", luxury: "Certified arborist, salvage milling option, full landscape repair" },
+    grading_leveling:        { budget: "Rough grade, no compaction, surface only", mid: "Compacted grade with finish slope to spec", premium: "Engineered grade with drainage tie-ins and silt control", luxury: "Survey-staked grade plan, soil import, full erosion control" },
+    irrigation_system:       { budget: "Builder-grade timer, basic pop-up heads, 4-6 zones", mid: "Mid-tier controller, pressure-regulated heads, 6-10 zones", premium: "Smart Wi-Fi controller, rain sensor, drip + spray mix, 8-15 zones", luxury: "ET-based smart controller, soil-moisture sensors, fully zoned drip" },
+    lighting:                { budget: "Plug-in low-voltage starter kit, basic path lights", mid: "Hardwired transformer, mid-tier path + spot fixtures", premium: "Premium brass / copper fixtures, dimmable transformer, smart controller", luxury: "Architectural fixtures, color-tunable, app-controlled scenes, 25-yr warranty" },
+    outdoor_kitchen:         { budget: "Built-in grill island, basic countertop, no plumbing", mid: "Stainless cabinets, granite top, gas + cold water rough-in", premium: "Full kitchen with side burner, fridge, sink, stone veneer", luxury: "Architect-designed pavilion with full appliances, pizza oven, smoker" },
+    fire_pit:                { budget: "Wood-burning steel ring, gravel pad", mid: "Stone-faced gas pit on paver pad with simple controls", premium: "Custom natural-stone surround, gas with electronic ignition", luxury: "Architectural gas fire feature with seat-wall and ambient lighting" },
+    pergola_gazebo:          { budget: "Pre-fab kit pergola, surface-mounted, untreated wood", mid: "Treated lumber, anchored to concrete piers, basic stain", premium: "Cedar / aluminum, sealed, integrated electrical for fans / lights", luxury: "Architect-designed structure, retractable canopy, full lighting + speakers" },
+    walkway_path:            { budget: "Stepping stones in mulch, no base", mid: "Concrete pavers on 4-inch base with edge restraint", premium: "Flagstone / bluestone on 6-inch base, polymeric joint sand", luxury: "Custom natural-stone path, lighting integrated, mortared joints" },
+    planting_beds:           { budget: "Few starter plants, generic mulch, no soil amendment", mid: "Native + ornamental mix, hardwood mulch, basic edging", premium: "Curated planting plan, compost-amended soil, larger specimens", luxury: "Designer planting with mature specimens, drip irrigation, seasonal rotation" },
+    landscape_design_install:{ budget: "Functional plan, basic plants + grass, minimal hardscape", mid: "Mid-tier mixed plan with hardscape, plants, mulch, lighting", premium: "Designed plan with stone, specimen plants, drip irrigation, low-volt lighting", luxury: "Architect-designed full property, mature trees, water feature, smart systems" },
+    french_drain:            { budget: "Surface trench with perforated PVC, daylight outlet", mid: "Sock-wrapped pipe, 24-inch trench, gravel + filter fabric", premium: "Catch basins + perforated pipe network, pop-up emitter, full slope spec", luxury: "Engineered drainage system with multiple catch basins and dry well" },
+    // Maintenance services — tiers reflect crew skill + thoroughness, not materials
+    lawn_mowing:             { budget: "Mow only, no edge trimming or cleanup", mid: "Mow + edge + blower cleanup of walks", premium: "Mow + edge + bag + light flower-bed touch", luxury: "Full service: mow + edge + bag + flower-bed weed + path blow + weekly inspection" },
+    shrub_trimming:          { budget: "Quick shear, no shape correction", mid: "Hand-trim with shape, debris bagged + hauled", premium: "Selective pruning by horticulture-trained crew, deep clean", luxury: "Certified arborist shaping with deadwood + crossing-branch removal" },
+    flower_bed_maintenance:  { budget: "Weed pull only", mid: "Weed + deadhead + light mulch touch-up", premium: "Weed + deadhead + soil refresh + slow-release fertilizer", luxury: "Designer-grade weekly upkeep with seasonal color rotation" },
+    seasonal_cleanup:        { budget: "Basic leaf rake + curb-side haul", mid: "Full-property cleanup with pruning + mulch top-up", premium: "Cleanup + soil amendment + winterization of beds", luxury: "Full estate service incl. equipment winterization + spring re-planting plan" },
+    leaf_removal:            { budget: "Curb-side blow + municipal pickup", mid: "Full property rake + bag + haul-off", premium: "Multi-visit through fall + gutter clean-out", luxury: "Weekly through fall + gutter + winter-prep package" },
+    fertilization_program:   { budget: "Spring + fall feeding only", mid: "4-application program (granular), pre-emergent in spring", premium: "6-application program with grub control + soil pH check", luxury: "Custom turf consultant with soil testing + organic-product options" }
+  };
+
+  // Per-project complexity labels. The generic "simple layout / curves / multi-
+  // level + water features" axis only fits hardscape/design builds. Maintenance
+  // services price on count + access + debris volume, not on layout shape.
+  // Missing entries fall back to GENERIC_COMPLEXITY_LABELS.
+  var GENERIC_COMPLEXITY_LABELS = {
+    basic:    "Basic (simple layout)",
+    moderate: "Moderate (curves/patterns)",
+    complex:  "Complex (multi-level/water features)"
+  };
+  var COMPLEXITY_LABELS_BY_PROJECT = {
+    shrub_trimming:         { basic: "Light trim (under 10 shrubs)",      moderate: "Typical residential (10-20 shrubs or mid hedges)", complex: "Tall/dense hedges, formal shapes, 20+ plants" },
+    lawn_mowing:            { basic: "Small flat lot (under 5K sqft)",    moderate: "Typical residential (5-15K sqft)",                 complex: "Large/sloped lot, many obstacles" },
+    flower_bed_maintenance: { basic: "1-2 small beds",                    moderate: "Several beds (front + back)",                      complex: "Whole-property beds, intricate plantings" },
+    seasonal_cleanup:       { basic: "Small lot, light debris",           moderate: "Typical residential, moderate debris",             complex: "Large lot, heavy leaves, many bed cleanups" },
+    leaf_removal:           { basic: "Few trees, light load",             moderate: "Typical residential canopy",                       complex: "Heavy tree cover, multiple visits" },
+    fertilization_program:  { basic: "Small lawn, easy access",           moderate: "Typical residential lawn",                         complex: "Large lot, troubled soil, slopes" },
+    tree_removal:           { basic: "Single small tree, open access",    moderate: "Mid-size tree or 2-3 small, near structures",      complex: "Large tree, tight access, near power lines" },
+    irrigation_system:      { basic: "Small flat lawn, single zone",      moderate: "Typical 4-8 zones, mixed turf + beds",             complex: "Large property, multi-zone with drip + grade changes" },
+    fire_pit:               { basic: "Pre-fab kit on prepped pad",        moderate: "Custom stone surround on patio",                   complex: "Built-in gas with seat-wall + lighting integration" },
+    outdoor_kitchen:        { basic: "Grill island only",                 moderate: "Cabinets + counter + gas / water rough-in",        complex: "Full kitchen with pavilion, multiple appliances" },
+    pergola_gazebo:         { basic: "Kit pergola, surface-mounted",      moderate: "Anchored to piers with stain + basic electrical",  complex: "Custom structure with retractable canopy + integrated lighting" }
+  };
+
+  function tierExamplesFor(projectType, qualityTier) {
+    var perProject = TIER_EXAMPLES_BY_PROJECT[projectType];
+    if (perProject && perProject[qualityTier]) return perProject[qualityTier];
+    return (QUALITY_TIER[qualityTier] && QUALITY_TIER[qualityTier].examples) || "";
+  }
+
+  function complexityLabelFor(projectType, complexity) {
+    var perProject = COMPLEXITY_LABELS_BY_PROJECT[projectType];
+    if (perProject && perProject[complexity]) return perProject[complexity];
+    return GENERIC_COMPLEXITY_LABELS[complexity] || complexity;
+  }
+
   var STATE_REGIONS = {
     AL:"southeast",AK:"west",AZ:"west",AR:"south",CA:"west",CO:"mountain",CT:"northeast",
     DE:"northeast",FL:"southeast",GA:"southeast",HI:"west",ID:"mountain",IL:"midwest",
@@ -121,6 +184,11 @@
   return {
     LAND_PRICING: LAND_PRICING,
     QUALITY_TIER: QUALITY_TIER,
+    TIER_EXAMPLES_BY_PROJECT: TIER_EXAMPLES_BY_PROJECT,
+    COMPLEXITY_LABELS_BY_PROJECT: COMPLEXITY_LABELS_BY_PROJECT,
+    GENERIC_COMPLEXITY_LABELS: GENERIC_COMPLEXITY_LABELS,
+    tierExamplesFor: tierExamplesFor,
+    complexityLabelFor: complexityLabelFor,
     STATE_REGIONS: STATE_REGIONS,
     SEASONAL_MULTS: SEASONAL_MULTS,
     getRegionFromState: getRegionFromState,
