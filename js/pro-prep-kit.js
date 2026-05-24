@@ -469,6 +469,109 @@
         "Cleanup + final walkthrough",
         "Labor warranty 1 year minimum"
       ]
+    },
+    foundation: {
+      label: "foundation",
+      questions: [
+        "Do you have a structural engineer's written assessment of the cause? (Settlement vs heave vs hydrostatic pressure call for different fixes.)",
+        "What repair method? (Helical piers, push piers, concrete piers, slabjacking / mudjacking, polyurethane foam injection.)",
+        "How many piers + at what locations? (Showed on a foundation plan?)",
+        "What is the pier depth + load rating? (Piers must reach load-bearing strata — 10-40 ft typical depending on soil.)",
+        "Is the warranty LIFETIME and TRANSFERABLE to future owners? (This is the gold standard for foundation work.)",
+        "Is excavation + restoration (landscaping, hardscape, concrete) included or charged separately?",
+        "Is a permit + city inspection included?",
+        "Will you provide before / after photos + elevation measurements documenting the fix?",
+        "For waterproofing / drainage: is interior drain tile, exterior membrane, or sump pump in scope? What's the drainage flow path?"
+      ],
+      redFlags: [
+        { label: "No engineer's assessment", detail: "Foundation work without a structural engineer's diagnosis is guesswork. The contractor may sell you the most profitable repair (often piers) when a simpler fix (drainage, waterproofing) would solve the problem. Get an INDEPENDENT engineer's report before signing." },
+        { label: "Warranty not transferable", detail: "Lifetime warranty that DOES NOT transfer with the home loses most of its value at sale. Reputable foundation contractors offer lifetime transferable on structural fixes — this is THE marker of a real warranty." },
+        { label: "\"Lifetime\" warranty on slabjacking / foam injection", detail: "Slabjacking and polyurethane foam injection are limited-life fixes (5-15 years) — calling them \"lifetime\" is misleading. Reserve lifetime warranties for pier-based structural repair." },
+        { label: "Pier count without a foundation plan", detail: "A reputable quote shows pier locations on a foundation plan (sketch is fine). \"We will install 8 piers around the foundation\" without locations means you can not verify the work matches the bid." }
+      ],
+      scopeChecklist: [
+        "Structural engineer's written assessment + repair plan",
+        "Repair method specified (helical pier, push pier, concrete pier, slabjacking, foam)",
+        "Number of piers + pier locations on a foundation plan",
+        "Pier depth + load rating (must reach load-bearing strata)",
+        "Excavation + restoration (landscaping, hardscape, concrete) — included or explicit separate",
+        "Permit + city inspection",
+        "Before / after photos + elevation measurements",
+        "Drainage / waterproofing scope if water intrusion is part of root cause",
+        "Sump pump install / replacement (if quoted) — brand + GPM rating + battery backup",
+        "Lifetime transferable workmanship warranty on the structural fix",
+        "Materials warranty on pier hardware (manufacturer)",
+        "Cleanup + restoration of disturbed areas"
+      ]
+    },
+    concrete: {
+      label: "concrete",
+      questions: [
+        "What thickness? (4 inches minimum for driveways, 6 inches for heavy loads / RV pad, 4 inches for patios + walkways.)",
+        "What sub-base prep? (Compacted gravel base 4-6 inches is the difference between concrete that lasts 30 years and concrete that cracks in 5.)",
+        "Is rebar or wire mesh reinforcement included? (Rebar is stronger and the modern standard for driveways. Wire mesh is the minimum for patios.)",
+        "Are expansion joints + control joints cut to spec? (Expansion every 8-10 ft, control joints every 8-12 ft to control cracking.)",
+        "What concrete PSI? (3,000 PSI minimum for residential; 4,000+ for driveways / freeze-thaw climates.)",
+        "Is curing + sealing included? (Concrete needs to cure 7-28 days; sealing extends life and prevents salt damage in cold climates.)",
+        "Is form removal + site cleanup included?",
+        "Are you scoring + finishing patterns (broom finish, exposed aggregate, stamped) as specified?",
+        "What is the labor warranty? (1-5 years standard for concrete work.)"
+      ],
+      redFlags: [
+        { label: "Sub-base prep not specified", detail: "\"Pour over existing base\" or \"prep as needed\" hides the most important variable in concrete longevity. Cheap contractors skip compacted gravel — your driveway will crack within 5 years over poorly prepared sub-base." },
+        { label: "Concrete PSI under 3,000", detail: "3,000 PSI is the residential minimum. 4,000+ for driveways and any freeze-thaw climate. Lower PSI = faster surface scaling + cracking." },
+        { label: "No control joints in the quote", detail: "Control joints force concrete to crack where YOU want it (in the joint) instead of randomly across the surface. Skipping them or spacing them too far apart guarantees ugly random cracks." },
+        { label: "Hot weather / cold weather pours without admixtures or curing protection", detail: "Concrete poured in extreme temperatures without retarder (hot) or accelerator + blankets (cold) will crack or fail to reach design strength. If your pour falls in extreme weather, ask what protection is in the scope." }
+      ],
+      scopeChecklist: [
+        "Concrete thickness (4\" min residential, 6\" heavy load)",
+        "Sub-base prep: compacted gravel 4-6\" specified",
+        "Concrete PSI (3,000 min residential, 4,000+ for driveways / freeze-thaw)",
+        "Rebar or wire mesh reinforcement (rebar preferred for driveways)",
+        "Expansion joints (every 8-10 ft)",
+        "Control joints cut to spec (every 8-12 ft)",
+        "Finish type specified (broom, exposed aggregate, stamped, etc.)",
+        "Curing time + protection (7-28 days, weather protection if extreme temps)",
+        "Sealing (initial seal + recommendation for re-seal every 2-3 years)",
+        "Form removal + site cleanup",
+        "Permit if required (driveways often need them; patios usually don't)",
+        "Workmanship warranty 1-5 years"
+      ]
+    },
+    garage_door: {
+      label: "garage door",
+      questions: [
+        "What door brand + model? (Clopay + Wayne Dalton + Amarr cover most price points.)",
+        "What insulation R-value? (R-6 entry-level, R-12 mid, R-18+ for heated garages or extreme climates.)",
+        "What spring type? (Torsion springs above the door = standard modern; extension springs on the sides = older, more dangerous, replaceable with torsion.)",
+        "Is the lifetime spring upgrade included? ($50-150 more upfront, but lifetime warranty on the failure-prone part.)",
+        "What opener brand + horsepower + drive type? (LiftMaster + Chamberlain + Genie lead the market. 1/2 HP for single-car, 3/4 HP for double or insulated doors. Belt drive = quietest, chain = cheapest + loudest.)",
+        "Smart opener / Wi-Fi connectivity if quoted — brand + app?",
+        "Are new tracks + hardware included or are you reusing existing?",
+        "Is removal + disposal of the old door included?",
+        "What is the door warranty (5-10 years), spring warranty (lifetime on premium), and labor warranty (1-3 years)?"
+      ],
+      redFlags: [
+        { label: "Extension springs not upgraded to torsion", detail: "Extension springs (on the sides) are dangerous + outdated. Torsion springs (above the door) are the modern safer standard. If your existing system has extension springs, a quality install upgrades them — not reuses them." },
+        { label: "Generic opener brand or no model #", detail: "\"High-quality opener\" is not a spec. Demand brand + model in writing. Cheap off-brand openers fail within 3-5 years; LiftMaster / Chamberlain / Genie have 10-15 year service lives." },
+        { label: "Standard springs labeled as \"lifetime\"", detail: "Standard 10,000-cycle springs typically last 7-10 years (about 1 cycle/day). The genuine \"lifetime\" springs are 20,000+ cycle premium springs — verify the cycle rating in writing." },
+        { label: "Re-using old tracks + hardware", detail: "Worn tracks can damage a new door + opener. If the existing hardware is more than 15 years old or shows visible wear, replacement should be in scope — not cleanup + lubricate." }
+      ],
+      scopeChecklist: [
+        "Door brand + model + style + color",
+        "Insulation R-value (R-6 entry, R-12 mid, R-18+ heated garages)",
+        "Spring type (torsion preferred; lifetime / 20,000-cycle spring upgrade)",
+        "Opener brand + model + horsepower (1/2 HP single, 3/4 HP double/insulated)",
+        "Drive type (belt = quietest, chain = cheapest)",
+        "New tracks + hardware (or explicitly documented if reusing)",
+        "Smart / Wi-Fi connectivity if quoted",
+        "Backup battery for opener (some jurisdictions require)",
+        "Removal + disposal of old door + opener",
+        "Weather stripping (bottom seal, side seals, top seal)",
+        "Door warranty 5-10 years",
+        "Spring warranty (lifetime on premium 20K-cycle)",
+        "Labor warranty 1-3 years"
+      ]
     }
   };
 
@@ -477,18 +580,23 @@
   // Better than no content; can be deepened later based on user demand.
   var VERTICAL_BASELINE = {
     fencing:     { label: "fencing",     scopeChecklist: ["Fence material + height + length", "Post material (4x4 wood, metal, concrete-set)", "Post depth (must be below frost line in cold climates)", "Gate(s) with hardware", "Property line survey verification", "Permit if over a certain height (varies by city)", "Labor warranty 1-5 years"] },
-    concrete:    { label: "concrete",    scopeChecklist: ["Concrete thickness (4\" minimum for driveways, 6\" for heavy loads)", "Sub-base prep (compacted gravel, 4-6\")", "Rebar or wire mesh reinforcement", "Expansion + control joints", "Curing + sealing", "Form removal + cleanup", "Workmanship warranty 1-5 years"] },
-    foundation:  { label: "foundation",  scopeChecklist: ["Engineer's assessment + repair plan", "Repair method (helical pier, push pier, concrete pier, slabjacking)", "Number of piers / locations", "Excavation + restoration", "Permit + inspection", "Lifetime transferable warranty (gold standard for structural fixes)"] },
     gutters:     { label: "gutters",     scopeChecklist: ["Gutter material (aluminum, copper, steel) + gauge", "Gutter size (5\" standard, 6\" for high-volume)", "Downspout count + sizing", "Hangers (hidden vs strap, spacing)", "Gutter guards (if quoted) — brand + type", "Removal of old gutters", "Materials warranty 20-50 years", "Labor warranty 1-5 years"] },
-    garage_door: { label: "garage door", scopeChecklist: ["Door brand + model + insulation R-value", "Spring type (torsion vs extension) + lifetime spring upgrade", "Opener brand + horsepower + drive type (belt, chain, screw)", "New tracks + hardware", "Removal + disposal of old door", "Smart opener / Wi-Fi connectivity if quoted", "Door warranty 5-10 years", "Labor warranty 1-3 years", "Lifetime warranty on premium-tier springs"] },
     auto_repair: { label: "auto repair", scopeChecklist: ["Diagnostic findings in writing", "Parts type (aftermarket / OEM / dealer / remanufactured)", "Labor hours per job (book hours, not estimated)", "Shop supplies + disposal / hazmat fees", "Sales tax", "Warranty: parts + labor (12 mo / 12K miles industry standard)", "Itemized invoice not lump-sum"] },
     moving:      { label: "moving",      scopeChecklist: ["In-home / video estimate (not phone-only)", "Binding or non-binding estimate type (binding is safer)", "Itemized inventory list", "Valuation coverage (released $0.60/lb default OR full-value)", "Packing materials if needed", "Storage if needed (rates per month)", "Pickup + delivery window", "USDOT number visible on contract", "No deposit required (industry standard for interstate)"] },
     medical:     { label: "medical billing", scopeChecklist: ["Itemized bill with CPT/ICD codes (request from provider — they must give it)", "Explanation of Benefits (EOB) from insurance", "Verification you were billed correctly per your plan", "Negotiated cash-pay discount if uninsured", "Payment plan options without interest"] },
     legal:       { label: "legal fees",  scopeChecklist: ["Written engagement letter / fee agreement", "Hourly rate + minimum increment (often 0.1 hr / 6 min)", "Retainer amount + replenishment policy", "Detailed monthly invoices with task descriptions", "Out-of-pocket costs estimate (filing fees, expert witnesses, depositions)", "Cap or estimate on total project cost", "Conflict-of-interest disclosure"] }
   };
 
+  // Slug normalization — result-footer passes "garage-door" / "auto-repair"
+  // but content keys use underscores. Mirror pro-tier.js detectVertical().
+  function normalizeVerticalSlug(v) {
+    if (!v) return "generic";
+    return String(v).toLowerCase().replace(/-/g, "_");
+  }
+
   function getVerticalContent(vertical) {
-    return VERTICAL[vertical] || VERTICAL_BASELINE[vertical] || {
+    var key = normalizeVerticalSlug(vertical);
+    return VERTICAL[key] || VERTICAL_BASELINE[key] || {
       label: "this work",
       scopeChecklist: ["Scope of work in writing", "Materials brand + grade in writing", "Labor itemized (hours or flat-rate)", "Permits + inspections", "Cleanup + disposal", "Warranty terms in writing"]
     };
@@ -659,7 +767,10 @@
       flooring: 'LVP (luxury vinyl plank — Coretec, Shaw) is the modern durable choice. Engineered hardwood for higher-end. Solid hardwood requires controlled humidity. Tile (Daltile, MSI) for wet rooms.',
       landscaping: 'Native plants are cheaper to maintain + better for local wildlife. Hardscape (pavers, stone) returns 60-80% at sale. Irrigation systems are vertical-licensed in most states — verify separately.',
       plumbing:    'Water heaters: Rheem + Bradford White are workhorse mid-tier; A.O. Smith is solid premium. Spend the extra $100 for the 12-year warranty over the 6-year — same tank, longer cover. Pipes: PEX (cheap, flexible, freeze-resistant) is modern standard; copper for short runs and existing copper systems. AVOID polybutylene (known failure material — should be replaced, not extended). Faucets: Moen + Delta own the value-to-premium range with serviceable cartridges. Toilets: Toto + Kohler lead on flush; American Standard solid mid-tier. Sewer line: trenchless (pipe bursting / cure-in-place liner) costs 30-50% more but avoids tearing up driveways and landscape.',
-      electrical:  'Panels: Square D (QO premium, Homeline value) and Eaton are the workhorses; Siemens is solid. AVOID Federal Pacific (FPE), Zinsco, and Pushmatic — known failure brands that insurance companies flag and that should be replaced rather than added to. EV chargers: Wallbox, ChargePoint, Tesla Wall Connector cover most needs; do not pay for smart features you will not use. Generators: Generac dominates whole-home (largest service network); Kohler is premium with longer warranties; Briggs & Stratton budget tier. Wire: copper for branch circuits (15A / 20A), aluminum acceptable for service entry and large feeders if properly terminated with anti-oxidant compound.'
+      electrical:  'Panels: Square D (QO premium, Homeline value) and Eaton are the workhorses; Siemens is solid. AVOID Federal Pacific (FPE), Zinsco, and Pushmatic — known failure brands that insurance companies flag and that should be replaced rather than added to. EV chargers: Wallbox, ChargePoint, Tesla Wall Connector cover most needs; do not pay for smart features you will not use. Generators: Generac dominates whole-home (largest service network); Kohler is premium with longer warranties; Briggs & Stratton budget tier. Wire: copper for branch circuits (15A / 20A), aluminum acceptable for service entry and large feeders if properly terminated with anti-oxidant compound.',
+      foundation:  'Pier methods: helical piers (screwed into load-bearing strata, fastest install, best for lighter loads) vs push piers (hydraulically driven, best for heavier loads + deep soils) vs concrete piers (cheapest, slowest, may not reach load-bearing strata). Slabjacking + polyurethane foam injection are limited-life cosmetic fixes (5-15 years), NOT structural — do not accept them with a "lifetime" warranty label. The contractors with real engineering depth (Olshan, Ram Jack, Foundation Repair of CA) carry lifetime transferable warranties on pier work. Local independents can match this — verify the warranty is in writing + transferable.',
+      concrete:    'Mix design: 3,000 PSI minimum residential, 4,000+ for driveways + freeze-thaw climates, 4,500-5,000 for heavy-load (RV pad, commercial). Fiber-reinforced concrete adds crack resistance at minimal cost. Decorative options: broom finish (cheapest, best traction), exposed aggregate (mid-tier, durable), stamped (highest cost, requires resealing every 2-3 years). Sealing: penetrating sealers (silane, siloxane) last 5-10 years and are invisible; topical sealers wear off + can yellow in 1-3 years. In cold climates, sealing is critical to prevent salt + freeze-thaw scaling.',
+      garage_door: 'Door brands: Clopay + Wayne Dalton + Amarr cover most price points (Clopay is the value leader, Amarr the premium). Insulation: R-6 entry (single steel pan), R-12 mid (foam-injected double-steel), R-18+ for heated garages or extreme climates. Springs: torsion (modern standard, above the door, safer + longer-lived) vs extension (older, dangerous, replaceable). Cycle ratings: 10,000-cycle springs last ~7-10 years (1 cycle/day); 20,000+ cycle "lifetime" springs cost $50-150 more upfront. Openers: LiftMaster + Chamberlain + Genie lead. Belt drive = quietest (worth it for attached garages under bedrooms); chain = cheapest; screw = mostly obsolete.'
     };
     var body = brand[vertical] || 'Ask for the brand + line + tier of every major material so you can comparison-shop. Generic descriptions like "premium quality" are a sign the contractor is being vague to lock in higher margin.';
     return ''
@@ -680,6 +791,9 @@
       insulation: 'Federal 25C: 30% up to $1,200/year on insulation + air sealing materials. HOMES rebates (IRA-funded, rolling state-by-state): up to $8,000 for a 35%+ energy reduction in your home (requires pre/post home energy assessment by a certified rater). HEEHRA: up to $1,600 for insulation + air sealing for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' specifics on dsireusa.org.' : ''),
       siding:     'Siding is generally NOT eligible for federal energy credits (unlike windows / insulation / heat pumps). Limited utility rebates exist for adding rigid foam insulation behind siding in some service areas — ask your installer to itemize the insulation upgrade separately if quoted, so you can claim any 25C credit (30% up to $1,200/yr) on that portion. ' + (state ? 'Check ' + escHtml(state) + ' utility rebates on dsireusa.org.' : ''),
       painting:   'Painting is not directly tax-credit eligible. However, if a lead-paint abatement is required (pre-1978 homes with kids under 6 or pregnant women), HUD lead-hazard reduction grants may cover up to $20,000 per unit in qualifying areas. ' + (state ? 'Check ' + escHtml(state) + ' lead-hazard programs.' : ''),
+      foundation: 'Foundation repair is not directly tax-credit eligible, but: (1) if the work is needed because of a federally-declared natural disaster, FEMA may reimburse; (2) some states offer property-tax abatement for documented major repair (check ' + (state || 'your state') + ' assessor); (3) the repair cost adds to your home cost basis, reducing capital-gains tax at future sale.',
+      concrete:   'Concrete work is generally not eligible for federal energy credits. Some utility rebates exist for "cool pavement" (reflective concrete) in heat-island cities like Phoenix and LA — niche. Cost basis adjustment at sale is the main tax benefit. ' + (state ? '' : ''),
+      garage_door: 'Garage doors are NOT eligible for the federal 25C energy efficient home improvement credit (excluded by statute). However, an insulated garage door can qualify for some utility rebates ($50-200 typical) in cold-climate utility service areas — check before installing. ' + (state ? 'Look up ' + escHtml(state) + ' rebates on dsireusa.org.' : ''),
       plumbing:   'Heat pump water heaters qualify for the federal 25C credit (30% up to $2,000 cap shared with HVAC heat pump credit). HEEHRA / HOMES rebates: up to $1,750 for a heat pump water heater for low-to-moderate income households. Many utilities offer $300-700 rebates for heat pump water heaters and high-efficiency tankless gas units — check before installing. ' + (state ? 'Look up rebates for ' + escHtml(state) + ' on dsireusa.org.' : ''),
       electrical: 'Federal 25C electrical panel upgrade credit: 30% up to $600 when the upgrade enables a qualifying improvement (heat pump, induction range, EV charger). Federal 30C EV charger credit: 30% up to $1,000 for residential installs in qualifying census tracts (low-income or non-urban). HEEHRA: up to $4,000 toward an electrical panel upgrade for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' rebates on dsireusa.org.' : '')
     };
@@ -699,7 +813,7 @@
   function renderPrepKit(opts) {
     opts = opts || {};
     ensureStyles();
-    var vertical = opts.vertical || "generic";
+    var vertical = normalizeVerticalSlug(opts.vertical || "generic");
     var content  = getVerticalContent(vertical);
     var label    = opts.verticalLabel || content.label || "project";
     var city     = opts.city || "";
