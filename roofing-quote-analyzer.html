@@ -429,10 +429,17 @@
       var hasResult = root.querySelector('[class*="verdict"], [data-verdict], .analyzer-result, .result-card');
       if (!hasResult) return;
       injected = true;
+      // Roofing analyzer doubles as estimator via ?mode=estimator. In
+      // estimator mode the user has NOT uploaded a quote → surface the
+      // Prep Kit CTA + upload-CTA (same as the dedicated *-estimate.html
+      // pages on the other 18 verticals). In analyze mode they already
+      // uploaded → skip the CTAs.
+      var isEstMode = /[?&]mode=estimator\b/.test(location.search);
       root.insertAdjacentHTML("beforeend", window.tpRenderResultFooter({
         vertical: "roofing",
         verticalLabel: "Roofing",
-        onStartOver: "roofingStartOver"
+        onStartOver: "roofingStartOver",
+        isEstimate: isEstMode
       }));
     }
     var obs = new MutationObserver(function(){ tryInject(); });
