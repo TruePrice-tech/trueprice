@@ -115,7 +115,16 @@
       + '.tp-uq:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(30,58,95,0.12); text-decoration:none; }'
       + '.tp-uq-title { font-size:15px; font-weight:700; color:#1e3a5f; margin:0 0 4px; }'
       + '.tp-uq-sub { font-size:13px; color:#475569; margin:0 0 10px; line-height:1.5; }'
-      + '.tp-uq-cta { font-size:14px; font-weight:700; color:#1d4ed8; }';
+      + '.tp-uq-cta { font-size:14px; font-weight:700; color:#1d4ed8; }'
+      // Prep-kit (no-quote-yet) primary CTA — featured above the upload-CTA
+      // on estimate pages. Solid blue card, scannable headline, single CTA.
+      + '.tp-pk { display:block; background:linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 100%); border-radius:14px; padding:22px 24px; margin:18px 0 12px; text-decoration:none; color:#fff; transition:transform 0.15s, box-shadow 0.15s; }'
+      + '.tp-pk:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(30,58,95,0.25); text-decoration:none; color:#fff; }'
+      + '.tp-pk-tag { display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.08em; padding:3px 10px; background:rgba(255,255,255,0.18); border-radius:999px; margin-bottom:8px; }'
+      + '.tp-pk-title { font-size:17px; font-weight:800; margin:0 0 6px; color:#fff; line-height:1.3; }'
+      + '.tp-pk-sub { font-size:13px; color:rgba(255,255,255,0.92); margin:0 0 12px; line-height:1.5; }'
+      + '.tp-pk-cta { display:inline-flex; align-items:center; gap:6px; background:#fff; color:#1e3a5f; padding:9px 18px; border-radius:8px; font-size:14px; font-weight:700; }'
+      + '.tp-pk-price { font-size:13px; color:rgba(255,255,255,0.85); margin-left:12px; font-weight:600; vertical-align:middle; }';
     document.head.appendChild(s);
   }
 
@@ -212,13 +221,45 @@
         + '  </a>')
       : '';
 
-    // Upload-quote CTA — shown ONLY on estimator pages (opts.isEstimate)
-    // to funnel users with a real contractor quote into the analyzer +
-    // Pro-tier path. Estimator users are budgeting; some already have a
-    // quote in hand and would benefit from the $19 negotiation kit.
-    // Analyzer pages skip this (the user is already on the analyze path).
+    // Estimator-only CTAs:
+    //   1. Quote-Prep Kit (PRIMARY) — for users who haven't gotten quotes
+    //      yet. Links to /pro-prep-kit.html with vertical + city/state +
+    //      estimate as URL params (powers personalization).
+    //   2. Upload-quote CTA (SECONDARY) — for users who already have a
+    //      contractor quote in hand. Links to the matching analyzer page.
+    // Both gated on opts.isEstimate so analyzer pages don't double-show.
+    var prepKitHtml = '';
     var uploadCtaHtml = '';
     if (opts.isEstimate) {
+      // Auto-detect city/state + headline estimate from page context so the
+      // prep kit URL carries personalization tags through Stripe and back.
+      var pkCity = "", pkState = "", pkEstimate = "";
+      var cEl = document.getElementById("addrCity");
+      var sEl = document.getElementById("addrState");
+      if (cEl && cEl.value) pkCity = cEl.value.trim();
+      if (sEl && sEl.value) pkState = sEl.value.trim().toUpperCase();
+      if (window.__tpResultContext) {
+        pkCity = pkCity || window.__tpResultContext.city || "";
+        pkState = pkState || (window.__tpResultContext.stateCode || "").toUpperCase();
+        var ctxR = window.__tpResultContext.result || {};
+        pkEstimate = ctxR.total || ctxR.benchmark || ctxR.midPrice || ctxR.estimate || "";
+      }
+      var pkParams = ["vertical=" + encodeURIComponent(vertical)];
+      if (pkCity)     pkParams.push("city="     + encodeURIComponent(pkCity));
+      if (pkState)    pkParams.push("state="    + encodeURIComponent(pkState));
+      if (pkEstimate) pkParams.push("estimate=" + encodeURIComponent(pkEstimate));
+      if (verticalLabel) pkParams.push("label=" + encodeURIComponent(verticalLabel));
+      var prepUrl = "/pro-prep-kit.html?" + pkParams.join("&");
+
+      prepKitHtml = ''
+        + '  <a class="tp-pk" href="' + prepUrl + '" data-pk-vertical="' + slug + '">'
+        + '    <div class="tp-pk-tag">QUOTE-PREP KIT</div>'
+        + '    <div class="tp-pk-title">Walk into every ' + _labelForBody + ' quote prepared</div>'
+        + '    <p class="tp-pk-sub">15+ questions tailored to your project, a scope checklist of must-haves, red flags to watch for, a 5-tactic negotiation playbook, brand cheat sheet, and rebates worksheet — before contractors arrive.</p>'
+        + '    <span class="tp-pk-cta">See what\'s inside &rarr;</span>'
+        + '    <span class="tp-pk-price">$19 · one-time</span>'
+        + '  </a>';
+
       var analyzerUrlMap = {
         windows: "/window-quote-analyzer.html",
         legal:   "/legal-fee-analyzer.html",
@@ -228,7 +269,7 @@
       uploadCtaHtml = ''
         + '  <a class="tp-uq" href="' + analyzerUrl + '" data-uq-vertical="' + slug + '">'
         + '    <div class="tp-uq-title">Already have a ' + _labelForBody + ' quote? Get a free analysis</div>'
-        + '    <p class="tp-uq-sub">Upload your contractor quote for a free side-by-side scope + price check. If it\'s overpriced, our $19 Pro kit gives you a tailored negotiation script and a scope-gap report to push back.</p>'
+        + '    <p class="tp-uq-sub">Upload your contractor quote for a free side-by-side scope + price check. If it\'s overpriced, our Pro tier gives you a tailored negotiation script and a scope-gap report to push back.</p>'
         + '    <span class="tp-uq-cta">Upload your quote &rarr;</span>'
         + '  </a>';
     }
@@ -264,6 +305,7 @@
       + '      <div class="tp-qc-err" hidden></div>'
       + '    </div>'
       + '  </div>'
+      + prepKitHtml
       + emailCaptureHtml
       + uploadCtaHtml
       + receiptCtaHtml

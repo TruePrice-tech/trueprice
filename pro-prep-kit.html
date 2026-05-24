@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote-Prep Kit — Woogoro Pro</title>
+  <meta name="description" content="Your personalized Quote-Prep Kit: tailored questions, scope checklist, red flags, negotiation playbook, brand cheat sheet, and rebates worksheet — before contractors arrive." />
+  <meta name="robots" content="noindex,follow" />
+  <link rel="canonical" href="https://woogoro.com/pro-prep-kit.html" />
+  <link rel="alternate" hreflang="en-US" href="https://woogoro.com/pro-prep-kit.html" />
+  <link rel="alternate" hreflang="x-default" href="https://woogoro.com/pro-prep-kit.html" />
+  <link rel="stylesheet" href="/css/woogoro.min.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="/"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
+    </div>
+  </header>
+
+  <main>
+    <div id="prepRoot"></div>
+  </main>
+
+  <script src="/js/pro-tier.min.js?v=20260524" defer></script>
+  <script src="/js/pro-prep-kit.min.js?v=20260524" defer></script>
+  <script>
+    (function () {
+      // ── Parse URL params (?vertical=hvac&city=...&state=...&estimate=...&label=...)
+      function qs(name) {
+        var m = location.search.match(new RegExp("[?&]" + name + "=([^&]*)"));
+        return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+      }
+
+      var vertical = (qs("vertical") || "generic").toLowerCase();
+      var city     = qs("city");
+      var state    = (qs("state") || "").toUpperCase();
+      var estimate = qs("estimate");
+      var label    = qs("label");
+
+      // Reconstruct the current URL so Stripe success redirects back here
+      // with the same vertical / city / state / estimate (so we can re-render
+      // the kit in unlocked mode after payment).
+      var prepUrl = location.origin + location.pathname + location.search;
+
+      function render() {
+        if (!window.WoogoroPrepKit || typeof window.WoogoroPrepKit.renderPrepKit !== "function") {
+          return; // script not loaded yet — retried below
+        }
+        var isPro = !!(window.WoogoroPro && window.WoogoroPro.getStatus && (function () {
+          // getStatus(false) returns cached; we also watch body.is-premium below.
+          var s = window.WoogoroPro.getStatus(false);
+          // getStatus may return a Promise (no cache) or a value (cached). Tolerate both.
+          if (s && typeof s.then === "function") return false; // first call: not cached yet
+          return s && s.isPro;
+        })() || document.body.classList.contains("is-premium"));
+
+        var root = document.getElementById("prepRoot");
+        if (!root) return;
+        root.innerHTML = window.WoogoroPrepKit.renderPrepKit({
+          vertical:      vertical,
+          verticalLabel: label || null,
+          city:          city,
+          state:         state,
+          estimate:      estimate,
+          isPro:         isPro
+        });
+        window.WoogoroPrepKit.wireCheckoutButtons(root, prepUrl);
+      }
+
+      // Initial render — may show free state if Pro status not yet loaded.
+      // We then re-render when Pro status arrives.
+      function tryRender(attempt) {
+        attempt = attempt || 0;
+        if (!window.WoogoroPrepKit) {
+          if (attempt > 30) return;
+          setTimeout(function () { tryRender(attempt + 1); }, 100);
+          return;
+        }
+        render();
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () { tryRender(0); });
+      } else {
+        tryRender(0);
+      }
+
+      // Watch for is-premium class flip (WoogoroPro sets it when getStatus()
+      // returns isPro:true) and re-render so the locked panels unlock.
+      var lastPro = document.body.classList.contains("is-premium");
+      setInterval(function () {
+        var nowPro = document.body.classList.contains("is-premium");
+        if (nowPro !== lastPro) {
+          lastPro = nowPro;
+          render();
+        }
+      }, 1200);
+    })();
+  </script>
+</body>
+</html>
