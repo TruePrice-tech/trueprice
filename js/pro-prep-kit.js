@@ -331,6 +331,108 @@
         "Federal 25C credit documentation (manufacturer cert + invoice for Form 5695)"
       ]
     },
+    siding: {
+      label: "siding",
+      questions: [
+        "What siding material? (Vinyl, fiber cement / James Hardie, LP SmartSide engineered wood, real wood, stucco, brick veneer.)",
+        "If vinyl: brand + line + thickness (mil rating)? Premium vinyl is 0.044\"+ thick; cheap is 0.040\" or less and shows seams more.",
+        "If fiber cement: is it pre-painted by manufacturer (ColorPlus) or painted on-site? Manufacturer-painted lasts 15-25 years; on-site painting needs repainting every 7-10.",
+        "Is house wrap / moisture barrier (Tyvek, Typar, or similar) included and replaced?",
+        "Is rigid foam insulation behind the siding included? (Adds R-value + breaks thermal bridging — worth the upcharge.)",
+        "Is all new trim, fascia, soffit included, or just the wall siding?",
+        "Is removal + disposal of old siding included? Will you check for and address any rot or pest damage found behind it?",
+        "Is caulking + flashing around windows, doors, and penetrations included?",
+        "What is the materials warranty (20-50 years for fiber cement / vinyl)? Is the labor warranty separate (1-10 years standard)?"
+      ],
+      redFlags: [
+        { label: "Vinyl thinner than 0.040 inches", detail: "Builder-grade vinyl (0.035-0.040) cups, warps, and fades within 5-10 years. Mid-grade is 0.042\"+ and premium is 0.046\"+. Get the mil thickness in writing." },
+        { label: "Fiber cement painted on-site without prep work itemized", detail: "Fiber cement should be back-primed + edge-sealed + caulked before paint, then primed + 2 coats of paint. If the quote skips these steps the paint will peel in 3-5 years. Manufacturer-painted (James Hardie ColorPlus) is the safer + longer-warrantied path." },
+        { label: "No mention of replacing house wrap", detail: "If house wrap is torn or missing behind old siding, water leaks behind your new siding will cause hidden rot. New wrap is a $300-800 add — non-negotiable." },
+        { label: "Rot / pest damage repair charged at unspecified rate", detail: "Some contractors find \"surprise\" rot and bill at $200/sheet for plywood replacement. Negotiate a rate (e.g. $80-120/sheet for sheathing) or a cap upfront so you do not get held hostage mid-job." }
+      ],
+      scopeChecklist: [
+        "Siding material + brand + product line (vinyl mil thickness, fiber cement type, etc.)",
+        "House wrap / moisture barrier — replaced where torn or missing",
+        "Rigid foam insulation behind siding (if quoted) — type + R-value",
+        "All trim, fascia, soffit replaced or specifically noted as kept",
+        "Caulking + flashing around all windows, doors, and penetrations",
+        "Removal + disposal of old siding + nails",
+        "Rot / pest damage repair scope + per-sheet rate or cap",
+        "Painting (if fiber cement painted on-site) — primer + 2 coats specified",
+        "Permits if your jurisdiction requires (some cities require for re-side jobs)",
+        "Cleanup with magnetic sweep for nails",
+        "Materials warranty 20-50 years (transferable for top brands like James Hardie)",
+        "Workmanship / labor warranty 1-10 years (in writing)"
+      ]
+    },
+    insulation: {
+      label: "insulation",
+      questions: [
+        "What insulation type? (Fiberglass batts cheapest; blown cellulose mid-tier and best for attics; open-cell spray foam adds air sealing; closed-cell spray foam adds vapor barrier + most R-value per inch but costs 3-5x batt.)",
+        "What R-value will be installed? (Code minimum varies by climate zone: R-30 to R-60 for attics, R-13 to R-21 for walls.)",
+        "Is air sealing included BEFORE insulation? (Sealing penetrations, top plates, recessed lights — this is what makes insulation actually work.)",
+        "Is a vapor barrier required for my climate zone? If so, is it included?",
+        "If working in the attic: are baffles installed at the eaves to maintain ventilation?",
+        "If spray foam: what is the off-gas time? Will you do a blower-door test before and after?",
+        "Will you do a pre / post home energy assessment? (Required to claim the HOMES rebate of up to $8,000 for 35%+ energy reduction.)",
+        "Is removal + disposal of old insulation included if needed?",
+        "What is the labor warranty (1-2 years standard)?"
+      ],
+      redFlags: [
+        { label: "R-value lower than code minimum for your zone", detail: "Climate zones 1-3 attic: R-30 min, zones 4-8: R-49 to R-60. Walls: R-13 to R-21. A quote below code minimum is non-compliant and will fail any future energy rebate claim." },
+        { label: "Insulation installed over uncleaned / unsealed surfaces", detail: "Insulation over a leaky attic floor = warm humid air bypasses the insulation and condenses on the cold roof deck = rot. Air sealing first is non-negotiable." },
+        { label: "No blower-door test mentioned (spray foam jobs)", detail: "A pre/post blower door test confirms the air-tightness gain. Without it, you cannot prove the work was done well — and you cannot claim the HOMES rebate." },
+        { label: "Asbestos / vermiculite NOT tested in pre-1980 homes", detail: "If your existing attic insulation is loose-fill vermiculite (common 1940s-1980s), it may contain asbestos. Disturbing it without testing + abatement is hazardous and illegal in most jurisdictions." }
+      ],
+      scopeChecklist: [
+        "Insulation type (fiberglass, cellulose, spray foam — open or closed cell)",
+        "R-value to be installed (must meet local code for your climate zone)",
+        "Air sealing of all penetrations + top plates + recessed lights before insulation",
+        "Vapor barrier where required by climate zone",
+        "Baffles at eaves to preserve attic ventilation",
+        "Pre + post blower-door test (spray foam jobs especially)",
+        "Pre + post home energy assessment (required for HOMES rebate)",
+        "Asbestos / vermiculite testing if pre-1980 home with loose-fill insulation",
+        "Removal + disposal of old insulation if replacing",
+        "Permits if structural changes (rare for insulation but required for some retrofit work)",
+        "Materials warranty (lifetime for most rigid + batt; manufacturer-spec for spray foam)",
+        "Labor warranty 1-2 years (in writing)"
+      ]
+    },
+    painting: {
+      label: "painting",
+      questions: [
+        "What paint brand + line + sheen? (Sherwin-Williams Duration, Benjamin Moore Aura, Behr Marquee — top tier. Don't accept 'good paint' as a spec.)",
+        "How many coats? (2 is standard; 1 coat is a quality compromise that shows touch-ups.)",
+        "What prep work is included? (Wash, scrape, sand, prime as needed, caulk minor cracks, fill nail holes.)",
+        "Will you spot-prime any bare wood, water stains, tannin bleed (cedar, redwood)?",
+        "For exterior: is power-washing included? Do you allow drying time (24-48 hrs) before painting?",
+        "Lead-paint testing if pre-1978 home? (Required by law — EPA RRP-certified contractor needed.)",
+        "Are drop cloths + masking included? Furniture moved / covered?",
+        "What about cleanup + disposal of leftover paint cans?",
+        "What is the workmanship warranty? (Exterior: 2-7 years standard. Interior: 1-3 years.)"
+      ],
+      redFlags: [
+        { label: "1-coat quote without explicit price comparison to 2-coat", detail: "1-coat is a quality compromise that almost always shows touch-ups, especially with color change. The honest move: get both 1-coat and 2-coat quotes; only choose 1-coat if you understand the tradeoff." },
+        { label: "Vague paint brand (\"premium paint\")", detail: "Insist on Brand + Product Line + Sheen in writing (e.g. \"Sherwin-Williams Duration, satin\"). Without this, the contractor can substitute a $20/gal contractor-grade paint for a $70/gal premium and pocket the difference." },
+        { label: "No prep work itemized", detail: "Skipped prep = paint failure in 1-3 years. A reputable quote itemizes: power-wash, scrape, sand, prime as needed, caulk, fill nail holes. \"Paint will adhere to existing surface\" is not prep — it is a disclaimer." },
+        { label: "Pre-1978 home, no lead-paint disclosure", detail: "Federal law requires contractors to be EPA RRP-certified and follow lead-safe practices when disturbing paint in pre-1978 homes. If they do not mention it, they are likely uncertified — and you are exposed to lead liability." }
+      ],
+      scopeChecklist: [
+        "Paint brand + product line + sheen (e.g. Sherwin-Williams Duration Satin) — IN WRITING",
+        "Number of coats (2 is standard, 3 for dramatic color change or untinted primer + 2 finish coats)",
+        "Prep work: wash, scrape, sand, prime bare areas + stains",
+        "Caulking minor cracks + filling nail holes",
+        "Spot-priming any bare wood, water stains, tannin-bleed wood (cedar, redwood)",
+        "Power-washing (exterior) with 24-48 hr drying time before paint",
+        "Drop cloths + masking + furniture moved/covered",
+        "Lead-paint RRP compliance if pre-1978 home",
+        "Touch-ups after final walk-through",
+        "Cleanup + paint can disposal (EPA-compliant)",
+        "Leftover paint left labeled for future touch-ups",
+        "Exterior workmanship warranty 2-7 years (interior 1-3 years)"
+      ]
+    },
     kitchen: {
       label: "kitchen remodel",
       questions: [
@@ -374,9 +476,6 @@
   // the generic questions/red flags/tactics + a short scope checklist.
   // Better than no content; can be deepened later based on user demand.
   var VERTICAL_BASELINE = {
-    siding:      { label: "siding",      scopeChecklist: ["Siding brand + material (vinyl, fiber cement, wood)", "House wrap / moisture barrier", "Insulation behind siding (if upgrading)", "All trim, fascia, soffit", "Caulk + flashing around windows / doors", "Removal + disposal of old siding", "Materials warranty 20-50 years", "Labor warranty 1-10 years"] },
-    insulation:  { label: "insulation",  scopeChecklist: ["Insulation type (cellulose, fiberglass batt, spray foam)", "R-value to be installed (must meet local code)", "Air sealing of penetrations + gaps before insulation", "Vapor barrier if required by climate zone", "Attic ventilation verification", "Pre + post home energy assessment (for HOMES rebate)", "Materials warranty lifetime", "Labor warranty 1-2 years"] },
-    painting:    { label: "painting",    scopeChecklist: ["Paint brand + line + sheen (e.g. Sherwin-Williams Duration Satin)", "Number of coats (2 is standard)", "Prep work: wash, scrape, sand, prime as needed", "Caulking + minor repair", "Drop cloths + masking included", "Cleanup + paint can disposal", "Exterior workmanship warranty 2-7 years", "Interior workmanship warranty 1-3 years"] },
     fencing:     { label: "fencing",     scopeChecklist: ["Fence material + height + length", "Post material (4x4 wood, metal, concrete-set)", "Post depth (must be below frost line in cold climates)", "Gate(s) with hardware", "Property line survey verification", "Permit if over a certain height (varies by city)", "Labor warranty 1-5 years"] },
     concrete:    { label: "concrete",    scopeChecklist: ["Concrete thickness (4\" minimum for driveways, 6\" for heavy loads)", "Sub-base prep (compacted gravel, 4-6\")", "Rebar or wire mesh reinforcement", "Expansion + control joints", "Curing + sealing", "Form removal + cleanup", "Workmanship warranty 1-5 years"] },
     foundation:  { label: "foundation",  scopeChecklist: ["Engineer's assessment + repair plan", "Repair method (helical pier, push pier, concrete pier, slabjacking)", "Number of piers / locations", "Excavation + restoration", "Permit + inspection", "Lifetime transferable warranty (gold standard for structural fixes)"] },
@@ -578,7 +677,9 @@
       solar:      'Federal 30% Investment Tax Credit (ITC) on system + battery + labor through 2032. State + utility rebates vary — check dsireusa.org for ' + (state || 'your state') + '. SREC markets (MD, NJ, MA, DC, OH, PA, DE) can add thousands over system life.',
       hvac:       'Federal 25C heat pump credit: 30% up to $2,000 for qualifying ENERGY STAR heat pumps. HEEHRA / HOMES rebates (IRA-funded): up to $8,000 for low-to-moderate income households. Utility rebates: $500-2,000 typical, itemized so it\'s not taxed.',
       windows:    'Federal 25C: 30% up to $600/year for ENERGY STAR windows in your climate zone. Save invoice + manufacturer certification. State + utility rebates often $20-50 per window — stack them. ' + (state ? 'Check dsireusa.org for ' + escHtml(state) + '.' : ''),
-      insulation: 'Federal 25C: 30% up to $1,200/year on insulation + air sealing. HOMES rebates: up to $8,000 for 35%+ energy reduction (requires pre/post energy assessment).',
+      insulation: 'Federal 25C: 30% up to $1,200/year on insulation + air sealing materials. HOMES rebates (IRA-funded, rolling state-by-state): up to $8,000 for a 35%+ energy reduction in your home (requires pre/post home energy assessment by a certified rater). HEEHRA: up to $1,600 for insulation + air sealing for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' specifics on dsireusa.org.' : ''),
+      siding:     'Siding is generally NOT eligible for federal energy credits (unlike windows / insulation / heat pumps). Limited utility rebates exist for adding rigid foam insulation behind siding in some service areas — ask your installer to itemize the insulation upgrade separately if quoted, so you can claim any 25C credit (30% up to $1,200/yr) on that portion. ' + (state ? 'Check ' + escHtml(state) + ' utility rebates on dsireusa.org.' : ''),
+      painting:   'Painting is not directly tax-credit eligible. However, if a lead-paint abatement is required (pre-1978 homes with kids under 6 or pregnant women), HUD lead-hazard reduction grants may cover up to $20,000 per unit in qualifying areas. ' + (state ? 'Check ' + escHtml(state) + ' lead-hazard programs.' : ''),
       plumbing:   'Heat pump water heaters qualify for the federal 25C credit (30% up to $2,000 cap shared with HVAC heat pump credit). HEEHRA / HOMES rebates: up to $1,750 for a heat pump water heater for low-to-moderate income households. Many utilities offer $300-700 rebates for heat pump water heaters and high-efficiency tankless gas units — check before installing. ' + (state ? 'Look up rebates for ' + escHtml(state) + ' on dsireusa.org.' : ''),
       electrical: 'Federal 25C electrical panel upgrade credit: 30% up to $600 when the upgrade enables a qualifying improvement (heat pump, induction range, EV charger). Federal 30C EV charger credit: 30% up to $1,000 for residential installs in qualifying census tracts (low-income or non-urban). HEEHRA: up to $4,000 toward an electrical panel upgrade for low-to-moderate income households. ' + (state ? 'Check ' + escHtml(state) + ' rebates on dsireusa.org.' : '')
     };
