@@ -107,7 +107,15 @@
       + '.tp-rs:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(146,64,14,0.12); text-decoration:none; }'
       + '.tp-rs-title { font-size:15px; font-weight:700; color:#78350f; margin:0 0 4px; }'
       + '.tp-rs-sub { font-size:13px; color:#475569; margin:0 0 10px; line-height:1.5; }'
-      + '.tp-rs-cta { font-size:14px; font-weight:700; color:#92400e; }';
+      + '.tp-rs-cta { font-size:14px; font-weight:700; color:#92400e; }'
+      // Upload-CTA — shown on estimator pages to funnel users with a real
+      // quote into the analyzer + Pro tier ($19 negotiation kit). Distinct
+      // blue gradient so it doesn\'t compete with the yellow receipt-scan CTA.
+      + '.tp-uq { display:block; background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%); border:1px solid #bfdbfe; border-radius:12px; padding:18px 20px; margin:16px 0 20px; text-decoration:none; color:#1e293b; transition:transform 0.15s, box-shadow 0.15s; }'
+      + '.tp-uq:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(30,58,95,0.12); text-decoration:none; }'
+      + '.tp-uq-title { font-size:15px; font-weight:700; color:#1e3a5f; margin:0 0 4px; }'
+      + '.tp-uq-sub { font-size:13px; color:#475569; margin:0 0 10px; line-height:1.5; }'
+      + '.tp-uq-cta { font-size:14px; font-weight:700; color:#1d4ed8; }';
     document.head.appendChild(s);
   }
 
@@ -204,6 +212,27 @@
         + '  </a>')
       : '';
 
+    // Upload-quote CTA — shown ONLY on estimator pages (opts.isEstimate)
+    // to funnel users with a real contractor quote into the analyzer +
+    // Pro-tier path. Estimator users are budgeting; some already have a
+    // quote in hand and would benefit from the $19 negotiation kit.
+    // Analyzer pages skip this (the user is already on the analyze path).
+    var uploadCtaHtml = '';
+    if (opts.isEstimate) {
+      var analyzerUrlMap = {
+        windows: "/window-quote-analyzer.html",
+        legal:   "/legal-fee-analyzer.html",
+        medical: "/medical-bill-analyzer.html"
+      };
+      var analyzerUrl = analyzerUrlMap[vertical] || ("/" + vertical + "-quote-analyzer.html");
+      uploadCtaHtml = ''
+        + '  <a class="tp-uq" href="' + analyzerUrl + '" data-uq-vertical="' + slug + '">'
+        + '    <div class="tp-uq-title">Already have a ' + _labelForBody + ' quote? Get a free analysis</div>'
+        + '    <p class="tp-uq-sub">Upload your contractor quote for a free side-by-side scope + price check. If it\'s overpriced, our $19 Pro kit gives you a tailored negotiation script and a scope-gap report to push back.</p>'
+        + '    <span class="tp-uq-cta">Upload your quote &rarr;</span>'
+        + '  </a>';
+    }
+
     var html = ''
       + '<div class="tp-result-footer" data-vertical="' + slug + '">'
       + '  <div class="tp-feedback-row">'
@@ -236,6 +265,7 @@
       + '    </div>'
       + '  </div>'
       + emailCaptureHtml
+      + uploadCtaHtml
       + receiptCtaHtml
       + '  <hr class="tp-footer-divider" />'
       + '  <div class="tp-action-row">'
