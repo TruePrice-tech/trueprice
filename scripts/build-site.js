@@ -1083,9 +1083,6 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CITY_RATE_FLAT}}", cityRates.flat);
   template = template.replaceAll("{{CITY_RATE_SLATE}}", cityRates.slate);
   template = template.replaceAll("{{CITY_RATE_CONCRETE}}", cityRates.concrete);
-  // MATERIAL_COMPARISON_CARDS has no builder yet; stub empty so the section
-  // header renders without an orphan literal {{...}}. Cards design pending.
-  template = template.replaceAll("{{MATERIAL_COMPARISON_CARDS}}", "");
   template = template.replaceAll("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
 
   // Unique per-city content from city-context.json
