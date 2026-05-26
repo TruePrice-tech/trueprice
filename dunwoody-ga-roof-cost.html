@@ -152,19 +152,19 @@ Full range: $4,750 to $93,450 depending on size and materials
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Cedar</span>
-<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+<span class="hero-meta-value">10.00/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Flat</span>
-<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+<span class="hero-meta-value">6.13/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Slate</span>
-<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+<span class="hero-meta-value">31.15/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Concrete</span>
-<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+<span class="hero-meta-value">8.63/sq</span>
 </div>
 </div>
 
@@ -328,7 +328,7 @@ Full range: $4,750 to $93,450 depending on size and materials
 <h2>Roofing Materials Compared</h2>
 <p>Side-by-side comparison of all materials available in Dunwoody.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-{{MATERIAL_COMPARISON_CARDS}}
+
 </div>
 </section>
 
@@ -691,7 +691,7 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
-var CITY_PRICES = {{CITY_PRICES_JSON}};
+var CITY_PRICES = {"asphalt":9450,"architectural":11700,"metal":25600,"tile":26700,"cedar":20000,"flat":12250,"slate":62300,"concrete":17250};
 function updateCalc() {
   var size = parseInt(document.getElementById("calcSize").value);
   var mat = document.getElementById("calcMaterial").value;

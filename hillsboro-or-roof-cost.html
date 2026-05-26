@@ -152,19 +152,19 @@ Full range: $6,100 to $120,850 depending on size and materials
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Cedar</span>
-<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+<span class="hero-meta-value">12.95/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Flat</span>
-<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+<span class="hero-meta-value">7.92/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Slate</span>
-<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+<span class="hero-meta-value">40.27/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Concrete</span>
-<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+<span class="hero-meta-value">11.15/sq</span>
 </div>
 </div>
 
@@ -328,7 +328,7 @@ Full range: $6,100 to $120,850 depending on size and materials
 <h2>Roofing Materials Compared</h2>
 <p>Side-by-side comparison of all materials available in Hillsboro.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-{{MATERIAL_COMPARISON_CARDS}}
+
 </div>
 </section>
 
@@ -684,7 +684,7 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
-var CITY_PRICES = {{CITY_PRICES_JSON}};
+var CITY_PRICES = {"asphalt":12250,"architectural":15100,"metal":33100,"tile":34550,"cedar":25900,"flat":15850,"slate":80550,"concrete":22300};
 function updateCalc() {
   var size = parseInt(document.getElementById("calcSize").value);
   var mat = document.getElementById("calcMaterial").value;

@@ -152,19 +152,19 @@ Full range: $5,350 to $106,050 depending on size and materials
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Cedar</span>
-<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+<span class="hero-meta-value">11.35/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Flat</span>
-<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+<span class="hero-meta-value">6.95/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Slate</span>
-<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+<span class="hero-meta-value">35.35/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Concrete</span>
-<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+<span class="hero-meta-value">9.78/sq</span>
 </div>
 </div>
 
@@ -328,7 +328,7 @@ Full range: $5,350 to $106,050 depending on size and materials
 <h2>Roofing Materials Compared</h2>
 <p>Side-by-side comparison of all materials available in Middletown.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-{{MATERIAL_COMPARISON_CARDS}}
+
 </div>
 </section>
 
@@ -689,7 +689,7 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
-var CITY_PRICES = {{CITY_PRICES_JSON}};
+var CITY_PRICES = {"asphalt":10750,"architectural":13250,"metal":29050,"tile":30300,"cedar":22700,"flat":13900,"slate":70700,"concrete":19550};
 function updateCalc() {
   var size = parseInt(document.getElementById("calcSize").value);
   var mat = document.getElementById("calcMaterial").value;

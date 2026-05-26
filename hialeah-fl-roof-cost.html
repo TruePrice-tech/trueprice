@@ -152,19 +152,19 @@ Full range: $4,650 to $91,650 depending on size and materials
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Cedar</span>
-<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+<span class="hero-meta-value">9.82/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Flat</span>
-<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+<span class="hero-meta-value">6.00/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Slate</span>
-<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+<span class="hero-meta-value">30.55/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Concrete</span>
-<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+<span class="hero-meta-value">8.45/sq</span>
 </div>
 </div>
 
@@ -328,7 +328,7 @@ Full range: $4,650 to $91,650 depending on size and materials
 <h2>Roofing Materials Compared</h2>
 <p>Side-by-side comparison of all materials available in Hialeah.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-{{MATERIAL_COMPARISON_CARDS}}
+
 </div>
 </section>
 
@@ -697,7 +697,7 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
-var CITY_PRICES = {{CITY_PRICES_JSON}};
+var CITY_PRICES = {"asphalt":9250,"architectural":11450,"metal":25100,"tile":26200,"cedar":19650,"flat":12000,"slate":61100,"concrete":16900};
 function updateCalc() {
   var size = parseInt(document.getElementById("calcSize").value);
   var mat = document.getElementById("calcMaterial").value;

@@ -152,19 +152,19 @@ Full range: $5,950 to $117,950 depending on size and materials
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Cedar</span>
-<span class="hero-meta-value">{{CITY_RATE_CEDAR}}/sq</span>
+<span class="hero-meta-value">12.63/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Flat</span>
-<span class="hero-meta-value">{{CITY_RATE_FLAT}}/sq</span>
+<span class="hero-meta-value">7.72/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Slate</span>
-<span class="hero-meta-value">{{CITY_RATE_SLATE}}/sq</span>
+<span class="hero-meta-value">39.30/sq</span>
 </div>
 <div class="hero-meta-item">
 <span class="hero-meta-label">Concrete</span>
-<span class="hero-meta-value">{{CITY_RATE_CONCRETE}}/sq</span>
+<span class="hero-meta-value">10.88/sq</span>
 </div>
 </div>
 
@@ -328,7 +328,7 @@ Full range: $5,950 to $117,950 depending on size and materials
 <h2>Roofing Materials Compared</h2>
 <p>Side-by-side comparison of all materials available in Oceanside.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-{{MATERIAL_COMPARISON_CARDS}}
+
 </div>
 </section>
 
@@ -690,7 +690,7 @@ Woogoro helps homeowners and car owners analyze contractor and mechanic quotes, 
 </script>
 <script src="/js/exit-intent.min.js" defer></script>
 <script>
-var CITY_PRICES = {{CITY_PRICES_JSON}};
+var CITY_PRICES = {"asphalt":11950,"architectural":14750,"metal":32300,"tile":33700,"cedar":25250,"flat":15450,"slate":78600,"concrete":21750};
 function updateCalc() {
   var size = parseInt(document.getElementById("calcSize").value);
   var mat = document.getElementById("calcMaterial").value;
