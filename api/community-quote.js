@@ -4,6 +4,7 @@
 
 import { Redis } from "@upstash/redis";
 import { gate } from "./_usage-gate.js";
+import { validateQuoteInput } from "./_quote-input-guard.js";
 
 let redis;
 try { redis = Redis.fromEnv(); } catch (_) { redis = null; }
@@ -194,23 +195,36 @@ export default async function handler(req, res) {
       // FLYWHEEL BRIDGE: write to Redis cal:* aggregates so community
       // quotes feed into calibration. Low weight (0.15) since these are
       // self-reported without document verification.
+      //
+      // Gated by _quote-input-guard since 2026-05-26: drift incident
+      // showed bypass writers were polluting aggregates with malformed
+      // cities ("sample street\ncharlotte") and unknown verticals
+      // ("other"/"general"/"flooring"). Bad inputs silently dropped
+      // from the cal:* bump (full submission still stored in
+      // tp:community_quotes so the data isn't lost — just doesn't
+      // corrupt calibration).
       if (redis && stateCode) {
         try {
           const svc = serviceType || "roofing";
-          const weight = 0.15;
-          const bump = async (k) => {
-            const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
-            const e = typeof ex === "string" ? JSON.parse(ex) : ex;
-            e.quotes += 1;
-            e.weightedSum += price * weight;
-            e.totalWeight += weight;
-            e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
-            e.lastUpdated = Date.now();
-            await redis.set(k, JSON.stringify(e));
-          };
-          const cityLc = city.replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
-          if (cityLc) await bump(`cal:${cityLc}:${stateCode}:${svc}`);
-          await bump(`cal:metro:${stateCode}:${svc}`);
+          const guard = validateQuoteInput({ city, state: stateCode, vertical: svc, price });
+          if (!guard.ok) {
+            console.warn("[community-quote] cal:* bump skipped:", guard.reasons.join(","), "city=", JSON.stringify(city), "svc=", svc);
+          } else {
+            const weight = 0.15;
+            const bump = async (k) => {
+              const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+              const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+              e.quotes += 1;
+              e.weightedSum += price * weight;
+              e.totalWeight += weight;
+              e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+              e.lastUpdated = Date.now();
+              await redis.set(k, JSON.stringify(e));
+            };
+            const cityLc = city.replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, "_");
+            if (cityLc) await bump(`cal:${cityLc}:${stateCode}:${svc}`);
+            await bump(`cal:metro:${stateCode}:${svc}`);
+          }
         } catch (_) { /* flywheel bridge is best-effort */ }
       }
 

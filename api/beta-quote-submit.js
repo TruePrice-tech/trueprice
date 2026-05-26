@@ -23,6 +23,7 @@ import {
   bumpStreak,
 } from "./_beta-session.js";
 import { issueWoo } from "./_woogoros-ledger.js";
+import { validateQuoteInput } from "./_quote-input-guard.js";
 import { verifyQuote } from "./_woogoros-verifier.js";
 import { checkAndConsumeCap } from "./_woogoros-caps.js";
 import { VERTICALS } from "./_woogoros-vertical.js";
@@ -163,17 +164,29 @@ export default async function handler(req, res) {
     }));
     await redis.ltrim("tp:pricing_data", 0, 49999);
     await redis.incr("tp:total_quotes");
+    // Gated by _quote-input-guard since 2026-05-26 drift incident — see
+    // api/_quote-input-guard.js for rationale. Bad inputs silently drop
+    // from the cal:* bump (full submission still recorded above).
     if (stateCode) {
-      const k = `cal:metro:${stateCode}:${verification.vertical}`;
-      const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
-      const e = typeof ex === "string" ? JSON.parse(ex) : ex;
-      const weight = 0.5; // user-attributed gets higher weight than anonymous
-      e.quotes += 1;
-      e.weightedSum += declaredAmount * weight;
-      e.totalWeight += weight;
-      e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
-      e.lastUpdated = now;
-      await redis.set(k, JSON.stringify(e));
+      const guard = validateQuoteInput({
+        state: stateCode,
+        vertical: verification.vertical,
+        price: declaredAmount,
+      });
+      if (!guard.ok) {
+        console.warn("[beta-quote-submit] cal:* bump skipped:", guard.reasons.join(","), "vertical=", verification.vertical, "state=", stateCode);
+      } else {
+        const k = `cal:metro:${stateCode}:${verification.vertical}`;
+        const ex = await redis.get(k) || { quotes: 0, weightedSum: 0, totalWeight: 0, avgPrice: 0, lastUpdated: 0 };
+        const e = typeof ex === "string" ? JSON.parse(ex) : ex;
+        const weight = 0.5; // user-attributed gets higher weight than anonymous
+        e.quotes += 1;
+        e.weightedSum += declaredAmount * weight;
+        e.totalWeight += weight;
+        e.avgPrice = Math.round(e.weightedSum / e.totalWeight);
+        e.lastUpdated = now;
+        await redis.set(k, JSON.stringify(e));
+      }
     }
   } catch (e) { /* swallow */ }
 
