@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+require("./_handwritten-guard.js");
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -287,7 +288,11 @@ function getCityMaterialRates(cityPricing) {
     asphalt: (sizeData.asphalt / 2000).toFixed(2),
     architectural: (sizeData.architectural / 2000).toFixed(2),
     metal: (sizeData.metal / 2000).toFixed(2),
-    tile: (sizeData.tile / 2000).toFixed(2)
+    tile: (sizeData.tile / 2000).toFixed(2),
+    cedar: (sizeData.cedar / 2000).toFixed(2),
+    flat: (sizeData.flat / 2000).toFixed(2),
+    slate: (sizeData.slate / 2000).toFixed(2),
+    concrete: (sizeData.concrete / 2000).toFixed(2)
   };
 }
 
@@ -1074,6 +1079,13 @@ function generateCityPageHtml(cityPricing, allCityRows) {
   template = template.replaceAll("{{CITY_RATE_ARCHITECTURAL}}", cityRates.architectural);
   template = template.replaceAll("{{CITY_RATE_METAL}}", cityRates.metal);
   template = template.replaceAll("{{CITY_RATE_TILE}}", cityRates.tile);
+  template = template.replaceAll("{{CITY_RATE_CEDAR}}", cityRates.cedar);
+  template = template.replaceAll("{{CITY_RATE_FLAT}}", cityRates.flat);
+  template = template.replaceAll("{{CITY_RATE_SLATE}}", cityRates.slate);
+  template = template.replaceAll("{{CITY_RATE_CONCRETE}}", cityRates.concrete);
+  // MATERIAL_COMPARISON_CARDS has no builder yet; stub empty so the section
+  // header renders without an orphan literal {{...}}. Cards design pending.
+  template = template.replaceAll("{{MATERIAL_COMPARISON_CARDS}}", "");
   template = template.replaceAll("{{SAME_STATE_CITY_LINKS}}", sameStateCityLinks);
 
   // Unique per-city content from city-context.json
@@ -1115,10 +1127,37 @@ function generateCityPageHtml(cityPricing, allCityRows) {
     "{{CALC_DEFAULT_PERSQFT}}", "$" + (calc2000 / 2000).toFixed(2) + " per sq ft"
   );
 
+  // CITY_PRICES JSON for the inline calculator script. Each city's
+  // sizes["2000"] holds per-material 2000-sqft prices; the inline calc
+  // divides by 2000 for $/sqft and scales by user-selected size. Missing
+  // materials are simply omitted — the calc's `if (CITY_PRICES[mat])`
+  // guard silently no-ops on the dropdown change.
+  const sizes2000 = (cityPricing.sizes && cityPricing.sizes["2000"]) || {};
+  const cityPricesObj = {};
+  for (const mat of ["asphalt", "architectural", "metal", "tile", "cedar", "flat", "slate", "concrete"]) {
+    if (typeof sizes2000[mat] === "number" && sizes2000[mat] > 0) {
+      cityPricesObj[mat] = Math.round(sizes2000[mat]);
+    }
+  }
+  template = template.replaceAll(
+    "{{CITY_PRICES_JSON}}", JSON.stringify(cityPricesObj)
+  );
+
   if (template.includes("{{NEARBY_CITIES_SECTION}}")) {
     template = template.replace("{{NEARBY_CITIES_SECTION}}", nearbyCitiesSection);
   } else if (nearbyCitiesSection) {
     template = template.replace("</main>", `${nearbyCitiesSection}\n</main>`);
+  }
+
+  // Placeholder-leak gate. Any unreplaced {{IDENTIFIER}} is a build bug.
+  // Born from a 302-page broken-calc incident (Edge/Safari JS errors from
+  // an unwired {{CITY_PRICES_JSON}}); same class as [SEO-P0-2]'s 740-page
+  // strip. Fail loud here so the next leak surfaces in build, not prod.
+  const leak = template.match(/\{\{[A-Z_][A-Z0-9_]*\}\}/);
+  if (leak) {
+    throw new Error(
+      `[build-site] Unreplaced placeholder ${leak[0]} in ${filename} — wire its substitution in generateCityPageHtml`
+    );
   }
 
   return template;
