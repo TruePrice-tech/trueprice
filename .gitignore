@@ -24,3 +24,6 @@ tmp-email-preview/
 # Local rollback/audit backups (e.g. chattanooga-tn-painting-cost.html.bak-2026-05-20)
 *.bak
 *.bak-*
+
+# Transient drift-audit output (script: scripts/_audit-handwritten-drift.js)
+handwritten-drift-audit.md
