@@ -265,6 +265,11 @@
       "src": "/s/([a-z0-9]+)",
       "dest": "/shared-estimate.html"
     },
+    { "src": "/roof-replacement-cost-guide.html",      "status": 301, "headers": { "Location": "/roof-cost-by-material.html" } },
+    { "src": "/roof-replacement-cost-calculator.html", "status": 301, "headers": { "Location": "/roof-cost-calculator.html" } },
+    { "src": "/dc-medical-cost.html",                  "status": 301, "headers": { "Location": "/medical-cities.html" } },
+    { "src": "/district-of-columbia-fence-cost.html",  "status": 301, "headers": { "Location": "/fence-cost.html" } },
+    { "src": "/gutters-cost-guide.html",               "status": 301, "headers": { "Location": "/gutters-cost.html" } },
     {
       "src": "/(.*)",
       "status": 404,
