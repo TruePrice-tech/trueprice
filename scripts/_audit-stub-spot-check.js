@@ -46,7 +46,7 @@ function serve() {
 
 (async () => {
   const server = await serve();
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
   let exitCode = 0;
 
   try {

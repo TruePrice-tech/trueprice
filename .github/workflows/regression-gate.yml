@@ -54,7 +54,12 @@ on:
 jobs:
   regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 19 fixture-ground-truth harnesses run against the live site at ~75s each
+    # (~24 min) on top of the smoke walk, calc spot-checks, and two uniqueness
+    # passes. The old 15-min ceiling killed every scheduled run mid-fixture
+    # (cancelled at legal-compare, ~10/19 done) so the gate never rendered a
+    # verdict. 45 min gives full headroom; a real run lands around ~32 min.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 

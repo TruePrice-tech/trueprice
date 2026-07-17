@@ -56,7 +56,7 @@ function serve() {
 
 (async () => {
   const server = await serve();
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: "new", args: ["--no-sandbox"] });
   const results = [];
 
   for (const p of PAGES) {
