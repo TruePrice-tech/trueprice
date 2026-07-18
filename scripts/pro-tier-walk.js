@@ -183,6 +183,8 @@ async function inspectFreeState(page, vertical) {
       hasToken: !!localStorage.getItem("tp_pro_token"),
       bodyHasIsPremium: document.body.classList.contains("is-premium"),
       proStatusFn: typeof window.WoogoroPro?.getStatus === "function",
+      hasForm: !!document.querySelector("form") ||
+        document.querySelectorAll("input, select, textarea").length > 0,
     };
   });
 
@@ -263,14 +265,33 @@ function p(name, ok, detail) {
         const inspected = await inspectFreeState(page, v);
         await page.screenshot({ path: path.join(OUT, `${v.slug}-free-upload.png`), fullPage: false });
 
-        const okPro = p("WoogoroPro defined", inspected.checks.hasWoogoroPro);
-        const okStatus = p("status responded", inspected.statusJson !== null,
-          inspected.statusJson ? `isPro=${inspected.statusJson.isPro}` : "no response");
-        const okFree = p("body NOT is-premium", !inspected.checks.bodyHasIsPremium);
         const okConsoleClean = p("no console errors", errs.consoleErrors.length === 0,
           errs.consoleErrors.length ? `${errs.consoleErrors.length} errors` : null);
         const okNetClean = p("no API errors", errs.networkErrors.length === 0,
           errs.networkErrors.length ? errs.networkErrors.join("; ") : null);
+
+        // Estimate pages don't load pro-tier.js by design — they're the
+        // calculator input path and funnel to the analyzer for Pro (see the
+        // "upload your quote" CTA, commit bbfc8e72a0c). Asserting WoogoroPro /
+        // pro-status on them was a false FAIL that kept smoke perma-red (41/60)
+        // and, because the smoke fail-build step runs before the fixture gate,
+        // blocked the whole downstream regression gate from enforcing. Their
+        // smoke contract per the VERTICALS comment is: page loads, form is
+        // present, no JS errors.
+        if (v.isEstimate) {
+          const okForm = p("form present", inspected.checks.hasForm);
+          return {
+            inspected,
+            consoleErrors: errs.consoleErrors,
+            networkErrors: errs.networkErrors,
+            pass: okForm && okConsoleClean && okNetClean,
+          };
+        }
+
+        const okPro = p("WoogoroPro defined", inspected.checks.hasWoogoroPro);
+        const okStatus = p("status responded", inspected.statusJson !== null,
+          inspected.statusJson ? `isPro=${inspected.statusJson.isPro}` : "no response");
+        const okFree = p("body NOT is-premium", !inspected.checks.bodyHasIsPremium);
 
         return {
           inspected,
