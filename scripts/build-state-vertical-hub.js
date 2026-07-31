@@ -30,6 +30,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { serpTitle } = require("./_seo-title.js");
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -1721,7 +1722,7 @@ function buildPage(stateAbbr, allStates, cityIndex, vConf) {
   <link rel="icon" href="/favicon.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>${escapeHtml(title)}</title>
+  <title>${escapeHtml(serpTitle(title))}</title>
   <meta name="description" content="${escapeHtml(description)}" />
   <link rel="canonical" href="${escapeHtml(canonical)}" />
 

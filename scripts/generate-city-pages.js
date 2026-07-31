@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { serpTitle } = require("./_seo-title.js");
 
 const ROOT = path.resolve(__dirname, "..");
 const DATA_PATH = path.join(ROOT, "data", "city-house-size-pricing.json");
@@ -248,7 +249,7 @@ function renderCityPage({ cityKey, city, state, slug, allCityData }) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>${escapeHtml(titleFor(city, state))}</title>
+  <title>${escapeHtml(serpTitle(titleFor(city, state)))}</title>
   <meta name="description" content="${escapeHtml(description)}" />
   <link rel="canonical" href="${escapeHtml(pageUrl)}" />
   <meta name="robots" content="index,follow" />
