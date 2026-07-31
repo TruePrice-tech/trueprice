@@ -74,7 +74,65 @@ const EXTRACTION_SUCCESS_FLOOR = 0.8;
 let totalPinpoints = 0;
 let totalDriftFlags = 0;
 let totalExtracted = 0;
+let totalUnresolvedBands = 0;
 const verticalSummaries = [];
+
+// [PRICE-DRIFT-FIX-3] Resolve the comparison band from the ACTUAL harness.
+//
+// This file's header claims it compares industry against "the bands
+// hard-coded in our test/<v>/calculator-spot-check.test.js harnesses". It
+// did not. It compared against `pinpoint.currentBand`, a hand-copied
+// duplicate living in data/pricing-drift-sources.json with no linkage to the
+// harness at all. Audited 2026-07-30: only 5 of 44 pinpoints still matched
+// the live harness band. The 2026-06-09 report's "25/44 over threshold"
+// therefore measured the CATALOG drifting from the harness as much as our
+// pricing drifting from industry, and several flagged pinpoints were
+// comparing against bands we had already corrected weeks earlier.
+//
+// Now: read the band out of the harness by spec id, and when that fails, say
+// so loudly in the digest instead of silently reporting a stale number.
+const harnessSrcCache = new Map();
+function harnessBands(harnessPath) {
+  if (!harnessPath) return [];
+  if (harnessSrcCache.has(harnessPath)) return harnessSrcCache.get(harnessPath);
+  let bands = [];
+  try {
+    const src = fs.readFileSync(harnessPath, "utf8");
+    bands = [...src.matchAll(
+      /id:\s*["']([A-Za-z0-9._-]+)["'][\s\S]{0,900}?band:\s*\{\s*low:\s*([0-9]+),\s*high:\s*([0-9]+)/g
+    )].map((m) => ({ id: m[1], low: +m[2], high: +m[3] }));
+  } catch (e) {
+    console.error(`harness unreadable: ${harnessPath}: ${e.message}`);
+  }
+  harnessSrcCache.set(harnessPath, bands);
+  return bands;
+}
+
+// Returns { band, source, note }. `source` is "harness" or "catalog-fallback".
+function resolveBand(vData, pinpoint) {
+  const bands = harnessBands(vData.harnessPath);
+  const want = pinpoint.harnessSpecId || pinpoint.id;
+  const hit =
+    bands.find((b) => b.id === want) ||
+    bands.find((b) => b.id.startsWith(want)) ||
+    bands.find((b) => want.startsWith(b.id));
+  if (hit) {
+    const cb = pinpoint.currentBand;
+    const diverged = cb && (cb.low !== hit.low || cb.high !== hit.high);
+    return {
+      band: { low: hit.low, high: hit.high },
+      source: "harness",
+      note: diverged
+        ? `resolved from ${vData.harnessPath} spec \`${hit.id}\` (catalog copy said $${cb.low.toLocaleString()}–$${cb.high.toLocaleString()} and was stale)`
+        : `resolved from ${vData.harnessPath} spec \`${hit.id}\``,
+    };
+  }
+  return {
+    band: pinpoint.currentBand,
+    source: "catalog-fallback",
+    note: `⚠️ could NOT resolve a harness band for this pinpoint (no spec id matching \`${want}\` in ${vData.harnessPath || "?"}). Falling back to the hand-copied catalog band, which may be stale — treat the drift below as unverified. Fix by adding \`"harnessSpecId": "<spec id>"\` to this pinpoint in ${SOURCES_PATH}.`,
+  };
+}
 
 for (const [vertical, vData] of Object.entries(sources.verticals)) {
   const verticalDrift = [];
@@ -156,7 +214,11 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
 
     digest.push(`### ${pinpoint.id} — ${pinpoint.label}`);
     digest.push("");
-    digest.push(`- **Current band**: $${pinpoint.currentBand.low.toLocaleString()} – $${pinpoint.currentBand.high.toLocaleString()}`);
+    const resolved = resolveBand(vData, pinpoint);
+    const currentBand = resolved.band;
+    if (resolved.source !== "harness") totalUnresolvedBands++;
+    digest.push(`- **Current band**: $${currentBand.low.toLocaleString()} – $${currentBand.high.toLocaleString()}`);
+    digest.push(`- **Band source**: ${resolved.note}`);
 
     if (claudeError) {
       digest.push(`- **Industry**: extraction failed (${claudeError})`);
@@ -170,10 +232,10 @@ for (const [vertical, vData] of Object.entries(sources.verticals)) {
     }
     totalExtracted++;
     const indMid = (extracted.low + extracted.high) / 2;
-    const ourMid = (pinpoint.currentBand.low + pinpoint.currentBand.high) / 2;
+    const ourMid = (currentBand.low + currentBand.high) / 2;
     const driftPct = Math.round(((indMid - ourMid) / ourMid) * 100);
-    const lowDriftPct = Math.round(((extracted.low - pinpoint.currentBand.low) / pinpoint.currentBand.low) * 100);
-    const highDriftPct = Math.round(((extracted.high - pinpoint.currentBand.high) / pinpoint.currentBand.high) * 100);
+    const lowDriftPct = Math.round(((extracted.low - currentBand.low) / currentBand.low) * 100);
+    const highDriftPct = Math.round(((extracted.high - currentBand.high) / currentBand.high) * 100);
     const flag =
       Math.abs(driftPct) > driftThresholdPct ||
       Math.abs(lowDriftPct) > driftThresholdPct ||
@@ -195,6 +257,14 @@ const extractionRate = totalPinpoints ? totalExtracted / totalPinpoints : 0;
 const instrumentBroken = extractionRate < EXTRACTION_SUCCESS_FLOOR;
 
 digest.unshift("");
+// [PRICE-DRIFT-FIX-3] Unresolved bands are their own trust signal: a pinpoint
+// compared against the hand-copied catalog band tells you nothing reliable
+// about the band the calculator is actually gated on.
+if (totalUnresolvedBands > 0) {
+  digest.unshift(
+    `**⚠️ ${totalUnresolvedBands}/${totalPinpoints} pinpoints could not resolve a live harness band** and fell back to the hand-copied \`currentBand\` in ${SOURCES_PATH}. Those rows are unverified — add a \`harnessSpecId\` to each before trusting its drift number.`,
+  );
+}
 if (instrumentBroken) {
   digest.unshift(
     `**🚨 INSTRUMENT FAILURE**: only ${totalExtracted}/${totalPinpoints} pinpoints extracted (${Math.round(extractionRate * 100)}%, floor ${Math.round(EXTRACTION_SUCCESS_FLOOR * 100)}%). Drift findings below are NOT trustworthy — investigate API key, rate limits, web_search tool, and source-page reachability before acting on any flagged band.`,

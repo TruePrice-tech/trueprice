@@ -1,9 +1,11 @@
 {
   "metadata": {
     "purpose": "Source URLs the monthly pricing-drift check fetches to detect when 2026 industry pricing has moved beyond our spot-check bands. See scripts/_pricing-drift-check.js.",
-    "lastUpdated": "2026-05-20",
+    "lastUpdated": "2026-07-30",
     "driftThresholdPct": 15,
-    "notes": "Each vertical lists 3-5 representative industry pricing pages. Claude haiku-4-5 reads each, extracts the typical-installed-cost range it cites, and the script compares against the per-vertical calculator-spot-check baseline. Add or replace URLs when sources go stale or paywall."
+    "notes": "Each vertical lists 3-5 representative industry pricing pages. Claude haiku-4-5 reads each, extracts the typical-installed-cost range it cites, and the script compares against the per-vertical calculator-spot-check baseline. Add or replace URLs when sources go stale or paywall.",
+    "bandResolution": "Bands are resolved at runtime from the harness named in each vertical's harnessPath, matched by the pinpoint's harnessSpecId. The per-pinpoint currentBand field is a LEGACY hand-copied snapshot kept only as a fallback; it is NOT authoritative and was found 2026-07-30 to disagree with the live harness on 27 of 42 pinpoints.",
+    "knownLimitation": "SCENARIO MISMATCH (open, 2026-07-30): resolving the correct band is necessary but not sufficient. Several pinpoints ask Claude about a national, no-add-on scenario while the harness spec they map to is region- and add-on-specific (e.g. gutters/copper-80-2story asks national but maps to copper-80-2story-ca-guards, which is CA 1.22x WITH guards; painting/interior-2500-premium asks generic interior but maps to int-prem-2500-ultra-fair-ny, ultra-premium paint in NY). Until each askClaude prompt is rewritten to describe the SAME scenario as its harness spec, drift percentages on those pinpoints compare different jobs and should not be acted on. Do not mass-adjust bands from this report until that is closed."
   },
   "verticals": {
     "hvac": {
@@ -13,19 +15,30 @@
           "id": "central_ac-3ton-16seer",
           "label": "3-ton 16 SEER central AC, fully installed (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a 3-ton (~36,000 BTU) 16 SEER R-454B central air conditioner including labor, permits, and standard accessories. Average across single-family homes nationwide. Return only a JSON object: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<short quote from the source>\"}.",
-          "currentBand": { "low": 6500, "high": 13500 }
+          "currentBand": {
+            "low": 6500,
+            "high": 13500
+          }
         },
         {
           "id": "heat_pump-3ton-16seer",
           "label": "3-ton 16 SEER heat pump, fully installed (national avg)",
           "askClaude": "Find the typical 2026 NATIONAL AVERAGE installed cost RANGE for a 3-ton 16 SEER2 / R-454B residential heat pump including labor, permits, and standard accessories. Anchor to HomeGuide / Forbes / Modernize 2026 national medians ACROSS mid-tier brands (Carrier, Trane, Lennox, Bryant, Goodman, Rheem, Daikin) — NOT a single brand-specific quote. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 15000 }
+          "currentBand": {
+            "low": 8000,
+            "high": 15000
+          },
+          "harnessSpecId": "hp-3ton-16seer-ny"
         },
         {
           "id": "full_system-4ton-16seer-90afue",
           "label": "Full HVAC system AC + furnace 16 SEER / 90 AFUE 4-ton (national)",
           "askClaude": "Find the typical 2026 NATIONAL AVERAGE installed cost RANGE for a complete HVAC system replacement: 4-TON (48,000 BTU) 16 SEER2 central AC + 90% AFUE gas furnace, fully installed including ductwork tie-ins, permits, and standard accessories. For an average 2,500-2,700 sqft home requiring 4-ton cooling sizing (NOT 3-ton sizing for smaller homes). Anchor to HomeGuide / Forbes / Modernize 2026 national medians for the 4-ton config across mid-tier brands. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 11000, "high": 16000 }
+          "currentBand": {
+            "low": 11000,
+            "high": 16000
+          },
+          "harnessSpecId": "full-4ton-16-90-tx"
         }
       ],
       "sources": [
@@ -41,19 +54,30 @@
           "id": "asphalt-2000sqft",
           "label": "Asphalt 3-tab shingle roof, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete 3-tab asphalt shingle roof replacement on a 2,000 sqft single-family home, including tear-off of one layer, underlayment, and standard accessories. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 7000, "high": 11000 }
+          "currentBand": {
+            "low": 7000,
+            "high": 11000
+          }
         },
         {
           "id": "architectural-2000sqft",
           "label": "Architectural shingle roof, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete architectural (dimensional) asphalt shingle roof replacement on a 2,000 sqft home, including tear-off and standard installation. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8500, "high": 15000 }
+          "currentBand": {
+            "low": 8500,
+            "high": 15000
+          },
+          "harnessSpecId": "architectural-2000sqft"
         },
         {
           "id": "metal-2000sqft",
           "label": "Metal roof installation, 2,000 sqft home (national avg)",
           "askClaude": "Find the typical installed cost RANGE for a complete metal roof replacement (mix of corrugated and standing seam) on a 2,000 sqft home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 16000, "high": 30000 }
+          "currentBand": {
+            "low": 16000,
+            "high": 30000
+          },
+          "harnessSpecId": "metal-2000sqft"
         }
       ],
       "sources": [
@@ -69,13 +93,21 @@
           "id": "uncontested-divorce",
           "label": "Uncontested divorce attorney fees (national)",
           "askClaude": "Find the typical 2026 attorney fee RANGE for an uncontested divorce in the US. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 4000 }
+          "currentBand": {
+            "low": 1000,
+            "high": 4000
+          },
+          "harnessSpecId": "uncontested-divorce-simple-se"
         },
         {
           "id": "chapter-7-bankruptcy",
           "label": "Chapter 7 bankruptcy attorney fees (national)",
           "askClaude": "Find the typical 2026 attorney fee RANGE for a Chapter 7 personal bankruptcy filing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 2000 }
+          "currentBand": {
+            "low": 1000,
+            "high": 2000
+          },
+          "harnessSpecId": "chapter-7-simple-s"
         }
       ],
       "sources": [
@@ -91,13 +123,21 @@
           "id": "er-moderate-insured-in",
           "label": "ER moderate visit, in-network insured patient OOP (national)",
           "askClaude": "Find the typical 2026 TOTAL patient out-of-pocket cost RANGE for a moderate emergency room visit (stitches, fracture treatment, or similar — NOT trauma, NOT just a copay) for someone with in-network commercial insurance. TOTAL patient responsibility across ER copay + facility coinsurance + imaging/labs + deductible portion combined, NOT just the flat ER copay alone. Anchor to KFF / Peterson-KFF / HealthSystemTracker 2026 commercially-insured ER visit OOP medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 300, "high": 1200 }
+          "currentBand": {
+            "low": 300,
+            "high": 1200
+          },
+          "harnessSpecId": "er-moderate-insured-in-ne"
         },
         {
           "id": "knee-replacement-medicare",
           "label": "Knee replacement on Medicare patient cost-sharing (national)",
           "askClaude": "Find the typical 2026 TOTAL patient cost-sharing RANGE for a complete knee replacement EPISODE OF CARE on traditional Medicare Part A/B WITHOUT Medigap supplemental insurance. TOTAL patient OOP across all services combined: Part A inpatient deductible ($1,676 2026) + Part B 20% coinsurance on surgeon/anesthesia/imaging + skilled nursing facility days 21+ ($209.50/day 2026) + outpatient physical therapy 20% coinsurance + DME. NOT just the Part A deductible alone, NOT outpatient-only knee replacement. Anchor to Medicare.gov / KFF / AHIP 2026 traditional-Medicare-no-Medigap typical-OOP medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 2500, "high": 8000 }
+          "currentBand": {
+            "low": 2500,
+            "high": 8000
+          },
+          "harnessSpecId": "knee-replacement-medicare-mw"
         }
       ],
       "sources": [
@@ -113,13 +153,21 @@
           "id": "local-2br-under-50mi",
           "label": "Local 2BR move under 50 miles (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a local move (under 50 miles) of a 2-bedroom home with no packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 800, "high": 1500 }
+          "currentBand": {
+            "low": 800,
+            "high": 1500
+          },
+          "harnessSpecId": "local-2br-under50-none-nc"
         },
         {
           "id": "ld-3br-cross-country",
           "label": "Long-distance 3BR cross-country move 1000+ mi (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a long-distance move (1,000+ miles, cross-country) of a 3-bedroom home with partial packing service. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 14000 }
+          "currentBand": {
+            "low": 8000,
+            "high": 14000
+          },
+          "harnessSpecId": "ld-3br-1000plus-partial-ca-piano"
         }
       ],
       "sources": [
@@ -135,13 +183,21 @@
           "id": "single-car-steel-opener",
           "label": "Single-car steel garage door + opener install (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a single-car (9x7) basic steel garage door installed including a new opener. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1200, "high": 2200 }
+          "currentBand": {
+            "low": 1200,
+            "high": 2200
+          },
+          "harnessSpecId": "single-steel-basic-opener-nc"
         },
         {
           "id": "double-car-insulated-opener",
           "label": "Double-car insulated steel garage door + opener (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a double-car (16x7) insulated steel garage door installed including a new opener. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1800, "high": 4500 }
+          "currentBand": {
+            "low": 1800,
+            "high": 4500
+          },
+          "harnessSpecId": "double-steel-insulated-opener-ny"
         }
       ],
       "sources": [
@@ -157,13 +213,21 @@
           "id": "paver-patio-400",
           "label": "Paver patio 400 sqft, moderate complexity, mid-tier (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 400 sqft paver patio with moderate complexity (curves, edging) using mid-tier interlocking pavers. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 6000, "high": 14000 }
+          "currentBand": {
+            "low": 6000,
+            "high": 14000
+          },
+          "harnessSpecId": "paver-400-mod-mid-nc"
         },
         {
           "id": "outdoor-kitchen-premium",
           "label": "Outdoor kitchen premium tier (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a PREMIUM-TIER outdoor kitchen with luxury appliances (high-end grill, refrigerator, sink), extensive masonry/stone work, professional design, and dedicated gas/electric routing. NOT base/mid-tier outdoor kitchens (those run $5K-$25K). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 25000, "high": 80000 }
+          "currentBand": {
+            "low": 25000,
+            "high": 80000
+          },
+          "harnessSpecId": "outdoor-kitchen-complex-prem-ca"
         }
       ],
       "sources": [
@@ -179,13 +243,21 @@
           "id": "aluminum-seamless-150-1story",
           "label": "Aluminum seamless gutters 150 lf, 1-story (national)",
           "askClaude": "Find the typical 2026 cost RANGE for aluminum seamless K-style gutters (5-inch), 150 linear feet, 1-story home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1000, "high": 1800 }
+          "currentBand": {
+            "low": 1000,
+            "high": 1800
+          },
+          "harnessSpecId": "alum-seamless-150-1story-se"
         },
         {
           "id": "copper-80-2story",
           "label": "Copper gutters 80 lf, 2-story home (national)",
           "askClaude": "Find the typical 2026 cost RANGE for copper gutters, 80 linear feet, 2-story home, including hidden hangers and downspouts. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 2000, "high": 6000 }
+          "currentBand": {
+            "low": 2000,
+            "high": 6000
+          },
+          "harnessSpecId": "copper-80-2story-ca-guards"
         }
       ],
       "sources": [
@@ -201,13 +273,21 @@
           "id": "wood-150-6ft-gate",
           "label": "Wood privacy fence 150 lf, 6ft, with gate (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 150-linear-foot wood privacy fence (PT pine), 6 feet tall, including one gate. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 2500, "high": 5500 }
+          "currentBand": {
+            "low": 2500,
+            "high": 5500
+          },
+          "harnessSpecId": "wood-150-6ft-gate-nc"
         },
         {
           "id": "vinyl-100-6ft-gate",
           "label": "Vinyl privacy fence 100 lf, 6ft, with gate (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 100-linear-foot vinyl/PVC privacy fence, 6 feet tall, including one gate. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5000, "high": 7500 }
+          "currentBand": {
+            "low": 5000,
+            "high": 7500
+          },
+          "harnessSpecId": "vinyl-100-6ft-gate-ny"
         }
       ],
       "sources": [
@@ -223,13 +303,21 @@
           "id": "driveway-600",
           "label": "Standard concrete driveway 600 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a standard concrete driveway, 600 sqft, 4-inch thick. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 3500, "high": 9000 }
+          "currentBand": {
+            "low": 3500,
+            "high": 9000
+          },
+          "harnessSpecId": "std-driveway-600-se"
         },
         {
           "id": "stamped-400",
           "label": "Stamped concrete patio 400 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a 400 sqft stamped concrete patio. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 3000, "high": 12000 }
+          "currentBand": {
+            "low": 3000,
+            "high": 12000
+          },
+          "harnessSpecId": "stamped-400-w"
         }
       ],
       "sources": [
@@ -245,13 +333,21 @@
           "id": "10-vinyl-mid-doublehung-pocket",
           "label": "10 vinyl mid-tier double-hung double-pane Low-E, pocket replacement (national)",
           "askClaude": "Find the typical 2026 cost RANGE for installing 10 mid-tier vinyl double-hung windows with double-pane Low-E glass via pocket/insert replacement. Brands like Pella 250, Simonton 5500, Milgard Tuscany. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5500, "high": 9000 }
+          "currentBand": {
+            "low": 5500,
+            "high": 9000
+          },
+          "harnessSpecId": "10vinyl-mid-doublehung-lowe-pocket-nc"
         },
         {
           "id": "6-fiberglass-premium-casement-fullframe",
           "label": "6 fiberglass premium casement triple-pane fullframe (national)",
           "askClaude": "Find the typical 2026 cost RANGE for installing 6 premium fiberglass casement windows with triple-pane glass via full-frame replacement. Brands like Marvin Essential, Marvin Elevate. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 6000, "high": 15000 }
+          "currentBand": {
+            "low": 6000,
+            "high": 15000
+          },
+          "harnessSpecId": "6fiberglass-prem-casement-triple-fullframe-ny"
         }
       ],
       "sources": [
@@ -267,13 +363,21 @@
           "id": "exterior-2000-mid",
           "label": "Exterior painting 2,000 sqft, mid-range paint (national)",
           "askClaude": "Find the typical 2026 cost RANGE for an exterior repainting job on a 2,000 sqft home using mid-range paint (Sherwin-Williams SuperPaint / Benjamin Moore Ben tier). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 4000, "high": 7000 }
+          "currentBand": {
+            "low": 4000,
+            "high": 7000
+          },
+          "harnessSpecId": "ext-std-2000-mid-good-nc"
         },
         {
           "id": "interior-2500-premium",
           "label": "Interior painting 2,500 sqft, premium paint (national)",
           "askClaude": "Find the typical 2026 cost RANGE for an interior repaint job covering 2,500 sqft of wall area with premium paint (SW Duration / BM Regal Select tier). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 6000, "high": 15000 }
+          "currentBand": {
+            "low": 6000,
+            "high": 15000
+          },
+          "harnessSpecId": "int-prem-2500-ultra-fair-ny"
         }
       ],
       "sources": [
@@ -289,13 +393,21 @@
           "id": "vinyl-1500-1story",
           "label": "Vinyl siding, 1,500 sqft wall area, 1-story (national)",
           "askClaude": "Find the typical 2026 cost RANGE for vinyl siding installation on a 1,500 sqft wall area, 1-story home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 5000, "high": 12000 }
+          "currentBand": {
+            "low": 5000,
+            "high": 12000
+          },
+          "harnessSpecId": "vinyl-1500-1story-good-nc"
         },
         {
           "id": "fiber-cement-2000-2story",
           "label": "Fiber cement (Hardie) siding, 2,000 sqft wall, 2-story",
           "askClaude": "Find the typical 2026 cost RANGE for James Hardie or fiber cement siding installation on 2,000 sqft of wall area on a 2-story home. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 15000, "high": 26000 }
+          "currentBand": {
+            "low": 15000,
+            "high": 26000
+          },
+          "harnessSpecId": "hardie-2000-2story-fair-mw"
         }
       ],
       "sources": [
@@ -311,13 +423,21 @@
           "id": "8kw-mid-string-no-battery",
           "label": "8 kW mid-tier solar, string inverter, no battery (national)",
           "askClaude": "Find the typical 2026 cost RANGE (gross, before federal ITC) for an 8 kW residential solar system with mid-tier panels (Q Cells / LONGi / REC), string inverter, no battery storage. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 20000, "high": 28000 }
+          "currentBand": {
+            "low": 20000,
+            "high": 28000
+          },
+          "harnessSpecId": "8kw-mid-string-none-ca-good"
         },
         {
           "id": "11kw-premium-with-powerwall",
           "label": "11 kW premium solar with Tesla Powerwall (national)",
           "askClaude": "Find the typical 2026 NATIONAL AVERAGE cost RANGE (gross, before federal ITC) for an 11 kW residential solar system with premium panels (SunPower / LG / Panasonic), microinverters, and one Tesla Powerwall 3 battery. Anchor to NREL 2026 benchmark + EnergySage marketplace medians, not high-cost-metro luxury. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 45000, "high": 65000 }
+          "currentBand": {
+            "low": 45000,
+            "high": 65000
+          },
+          "harnessSpecId": "11kw-prem-micro-powerwall-ny"
         }
       ],
       "sources": [
@@ -333,13 +453,21 @@
           "id": "blown-in-attic-1500",
           "label": "Blown-in attic insulation, 1,500 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for blown-in attic insulation on a 1,500 sqft attic with R-30 to R-49 target. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1500, "high": 3500 }
+          "currentBand": {
+            "low": 1500,
+            "high": 3500
+          },
+          "harnessSpecId": "blown-in-1500-attic-se-no-removal"
         },
         {
           "id": "spray-foam-closed-1000-walls",
           "label": "Closed-cell spray foam in walls, 1,000 sqft (national)",
           "askClaude": "Find the typical 2026 cost RANGE for closed-cell spray foam insulation in 1,000 sqft of wall area. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 3000, "high": 5500 }
+          "currentBand": {
+            "low": 3000,
+            "high": 5500
+          },
+          "harnessSpecId": "spray-foam-closed-1000-walls-ne"
         }
       ],
       "sources": [
@@ -355,19 +483,31 @@
           "id": "pier-moderate-6piers",
           "label": "Foundation pier installation, moderate scope (6 piers), modern home",
           "askClaude": "Find the typical 2026 TOTAL project cost RANGE for foundation pier installation with about 6 piers on a modern (1990+) single-family home. Anchor to MIXED pier types (hydraulic concrete + steel push + helical) national medians per HomeGuide / Forbes / Angi 2026, NOT helical-only or single-type pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 18000 }
+          "currentBand": {
+            "low": 8000,
+            "high": 18000
+          },
+          "harnessSpecId": "pier-moderate-1990plus-tx"
         },
         {
           "id": "wall-stabilization-major",
           "label": "Foundation wall stabilization, major scope, mid-century home",
           "askClaude": "Find the typical 2026 TOTAL project cost RANGE for MAJOR-SCOPE foundation wall stabilization on a 1960-1989 single-family home — anchor to a comprehensive multi-technique retrofit (carbon fiber straps + steel I-beam braces + helical tiebacks + drainage) per HomeGuide / Forbes / Angi 2026, NOT single-technique carbon-fiber-only pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 8000, "high": 22000 }
+          "currentBand": {
+            "low": 8000,
+            "high": 22000
+          },
+          "harnessSpecId": "wall-stab-major-1960to89-ny"
         },
         {
           "id": "crack-repair-minor",
           "label": "Foundation crack repair, minor (2 cracks), modern home",
           "askClaude": "Find the typical 2026 TOTAL project cost RANGE for repairing 2-3 minor non-structural foundation cracks (epoxy/polyurethane injection) on a modern home. Total project cost across all cracks combined, NOT per-crack pricing. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 400, "high": 1500 }
+          "currentBand": {
+            "low": 400,
+            "high": 1500
+          },
+          "harnessSpecId": "crack-minor-1990plus-nc"
         }
       ],
       "sources": [
@@ -383,19 +523,31 @@
           "id": "panel-upgrade-100-200a",
           "label": "Panel upgrade 100A to 200A, modern home (national)",
           "askClaude": "Find the typical 2026 cost RANGE for upgrading an electrical panel from 100-amp to 200-amp service in a modern (post-2000) single-family home. Include permits and inspection. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1300, "high": 3500 }
+          "currentBand": {
+            "low": 1300,
+            "high": 3500
+          },
+          "harnessSpecId": "panel-upgrade-2k-2000plus-se"
         },
         {
           "id": "whole-house-rewire-2k-pre1970",
           "label": "Whole-house rewire, 2,000 sqft, pre-1970 (knob-and-tube)",
           "askClaude": "Find the typical 2026 cost RANGE for a complete whole-house rewire on a 2,000 sqft pre-1970 home with knob-and-tube or aluminum wiring. Includes permits and patch/paint. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 12000, "high": 35000 }
+          "currentBand": {
+            "low": 12000,
+            "high": 35000
+          },
+          "harnessSpecId": "whole-rewire-2k-pre1970-ne"
         },
         {
           "id": "ev-charger-l2-install",
           "label": "Level 2 EV charger installation (national)",
           "askClaude": "Find the typical 2026 cost RANGE for installing a Level 2 EV charger at a residential garage, including the unit and the dedicated 240V circuit. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 1200, "high": 3500 }
+          "currentBand": {
+            "low": 1200,
+            "high": 3500
+          },
+          "harnessSpecId": "ev-charger-2000plus-w"
         }
       ],
       "sources": [
@@ -411,19 +563,31 @@
           "id": "midrange-average-quartz-semi-mid",
           "label": "Mid-range remodel, average size, quartz, semi-custom, mid appliances (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a mid-range kitchen remodel: average size 100-150 sqft, quartz countertops, semi-custom cabinets, mid-range appliances (KitchenAid/Bosch tier). National average. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 35000, "high": 70000 }
+          "currentBand": {
+            "low": 35000,
+            "high": 70000
+          },
+          "harnessSpecId": "midrange-average-quartz-semi-mid-nc"
         },
         {
           "id": "major-large-custom-premium",
           "label": "Major upscale, large kitchen, custom cabinets, premium appliances (national)",
           "askClaude": "Find the typical 2026 NATIONAL AVERAGE cost RANGE (not metro-specific, not luxury-custom) for a Major Upscale tier kitchen remodel — large size 150-200 sqft, custom cabinets, premium appliances (KitchenAid Built-In / Thermador / Wolf / Sub-Zero professional tier). Anchor to Cost vs Value / NKBA / HomeGuide-style national medians. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 120000, "high": 220000 }
+          "currentBand": {
+            "low": 120000,
+            "high": 220000
+          },
+          "harnessSpecId": "major-large-quartzite-custom-premium-ny"
         },
         {
           "id": "cabinet-refacing-average",
           "label": "Cabinet refacing, average size, semi-custom (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a cabinet refacing project on an average-size kitchen with semi-custom finish (no full cabinet replacement). Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 4000, "high": 10000 }
+          "currentBand": {
+            "low": 4000,
+            "high": 10000
+          },
+          "harnessSpecId": "refacing-average-granite-semi-existing-tx"
         }
       ],
       "sources": [
@@ -440,19 +604,31 @@
           "id": "brakes_pads_rotors-std-indep",
           "label": "Brake pads + rotors per axle, standard sedan, independent shop (national)",
           "askClaude": "Find the typical RepairPal/AAA cost RANGE for replacing front brake pads AND rotors per axle on a standard sedan (Camry/Accord-class) at an independent shop. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 250, "high": 550 }
+          "currentBand": {
+            "low": 250,
+            "high": 550
+          },
+          "harnessSpecId": "brakes-pads-rotors-std-indep-sc"
         },
         {
           "id": "engine_replace-std-indep",
           "label": "Engine replacement, standard sedan, independent shop (national)",
           "askClaude": "Find the typical 2026 cost RANGE for a remanufactured engine replacement on a standard sedan at an independent shop, including labor and the reman engine itself. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 3200, "high": 10000 }
+          "currentBand": {
+            "low": 3200,
+            "high": 10000
+          },
+          "harnessSpecId": "engine-replace-std-indep-sc"
         },
         {
           "id": "battery-std-chain",
           "label": "AGM battery replacement, standard sedan, chain shop (national)",
           "askClaude": "Find the typical installed cost RANGE for an AGM battery replacement on a standard modern sedan at a chain shop (Pep Boys / Firestone / Midas). NOT conventional flooded lead-acid (those run $130-$200) — anchor specifically to AGM-tier batteries which start at $200+ for entry AGM and run $250-$350 for premium AGM brands. Return only JSON: {\"low\": <number>, \"high\": <number>, \"sourceQuote\": \"<quote>\"}.",
-          "currentBand": { "low": 220, "high": 350 }
+          "currentBand": {
+            "low": 220,
+            "high": 350
+          },
+          "harnessSpecId": "battery-std-chain-sc"
         }
       ],
       "sources": [
