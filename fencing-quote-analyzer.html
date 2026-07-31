@@ -601,7 +601,24 @@
         /(\d+)\s*(?:linear\s*f(?:ee)?t|lin(?:eal)?\s*f(?:ee)?t|l\.?\s*f\.?t?\.?|lf\b)/i,
         /(\d+)\s*(?:feet|ft\.?)\s*(?:of\s*)?(?:fence|fencing)/i,
         /(?:total\s*(?:length|footage|linear))[:\s]*(\d+)/i,
-        /(?:fence\s*length)[:\s]*(\d+)/i
+        /(?:fence\s*length)[:\s]*(\d+)/i,
+        // [FENCE-LF-1] Invoice with a Qty column and no "lf"/"linear feet"
+        // wording anywhere, e.g. f7-real-1600lf-wire ($18,025 / 1600lf wire).
+        // Every pattern above missed it, so detectLength returned null and
+        // effectiveLength fell back to the 150 default. That default feeds
+        // calcBenchmark and perLF, so the job was benchmarked as 150lf and
+        // read as massively overpriced.
+        //
+        // Do NOT try to match "<description> <qty>" on one line. The live
+        // client-side OCR emits this invoice COLUMN-WISE, not row-wise --
+        // every description first, then the whole Qty column, then prices:
+        //   Description / 6 Strand Fence / Double H Brace / ...
+        //   Qty Unit price / 1600 $9.00 / 2 $700.00 / ...
+        // so the fence description and its quantity are many lines apart.
+        // (test/fencing/ocr-cache/*.txt is row-aligned and does NOT reflect
+        // what the browser actually produces -- do not tune against it.)
+        // Anchor on the Qty column header and take its first value instead.
+        /\bqty\b[^\n]*\n[\s]*(\d{2,5})[ \t]+\$/i
       ];
       for (var i = 0; i < patterns.length; i++) {
         var m = text.match(patterns[i]);
