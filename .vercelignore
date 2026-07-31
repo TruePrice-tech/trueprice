@@ -8,3 +8,13 @@ data/community-quotes.json
 .claude/
 *.output
 newsletter-drafts/
+
+# Build-time page templates and image mockups. These are committed, so
+# without this they deploy and Google serves them: /templates/*.html was
+# live and crawlable as of 2026-07-31, 21 near-duplicate skeletons of real
+# city pages carrying {{PLACEHOLDER}} text. They are build inputs, not site
+# content. (Kept out of the deploy rather than noindex'd on purpose -- a
+# noindex meta in a template would be inherited by every page built from it.)
+templates/
+images/trueprice-social.html
+images/Logo Ideas/preview.html
