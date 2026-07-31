@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-20T23:20:00.272Z",
+  "ts": "2026-07-31T01:40:27.659Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
@@ -10,6 +10,15 @@
         "high": 9000
       },
       "label": "3-ton 14 SEER central AC, Georgia (Southeast new-minimum tier)",
+      "failures": []
+    },
+    "ac-3ton-16seer-se": {
+      "price": 8050,
+      "band": {
+        "low": 6000,
+        "high": 11000
+      },
+      "label": "3-ton 16 SEER central AC, Southeast (most common replacement)",
       "failures": []
     },
     "ac-5ton-16seer-sc": {

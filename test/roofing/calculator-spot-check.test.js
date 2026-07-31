@@ -54,6 +54,17 @@ const SPECS = [
     sources: "HomeGuide 2026 1500-sqft asphalt $4.5-10k; Modernize 2026.",
   },
   {
+    // [PRICE-DRIFT-FIX-3] Added 2026-07-30 to close a coverage gap. The drift
+    // catalog carried an `asphalt-2000sqft` pinpoint with a hand-written band
+    // of $7,000-$11,000, but the harness only covered 1,200 and 1,500 sqft, so
+    // nothing gated the single most-quoted asphalt scope.
+    id: "asphalt-2000sqft",
+    label: "2,000 sqft typical home, 3-tab asphalt (most-quoted budget scope)",
+    inputs: { sqft: 2000, material: "asphalt" },
+    band: { low: 6000, high: 12000 },
+    sources: "HomeGuide / Forbes / Angi 2026 3-tab asphalt $3.50-5.00/sqft = $7-10k for 2,000 sqft, up to $12k at the high end. Calc mid $8,000 inside.",
+  },
+  {
     id: "architectural-2000sqft",
     label: "2,000 sqft typical home, architectural shingles (most popular case)",
     inputs: { sqft: 2000, material: "architectural" },

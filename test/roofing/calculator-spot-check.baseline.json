@@ -1,5 +1,5 @@
 {
-  "ts": "2026-05-20T22:36:02.183Z",
+  "ts": "2026-07-31T01:40:27.734Z",
   "results": {
     "asphalt-1200sqft": {
       "calcMid": 4800,
@@ -21,6 +21,17 @@
         "high": 10500
       },
       "label": "1,500 sqft typical small home, 3-tab asphalt",
+      "failures": []
+    },
+    "asphalt-2000sqft": {
+      "calcMid": 8000,
+      "calcLow": 5600,
+      "calcHigh": 10800,
+      "band": {
+        "low": 6000,
+        "high": 12000
+      },
+      "label": "2,000 sqft typical home, 3-tab asphalt (most-quoted budget scope)",
       "failures": []
     },
     "architectural-2000sqft": {

@@ -55,6 +55,18 @@ const SPECS = [
     sources: "HomeGuide 2026 14-15 SEER 3-ton $5.5k-9k SE; Modernize 2026.",
   },
   {
+    // [PRICE-DRIFT-FIX-3] Added 2026-07-30 to close a coverage gap. The drift
+    // catalog had a `central_ac-3ton-16seer` pinpoint with a hand-written
+    // "current band" of $6,500-$13,500, but no harness spec existed for that
+    // configuration — nothing gated it, and it produced the June report's
+    // largest outlier (-49%) against a band we never actually enforced.
+    id: "ac-3ton-16seer-se",
+    label: "3-ton 16 SEER central AC, Southeast (most common replacement)",
+    inputs: { systemType: "central_ac", seer: 16, tons: 3, region: "southeast", ductworkCond: "good" },
+    band: { low: 6000, high: 11000 },
+    sources: "Sits between ac-3ton-14seer-ga ($5.5-9k) and ac-5ton-16seer-sc ($10-15k). 2026 installed R-454B 3-ton 16 SEER SE runs ~$6.5-11k (HomeGuide / This Old House / Modernize 2026). Calc $8,050 inside.",
+  },
+  {
     id: "ac-5ton-16seer-sc",
     label: "5-ton 16 SEER central AC, South Carolina (Lane's regression case)",
     inputs: { systemType: "central_ac", seer: 16, tons: 5, region: "southeast", ductworkCond: "good" },
