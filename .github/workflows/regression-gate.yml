@@ -180,12 +180,27 @@ jobs:
         continue-on-error: true
         run: |
           node scripts/audit-uniqueness-google.js 2>&1 | tee /tmp/uniqueness.log
-          # The audit prints rows like:
-          #   "  Roof  | 47 | ... | 87% | GOOD"
-          # Count THIN and RISK tiers.
-          THIN_COUNT=$(grep -cE '\| (THIN|RISK)\b' /tmp/uniqueness.log || true)
-          # Also capture the worst score for the digest.
-          WORST=$(grep -oE '[0-9]+%' /tmp/uniqueness.log | grep -oE '[0-9]+' | sort -n | head -1 || echo 100)
+          # The audit prints grade rows like:
+          #   "roof             |    815 |    934 | ... |       53% | OK"
+          # The grade is always the last field, so anchor to end-of-line.
+          #
+          # [GATE-GREP-FIX-1] Both patterns below used to false-positive:
+          #   - THIN_COUNT matched '\| (THIN|RISK)\b', which also matched the
+          #     audit's own SCORING KEY legend line ("THIN (35-49%) = doorway
+          #     page risk | RISK (<35%) = likely penalized"). That made
+          #     THIN_COUNT >= 1 unconditionally, so the hard-fail step below
+          #     could never pass regardless of actual uniqueness.
+          #   - WORST took the min of every "N%" anywhere in the log, which
+          #     includes the FAQ Q-STEM REPEAT RATE table where LOW is GOOD.
+          #     It reported 5% while the true worst composite was 53%.
+          # Count THIN and RISK tiers (grade rows only, never the legend).
+          THIN_COUNT=$(grep -cE '\|[[:space:]]+(THIN|RISK)[[:space:]]*$' /tmp/uniqueness.log || true)
+          # Worst COMPOSITE score for the digest — read the % immediately
+          # preceding the grade on a grade row, not any % in the log.
+          # `|| true` guards the no-match case if pipefail is ever enabled here.
+          WORST=$(grep -oE '[0-9]+%[[:space:]]*\|[[:space:]]*(GOOD|OK|THIN|RISK)[[:space:]]*$' /tmp/uniqueness.log \
+                    | grep -oE '^[0-9]+' | sort -n | head -1 || true)
+          WORST=${WORST:-100}
           echo "thin_count=$THIN_COUNT" >> $GITHUB_OUTPUT
           echo "worst=$WORST" >> $GITHUB_OUTPUT
 
