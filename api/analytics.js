@@ -464,21 +464,36 @@ export default async function handler(req, res) {
       return res.status(200).send(gif);
     }
 
-    // Public counter - total real quotes across all sources and verticals
+    // Public counter - DISTINCT real quotes actually submitted by humans.
+    //
+    // 2026-07-31 correction. This endpoint used to return
+    //   tp:total_quotes + (count of analysis_completed/estimate_completed events)
+    // and the homepage rendered it as "N quotes checked and counting". Both
+    // terms were wrong:
+    //   * tp:total_quotes is a monotonic INCR touched by 7 endpoints. It had
+    //     drifted to 6,756 — it counted the 5,622 admin `verified_seed` rows
+    //     written before calibration.js gated the INCR, it never decrements
+    //     when keys expire, and it counts repeat uploads of the SAME quote as
+    //     separate quotes (551 upload rows dedupe to ~59 distinct).
+    //   * the event term added estimate_completed, which is the "no quote yet"
+    //     estimator flow — not a quote check — and double-counts analyzer runs
+    //     that already wrote a cal_quote row.
+    // Displayed 6,909 against ~59 real distinct submissions.
+    //
+    // The number now comes from tp:real_quote_count, recomputed from the quote
+    // store by scripts/recompute-real-quote-count.js (seeds excluded, then
+    // deduped on contractor+price+size+city+state). It cannot drift, cannot be
+    // inflated by re-uploading one fixture, and is auditable against the store.
+    //
+    // If the key is unset we return 0 rather than falling back to the old
+    // number. 0 is below the homepage MIN_DISPLAY threshold, so the counter
+    // hides itself. That is the intended failure mode: silence, never a lie.
     if (req.query.counter === "1") {
       await track();  // Tier 4: count but never gate (homepage hero number)
       try {
-        // tp:total_quotes is incremented by the calibration API on every quote POST
-        const totalQuotes = (await redis.get("tp:total_quotes")) || 0;
-
-        // Also count analysis events from the analyzer UI (user-submitted quotes)
-        const rawEvents = await redis.lrange("tp:events", 0, -1);
-        const analysisCount = rawEvents.filter(e => {
-          const ev = typeof e === "string" ? JSON.parse(e) : e;
-          return ev.event === "analysis_completed" || ev.event === "estimate_completed" || ev.event === "quote_uploaded";
-        }).length;
-
-        return res.status(200).json({ count: Number(totalQuotes) + analysisCount });
+        const real = await redis.get("tp:real_quote_count");
+        const n = Number(real);
+        return res.status(200).json({ count: Number.isFinite(n) && n > 0 ? n : 0 });
       } catch (e) {
         return res.status(200).json({ count: 0 });
       }
