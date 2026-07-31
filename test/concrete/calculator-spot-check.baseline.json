@@ -1,22 +1,22 @@
 {
-  "ts": "2026-05-21T00:07:17.595Z",
+  "ts": "2026-07-31T01:32:52.617Z",
   "inflationMult": 1,
   "seasonalMult": 1,
   "results": {
     "std-driveway-600-se": {
-      "total": 7100,
+      "total": 8650,
       "band": {
-        "low": 4000,
-        "high": 8500
+        "low": 4500,
+        "high": 12500
       },
       "label": "Standard driveway 600 sqft, SE",
       "failures": []
     },
     "stamped-400-w": {
-      "total": 7800,
+      "total": 8800,
       "band": {
         "low": 4000,
-        "high": 13000
+        "high": 15000
       },
       "label": "Stamped concrete 400 sqft, W",
       "failures": []
