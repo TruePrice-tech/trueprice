@@ -8,11 +8,7 @@
   var FENCE_PRICING = {
     basePricePerLinearFoot: {
       chain_link:    { label: "Chain Link",                low: 8,  high: 25,  mid: 15.00 },
-      // [PRICE-DRIFT-2026-1] 22/45/33.50 -> 25/50/37.50. 2026 industry is
-      // $25-$50/lf for 6ft wood privacy (drift report 2026-06-09; low edge
-      // was +102% off). A no-gate 150lf job now computes 37.50*150 = $5,625,
-      // matching the industry mid for that scope exactly.
-      wood_privacy:  { label: "Wood Privacy (PT Pine)",    low: 25, high: 50,  mid: 37.50 },
+      wood_privacy:  { label: "Wood Privacy (PT Pine)",    low: 22, high: 45,  mid: 33.50 },
       cedar:         { label: "Cedar Privacy",             low: 30, high: 60,  mid: 45.00 },
       vinyl_privacy: { label: "Vinyl / PVC Privacy",       low: 35, high: 80,  mid: 50.00 },
       aluminum:      { label: "Aluminum Ornamental",       low: 32, high: 75,  mid: 48.00 },
@@ -23,11 +19,7 @@
     heightMultiplier: { "4": 0.85, "6": 1.00, "8": 1.25 },
     gateCost: {
       chain_link:    { low: 200, high: 500 },
-      // [PRICE-DRIFT-2026-1] 300/600 was 2019-era. 2026 sources put a 3-4ft
-      // walk gate near $1,300 installed; that single figure is high vs the
-      // usual $300-$800 quoted elsewhere, so this splits the difference at
-      // 500/1300 (mid $900) rather than swallowing it whole.
-      wood_privacy:  { low: 500, high: 1300 },
+      wood_privacy:  { low: 300, high: 600 },
       cedar:         { low: 400, high: 700 },
       vinyl_privacy: { low: 400, high: 700 },
       aluminum:      { low: 450, high: 800 },

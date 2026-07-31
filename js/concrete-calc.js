@@ -7,16 +7,8 @@
 
   var CONC_PRICING = {
     basePricePerSqft: {
-      // [PRICE-DRIFT-2026-1] 2026 industry is $8-$20/sqft for a standard
-      // driveway (was 8-15/11.50). Midpoint 14.00 puts a 600sqft job at
-      // $8,400 national, matching the industry mid for that scope.
-      standard_driveway: { label: "Standard Driveway", low: 8,  high: 20, mid: 14.00 },
-      // [PRICE-DRIFT-2026-1] 2026 industry is $9-$30/sqft (was 12-20/16.00).
-      // Our national mid was 18% low; it only looked right in the spot-check
-      // because that spec is West (1.22x), which masked the gap. Using 18.00
-      // rather than the 19.50 range midpoint because 9-30 is right-skewed by
-      // elaborate multi-color work and the median job sits nearer $16-18.
-      stamped_concrete:  { label: "Stamped Concrete",  low: 9,  high: 30, mid: 18.00 },
+      standard_driveway: { label: "Standard Driveway", low: 8,  high: 15, mid: 11.50 },
+      stamped_concrete:  { label: "Stamped Concrete",  low: 12, high: 20, mid: 16.00 },
       concrete_patio:    { label: "Concrete Patio",    low: 8,  high: 16, mid: 12.00 },
       sidewalk:          { label: "Sidewalk",          low: 8,  high: 14, mid: 11.00 },
       asphalt_driveway:  { label: "Asphalt Driveway",  low: 5,  high: 10, mid: 7.50 }
