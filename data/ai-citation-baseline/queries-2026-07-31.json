@@ -1,0 +1,52 @@
+{
+  "test": "AI citation baseline",
+  "baselineDate": "2026-07-31",
+  "checkpoints": { "8_week": "2026-09-25", "16_week": "2026-11-20" },
+  "purpose": "Measure whether woogoro.com is cited by AI answer engines. Google organic is measured dead (see project_flagship_experiment_null_result_2026_07_31): pos 45.2, 6 clicks/90d, on-page levers all null. AI citation is the one channel never tested, and Bing (which powers ChatGPT search) already delivers ~4x woogoro's Google impressions.",
+  "method": "Manual. For each query x engine, record whether an AI answer appeared, whether woogoro.com was cited, which domains WERE cited, and whether a specific dollar figure was given. Use a logged-out / incognito session. Do not click woogoro results before recording (biases personalization on repeat runs).",
+  "engines": ["chatgpt", "perplexity", "google_aio"],
+  "strata": {
+    "A_local_cost": "Core hypothesis. Matches the actual page inventory ([city]-[vertical]-cost.html). Half are drawn from real GSC queries that already earn impressions, so demand is proven.",
+    "B_national_cost": "Highest AI-answer rate and the largest citation pool. If woogoro is cited nowhere here, the citation slot is owned by incumbents.",
+    "C_data_methodology": "Where original quote data (cal_quote:*) is uniquely citable and aggregators have nothing. Highest-value stratum if anything hits.",
+    "D_contractor_control": "Expected NULL. Directory/local-pack intent that woogoro structurally cannot serve. Included so that a null in A/B/C is interpretable rather than ambiguous."
+  },
+  "priorityIfTimeShort": ["C_data_methodology", "B_national_cost", "A_local_cost", "D_contractor_control"],
+  "queries": [
+    { "id": 1,  "stratum": "A_local_cost", "phrase": "how much does a new roof cost in los angeles", "source": "los-angeles-ca-roofing-target-queries.json" },
+    { "id": 2,  "stratum": "A_local_cost", "phrase": "roof replacement cost los angeles", "source": "los-angeles-ca-roofing-target-queries.json" },
+    { "id": 3,  "stratum": "A_local_cost", "phrase": "denver roof repair cost", "source": "denver-co-roofing-target-queries.json" },
+    { "id": 4,  "stratum": "A_local_cost", "phrase": "chattanooga house painting cost", "source": "chattanooga-tn-painting-target-queries.json" },
+    { "id": 5,  "stratum": "A_local_cost", "phrase": "concrete driveway cost melbourne fl", "source": "GSC actual query, 14 impr/90d" },
+    { "id": 6,  "stratum": "A_local_cost", "phrase": "window replacement cost peachtree corners ga", "source": "GSC actual query, 21 impr/90d" },
+    { "id": 7,  "stratum": "A_local_cost", "phrase": "blown in insulation cost escondido ca", "source": "GSC actual query, 21 impr/90d" },
+    { "id": 8,  "stratum": "A_local_cost", "phrase": "garage door estimate carmel indiana", "source": "GSC actual query, 18 impr/90d" },
+
+    { "id": 9,  "stratum": "B_national_cost", "phrase": "how much does it cost to replace a roof", "source": "head term" },
+    { "id": 10, "stratum": "B_national_cost", "phrase": "average cost to paint a house exterior", "source": "head term" },
+    { "id": 11, "stratum": "B_national_cost", "phrase": "how much does hvac replacement cost", "source": "head term" },
+    { "id": 12, "stratum": "B_national_cost", "phrase": "cost to replace windows in a house", "source": "head term, matches top GSC query 'window replacement quotes' 55 impr" },
+    { "id": 13, "stratum": "B_national_cost", "phrase": "average concrete driveway cost per square foot", "source": "head term" },
+    { "id": 14, "stratum": "B_national_cost", "phrase": "how much does blown in insulation cost", "source": "head term" },
+
+    { "id": 15, "stratum": "C_data_methodology", "phrase": "average roof replacement cost by city", "source": "unique-data play" },
+    { "id": 16, "stratum": "C_data_methodology", "phrase": "how much do roofing contractors mark up materials", "source": "unique-data play" },
+    { "id": 17, "stratum": "C_data_methodology", "phrase": "how to tell if a contractor quote is too high", "source": "unique-data play, matches analyzer moat" },
+    { "id": 18, "stratum": "C_data_methodology", "phrase": "what should i compare when getting contractor quotes", "source": "unique-data play, matches analyzer moat" },
+    { "id": 19, "stratum": "C_data_methodology", "phrase": "why do contractor quotes vary so much", "source": "unique-data play" },
+
+    { "id": 20, "stratum": "D_contractor_control", "phrase": "roofing company near me denver", "source": "denver baseline, control" },
+    { "id": 21, "stratum": "D_contractor_control", "phrase": "chattanooga painting contractors reviews", "source": "chattanooga baseline, control" },
+    { "id": 22, "stratum": "D_contractor_control", "phrase": "best roofer denver", "source": "denver baseline, control" },
+    { "id": 23, "stratum": "D_contractor_control", "phrase": "roofers los angeles ca", "source": "LA baseline, control" },
+    { "id": 24, "stratum": "D_contractor_control", "phrase": "top rated roofing services in los angeles", "source": "LA baseline, control" }
+  ],
+  "interpretation": {
+    "cited_in_C": "Best outcome. The original-data thesis is live. Build more of that shape and pursue citation directly.",
+    "cited_in_B_only": "Real but fragile. You are in the pool for head terms and should invest in the pages that earned it.",
+    "cited_in_A_only": "The city-page inventory has AI value even though it has no Google ranking. Would be the single strongest argument for keeping the 19,125 pages.",
+    "null_everywhere_with_D_also_null": "Test is valid and the channel is closed. Combined with the organic null, SEO and AEO are both dead ends for this domain and distribution has to come from somewhere else.",
+    "null_everywhere_but_D_shows_directories": "Confirms the test discriminates. Same conclusion as above, with higher confidence.",
+    "watch_for": "The cited-domains column is the real payload. If Angi/HomeAdvisor/Fixr/Bob Vila own every slot, that is the authority ceiling again. If Reddit, forums, and small blogs are being cited, the slot is winnable without domain authority."
+  }
+}
