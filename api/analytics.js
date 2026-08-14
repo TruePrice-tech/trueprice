@@ -320,6 +320,16 @@ export default async function handler(req, res) {
         const path    = String(data.path || "/").substring(0, 200);
         const errTitle = String(data.title || "").substring(0, 120);
 
+        // Mirror of the tp-analytics.js extension filter. Kept server-side too
+        // because visitors run whatever tp-analytics.min.js their cache holds,
+        // so a client-only fix leaves old clients emailing us extension noise.
+        if (/^(chrome|moz|safari|ms-browser)-extension:\/\//.test(source)) {
+          return res.status(200).json({ ok: true, skipped: "extension" });
+        }
+        if (/-extension:\/\//.test(stack) && !/https?:\/\/[^\s)]*woogoro\.com/.test(stack)) {
+          return res.status(200).json({ ok: true, skipped: "extension" });
+        }
+
         // Short stable hash for dedupe (no crypto import needed)
         const hashSource = message + "|" + source + ":" + lineno;
         let h = 5381;

@@ -88,6 +88,21 @@
     } catch (e) { return false; }
     return true;
   }
+  var EXTENSION_URL = /^(chrome|moz|safari|ms-browser)-extension:\/\//;
+  // A rejection thrown inside an injected extension script has no filename of
+  // its own, so the stack is the only origin signal. Returns the URL of the
+  // topmost frame, i.e. the throw site.
+  function throwSiteUrl(stack) {
+    var lines = String(stack || "").split("\n");
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].replace(/^\s+/, "");
+      // V8: "at fn (url:line:col)" — SpiderMonkey/JSC: "fn@url:line:col"
+      if (line.indexOf("at ") !== 0 && line.indexOf("@") === -1) continue;
+      var m = line.match(/[a-z][a-z0-9.+-]*:\/\/[^\s)]+/i);
+      if (m) return m[0];
+    }
+    return "";
+  }
   function reportError(payload) {
     if (errorBudget <= 0) return;
     // Dedupe within session by message + first stack line
@@ -124,6 +139,8 @@
     var r = ev && ev.reason;
     var msg = r && r.message ? r.message : String(r);
     var stack = r && r.stack ? r.stack : "";
-    reportError({ message: "[promise] " + msg, source: window.location.pathname, stack: stack });
+    var origin = throwSiteUrl(stack);
+    if (EXTENSION_URL.test(origin)) return;
+    reportError({ message: "[promise] " + msg, source: origin || window.location.pathname, stack: stack });
   });
 })();
