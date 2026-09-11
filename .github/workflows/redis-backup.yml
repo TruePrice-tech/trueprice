@@ -3,7 +3,12 @@ name: Weekly Redis Backup
 # Snapshots all flywheel-critical Upstash keys to a JSON file and stores it
 # as a workflow artifact (90-day retention). Single point of failure today is
 # Upstash — if the database is wiped or corrupted, we lose tp:total_quotes,
-# every cal:* bucket, and all calibration history. Cheap insurance.
+# every cal:* bucket, the raw cal_quote:* submissions, and all calibration
+# history. Cheap insurance.
+#
+# Covers cal_quote:* (raw user-submitted quotes) with the `ip` field stripped.
+# Does NOT cover tp:pageviews (analytics history, high churn) or rate-limit
+# keys (genuinely regenerable).
 #
 # Restore path: download the latest artifact, run scripts/restore-redis.js
 # (write that when needed — not a tested code path until disaster strikes).
@@ -48,7 +53,28 @@ jobs:
             'tp:vertical_health:*',
             'tp:flywheel_integrity:*',
             'cal:*',
+            'cal_quote:*',
           ];
+
+          // cal_quote:* is the raw user-submitted quote corpus (~6.3k keys).
+          // It was NOT covered before: the 'cal:*' pattern matches the literal
+          // prefix "cal:" and so never touched "cal_quote:". The old header
+          // comment called per-quote keys "regenerable" -- they are not. They
+          // are user submissions. If Upstash is wiped they are gone for good.
+          //
+          // Each record carries a raw `ip`. Strip it on the way out so we don't
+          // replicate visitor IPs into a 90-day GitHub artifact; the pricing
+          // fields are what a restore actually needs.
+          const PII_FIELDS = ['ip'];
+          function scrub(key, entry) {
+            if (!key.startsWith('cal_quote:')) return entry;
+            if (entry.type !== 'string' || typeof entry.value !== 'string') return entry;
+            let obj;
+            try { obj = JSON.parse(entry.value); } catch { return entry; }
+            if (!obj || typeof obj !== 'object') return entry;
+            for (const f of PII_FIELDS) delete obj[f];
+            return { ...entry, value: JSON.stringify(obj), scrubbed: true };
+          }
 
           // Read a key by its actual Redis type. The literal-key branch used to
           // assume 'string' and call get() unconditionally, which threw
@@ -86,7 +112,7 @@ jobs:
               for (const k of batch) {
                 const entry = await readKey(k);
                 if (!entry) { skipped.push(k); continue; }
-                snapshot[k] = entry;
+                snapshot[k] = scrub(k, entry);
                 totalKeys++;
               }
             } while (cursor !== 0);
