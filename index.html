@@ -66,6 +66,8 @@
   .tp-intent-card.tp-card-popular::before{content:'Most popular';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#1d4ed8;color:#fff;font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(29,78,216,0.4)}
   @media (max-width:700px){.tp-hero-section{padding:56px 0 32px}.tp-slogan{font-size:36px;margin-bottom:12px}.tp-subhead{font-size:15px;max-width:92%;margin-bottom:32px}.tp-intent-grid{grid-template-columns:1fr;gap:12px}.tp-intent-card{padding:14px 12px;border-top-width:5px}.tp-intent-card.tp-card-popular{border-top-width:7px}.tp-intent-card img{max-height:150px;margin-bottom:10px}.tp-intent-card h2{font-size:17px}.tp-intent-card p.tp-sub{font-size:13px;margin-bottom:10px}.tp-intent-cta{font-size:14px;padding:10px 16px}.tp-counter{margin-top:28px}.tp-counter-num{font-size:26px}}
   @media (max-width:480px){.tp-slogan{font-size:30px}.tp-subhead{font-size:14px}}
+  @media (min-width:769px){.site-header nav.hp-nav{gap:24px}}
+  @media (max-width:700px){.hp-nav-md{display:none}}
   </style>
   <link rel="preload" href="/images/Iris/Iris%20estimate.webp" as="image" type="image/webp" fetchpriority="high" />
   <link rel="preload" href="/images/Iris/Iris%20analyze.webp" as="image" type="image/webp" fetchpriority="high" />
@@ -98,10 +100,10 @@
   <header class="site-header" style="background:transparent; border-bottom:none; position:absolute; width:100%; z-index:10;">
     <div class="container">
       <a class="logo" href="/" style="color:#fff;"><picture><source srcset="/images/Iris/Iris%20color%20side%20silhouette.webp" type="image/webp"/><img class="logo-mark" src="/images/Iris/Iris%20color%20side%20silhouette.png" alt="" width="32" height="32" /></picture><span class="logo-text">Woogoro</span></a>
-      <nav style="display:flex; gap:24px; align-items:center;">
+      <nav class="hp-nav">
         <a href="/guides.html" style="color:rgba(255,255,255,0.78);">Guides</a>
         <a href="/blog.html" style="color:rgba(255,255,255,0.78);">Blog</a>
-        <a href="/recommendations.html" style="color:rgba(255,255,255,0.78);">Recommendations</a>
+        <a href="/recommendations.html" class="hp-nav-md" style="color:rgba(255,255,255,0.78);">Recommendations</a>
         <a href="/about.html" style="color:rgba(255,255,255,0.78);">About</a>
         <a href="mailto:hello@woogoro.com" style="color:rgba(255,255,255,0.78);">Contact</a>
       </nav>
