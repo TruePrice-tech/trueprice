@@ -4,12 +4,28 @@
 // already uses the WHATWG URL API (new URL()). The warning will resolve when
 // Upstash updates their package. No action needed here.
 import { Redis } from "@upstash/redis";
+import { timingSafeEqual } from "node:crypto";
 import { gate, track } from "./_usage-gate.js";
 
 const redis = Redis.fromEnv();
-// TODO: Set ANALYTICS_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars)
-const ADMIN_KEY = process.env.ANALYTICS_ADMIN_KEY || "tp_admin_2026";
+// Admin key for the read/write/purge routes below. FAIL CLOSED: if
+// ANALYTICS_ADMIN_KEY is unset, every admin route 503s rather than falling back
+// to a shared default. The previous fallback ("tp_admin_2026") shipped in a
+// public repo and was live on prod — it exposed visitor IP prefixes, cities and
+// referrers via recentPageviews, let anyone delete pageviews via purgeCities,
+// and let anyone rewrite the public homepage counter via initCounter.
+// Set ANALYTICS_ADMIN_KEY in Vercel env vars to a strong random value (32+ chars).
+const ADMIN_KEY = process.env.ANALYTICS_ADMIN_KEY || null;
 const MAX_ENTRIES = 10000;
+
+// Constant-time compare so the key can't be recovered byte-by-byte via timing.
+function adminOk(supplied) {
+  if (!ADMIN_KEY) return false;
+  const a = Buffer.from(String(supplied || ""), "utf8");
+  const b = Buffer.from(ADMIN_KEY, "utf8");
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
 
 const BOT_PATTERNS = [
   { name: "Googlebot", pattern: /googlebot/i },
@@ -511,8 +527,8 @@ export default async function handler(req, res) {
 
     // Admin: set the global quote counter directly
     if (req.query.initCounter === "1") {
-      const adminKey = req.query.key || "";
-      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      if (!ADMIN_KEY) return res.status(503).json({ error: "Admin routes disabled: ANALYTICS_ADMIN_KEY is not configured" });
+      if (!adminOk(req.query.key)) return res.status(403).json({ error: "Unauthorized" });
       try {
         // value=N writes the counter to N (incl. 0 for reset). Omit value=
         // to read the current count without writing. Pre-fix the gate was
@@ -536,8 +552,8 @@ export default async function handler(req, res) {
 
     // Admin: peek at recent raw pageviews (for identifying a specific visitor).
     if (req.query.recentPageviews) {
-      const adminKey = req.query.key || "";
-      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      if (!ADMIN_KEY) return res.status(503).json({ error: "Admin routes disabled: ANALYTICS_ADMIN_KEY is not configured" });
+      if (!adminOk(req.query.key)) return res.status(403).json({ error: "Unauthorized" });
       try {
         const n = Math.min(parseInt(req.query.recentPageviews) || 20, 200);
         const raw = await redis.lrange("tp:pageviews", 0, n - 1);
@@ -559,8 +575,8 @@ export default async function handler(req, res) {
     // Admin: purge pageviews by city (comma-separated, case-insensitive).
     // One-off cleanup after tightening the DATA_CENTER_CITIES list.
     if (req.query.purgeCities) {
-      const adminKey = req.query.key || "";
-      if (adminKey !== ADMIN_KEY) return res.status(403).json({ error: "Unauthorized" });
+      if (!ADMIN_KEY) return res.status(503).json({ error: "Admin routes disabled: ANALYTICS_ADMIN_KEY is not configured" });
+      if (!adminOk(req.query.key)) return res.status(403).json({ error: "Unauthorized" });
       try {
         const targets = new Set(
           String(req.query.purgeCities).split(",").map(s => s.trim().toLowerCase()).filter(Boolean)
@@ -596,8 +612,10 @@ export default async function handler(req, res) {
     }
 
     // Dashboard (auth required)
-    const key = req.query.key || "";
-    if (key !== ADMIN_KEY) {
+    if (!ADMIN_KEY) {
+      return res.status(503).json({ error: "Admin routes disabled: ANALYTICS_ADMIN_KEY is not configured" });
+    }
+    if (!adminOk(req.query.key)) {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
