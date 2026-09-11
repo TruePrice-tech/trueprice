@@ -187,6 +187,12 @@ Return this exact JSON structure:
   }
 }
 
+MULTIPLE QUOTES IN ONE DOCUMENT:
+- If the document contains MORE THAN ONE distinct contractor's quote (e.g. a comparison sheet or screenshot showing two or three quotes side by side), return the data from the FIRST quote in the document.
+- Every field you return must come from that SAME quote. Never combine a price from one quote with a size, scope, or brand from another -- a blended result produces a per-unit cost that matches neither quote and can mask a genuine pricing outlier.
+- Add a redFlag stating: "Document contains multiple quotes (X visible). Only the first was analyzed -- upload each quote separately for individual analysis."
+
+
 CRITICAL EXTRACTION RULES:
 - ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
 - price: Use the TOTAL/grand total, not line items, deposits, or deductibles. If no explicit total, SUM line items.

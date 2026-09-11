@@ -188,14 +188,30 @@ const FIXTURES = [
     id: "f9-sunrun-CA-2pw",
     file: "test-quotes/solar-images/05-has-any-seen-huge-differences-in-solar-panel-quote.png",
     expect: {
-      // SUNRUN, San Diego CA. Side-by-side comparison (left: Sunrun lease-ish
-      // 15.98 kW + 2 Powerwalls; right: 15.6 kW + 2 Powerwalls competitor).
+      // SUNRUN, San Diego CA. Side-by-side comparison of TWO systems:
+      //   left  = Sunrun,     15.98 kW + 2 Powerwalls, $108,204 gross
+      //   right = competitor, 15.6  kW + 2 Powerwalls, $51,938.41 gross
+      //
+      // Re-pinned 2026-09-11 to the LEFT (first) system. The old baseline
+      // pinned the right system's $51,938 against a size regex that matched
+      // the right system's "15.6 kW" -- but the analyzer had started returning
+      // the right system's PRICE with the left system's SIZE, blending the two
+      // into a $3.25/W figure belonging to neither. api/solar-estimate.js now
+      // carries a MULTIPLE QUOTES rule ("return the FIRST quote, all fields
+      // from that same quote"), matching api/moving-estimate.js.
+      //
       // The analyzer surfaces GROSS not net (verdict ratio compares against
-      // pre-ITC benchmarks), so we pin the gross $51,938 figure that the
-      // parser extracts as the "Total Amount Due" / pre-credit total.
-      // Net-of-ITC ($38,619) is shown separately in the ITC banner.
-      price: 51938,
-      systemSizeRegex: /15(\.\d)?\s*kw/i,
+      // pre-ITC benchmarks), so pin Sunrun's gross $108,204 ("Your System
+      // Cost" / "Total"). Net-of-ITC ($80,071) is the "Est. Net System Cost"
+      // line and is shown separately in the ITC banner.
+      //
+      // 108,204 / 15,980 W = $6.77/W, which correctly trips the analyzer's
+      // ">$4.00/W suspicious pricing" redFlag. The old blended figure hid it.
+      price: 108204,
+      // Accepts both figures Sunrun prints for the same system ("15.98 kW"
+      // System Size, "15.975 kW" in the header dropdown) and still rejects the
+      // competitor's 15.6 kW, which is the blend this fixture guards against.
+      systemSizeRegex: /15\.9\d*\s*kw/i,
       panelBrandRegex: null,                        // panel brand cropped/not visible
       inverterRegex: null,                          // not surfaced in side-by-side
       batteryRegex: /powerwall|battery/i,

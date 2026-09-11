@@ -136,7 +136,7 @@ export default async function handler(req, res) {
     const _imageBuf = (req.body && req.body.images && req.body.images[0])
       ? Buffer.from((req.body.images[0].split(",")[1] || ""), "base64")
       : null;
-    const _guard = await runAbuseGuard(req, { vertical: "windows", imageBytes: _imageBuf, cacheNamespace: "windows:v4-cmp-contractor-2026-05-03" });
+    const _guard = await runAbuseGuard(req, { vertical: "windows", imageBytes: _imageBuf, cacheNamespace: "windows:v5-multiquote-2026-09-11" });
     if (!_guard.ok) {
       return res.status(_guard.status).json({ error: _guard.error });
     }
@@ -255,6 +255,12 @@ Return this exact JSON structure:
   ],
   "summary": <string - 2 to 4 sentence plain-English verdict that ALWAYS references the actual price and explains WHY it's fair, high, or low. Compare against typical ranges for the brand tier, frame, and region. Never just say "above average" - say "above average for vinyl in this region, likely because the quote includes Renewal by Andersen which carries a premium markup">
 }
+
+MULTIPLE QUOTES IN ONE DOCUMENT:
+- If the document contains MORE THAN ONE distinct window installer's quote (e.g. a comparison sheet or screenshot showing two or three quotes side by side), return the data from the FIRST quote in the document.
+- Every field you return must come from that SAME quote. Never combine a price from one quote with a size, scope, or brand from another -- a blended result produces a per-unit cost that matches neither quote and can mask a genuine pricing outlier.
+- Add a redFlag stating: "Document contains multiple quotes (X visible). Only the first was analyzed -- upload each quote separately for individual analysis."
+
 
 CRITICAL EXTRACTION RULES:
 - ALWAYS extract dollar amounts. If you see ANY numbers that look like prices, extract them. A rough estimate is better than null.
