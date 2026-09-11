@@ -149,6 +149,11 @@ async function revokePro(token) {
 async function withPage(browser, token, fn) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1024 });
+  // Mark every request as harness traffic so api/analytics.js drops it. Without
+  // this the 40-page smoke walk wrote ~900 rows per month into tp:crawls (and
+  // fed the "Headless Chrome" bot row on the dashboard). Same header the
+  // fixture harnesses send via test/lib/harness-browser.js.
+  await page.setExtraHTTPHeaders({ "x-woogoro-test": "1" });
   // Inject token before any script runs
   await page.evaluateOnNewDocument((t) => {
     try { localStorage.setItem("tp_pro_token", t); } catch (e) {}

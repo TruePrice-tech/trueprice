@@ -151,8 +151,26 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
 
+  // CI / harness traffic must never enter the analytics store.
+  //
+  // Every fixture-truth harness (test/lib/harness-browser.js) and walk script
+  // sends "x-woogoro-test: 1" on every request the page makes. 22 estimate
+  // endpoints already honor it to skip calibration + flywheel writes; this
+  // endpoint never did. It also cannot fall back to the BOT_PATTERNS filter
+  // below, because harness-browser.js deliberately spoofs a real Chrome 131
+  // User-Agent so the abuse guard's scripted_user_agent check lets it through.
+  //
+  // Cost of the omission, measured 2026-09-11: regression-gate.yml runs on
+  // every push plus Mondays, and each run wrote 376 events (210
+  // funnel_analysis_complete + 124 funnel_upload_quote) and ~25 "human"
+  // pageviews from GitHub's Azure runners. Over 30 days that was ~2,900 of
+  // 3,056 events and 190 of 725 pageviews — the funnel dashboard was ~95% CI,
+  // and topRegions read "WY / IA / IL" because those are Azure regions.
+  const isHarness = req.headers["x-woogoro-test"] === "1";
+
   // POST: Record page view or event
   if (req.method === "POST") {
+    if (isHarness) return res.status(200).json({ ok: true, skipped: "harness" });
     try {
       const data = req.body || {};
       const ua = req.headers["user-agent"] || "";
@@ -478,7 +496,7 @@ export default async function handler(req, res) {
       const ua = req.headers["user-agent"] || "";
       const botName = detectBot(ua);
       const path = String(req.query.p || "/").substring(0, 200);
-      if (botName) {
+      if (botName && !isHarness) {
         await redis.lpush("tp:crawls", JSON.stringify({
           bot: botName, path, ts: Date.now()
         })).catch(() => {});
