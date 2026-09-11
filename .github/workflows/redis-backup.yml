@@ -38,6 +38,7 @@ jobs:
           // keys (huge volume, regenerable) and ephemeral session keys.
           const PATTERNS = [
             'tp:total_quotes',
+            'tp:real_quote_count',
             'tp:counter_history',
             'tp:cron_run:*',
             'tp:drift_history:*',
@@ -49,15 +50,32 @@ jobs:
             'cal:*',
           ];
 
+          // Read a key by its actual Redis type. The literal-key branch used to
+          // assume 'string' and call get() unconditionally, which threw
+          // WRONGTYPE on tp:counter_history (list) and tp:price_event_active
+          // (set) and aborted the whole backup before a single key was written.
+          async function readKey(k) {
+            const type = await redis.type(k);
+            if (type === 'string') return { type, value: await redis.get(k) };
+            if (type === 'list') return { type, value: await redis.lrange(k, 0, -1) };
+            if (type === 'set') return { type, value: await redis.smembers(k) };
+            if (type === 'hash') return { type, value: await redis.hgetall(k) };
+            if (type === 'zset') return { type, value: await redis.zrange(k, 0, -1, { withScores: true }) };
+            return null; // 'none' (missing) or an unsupported type
+          }
+
           const snapshot = {};
           let totalKeys = 0;
+          const skipped = [];
 
           for (const pattern of PATTERNS) {
             if (!pattern.includes('*')) {
-              const v = await redis.get(pattern);
-              if (v !== null && v !== undefined) {
-                snapshot[pattern] = { type: 'string', value: v };
+              const entry = await readKey(pattern);
+              if (entry && entry.value !== null && entry.value !== undefined) {
+                snapshot[pattern] = entry;
                 totalKeys++;
+              } else {
+                skipped.push(pattern);
               }
               continue;
             }
@@ -66,25 +84,26 @@ jobs:
               const [next, batch] = await redis.scan(cursor, { match: pattern, count: 500 });
               cursor = Number(next);
               for (const k of batch) {
-                const type = await redis.type(k);
-                let value;
-                if (type === 'string') value = await redis.get(k);
-                else if (type === 'list') value = await redis.lrange(k, 0, -1);
-                else if (type === 'set') value = await redis.smembers(k);
-                else if (type === 'hash') value = await redis.hgetall(k);
-                else if (type === 'zset') value = await redis.zrange(k, 0, -1, { withScores: true });
-                else continue;
-                snapshot[k] = { type, value };
+                const entry = await readKey(k);
+                if (!entry) { skipped.push(k); continue; }
+                snapshot[k] = entry;
                 totalKeys++;
               }
             } while (cursor !== 0);
           }
 
           const date = new Date().toISOString().substring(0, 10);
-          const out = { date, totalKeys, patterns: PATTERNS, data: snapshot };
+          const out = { date, totalKeys, patterns: PATTERNS, skipped, data: snapshot };
           fs.mkdirSync('backup', { recursive: true });
           fs.writeFileSync(`backup/redis-${date}.json`, JSON.stringify(out));
           console.log(`Backed up ${totalKeys} keys (${(fs.statSync(`backup/redis-${date}.json`).size / 1024).toFixed(1)} KB)`);
+          if (skipped.length) console.log(`Skipped ${skipped.length} missing/unsupported: ${skipped.slice(0, 20).join(', ')}`);
+
+          // A backup that silently captures nothing is worse than a red build.
+          if (totalKeys === 0) {
+            console.error('FAIL: snapshot is empty. Refusing to upload a useless artifact.');
+            process.exit(1);
+          }
           EOF
 
       - name: Upload backup
