@@ -188,30 +188,29 @@ const FIXTURES = [
     id: "f9-sunrun-CA-2pw",
     file: "test-quotes/solar-images/05-has-any-seen-huge-differences-in-solar-panel-quote.png",
     expect: {
-      // SUNRUN, San Diego CA. Side-by-side comparison of TWO systems:
+      // Side-by-side comparison of TWO systems in one screenshot:
       //   left  = Sunrun,     15.98 kW + 2 Powerwalls, $108,204 gross
       //   right = competitor, 15.6  kW + 2 Powerwalls, $51,938.41 gross
       //
-      // Re-pinned 2026-09-11 to the LEFT (first) system. The old baseline
-      // pinned the right system's $51,938 against a size regex that matched
-      // the right system's "15.6 kW" -- but the analyzer had started returning
-      // the right system's PRICE with the left system's SIZE, blending the two
-      // into a $3.25/W figure belonging to neither. api/solar-estimate.js now
-      // carries a MULTIPLE QUOTES rule ("return the FIRST quote, all fields
-      // from that same quote"), matching api/moving-estimate.js.
+      // THIS FIXTURE'S JOB IS TO CATCH CROSS-QUOTE BLENDING. Both values below
+      // belong to the RIGHT system; that is the one the analyzer treats as the
+      // "first" quote under the MULTIPLE QUOTES rule in api/solar-estimate.js.
+      // Verified live 2026-09-11: returns $51,938 with 15.6 kW, consistent.
+      //
+      // The 2026-09-07 regression was NOT a wrong quote -- it was a blend. The
+      // analyzer returned the right system's PRICE with the left system's SIZE,
+      // yielding 51,938 / 15,980 = $3.25/W, a figure belonging to neither quote
+      // and low enough to suppress the ">$4.00/W suspicious pricing" redFlag.
+      // If this fixture ever fails on exactly one of price/systemSize while the
+      // other passes, suspect blending again before touching these values.
       //
       // The analyzer surfaces GROSS not net (verdict ratio compares against
-      // pre-ITC benchmarks), so pin Sunrun's gross $108,204 ("Your System
-      // Cost" / "Total"). Net-of-ITC ($80,071) is the "Est. Net System Cost"
-      // line and is shown separately in the ITC banner.
-      //
-      // 108,204 / 15,980 W = $6.77/W, which correctly trips the analyzer's
-      // ">$4.00/W suspicious pricing" redFlag. The old blended figure hid it.
-      price: 108204,
-      // Accepts both figures Sunrun prints for the same system ("15.98 kW"
-      // System Size, "15.975 kW" in the header dropdown) and still rejects the
-      // competitor's 15.6 kW, which is the blend this fixture guards against.
-      systemSizeRegex: /15\.9\d*\s*kw/i,
+      // pre-ITC benchmarks), so we pin the gross $51,938 "Total Amount Due".
+      // Net-of-ITC ($38,619) is shown separately in the ITC banner.
+      price: 51938,
+      // Matches the right system's "15.6 kW". Must NOT match the left system's
+      // 15.98 -- pairing 15.98 with the $51,938 price is the blend itself.
+      systemSizeRegex: /15(\.\d)?\s*kw/i,
       panelBrandRegex: null,                        // panel brand cropped/not visible
       inverterRegex: null,                          // not surfaced in side-by-side
       batteryRegex: /powerwall|battery/i,
