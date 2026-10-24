@@ -40,8 +40,23 @@ function deriveBaseUrl(req) {
   return "https://woogoro.com";
 }
 
+// WIND-DOWN 2026-10-24: the Pro tier is retired and no longer sold. This
+// endpoint refuses new Checkout Sessions so nobody can be charged, including
+// via a direct POST that bypasses the hidden client-side upsell.
+//
+// pro-webhook.js, pro-status.js, pro-firstview.js and pro-refund.js are
+// deliberately LEFT WORKING: a late Stripe event (dispute, refund) must still
+// be processed, and any holder of a past grant keeps status and refund access.
+// To restart sales: delete this block and set PRO_TIER_ENABLED = true in
+// js/pro-tier.js, then rebuild js/pro-tier.min.js.
+const PRO_SALES_RETIRED = true;
+
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store, max-age=0");
+
+  if (PRO_SALES_RETIRED) {
+    return res.status(410).json({ error: "pro_retired" });
+  }
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });

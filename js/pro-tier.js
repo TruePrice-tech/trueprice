@@ -29,7 +29,11 @@
   // product price ID + self-service refund flow all wired and verified).
   // Set this back to false to hide the upsell sitewide if a fast killswitch
   // is ever needed — flag-flip + minify rebuild + redeploy.
-  var PRO_TIER_ENABLED = true;
+  // WIND-DOWN 2026-10-24: Pro tier retired. False suppresses every upsell
+  // surface (post-verdict CTA, inline observer injection, share-screen wrap).
+  // api/pro-checkout.js also hard-refuses with 410, so a stale cached copy of
+  // this file cannot charge anyone. Free analysis is untouched, per ToS 31.
+  var PRO_TIER_ENABLED = false;
 
   var STORAGE_KEY = "tp_pro_token";
   var STATUS_CACHE_MS = 60 * 1000;
