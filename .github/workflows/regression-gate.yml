@@ -38,12 +38,11 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    # Weekly Monday 05:00 UTC — exercises the gate on quiet weeks so infra
-    # rot (CI runner regression, npm dependency drift, Vercel deploy
-    # changes) gets caught even when no one's pushing. The push/PR triggers
-    # remain the primary gate; this is just a heartbeat.
-    - cron: '0 5 * * 1'
+  # WIND-DOWN 2026-10-24: weekly heartbeat removed. The fixture harness runs
+  # against the LIVE site (BASE defaults to woogoro.com), so each cron run
+  # spends Anthropic credits on analyzer calls and reports failures nobody is
+  # acting on. The push and pull_request triggers above are the real gate and
+  # stay, so any future change is still checked.
   workflow_dispatch:
     inputs:
       skip_smoke:

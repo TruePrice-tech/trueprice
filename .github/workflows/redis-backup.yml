@@ -13,9 +13,12 @@ name: Weekly Redis Backup
 # Restore path: download the latest artifact, run scripts/restore-redis.js
 # (write that when needed — not a tested code path until disaster strikes).
 
+# WIND-DOWN 2026-10-24: schedule removed. The 90-day artifact was never a real
+# archive. A full scrubbed export (cal_quote:* 6,358 keys, cal:* 4,076 keys,
+# tp:community_quotes 4,460 rows, feedback, counter_history) now lives outside
+# CI at Desktop/woogoro-corpus-export-2026-10-24, IPs and emails stripped.
+# Re-run this on demand if the corpus starts growing again.
 on:
-  schedule:
-    - cron: '0 4 * * 0'  # Sunday 04:00 UTC
   workflow_dispatch:
 
 jobs:

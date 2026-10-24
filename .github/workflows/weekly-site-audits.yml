@@ -5,9 +5,10 @@ name: Weekly Site Audits
 # so one failure does not mask the others. Output is captured per-audit and
 # included verbatim in the digest email.
 
+# WIND-DOWN 2026-10-24: schedule removed. This emailed an audit digest whose
+# only output was a task list, and active work on the site has stopped.
+# Still runnable on demand from the Actions tab.
 on:
-  schedule:
-    - cron: '0 3 * * 0'
   workflow_dispatch:
 
 jobs:

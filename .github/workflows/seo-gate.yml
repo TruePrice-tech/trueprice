@@ -16,12 +16,10 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  schedule:
-    # Catch drift introduced outside CI (manual edits, Vercel deploys, etc.).
-    # Cron events deliberately skip the Resend digest step below per
-    # `feedback_no_paid_services_in_automation` — failures are still visible
-    # in the Actions tab + the workflow still fails the run on HIGH issues.
-    - cron: '0 7 * * *'   # 02:00 ET / 07:00 UTC daily
+  # WIND-DOWN 2026-10-24: daily schedule removed. With no active edits there is
+  # no drift to catch, and a daily red X on a dormant repo is noise. The push
+  # and pull_request triggers above are the valuable part and stay, so this
+  # still gates any future change.
   workflow_dispatch:
 
 jobs:
